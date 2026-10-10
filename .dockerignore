@@ -1,0 +1,15 @@
+node_modules
+.next
+.media-bin
+.git
+.env
+.env.*
+!.env.example
+*.log
+*.tsbuildinfo
+cookies*.txt
+secrets
+coverage
+playwright-report
+test-results
+.DS_Store

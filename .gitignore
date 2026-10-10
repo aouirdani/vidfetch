@@ -1,0 +1,14 @@
+node_modules/
+.next/
+.media-bin/
+.env
+.env.local
+.env.*.local
+*.tsbuildinfo
+*.log
+cookies*.txt
+secrets/
+coverage/
+playwright-report/
+test-results/
+.DS_Store

@@ -1,0 +1,119 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink-950: #05050b;
+  --color-ink-900: #08080f;
+  --color-ink-850: #0c0c16;
+  --color-ink-800: #12121f;
+  --color-ink-700: #1b1b2c;
+  --color-violet-glow: #8b5cf6;
+  --color-electric: #3b82f6;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --animate-rise: rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-shimmer: shimmer 1.8s linear infinite;
+  --animate-indeterminate: indeterminate 1.3s ease-in-out infinite;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translate3d(0, 14px, 0); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Byte counts are known but total size is not, so progress stays indeterminate. */
+@keyframes indeterminate {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+  /* Keeps anchor targets clear of the sticky header. */
+  scroll-padding-top: 5.5rem;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-ink-950);
+  color: #e9e9f4;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@layer utilities {
+  .aurora {
+    background-image:
+      radial-gradient(42rem 24rem at 12% -6%, rgba(139, 92, 246, 0.26), transparent 62%),
+      radial-gradient(38rem 22rem at 88% 2%, rgba(59, 130, 246, 0.2), transparent 60%);
+  }
+
+  .glass {
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .glass-strong {
+    background: linear-gradient(160deg, rgba(19, 19, 34, 0.94), rgba(10, 10, 20, 0.86));
+    border: 1px solid rgba(255, 255, 255, 0.09);
+  }
+
+  /* Blur is expensive to paint on low-end mobile GPUs: pointer devices only. */
+  @media (min-width: 768px) {
+    .glass { backdrop-filter: blur(16px); }
+    .glass-strong { backdrop-filter: blur(20px); }
+  }
+
+  .text-gradient {
+    background: linear-gradient(100deg, #ffffff 8%, #c4b5fd 45%, #60a5fa 92%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Skips layout and paint for off-screen sections without hiding them from crawlers. */
+  .defer-paint {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 600px;
+  }
+
+  .skeleton {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.04) 25%, rgba(255, 255, 255, 0.1) 37%, rgba(255, 255, 255, 0.04) 63%);
+    background-size: 200% 100%;
+    animation: var(--animate-shimmer);
+    border-radius: 0.75rem;
+  }
+
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { scrollbar-width: none; }
+}
+
+::selection {
+  background: rgba(139, 92, 246, 0.4);
+  color: #fff;
+}
+
+/* Visible, consistent keyboard focus on every interactive element. */
+:focus-visible {
+  outline: 2px solid #a78bfa;
+  outline-offset: 2px;
+  border-radius: 0.5rem;
+}
+
+summary::-webkit-details-marker { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

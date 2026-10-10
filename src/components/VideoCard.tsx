@@ -1,0 +1,299 @@
+"use client";
+
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import { AudioLines, Check, CircleAlert, CircleCheck, Clock, Download, ExternalLink, Eye, Film, LoaderCircle, RotateCw, Sparkles, User } from "lucide-react";
+import { clsx } from "clsx";
+import { PlatformIcon } from "./PlatformIcon";
+import { PLATFORM_META } from "@/lib/platforms";
+import { formatBytes, formatCount, prettyCodec, type MediaFormat, type MediaInfo } from "@/lib/media";
+import { postJson, type DownloadResponse, type DownloadStatusResponse, type EngineStatus } from "@/lib/api";
+
+type Props = { info: MediaInfo; engine: EngineStatus; onReset: () => void };
+type Notice = { text: string; tone: "info" | "success" | "error" };
+type Stage = "idle" | "preparing" | "streaming";
+
+/** Notifies the lazily mounted activity panel without coupling the two islands. */
+const announceTransfer = () => window.dispatchEvent(new Event("vidfetch:transfer"));
+
+function FormatRow({ format, active, hasSeparateAudio, onSelect, onKeyDown, innerRef }: {
+  format: MediaFormat; active: boolean; hasSeparateAudio: boolean;
+  onSelect: () => void; onKeyDown: (event: React.KeyboardEvent) => void;
+  innerRef: (node: HTMLButtonElement | null) => void;
+}) {
+  const codec = prettyCodec(format.kind === "audio" ? format.acodec : format.vcodec);
+  const details = [format.ext.toUpperCase(), codec, format.filesizeLabel && `≈ ${format.filesizeLabel}`].filter(Boolean);
+  return (
+    <button ref={innerRef} type="button" onClick={onSelect} onKeyDown={onKeyDown} role="radio" aria-checked={active} tabIndex={active ? 0 : -1}
+      className={clsx("group flex w-full items-center gap-3 rounded-xl border px-3.5 py-3 text-left transition-colors duration-150 min-h-[60px]",
+        active ? "border-violet-400/60 bg-violet-500/[0.12]" : "border-white/8 bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.05]")}>
+      <span className={clsx("flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors",
+        active ? "bg-violet-500 text-white" : "bg-white/5 text-slate-400 group-hover:text-slate-200")}>
+        {format.kind === "audio" ? <AudioLines className="h-4 w-4" aria-hidden /> : <Film className="h-4 w-4" aria-hidden />}
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
+          <span className="text-sm font-semibold text-white">{format.label}</span>
+          {format.recommended && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-violet-500/20 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-violet-200">
+              <Sparkles className="h-2.5 w-2.5" aria-hidden />Best
+            </span>
+          )}
+        </span>
+        <span className="mt-1 block truncate text-[11px] text-slate-400">
+          {details.join(" · ")}
+          {format.kind === "video" && !format.hasAudio && (
+            <span className="text-amber-300/90"> · {hasSeparateAudio ? "audio merged in" : "no audio track"}</span>
+          )}
+        </span>
+      </span>
+      <span className={clsx("flex h-5 w-5 shrink-0 items-center justify-center rounded-full border transition-colors",
+        active ? "border-violet-400 bg-violet-500 text-white" : "border-white/20 text-transparent")}>
+        <Check className="h-3 w-3" aria-hidden />
+      </span>
+    </button>
+  );
+}
+
+export function VideoCard({ info, engine, onReset }: Props) {
+  const initialTab = info.videoFormats.length ? "video" : "audio";
+  const [tab, setTab] = useState<"video" | "audio">(initialTab);
+  const [selected, setSelected] = useState<string | null>((initialTab === "video" ? info.videoFormats : info.audioFormats)[0]?.id ?? null);
+  const [stage, setStage] = useState<Stage>("idle");
+  const [bytes, setBytes] = useState(0);
+  const [notice, setNotice] = useState<Notice | null>(null);
+  const [thumbnailFailed, setThumbnailFailed] = useState(false);
+
+  const frameRef = useRef<HTMLIFrameElement>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const requestRef = useRef<AbortController | null>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const optionRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const mounted = useRef(true);
+  const frameName = `vidfetch-${useId().replace(/:/g, "")}`;
+
+  const formats = tab === "video" ? info.videoFormats : info.audioFormats;
+  const activeFormat = useMemo(() => formats.find((f) => f.id === selected) ?? formats[0] ?? null, [formats, selected]);
+  const meta = PLATFORM_META[info.platform];
+  const views = formatCount(info.viewCount);
+  const hasSeparateAudio = info.formats.some((f) => f.kind === "audio");
+  const busy = stage !== "idle";
+
+  useEffect(() => {
+    mounted.current = true;
+    // Move focus to the result so keyboard and screen-reader users land on it.
+    headingRef.current?.focus({ preventScroll: true });
+    return () => { mounted.current = false; requestRef.current?.abort(); if (timerRef.current) clearTimeout(timerRef.current); };
+  }, []);
+
+  /** Roving focus so the quality list behaves like a native radio group. */
+  const onOptionKeyDown = useCallback((event: React.KeyboardEvent, index: number) => {
+    const keys = ["ArrowDown", "ArrowRight", "ArrowUp", "ArrowLeft", "Home", "End"];
+    if (!keys.includes(event.key)) return;
+    event.preventDefault();
+    const last = formats.length - 1;
+    const next = event.key === "Home" ? 0 : event.key === "End" ? last
+      : event.key === "ArrowDown" || event.key === "ArrowRight" ? (index === last ? 0 : index + 1)
+      : index === 0 ? last : index - 1;
+    setSelected(formats[next]?.id ?? null);
+    optionRefs.current[next]?.focus();
+  }, [formats]);
+
+  function switchTab(next: "video" | "audio") {
+    if (busy) return;
+    setTab(next);
+    setSelected((next === "video" ? info.videoFormats : info.audioFormats)[0]?.id ?? null);
+  }
+
+  async function launchDownload() {
+    if (!activeFormat || busy) return;
+    setStage("preparing"); setNotice(null); setBytes(0);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    const controller = new AbortController();
+    requestRef.current = controller;
+    try {
+      const ready = await postJson<DownloadResponse>("/api/download", { url: info.url, format_id: activeFormat.id, type: activeFormat.kind }, controller.signal);
+      if (!mounted.current) return;
+      if (!ready.ok) throw new Error(ready.error);
+      const anchor = document.createElement("a");
+      anchor.href = ready.downloadUrl;
+      anchor.download = ready.filename;
+      anchor.target = frameName;
+      document.body.appendChild(anchor); anchor.click(); anchor.remove();
+      setStage("streaming");
+      setNotice({ tone: "info", text: "Saving to your device. Keep this tab open until it finishes." });
+      announceTransfer();
+      let retries = 0;
+      const poll = async () => {
+        if (!mounted.current) return;
+        try {
+          const response = await fetch(`/api/download?status=${encodeURIComponent(ready.token)}`, { cache: "no-store" });
+          const status = await response.json() as DownloadStatusResponse;
+          if (!mounted.current) return;
+          if (!status.ok) throw new Error(status.error);
+          setBytes(status.bytes);
+          if (status.status === "completed") {
+            setStage("idle");
+            setNotice({ tone: "success", text: `Saved ${formatBytes(status.bytes) ?? "your file"} to your device.` });
+            announceTransfer();
+            return;
+          }
+          if (["failed", "aborted", "expired"].includes(status.status)) {
+            setStage("idle");
+            setNotice({ tone: "error", text: status.error ?? "The transfer stopped before it finished. Please try again." });
+            announceTransfer();
+            return;
+          }
+          retries = 0;
+        } catch (error) {
+          if (!mounted.current) return;
+          retries++;
+          if (retries >= 3) {
+            setStage("idle");
+            setNotice({ tone: "info", text: "Status updates stopped, but your browser may still be downloading. Check its download manager." });
+            return;
+          }
+          console.warn("[vidfetch] transfer status", error);
+        }
+        timerRef.current = setTimeout(() => void poll(), 1500);
+      };
+      timerRef.current = setTimeout(() => void poll(), 800);
+    } catch (error) {
+      if (!mounted.current || controller.signal.aborted) return;
+      setStage("idle");
+      setNotice({ tone: "error", text: error instanceof Error ? error.message : "Could not start this download. Please try again." });
+    }
+  }
+
+  return (
+    <section className="animate-rise overflow-hidden rounded-3xl border border-white/10 bg-ink-850/80 shadow-[0_40px_120px_-60px_rgba(139,92,246,0.9)]" aria-label="Extracted video">
+      <iframe ref={frameRef} name={frameName} title="Download channel" className="hidden" aria-hidden="true" tabIndex={-1} onLoad={() => {
+        try {
+          const document = frameRef.current?.contentDocument;
+          if (document?.contentType === "application/json") {
+            const response = JSON.parse(document.body.textContent ?? "{}") as { error?: string };
+            if (response.error) {
+              setNotice({ tone: "error", text: response.error });
+              setStage("idle");
+              if (timerRef.current) clearTimeout(timerRef.current);
+            }
+          }
+        } catch { /* a native attachment exposes no document to the frame */ }
+      }} />
+
+      <div className="grid gap-0 lg:grid-cols-[minmax(0,340px)_minmax(0,1fr)]">
+        <div className="relative aspect-video overflow-hidden bg-ink-800 lg:aspect-auto">
+          {info.thumbnail && !thumbnailFailed ? (
+            /* eslint-disable-next-line @next/next/no-img-element */
+            <img src={info.thumbnail} alt="" width={1280} height={720} className="h-full w-full object-cover"
+              referrerPolicy="no-referrer" decoding="async" fetchPriority="high" onError={() => setThumbnailFailed(true)} />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-violet-600/25 to-blue-600/20">
+              <Film className="h-10 w-10 text-violet-200/70" aria-hidden />
+            </div>
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-ink-950/90 via-ink-950/20 to-ink-950/30" />
+          <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-black/70 px-2.5 py-1 text-[11px] font-medium text-white ring-1 ring-white/15">
+            <span className={clsx("flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-br", meta.accent)}>
+              <PlatformIcon platform={info.platform} className="h-2.5 w-2.5" />
+            </span>
+            {meta.name}
+          </span>
+          <span className="absolute bottom-3 right-3 rounded-md bg-black/80 px-2 py-1 text-[11px] font-semibold tabular-nums text-white">
+            {info.durationLabel}
+          </span>
+          <a href={info.url} target="_blank" rel="noopener noreferrer nofollow"
+            className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-md px-1.5 py-1 text-[11px] text-white/80 transition hover:text-white">
+            View original <ExternalLink className="h-3 w-3" aria-hidden />
+          </a>
+        </div>
+
+        <div className="flex min-w-0 flex-col gap-5 p-5 sm:p-6">
+          <header className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <h2 ref={headingRef} tabIndex={-1} className="text-balance text-base font-semibold leading-snug text-white outline-none sm:text-lg">
+                {info.title}
+              </h2>
+              <p className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-400">
+                {info.uploader && <span className="inline-flex max-w-[16rem] items-center gap-1.5 truncate"><User className="h-3.5 w-3.5 shrink-0 text-violet-300" aria-hidden />{info.uploader}</span>}
+                <span className="inline-flex items-center gap-1.5"><Clock className="h-3.5 w-3.5 text-violet-300" aria-hidden />{info.durationLabel}</span>
+                {views && <span className="inline-flex items-center gap-1.5"><Eye className="h-3.5 w-3.5 text-violet-300" aria-hidden />{views} views</span>}
+              </p>
+            </div>
+            <button type="button" onClick={onReset} disabled={busy} title="Extract another video" aria-label="Extract another video"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-slate-300 transition hover:border-violet-400/40 hover:text-white disabled:opacity-40">
+              <RotateCw className="h-4 w-4" aria-hidden />
+            </button>
+          </header>
+
+          <div>
+            <div className="flex items-center justify-between gap-3">
+              <div className="inline-flex rounded-xl border border-white/10 bg-white/[0.04] p-1" role="tablist" aria-label="Download type">
+                {(["video", "audio"] as const).map((value) => {
+                  const count = (value === "video" ? info.videoFormats : info.audioFormats).length;
+                  return (
+                    <button key={value} type="button" role="tab" aria-selected={tab === value} disabled={!count || busy} onClick={() => switchTab(value)}
+                      className={clsx("inline-flex min-h-9 items-center gap-2 rounded-lg px-3.5 text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-40",
+                        tab === value ? "bg-gradient-to-r from-violet-500 to-blue-500 text-white" : "text-slate-300 hover:text-white")}>
+                      {value === "video" ? <Film className="h-3.5 w-3.5" aria-hidden /> : <AudioLines className="h-3.5 w-3.5" aria-hidden />}
+                      {value === "video" ? "Video" : "Audio"}
+                      <span className="text-[11px] opacity-70">{count}</span>
+                    </button>
+                  );
+                })}
+              </div>
+              <p className="hidden text-[11px] text-slate-400 sm:block">{engine.ffmpeg ? "MP3 conversion available" : "Original formats"}</p>
+            </div>
+
+            <div className="mt-3 grid max-h-[272px] gap-2 overflow-y-auto pr-0.5 no-scrollbar" role="radiogroup" aria-label={`Available ${tab} quality`}>
+              {formats.length ? formats.map((format, index) => (
+                <FormatRow key={`${format.kind}-${format.id}`} format={format} active={activeFormat?.id === format.id} hasSeparateAudio={hasSeparateAudio}
+                  innerRef={(node) => { optionRefs.current[index] = node; }}
+                  onSelect={() => { if (!busy) setSelected(format.id); }}
+                  onKeyDown={(event) => onOptionKeyDown(event, index)} />
+              )) : (
+                <p className="rounded-xl border border-white/10 bg-white/[0.03] p-4 text-sm text-slate-400">
+                  No {tab} formats are available for this video.
+                </p>
+              )}
+            </div>
+          </div>
+
+          <div className="mt-auto space-y-3">
+            {stage === "streaming" && (
+              <div className="rounded-xl border border-violet-400/25 bg-violet-500/[0.08] px-3.5 py-3">
+                <div className="flex items-center justify-between text-xs font-medium text-violet-100">
+                  <span>Downloading…</span>
+                  <span className="tabular-nums">{formatBytes(bytes) ?? "starting"}</span>
+                </div>
+                <div className="mt-2 h-1 overflow-hidden rounded-full bg-white/10" role="progressbar" aria-label="Download progress" aria-valuetext={formatBytes(bytes) ?? "starting"}>
+                  <div className="h-full w-1/3 animate-indeterminate rounded-full bg-gradient-to-r from-violet-400 to-blue-400" />
+                </div>
+              </div>
+            )}
+
+            <p aria-live="polite" className="sr-only">{notice?.text ?? ""}</p>
+            {notice && stage !== "streaming" && (
+              <p className={clsx("flex items-start gap-2 rounded-xl border px-3.5 py-2.5 text-xs leading-relaxed",
+                notice.tone === "error" ? "border-red-400/25 bg-red-500/10 text-red-100"
+                  : notice.tone === "success" ? "border-emerald-400/25 bg-emerald-500/10 text-emerald-100"
+                  : "border-violet-400/25 bg-violet-500/10 text-violet-100")}>
+                {notice.tone === "success" ? <CircleCheck className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />
+                  : <CircleAlert className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />}
+                {notice.text}
+              </p>
+            )}
+
+            <button type="button" onClick={() => void launchDownload()} disabled={busy || !activeFormat}
+              className="group inline-flex min-h-[52px] w-full items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-r from-violet-600 via-violet-500 to-blue-500 px-6 text-sm font-semibold text-white shadow-[0_18px_45px_-20px_rgba(139,92,246,1)] transition hover:brightness-110 active:scale-[0.99] disabled:cursor-wait disabled:opacity-70">
+              {busy ? <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden /> : <Download className="h-4 w-4 transition-transform group-hover:translate-y-0.5" aria-hidden />}
+              {stage === "preparing" ? "Preparing…" : stage === "streaming" ? "Downloading…" : `Download ${activeFormat?.label ?? ""}`.trim()}
+            </button>
+            <p className="text-center text-[11px] text-slate-400">
+              Saved straight to your device · no account, no watermark added
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
