@@ -26,7 +26,7 @@ export function PlatformChip({
       className={clsx(
         "inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium transition-all duration-300",
         detected
-          ? "border-violet-400/50 bg-violet-500/15 text-violet-100 shadow-[0_0_22px_-8px_rgba(139,92,246,0.9)]"
+          ? "border-cyan-400/50 bg-cyan-500/15 text-cyan-100 shadow-[0_0_22px_-8px_rgba(139,92,246,0.9)]"
           : "border-white/10 bg-white/5 text-slate-300",
       )}
     >
@@ -39,7 +39,7 @@ export function PlatformChip({
         <PlatformIcon platform={platform} className="h-3 w-3" />
       </span>
       {meta.name}
-      {detected && <span className="text-violet-300">detected</span>}
+      {detected && <span className="text-cyan-300">detected</span>}
     </span>
   );
 }

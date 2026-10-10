@@ -2,7 +2,7 @@ import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { HOME_FAQS, LANDING_PAGES, SITE, applicationSchema, breadcrumbSchema, faqSchema, howToSchema, jsonLdGraph, landingPageFor, organisationSchema, pageMetadata, websiteSchema } from "../src/lib/seo";
 import { detectPlatform } from "../src/lib/platforms";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 
 describe("page metadata", () => {
   it("builds absolute titles and canonical paths without duplicate branding", () => {
@@ -90,22 +90,25 @@ describe("structured data", () => {
 });
 
 describe("public data exposure", () => {
-  // Source-level guards: these fail if a per-transfer feed is reintroduced,
-  // which would publish the titles and links of what people download.
-  const statsSource = readFileSync("src/lib/stats.ts", "utf8");
-  const apiSource = readFileSync("src/lib/api.ts", "utf8");
+  // The usage dashboard was removed. These guards fail if any part of it comes
+  // back, since it published what other people were downloading.
+  const sources = ["src/lib/api.ts", "src/app/page.tsx", "src/components/VideoCard.tsx"]
+    .map((file) => readFileSync(file, "utf8")).join("\n");
 
-  it("never selects individual download rows for the public dashboard", () => {
-    assert.doesNotMatch(statsSource, /recent/i);
-    assert.doesNotMatch(statsSource, /downloads\.title|downloads\.qualityLabel/);
-    assert.doesNotMatch(statsSource, /\.limit\(/);
+  it("ships no stats endpoint, module or panel", () => {
+    for (const path of ["src/lib/stats.ts", "src/app/api/stats/route.ts", "src/components/StatsPanel.tsx", "src/components/ActivityPanel.tsx"]) {
+      assert.equal(existsSync(path), false, `${path} should not exist`);
+    }
   });
 
-  it("types the public stats payload as aggregates only", () => {
-    // Match through the "};" that closes the declaration, not a nested object.
-    const body = apiSource.match(/export type StatsPayload = \{[\s\S]*?\n\};/)?.[0] ?? "";
-    assert.ok(body.length > 0, "StatsPayload type should be declared in src/lib/api.ts");
-    assert.doesNotMatch(body, /recent|title/i);
-    for (const key of ["totals", "platforms", "engine"]) assert.ok(body.includes(key), `StatsPayload should expose ${key}`);
+  it("leaves no client code calling the removed endpoint", () => {
+    assert.doesNotMatch(sources, /api\/stats/);
+    assert.doesNotMatch(sources, /StatsPayload/);
+    assert.doesNotMatch(sources, /ActivityPanel/);
+  });
+
+  it("keeps a usage dashboard out of the rendered page", () => {
+    const home = readFileSync("src/app/page.tsx", "utf8");
+    assert.doesNotMatch(home, /Service activity|Links analyzed|Recent transfers/i);
   });
 });

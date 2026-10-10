@@ -1,13 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ink-950: #05050b;
-  --color-ink-900: #08080f;
-  --color-ink-850: #0c0c16;
-  --color-ink-800: #12121f;
-  --color-ink-700: #1b1b2c;
-  --color-violet-glow: #8b5cf6;
-  --color-electric: #3b82f6;
+  /* Deep teal-tinted near-black. Cooler and greener than a neutral grey, so the
+     aqua accent sits on a related base instead of fighting it. */
+  --color-ink-950: #04090d;
+  --color-ink-900: #06111a;
+  --color-ink-850: #0a1922;
+  --color-ink-800: #0f2430;
+  --color-ink-700: #17313f;
+
+  /* Brand accents: aqua primary, sky secondary. */
+  --color-brand-300: #67e8f9;
+  --color-brand-400: #22d3ee;
+  --color-brand-500: #06b6d4;
+  --color-accent-400: #38bdf8;
+  --color-accent-500: #0ea5e9;
+
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
   --animate-rise: rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -41,7 +49,7 @@ html {
 
 body {
   background-color: var(--color-ink-950);
-  color: #e9e9f4;
+  color: #e6f1f5;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -49,8 +57,8 @@ body {
 @layer utilities {
   .aurora {
     background-image:
-      radial-gradient(42rem 24rem at 12% -6%, rgba(139, 92, 246, 0.26), transparent 62%),
-      radial-gradient(38rem 22rem at 88% 2%, rgba(59, 130, 246, 0.2), transparent 60%);
+      radial-gradient(42rem 24rem at 12% -6%, rgba(34, 211, 238, 0.2), transparent 62%),
+      radial-gradient(38rem 22rem at 88% 2%, rgba(14, 165, 233, 0.18), transparent 60%);
   }
 
   .glass {
@@ -59,7 +67,7 @@ body {
   }
 
   .glass-strong {
-    background: linear-gradient(160deg, rgba(19, 19, 34, 0.94), rgba(10, 10, 20, 0.86));
+    background: linear-gradient(160deg, rgba(13, 30, 40, 0.94), rgba(6, 16, 23, 0.88));
     border: 1px solid rgba(255, 255, 255, 0.09);
   }
 
@@ -70,7 +78,7 @@ body {
   }
 
   .text-gradient {
-    background: linear-gradient(100deg, #ffffff 8%, #c4b5fd 45%, #60a5fa 92%);
+    background: linear-gradient(100deg, #ffffff 6%, #a5f3fc 48%, #38bdf8 94%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -94,13 +102,13 @@ body {
 }
 
 ::selection {
-  background: rgba(139, 92, 246, 0.4);
-  color: #fff;
+  background: rgba(34, 211, 238, 0.35);
+  color: #ffffff;
 }
 
 /* Visible, consistent keyboard focus on every interactive element. */
 :focus-visible {
-  outline: 2px solid #a78bfa;
+  outline: 2px solid #22d3ee;
   outline-offset: 2px;
   border-radius: 0.5rem;
 }

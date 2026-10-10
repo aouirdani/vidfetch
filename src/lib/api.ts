@@ -11,17 +11,27 @@ export type DownloadStatusResponse = {
 } | ApiError;
 
 /**
- * Aggregate counters only. Individual transfer records are deliberately not
- * exposed: download titles are never published on the public dashboard.
+ * Where the browser sends API calls.
+ *
+ * Empty (default): same-origin `/api/*`. That is the single-server Docker
+ * deployment, and also Cloudflare Pages when the bundled Pages Function proxies
+ * to the backend.
+ *
+ * Set at build time: requests go straight to that origin. Use this for a split
+ * deployment so large media never traverses an edge proxy. The backend must
+ * allow the site's origin through CORS (see `CORS_ORIGIN` in server.js).
  */
-export type StatsPayload = {
-  totals: { fetches: number; downloads: number; bytesStreamed: number };
-  platforms: Array<{ platform: string; fetches: number; downloads: number }>;
-  engine: EngineStatus;
-};
+const API_ORIGIN = (process.env.NEXT_PUBLIC_API_ORIGIN ?? "").trim().replace(/\/+$/, "");
 
-export async function postJson<T>(url: string, body: unknown, signal?: AbortSignal): Promise<T> {
-  const response = await fetch(url, {
+/** Resolves an API path against the configured backend. Absolute URLs pass through. */
+export function apiUrl(path: string): string {
+  if (/^https?:\/\//i.test(path)) return path;
+  const normalised = path.startsWith("/") ? path : `/${path}`;
+  return API_ORIGIN ? `${API_ORIGIN}${normalised}` : normalised;
+}
+
+export async function postJson<T>(path: string, body: unknown, signal?: AbortSignal): Promise<T> {
+  const response = await fetch(apiUrl(path), {
     method: "POST", headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body), cache: "no-store", signal,
   });
@@ -30,8 +40,3 @@ export async function postJson<T>(url: string, body: unknown, signal?: AbortSign
   return payload;
 }
 
-export async function getJson<T>(url: string): Promise<T> {
-  const response = await fetch(url, { cache: "no-store" });
-  if (!response.ok) throw new Error(`Unable to refresh the service status (${response.status}).`);
-  return await response.json() as T;
-}

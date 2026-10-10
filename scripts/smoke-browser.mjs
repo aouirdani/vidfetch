@@ -47,10 +47,10 @@ try {
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true, "The mobile layout should not scroll horizontally");
   const copy = await page.locator("body").innerText();
   assert.doesNotMatch(copy, /Téléchargez|Extraire|Téléchargements|Aucune donnée|Tous droits réservés|Fonctionnalités/);
-  // The recent-transfers feed was removed: no download titles may appear publicly.
-  assert.doesNotMatch(copy, /Recent transfers/i);
-  const statsPayload = await page.evaluate(async () => await (await fetch("/api/stats")).json());
-  assert.equal("recent" in statsPayload, false, "the stats API must not expose individual transfers");
+  // The usage dashboard was removed entirely: neither the UI nor the API may expose it.
+  assert.doesNotMatch(copy, /Recent transfers|Service activity|Links analyzed/i);
+  const statsStatus = await page.evaluate(async () => (await fetch("/api/stats")).status);
+  assert.equal(statsStatus, 404, "the public stats endpoint must no longer exist");
   await page.goto(`${base}/legal`, { waitUntil: "networkidle" });
   assert.match(await page.locator("h1").innerText(), /Terms, privacy & legal information/);
   assert.equal(await page.locator("html").getAttribute("lang"), "en");
@@ -67,6 +67,17 @@ try {
   }
   await page.goto(`${base}/this-page-does-not-exist`, { waitUntil: "networkidle" });
   assert.match(await page.locator("h1").innerText(), /does not exist/);
+
+  // Share-sheet / shared-link entry point: ?url= and ?text= must auto-extract.
+  const shared = "https://www.tiktok.com/@pokemonlife22/video/7059698374567611694";
+  for (const query of [`url=${encodeURIComponent(shared)}`, `text=${encodeURIComponent(`look at this ${shared}`)}`]) {
+    await page.goto(`${base}/?${query}`, { waitUntil: "domcontentloaded" });
+    await page.getByRole("region", { name: "Extracted video" }).waitFor({ timeout: 120000 });
+    assert.equal(new URL(page.url()).search, "", "the shared link should be cleared from the address bar");
+  }
+  await page.goto(`${base}/?url=https://example.com/not-supported`, { waitUntil: "networkidle" });
+  assert.equal(await page.getByRole("region", { name: "Extracted video" }).count(), 0, "an unsupported shared link must be ignored");
+  console.log("PASS shared-link entry point (?url= and ?text=)");
   assert.deepEqual(errors, [], "No browser runtime errors");
   console.log("PASS English desktop/mobile interface, legal page, URL validation, and no runtime errors");
 } finally {

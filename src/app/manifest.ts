@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { SITE } from "@/lib/seo";
+import { LANDING_PAGES, SITE } from "@/lib/seo";
 
 export const dynamic = "force-static";
 
@@ -11,13 +11,30 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: "/",
     scope: "/",
     display: "standalone",
-    background_color: "#05050b",
-    theme_color: "#05050b",
+    background_color: "#04090d",
+    theme_color: "#04090d",
     lang: "en",
     categories: ["utilities", "productivity", "multimedia"],
     icons: [
       { src: "/icon.svg", sizes: "any", type: "image/svg+xml", purpose: "any" },
       { src: "/og-image.jpg", sizes: "1200x630", type: "image/jpeg" },
     ],
+    // Installed on Android, VidFetch appears in the system share sheet. A GET
+    // target lands on "/?url=…", which the extractor form reads and runs on
+    // load, so sharing from the TikTok or Instagram app starts the download.
+    share_target: {
+      action: "/",
+      method: "GET",
+      params: { title: "title", text: "text", url: "url" },
+    },
+    shortcuts: LANDING_PAGES.map((page) => ({
+      name: page.title,
+      short_name: PLATFORM_SHORT[page.platform],
+      url: `/${page.slug}`,
+    })),
   };
 }
+
+const PLATFORM_SHORT: Record<string, string> = {
+  youtube: "YouTube", tiktok: "TikTok", instagram: "Instagram", twitter: "X",
+};

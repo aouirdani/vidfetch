@@ -47,6 +47,31 @@ For a separately managed database: `docker build -t vidfetch .`, initialize the 
 
 Rebuild the image periodically to pick up platform extractor updates. Secrets, local cookies and the development binary cache are excluded from the image build context.
 
+## Deploying to Cloudflare Pages
+
+Cloudflare Workers cannot spawn `yt-dlp` or `ffmpeg`, so the download engine
+cannot run on Pages. The supported arrangement puts the static interface on
+Cloudflare Pages and the API on a Node host:
+
+```bash
+node scripts/build-pages.mjs   # static export of the UI -> out/
+```
+
+Pages settings: build command `node scripts/build-pages.mjs`, output directory
+`out`, framework preset **None**, `NODE_VERSION=22`. Point the UI at the backend
+with either `NEXT_PUBLIC_API_ORIGIN` (direct, recommended for large files) or
+`API_ORIGIN` (same-origin proxy via `functions/api/[[path]].js`).
+
+Preview locally with the real proxy module:
+
+```bash
+npm run build && npm run start                                   # backend
+node scripts/build-pages.mjs
+API_ORIGIN=http://localhost:3000 node scripts/preview-pages.mjs  # http://localhost:8788
+```
+
+Full instructions, DNS notes and troubleshooting: [DEPLOY-CLOUDFLARE.md](DEPLOY-CLOUDFLARE.md).
+
 ## Optional authorized platform sessions
 
 Some public posts are login-gated by Instagram or TikTok. The site operator may provide a Netscape-format cookie file as a mounted server-side secret:
@@ -69,11 +94,10 @@ Only use sessions and content you are authorized to access. These are **not** br
 | `GET /api/download?status=…` | Transfer state, byte count and any stream failure; used by the English progress UI. |
 | `GET /api/download?url=…&format_id=…&type=video` | Original direct-download contract, using the same validation and streaming pipeline. |
 | `GET /api/health` | Database health and yt-dlp / ffmpeg availability. |
-| `GET /api/stats` | Aggregate counters per platform. Individual transfer records are never exposed. |
 
 Errors are JSON with `ok: false`, a stable `code` and an English `error` message. Invalid URLs produce 400; authentication requirements 401; missing/private content 404; expired tickets 410; rate limits or exhausted download slots 429; blocked/missing engines 503; upstream timeouts 504. Raw stderr is logged only on the server.
 
-Metadata is cached for five minutes in a bounded in-memory cache. PostgreSQL records source URLs, titles, thumbnails, requested formats, timestamps and transfer outcomes for operational purposes, but the public dashboard and the `/api/stats` response contain aggregate counters only — download titles and links are never published. See `/legal#privacy` for disclosure.
+Metadata is cached for five minutes in a bounded in-memory cache. PostgreSQL records source URLs, titles, thumbnails, requested formats, timestamps and transfer outcomes for operating and debugging the service. None of it is published: there is no usage dashboard and no public statistics endpoint. See `/legal#privacy` for disclosure.
 
 ## SEO and page speed
 
@@ -92,7 +116,7 @@ Metadata is cached for five minutes in a bounded in-memory cache. PostgreSQL rec
 **Page speed**
 
 - The marketing routes are statically prerendered and revalidated daily; only `/api/*` runs per request. Database queries and `yt-dlp` process probes were removed from page rendering.
-- The result card and the activity panel are code-split. The activity panel mounts and fetches `/api/stats` only when it nears the viewport, and polls only while the tab is visible.
+- The result card is code-split and loaded only after a successful extraction, so the landing HTML ships none of it.
 - The header is a server component; a small client island performs one idle-time health check instead of polling.
 - `content-visibility` defers off-screen section paint, `backdrop-filter` is limited to larger screens, the decorative grid renders on large screens only, and `prefers-reduced-motion` is respected.
 - No web fonts are downloaded, icons are tree-shaken via `optimizePackageImports`, and the thumbnail CDNs are DNS-prefetched.
@@ -116,17 +140,23 @@ Numbers move between runs and are not Lighthouse scores. LCP is still dominated 
 
 ## UI and UX
 
-- Clearer hero with a single primary action, trust signals (free, nothing stored, original quality) and example chips that disappear once a result is on screen.
+- Hero built around one action: paste, extract, pick a quality, download. Free / no ads / no daily limit / nothing stored are stated up front.
+- **Shared-link entry point.** `/?url=…` runs an extraction on arrival, and `?text=` is parsed too so a shared caption containing a link still works. The query is cleared afterwards so a refresh does not silently re-run it. Unsupported links are ignored rather than throwing an error at someone who just opened the page.
+- **Installable share target.** The web manifest registers VidFetch in the Android share sheet, so sharing a post from the TikTok or Instagram app opens the site with the link already extracting. The manifest also exposes per-platform shortcuts.
+- **Example result card** under the hero shows the quality picker before any search. It is inert, carries no invented creator names or view counts, and is labelled "Example result" so it is never mistaken for live data.
+- Numbered step cards (Copy → Paste → Save) and a device strip stating the browsers and platforms this runs on.
 - The quality picker is a real ARIA radio group with roving focus, so arrow keys, Home and End move between formats.
 - Download feedback is explicit: preparing, a live byte counter with an indeterminate progress bar, then a confirmation naming the saved size. Failures surface the server's reason with a retry and a link to the original post.
+- Platform pages reuse the same form, but show that platform's link shape in the inline hint and an on-brand example card.
 - The result card takes focus when it appears and scrolls into view on small screens; status changes are announced through a polite live region.
 - Skeletons mirror the real card's grid and heights, holding CLS at 0 while the lazy chunk loads.
 - Tap targets are at least 44 px high, focus rings are visible on every control, and `prefers-reduced-motion` disables animation and smooth scrolling.
-- Removed the public "recent transfers" feed. It exposed the titles of other people's downloads for little benefit; the dashboard now shows aggregate counters and says so.
+- **No usage dashboard.** The service-activity panel and its `/api/stats` endpoint were removed outright. Nothing about what other people download is published, and the home page ends on the FAQ instead of a stats block.
+- **Palette.** Aqua (`#22d3ee`) to sky (`#0ea5e9`) on a teal-tinted near-black (`#04090d`). Primary actions use near-black text on the bright accent, which measures 7.6:1 to 10.4:1 from rendered pixels — far clearer than white on a mid-tone fill. Amber stays reserved for caution, red for errors and emerald for success, so no semantic colour collides with the brand.
 
 ## Tests
 
-- Unit/regression tests: `npx tsx --test tests/*.test.ts` (media pipeline plus SEO metadata and structured data).
+- Unit/regression tests: `npx tsx --test tests/*.test.ts` (media pipeline, SEO metadata and structured data, Cloudflare proxy function).
 - Live production API/file tests: `BASE_URL=http://localhost:3000 node scripts/smoke-media.mjs`.
 - Browser tests: install Chromium using `npx playwright install --with-deps chromium`, then run `BASE_URL=http://localhost:3000 node scripts/smoke-browser.mjs`.
 - Build checks: `npx next typegen`, `npm exec tsc -- --noEmit --pretty false`, `npm run build`.
@@ -135,4 +165,3 @@ Numbers move between runs and are not Lighthouse scores. LCP is still dominated 
 The live test script downloads the official Instagram sample Reel and a public TikTok clip, verifies file codecs with ffprobe, fully decodes the files with ffmpeg, checks a genuine TikTok MP3 conversion, tests the original GET contract, and checks English error responses. Browser tests exercise the real visible buttons, save the native attachments, verify completion feedback, and check English desktop/mobile pages for runtime errors and horizontal overflow. Override `SMOKE_INSTAGRAM_URL` and `SMOKE_TIKTOK_URL` with other authorized public videos when running the API tests.
 
 Test downloads are temporary and removed afterwards. Browser screenshots are saved under the git-ignored `test-results/` directory. These are live tests of selected public posts, not a promise that platform access restrictions never change.
-# vidfetch

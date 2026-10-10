@@ -2,12 +2,12 @@
 
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { CircleAlert, ClipboardPaste, Link2, LoaderCircle, Search, Sparkles, X } from "lucide-react";
+import { CircleAlert, ClipboardPaste, Link2, LoaderCircle, Search, X } from "lucide-react";
 import { clsx } from "clsx";
 import { PlatformChip } from "./PlatformChip";
 import { VideoCardSkeleton } from "./VideoCardSkeleton";
 import { postJson, type FetchInfoResponse, type FetchInfoSuccess } from "@/lib/api";
-import { detectPlatform, PLATFORMS, PLATFORM_META } from "@/lib/platforms";
+import { detectPlatform, PLATFORMS, PLATFORM_META, type Platform } from "@/lib/platforms";
 
 // The result card is only needed after a successful extraction.
 const VideoCard = dynamic(() => import("./VideoCard").then((module) => module.VideoCard), {
@@ -18,7 +18,24 @@ const VideoCard = dynamic(() => import("./VideoCard").then((module) => module.Vi
 const EXAMPLES = PLATFORMS.filter((id) => PLATFORM_META[id].examples.length > 0)
   .map((id) => ({ id, label: PLATFORM_META[id].name, url: PLATFORM_META[id].examples[0] }));
 
-export function FetchForm({ compact = false }: { compact?: boolean }) {
+/**
+ * Reads a shared link from the address bar on first paint.
+ *
+ * Supports `?url=` and the `?text=` field that Android's share sheet sends
+ * through the manifest share target, where the URL is often wrapped in a
+ * caption. Parsed client-side so it still works in the static export.
+ */
+function sharedLink(): string | null {
+  if (typeof window === "undefined") return null;
+  const params = new URLSearchParams(window.location.search);
+  for (const key of ["url", "u", "text", "link"]) {
+    const value = params.get(key);
+    if (value && detectPlatform(value).ok) return value;
+  }
+  return null;
+}
+
+export function FetchForm({ compact = false, platform }: { compact?: boolean; platform?: Platform }) {
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<FetchInfoSuccess | null>(null);
@@ -29,6 +46,8 @@ export function FetchForm({ compact = false }: { compact?: boolean }) {
   const detection = useMemo(() => detectPlatform(value), [value]);
   const invalid = value.trim().length > 0 && !detection.ok;
   const canSubmit = detection.ok && !loading;
+  // On a platform page, show that platform's link shape rather than a generic one.
+  const hint = PLATFORM_META[platform ?? "tiktok"].examples[0] ?? PLATFORM_META.youtube.examples[0];
 
   useEffect(() => () => requestRef.current?.abort(), []);
 
@@ -51,7 +70,6 @@ export function FetchForm({ compact = false }: { compact?: boolean }) {
       if (controller.signal.aborted) return;
       if (payload.ok) {
         setResult(payload);
-        // Bring the result into view on small screens where it lands below the fold.
         requestAnimationFrame(() => {
           const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
           resultsRef.current?.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "nearest" });
@@ -61,6 +79,19 @@ export function FetchForm({ compact = false }: { compact?: boolean }) {
       if (!controller.signal.aborted) setError(cause instanceof Error ? cause.message : "Could not reach VidFetch. Check your connection and try again.");
     } finally { if (!controller.signal.aborted) setLoading(false); }
   }, [value]);
+
+  // Auto-run a link arriving from a share sheet, bookmark or shared URL.
+  const started = useRef(false);
+  useEffect(() => {
+    if (started.current) return;
+    started.current = true;
+    const shared = sharedLink();
+    if (!shared) return;
+    setValue(shared);
+    void submit(shared);
+    // Clear the query so a refresh doesn't silently re-run the extraction.
+    window.history.replaceState(null, "", window.location.pathname + window.location.hash);
+  }, [submit]);
 
   function reset() {
     requestRef.current?.abort();
@@ -73,23 +104,25 @@ export function FetchForm({ compact = false }: { compact?: boolean }) {
       const text = await navigator.clipboard.readText();
       if (!text.trim()) { setError("Your clipboard is empty. Copy a video link first."); return; }
       setValue(text.trim()); setError(null);
-      inputRef.current?.focus();
+      const check = detectPlatform(text);
+      if (check.ok) void submit(text);
+      else inputRef.current?.focus();
     } catch { setError("Your browser blocked clipboard access. Paste the link into the field instead."); }
   }
 
   return (
     <>
       <form onSubmit={(event) => { event.preventDefault(); if (!loading) void submit(); }}
-        className={clsx("mx-auto w-full max-w-3xl", compact ? "mt-7" : "mt-9")}>
-        <div className={clsx("flex flex-col gap-2 rounded-2xl p-2 ring-1 transition-colors duration-200 sm:flex-row sm:items-center sm:rounded-[1.25rem]",
+        className={clsx("mx-auto w-full max-w-3xl", compact ? "mt-7" : "mt-8")}>
+        <div className={clsx("flex flex-col gap-2 rounded-2xl p-2 ring-1 transition-colors duration-200 sm:flex-row sm:items-center",
           "glass-strong shadow-[0_24px_70px_-40px_rgba(139,92,246,0.9)]",
-          invalid ? "ring-amber-400/40" : detection.ok ? "ring-violet-400/50" : "ring-white/10 focus-within:ring-violet-400/50")}>
+          invalid ? "ring-amber-400/40" : detection.ok ? "ring-cyan-400/50" : "ring-white/10 focus-within:ring-cyan-400/50")}>
           <div className="flex flex-1 items-center gap-2.5 px-2">
-            <Link2 className={clsx("h-5 w-5 shrink-0 transition-colors", detection.ok ? "text-violet-300" : "text-slate-500")} aria-hidden />
+            <Link2 className={clsx("h-5 w-5 shrink-0 transition-colors", detection.ok ? "text-cyan-300" : "text-slate-400")} aria-hidden />
             <input ref={inputRef} value={value} onChange={(event) => { setValue(event.target.value); if (error) setError(null); }}
               type="url" inputMode="url" autoComplete="off" spellCheck={false} maxLength={4096} enterKeyHint="go"
               placeholder="Paste a video link…" aria-label="Video link" aria-describedby="url-help" aria-invalid={invalid}
-              className="h-12 w-full min-w-0 bg-transparent text-[15px] text-white placeholder:text-slate-500 focus:outline-none" />
+              className="h-12 w-full min-w-0 bg-transparent text-[15px] text-white placeholder:text-slate-400 focus:outline-none" />
             {value && (
               <button type="button" onClick={reset} aria-label="Clear link"
                 className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-slate-400 transition hover:bg-white/10 hover:text-white">
@@ -99,12 +132,12 @@ export function FetchForm({ compact = false }: { compact?: boolean }) {
           </div>
           <div className="flex items-center gap-2">
             <button type="button" onClick={() => void paste()} disabled={loading}
-              className="inline-flex h-12 shrink-0 items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3.5 text-sm font-medium text-slate-200 transition hover:border-violet-400/40 hover:text-white disabled:opacity-50 sm:h-11">
+              className="inline-flex h-12 shrink-0 items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3.5 text-sm font-medium text-slate-200 transition hover:border-cyan-400/40 hover:text-white disabled:opacity-50 sm:h-11">
               <ClipboardPaste className="h-4 w-4" aria-hidden /> Paste
             </button>
             <button type="submit" disabled={!canSubmit}
               className={clsx("inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-xl px-7 text-sm font-semibold transition sm:h-11 sm:flex-none",
-                canSubmit ? "bg-gradient-to-r from-violet-600 to-blue-500 text-white hover:brightness-110 active:scale-[0.98]" : "cursor-not-allowed bg-white/10 text-slate-400")}>
+                canSubmit ? "bg-gradient-to-r from-cyan-400 to-sky-400 text-ink-950 hover:brightness-110 active:scale-[0.98]" : "cursor-not-allowed bg-white/10 text-slate-400")}>
               {loading ? <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden /> : <Search className="h-4 w-4" aria-hidden />}
               {loading ? "Extracting…" : "Extract"}
             </button>
@@ -114,16 +147,16 @@ export function FetchForm({ compact = false }: { compact?: boolean }) {
         <div className="mt-3 flex min-h-6 flex-wrap items-center justify-center gap-x-3 gap-y-2">
           {value ? <PlatformChip platform={detection.platform} detected={detection.ok} /> : null}
           <p id="url-help" className={clsx("text-xs leading-relaxed", invalid ? "text-amber-300" : "text-slate-400")}>
-            {invalid ? "Link to a single video, Reel or post." : "Works with YouTube, TikTok, Instagram Reels and X posts."}
+            {invalid ? <>Links look like <code className="rounded bg-white/5 px-1.5 py-0.5 font-mono text-[11px] text-slate-300">{hint}</code></> : "Works with YouTube, TikTok, Instagram Reels and X posts."}
           </p>
         </div>
 
         {!result && !loading && (
           <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
-            <span className="text-[11px] text-slate-500">Try an example:</span>
+            <span className="text-[11px] text-slate-400">Try an example:</span>
             {EXAMPLES.map((example) => (
               <button key={example.id} type="button" disabled={loading} onClick={() => void submit(example.url)}
-                className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-[11px] font-medium text-slate-300 transition hover:border-violet-400/40 hover:text-violet-200 disabled:opacity-40">
+                className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-[11px] font-medium text-slate-300 transition hover:border-cyan-400/40 hover:text-cyan-200 disabled:opacity-40">
                 {example.label}
               </button>
             ))}

@@ -12,20 +12,20 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-24 text-center sm:px-6">
-      <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500/25 to-blue-500/25 ring-1 ring-white/10">
-        <Compass className="h-6 w-6 text-violet-200" aria-hidden />
+      <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-500/25 to-sky-500/25 ring-1 ring-white/10">
+        <Compass className="h-6 w-6 text-cyan-200" aria-hidden />
       </div>
       <h1 className="mt-6 text-3xl font-semibold tracking-tight text-white sm:text-4xl">This page does not exist</h1>
       <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-slate-400">
         The link may be mistyped or out of date. Head back to the downloader and paste a video link to get started.
       </p>
-      <Link href="/" className="mt-8 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-blue-500 px-5 py-3 text-sm font-semibold text-white transition hover:brightness-110">
+      <Link href="/" className="mt-8 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-400 to-sky-400 px-5 py-3 text-sm font-semibold text-ink-950 transition hover:brightness-110">
         Go to the video downloader <ArrowRight className="h-4 w-4" aria-hidden />
       </Link>
       <ul className="mt-10 grid gap-2 sm:grid-cols-2">
         {LANDING_PAGES.map((page) => (
           <li key={page.slug}>
-            <Link href={`/${page.slug}`} className="block rounded-xl border border-white/8 bg-white/[0.03] px-4 py-3 text-sm text-slate-300 transition hover:border-violet-400/30 hover:text-white">
+            <Link href={`/${page.slug}`} className="block rounded-xl border border-white/8 bg-white/[0.03] px-4 py-3 text-sm text-slate-300 transition hover:border-cyan-400/30 hover:text-white">
               {page.title}
             </Link>
           </li>

@@ -1,0 +1,22 @@
+# Cloudflare Pages project configuration for the VidFetch UI.
+#
+#   npx wrangler pages deploy            # uses the settings below
+#
+# Build command for the Pages dashboard: node scripts/build-pages.mjs
+# Build output directory:                out
+#
+# This deploys the static interface only. The download engine (yt-dlp + ffmpeg)
+# runs on a separate Node host — see DEPLOY-CLOUDFLARE.md.
+
+name = "vidfetch"
+compatibility_date = "2026-09-01"
+pages_build_output_dir = "out"
+
+# API_ORIGIN is read by functions/api/[[path]].js and points at the Node backend.
+# Set it per environment in the dashboard (Settings → Variables), or uncomment
+# here for the production branch. Never put secrets in this file.
+# [vars]
+# API_ORIGIN = "https://vidfetch-api.example.com"
+
+# [env.preview.vars]
+# API_ORIGIN = "https://vidfetch-api-staging.example.com"

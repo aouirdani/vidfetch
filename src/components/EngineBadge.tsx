@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { clsx } from "clsx";
+import { apiUrl } from "@/lib/api";
 
 /**
  * Tiny client island so the rest of the header stays server-rendered.
@@ -14,7 +15,7 @@ export function EngineBadge() {
     const controller = new AbortController();
     const check = async () => {
       try {
-        const response = await fetch("/api/health", { cache: "no-store", signal: controller.signal });
+        const response = await fetch(apiUrl("/api/health"), { cache: "no-store", signal: controller.signal });
         const data = (await response.json()) as { ok?: boolean; engine?: { ytDlp?: string | null } };
         setStatus(data.ok && data.engine?.ytDlp ? "online" : "offline");
       } catch {

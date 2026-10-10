@@ -28,7 +28,7 @@ const BLOCKS = [
   { id: "privacy", icon: Lock, title: "Privacy policy", items: [
     "No VidFetch account is required. The application does not set advertising cookies or use third-party advertising trackers.",
     "Media data passes through bounded streaming buffers and is not permanently saved as a video or audio file on the server. Extracted metadata and source URLs can be cached in memory for up to five minutes to avoid repeating platform requests.",
-    "The database records submitted video URLs, platform identifiers, titles, thumbnails, formats, extraction errors, transfer timestamps, statuses and byte counts. The public activity panel shows aggregate counters only — individual download titles and links are never published. Do not submit confidential links.",
+    "The database records submitted video URLs, platform identifiers, titles, thumbnails, formats, extraction errors, transfer timestamps, statuses and byte counts. This data is used for operating and debugging the service only; it is not published anywhere on the site and no usage dashboard is exposed. Do not submit confidential links.",
     "Random download tickets expire after one minute if unused. Transfer status is retained in memory for up to thirty minutes. Server infrastructure may maintain its own operational request logs.",
     "Optional authorized platform cookies are configured only by the site operator as server-side secrets. They are never requested from website visitors or returned to the browser. Temporary cookie copies are removed when the extraction process ends.",
     "For questions about recorded metadata or a deletion request, contact privacy@vidfetch.io and identify the relevant URL or transfer.",
@@ -46,32 +46,32 @@ export default function LegalPage() {
         breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Terms, privacy & legal information", path: "/legal" }]),
         webPageSchema({ name: "Terms, privacy & legal information", path: "/legal", description: "Terms of service, legal notice, privacy policy and abuse reporting information for VidFetch." }),
       ]) }} />
-      <nav aria-label="Breadcrumb" className="text-xs text-slate-500">
+      <nav aria-label="Breadcrumb" className="text-xs text-slate-400">
         <ol className="flex items-center gap-2">
-          <li><Link href="/" className="transition hover:text-violet-300">Home</Link></li>
+          <li><Link href="/" className="transition hover:text-cyan-300">Home</Link></li>
           <li aria-hidden>/</li>
           <li className="text-slate-300" aria-current="page">Legal</li>
         </ol>
       </nav>
-      <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-violet-300">VidFetch · vidfetch.io</p>
+      <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300">VidFetch · vidfetch.io</p>
       <h1 className="mt-3 text-3xl font-semibold tracking-tight text-white sm:text-4xl">Terms, privacy & legal information</h1>
       <p className="mt-4 text-sm leading-relaxed text-slate-300">By using VidFetch, you agree to use the service responsibly and in accordance with the terms below.</p>
-      <p className="mt-2 text-xs text-slate-500">Last updated {new Date(CONTENT_UPDATED).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</p>
+      <p className="mt-2 text-xs text-slate-400">Last updated {new Date(CONTENT_UPDATED).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</p>
       <nav className="mt-8 flex flex-wrap gap-2" aria-label="Legal sections">
-        {BLOCKS.map((block) => <a key={block.id} href={`#${block.id}`} className="rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-xs text-slate-300 transition hover:border-violet-400/40 hover:text-violet-200">{block.title}</a>)}
+        {BLOCKS.map((block) => <a key={block.id} href={`#${block.id}`} className="rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-xs text-slate-300 transition hover:border-cyan-400/40 hover:text-cyan-200">{block.title}</a>)}
       </nav>
       <div className="mt-10 space-y-6">
         {BLOCKS.map((block) => <section key={block.id} id={block.id} className="defer-paint scroll-mt-24 rounded-3xl glass p-6 sm:p-8">
           <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500/25 to-blue-500/20 ring-1 ring-white/10"><block.icon className="h-5 w-5 text-violet-200" /></span>
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500/25 to-sky-500/20 ring-1 ring-white/10"><block.icon className="h-5 w-5 text-cyan-200" /></span>
             <h2 className="text-lg font-semibold text-white">{block.title}</h2>
           </div>
-          <ul className="mt-5 space-y-3">{block.items.map((item) => <li key={item} className="flex gap-3 text-sm leading-relaxed text-slate-300"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-violet-400" />{item}</li>)}</ul>
+          <ul className="mt-5 space-y-3">{block.items.map((item) => <li key={item} className="flex gap-3 text-sm leading-relaxed text-slate-300"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-400" />{item}</li>)}</ul>
         </section>)}
       </div>
       <div className="mt-10 rounded-2xl border border-white/8 bg-white/[0.03] p-6 text-sm text-slate-400">
-        Questions? <Link href="mailto:legal@vidfetch.io" className="text-violet-300 hover:text-violet-200">legal@vidfetch.io</Link>
-        <span className="mx-2">·</span><Link href="/" className="text-violet-300 hover:text-violet-200">Back to the downloader</Link>
+        Questions? <Link href="mailto:legal@vidfetch.io" className="text-cyan-300 hover:text-cyan-200">legal@vidfetch.io</Link>
+        <span className="mx-2">·</span><Link href="/" className="text-cyan-300 hover:text-cyan-200">Back to the downloader</Link>
       </div>
     </div>
   );

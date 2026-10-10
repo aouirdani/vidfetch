@@ -26,12 +26,12 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-[1.4fr_repeat(3,1fr)]">
           <div>
             <div className="flex items-center gap-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-blue-500">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500 to-sky-500">
                 <svg viewBox="0 0 24 24" className="h-4 w-4 text-white" fill="currentColor" aria-hidden><path d="M8 5.5v13l11-6.5-11-6.5Z" /></svg>
               </span>
               <div>
                 <p className="text-base font-semibold text-white">Vid<span className="text-gradient">Fetch</span></p>
-                <p className="text-xs text-slate-500">{SITE.domain}</p>
+                <p className="text-xs text-slate-400">{SITE.domain}</p>
               </div>
             </div>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-400">
@@ -51,14 +51,14 @@ export function Footer() {
               <ul className="mt-4 space-y-2.5">
                 {column.links.map((link) => (
                   <li key={link.label}>
-                    <Link href={link.href} prefetch={false} className="text-sm text-slate-400 transition hover:text-violet-300">{link.label}</Link>
+                    <Link href={link.href} prefetch={false} className="text-sm text-slate-400 transition hover:text-cyan-300">{link.label}</Link>
                   </li>
                 ))}
               </ul>
             </nav>
           ))}
         </div>
-        <div className="mt-12 flex flex-col gap-3 border-t border-white/5 pt-6 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-12 flex flex-col gap-3 border-t border-white/5 pt-6 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 VidFetch.io — All rights reserved.</p>
           <p>Only download content you own or have permission to save.</p>
         </div>

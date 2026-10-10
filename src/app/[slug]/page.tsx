@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, CircleAlert, CircleCheck } from "lucide-react";
 import { FetchForm } from "@/components/FetchForm";
+import { SamplePreview } from "@/components/SamplePreview";
 import { PlatformIcon } from "@/components/PlatformIcon";
 import { PLATFORM_META } from "@/lib/platforms";
 import { CONTENT_UPDATED, LANDING_PAGES, SITE, applicationSchema, breadcrumbSchema, faqSchema, howToSchema, jsonLdGraph, landingPageFor, pageMetadata, webPageSchema } from "@/lib/seo";
@@ -46,7 +47,7 @@ export default async function LandingPage({ params }: { params: Promise<{ slug: 
       <div className="mx-auto w-full max-w-6xl px-4 pt-8 sm:px-6 sm:pt-10">
         <nav aria-label="Breadcrumb" className="text-xs text-slate-400">
           <ol className="flex items-center gap-2">
-            <li><Link href="/" className="transition hover:text-violet-300">Home</Link></li>
+            <li><Link href="/" className="transition hover:text-cyan-300">Home</Link></li>
             <li aria-hidden className="text-slate-600">/</li>
             <li className="truncate text-slate-200" aria-current="page">{page.title}</li>
           </ol>
@@ -66,7 +67,8 @@ export default async function LandingPage({ params }: { params: Promise<{ slug: 
               </h1>
               <p className="mx-auto mt-4 max-w-2xl text-pretty text-base leading-relaxed text-slate-300">{page.intro}</p>
             </div>
-            <FetchForm compact />
+            <FetchForm compact platform={page.platform} />
+            <SamplePreview platform={page.platform} />
           </section>
 
           <section className="defer-paint mt-20 scroll-mt-24 sm:mt-24" aria-labelledby="steps-title">
@@ -76,7 +78,7 @@ export default async function LandingPage({ params }: { params: Promise<{ slug: 
             <ol className="mt-8 grid gap-4 sm:grid-cols-3">
               {steps.map((step, index) => (
                 <li key={step} className="rounded-2xl border border-white/8 bg-white/[0.03] p-6">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-blue-500 text-sm font-semibold text-white" aria-hidden>{index + 1}</span>
+                  <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 to-sky-400 text-sm font-semibold text-ink-950" aria-hidden>{index + 1}</span>
                   <p className="mt-4 text-sm leading-relaxed text-slate-300">{step}</p>
                 </li>
               ))}
@@ -113,10 +115,10 @@ export default async function LandingPage({ params }: { params: Promise<{ slug: 
             <h2 id="landing-faq-title" className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">{meta.name} downloader questions</h2>
             <div className="mt-8 grid gap-2.5 lg:grid-cols-2">
               {page.faqs.map((faq) => (
-                <details key={faq.question} className="group rounded-2xl border border-white/8 bg-white/[0.03] px-5 transition-colors open:border-violet-400/30 hover:border-white/15">
+                <details key={faq.question} className="group rounded-2xl border border-white/8 bg-white/[0.03] px-5 transition-colors open:border-cyan-400/30 hover:border-white/15">
                   <summary className="flex cursor-pointer list-none items-start justify-between gap-4 py-4 text-sm font-semibold text-white">
                     {faq.question}
-                    <span className="mt-0.5 shrink-0 text-lg leading-none text-violet-300 transition-transform duration-200 group-open:rotate-45" aria-hidden>+</span>
+                    <span className="mt-0.5 shrink-0 text-lg leading-none text-cyan-300 transition-transform duration-200 group-open:rotate-45" aria-hidden>+</span>
                   </summary>
                   <p className="pb-4 text-sm leading-relaxed text-slate-400">{faq.answer}</p>
                 </details>
@@ -131,24 +133,24 @@ export default async function LandingPage({ params }: { params: Promise<{ slug: 
             {others.map((item) => (
               <li key={item.slug}>
                 <Link href={`/${item.slug}`} prefetch={false}
-                  className="group flex h-full items-center justify-between gap-3 rounded-2xl border border-white/8 bg-white/[0.03] p-5 transition-colors hover:border-violet-400/40">
+                  className="group flex h-full items-center justify-between gap-3 rounded-2xl border border-white/8 bg-white/[0.03] p-5 transition-colors hover:border-cyan-400/40">
                   <span className="flex min-w-0 items-center gap-3">
                     <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${PLATFORM_META[item.platform].accent} text-white`}>
                       <PlatformIcon platform={item.platform} className="h-4 w-4" />
                     </span>
-                    <span className="truncate text-sm font-semibold text-white group-hover:text-violet-200">{item.title}</span>
+                    <span className="truncate text-sm font-semibold text-white group-hover:text-cyan-200">{item.title}</span>
                   </span>
-                  <ArrowRight className="h-4 w-4 shrink-0 text-slate-500 transition-transform group-hover:translate-x-0.5 group-hover:text-violet-300" aria-hidden />
+                  <ArrowRight className="h-4 w-4 shrink-0 text-slate-400 transition-transform group-hover:translate-x-0.5 group-hover:text-cyan-300" aria-hidden />
                 </Link>
               </li>
             ))}
           </ul>
           <p className="mt-8 flex flex-wrap items-center gap-x-2 text-sm text-slate-400">
             <span>Back to the</span>
-            <Link href="/" className="text-violet-300 underline-offset-4 hover:underline">VidFetch video downloader</Link>
+            <Link href="/" className="text-cyan-300 underline-offset-4 hover:underline">VidFetch video downloader</Link>
             <span>·</span>
-            <Link href="/legal#terms" className="text-violet-300 underline-offset-4 hover:underline">Terms of service</Link>
-            <span className="text-slate-500">· Updated {new Date(CONTENT_UPDATED).toLocaleDateString("en-US", { year: "numeric", month: "long" })}</span>
+            <Link href="/legal#terms" className="text-cyan-300 underline-offset-4 hover:underline">Terms of service</Link>
+            <span className="text-slate-400">· Updated {new Date(CONTENT_UPDATED).toLocaleDateString("en-US", { year: "numeric", month: "long" })}</span>
           </p>
         </section>
       </div>
