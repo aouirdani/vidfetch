@@ -4,7 +4,7 @@
 FROM node:22-bookworm-slim AS dependencies
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci --no-audit --no-fund
+RUN npm install -g npm@12 --no-audit --no-fund && npm ci --no-audit --no-fund
 
 FROM node:22-bookworm-slim AS builder
 WORKDIR /app
@@ -13,7 +13,7 @@ COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
 # Build-only connection string: dynamic routes do not query PostgreSQL during compilation.
 ENV DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:5432/app_db
-RUN npm run build
+RUN NODE_OPTIONS=--max-old-space-size=6144 npm run build
 
 FROM node:22-bookworm-slim AS runner
 WORKDIR /app

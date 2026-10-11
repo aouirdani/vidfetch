@@ -41,7 +41,7 @@ services:
       FFMPEG_PATH: /usr/bin/ffmpeg
       MAX_PARALLEL_DOWNLOADS: ${MAX_PARALLEL_DOWNLOADS:-4}
     ports:
-      - "5000:5000"
+      - "5001:5000"
 
 volumes:
   vidfetch-db:
