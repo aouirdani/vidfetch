@@ -21,7 +21,9 @@ export type DownloadStatusResponse = {
  * deployment so large media never traverses an edge proxy. The backend must
  * allow the site's origin through CORS (see `CORS_ORIGIN` in server.js).
  */
-const API_ORIGIN = (process.env.NEXT_PUBLIC_API_ORIGIN ?? "").trim().replace(/\/+$/, "");
+export const downloadsUnavailable = process.env.NEXT_PUBLIC_DOWNLOADS_UNAVAILABLE === "1";
+export const DOWNLOADS_UNAVAILABLE_MESSAGE = "Video extraction and downloads are temporarily unavailable. Please try again once the download service is connected.";
+const API_ORIGIN = downloadsUnavailable ? "" : (process.env.NEXT_PUBLIC_API_ORIGIN ?? "").trim().replace(/\/+$/, "");
 
 /** Resolves an API path against the configured backend. Absolute URLs pass through. */
 export function apiUrl(path: string): string {

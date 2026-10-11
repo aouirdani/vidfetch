@@ -2,6 +2,29 @@
 
 An English-language video downloader for YouTube, TikTok, Instagram and X. Built with Next.js/React, Tailwind, Lucide, PostgreSQL/Drizzle, yt-dlp and ffmpeg. The optional Express entrypoint serves the same UI and API implementations; there is no second, divergent download engine.
 
+## Current Vercel / Raspberry Pi arrangement
+
+The Raspberry Pi backend is maintained separately in [backend/README.md](backend/README.md) and listens only on loopback. Its tested systemd service is not changed by a frontend build or Git push. The frontend cannot reach it remotely yet: an authenticated HTTPS gateway and engine egress protections still need implementation and validation.
+
+On Vercel (`VERCEL=1`), or with `VIDFETCH_TARGET=vercel` locally, the build excludes the local media/database handlers, skips engine setup and ignores `NEXT_PUBLIC_API_ORIGIN`. Pages remain available, with a visible notice and disabled extraction controls. `/api/health` reports frontend health plus `downloads.available=false`; extraction, download preparation, ticket and status routes return JSON HTTP 503 with `BACKEND_UNAVAILABLE`. No video bytes transit Vercel. Supabase configuration and data remain unchanged; this unavailable mode does not connect to the database.
+
+See [DEPLOY-VERCEL.md](DEPLOY-VERCEL.md) for manual deployment, environment variable names, verification and rollback. The Node/Docker and legacy Cloudflare instructions below describe their separate hosting modes; they do not connect Vercel to the Pi.
+
+```sh
+npm ci
+npm run lint
+npm run typecheck
+VIDFETCH_TARGET=vercel npm test
+VIDFETCH_TARGET=vercel npm run build
+npm run test:vercel
+# Optional browser validation: Chrome on macOS, Playwright Chromium elsewhere.
+npm run test:vercel -- --browser
+npm run test:backend
+npm run check:release
+```
+
+The image `public/og-image.jpg` is generated from the maintained SVG beside it. `node scripts/generate-og-image.mjs` refuses to overwrite an existing JPEG; preserve that image first when regenerating.
+
 ## What works
 
 - Instagram public Reels, video posts, IGTV-style links and individual story links when the source permits access. Instagram `/share/reel/` links are resolved to their original post URL where possible.

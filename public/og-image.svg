@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="background" x2="1" y2="1">
+      <stop stop-color="#04090d"/><stop offset="1" stop-color="#102836"/>
+    </linearGradient>
+    <linearGradient id="accent" x2="1" y2="1">
+      <stop stop-color="#22d3ee"/><stop offset="1" stop-color="#0ea5e9"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#background)"/>
+  <circle cx="1070" cy="90" r="300" fill="#0ea5e9" opacity=".06"/>
+  <rect x="70" y="85" width="84" height="84" rx="22" fill="#102d3a"/>
+  <path d="M101 108l34 19-34 20z" fill="url(#accent)"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="178" y="147" fill="#f8fafc" font-size="56" font-weight="700">VidFetch</text>
+    <text x="70" y="288" fill="#f8fafc" font-size="65" font-weight="700">Your videos,</text>
+    <text x="70" y="368" fill="#22d3ee" font-size="65" font-weight="700">a link away.</text>
+    <text x="72" y="452" fill="#cbd5e1" font-size="30">YouTube · TikTok · Instagram · X</text>
+    <text x="72" y="551" fill="#94a3b8" font-size="24">vidfetch.io</text>
+  </g>
+</svg>

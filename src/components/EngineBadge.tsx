@@ -2,16 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { clsx } from "clsx";
-import { apiUrl } from "@/lib/api";
+import { apiUrl, downloadsUnavailable } from "@/lib/api";
 
 /**
  * Tiny client island so the rest of the header stays server-rendered.
  * One idle-time request, no polling: the badge is informational only.
  */
 export function EngineBadge() {
-  const [status, setStatus] = useState<"checking" | "online" | "offline">("checking");
+  const [status, setStatus] = useState<"checking" | "online" | "offline">(downloadsUnavailable ? "offline" : "checking");
 
   useEffect(() => {
+    if (downloadsUnavailable) return;
     const controller = new AbortController();
     const check = async () => {
       try {

@@ -1,0 +1,53 @@
+{
+  "validatedAt": "2026-10-11T22:11:34.352039+00:00",
+  "baseCommit": "d572cf89d790d73b7102d2fb4e308977f79cafbb",
+  "releaseBranch": "release/vidfetch-vercel-20261011",
+  "next": "16.4.0",
+  "eslint": true,
+  "typecheckFrontend": true,
+  "typecheckBackend": true,
+  "nextBuild": true,
+  "unitTests": {
+    "passed": 71,
+    "failed": 0
+  },
+  "backendTests": {
+    "passed": 17,
+    "failed": 0
+  },
+  "httpAndBrowserChecks": [
+    "health 200: frontend available, downloads unavailable, no database or engines",
+    "seven extraction/download requests return explicit JSON 503 before input processing",
+    "eight concurrent requests remain unavailable without engine work",
+    "HTTP methods: three 405 responses and automatic HEAD 200",
+    "six SEO pages, five public assets, unavailable notice, 404 and no stats exposure",
+    "all three API dependency traces exclude video engines and PostgreSQL",
+    "real browser: disabled controls, share link, mobile layout, SEO, no API requests or runtime errors"
+  ],
+  "temporaryServerStopped": true,
+  "productionAudit": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0,
+    "total": 0
+  },
+  "developmentAudit": {
+    "high": 5,
+    "moderate": 4,
+    "critical": 0
+  },
+  "piBundleSha256": "d370ccfb8574a2f714e86fcde6e555ddd665a846be761ffe29256a648d4a168c",
+  "backendReproducedByteIdentically": true,
+  "clientPrivateOriginMatches": 0,
+  "push": "pending-user-confirmation",
+  "notTested": [
+    "Vercel project settings, branch tracking and domain association",
+    "Vercel deployment",
+    "Remote HTTPS gateway",
+    "New Raspberry Pi runtime tests"
+  ],
+  "evidenceScope": "Local Mac tests and recorded earlier Pi evidence; no new production or Pi connection",
+  "secretScan": "No matches in candidate files; signature scan and excluded private artifacts"
+}

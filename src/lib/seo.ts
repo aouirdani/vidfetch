@@ -11,7 +11,7 @@ export const SITE = {
 } as const;
 
 /** Stable content revision date for dateModified; bump when page copy changes. */
-export const CONTENT_UPDATED = "2026-02-01";
+export const CONTENT_UPDATED = "2026-10-12";
 
 export const OG_IMAGE = { url: "/og-image.jpg", width: 1200, height: 630, alt: "VidFetch — download videos from YouTube, TikTok, Instagram and X", type: "image/jpeg" } as const;
 
@@ -208,6 +208,6 @@ export const HOME_FAQS = [
   { question: "Can I download private or restricted videos?", answer: "No. VidFetch only reaches content that is publicly available to an anonymous visitor. Private accounts, deleted posts, login-gated media and region-blocked videos are reported as unavailable." },
   { question: "Does VidFetch store my downloads?", answer: "No media files are kept. Video data streams through the server to your browser. Limited technical details such as the link, title, chosen format and transfer status are recorded so the service can be operated and debugged. They are never published on the site." },
   { question: "How do I save a video as MP3?", answer: "Extract the link, open the Audio tab and pick MP3. The soundtrack is encoded with ffmpeg into a real MP3 file rather than a renamed video container." },
-  { question: "Is there a file size or length limit?", answer: "VidFetch does not impose one. Data is streamed with bounded memory use, so large files are limited only by the source platform and your own connection." },
+  { question: "Is there a file size or length limit?", answer: "The download backend limits output to 256 MiB, declared media duration to 30 minutes and the whole operation to 10 minutes. One operation runs at a time. Extraction and downloads are temporarily unavailable on this frontend until its secure download service is connected." },
   { question: "Is it legal to download videos?", answer: "It depends on the content and where you live. Only download videos you own, that are licensed for reuse, or that you have the rights holder's permission to save. Public visibility alone is not permission." },
 ];

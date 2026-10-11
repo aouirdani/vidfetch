@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Ban, Bolt, CircleDollarSign, Clipboard, Cpu, Gauge, Infinity as InfinityIcon, Laptop, Layers, Link as LinkIcon, Lock, Monitor, MousePointerClick, ShieldCheck, Smartphone, Sparkles } from "lucide-react";
+import { ArrowRight, Ban, Bolt, CircleDollarSign, Clipboard, Cpu, Gauge, Laptop, Layers, Link as LinkIcon, Lock, Monitor, MousePointerClick, ShieldCheck, Smartphone, Sparkles } from "lucide-react";
 import { FetchForm } from "@/components/FetchForm";
 import { SamplePreview } from "@/components/SamplePreview";
 import { PlatformIcon } from "@/components/PlatformIcon";
@@ -21,8 +21,8 @@ export const metadata: Metadata = pageMetadata({
 const BADGES = [
   { icon: CircleDollarSign, label: "Free" },
   { icon: Ban, label: "No ads" },
-  { icon: InfinityIcon, label: "No daily limit" },
-  { icon: ShieldCheck, label: "Nothing stored" },
+  { icon: Bolt, label: "Streamed downloads" },
+  { icon: ShieldCheck, label: "No media archive" },
 ];
 
 const DEVICES = [
@@ -38,11 +38,11 @@ const STEPS = [
 ];
 
 const FEATURES = [
-  { icon: Bolt, title: "Straight to your device", body: "Video streams through the server to your browser with bounded memory use. VidFetch adds no file-size cap of its own — speed depends on the source and your connection." },
+  { icon: Bolt, title: "Straight to your device", body: "Video streams to your browser with bounded memory use. The download backend limits media to 256 MiB and each operation to 10 minutes; the source and your connection also affect availability." },
   { icon: Layers, title: "The qualities that exist", body: "You see the exact formats the platform publishes for that video, with codec and estimated size, instead of a fixed menu that fails halfway through." },
   { icon: Cpu, title: "Real MP3, real MP4", body: "ffmpeg merges separate video and audio tracks into a clean MP4 and encodes genuine MP3 audio — never a renamed video container." },
-  { icon: ShieldCheck, title: "Nothing kept afterwards", body: "Media files are streamed, not archived. Only aggregate counters are published; download titles and links are never shown publicly." },
-  { icon: Gauge, title: "Honest about failures", body: "Private, deleted or login-gated posts are reported in plain language, and every download is verified before your browser starts saving it." },
+  { icon: ShieldCheck, title: "No media archive", body: "Media files are streamed, not archived. Operational metadata may be retained as described in the privacy policy; download titles and links are never published." },
+  { icon: Gauge, title: "Honest about failures", body: "Private, deleted or login-gated posts and interrupted transfers are reported in plain language. A download is marked complete only after the streaming operation succeeds." },
   { icon: Lock, title: "Built for big files", body: "A long-running Node.js server handles extraction and streaming, so large downloads aren't cut off by a serverless execution window." },
 ];
 

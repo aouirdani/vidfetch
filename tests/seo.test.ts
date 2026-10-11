@@ -20,6 +20,11 @@ describe("page metadata", () => {
     assert.match(JSON.stringify(meta.openGraph?.images), /og-image\.jpg/);
     assert.match(JSON.stringify(meta.twitter), /og-image\.jpg/);
   });
+  it("ships the JPEG referenced by social metadata", () => {
+    const image = readFileSync("public/og-image.jpg");
+    assert.deepEqual([...image.subarray(0, 2)], [0xff, 0xd8]);
+    assert.ok(image.length > 1000);
+  });
 });
 
 describe("landing pages", () => {

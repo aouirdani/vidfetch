@@ -6,7 +6,7 @@ import { CircleAlert, ClipboardPaste, Link2, LoaderCircle, Search, X } from "luc
 import { clsx } from "clsx";
 import { PlatformChip } from "./PlatformChip";
 import { VideoCardSkeleton } from "./VideoCardSkeleton";
-import { postJson, type FetchInfoResponse, type FetchInfoSuccess } from "@/lib/api";
+import { downloadsUnavailable, DOWNLOADS_UNAVAILABLE_MESSAGE, postJson, type FetchInfoResponse, type FetchInfoSuccess } from "@/lib/api";
 import { detectPlatform, PLATFORMS, PLATFORM_META, type Platform } from "@/lib/platforms";
 
 // The result card is only needed after a successful extraction.
@@ -45,13 +45,14 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
   const requestRef = useRef<AbortController | null>(null);
   const detection = useMemo(() => detectPlatform(value), [value]);
   const invalid = value.trim().length > 0 && !detection.ok;
-  const canSubmit = detection.ok && !loading;
+  const canSubmit = detection.ok && !loading && !downloadsUnavailable;
   // On a platform page, show that platform's link shape rather than a generic one.
   const hint = PLATFORM_META[platform ?? "tiktok"].examples[0] ?? PLATFORM_META.youtube.examples[0];
 
   useEffect(() => () => requestRef.current?.abort(), []);
 
   const submit = useCallback(async (raw?: string) => {
+    if (downloadsUnavailable) { setError(DOWNLOADS_UNAVAILABLE_MESSAGE); return; }
     const check = detectPlatform(raw ?? value);
     if (!check.ok) {
       setError(check.reason === "empty"
@@ -87,10 +88,13 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
     started.current = true;
     const shared = sharedLink();
     if (!shared) return;
-    setValue(shared);
-    void submit(shared);
-    // Clear the query so a refresh doesn't silently re-run the extraction.
-    window.history.replaceState(null, "", window.location.pathname + window.location.hash);
+    const timer = window.setTimeout(() => {
+      setValue(shared);
+      if (!downloadsUnavailable) void submit(shared);
+      // Clear the query so a refresh doesn't silently re-run the extraction.
+      window.history.replaceState(null, "", window.location.pathname + window.location.hash);
+    }, 0);
+    return () => { window.clearTimeout(timer); started.current = false; };
   }, [submit]);
 
   function reset() {
@@ -112,6 +116,11 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
 
   return (
     <>
+      {downloadsUnavailable && (
+        <p role="status" className="mx-auto mt-6 max-w-3xl rounded-2xl border border-amber-400/25 bg-amber-400/[0.08] px-4 py-3 text-sm leading-relaxed text-amber-100">
+          {DOWNLOADS_UNAVAILABLE_MESSAGE}
+        </p>
+      )}
       <form onSubmit={(event) => { event.preventDefault(); if (!loading) void submit(); }}
         className={clsx("mx-auto w-full max-w-3xl", compact ? "mt-7" : "mt-8")}>
         <div className={clsx("flex flex-col gap-2 rounded-2xl p-2 ring-1 transition-colors duration-200 sm:flex-row sm:items-center",
@@ -131,7 +140,7 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
             )}
           </div>
           <div className="flex items-center gap-2">
-            <button type="button" onClick={() => void paste()} disabled={loading}
+            <button type="button" onClick={() => void paste()} disabled={loading || downloadsUnavailable}
               className="inline-flex h-12 shrink-0 items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3.5 text-sm font-medium text-slate-200 transition hover:border-cyan-400/40 hover:text-white disabled:opacity-50 sm:h-11">
               <ClipboardPaste className="h-4 w-4" aria-hidden /> Paste
             </button>
@@ -155,7 +164,7 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
           <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
             <span className="text-[11px] text-slate-400">Try an example:</span>
             {EXAMPLES.map((example) => (
-              <button key={example.id} type="button" disabled={loading} onClick={() => void submit(example.url)}
+              <button key={example.id} type="button" disabled={loading || downloadsUnavailable} onClick={() => void submit(example.url)}
                 className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-[11px] font-medium text-slate-300 transition hover:border-cyan-400/40 hover:text-cyan-200 disabled:opacity-40">
                 {example.label}
               </button>

@@ -1,0 +1,73 @@
+# Local Pi service; memory cgroup unavailable, application limits remain active.
+[Unit]
+Description=VidFetch local media backend
+After=network.target
+StartLimitIntervalSec=300
+StartLimitBurst=3
+ConditionFileIsExecutable=/usr/local/bin/node
+ConditionFileIsExecutable=/usr/local/bin/yt-dlp
+ConditionFileIsExecutable=/usr/bin/ffmpeg
+
+[Service]
+Type=exec
+DynamicUser=yes
+User=vidfetch
+WorkingDirectory=/opt/vidfetch/releases/20261011-eu3x4mea
+ExecCondition=/usr/local/bin/node /opt/vidfetch/releases/20261011-eu3x4mea/service-preflight.cjs
+ExecStart=/usr/local/bin/node --max-old-space-size=128 /opt/vidfetch/releases/20261011-eu3x4mea/vidfetch-backend.cjs
+Environment=HOST=127.0.0.1
+Environment=PORT=8788
+Environment=YTDLP_PATH=/usr/local/bin/yt-dlp
+Environment=FFMPEG_PATH=/usr/bin/ffmpeg
+Environment=PATH=/usr/local/bin:/usr/bin:/bin
+Environment=HOME=/var/lib/vidfetch
+Environment=TMPDIR=/run/vidfetch
+Environment=PYTHONDONTWRITEBYTECODE=1
+UnsetEnvironment=YTDLP_COOKIES_FILE YTDLP_YOUTUBE_COOKIES YTDLP_TIKTOK_COOKIES YTDLP_INSTAGRAM_COOKIES YTDLP_TWITTER_COOKIES YTDLP_PROXY NODE_OPTIONS HTTP_PROXY HTTPS_PROXY ALL_PROXY http_proxy https_proxy all_proxy
+StateDirectory=vidfetch
+StateDirectoryMode=0700
+RuntimeDirectory=vidfetch
+RuntimeDirectoryMode=0700
+UMask=0077
+Restart=on-failure
+RestartSec=15
+TimeoutStartSec=60
+TimeoutStopSec=30
+KillMode=control-group
+KillSignal=SIGTERM
+SendSIGKILL=yes
+OOMPolicy=stop
+MemoryAccounting=no
+TasksAccounting=yes
+TasksMax=128
+CPUAccounting=yes
+CPUQuota=150%
+CPUWeight=50
+Nice=10
+LimitNOFILE=1024
+LimitCORE=0
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=vidfetch
+LogRateLimitIntervalSec=30
+LogRateLimitBurst=50
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+AmbientCapabilities=
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+RestrictSUIDSGID=yes
+RestrictRealtime=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+LockPersonality=yes
+SystemCallArchitectures=native
+
+[Install]
+WantedBy=multi-user.target
