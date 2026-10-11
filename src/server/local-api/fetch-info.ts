@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import { getDb } from "@/db";
 import { fetches } from "@/db/schema";
 import { EngineError, dumpJson, engineStatus, isEngineError } from "@/lib/engine";
 import { toMediaInfo } from "@/lib/extract";
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     const engine = engineStatus();
     const info = toMediaInfo({ raw, platform, url, ffmpeg: engine.ffmpeg });
     try {
-      await db.insert(fetches).values({
+      await getDb().insert(fetches).values({
         url, platform, platformVideoId: info.platformVideoId, title: info.title, thumbnail: info.thumbnail,
         durationSeconds: info.duration != null ? Math.round(info.duration) : null,
         formatCount: info.formats.length, engine: ytDlpVersion, status: "success",
@@ -32,7 +32,7 @@ export async function POST(request: Request) {
   } catch (error) {
     const issue = isEngineError(error) ? error : new EngineError("ENGINE_ERROR", "This video could not be extracted. Please try another public link.", 502);
     if (platform) {
-      try { await db.insert(fetches).values({ url, platform, status: "error", errorMessage: `${issue.code}: ${issue.message}`.slice(0, 500) }); }
+      try { await getDb().insert(fetches).values({ url, platform, status: "error", errorMessage: `${issue.code}: ${issue.message}`.slice(0, 500) }); }
       catch (dbError) { console.error("[vidfetch] metadata error log unavailable", dbError); }
     }
     console.error("[vidfetch] extraction", issue.code, issue.detail ?? issue.message);

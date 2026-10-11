@@ -6,7 +6,9 @@ Préparation commencée le 11 octobre et finalisée le 12 octobre 2026 (Europe/P
 
 Next.js **16.4.0**, ESLint Next **16.4.0**, PostCSS **8.5.23**. Les pages, métadonnées, sitemap, robots, manifest et image sociale sont disponibles. Le domaine attendu dans le code est `vidfetch.io` ; son association au projet Vercel doit être vérifiée dans votre interface, sans changer le DNS si cette association existe déjà.
 
-Le backend Pi reste un service indépendant sur loopback. Le frontend Vercel n'y a aucun accès. Il affiche l'indisponibilité des extractions et des téléchargements vidéo/MP3 et désactive leurs contrôles. Les fonctions Next n'importent ni la base ni les moteurs : santé frontend HTTP 200 avec `downloads.available=false`, autres appels média HTTP 503 JSON `BACKEND_UNAVAILABLE`. Cette réponse précède la lecture et la validation du corps. Les méthodes non prévues renvoient HTTP 405. Aucun fichier vidéo ne traverse Vercel.
+Le backend Pi reste un service indépendant sur loopback. Le frontend Vercel n'y a aucun accès. Le mode dégradé est désormais le **mode par défaut**, même sans `VERCEL`, `VERCEL_ENV` ou `VIDFETCH_TARGET`. Un simple `npm run build` ne nécessite aucune `DATABASE_URL`. Il affiche l'indisponibilité des extractions et des téléchargements vidéo/MP3 et désactive leurs contrôles. Les fonctions Next n'importent ni la base ni les moteurs : santé frontend HTTP 200 avec `downloads.available=false`, autres appels média HTTP 503 JSON `BACKEND_UNAVAILABLE`. Cette réponse précède la lecture et la validation du corps. Les méthodes non prévues renvoient HTTP 405. Aucun fichier vidéo ne traverse Vercel.
+
+Les fonctionnalités Node avec base réelle restent conservées derrière l'opt-in explicite `VIDFETCH_TARGET=node`, à réserver aux hébergements Node locaux. La base est créée uniquement à son premier usage ; les imports de modules ne réclament plus de credentials. Ne pas définir cet opt-in sur Vercel et ne pas ajouter une fausse URL de base pour faire passer le build. Les variables et données Supabase existantes restent inchangées.
 
 La passerelle HTTPS authentifiée, les sessions, la protection des tickets et l'isolation des sorties des moteurs restent à réaliser et valider selon [l'architecture préparée](backend/preproduction/ACCESS-ARCHITECTURE.md). Modifier une variable ne suffit pas à activer ce futur accès.
 
@@ -27,15 +29,15 @@ Dans Vercel : projet → **Settings → Environments → Production → Branch T
 | Build Command | `npm run build` |
 | Output Directory | Next.js default, Override désactivé ; le build produit `.next` |
 
-Aucun `vercel.json`, rewrite ou proxy vers le Pi n'est nécessaire. Ne pas sélectionner `out`, `public` ou `.next/standalone` comme output personnalisé. Vercel détecte automatiquement son mode grâce à la variable système `VERCEL` ; conserver l'exposition des variables système lors du build. Le mode explicite `VIDFETCH_TARGET` peut être configuré si cette exposition a été désactivée, avec la cible Vercel décrite dans `next.config.ts`. [Configuration des builds](https://vercel.com/docs/builds/configure-a-build).
+Aucun `vercel.json`, rewrite ou proxy vers le Pi n'est nécessaire. Ne pas sélectionner `out`, `public` ou `.next/standalone` comme output personnalisé. Le mode dégradé ne dépend plus de l'exposition des variables système Vercel. [Configuration des builds](https://vercel.com/docs/builds/configure-a-build).
 
 ## Variables : noms uniquement
 
 | Nom | Utilisation |
 | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | URL canonique publique ; conserver celle du domaine existant, cohérente entre Preview et Production. |
-| `VERCEL` | Variable système fournie par Vercel ; sélection automatique du mode indisponible. |
-| `VIDFETCH_TARGET` | Sélection explicite facultative, généralement inutile sur Vercel. |
+| `VERCEL` / `VERCEL_ENV` | Variables système Vercel ; empêchent l'activation des moteurs locaux si présentes, mais ne sont pas requises pour le mode dégradé. |
+| `VIDFETCH_TARGET` | Facultative ; ne pas sélectionner le mode Node sur Vercel. Le mode dégradé est déjà celui par défaut. |
 | `DATABASE_URL` | Conserver si déjà configurée pour les services Supabase/PostgreSQL ; cette version Vercel ne l'utilise pas. |
 | `NEXT_PUBLIC_API_ORIGIN` | Ne pas renseigner une adresse Pi ou une ancienne origine de téléchargement ; cette version Vercel l'ignore et compile une origine vide. |
 | `NEXT_PUBLIC_DOWNLOADS_UNAVAILABLE` | Indicateur compilé par Next config ; ne pas tenter de le remplacer dans les réglages Vercel. |
@@ -47,8 +49,9 @@ Conserver les autres variables Supabase existantes sans modifier leurs valeurs. 
 1. Ouvrir le projet Vercel existant lié à `aouirdani/vidfetch`. Ne pas importer un second projet s'il existe déjà. Vérifier la branche de production, les paramètres ci-dessus et les variables Preview/Production. Noter le déploiement de production actuellement marqué **Current** pour un éventuel retour arrière.
 2. Après le push autorisé, ouvrir **Deployments**. Si le push a créé une Preview sur la branche de livraison, vérifier sa branche et son SHA. Si vous avez changé des variables ou des paramètres depuis ce build, choisir **… → Redeploy**, puis ouvrir le nouveau résultat.
 3. Si aucune Preview n'existe, choisir **Deployments → Create Deployment**, renseigner le nom complet `release/vidfetch-vercel-20261011` ou le SHA de livraison. Si un même SHA apparaît sur plusieurs branches, sélectionner cette branche de livraison. Vérifier la cible **Preview**, puis confirmer **Create Deployment**. Si l'interface propose Production, annuler et revoir Branch Tracking. [Créer depuis une référence Git](https://vercel.com/docs/git#creating-a-deployment-from-a-git-reference).
-4. Attendre **Ready** et examiner les logs : Next.js 16.4.0, pages et trois routes API, aucune installation yt-dlp par `scripts/setup-media.mjs`, aucun accès DB requis. Les dépendances natives installées par npm ne doivent pas apparaître dans les fonctions média ; leurs traces sont contrôlées par le test local.
-5. Vérifier la Preview selon les contrôles ci-dessous. Puis, seulement lorsque vous souhaitez mettre le frontend en production, choisir **… → Promote to Production**, vérifier les domaines indiqués et confirmer. Les variables Production peuvent différer de celles de Preview ; contrôler aussi ce résultat. Aucune fusion vers `main` n'est nécessaire. [Promotion manuelle](https://vercel.com/docs/deployments/promoting-a-deployment).
+4. Pour la correction de `DATABASE_URL is required`, créer une Preview sur le **nouveau SHA**, ou ouvrir le déploiement automatique correspondant et choisir **… → Redeploy** en désactivant l'utilisation du cache de build si nécessaire. Redéployer seulement l'ancien SHA ne récupère pas la correction. Ne pas ajouter de valeur factice de `DATABASE_URL` et conserver Supabase.
+5. Attendre **Ready** et examiner les logs : Next.js 16.4.0, pages et trois routes API, aucune installation yt-dlp par `scripts/setup-media.mjs`, aucun accès DB requis. Les dépendances natives installées par npm ne doivent pas apparaître dans les fonctions média ; leurs traces sont contrôlées par le test local.
+6. Vérifier la Preview selon les contrôles ci-dessous. Cette mission n'autorise aucune promotion en production ni changement de branche de production.
 
 ## Vérification après votre déploiement
 

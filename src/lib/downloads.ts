@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import { spawn, type ChildProcess } from "node:child_process";
 import type { Readable } from "node:stream";
 import { eq } from "drizzle-orm";
-import { db } from "@/db";
+import { getDb } from "@/db";
 import { downloads } from "@/db/schema";
 import { EngineError, buildDownloadPlan, classifyEngineFailure, dumpJson, engineContext, engineStatus, ffmpegBinary, invalidateMetadata, isEngineError, ytDlpBinary } from "./engine";
 import { toMediaInfo } from "./extract";
@@ -102,7 +102,7 @@ async function saveStatus(transfer: Transfer): Promise<void> {
   state.statuses.set(transfer.token, { ...transfer.status, expires: Date.now() + 30 * 60 * 1000 });
   if (!transfer.id) return;
   try {
-    await db.update(downloads).set({
+    await getDb().update(downloads).set({
       status: transfer.status.status, bytesStreamed: transfer.status.bytes, errorMessage: transfer.status.error,
       finishedAt: ["completed", "failed", "aborted", "expired"].includes(transfer.status.status) ? new Date() : null,
     }).where(eq(downloads.id, transfer.id));
@@ -110,7 +110,7 @@ async function saveStatus(transfer: Transfer): Promise<void> {
 }
 
 function rememberFailure(id: number | null, message: string): void {
-  if (id) void db.update(downloads).set({ status: "failed", errorMessage: message, finishedAt: new Date() })
+  if (id) void getDb().update(downloads).set({ status: "failed", errorMessage: message, finishedAt: new Date() })
     .where(eq(downloads.id, id)).catch((error) => console.error("[vidfetch] transfer log failed", error));
 }
 
@@ -139,7 +139,7 @@ export async function prepareDownload(input: DownloadInput): Promise<{ token: st
     });
     const filename = buildFilename(info.title, plan.ext);
     try {
-      const rows = await db.insert(downloads).values({
+      const rows = await getDb().insert(downloads).values({
         platform, platformVideoId: info.platformVideoId, title: info.title, formatId: selection.id,
         mediaType: input.type, qualityLabel: selection.label, container: plan.ext, filename, status: "preparing",
         meta: { merged: plan.merged, converted: plan.convertToMp3, engine: engine.ytDlp },

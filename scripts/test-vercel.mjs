@@ -1,12 +1,13 @@
-// Run after VIDFETCH_TARGET=vercel npm run build. Contacts loopback only.
+// Run after the default frontend build. Contacts loopback only.
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
 import { once } from "node:events";
 import { createServer } from "node:net";
-import { mkdtemp, readFile, readdir, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, readdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
 
+await mkdir("backend/artifacts", { recursive: true });
 const directory = await mkdtemp("backend/artifacts/vercel-http-");
 const reservation = createServer();
 reservation.listen(0, "127.0.0.1");
@@ -14,8 +15,10 @@ await once(reservation, "listening");
 const port = reservation.address().port;
 await new Promise(resolve => reservation.close(resolve));
 const base = `http://127.0.0.1:${port}`;
+const environment = { ...process.env, NODE_ENV: "production", YTDLP_PATH: "/nonexistent-vidfetch-test-yt-dlp", FFMPEG_PATH: "/nonexistent-vidfetch-test-ffmpeg" };
+for (const key of ["DATABASE_URL", "VIDFETCH_TARGET", "VERCEL", "VERCEL_ENV"]) delete environment[key];
 const child = spawn(process.execPath, ["node_modules/next/dist/bin/next", "start", "--hostname", "127.0.0.1", "--port", String(port)], {
-  env: { ...process.env, NODE_ENV: "production", VIDFETCH_TARGET: "vercel", DATABASE_URL: "", YTDLP_PATH: "/nonexistent-vidfetch-test-yt-dlp", FFMPEG_PATH: "/nonexistent-vidfetch-test-ffmpeg" },
+  env: environment,
   detached: true, stdio: ["ignore", "pipe", "pipe"],
 });
 let log = "";

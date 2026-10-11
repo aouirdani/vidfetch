@@ -491,3 +491,47 @@ Les preuves locales privées sont sous `backend/artifacts/git-release-20261011-e
 Sources backend, tests, scripts de maintenance et documents systemd/accès conservés. Fichiers frontend/API/configuration modifiés : `next.config.ts`, `tsconfig.json`, `.gitignore`, `eslint.config.mjs`, `package.json`, `package-lock.json`, routes `src/app/api/*`, `FetchForm`, `EngineBadge`, `src/lib/api.ts`, `src/app/page.tsx`, `src/lib/seo.ts`. Sources backend précédemment corrigées `engine.ts`, `extract.ts`, `engine-process.ts` incluses sans nouveau changement fonctionnel. Ajouts : `src/server/`, tests Vercel, scripts de test/scan/génération et image sociale. Aucune archive MagicMirror, donnée personnelle, `.env`, sauvegarde node_modules/lockfile ou artefact binaire backend inclus.
 
 [DEPLOY-VERCEL.md](../DEPLOY-VERCEL.md) fournit les paramètres exacts, noms de variables, création manuelle d'une Preview depuis la branche/SHA, promotion, contrôles HTTP/SEO et rollback vers le précédent déploiement. Aucun réglage Vercel, domaine/DNS ou secret Supabase n'est changé par cette préparation. Avant une future intégration des téléchargements, la passerelle authentifiée et la sécurité des sous-requêtes moteur doivent être validées selon l'architecture préparée.
+
+## 20. Correction du build Vercel sans DATABASE_URL — 12 octobre 2026
+
+L'utilisateur a autorisé puis confirmé le push du commit `d2c4340082fb9b4110ffeda2aba3420f9868d602` sur `release/vidfetch-vercel-20261011`, sans push sur `main`. Sa présence a été vérifiée par Git et l'API GitHub. L'ancien blocage de la section 19 est donc levé. GitHub montrait un build Cloudflare automatique en cours ; aucun événement Vercel n'était visible à ce contrôle. L'utilisateur a ensuite signalé l'échec du premier build Vercel : `DATABASE_URL is required`, collecte de `/api/download` impossible.
+
+### Cause reproduite et limites du précédent test
+
+**ÉCHEC reproduit avant correction** : importer la vraie route `src/app/api/download/route.ts` sans `DATABASE_URL` ni cible/platforme échouait avec la même erreur. La façade exportait tous les handlers Node statiquement ; les routes santé/extraction et `src/lib/downloads.ts` importaient la base, qui validait immédiatement la variable et construisait son Pool au chargement.
+
+Le précédent build validé utilisait explicitement `VIDFETCH_TARGET=vercel`. Sans sélection du mode frontend, la configuration retombait sur les handlers Node. Ce test ne couvrait donc pas le simple `npm run build` sans indicateur. Cette reproduction établit le chemin de l'erreur ; les variables effectivement exposées dans le compte Vercel restent non inspectées.
+
+### Correctif
+
+- Mode frontend dégradé **par défaut**, sans dépendance à `VERCEL`, `VERCEL_ENV`, `VIDFETCH_TARGET` ou une URL de base. L'alias de build conserve les fonctions frontend sans DB/moteurs.
+- Opt-in des handlers Node via `VIDFETCH_TARGET=node`, refusé si les indicateurs Vercel identifient la plateforme. Helper partagé entre configuration et façade pour garder une politique cohérente.
+- Façade avec contrôle avant import dynamique : importer ou appeler les routes sans opt-in ne charge plus les handlers Node et renvoie la santé frontend ou HTTP 503 `BACKEND_UNAVAILABLE`.
+- Remplacement de la base exportée et initialisée immédiatement par `getDb()`, qui construit et conserve le même Pool/Drizzle au premier usage réel. Les insertions, mises à jour, schéma et sonde DB sont conservés ; aucune configuration ou donnée Supabase n'est modifiée. Une véritable fonctionnalité DB continue à réclamer une véritable `DATABASE_URL`, sans valeur de repli.
+- Docker conserve son hébergement Node explicite au build et à l'exécution ; l'ancienne URL fictive de build est supprimée. Le helper de configuration est inclus dans l'image runtime. Exemple local et procédures mis à jour. Aucune image Docker déployée.
+- Tests améliorés pour importer les **vraies routes**, vérifier le cas sans indicateur, l'absence de module de téléchargement chargé, la protection de l'opt-in sur Vercel et l'initialisation différée de la base. Le test HTTP retire réellement les variables de son processus et crée son dossier d'artefacts dans un clone neuf.
+
+### Validation effectivement réalisée
+
+| Contrôle | Résultat |
+| --- | --- |
+| Import réel de `/api/download` sans DB/platforme | **VALIDÉ** après correction ; l'erreur initiale est supprimée |
+| `npm run build` par défaut | **VALIDÉ** dans une copie isolée sans `.env`, `.env.local`, `.env.production` ou `.env.production.local`, et avec `DATABASE_URL`, `VERCEL`, `VERCEL_ENV`, `VIDFETCH_TARGET` absents du processus |
+| Build Node explicite sans DB | **VALIDÉ**, handlers DB/engines conservés compilent sans identifiants au chargement ; setup moteur désactivé pour cet essai de compilation uniquement |
+| Identité des sources compilées | **VALIDÉ**, fichiers applicatifs de la copie comparés aux fichiers du dépôt |
+| TypeScript frontend/backend | **VALIDÉ**, deux programmes distincts et contrôles des deux builds Next |
+| ESLint | **VALIDÉ**, sortie zéro |
+| Tests unitaires | **VALIDÉ**, **73/73** |
+| Tests backend ciblés locaux | **VALIDÉ**, **17/17** |
+| HTTP sur le build sans `.env` | **VALIDÉ**, santé 200, sept appels média 503 JSON, huit appels concurrents 503, méthodes 405 et HEAD 200, pages/SEO/404 préservés |
+| Chrome réel | **VALIDÉ**, contrôles indisponibles, liens partagés sans extraction, mobile et canonical, aucune requête API ni erreur JavaScript |
+| Traces des fonctions frontend | **VALIDÉ**, les trois routes excluent PostgreSQL, yt-dlp et ffmpeg ; vérifiées avant l'essai distinct du build Node |
+| Arrêt du serveur HTTP de test | **VALIDÉ**, processus lancé par le test arrêté et endpoint devenu inaccessible |
+| Secrets/diff | **VALIDÉ**, aucun secret détecté par le scan et aucune erreur de whitespace ; fichiers privés exclus |
+| Pi | **VALIDÉ pour la préservation**, aucun SSH, changement de service ou de bundle ; empreinte locale inchangée `d370ccfb8574a2f714e86fcde6e555ddd665a846be761ffe29256a648d4a168c` |
+| Requêtes à une vraie base Supabase/PostgreSQL | **NON TESTÉ**, aucune connexion réelle effectuée ; schéma et opérations conservés |
+| Docker runtime et nouveau build sur Vercel | **NON TESTÉ**, validation distante à faire en Preview par l'utilisateur |
+
+Preuves privées et sauvegardes : `backend/artifacts/vercel-db-fix-20261012-1xh__9mj/`. La copie isolée a été créée depuis les fichiers suivis/candidats, sans secrets, avec une copie locale des dépendances installées ; aucun paquet installé. `build-default.log`, `build-node.log`, `http-default.log`, `tests.log`, `backend-tests.log`, `typecheck.log`, `backend-typecheck.log`, `lint.log` et `release-check.log` conservent les résultats. Les preuves HTTP/Chrome sont sous `build-without-env/backend/artifacts/vercel-http-Oi8CWW/`. Voir le [résumé publiable](validation/vercel-database-fix-20261012.json).
+
+La correction validée est destinée à un nouveau commit sur la **même branche**, avec push normal expressément autorisé par l'utilisateur. Aucun changement de `main`, force push, PR, fusion, réglage Vercel/Supabase/Cloudflare ou promotion en production. Les étapes Preview actualisées sont dans [DEPLOY-VERCEL.md](../DEPLOY-VERCEL.md) : sélectionner le nouveau SHA, ne pas reconstruire uniquement l'ancien commit et ne pas ajouter de fausse URL de base.

@@ -2,22 +2,25 @@ import type { NextConfig } from "next";
 import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD } from "next/constants";
 import { spawnSync } from "node:child_process";
 import { resolve } from "node:path";
+import { isLocalEngineHosting } from "./src/lib/deployment";
 
 /**
- * Two build targets share one codebase:
+ * Build targets share one codebase:
  *
- *  - default: full Node.js server (Docker / VPS / Render / Koyeb). Pages are
+ *  - default / vercel: frontend with unavailable media API; no database required.
+ *  - node: explicit full Node.js server (Docker / VPS / Render / Koyeb). Pages are
  *    prerendered, and `/api/*` runs yt-dlp and ffmpeg as child processes.
  *  - cloudflare-pages: static export of the UI only. Cloudflare Workers cannot
  *    spawn binaries, so `scripts/build-pages.mjs` removes `/api/*` from the
  *    route tree and the deployed site talks to a separate backend origin.
  */
-const isVercelBuild = process.env.VERCEL === "1" || process.env.VIDFETCH_TARGET === "vercel";
-const isPagesBuild = !isVercelBuild && process.env.VIDFETCH_TARGET === "cloudflare-pages";
-const unavailableApi = "./src/server/unavailable-api.ts";
-
 export default function configuration(phase: string): NextConfig {
-  const needsEngine = !isPagesBuild && !isVercelBuild
+  const isNodeHost = isLocalEngineHosting(process.env);
+  const isPagesBuild = process.env.VIDFETCH_TARGET === "cloudflare-pages"
+    && process.env.VERCEL !== "1" && !process.env.VERCEL_ENV;
+  const downloadsUnavailable = !isNodeHost && !isPagesBuild;
+  const unavailableApi = "./src/server/unavailable-api.ts";
+  const needsEngine = isNodeHost
     && [PHASE_PRODUCTION_BUILD, PHASE_DEVELOPMENT_SERVER].includes(phase)
     && process.env.VIDFETCH_SKIP_ENGINE_SETUP !== "1";
 
@@ -27,17 +30,17 @@ export default function configuration(phase: string): NextConfig {
   }
 
   return {
-    // Until an authenticated HTTPS gateway exists, Vercel serves the UI only.
+    // The default frontend never needs engines, database credentials or platform flags.
     // Alias at build time: engines and database code never enter its API bundles.
     env: {
-      NEXT_PUBLIC_DOWNLOADS_UNAVAILABLE: isVercelBuild ? "1" : "0",
-      NEXT_PUBLIC_API_ORIGIN: isVercelBuild ? "" : (process.env.NEXT_PUBLIC_API_ORIGIN ?? ""),
+      NEXT_PUBLIC_DOWNLOADS_UNAVAILABLE: downloadsUnavailable ? "1" : "0",
+      NEXT_PUBLIC_API_ORIGIN: downloadsUnavailable ? "" : (process.env.NEXT_PUBLIC_API_ORIGIN ?? ""),
     },
     turbopack: {
       root: resolve("."),
-      ...(isVercelBuild ? { resolveAlias: { "@vidfetch/media-api": unavailableApi } } : {}),
+      ...(!isNodeHost ? { resolveAlias: { "@vidfetch/media-api": unavailableApi } } : {}),
     },
-    ...(isVercelBuild ? {
+    ...(!isNodeHost ? {
       webpack(config) {
         config.resolve.alias["@vidfetch/media-api"] = resolve(unavailableApi);
         return config;

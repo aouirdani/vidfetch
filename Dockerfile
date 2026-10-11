@@ -8,17 +8,16 @@ RUN npm install -g npm@12 --no-audit --no-fund && npm ci --no-audit --no-fund
 
 FROM node:22-bookworm-slim AS builder
 WORKDIR /app
-ENV NEXT_TELEMETRY_DISABLED=1 VIDFETCH_SKIP_ENGINE_SETUP=1
+ENV NEXT_TELEMETRY_DISABLED=1 VIDFETCH_SKIP_ENGINE_SETUP=1 VIDFETCH_TARGET=node
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
-# Build-only connection string: dynamic routes do not query PostgreSQL during compilation.
-ENV DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:5432/app_db
+# Database credentials are needed only for runtime operations.
 RUN NODE_OPTIONS=--max-old-space-size=6144 npm run build
 
 FROM node:22-bookworm-slim AS runner
 WORKDIR /app
 ENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 PORT=5000 HOSTNAME=0.0.0.0 \
-    YTDLP_PATH=/opt/vidfetch/bin/yt-dlp FFMPEG_PATH=/usr/bin/ffmpeg VIDFETCH_SKIP_ENGINE_SETUP=1
+    YTDLP_PATH=/opt/vidfetch/bin/yt-dlp FFMPEG_PATH=/usr/bin/ffmpeg VIDFETCH_SKIP_ENGINE_SETUP=1 VIDFETCH_TARGET=node
 RUN apt-get update \
     && apt-get install -y --no-install-recommends python3 python3-venv ffmpeg ca-certificates curl tini \
     && rm -rf /var/lib/apt/lists/* \
@@ -35,6 +34,7 @@ COPY --from=builder --chown=vidfetch:vidfetch /app/public ./public
 COPY --from=builder --chown=vidfetch:vidfetch /app/next.config.ts /app/server.js /app/drizzle.config.ts ./
 COPY --from=builder --chown=vidfetch:vidfetch /app/scripts ./scripts
 COPY --from=builder --chown=vidfetch:vidfetch /app/src/db ./src/db
+COPY --from=builder --chown=vidfetch:vidfetch /app/src/lib/deployment.ts ./src/lib/deployment.ts
 USER vidfetch
 EXPOSE 5000
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \

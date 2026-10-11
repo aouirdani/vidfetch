@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import { getDb } from "@/db";
 import { sql } from "drizzle-orm";
 import { engineStatus } from "@/lib/engine";
 
@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    await db.execute(sql`select 1`);
+    await getDb().execute(sql`select 1`);
     return Response.json({
       ok: true,
       service: "vidfetch.io",
