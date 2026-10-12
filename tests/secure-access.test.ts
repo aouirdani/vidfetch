@@ -1,4 +1,4 @@
-import { describe, it } from "node:test";
+import { describe, it, test } from "node:test";
 import assert from "node:assert/strict";
 import { randomBytes, randomUUID } from "node:crypto";
 import { mkdtempSync } from "node:fs";
@@ -75,4 +75,18 @@ describe("secure visitor authorization",()=>{
     const client=new SecureDownloadClient(origin);assert.throws(()=>verifyProof("bnVsbA.AA",{kty:"EC",crv:"P-256",x:"x",y:"y"},{method:"GET",path:"/api/health",body:"",token:""}),AccessError);
     await assert.rejects(()=>client.request("https://evil.example/api/download"));
   });
+});
+
+test("expired browser authorization requests a new visible verification", async () => {
+  const old = Object.getOwnPropertyDescriptor(globalThis, "window");
+  const target = new EventTarget(); let prompts = 0;
+  target.addEventListener("vidfetch-access-required", () => prompts++);
+  Object.defineProperty(globalThis, "window", { value: target, configurable: true });
+  try {
+    const { SecureDownloadClient } = await import("../src/lib/secure-client");
+    const issuer = (async () => Response.json({ ok: false, code: "CHALLENGE_REQUIRED", error: "internal detail" }, { status: 403 })) as typeof fetch;
+    const client = new SecureDownloadClient("https://vidfetch.app", issuer);
+    await assert.rejects(client.authorize(), /Please verify again to continue/);
+    assert.equal(prompts, 1);
+  } finally { if (old) Object.defineProperty(globalThis, "window", old); else Reflect.deleteProperty(globalThis, "window"); }
 });

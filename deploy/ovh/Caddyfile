@@ -9,6 +9,10 @@
 					delete ticket
 					delete status
 					delete token
+					delete url
+					delete text
+					delete link
+					delete u
 				}
 				request>headers>Authorization delete
 				request>headers>Cookie delete

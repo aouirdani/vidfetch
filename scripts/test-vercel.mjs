@@ -90,18 +90,18 @@ try {
     assert.equal(response.headers.get("x-content-type-options"), "nosniff");
     const html = await response.text();
     assert.match(html, /rel="canonical"/);
-    assert.match(html, /vidfetch\.io/);
-    if (path !== "/legal") assert.match(html, /Video extraction and downloads are temporarily unavailable/);
+    assert.match(html, /vidfetch\.app/);
+    assert.doesNotMatch(html, /Engine unavailable|connected to the backend/i);
     assert.equal((html.match(/<h1(?:\s|>)/g) ?? []).length, 1);
   }
-  for (const path of ["/robots.txt", "/sitemap.xml", "/manifest.webmanifest", "/icon.svg", "/og-image.jpg"]) {
+  for (const path of ["/robots.txt", "/sitemap.xml", "/manifest.webmanifest", "/icon.svg", "/og-image-v2.jpg"]) {
     const response = await request(path);
     assert.equal(response.status, 200, path);
     await response.body?.cancel();
   }
   assert.equal((await request("/this-page-does-not-exist")).status, 404);
   assert.equal((await request("/api/stats")).status, 404);
-  pass("six SEO pages, five public assets, unavailable notice, 404 and no stats exposure");
+  pass("six SEO pages, five public assets, clean initial UI, 404 and no stats exposure");
 
   const traces = await traceFiles(".next/server/app/api");
   assert.equal(traces.length, 4);
@@ -121,25 +121,27 @@ try {
       page.on("request", req => { if (new URL(req.url()).pathname.startsWith("/api/")) apiRequests.push(req.url()); });
       await page.route("**/*", route => new URL(route.request().url()).origin === base ? route.continue() : route.abort());
       await page.goto(base, { waitUntil: "networkidle" });
-      await page.getByText(/Video extraction and downloads are temporarily unavailable/).waitFor();
+      assert.equal(await page.getByText(/Video extraction and downloads are temporarily unavailable/).count(), 0);
       assert.equal(await page.getByRole("button", { name: "Extract", exact: true }).isDisabled(), true);
-      assert.equal(await page.getByRole("button", { name: "Paste", exact: true }).isDisabled(), true);
-      assert.equal(await page.getByText("Engine unavailable", { exact: true }).count(), 1);
+      assert.equal(await page.getByRole("button", { name: "Paste", exact: true }).isDisabled(), false);
+      assert.equal(await page.getByText("Engine unavailable", { exact: true }).count(), 0);
       const shared = "https://youtu.be/aqz-KE-bpKQ";
       await page.goto(`${base}/?url=${encodeURIComponent(shared)}`, { waitUntil: "networkidle" });
       await page.waitForFunction(expected => document.querySelector('input[aria-label="Video link"]')?.value === expected, shared, { timeout: 10000 });
       assert.equal(await page.getByRole("textbox", { name: "Video link", exact: true }).inputValue(), shared);
       assert.equal(new URL(page.url()).search, "");
-      assert.equal(await page.getByRole("button", { name: "Extract", exact: true }).isDisabled(), true);
+      assert.equal(await page.getByRole("button", { name: "Extract", exact: true }).isDisabled(), false);
+      await page.getByRole("button", { name: "Extract", exact: true }).click();
+      await page.getByRole("alert").getByText(/temporarily unavailable/).waitFor();
       await page.setViewportSize({ width: 390, height: 844 });
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true);
       await page.screenshot({ path: join(directory, "unavailable-mobile.png"), fullPage: true });
       await page.goto(`${base}/tiktok-video-downloader`, { waitUntil: "networkidle" });
-      assert.equal(await page.locator('link[rel="canonical"]').getAttribute("href"), "https://vidfetch.io/tiktok-video-downloader");
+      assert.equal(await page.locator('link[rel="canonical"]').getAttribute("href"), "https://vidfetch.app/tiktok-video-downloader");
       assert.equal(await page.getByRole("button", { name: "Extract", exact: true }).isDisabled(), true);
       assert.deepEqual(apiRequests, [], "The unavailable UI must not contact an API origin");
       assert.deepEqual(errors, []);
-      pass("real browser: disabled controls, share link, mobile layout, SEO, no API requests or runtime errors");
+      pass("real browser: clean initial UI, failure on attempt, share link, mobile layout, canonical, no media requests or runtime errors");
     } finally { await browser.close(); }
   }
 } finally {

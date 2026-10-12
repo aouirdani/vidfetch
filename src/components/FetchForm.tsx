@@ -55,6 +55,11 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
   const hint = PLATFORM_META[platform ?? "tiktok"].examples[0] ?? PLATFORM_META.youtube.examples[0];
 
   useEffect(() => () => requestRef.current?.abort(), []);
+  useEffect(() => {
+    const expired = () => { setAuthorized(false); setVerificationNeeded(true); };
+    window.addEventListener("vidfetch-access-required", expired);
+    return () => window.removeEventListener("vidfetch-access-required", expired);
+  }, []);
 
   const submit = useCallback(async (raw?: string) => {
     if (downloadsUnavailable) { setError(DOWNLOADS_UNAVAILABLE_MESSAGE); return; }

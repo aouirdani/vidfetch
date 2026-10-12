@@ -13,7 +13,7 @@ export const SITE = {
 /** Stable content revision date for dateModified; bump when page copy changes. */
 export const CONTENT_UPDATED = "2026-10-12";
 
-export const OG_IMAGE = { url: "/og-image.jpg", width: 1200, height: 630, alt: "VidFetch — download videos from YouTube, TikTok, Instagram and X", type: "image/jpeg" } as const;
+export const OG_IMAGE = { url: "/og-image-v2.jpg", width: 1200, height: 630, alt: "VidFetch — download videos from YouTube, TikTok, Instagram and X", type: "image/jpeg" } as const;
 
 /** Thumbnail hosts resolved after extraction; early DNS lookups shave latency off the media preview. */
 export const MEDIA_CDN_HOSTS = ["https://i.ytimg.com", "https://scontent.cdninstagram.com", "https://p16-sign-va.tiktokcdn.com", "https://pbs.twimg.com"] as const;

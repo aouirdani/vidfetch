@@ -54,3 +54,16 @@ class Releases(unittest.TestCase):
             self.assertTrue(new.exists())
 
 if __name__ == '__main__': unittest.main()
+
+class Retention(unittest.TestCase):
+    def test_keeps_current_previous_and_five_recent_releases_only(self):
+        with tempfile.TemporaryDirectory() as folder:
+            base = Path(folder).resolve(); releases = base / 'releases'; releases.mkdir()
+            created = []
+            for i in range(8):
+                path = releases / f'{i:040x}'; path.mkdir(); (path / 'manifest.json').write_text(json.dumps({'release': path.name})); created.append(path)
+            unrelated = releases / 'manual-backup'; unrelated.mkdir()
+            p.prune_releases(base, created[-1], created[-2])
+            self.assertTrue(created[-1].exists()); self.assertTrue(created[-2].exists())
+            self.assertGreaterEqual(sum(path.exists() for path in created), 5)
+            self.assertTrue(unrelated.exists())

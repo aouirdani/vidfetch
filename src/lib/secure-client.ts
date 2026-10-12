@@ -24,8 +24,11 @@ export class SecureDownloadClient {
     const proof = await this.proof("POST", "/api/download-access", body, "");
     const response = await this.issuer("/api/download-access", { method: "POST", cache: "no-store", credentials: "same-origin", redirect: "error", signal: AbortSignal.timeout(15000),
       headers: { "Content-Type": "application/json" }, body: JSON.stringify({ key, challenge: challenge ?? null, proof }) });
-    const access = await response.json() as { ok: boolean; grant: string; expiresAt: number; error?: string };
-    if (!response.ok || !access.ok) throw new Error(access.error ?? "Verify the download authorization again.");
+    const access = await response.json() as { ok: boolean; grant: string; expiresAt: number; error?: string; code?: string };
+    if (!response.ok || !access.ok) {
+      if (access.code === "CHALLENGE_REQUIRED" && typeof window !== "undefined") window.dispatchEvent(new Event("vidfetch-access-required"));
+      throw new Error(access.code === "CHALLENGE_REQUIRED" ? "Please verify again to continue." : access.error ?? "Verify the download authorization again.");
+    }
     this.access = access;
   }
   async grant() {

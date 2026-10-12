@@ -4,5 +4,5 @@ import sharp from "sharp";
 import { readFile, writeFile } from "node:fs/promises";
 const svg = await readFile("public/og-image.svg");
 const jpeg = await sharp(svg).jpeg({ quality: 88 }).toBuffer();
-await writeFile("public/og-image.jpg", jpeg, { flag: "wx" });
-console.log("Created public/og-image.jpg (1200 × 630)");
+await writeFile("public/og-image-v2.jpg", jpeg, { flag: "wx" });
+console.log("Created public/og-image-v2.jpg (1200 × 630)");

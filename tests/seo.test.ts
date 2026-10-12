@@ -17,11 +17,11 @@ describe("page metadata", () => {
   });
   it("attaches the social share image to every page", () => {
     const meta = pageMetadata({ title: "T", description: "D", path: "/legal" });
-    assert.match(JSON.stringify(meta.openGraph?.images), /og-image\.jpg/);
-    assert.match(JSON.stringify(meta.twitter), /og-image\.jpg/);
+    assert.match(JSON.stringify(meta.openGraph?.images), /og-image-v2\.jpg/);
+    assert.match(JSON.stringify(meta.twitter), /og-image-v2\.jpg/);
   });
   it("ships the JPEG referenced by social metadata", () => {
-    const image = readFileSync("public/og-image.jpg");
+    const image = readFileSync("public/og-image-v2.jpg");
     assert.deepEqual([...image.subarray(0, 2)], [0xff, 0xd8]);
     assert.ok(image.length > 1000);
   });
