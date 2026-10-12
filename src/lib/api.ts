@@ -1,3 +1,4 @@
+import type { Locale } from "../i18n/config";
 import { SecureDownloadClient } from "./secure-client";
 import { resolveQueued,type QueueNotice } from "./queue-client";
 
@@ -25,14 +26,14 @@ export type DownloadStatusResponse = {
  * allow the site's origin through CORS (see `CORS_ORIGIN` in server.js).
  */
 export const downloadsUnavailable = process.env.NEXT_PUBLIC_DOWNLOADS_UNAVAILABLE === "1";
-export const DOWNLOADS_UNAVAILABLE_MESSAGE = "Video extraction and downloads are temporarily unavailable. Please try again later.";
+export { DOWNLOADS_UNAVAILABLE_MESSAGE } from "./service-contract";
 const API_ORIGIN = downloadsUnavailable ? "" : (process.env.NEXT_PUBLIC_API_ORIGIN ?? "").trim().replace(/\/+$/, "");
 export const secureGateway = process.env.NEXT_PUBLIC_SECURE_GATEWAY === "1";
 let client: SecureDownloadClient | null = null;
 function origin() { return API_ORIGIN || (typeof window !== "undefined" ? window.location.origin : "https://vidfetch.app"); }
 function secureClient() { return secureGateway ? (client ??= new SecureDownloadClient(origin())) : null; }
 export async function authorizeDownloads(challenge: string) { await secureClient()?.authorize(challenge); window.dispatchEvent(new Event("vidfetch-access-ready")); }
-export const openSecureTransfer = () => secureClient()?.openTransfer();
+export const openSecureTransfer = (locale: Locale = "en") => secureClient()?.openTransfer(locale);
 
 /** Resolves an API path against the configured backend. Absolute URLs pass through. */
 export function apiUrl(path: string): string {

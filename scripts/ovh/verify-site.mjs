@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, writeFile, readdir, readFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
 
 const base = process.env.VIDFETCH_TEST_SITE ?? 'http://127.0.0.1:33000';
@@ -9,7 +9,16 @@ const findings = { base, checks: [], browserErrors: [], performance: {} };
 const checked = text => findings.checks.push(text);
 const paths = ['/', '/blog', '/legal', '/youtube-video-downloader', '/tiktok-video-downloader', '/instagram-reels-downloader', '/twitter-video-downloader'];
 const sitemap = await (await fetch(base + '/sitemap.xml')).text();
-const blogPaths = [...sitemap.matchAll(/<loc>https:\/\/vidfetch.app(\/blog\/[^<]+)<\/loc>/g)].map(m => m[1]);
+const guideFiles = (await readdir('content/guides')).filter(file => file.endsWith('.md'));
+const blogPaths = guideFiles.map(file => '/blog/' + file.slice(0, -3));
+const indexed = [...sitemap.matchAll(/<loc>https:\/\/vidfetch.app(\/blog\/[^<]+)<\/loc>/g)].map(m => m[1]);
+const published = [];
+for (const file of guideFiles) {
+  const source = await readFile('content/guides/' + file, 'utf8');
+  const metadata = JSON.parse(source.split('---\n')[1]);
+  if (metadata.status === 'ready' && metadata.published && metadata.published <= new Date().toISOString().slice(0, 10)) published.push('/blog/' + file.slice(0, -3));
+}
+assert.deepEqual(indexed.sort(), published.sort(), 'Only actually published guides enter the sitemap');
 assert.equal(blogPaths.length, 10); paths.push(...blogPaths);
 for (const path of paths) {
   const response = await fetch(base + path); assert.equal(response.status, 200, path);
@@ -58,7 +67,7 @@ try {
   await page.screenshot({ path: output + '/home-mobile.png', fullPage: true });
   await page.getByRole('textbox', { name: 'Video link' }).fill('https://youtu.be/aqz-KE-bpKQ');
   await page.getByRole('button', { name: 'Extract', exact: true }).click();
-  await page.getByText('Downloads are temporarily unavailable. Please try again later.', { exact: true }).waitFor();
+  await page.getByText('Video extraction and downloads are temporarily unavailable. Please try again later.', { exact: true }).waitFor();
   checked('Mobile: tool above fold, no horizontal overflow, no initial status bar/challenge or remote requests; user-friendly error on attempt');
   for (const path of ['/blog', ...blogPaths]) {
     await page.goto(base + path, { waitUntil: 'domcontentloaded' });

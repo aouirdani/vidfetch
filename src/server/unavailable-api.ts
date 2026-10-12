@@ -1,4 +1,4 @@
-import { DOWNLOADS_UNAVAILABLE_MESSAGE } from "../lib/api";
+import { DOWNLOADS_UNAVAILABLE_MESSAGE } from "../lib/service-contract";
 
 const headers = { "Cache-Control": "no-store" };
 

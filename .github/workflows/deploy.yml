@@ -36,6 +36,10 @@ jobs:
           mkdir -p build/releases
           node scripts/ovh/build-release.mjs
           tar -czf release-${{ github.sha }}.tgz -C build/releases/${{ github.sha }} .
+      - name: Install isolated browser for local multilingual checks
+        run: npx playwright install --with-deps chromium
+      - name: Server HTML, eight languages, RTL and unchanged API paths
+        run: npm run test:i18n
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: release-${{ github.sha }}

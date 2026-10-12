@@ -1,10 +1,10 @@
 // Prints filenames and rule names only, never matching secret contents.
 import { execFileSync } from "node:child_process";
-import { readFileSync, statSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
 
 const staged = process.argv.includes("--staged");
 const argumentsList = staged ? ["ls-files", "--cached", "-z"] : ["ls-files", "--cached", "--others", "--exclude-standard", "-z"];
-const files = [...new Set(execFileSync("git", argumentsList, { encoding: "utf8" }).split("\0").filter(Boolean))];
+const files = [...new Set(execFileSync("git", argumentsList, { encoding: "utf8" }).split("\0").filter(Boolean))].filter(file => staged || existsSync(file));
 const issues = [];
 const patterns = [
   ["private-key", /-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----/],
@@ -17,9 +17,9 @@ const patterns = [
 for (const file of files) {
   if (/^(?:backend\/(?:artifacts|backups)\/|node_modules(?:\.local-backup)?\/|\.next\/|\.vercel\/|\.media-bin\/)|(?:\.before-|\.bak$|-backup$)|\.(?:tar|tgz|mp4|mp3|webm|mov|log|pem|key)$/.test(file)
     || (file.startsWith(".env") && file !== ".env.example")) issues.push({ file, rule: "private-or-generated-file" });
-  const size = statSync(file).size;
+  const content = staged ? execFileSync("git", ["show", `:${file}`], { maxBuffer: 10 * 1024 * 1024 }) : readFileSync(file);
+  const size = content.length;
   if (size > 1024 * 1024) issues.push({ file, rule: "file-over-1-MiB" });
-  const content = readFileSync(file);
   if (content.includes(0)) continue;
   let source = content.toString("utf8");
   if (["Dockerfile", ".env.example"].includes(file)) {

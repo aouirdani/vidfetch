@@ -1,10 +1,13 @@
+"use client";
+import { useI18n } from "@/i18n/context";
 /**
  * Mirrors the real card's grid and heights so swapping it in causes no layout shift.
  * Kept in its own module to keep the interactive card in a separate lazy chunk.
  */
 export function VideoCardSkeleton() {
+  const { messages: d } = useI18n();
   return (
-    <div className="overflow-hidden rounded-3xl border border-white/10 bg-ink-850/80" role="status" aria-label="Loading video details">
+    <div className="overflow-hidden rounded-3xl border border-white/10 bg-ink-850/80" role="status" aria-label={d.loadingVideo}>
       <div className="grid gap-0 lg:grid-cols-[minmax(0,340px)_minmax(0,1fr)]">
         <div className="skeleton aspect-video rounded-none lg:aspect-auto lg:min-h-[360px]" />
         <div className="flex flex-col gap-5 p-5 sm:p-6">
@@ -22,7 +25,7 @@ export function VideoCardSkeleton() {
           </div>
         </div>
       </div>
-      <span className="sr-only">Finding available video and audio formats…</span>
+      <span className="sr-only">{d.formatFound}</span>
     </div>
   );
 }

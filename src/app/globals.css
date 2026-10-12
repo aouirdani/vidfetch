@@ -139,3 +139,10 @@ summary::-webkit-details-marker { display: none; }
 .guide-prose pre { max-width: 100%; overflow-x: auto; border: 1px solid #ffffff15; border-radius: .75rem; background: #0b141d; padding: 1.25rem; font-size: .88rem; line-height: 1.75; }
 .guide-prose pre code { padding: 0; background: none; }
 @media (max-width: 640px) { .guide-prose { font-size: .96rem; } }
+
+/* Logical placement and isolated technical text keep the Arabic tool usable. */
+[dir="rtl"] .directional { transform: scaleX(-1); }
+[dir="rtl"] .guide-prose { text-align: start; }
+[dir="rtl"] .guide-prose ul { padding-left: 0; padding-inline-start: 1.25rem; }
+bdi, code[dir="ltr"] { unicode-bidi: isolate; }
+input[type="url"] { text-align: left; direction: ltr; }

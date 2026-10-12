@@ -6,7 +6,10 @@ import { CircleAlert, ClipboardPaste, Link2, LoaderCircle, Search, X } from "luc
 import { clsx } from "clsx";
 import { PlatformChip } from "./PlatformChip";
 import { VideoCardSkeleton } from "./VideoCardSkeleton";
-import { downloadsUnavailable, DOWNLOADS_UNAVAILABLE_MESSAGE, postJson, secureGateway, type FetchInfoResponse, type FetchInfoSuccess } from "@/lib/api";
+import { downloadsUnavailable, postJson, secureGateway, type FetchInfoResponse, type FetchInfoSuccess } from "@/lib/api";
+import { useI18n } from "@/i18n/context";
+import { interpolate } from "@/i18n/config";
+import { errorMessage } from "@/i18n/errors";
 import { DownloadAccess } from "./DownloadAccess";
 import { detectPlatform, PLATFORMS, PLATFORM_META, type Platform } from "@/lib/platforms";
 
@@ -37,6 +40,7 @@ function sharedLink(): string | null {
 }
 
 export function FetchForm({ compact = false, platform }: { compact?: boolean; platform?: Platform }) {
+  const { messages: d } = useI18n();
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<FetchInfoSuccess | null>(null);
@@ -62,12 +66,12 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
   }, []);
 
   const submit = useCallback(async (raw?: string) => {
-    if (downloadsUnavailable) { setError(DOWNLOADS_UNAVAILABLE_MESSAGE); return; }
+    if (downloadsUnavailable) { setError(d.backendUnavailable); return; }
     const check = detectPlatform(raw ?? value);
     if (!check.ok) {
       setError(check.reason === "empty"
-        ? "Paste a video link to get started — YouTube, TikTok, Instagram or X."
-        : "That link isn't supported. Copy the address of a single video or Reel, not a profile or photo post.");
+        ? d.emptyLink
+        : d.invalidLink);
       inputRef.current?.focus();
       return;
     }
@@ -78,7 +82,7 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
     setValue(check.url);
     setLoading(true); setError(null); setResult(null);setWaiting(null);
     try {
-      const payload = await postJson<FetchInfoResponse>("/api/fetch-info", { url: check.url }, controller.signal,notice=>setWaiting(`Waiting in line: position ${notice.position}. Estimated wait ${Math.ceil(notice.estimatedWaitMs/1000)} seconds.`));
+      const payload = await postJson<FetchInfoResponse>("/api/fetch-info", { url: check.url }, controller.signal,notice=>setWaiting(interpolate(d.waiting, { position: notice.position, seconds: Math.ceil(notice.estimatedWaitMs/1000) })));
       if (controller.signal.aborted) return;
       if (payload.ok) {
         setResult(payload);
@@ -86,11 +90,11 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
           const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
           resultsRef.current?.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "nearest" });
         });
-      } else setError(payload.error);
-    } catch (cause) {
-      if (!controller.signal.aborted) setError(cause instanceof Error ? cause.message : "Could not reach VidFetch. Check your connection and try again.");
+      } else setError(errorMessage(payload.code, d));
+    } catch {
+      if (!controller.signal.aborted) setError(d.networkError);
     } finally { if (!controller.signal.aborted) {setLoading(false);setWaiting(null);} }
-  }, [value, authorized]);
+  }, [value, authorized, d]);
 
   useEffect(() => {
     if (authorized && pending.current) {
@@ -126,12 +130,12 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
   async function paste() {
     try {
       const text = await navigator.clipboard.readText();
-      if (!text.trim()) { setError("Your clipboard is empty. Copy a video link first."); return; }
+      if (!text.trim()) { setError(d.clipboardEmpty); return; }
       setValue(text.trim()); setError(null);
       const check = detectPlatform(text);
       if (check.ok) void submit(text);
       else inputRef.current?.focus();
-    } catch { setError("Your browser blocked clipboard access. Paste the link into the field instead."); }
+    } catch { setError(d.clipboardBlocked); }
   }
 
   return (
@@ -147,10 +151,10 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
             <Link2 className={clsx("h-5 w-5 shrink-0 transition-colors", detection.ok ? "text-cyan-300" : "text-slate-400")} aria-hidden />
             <input ref={inputRef} value={value} onChange={(event) => { setValue(event.target.value); if (error) setError(null); }}
               type="url" inputMode="url" autoComplete="off" spellCheck={false} maxLength={4096} enterKeyHint="go"
-              placeholder="Paste a video link…" aria-label="Video link" aria-describedby="url-help" aria-invalid={invalid}
+              placeholder={d.placeholder} aria-label={d.videoLink} dir="ltr" aria-describedby="url-help" aria-invalid={invalid}
               className="h-12 w-full min-w-0 bg-transparent text-[15px] text-white placeholder:text-slate-400 focus:outline-none" />
             {value && (
-              <button type="button" onClick={reset} aria-label="Clear link"
+              <button type="button" onClick={reset} aria-label={d.clear}
                 className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-slate-400 transition hover:bg-white/10 hover:text-white">
                 <X className="h-4 w-4" aria-hidden />
               </button>
@@ -159,13 +163,13 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
           <div className="flex items-center gap-2">
             <button type="button" onClick={() => void paste()} disabled={loading}
               className="inline-flex h-12 shrink-0 items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3.5 text-sm font-medium text-slate-200 transition hover:border-cyan-400/40 hover:text-white disabled:opacity-50 sm:h-11">
-              <ClipboardPaste className="h-4 w-4" aria-hidden /> Paste
+              <ClipboardPaste className="h-4 w-4" aria-hidden /> {d.paste}
             </button>
             <button type="submit" disabled={!canSubmit}
               className={clsx("inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-xl px-7 text-sm font-semibold transition sm:h-11 sm:flex-none",
                 canSubmit ? "bg-gradient-to-r from-cyan-400 to-sky-400 text-ink-950 hover:brightness-110 active:scale-[0.98]" : "cursor-not-allowed bg-white/10 text-slate-400")}>
               {loading ? <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden /> : <Search className="h-4 w-4" aria-hidden />}
-              {loading ? "Extracting…" : "Extract"}
+              {loading ? d.extracting : d.extract}
             </button>
           </div>
         </div>
@@ -173,13 +177,13 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
         <div className="mt-3 flex min-h-6 flex-wrap items-center justify-center gap-x-3 gap-y-2">
           {value ? <PlatformChip platform={detection.platform} detected={detection.ok} /> : null}
           <p id="url-help" className={clsx("text-xs leading-relaxed", invalid ? "text-amber-300" : "text-slate-400")}>
-            {invalid ? <>Links look like <code className="rounded bg-white/5 px-1.5 py-0.5 font-mono text-[11px] text-slate-300">{hint}</code></> : "Works with YouTube, TikTok, Instagram Reels and X posts."}
+            {invalid ? <>{d.linkExample} <code dir="ltr" className="rounded bg-white/5 px-1.5 py-0.5 font-mono text-[11px] text-slate-300">{hint}</code></> : d.supportedHint}
           </p>
         </div>
 
         {!result && !loading && (
           <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
-            <span className="text-[11px] text-slate-400">Try an example:</span>
+            <span className="text-[11px] text-slate-400">{d.examples}</span>
             {EXAMPLES.map((example) => (
               <button key={example.id} type="button" disabled={loading} onClick={() => void submit(example.url)}
                 className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-[11px] font-medium text-slate-300 transition hover:border-cyan-400/40 hover:text-cyan-200 disabled:opacity-40">
@@ -197,12 +201,12 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
           <div className="flex items-start gap-3">
             <CircleAlert className="mt-0.5 h-5 w-5 shrink-0 text-red-300" aria-hidden />
             <div className="min-w-0">
-              <p className="text-sm font-semibold text-red-100">We couldn&apos;t get this video</p>
+              <p className="text-sm font-semibold text-red-100">{d.fetchFailed}</p>
               <p className="mt-1 text-sm leading-relaxed text-red-200/85">{error}</p>
               {detection.ok && (
                 <div className="mt-3 flex flex-wrap items-center gap-4 text-xs">
-                  <button type="button" onClick={() => void submit()} disabled={loading} className="font-semibold text-white underline-offset-4 hover:underline">Try again</button>
-                  <a href={detection.url} target="_blank" rel="noopener noreferrer nofollow" className="text-red-200 underline-offset-4 hover:text-white hover:underline">Open the original post</a>
+                  <button type="button" onClick={() => void submit()} disabled={loading} className="font-semibold text-white underline-offset-4 hover:underline">{d.retry}</button>
+                  <a href={detection.url} target="_blank" rel="noopener noreferrer nofollow" className="text-red-200 underline-offset-4 hover:text-white hover:underline">{d.original}</a>
                 </div>
               )}
             </div>

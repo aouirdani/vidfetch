@@ -6,6 +6,7 @@ import { Transform } from "node:stream";
 import { AccessError, verifyAccess, verifyProof, verifyServiceMac } from "../../src/server/access-crypto";
 import { detectPlatform } from "../../src/lib/platforms";
 import { GatewayLedger } from "./ledger";
+import { LOCALES, type Locale } from "../../src/i18n/config";
 import { downloadHelper } from "./helper";
 import { WaitingQueue,type QueueOptions } from "./queue";
 
@@ -122,7 +123,8 @@ export function createGateway(options: {
         options.ledger.rate(identity,"grant",10,60000);json(res,200,{ok:true});return;
       }
       if (path === "/download-helper" && req.method === "GET") {
-        const helper = downloadHelper(options.sites);
+        const requested = new URL(req.url!, options.origin).searchParams.get("lang");
+        const helper = downloadHelper(options.sites, LOCALES.includes(requested as Locale) ? requested as Locale : "en");
         res.writeHead(200, { "Content-Type": "text/html; charset=utf-8", "Content-Security-Policy": helper.csp, "Referrer-Policy": "no-referrer", "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff" }); res.end(helper.html); return;
       }
       if (!["/api/health", "/api/fetch-info", "/api/download", "/api/queue", "/auth/transfer"].includes(path)) throw new AccessError("NOT_FOUND", 404);

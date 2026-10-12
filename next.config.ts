@@ -34,7 +34,9 @@ export default function configuration(phase: string): NextConfig {
   }
 
   return {
-    ...(isOVH ? { output: "standalone" as const, outputFileTracingIncludes: { "/*": ["./content/guides/*.md"] } } : {}),
+    skipTrailingSlashRedirect: true,
+    outputFileTracingIncludes: { "/*": ["./content/guides/**/*.md"] },
+    ...(isOVH ? { output: "standalone" as const } : {}),
     // The default frontend never needs engines, database credentials or platform flags.
     // Alias at build time: engines and database code never enter its API bundles.
     env: {
@@ -49,8 +51,14 @@ export default function configuration(phase: string): NextConfig {
       ...(!isNodeHost ? { resolveAlias: { "@vidfetch/media-api": unavailableApi } } : {}),
     },
     ...(!isNodeHost ? {
-      webpack(config) {
+      webpack(config, { webpack }) {
         config.resolve.alias["@vidfetch/media-api"] = resolve(unavailableApi);
+        // Next's TypeScript paths resolver can resolve the facade before aliases.
+        // Replace the module request too, so dynamic local-engine imports never
+        // enter frontend-only route bundles or their deployment traces.
+        config.plugins.push(new webpack.NormalModuleReplacementPlugin(
+          /^@vidfetch\/media-api$/, resolve(unavailableApi),
+        ));
         return config;
       },
     } : {}),
