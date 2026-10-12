@@ -1,0 +1,131 @@
+{
+  "date": "2026-10-12",
+  "branch": "work/vidfetch-ovh-full-20261012",
+  "candidateRelease": "cbbd4fd974ff092c02e08d226e3e864fc8900382",
+  "scope": "Isolated VPS frontend, local TLS fixture with simulated challenge. No public activation, push, DNS, Vercel, Supabase or Raspberry Pi changes.",
+  "statuses": {
+    "localFrontend": "VALIDÉ",
+    "streamingFixture": "VALIDÉ",
+    "systemdCandidateLifecycle": "VALIDÉ",
+    "GitHubActionsRun": "NON TESTÉ",
+    "publicHTTPSAndTurnstile": "NON TESTÉ",
+    "productionActivation": "BLOQUÉ",
+    "YouTubeOVH": "ÉCHEC antérieur: fournisseur anti-bot, aucun contournement"
+  },
+  "tests": {
+    "unit": 92,
+    "backend": 17,
+    "gatewayScenarios": 2,
+    "queue": 4,
+    "deploymentPython": 5,
+    "seoPages": 17,
+    "VPSsecurityChecks": 7,
+    "failuresRemainingInLocalSuites": 0
+  },
+  "transfers": [
+    {
+      "type": "video",
+      "size": 4360399,
+      "sha256": "dcbe6f2ea404a52d4b2f6fc91f274874e69be1671a1097eb3dc19f28f7c6e40f",
+      "milliseconds": 4598,
+      "completedBytes": 4360399,
+      "singleUse": true,
+      "filename": "VidFetch_trailer.ogv"
+    },
+    {
+      "type": "audio",
+      "size": 792620,
+      "sha256": "38b23dc423846fff16d0d88950390ace9e9d3152d871ea8d0d0f9f676bd69ecf",
+      "milliseconds": 4035,
+      "completedBytes": 792620,
+      "singleUse": true,
+      "filename": "VidFetch_trailer.mp3"
+    }
+  ],
+  "resources": {
+    "durationSeconds": 45.049,
+    "maximumCombinedMiB": 186.35,
+    "units": {
+      "vidfetch-web-candidate": {
+        "peakMiB": 67.14,
+        "cpuSeconds": 0.08,
+        "maximumPercentOneCore": 15.3
+      },
+      "vidfetch-migration-worker": {
+        "peakMiB": 86.81,
+        "cpuSeconds": 3.014,
+        "maximumPercentOneCore": 111.2
+      },
+      "vidfetch-migration-gateway": {
+        "peakMiB": 27.32,
+        "cpuSeconds": 0.451,
+        "maximumPercentOneCore": 26.7
+      },
+      "vidfetch-migration-proxy": {
+        "peakMiB": 15.59,
+        "cpuSeconds": 0.202,
+        "maximumPercentOneCore": 10.2
+      }
+    }
+  },
+  "syntheticMobile": {
+    "lcp": 368,
+    "cls": 0.005155878052038536,
+    "paints": [
+      {
+        "name": "first-paint",
+        "ms": 332
+      },
+      {
+        "name": "first-contentful-paint",
+        "ms": 332
+      }
+    ],
+    "transferBytes": 179035,
+    "note": "One synthetic mobile navigation; not field Core Web Vitals or INP."
+  },
+  "lifecycle": {
+    "checks": [
+      "stop/start and readiness",
+      "targeted restart and readiness",
+      {
+        "automaticCrashRestartSeconds": 5.87
+      },
+      "real failed-start rollback restores previous release and readiness",
+      "installed backend, gateway and SSH PIDs unchanged"
+    ],
+    "before": {
+      "vidfetch": 9270,
+      "vidfetch-gateway": 9271,
+      "ssh": 869
+    },
+    "after": {
+      "vidfetch": 9270,
+      "vidfetch-gateway": 9271,
+      "ssh": 869
+    },
+    "release": "f8217ce446188dedc60da0b30db4115d5373b6db",
+    "candidateEnabled": false
+  },
+  "security": {
+    "checks": [
+      "Caddy download route requires authorization",
+      "Caddy blocks both service-only endpoints",
+      "Proof replay rejected",
+      "Different browser owner cannot read transfer status",
+      "Same actor cannot prepare a second active operation",
+      "TLS client disconnect propagates through Caddy and aborts transfer",
+      "No yt-dlp/ffmpeg child remains under worker UID"
+    ],
+    "receivedBeforeAbort": 3564,
+    "status": "aborted",
+    "engineChildren": []
+  },
+  "nativeLinuxFilesVerified": 4,
+  "MacPathsDetected": 0,
+  "productionNpmAuditVulnerabilities": 0,
+  "publicCIKeyInstalled": false,
+  "newListenersPublic": false,
+  "archiveSha256": "9f663dd4c0a95822b3af4fa1c64aaac6b39f2d1223a738293154c91d43f82b93",
+  "evidenceDirectory": "backend/artifacts/full-migration-20261012-97n1bqjr"
+}

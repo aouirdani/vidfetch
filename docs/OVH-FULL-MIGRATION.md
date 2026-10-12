@@ -160,7 +160,7 @@ Fenêtre de 45.049 secondes comprenant les deux transferts. Maximum combiné ins
 
 Réception native vidéo **4.598 s**, MP3 **4.035 s**, incluant préparation, transfert et statut final dans ce scénario. RAM disponible après arrêt du banc : environ **3 394 MiB**, disque libre **36 Go**. Ces mesures d'un court trailer ne valident pas une capacité de production pour des médias longs ou une audience donnée.
 
-Un chargement mobile synthétique (390×844, CPU ×4, 1.6 Mbps, latence 150 ms) : **LCP 372 ms**, **CLS 0.00516**, FCP 336 ms, ressources transférées environ 179 Ko. Le formulaire était visible sans scroll, aucun débordement horizontal ni exception navigateur. **INP terrain, p75 Core Web Vitals et classement SEO non mesurés**.
+Un chargement mobile synthétique (390×844, CPU ×4, 1.6 Mbps, latence 150 ms) : **LCP 368 ms**, **CLS 0.00516**, FCP 332 ms, ressources transférées environ 179 Ko. Le formulaire était visible sans scroll, aucun débordement horizontal ni exception navigateur. **INP terrain, p75 Core Web Vitals et classement SEO non mesurés**.
 
 ## Fichiers de maintenance
 
@@ -239,3 +239,15 @@ Ne pas appliquer ces opérations publiques pendant la phase de préparation. Ell
 ## Références officielles consultées
 
 [Next.js self-hosting](https://nextjs.org/docs/app/guides/self-hosting), [standalone et fichiers à inclure](https://nextjs.org/docs/app/api-reference/config/next-config-js/output), [GitHub Actions — sécurité](https://docs.github.com/en/actions/reference/security/secure-use), [environnements de déploiement](https://docs.github.com/en/actions/reference/workflows-and-actions/deployments-and-environments), [Caddy reverse proxy](https://caddyserver.com/docs/caddyfile/directives/reverse_proxy), [Caddy 2.11.7](https://github.com/caddyserver/caddy/releases/tag/v2.11.7), [Google — JavaScript SEO et ressources crawlables](https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics), [Schema BlogPosting](https://schema.org/BlogPosting), [définition Core Web Vitals](https://web.dev/articles/defining-core-web-vitals-thresholds). Les sources techniques de chaque guide sont également présentes dans ses métadonnées.
+
+## État final de la release et preuves
+
+Le frontend candidat a été mis à jour vers **cbbd4fd974ff092c02e08d226e3e864fc8900382** sur le VPS, puis ses pages, erreurs, guides et SEO ont été vérifiés de nouveau par navigateur. La précédente release **f8217ce446188dedc60da0b30db4115d5373b6db** reste conservée. Les modifications ultérieures de cette branche ne concernent que les preuves/documentation et le script de validation.
+
+Archive transférée : SHA-256 **9f663dd4c0a95822b3af4fa1c64aaac6b39f2d1223a738293154c91d43f82b93**. **1 512 fichiers** couverts par manifeste, quatre fichiers natifs ELF Linux x86_64 contrôlés, aucun chemin Mac détecté dans les fichiers exécutables/textuels inspectés.
+
+Les helpers finaux ont été installés avec sauvegarde de leurs versions préparatoires dans `/etc/vidfetch/full-migration-helper-backup-20261012`. Le compte CI ne peut pas exécuter un `id` privilégié général ; son seul helper autorisé refuse une promotion lorsque le marqueur d'activation manque. Aucune clé SSH CI n'est installée.
+
+Les cinq tests de déploiement passent aussi sur le Python 3.13 du VPS. Le premier conteneur Bookworm avait Python 3.11 sans filtre tar : son contrôle Python a échoué ; la protection a été conservée et les tests ont été exécutés sur le runtime compatible. Le runner GitHub `ubuntu-24.04` dispose de Python 3.12.3 selon [son inventaire officiel](https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md). Le workflow distant reste à vérifier lors de son premier lancement autorisé.
+
+Synthèse versionnée : `backend/validation/ovh-full-migration-20261012.json`. Preuves privées : `backend/artifacts/full-migration-20261012-97n1bqjr/` (logs Linux, scans, archives, cgroups, lifecycle/security). Les contrôles navigateur et screenshots sont aussi dans les sous-répertoires `checkout/backend/artifacts/site-validation` et `download-validation`. Les médias et clés ne sont pas inclus dans la synthèse publique.
