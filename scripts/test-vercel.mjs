@@ -64,6 +64,7 @@ try {
     ["/api/download?ticket=test-ticket", {}],
     ["/api/download?status=test-status", {}],
     ["/api/download?url=https://youtu.be/aqz-KE-bpKQ", {}],
+    ["/api/download-access", { method: "POST", body: "{}" }],
   ];
   for (const [path, init] of cases) {
     const response = await request(path, init);
@@ -71,7 +72,7 @@ try {
     assert.equal(response.headers.get("cache-control"), "no-store");
     assert.equal((await response.json()).code, "BACKEND_UNAVAILABLE");
   }
-  pass("seven extraction/download requests return explicit JSON 503 before input processing");
+  pass("eight extraction/download/access requests return explicit JSON 503 before input processing");
   const concurrent = await Promise.all(Array.from({ length: 8 }, () => request("/api/download", { method: "POST", body: "{}" })));
   assert.ok(concurrent.every(response => response.status === 503));
   await Promise.all(concurrent.map(response => response.body?.cancel()));
@@ -103,12 +104,12 @@ try {
   pass("six SEO pages, five public assets, unavailable notice, 404 and no stats exposure");
 
   const traces = await traceFiles(".next/server/app/api");
-  assert.equal(traces.length, 3);
+  assert.equal(traces.length, 4);
   for (const path of traces) {
     const trace = JSON.parse(await readFile(path, "utf8"));
     assert.ok(!trace.files.some(file => /(?:ffmpeg|ffprobe|yt-dlp|src\/db|src\/lib\/engine|node_modules\/pg\/|\.media-bin)/.test(file)), `Engine/database dependency in ${path}`);
   }
-  pass("all three API dependency traces exclude video engines and PostgreSQL");
+  pass("all four API dependency traces exclude video engines and PostgreSQL");
 
   if (process.argv.includes("--browser")) {
     const { chromium } = await import("playwright");

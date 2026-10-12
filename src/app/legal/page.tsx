@@ -3,18 +3,18 @@ import Link from "next/link";
 import { FileText, Lock, Scale, Mail } from "lucide-react";
 import { CONTENT_UPDATED, breadcrumbSchema, jsonLdGraph, pageMetadata, webPageSchema } from "@/lib/seo";
 
-export const revalidate = 86400;
+export const revalidate = false;
 
 export const metadata: Metadata = pageMetadata({
   title: "Terms of Service, Privacy & Legal Notice | VidFetch",
-  description: "Terms of service, legal notice, privacy policy and abuse reporting information for the VidFetch video downloader at vidfetch.io.",
+  description: "Terms of service, legal notice, privacy policy and abuse reporting information for the VidFetch video downloader at vidfetch.app.",
   path: "/legal",
   type: "article",
 });
 
 const BLOCKS = [
   { id: "notice", icon: Scale, title: "Legal notice", items: [
-    "VidFetch is an automated video extraction and download service available at vidfetch.io. Contact the site operator at legal@vidfetch.io.",
+    "VidFetch is an automated video extraction and download service available at vidfetch.app. Contact the site operator at legal@vidfetch.io.",
     "VidFetch is not affiliated with or endorsed by YouTube, TikTok, Instagram, Meta or X. Platform names and trademarks belong to their respective owners.",
     "The service is provided as available. Access, supported formats and download speed depend on the source platform and the hosting environment.",
   ] },
@@ -28,9 +28,9 @@ const BLOCKS = [
   { id: "privacy", icon: Lock, title: "Privacy policy", items: [
     "No VidFetch account is required. The application does not set advertising cookies or use third-party advertising trackers.",
     "Media data passes through bounded streaming buffers and is not permanently saved as a video or audio file on the server. Extracted metadata and source URLs can be cached in memory for up to five minutes to avoid repeating platform requests.",
-    "The database records submitted video URLs, platform identifiers, titles, thumbnails, formats, extraction errors, transfer timestamps, statuses and byte counts. This data is used for operating and debugging the service only; it is not published anywhere on the site and no usage dashboard is exposed. Do not submit confidential links.",
+    "The local download service keeps temporary transfer statuses and bounded operational records for quotas and abuse prevention. IP-based quota identifiers are keyed hashes. Raw media links and titles are not intentionally written to gateway request logs. Legacy database-dependent features, when enabled, may record extraction and transfer metadata. Do not submit confidential links.",
     "Random download tickets expire after one minute if unused. Transfer status is retained in memory for up to thirty minutes. Server infrastructure may maintain its own operational request logs.",
-    "Optional authorized platform cookies are configured only by the site operator as server-side secrets. They are never requested from website visitors or returned to the browser. Temporary cookie copies are removed when the extraction process ends.",
+    "Secure downloads use a short-lived browser authorization cookie and a verification challenge. These are used for access control, not advertising. The isolated download engine rejects platform cookies and does not bypass login restrictions.",
     "For questions about recorded metadata or a deletion request, contact privacy@vidfetch.io and identify the relevant URL or transfer.",
   ] },
   { id: "report", icon: Mail, title: "Reporting abuse or copyright concerns", items: [

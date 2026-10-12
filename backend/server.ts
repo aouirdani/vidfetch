@@ -195,7 +195,7 @@ export function createBackend(options: {
         "--abort-on-unavailable-fragments", "--downloader-args", "ffmpeg_i:-protocol_whitelist http,https,tcp,tls,crypto"]);
       work.output = child.stdout;
       if (plan.convertToMp3) {
-        const converter = spawn(engine.ffmpegBinary(), ["-hide_banner", "-loglevel", "error", "-nostdin", "-threads", "1",
+        const converter = spawn(engine.ffmpegBinary(), ["-hide_banner", "-loglevel", "error", "-nostdin", "-abort_on", "empty_output", "-threads", "1",
           "-protocol_whitelist", "pipe", "-i", "pipe:0", "-vn", "-c:a", "libmp3lame", "-b:a", "192k", "-f", "mp3", "pipe:1"], true);
         child.stdout.pipe(converter.stdin);
         work.output = converter.stdout;

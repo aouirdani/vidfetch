@@ -1,200 +1,33 @@
-import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Ban, Bolt, CircleDollarSign, Clipboard, Cpu, Gauge, Laptop, Layers, Link as LinkIcon, Lock, Monitor, MousePointerClick, ShieldCheck, Smartphone, Sparkles } from "lucide-react";
+import { ArrowUpRight, Check, ArrowRight } from "lucide-react";
 import { FetchForm } from "@/components/FetchForm";
-import { SamplePreview } from "@/components/SamplePreview";
-import { PlatformIcon } from "@/components/PlatformIcon";
-import { PLATFORM_META } from "@/lib/platforms";
-import { HOME_FAQS, LANDING_PAGES, SITE, applicationSchema, faqSchema, howToSchema, itemListSchema, jsonLdGraph, pageMetadata, webPageSchema } from "@/lib/seo";
+import { guides } from "@/lib/guides";
+import { HOME_FAQS, LANDING_PAGES, SITE, applicationSchema, faqSchema, howToSchema, jsonLdGraph, pageMetadata, webPageSchema } from "@/lib/seo";
 
-// Static shell: prerendered and CDN-cacheable, with live data fetched client-side.
-export const revalidate = 86400;
-
-const TITLE = "VidFetch — Free Video Downloader for YouTube, TikTok, Instagram & X";
-const DESCRIPTION = "Download public videos and audio from YouTube, TikTok, Instagram and X. Paste a link, choose a quality or MP3, and save the file straight to your device. Free, no sign-up.";
-
-export const metadata: Metadata = pageMetadata({
-  title: TITLE, description: DESCRIPTION, path: "/",
-  keywords: ["video downloader", "free video downloader", "youtube to mp4", "tiktok downloader", "instagram reels downloader", "x video downloader", "mp3 converter"],
-});
-
-const BADGES = [
-  { icon: CircleDollarSign, label: "Free" },
-  { icon: Ban, label: "No ads" },
-  { icon: Bolt, label: "Streamed downloads" },
-  { icon: ShieldCheck, label: "No media archive" },
-];
-
-const DEVICES = [
-  { icon: Smartphone, label: "iPhone & Android" },
-  { icon: Laptop, label: "Windows & macOS" },
-  { icon: Monitor, label: "Linux & ChromeOS" },
-];
-
+const TITLE = "VidFetch — Video Downloader & MP3 Audio Converter";
+const DESCRIPTION = "Save videos you own or have permission to download. Paste a YouTube, TikTok, Instagram or X link, choose an available format, and keep a copy on your device.";
+export const metadata = pageMetadata({ title: TITLE, description: DESCRIPTION, path: "/" });
 const STEPS = [
-  { tag: "Copy", icon: LinkIcon, title: "Copy the video link", body: "Use Share → Copy link in the app, or copy the address straight from your browser's address bar." },
-  { tag: "Paste", icon: Clipboard, title: "Paste it above", body: "Drop the link into the field and select Extract. VidFetch reads the video and lists every format the source publishes." },
-  { tag: "Save", icon: MousePointerClick, title: "Pick a quality and save", body: "Choose a resolution or MP3, then select Download. The file streams straight into your browser's downloads." },
+  ["Copy a link", "Open a video you are allowed to save and copy its individual link."],
+  ["Choose your format", "Paste the link and select Extract to see the available video and audio options."],
+  ["Save your copy", "Choose Download and keep the browser open until the transfer finishes."],
 ];
-
-const FEATURES = [
-  { icon: Bolt, title: "Straight to your device", body: "Video streams to your browser with bounded memory use. The download backend limits media to 256 MiB and each operation to 10 minutes; the source and your connection also affect availability." },
-  { icon: Layers, title: "The qualities that exist", body: "You see the exact formats the platform publishes for that video, with codec and estimated size, instead of a fixed menu that fails halfway through." },
-  { icon: Cpu, title: "Real MP3, real MP4", body: "ffmpeg merges separate video and audio tracks into a clean MP4 and encodes genuine MP3 audio — never a renamed video container." },
-  { icon: ShieldCheck, title: "No media archive", body: "Media files are streamed, not archived. Operational metadata may be retained as described in the privacy policy; download titles and links are never published." },
-  { icon: Gauge, title: "Honest about failures", body: "Private, deleted or login-gated posts and interrupted transfers are reported in plain language. A download is marked complete only after the streaming operation succeeds." },
-  { icon: Lock, title: "Built for big files", body: "A long-running Node.js server handles extraction and streaming, so large downloads aren't cut off by a serverless execution window." },
-];
-
 export default function HomePage() {
-  return (
-    <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdGraph([
-        webPageSchema({ name: TITLE, path: "/", description: DESCRIPTION }),
-        applicationSchema(),
-        howToSchema(SITE.url),
-        faqSchema(HOME_FAQS, `${SITE.url}/`),
-        itemListSchema("VidFetch platform downloaders", LANDING_PAGES.map((page) => ({ name: page.title, path: `/${page.slug}`, description: page.metaDescription }))),
-      ]) }} />
-
-      <section id="extractor" className="mx-auto w-full max-w-6xl scroll-mt-24 px-4 pb-4 pt-12 sm:px-6 sm:pt-16" aria-labelledby="hero-title">
-        <div className="mx-auto w-full max-w-3xl text-center">
-          <p className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-xs font-medium text-slate-300">
-            <Sparkles className="h-3.5 w-3.5 text-cyan-300" aria-hidden />
-            YouTube · TikTok · Instagram · X
-          </p>
-          <h1 id="hero-title" className="mt-5 text-balance text-[2.5rem] font-semibold leading-[1.05] tracking-tight text-white sm:text-5xl md:text-6xl">
-            Download your videos <span className="text-gradient">with just a link</span>
-          </h1>
-          <p className="mx-auto mt-4 max-w-xl text-pretty text-base leading-relaxed text-slate-300 sm:text-lg">
-            Save video and audio from four platforms in HD, straight to your device. No account, no app to install.
-          </p>
-        </div>
-
-        <FetchForm />
-
-        <ul className="mx-auto mt-7 flex max-w-3xl flex-wrap items-center justify-center gap-x-5 gap-y-2.5">
-          {BADGES.map((badge) => (
-            <li key={badge.label} className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-400">
-              <badge.icon className="h-3.5 w-3.5 text-cyan-300" aria-hidden />{badge.label}
-            </li>
-          ))}
-        </ul>
-
-        <SamplePreview />
-      </section>
-
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
-        <section id="how-it-works" className="defer-paint mt-20 scroll-mt-24 sm:mt-24" aria-labelledby="how-title">
-          <div className="max-w-2xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-300">How it works</p>
-            <h2 id="how-title" className="mt-3 text-2xl font-semibold tracking-tight text-white sm:text-3xl">Three steps, about a minute</h2>
-            <p className="mt-3 text-sm leading-relaxed text-slate-300">
-              The same flow on every platform, whether you are on a phone or a laptop.
-            </p>
-          </div>
-          <ol className="mt-8 grid gap-4 sm:grid-cols-3">
-            {STEPS.map((step, index) => (
-              <li key={step.title} className="relative overflow-hidden rounded-2xl border border-white/8 bg-white/[0.03] p-6">
-                <span className="pointer-events-none absolute -right-3 -top-4 text-[5rem] font-bold leading-none text-white/[0.04]" aria-hidden>
-                  {index + 1}
-                </span>
-                <span className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-500/15 ring-1 ring-inset ring-cyan-400/25">
-                  <step.icon className="h-5 w-5 text-cyan-200" aria-hidden />
-                </span>
-                <p className="relative mt-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-cyan-300">
-                  Step {index + 1} · {step.tag}
-                </p>
-                <h3 className="relative mt-1.5 text-sm font-semibold text-white">{step.title}</h3>
-                <p className="relative mt-2 text-sm leading-relaxed text-slate-400">{step.body}</p>
-              </li>
-            ))}
-          </ol>
-          <ul className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 rounded-2xl border border-white/8 bg-white/[0.02] px-5 py-4">
-            <li className="text-xs font-medium text-slate-300">Works in any modern browser:</li>
-            {DEVICES.map((device) => (
-              <li key={device.label} className="inline-flex items-center gap-2 text-xs text-slate-400">
-                <device.icon className="h-4 w-4 text-cyan-300" aria-hidden />{device.label}
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        <section id="platforms" className="defer-paint mt-20 scroll-mt-24 sm:mt-24" aria-labelledby="platforms-title">
-          <div className="max-w-2xl">
-            <h2 id="platforms-title" className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">A downloader for every platform</h2>
-            <p className="mt-3 text-sm leading-relaxed text-slate-300">
-              Each guide covers the links that work, what you can save, and the limits that platform applies.
-            </p>
-          </div>
-          <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {LANDING_PAGES.map((page) => {
-              const meta = PLATFORM_META[page.platform];
-              return (
-                <li key={page.slug}>
-                  <Link href={`/${page.slug}`} prefetch={false}
-                    className="group flex h-full flex-col rounded-2xl border border-white/8 bg-white/[0.03] p-5 transition-colors hover:border-cyan-400/40 hover:bg-white/[0.05]">
-                    <span className={`flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${meta.accent} text-white`}>
-                      <PlatformIcon platform={page.platform} className="h-4 w-4" />
-                    </span>
-                    <h3 className="mt-4 text-sm font-semibold text-white">{page.title}</h3>
-                    <p className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-slate-400">{page.heading}</p>
-                    {/* mt-auto keeps the call to action aligned when titles wrap to two lines. */}
-                    <span className="mt-auto inline-flex items-center gap-1.5 pt-4 text-xs font-medium text-cyan-300">
-                      Open guide <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" aria-hidden />
-                    </span>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </section>
-
-        <section id="features" className="defer-paint mt-20 scroll-mt-24 sm:mt-24" aria-labelledby="features-title">
-          <div className="max-w-2xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300">Why VidFetch</p>
-            <h2 id="features-title" className="mt-3 text-2xl font-semibold tracking-tight text-white sm:text-3xl">One tool, no surprises</h2>
-            <p className="mt-3 text-sm leading-relaxed text-slate-300">
-              Save the videos you own or have permission to download, without juggling sketchy sites.
-            </p>
-          </div>
-          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {FEATURES.map((feature) => (
-              <article key={feature.title} className="rounded-2xl border border-white/8 bg-white/[0.03] p-6 transition-colors hover:border-white/15">
-                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-500/15 ring-1 ring-inset ring-cyan-400/20">
-                  <feature.icon className="h-5 w-5 text-cyan-200" aria-hidden />
-                </span>
-                <h3 className="mt-4 text-sm font-semibold text-white">{feature.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-400">{feature.body}</p>
-              </article>
-            ))}
-          </div>
-          <p className="mt-6 rounded-2xl border border-white/8 bg-white/[0.02] px-5 py-4 text-xs leading-relaxed text-slate-400">
-            <span className="font-semibold text-slate-300">On copyright:</span> VidFetch hosts no media of its own. Files are fetched
-            from the source platform at the moment you ask for them and streamed to your browser. Download only what you own or have
-            permission to save — see the <Link href="/legal#terms" className="text-cyan-300 underline-offset-4 hover:underline">terms of service</Link>.
-          </p>
-        </section>
-
-        <section id="faq" className="defer-paint mt-20 scroll-mt-24 sm:mt-24" aria-labelledby="faq-title">
-          <div className="max-w-2xl">
-            <h2 id="faq-title" className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">Questions, answered</h2>
-            <p className="mt-3 text-sm leading-relaxed text-slate-300">What VidFetch does, what it keeps, and where the limits are.</p>
-          </div>
-          <div className="mt-8 grid gap-2.5 lg:grid-cols-2">
-            {HOME_FAQS.map((faq) => (
-              <details key={faq.question} className="group rounded-2xl border border-white/8 bg-white/[0.03] px-5 transition-colors open:border-cyan-400/30 hover:border-white/15">
-                <summary className="flex cursor-pointer list-none items-start justify-between gap-4 py-4 text-sm font-semibold text-white">
-                  {faq.question}
-                  <span className="mt-0.5 shrink-0 text-lg leading-none text-cyan-300 transition-transform duration-200 group-open:rotate-45" aria-hidden>+</span>
-                </summary>
-                <p className="pb-4 text-sm leading-relaxed text-slate-400">{faq.answer}</p>
-              </details>
-            ))}
-          </div>
-        </section>
-
-      </div>
-    </>
-  );
+  const recent = ["mp4-vs-webm", "mp3-vs-m4a", "reduce-video-size"].map(slug => guides().find(g => g.slug === slug)!);
+  return <>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdGraph([webPageSchema({ name: TITLE, path: "/", description: DESCRIPTION }), applicationSchema(), howToSchema(SITE.url), faqSchema(HOME_FAQS, SITE.url)]) }} />
+    <section id="extractor" className="mx-auto max-w-6xl scroll-mt-24 px-4 pb-8 pt-12 sm:px-6 sm:pt-16" aria-labelledby="hero-title">
+      <div className="mx-auto max-w-3xl text-center"><p className="eyebrow">Your videos, a link away</p><h1 id="hero-title" className="mt-5 text-balance text-[2.6rem] font-semibold leading-[1.08] tracking-tight sm:text-6xl">A video worth keeping.<br /><span className="text-cyan-300">A simple way to save it.</span></h1><p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-slate-300 sm:text-lg">Download video or audio from an authorized link. Choose an available format and save it straight to your device.</p></div>
+      <FetchForm />
+      <ul className="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-slate-400">{["Free to use", "No app to install", "Video & audio"].map(label => <li key={label} className="flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-cyan-300" aria-hidden />{label}</li>)}</ul>
+      <p className="mx-auto mt-5 max-w-lg text-center text-xs leading-relaxed text-slate-400">Only save content you own or have permission to download. Source restrictions and available formats may vary.</p>
+    </section>
+    <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <section id="how-it-works" className="defer-paint mt-14 scroll-mt-24 border-t border-white/10 pt-10 sm:mt-20" aria-labelledby="how-title"><div className="grid gap-8 lg:grid-cols-[1fr_1.5fr]"><div><p className="eyebrow">How it works</p><h2 id="how-title" className="mt-3 text-3xl font-semibold tracking-tight">Keep the useful part.</h2><p className="mt-4 max-w-md leading-relaxed text-slate-400">VidFetch helps you save an accessible video or its soundtrack. The same straightforward steps work on a phone or computer.</p></div><ol className="space-y-6">{STEPS.map(([title, text], i) => <li key={title} className="flex gap-5"><span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-cyan-300/25 text-sm font-medium text-cyan-300" aria-hidden>{i + 1}</span><div><h3 className="font-semibold">{title}</h3><p className="mt-1.5 leading-relaxed text-slate-400">{text}</p></div></li>)}</ol></div></section>
+      <section id="features" className="defer-paint mt-16 scroll-mt-24 rounded-2xl border border-white/10 bg-white/[0.025] p-6 sm:mt-20 sm:p-9" aria-labelledby="formats-title"><p className="eyebrow">Video or just the sound</p><h2 id="formats-title" className="mt-3 text-3xl font-semibold tracking-tight">The format that fits your next step.</h2><div className="mt-7 grid gap-7 sm:grid-cols-2"><div><h3 className="text-lg font-semibold">Keep a playable video</h3><p className="mt-2 leading-relaxed text-slate-400">Select a source format by its resolution, codec and estimated size. The choices depend on the video; higher quality is offered only when available.</p><Link href="/blog/mp4-vs-webm" className="mt-4 inline-block text-sm text-cyan-300">Compare MP4 and WebM →</Link></div><div><h3 className="text-lg font-semibold">Take the soundtrack with you</h3><p className="mt-2 leading-relaxed text-slate-400">Choose an available original audio track or an MP3 conversion. Converting to MP3 improves compatibility, not the quality of the original recording.</p><Link href="/blog/video-to-audio" className="mt-4 inline-block text-sm text-cyan-300">Understand audio conversion →</Link></div></div></section>
+      <section className="defer-paint mt-16 sm:mt-20" aria-labelledby="guides-title"><div className="flex flex-wrap items-end justify-between gap-4"><div><p className="eyebrow">A little know-how</p><h2 id="guides-title" className="mt-3 text-3xl font-semibold tracking-tight">Make better video choices.</h2></div><Link href="/blog" className="inline-flex items-center gap-2 py-2 text-sm text-cyan-300">All guides <ArrowRight className="h-4 w-4" aria-hidden /></Link></div><ul className="mt-7">{recent.map(g => <li key={g.slug} className="border-t border-white/10"><Link href={`/blog/${g.slug}`} prefetch={false} className="group grid items-center gap-3 py-6 sm:grid-cols-[140px_1fr_24px]"><span className="text-xs text-slate-400">{g.category}</span><div><h3 className="text-lg font-semibold transition group-hover:text-cyan-200">{g.title}</h3><p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-400">{g.description}</p></div><ArrowUpRight className="hidden h-5 w-5 text-cyan-300 sm:block" aria-hidden /></Link></li>)}</ul></section>
+      <section id="platforms" className="defer-paint mt-14" aria-labelledby="platforms-title"><h2 id="platforms-title" className="text-xl font-semibold">Find help for your platform</h2><ul className="mt-4 flex flex-wrap gap-x-7 gap-y-3 text-sm">{LANDING_PAGES.map(p => <li key={p.slug}><Link href={`/${p.slug}`} prefetch={false} className="text-slate-300 underline decoration-slate-700 underline-offset-4 hover:text-cyan-200">{p.title}</Link></li>)}</ul></section>
+      <section id="faq" className="defer-paint mt-16 scroll-mt-24 sm:mt-20" aria-labelledby="faq-title"><div className="grid gap-7 lg:grid-cols-[1fr_1.5fr]"><div><p className="eyebrow">Before you save</p><h2 id="faq-title" className="mt-3 text-3xl font-semibold tracking-tight">A few useful answers.</h2><p className="mt-4 max-w-md leading-relaxed text-slate-400">Need help with a failed transfer? <Link href="/blog/video-download-fails" className="text-cyan-300 underline underline-offset-4">Start with the troubleshooting guide.</Link></p></div><div>{HOME_FAQS.map(f => <details key={f.question} className="group border-t border-white/10 py-4"><summary className="cursor-pointer py-1 pr-3 font-medium text-slate-200">{f.question}</summary><p className="mt-3 text-sm leading-relaxed text-slate-400">{f.answer}</p></details>)}</div></div></section>
+    </div>
+  </>;
 }

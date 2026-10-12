@@ -1,0 +1,23 @@
+# Pi ONLY. VM_HOST and verified public host key must be supplied manually.
+# No Install section; public forwarding needs explicit future authorization.
+[Unit]
+Description=VidFetch outbound restricted SSH link (PREPARED ONLY)
+After=network-online.target vidfetch-public-proxy.service
+[Service]
+User=vidfetch-link
+Group=vidfetch-proxy
+ExecStart=/usr/bin/ssh -N -T -o BatchMode=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile=/var/lib/vidfetch-link/known_hosts -o IdentityFile=/var/lib/vidfetch-link/id_ed25519 -o IdentitiesOnly=yes -o ExitOnForwardFailure=yes -o ServerAliveInterval=20 -o ServerAliveCountMax=3 -R 127.0.0.1:18788:/run/vidfetch-public/backend.sock vidfetch-link@VM_HOST
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+KillMode=control-group
+Restart=on-failure
+RestartSec=15
+TasksMax=16
+TimeoutStopSec=15
+StandardOutput=journal
+StandardError=journal

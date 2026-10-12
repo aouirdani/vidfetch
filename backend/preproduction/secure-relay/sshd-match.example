@@ -1,0 +1,11 @@
+# VM ONLY; separate sshd drop-in, backup and sshd -t before reload.
+Match User vidfetch-link
+    AllowTcpForwarding remote
+    PermitListen 127.0.0.1:18788
+    PermitOpen none
+    GatewayPorts no
+    PermitTTY no
+    X11Forwarding no
+    AllowAgentForwarding no
+    PermitTunnel no
+    ForceCommand /usr/sbin/nologin

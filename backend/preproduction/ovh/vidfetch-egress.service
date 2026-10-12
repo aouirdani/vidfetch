@@ -1,0 +1,12 @@
+[Unit]
+Description=VidFetch dedicated UID egress policy (no global firewall changes)
+Before=vidfetch.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/usr/bin/python3 /etc/vidfetch/egress-control.py start
+ExecStop=/usr/bin/python3 /etc/vidfetch/egress-control.py stop
+
+[Install]
+WantedBy=multi-user.target

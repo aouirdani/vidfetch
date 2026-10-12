@@ -1,0 +1,133 @@
+{
+  "date": "2026-10-12",
+  "branch": "work/vidfetch-secure-connection-20261012",
+  "baseCommit": "cf8cc173130f9832f2ca776c6fda563e67a6d9fb",
+  "vps": "15.235.127.165",
+  "os": "Debian 13.6 x86_64",
+  "runtime": {
+    "node": "22.23.3",
+    "ytDlp": "2026.08.19 unpacked official Linux x64",
+    "ffmpeg": "7.1.5-0+deb13u1"
+  },
+  "localServices": {
+    "worker": "127.0.0.1:8788",
+    "gateway": "127.0.0.1:8789",
+    "enabled": true,
+    "healthHttp": 200,
+    "rootEgressPolicy": "vidfetch-egress.service, only worker UID 999",
+    "memoryMaxMiB": {
+      "worker": 1024,
+      "gateway": 256
+    }
+  },
+  "bundles": {
+    "vidfetch-ovh.cjs": "fa0d3d4e15a5a45ca0deb2b35e7ba03adc95c31b87500378068121f291c42287",
+    "vidfetch-gateway.cjs": "a703f269641fc6c38fce74d4e7ff7f47ef5fe54a64b3e104dbab2082481dc1d5"
+  },
+  "tests": {
+    "unitPassed": 88,
+    "backendPassed": 17,
+    "gatewayLoadPassed": 3,
+    "vpsFixtureChecksPassed": 48,
+    "vpsFixtureChecksFailed": 0,
+    "systemdChecksPassed": 13,
+    "fixtureScope": "VPS shared backend using fixed public licensed fixture metadata; actual yt-dlp/ffmpeg, UID egress and installed authenticated gateway. Not a successful YouTube extraction or Internet browser test.",
+    "video": {
+      "type": "video",
+      "bytes": 4360399,
+      "sha256": "dcbe6f2ea404a52d4b2f6fc91f274874e69be1671a1097eb3dc19f28f7c6e40f",
+      "elapsedMs": 3837,
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "theora",
+            "codec_type": "video"
+          },
+          {
+            "codec_name": "vorbis",
+            "codec_type": "audio"
+          }
+        ],
+        "format": {
+          "duration": "32.996875",
+          "size": "4360399"
+        }
+      }
+    },
+    "mp3": {
+      "type": "audio",
+      "bytes": 792620,
+      "sha256": "38b23dc423846fff16d0d88950390ace9e9d3152d871ea8d0d0f9f676bd69ecf",
+      "elapsedMs": 3407,
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "mp3",
+            "codec_type": "audio"
+          }
+        ],
+        "format": {
+          "duration": "33.024000",
+          "size": "792620"
+        }
+      }
+    },
+    "resources": {
+      "sampleIntervalMs": 500,
+      "maxFamilyRssMiB": 254.06640625,
+      "vidfetch": {
+        "maxCgroupMiB": 83.01171875,
+        "cpuSeconds": 4.62824,
+        "peakIntervalCpuPercentOneCore": 116.65409181636726
+      },
+      "vidfetch-gateway": {
+        "maxCgroupMiB": 19.4609375,
+        "cpuSeconds": 0.609285,
+        "peakIntervalCpuPercentOneCore": 21.012
+      }
+    },
+    "forcedKillTmpResidualDirectories": 0,
+    "forcedKillTmpResidualBytes": 0,
+    "nftPolicyRecreatedAndVerified": true,
+    "quotaPersistence": "HTTP 429 QUOTA_EXCEEDED, no ledger reset",
+    "automaticRestartSeconds": 11.31,
+    "typescript": "VALIDÉ, Next/backend/gateway/OVH",
+    "eslint": "VALIDÉ",
+    "nodeCheck": "VALIDÉ, Mac and Linux VPS",
+    "nextBuild": "Prior validated default/secure builds preserved, not rerun (frontend unchanged)"
+  },
+  "latestAudit": {
+    "timestamp": "2026-10-12T17:11:25Z",
+    "workerPid": 9270,
+    "gatewayPid": 9271,
+    "sshPid": 869,
+    "availableMiB": 3413,
+    "workerProcesses": "Only two Node main processes, no yt-dlp/ffmpeg children or _MEI residuals"
+  },
+  "blocked": {
+    "youtube": "401 AUTH_REQUIRED / anti-bot from OVH, no circumvention",
+    "redirectCanary": "Public redirect test providers unavailable"
+  },
+  "notTested": [
+    "Public Caddy HTTPS",
+    "Internet Preview end-to-end",
+    "Other production platforms",
+    "Large files/HLS/DASH on VPS",
+    "Real 30 minute status retention on VPS",
+    "Actual reboot",
+    "Public bandwidth/production capacity"
+  ],
+  "restrictions": {
+    "piModified": false,
+    "piSshPerformed": false,
+    "vercelSupabaseCloudflareModified": false,
+    "publicAccessEnabled": false,
+    "rebootPerformed": false,
+    "pushCommitMergePerformed": false
+  },
+  "proofDirectory": "backend/artifacts/ovh-deployment-20261012-rnllrb69/"
+}

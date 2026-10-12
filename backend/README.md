@@ -1,5 +1,7 @@
 # Backend VidFetch local
 
+La cible actuelle est le **VPS OVH autonome**, installé et activé en loopback : [déploiement, preuves et étapes HTTPS/Preview](preproduction/OVH-VPS-DEPLOYMENT.md). Le Raspberry Pi est préservé. Vidéo et MP3 de fixture publique ont été validés sur VPS ; **YouTube réel demande une vérification anti-bot depuis OVH**. Aucun accès public ni paramètre Vercel/Supabase/Cloudflare modifié. Les préparations Funnel/Pi ci-dessous restent historiques ; le mode dégradé frontend reste le défaut.
+
 La source maintenue est maintenant `backend/server.ts`, avec un point d'entrée `backend/main.ts`. Les anciens fichiers dans `~/vidfetch-backend-build` sont conservés intégralement. Ne pas utiliser leur ancien bundle pour déployer les corrections.
 
 Les sources, tests et procédures sont destinés à GitHub ; `artifacts/` et `backups/` restent privés et exclus par `.gitignore`. Les liens vers ces preuves correspondent au poste de validation et ne sont pas disponibles dans un clone neuf. Le bundle Pi ne sera pas remplacé par un déploiement frontend. Pour le frontend Vercel, consulter [la procédure manuelle](../DEPLOY-VERCEL.md) : les téléchargements restent explicitement indisponibles jusqu'à la création d'une passerelle sécurisée. esbuild est épinglé à **0.25.12** pour reproduire le bundle Pi corrigé.

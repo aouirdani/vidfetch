@@ -3,6 +3,7 @@ import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD } from "next/constants
 import { spawnSync } from "node:child_process";
 import { resolve } from "node:path";
 import { isLocalEngineHosting } from "./src/lib/deployment";
+import { publicGatewayOrigin } from "./src/lib/gateway-origin";
 
 /**
  * Build targets share one codebase:
@@ -15,11 +16,14 @@ import { isLocalEngineHosting } from "./src/lib/deployment";
  *    route tree and the deployed site talks to a separate backend origin.
  */
 export default function configuration(phase: string): NextConfig {
+  const isOVH = process.env.VIDFETCH_TARGET === "ovh";
   const isNodeHost = isLocalEngineHosting(process.env);
   const isPagesBuild = process.env.VIDFETCH_TARGET === "cloudflare-pages"
     && process.env.VERCEL !== "1" && !process.env.VERCEL_ENV;
-  const downloadsUnavailable = !isNodeHost && !isPagesBuild;
-  const unavailableApi = "./src/server/unavailable-api.ts";
+  const gateway = process.env.VIDFETCH_TARGET === "secure-gateway" && process.env.VIDFETCH_CONNECTION_READY === "1"
+    && process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && publicGatewayOrigin(process.env.NEXT_PUBLIC_SITE_URL) ? publicGatewayOrigin(process.env.NEXT_PUBLIC_API_ORIGIN) : null;
+  const downloadsUnavailable = !isNodeHost && !isPagesBuild && !gateway && !isOVH;
+  const unavailableApi = isOVH ? "./src/server/ovh-api.ts" : "./src/server/unavailable-api.ts";
   const needsEngine = isNodeHost
     && [PHASE_PRODUCTION_BUILD, PHASE_DEVELOPMENT_SERVER].includes(phase)
     && process.env.VIDFETCH_SKIP_ENGINE_SETUP !== "1";
@@ -30,11 +34,15 @@ export default function configuration(phase: string): NextConfig {
   }
 
   return {
+    ...(isOVH ? { output: "standalone" as const, outputFileTracingIncludes: { "/*": ["./content/guides/*.md"] } } : {}),
     // The default frontend never needs engines, database credentials or platform flags.
     // Alias at build time: engines and database code never enter its API bundles.
     env: {
       NEXT_PUBLIC_DOWNLOADS_UNAVAILABLE: downloadsUnavailable ? "1" : "0",
-      NEXT_PUBLIC_API_ORIGIN: downloadsUnavailable ? "" : (process.env.NEXT_PUBLIC_API_ORIGIN ?? ""),
+      NEXT_PUBLIC_OVH_MODE: isOVH ? "1" : "0",
+      NEXT_PUBLIC_API_ORIGIN: isOVH ? "" : gateway ?? (downloadsUnavailable ? "" : (process.env.NEXT_PUBLIC_API_ORIGIN ?? "")),
+      NEXT_PUBLIC_SECURE_GATEWAY: (gateway || isOVH) ? "1" : "0",
+      NEXT_PUBLIC_TURNSTILE_SITE_KEY: gateway ? process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY! : "",
     },
     turbopack: {
       root: resolve("."),

@@ -7,7 +7,7 @@ const COLUMNS = [
   { title: "Product", links: [
     { label: "Video downloader", href: "/#extractor" },
     { label: "How it works", href: "/#how-it-works" },
-    { label: "Features", href: "/#features" },
+    { label: "Video & audio guides", href: "/blog" },
     { label: "Questions", href: "/#faq" },
   ] },
   { title: "Downloaders", links: LANDING_PAGES.map((page) => ({ label: page.title, href: `/${page.slug}` })) },
@@ -35,7 +35,7 @@ export function Footer() {
               </div>
             </div>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-400">
-              {SITE.tagline}. Download public videos and audio from four platforms, powered by yt-dlp and ffmpeg. Files stream directly to your device, without permanent media storage.
+              {SITE.tagline}. Save videos you own or have permission to download. Choose an available format and keep a copy on your device.
             </p>
             <ul className="mt-5 flex items-center gap-2">
               {PLATFORMS.map((platform) => (
@@ -59,7 +59,7 @@ export function Footer() {
           ))}
         </div>
         <div className="mt-12 flex flex-col gap-3 border-t border-white/5 pt-6 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between">
-          <p>© 2026 VidFetch.io — All rights reserved.</p>
+          <p>© 2026 VidFetch — All rights reserved.</p>
           <p>Only download content you own or have permission to save.</p>
         </div>
       </div>

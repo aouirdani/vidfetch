@@ -35,6 +35,7 @@ COPY --from=builder --chown=vidfetch:vidfetch /app/next.config.ts /app/server.js
 COPY --from=builder --chown=vidfetch:vidfetch /app/scripts ./scripts
 COPY --from=builder --chown=vidfetch:vidfetch /app/src/db ./src/db
 COPY --from=builder --chown=vidfetch:vidfetch /app/src/lib/deployment.ts ./src/lib/deployment.ts
+COPY --from=builder --chown=vidfetch:vidfetch /app/src/lib/gateway-origin.ts ./src/lib/gateway-origin.ts
 USER vidfetch
 EXPOSE 5000
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \

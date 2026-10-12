@@ -6,7 +6,8 @@ import { CircleAlert, ClipboardPaste, Link2, LoaderCircle, Search, X } from "luc
 import { clsx } from "clsx";
 import { PlatformChip } from "./PlatformChip";
 import { VideoCardSkeleton } from "./VideoCardSkeleton";
-import { downloadsUnavailable, DOWNLOADS_UNAVAILABLE_MESSAGE, postJson, type FetchInfoResponse, type FetchInfoSuccess } from "@/lib/api";
+import { downloadsUnavailable, DOWNLOADS_UNAVAILABLE_MESSAGE, postJson, secureGateway, type FetchInfoResponse, type FetchInfoSuccess } from "@/lib/api";
+import { DownloadAccess } from "./DownloadAccess";
 import { detectPlatform, PLATFORMS, PLATFORM_META, type Platform } from "@/lib/platforms";
 
 // The result card is only needed after a successful extraction.
@@ -40,12 +41,16 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<FetchInfoSuccess | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [authorized, setAuthorized] = useState(!secureGateway);
+  const [verificationNeeded, setVerificationNeeded] = useState(false);
+  const pending = useRef<string | null>(null);
+  const [waiting,setWaiting]=useState<string|null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
   const requestRef = useRef<AbortController | null>(null);
   const detection = useMemo(() => detectPlatform(value), [value]);
   const invalid = value.trim().length > 0 && !detection.ok;
-  const canSubmit = detection.ok && !loading && !downloadsUnavailable;
+  const canSubmit = detection.ok && !loading;
   // On a platform page, show that platform's link shape rather than a generic one.
   const hint = PLATFORM_META[platform ?? "tiktok"].examples[0] ?? PLATFORM_META.youtube.examples[0];
 
@@ -61,13 +66,14 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
       inputRef.current?.focus();
       return;
     }
+    if (!authorized) { pending.current = check.url; setVerificationNeeded(true); setError(null); return; }
     requestRef.current?.abort();
     const controller = new AbortController();
     requestRef.current = controller;
     setValue(check.url);
-    setLoading(true); setError(null); setResult(null);
+    setLoading(true); setError(null); setResult(null);setWaiting(null);
     try {
-      const payload = await postJson<FetchInfoResponse>("/api/fetch-info", { url: check.url }, controller.signal);
+      const payload = await postJson<FetchInfoResponse>("/api/fetch-info", { url: check.url }, controller.signal,notice=>setWaiting(`Waiting in line: position ${notice.position}. Estimated wait ${Math.ceil(notice.estimatedWaitMs/1000)} seconds.`));
       if (controller.signal.aborted) return;
       if (payload.ok) {
         setResult(payload);
@@ -78,8 +84,16 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
       } else setError(payload.error);
     } catch (cause) {
       if (!controller.signal.aborted) setError(cause instanceof Error ? cause.message : "Could not reach VidFetch. Check your connection and try again.");
-    } finally { if (!controller.signal.aborted) setLoading(false); }
-  }, [value]);
+    } finally { if (!controller.signal.aborted) {setLoading(false);setWaiting(null);} }
+  }, [value, authorized]);
+
+  useEffect(() => {
+    if (authorized && pending.current) {
+      const url = pending.current; pending.current = null;
+      const timer = setTimeout(() => { setVerificationNeeded(false); void submit(url); }, 0);
+      return () => clearTimeout(timer);
+    }
+  }, [authorized, submit]);
 
   // Auto-run a link arriving from a share sheet, bookmark or shared URL.
   const started = useRef(false);
@@ -90,7 +104,7 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
     if (!shared) return;
     const timer = window.setTimeout(() => {
       setValue(shared);
-      if (!downloadsUnavailable) void submit(shared);
+      if (!downloadsUnavailable && !secureGateway) void submit(shared);
       // Clear the query so a refresh doesn't silently re-run the extraction.
       window.history.replaceState(null, "", window.location.pathname + window.location.hash);
     }, 0);
@@ -99,7 +113,8 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
 
   function reset() {
     requestRef.current?.abort();
-    setValue(""); setResult(null); setError(null); setLoading(false);
+    pending.current = null; setVerificationNeeded(false);
+    setValue(""); setResult(null); setError(null); setLoading(false);setWaiting(null);
     inputRef.current?.focus();
   }
 
@@ -116,15 +131,12 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
 
   return (
     <>
-      {downloadsUnavailable && (
-        <p role="status" className="mx-auto mt-6 max-w-3xl rounded-2xl border border-amber-400/25 bg-amber-400/[0.08] px-4 py-3 text-sm leading-relaxed text-amber-100">
-          {DOWNLOADS_UNAVAILABLE_MESSAGE}
-        </p>
-      )}
+
+      {waiting&&<p role="status" className="mx-auto mt-4 max-w-3xl text-sm text-slate-300">{waiting}</p>}
       <form onSubmit={(event) => { event.preventDefault(); if (!loading) void submit(); }}
         className={clsx("mx-auto w-full max-w-3xl", compact ? "mt-7" : "mt-8")}>
         <div className={clsx("flex flex-col gap-2 rounded-2xl p-2 ring-1 transition-colors duration-200 sm:flex-row sm:items-center",
-          "glass-strong shadow-[0_24px_70px_-40px_rgba(139,92,246,0.9)]",
+          "glass-strong shadow-[0_24px_70px_-40px_rgba(34,211,238,0.2)]",
           invalid ? "ring-amber-400/40" : detection.ok ? "ring-cyan-400/50" : "ring-white/10 focus-within:ring-cyan-400/50")}>
           <div className="flex flex-1 items-center gap-2.5 px-2">
             <Link2 className={clsx("h-5 w-5 shrink-0 transition-colors", detection.ok ? "text-cyan-300" : "text-slate-400")} aria-hidden />
@@ -140,7 +152,7 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
             )}
           </div>
           <div className="flex items-center gap-2">
-            <button type="button" onClick={() => void paste()} disabled={loading || downloadsUnavailable}
+            <button type="button" onClick={() => void paste()} disabled={loading}
               className="inline-flex h-12 shrink-0 items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3.5 text-sm font-medium text-slate-200 transition hover:border-cyan-400/40 hover:text-white disabled:opacity-50 sm:h-11">
               <ClipboardPaste className="h-4 w-4" aria-hidden /> Paste
             </button>
@@ -164,7 +176,7 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
           <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
             <span className="text-[11px] text-slate-400">Try an example:</span>
             {EXAMPLES.map((example) => (
-              <button key={example.id} type="button" disabled={loading || downloadsUnavailable} onClick={() => void submit(example.url)}
+              <button key={example.id} type="button" disabled={loading} onClick={() => void submit(example.url)}
                 className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-[11px] font-medium text-slate-300 transition hover:border-cyan-400/40 hover:text-cyan-200 disabled:opacity-40">
                 {example.label}
               </button>
@@ -172,6 +184,8 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
           </div>
         )}
       </form>
+
+      {verificationNeeded && <DownloadAccess onChange={setAuthorized} />}
 
       {error && (
         <div role="alert" className="mx-auto mt-5 w-full max-w-3xl animate-rise rounded-2xl border border-red-400/25 bg-red-500/[0.08] p-4">

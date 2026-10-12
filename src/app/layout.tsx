@@ -17,7 +17,6 @@ export const metadata: Metadata = {
   creator: SITE.name,
   publisher: SITE.name,
   category: "technology",
-  alternates: { canonical: "/" },
   keywords: ["video downloader", "youtube downloader", "tiktok downloader", "instagram reels downloader", "x video downloader", "twitter video downloader", "mp4 download", "mp3 converter", "vidfetch"],
   openGraph: {
     type: "website", url: SITE.url, siteName: SITE.name, locale: SITE.locale,

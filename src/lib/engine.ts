@@ -73,6 +73,8 @@ export async function engineContext(platform: Platform): Promise<{ flags: string
     "--ignore-config", "--no-playlist", "--playlist-items", "1", "--no-progress", "--no-warnings", "--no-colors", "--no-cache-dir",
     "--socket-timeout", "20", "--retries", "3", "--extractor-retries", "2", "--fragment-retries", "3", "--js-runtimes", "node",
   ];
+  // Hosts that deliberately deny IPv6 egress must select IPv4 before connecting.
+  if (process.env.YTDLP_FORCE_IPV4 === "1") flags.push("--force-ipv4");
   if (engines().ffmpegPath) flags.push("--ffmpeg-location", engines().ffmpegPath!);
   const cookies = process.env[`YTDLP_${platform.toUpperCase()}_COOKIES`] || process.env.YTDLP_COOKIES_FILE;
   let directory: string | null = null;

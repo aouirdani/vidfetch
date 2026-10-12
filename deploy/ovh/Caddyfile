@@ -1,0 +1,73 @@
+{
+	admin 127.0.0.1:2019
+	# No access log: media URLs and single-use tickets must not be recorded.
+	log default {
+		format filter {
+			wrap json
+			fields {
+				request>uri query {
+					delete ticket
+					delete status
+					delete token
+				}
+				request>headers>Authorization delete
+				request>headers>Cookie delete
+				request>headers>X-Vidfetch-Proof delete
+			}
+		}
+	}
+}
+
+(common) {
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		X-Robots-Tag {$VIDFETCH_ROBOTS_HEADER:noindex, nofollow}
+		-Server
+	}
+	# Never expose service-only admission, deployment diagnostics or private engine health.
+	@private path /auth/admission /auth/deployment /internal/*
+	handle @private {
+		respond 404
+	}
+	@download path /api/fetch-info /api/download /api/queue /auth/transfer /download-helper
+	handle @download {
+		request_body {
+			max_size 8KB
+		}
+		header X-Robots-Tag "noindex, nofollow"
+		reverse_proxy 127.0.0.1:8789 {
+			header_up Host vidfetch.app
+			header_up X-Forwarded-Proto https
+			header_up X-Forwarded-For {remote_host}
+			# Progressive streaming; default cancellation stays tied to the client.
+			transport http {
+				dial_timeout 3s
+				response_header_timeout 240s
+			}
+			stream_timeout 660s
+		}
+	}
+	handle {
+		request_body {
+			max_size 32KB
+		}
+		encode zstd gzip
+		reverse_proxy 127.0.0.1:3000 {
+			header_up X-Forwarded-Proto https
+			header_up X-Forwarded-For {remote_host}
+			transport http {
+				dial_timeout 3s
+				response_header_timeout 30s
+			}
+		}
+	}
+}
+
+vidfetch.app {
+	import common
+	header Strict-Transport-Security "max-age=31536000"
+}
+www.vidfetch.app {
+	redir https://vidfetch.app{uri} 301
+}

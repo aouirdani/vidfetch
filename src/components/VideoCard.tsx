@@ -6,7 +6,7 @@ import { clsx } from "clsx";
 import { PlatformIcon } from "./PlatformIcon";
 import { PLATFORM_META } from "@/lib/platforms";
 import { formatBytes, formatCount, prettyCodec, type MediaFormat, type MediaInfo } from "@/lib/media";
-import { apiUrl, postJson, type DownloadResponse, type DownloadStatusResponse, type EngineStatus } from "@/lib/api";
+import { apiFetch, apiUrl, openSecureTransfer, postJson, type DownloadResponse, type DownloadStatusResponse, type EngineStatus } from "@/lib/api";
 
 type Props = { info: MediaInfo; engine: EngineStatus; onReset: () => void };
 type Notice = { text: string; tone: "info" | "success" | "error" };
@@ -108,23 +108,32 @@ export function VideoCard({ info, engine, onReset }: Props) {
     if (timerRef.current) clearTimeout(timerRef.current);
     const controller = new AbortController();
     requestRef.current = controller;
+    let channel: ReturnType<typeof openSecureTransfer>;
     try {
-      const ready = await postJson<DownloadResponse>("/api/download", { url: info.url, format_id: activeFormat.id, type: activeFormat.kind }, controller.signal);
-      if (!mounted.current) return;
+      channel = openSecureTransfer();
+      const ready = await postJson<DownloadResponse>("/api/download", { url: info.url, format_id: activeFormat.id, type: activeFormat.kind }, controller.signal,notice=>{
+        if(channel&&!channel.isOpen()){controller.abort();return;}
+        if(mounted.current)setNotice({tone:"info",text:`Waiting in line: position ${notice.position}. Estimated wait ${Math.ceil(notice.estimatedWaitMs/1000)} seconds. Keep this tab open.`});
+      });
+      if (!mounted.current) { channel?.close(); return; }
       if (!ready.ok) throw new Error(ready.error);
-      const anchor = document.createElement("a");
-      // The backend returns a relative ticket URL; resolve it against the API origin.
-      anchor.href = apiUrl(ready.downloadUrl);
-      anchor.download = ready.filename;
-      anchor.target = frameName;
-      document.body.appendChild(anchor); anchor.click(); anchor.remove();
+      if (channel) await channel.start(ready.token);
+      else {
+        const anchor = document.createElement("a");
+        // The backend returns a relative ticket URL; resolve it against the API origin.
+        anchor.href = apiUrl(ready.downloadUrl);
+        anchor.download = ready.filename;
+        anchor.target = frameName;
+        document.body.appendChild(anchor); anchor.click(); anchor.remove();
+      }
+      if (!mounted.current) return;
       setStage("streaming");
       setNotice({ tone: "info", text: "Saving to your device. Keep this tab open until it finishes." });
       let retries = 0;
       const poll = async () => {
         if (!mounted.current) return;
         try {
-          const response = await fetch(apiUrl(`/api/download?status=${encodeURIComponent(ready.token)}`), { cache: "no-store" });
+          const response = await apiFetch(`/api/download?status=${encodeURIComponent(ready.token)}`, { cache: "no-store", signal: controller.signal });
           const status = await response.json() as DownloadStatusResponse;
           if (!mounted.current) return;
           if (!status.ok) throw new Error(status.error);
@@ -154,8 +163,10 @@ export function VideoCard({ info, engine, onReset }: Props) {
       };
       timerRef.current = setTimeout(() => void poll(), 800);
     } catch (error) {
-      if (!mounted.current || controller.signal.aborted) return;
+      channel?.close();
+      if (!mounted.current) return;
       setStage("idle");
+      if(controller.signal.aborted){setNotice({tone:"info",text:"The waiting request was cancelled. You can try again."});return;}
       setNotice({ tone: "error", text: error instanceof Error ? error.message : "Could not start this download. Please try again." });
     }
   }

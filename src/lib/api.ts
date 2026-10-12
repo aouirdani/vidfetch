@@ -1,3 +1,6 @@
+import { SecureDownloadClient } from "./secure-client";
+import { resolveQueued,type QueueNotice } from "./queue-client";
+
 export type ApiError = { ok: false; error: string; code: string };
 export type EngineStatus = { ytDlp: string | null; ffmpeg: boolean };
 export type FetchInfoSuccess = { ok: true; info: import("./media").MediaInfo; engine: EngineStatus };
@@ -22,23 +25,39 @@ export type DownloadStatusResponse = {
  * allow the site's origin through CORS (see `CORS_ORIGIN` in server.js).
  */
 export const downloadsUnavailable = process.env.NEXT_PUBLIC_DOWNLOADS_UNAVAILABLE === "1";
-export const DOWNLOADS_UNAVAILABLE_MESSAGE = "Video extraction and downloads are temporarily unavailable. Please try again once the download service is connected.";
+export const DOWNLOADS_UNAVAILABLE_MESSAGE = "Video extraction and downloads are temporarily unavailable. Please try again later.";
 const API_ORIGIN = downloadsUnavailable ? "" : (process.env.NEXT_PUBLIC_API_ORIGIN ?? "").trim().replace(/\/+$/, "");
+export const secureGateway = process.env.NEXT_PUBLIC_SECURE_GATEWAY === "1";
+let client: SecureDownloadClient | null = null;
+function origin() { return API_ORIGIN || (typeof window !== "undefined" ? window.location.origin : "https://vidfetch.app"); }
+function secureClient() { return secureGateway ? (client ??= new SecureDownloadClient(origin())) : null; }
+export async function authorizeDownloads(challenge: string) { await secureClient()?.authorize(challenge); window.dispatchEvent(new Event("vidfetch-access-ready")); }
+export const openSecureTransfer = () => secureClient()?.openTransfer();
 
 /** Resolves an API path against the configured backend. Absolute URLs pass through. */
 export function apiUrl(path: string): string {
+  if (secureGateway) {
+    const url = new URL(path, origin());
+    if (url.origin !== origin() || !/^\/api\/(?:health|fetch-info|download|queue)$/.test(url.pathname) || url.username || url.password || url.hash) throw new Error("Invalid download API URL.");
+    return url.href;
+  }
   if (/^https?:\/\//i.test(path)) return path;
   const normalised = path.startsWith("/") ? path : `/${path}`;
   return API_ORIGIN ? `${API_ORIGIN}${normalised}` : normalised;
 }
 
-export async function postJson<T>(path: string, body: unknown, signal?: AbortSignal): Promise<T> {
-  const response = await fetch(apiUrl(path), {
+export function apiFetch(path: string, init: RequestInit = {}): Promise<Response> {
+  const active = secureClient();
+  if (active) { const url = new URL(apiUrl(path)); return active.request(url.pathname + url.search, init); }
+  return fetch(apiUrl(path), init);
+}
+
+export async function postJson<T>(path: string, body: unknown, signal?: AbortSignal,onQueue?:(notice:QueueNotice)=>void): Promise<T> {
+  const response = await apiFetch(path, {
     method: "POST", headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body), cache: "no-store", signal,
   });
-  const payload = await response.json().catch(() => null) as T | null;
+  const payload = await resolveQueued<T>(response,apiFetch,signal,onQueue) as T | null;
   if (payload === null) throw new Error(`The server returned an unreadable response (${response.status}). Please try again.`);
   return payload;
 }
-

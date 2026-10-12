@@ -8,7 +8,7 @@ import { PlatformIcon } from "@/components/PlatformIcon";
 import { PLATFORM_META } from "@/lib/platforms";
 import { CONTENT_UPDATED, LANDING_PAGES, SITE, applicationSchema, breadcrumbSchema, faqSchema, howToSchema, jsonLdGraph, landingPageFor, pageMetadata, webPageSchema } from "@/lib/seo";
 
-export const revalidate = 86400;
+export const revalidate = false;
 // Only the curated slugs exist; anything else is a genuine 404 rather than thin content.
 export const dynamicParams = false;
 

@@ -535,3 +535,128 @@ Le précédent build validé utilisait explicitement `VIDFETCH_TARGET=vercel`. S
 Preuves privées et sauvegardes : `backend/artifacts/vercel-db-fix-20261012-1xh__9mj/`. La copie isolée a été créée depuis les fichiers suivis/candidats, sans secrets, avec une copie locale des dépendances installées ; aucun paquet installé. `build-default.log`, `build-node.log`, `http-default.log`, `tests.log`, `backend-tests.log`, `typecheck.log`, `backend-typecheck.log`, `lint.log` et `release-check.log` conservent les résultats. Les preuves HTTP/Chrome sont sous `build-without-env/backend/artifacts/vercel-http-Oi8CWW/`. Voir le [résumé publiable](validation/vercel-database-fix-20261012.json).
 
 La correction validée est destinée à un nouveau commit sur la **même branche**, avec push normal expressément autorisé par l'utilisateur. Aucun changement de `main`, force push, PR, fusion, réglage Vercel/Supabase/Cloudflare ou promotion en production. Les étapes Preview actualisées sont dans [DEPLOY-VERCEL.md](../DEPLOY-VERCEL.md) : sélectionner le nouveau SHA, ne pas reconstruire uniquement l'ancien commit et ne pas ajouter de fausse URL de base.
+
+## 21. Connexion sécurisée Vercel ↔ Raspberry Pi — préparation du 12 octobre 2026
+
+La correction précédente est désormais dans le commit de base validé `cf8cc173130f9832f2ca776c6fda563e67a6d9fb`. Pour cette nouvelle mission, branche de travail **locale uniquement** `work/vidfetch-secure-connection-20261012`. Aucun commit/push, SSH vers le Pi, modification systemd/réseau, paramètre Vercel/Supabase, tunnel public, compte externe ou service payant. Le bundle opérationnel Pi garde son SHA-256 `d370ccfb8574a2f714e86fcde6e555ddd665a846be761ffe29256a648d4a168c`.
+
+### Recherche et recommandation
+
+Le [plan complet](preproduction/SECURE-CONNECTION-PLAN.md) compare Cloudflare Tunnel/Access, Tailscale privé/Funnel, ngrok, OCI, petit VPS et R2, avec leurs documentations officielles consultées. Cloudflare précise maintenant expressément que ses routes Tunnel publiques Free/Pro/Business sont soumises aux restrictions média : Access ne suffit pas à autoriser ce transport. Funnel n'annonce pas de plafond numérique garanti utilisable pour dimensionner ce service ; ngrok Free fournit seulement 1 Go sortant/mois.
+
+Architecture candidate : **VM OCI Always Free → Caddy HTTPS → relais Node authentifié → boucle distante SSH → socket Unix Pi → worker dans namespace réseau filtré**. La connexion SSH part du Pi et ne demande aucun port forwarding de box. Le navigateur reçoit ses fichiers depuis le relais ; seule l'autorisation JSON passe par Vercel. Gratuité conditionnelle à l'offre/région/quotas disponibles, reprise d'instances inactives possible. Le contrat applicable au compte est à vérifier ; aucun abonnement ou accès n'est créé. Repli payant documenté, aucune souscription.
+
+### Code préparé
+
+Émetteur `/api/download-access` sans DB, challenge Turnstile validé côté serveur, session courte HttpOnly et grants de 120 s avec clé navigateur P-256. Appels sensibles HMAC + preuve ECDSA liée au corps/méthode/chemin/grant, nonces anti-rejeu durables, quotas IP/visiteur/global. Autorisation anonyme sans compte personnel, Supabase inchangé.
+
+Relais : tickets externes aléatoires liés à leur propriétaire et IP, expiry 55 s et usage unique, cookie natif de transfert court ; secret de service absent du navigateur. Le helper HTTPS est une fenêtre de premier niveau permettant un téléchargement natif sans Blob complet ni cookies tiers. Formats/onglets vidéo/audio existants, polling, état du moteur, erreurs et mode dégradé conservés. API distante activable seulement avec mode/readiness et origines HTTPS publiques valides. Aucune URL Pi privée ajoutée au JavaScript de production.
+
+Node, yt-dlp et ffmpeg futurs sont placés dans un namespace qui doit refuser LAN/loopback/metadata/redirections privées et limiter toutes les requêtes secondaires. Le relais refuse le backend actuel sans profil d'isolation avec 503 `SECURITY_NOT_READY`. **Cette protection réseau n'est pas déclarée validée :** les modèles nftables/systemd/SSH/Caddy restent non installés, le profil root est une attestation administrative après audit et tests Linux. Aucun mécanisme d'activation du réseau hôte n'est exécuté/fourni comme installateur automatique. Avant exploitation, un seul worker doit remplacer l'ancien après accord ; deux instances distinctes auraient deux verrous indépendants.
+
+Un problème supplémentaire a été réellement constaté : ffmpeg peut terminer avec code 0 en produisant seulement des tags ID3 lorsqu'il ne lit pas l'audio d'un MP4 non seekable. Ajout ciblé `-abort_on empty_output` à la **source future** `backend/server.ts` ; test négatif ne conclut plus completed. Le bundle installé sur Pi n'est pas remplacé. Un média MP4 non adapté au pipe peut encore être refusé proprement ; aucune promesse de conversion universelle ou chargement complet en RAM.
+
+### Validation réelle
+
+| Contrôle | Résultat |
+| --- | --- |
+| ESLint | **VALIDÉ**, sortie 0 |
+| TypeScript frontend, backend et gateway/worker | **VALIDÉ**, trois programmes distincts, sorties 0 |
+| Builds Next défaut et secure-gateway sans DB | **VALIDÉ**, copies isolées sans fichiers `.env`, sans `DATABASE_URL`, aucun secret fictif ; identité des sources applicatives contrôlée |
+| Tests unitaires | **VALIDÉ 80/80**, zéro échec final |
+| Tests backend HTTP/processus | **VALIDÉ 17/17**, zéro échec final |
+| Gateway HTTPS sécurité | **VALIDÉ 1/1**, comprend auth/rejeu HMAC/PoP, owner, ticket, concurrence, expiration/rétention accélérées, déconnexion, panne moteur et isolation absente |
+| Chrome HTTPS entre deux sites | **VALIDÉ**, helper natif et cookie de premier niveau, 128 000 octets exacts, statut completed, aucun Blob ; challenge simulé |
+| Vidéo avec vrais moteurs Mac via HTTPS | **VALIDÉ**, fixture originale faststart de 2 s, 49 786 octets, completed, SHA-256 identique à la source, ffprobe + décodage complet |
+| MP3 avec vrais moteurs Mac via HTTPS | **VALIDÉ**, 49 676 octets, completed, codec MP3, ffprobe + décodage complet |
+| MP3 sans audio / fixture non streamable | **VALIDÉ après correction**, erreur terminale et absence de completed |
+| Build HTTP/Chrome dégradé | **VALIDÉ**, santé 200, 8 cas média/access 503, méthodes/concurrence/SEO/mobile/traces, zéro requête API UI et arrêt du serveur test |
+| Bundles Node22 CJS + node --check | **VALIDÉ sur Mac**, gateway et nouveau public-worker ; shim ffmpeg-static, imports builtin, absence de chemins Mac/modules natifs intégrés |
+| Scan de fichiers candidats / whitespace | **VALIDÉ**, aucun motif de secret/fichier privé détecté ; portée limitée aux règles du scanner |
+| Tour complet Internet Vercel → VM → Pi → navigateur | **NON TESTÉ**, aucun téléchargement public déclaré fonctionnel |
+| Turnstile réel / certificat public / liaison SSH | **NON TESTÉ**, comptes/configurations à créer manuellement |
+| nftables, namespace, futurs services systemd Linux | **NON TESTÉ**, tests adversariaux nécessaires avant exposition |
+| Ressources supplémentaires Pi et relais réel | **NON TESTÉ**, 195,6 MiB était la mesure historique de l'ancien backend, pas de cette architecture |
+| Activation publique | **BLOQUÉE** jusqu'à isolation prouvée, fournisseur/compte confirmé et validation complète ; arrêt volontaire avant les actions non autorisées |
+
+Les premiers essais en **ÉCHEC** ont été conservés puis corrigés : MP3 tags seuls, appel fetch avec mauvais contexte `this` dans Chrome, lib DOM.Iterable TypeScript et normalisation IPv6 du contrôle DNS. Aucun échec restant dans les suites locales finales ; les limites et contrôles non exécutés ci-dessus demeurent explicites.
+
+Preuves privées : `backend/artifacts/secure-connection-20261012-nd1zjwt0/` avec sauvegardes originales, `lint-complete.log`, `typecheck-complete.log`, `backend-typecheck-complete.log`, `gateway-typecheck-complete.log`, `unit-tests-complete.log`, `backend-tests.log`, `gateway-tests-complete.log`, `gateway-browser-complete.log`, `gateway-media-verified.log`, `build-verification-final.json`, deux builds sans env, `http-default-browser-final.log` et scan de livraison. Preuves média originales : `backend/artifacts/gateway-media-VerRGg/results.json` ; preuve Chrome : `backend/artifacts/secure-tls-hGGO8n/browser-results.json`. Les certificats/clés de test et médias sont exclus de Git. Le [résumé publiable](validation/secure-connection-20261012.json) expose uniquement les résultats et empreintes non secrètes.
+
+Fichiers créés : `backend/gateway/`, `backend/public-worker/`, `backend/preproduction/secure-relay/`, `SECURE-CONNECTION-PLAN.md`, nouvelle route/crypto/client/types/widget et tests. Fichiers modifiés : `next.config.ts`, `Dockerfile`, `src/lib/api.ts`, composants formulaire/carte/badge, `backend/server.ts` (une option ffmpeg), test HTTP Vercel, README et ce rapport. Aucun nouveau paquet npm ni changement de lockfile.
+
+Le plan fournit les comptes à créer par l'utilisateur, l'ordre de configuration Pi/VM, les noms des variables Vercel, la vérification complète et le rollback. **Restent à autoriser séparément :** nouveau réseau/namespace/units Pi, VM/SSH/public HTTPS, futur push, paramètres Preview Vercel, essai Internet et activation finale. Le service Pi actuel, SSH, 8787, Supabase et la production restent préservés.
+
+## 22. Infrastructure gratuite et capacité Raspberry Pi — 12 octobre 2026
+
+**Décision changée par l'utilisateur : Oracle/VPS abandonné temporairement.** Le [rapport demandé](preproduction/RASPBERRY-FREE-SCALING.md) présente la passerelle authentifiée sur le Pi, le pilote Funnel, les limites/conditions fournisseur, une file sécurisée, les mesures et hypothèses, l'alternative IPv6 et les étapes manuelles. Même branche locale de travail, aucun commit/push ; `release/vidfetch-vercel-20261011` reste à `cf8cc173…` et `main` à `d572cf89…`.
+
+### Pi : inspection réelle et blocage matériel
+
+SSH non interactif validé en lecture seule. Backend santé HTTP 200, Node 22.22.2/aarch64, yt-dlp 2026.08.19/ffmpeg présents. PID backend **19166**, `NRestarts=0`, SHA de son bundle opérationnel inchangé `d370ccfb…a168c`. SSH PID **867** actif, 8787 absent comme au début, backend exclusivement loopback 8788. Aucune installation, aucun sudo, reboot, changement systemd/réseau ou fichier distant. Les scripts sont exécutés par SSH depuis stdin et leurs sorties enregistrées sur Mac.
+
+Snapshot réel : RSS backend **55,9 MiB**, RAM disponible minimum **587,6 MiB** sur **905,0 MiB**, swap occupé **132,4 MiB**, température **32,7–33,2 °C**, CPU du service inchangé pendant les six secondes de snapshot. Route Wi-Fi `wlan0`, Ethernet inactif, IPv6 globale présente sans test entrant ; Tailscale absent. Filesystem racine ~21,2 Go disponibles. Contrôleur mémoire toujours absent. Aucune charge CPU moteur nouvelle exécutée sur Pi.
+
+**ÉCHEC matériel constaté** : `get_throttled=0x50005` persiste sur plusieurs lectures et `rpi_volt/in0_lcrit_alarm=1`. Sous-tension et throttling sont actuels, pas seulement historiques. Fréquence de 600 MHz observée au repos, pas de conclusion sur sa fréquence maximale en charge. Aucun réglage pour masquer l'alarme. Information demandée sur alimentation/câble, sans débrancher/rebooter le Pi.
+
+La sonde d'upload est préparée à 32/64/128 KiB/s, quatre secondes chacun, **896 KiB maximum**, zéros seulement, contrôle de latence et guards. Son exécution réelle a retourné **BLOQUÉ**, code 2, **zéro byte et zéro requête de mesure WAN**, en raison de la sous-tension. Débit ISP et débit Funnel **NON TESTÉS** ; aucun speedtest saturant ou estimation présentée comme mesure.
+
+Contrôle final à **10:05:45 UTC** : santé 200, mêmes PID backend/SSH, zéro restart, même SHA, 8787 toujours absent ; sous-tension toujours active. Un timeout SSH initial sous sandbox a été levé par la reprise autorisée hors sandbox ; aucune intervention sur le Pi n'a été nécessaire.
+
+### Préparation du code, sans déploiement
+
+Queue de metadata en RAM : **deux places**, FIFO, un pending par visiteur/IP, attente absolue 180 s, heartbeat 20 s, claim sous 15 s. Extraction et download partagent le verrou unique. Réponses 202 additives, endpoint gateway `/api/queue` signé et lié au propriétaire/IP, consommation unique, annulation sans moteur. Le client conserve les réponses finales existantes, affiche position/estimation et annule si fenêtre/onglet ferme. Aucun média en mémoire et aucune file Supabase.
+
+Ticket média créé seulement après claim. Correction d'une course dans le **futur gateway** : expiration extérieure 55 s ne libère pas le worker avant la deadline Pi 60 s et une marge de nettoyage ; test accéléré couvre le cas. Quotas/nonces SQLite existants conservés. Nouvelle option mode Funnel exige headers fournisseur écrasés/hostname et peer loopback ; adaptation vers le socket Unix du worker isolé, aucune liaison VM. Source officielle actuelle consultée, version réelle Tailscale **NON TESTÉE**.
+
+Nouveaux modèles publics : **16 MiB**, média 15 min, gateway 64 KiB/s, opération 10 min ; le worker applique aussi le plafond avant lancement pour une taille connue. Garde Pi lecture seule (alarme voltage, <65 °C, ≥256 MiB disponibles), refus 503 `RESOURCE_GUARD` avant moteur/sur santé de passerelle ; absent/inaccessible = refus. L'ancien service 256 MiB/30 min reste inchangé. Nouvelle unité gateway proposée avec heap 64 MiB, CPU 50 %, nice 19, répertoire SQLite 0700 et sans `MemoryMax`, **non installée**.
+
+### Validation
+
+| Contrôle | Résultat |
+| --- | --- |
+| Santé/empreinte/service Pi, SSH, 8787 | **VALIDÉ**, observations réelles et contrôle final |
+| ESLint et trois programmes TypeScript | **VALIDÉ**, sorties 0 |
+| Tests unitaires | **VALIDÉ 88/88**, suite précédente conservée, nouveaux cas queue/guards |
+| Charge HTTPS synthétique Mac 1/2/4/8 | **VALIDÉ**, une opération active, deux attente max, six refus aux paliers saturés ; aucun vrai moteur ni WAN |
+| Headers Funnel simulés / owner / cancel / metadata queue | **VALIDÉ**, pas de moteur supplémentaire, pas de fuite de ticket source |
+| Expiration ticket / worker encore occupé | **VALIDÉ**, la file ne propose pas le tour avant cleanup source |
+| Mémoire/CPU du test local | **VALIDÉ comme mesure Mac uniquement**, dernier scénario complet pic **73,4 MiB**, admission ~7–32 ms, CPU moyen ~2–8,1 % d'un cœur |
+| Chrome natif après adaptations | **VALIDÉ**, cookie sécurisé/helper entre deux origines et fichier exact |
+| Vidéo/MP3 avec moteurs Mac | **VALIDÉ**, un média original court, intégrité/décodage, contre-test MP3 vide conservé |
+| Builds Next défaut et secure sans DB/.env | **VALIDÉ**, copies isolées, identité des sources applicatives vérifiée |
+| HTTP/Chrome dégradé | **VALIDÉ**, API 503, UI/SEO/méthodes/traces/arrêt du serveur conservés |
+| Bundles gateway/worker `node --check` | **VALIDÉ sur Mac**, artefacts neufs, aucun remplacement du bundle Pi |
+| Scan candidats / whitespace | **VALIDÉ**, pas de secret/fichier privé détecté par les règles du scanner |
+| Upload / nouvelle charge Pi | **BLOQUÉ**, sous-tension actuelle |
+| Isolation Linux/Tailscale réel/Funnel/Preview public | **NON TESTÉ**, aucun accès public activé |
+| Capacité de production 100–500/jour | **NON TESTÉ**, modèle hypothétique uniquement |
+
+La suite backend précédente **17/17** et les vidéos/MP3 Pi validés restent conservés ; aucun rerun inutile du backend installé sous alarme matérielle. Le premier typecheck a signalé un type Buffer incompatible lors de la reprise du corps queued ; correction ciblée et programmes finaux valides.
+
+Les calculs du rapport distinguent visiteurs/conversion : hypothèse 10 MiB, 20 s info/visiteur et 20 s préparation, débit 64 KiB/s, fenêtre 12 h : 100 visiteurs à 20 % demanderaient ~1,56 h de worker ; 500 à 20 %, ~7,78 h (65 %), déjà au-delà de la marge cible 60 % et au plafond 100 tentatives/jour. Pour 3 000 à 20 %, ~46,67 h : impossible dans ce scénario avec ce seul worker. **Ce ne sont pas des benchmarks.**
+
+Funnel reste beta, débit plafonné non chiffré garanti, hostname ts.net et usage personnel non commercial ; aucune autorisation illimitée de gros médias déduite de l'absence de ban spécifique trouvé. Alternative gratuite conditionnelle : IPv6 + AAAA DNS-only + HTTPS/auth/isolation, nécessite accord d'entrée 443 et exclut les clients IPv4-only. Aucun accès gratuit universel validé si Funnel est inadapté et toute entrée est interdite. Aucun CNAME, relais vidéo Vercel ou Cloudflare Tunnel média utilisé comme contournement.
+
+Preuves privées/sauvegardes : `backend/artifacts/free-scaling-20261012-sd3i0fof/`, snapshot/probe/scénarios, logs unitaires/charge/Chrome/média/build/lint/TS et nouveaux bundles. Charge complète finale : `backend/artifacts/secure-tls-d0lpo4/load-results.json`. Module SQLite natif Node 22.22.2 vérifié disponible sur Pi sans création de DB, encore expérimental. Le profil optionnel `VIDFETCH_PI_MODE=1` prépare aussi la même passerelle/socket/garde sous reverse proxy pour l'alternative IPv6, sans ouverture automatique. [Résumé publiable](validation/free-scaling-20261012.json). Le rapport fournit paliers 100→250→500→milliers, critères p95/429/RAM/CPU/débit/succès, instructions manuelles et rollback. Restent alimentation, mesures réelles, Linux SSRF, installation/network permissions, fournisseur, futur push/Preview et activation **à autoriser séparément**.
+
+
+## 23. Migration OVH locale — 12 octobre 2026
+
+La décision OVH remplace la cible gratuite Pi/Funnel, conservée dans l'historique. [Rapport complet demandé](preproduction/OVH-VPS-DEPLOYMENT.md), [résumé](validation/ovh-vps-20261012.json) et preuves privées `artifacts/ovh-deployment-20261012-rnllrb69/`. Même branche/base cf8 ; aucune suppression du travail existant, aucun commit/push/merge. Aucun SSH ou changement Pi, Vercel, Supabase, Cloudflare, accès public ou reboot.
+
+**VALIDÉ** : SSH OVH, Debian 13.6 x86_64/2 vCPU/3 826 MiB RAM, contrôleurs cgroup CPU/memory/pids ; Node 22.23.3 officiel, yt-dlp 2026.08.19 officiel décompressé, ffmpeg/ffprobe 7.1.5 Debian ; nouveaux utilisateurs worker/gateway, release dédiée et secrets root 0600. Services `vidfetch.service`, `vidfetch-gateway.service`, `vidfetch-egress.service` installés/enabled ; moteur 127.0.0.1:8788 et gateway 127.0.0.1:8789, aucune écoute publique ajoutée. Mémoire cgroup 1 Gio/256 Mio, CPU 150 %/50 %, une opération et queue deux places.
+
+**VALIDÉ** : lint/TypeScript et programmes backend explicites, 88/88 unités, 17/17 backend, 3/3 queue/charge ; nouveaux bundles Node 22 CJS autonomes, shim null, syntaxe Mac/VPS et empreintes vérifiées. Frontend inchangé dans cette migration ; builds Next sans DB et tests Chrome/HTTPS précédents conservés, aucun rerun de build prétendu.
+
+**VALIDÉ** : 48/48 tests VPS de fonctions backend partagées sous protections et gateway réel, avec entrée temporaire de métadonnées de fixture publique autorisée W3C/Big Buck Bunny ; vrais yt-dlp/ffmpeg, validation réseau non désactivée. Vidéo Ogg **4 360 399 octets**, MP3 **792 620 octets**, ffprobe et décodage intégral, completed et compteurs exacts ; usage unique, expiration réelle 61,5 s, propriétaire/rejeu/origine, queue/concurrence, aborted après déconnexion et aucun enfant restant. Ces preuves ne sont pas une extraction YouTube réussie ni une connexion Internet Preview. Pic RSS familles **257,1 Mio**, cgroup moteur **226,5 Mio**, gateway **20,6 Mio** ; distribution décompressée finale **48/48**, pic RSS familles **254,1 Mio**, cgroup moteur **83,0 Mio**, gateway **19,5 Mio**, vidéo **3,837 s**, MP3 **3,407 s**. Mesures complètes dans le résumé.
+
+**VALIDÉ** : cycle systemd 13/13, arrêt ports/enfants, démarrage, SIGKILL Node avec moteur actif, reprise automatique **11,548 s**, SSH PID **869** inchangé. Politique nft limitée au UID worker 999, privée/metadata/IPv6/ports interdits bloqués ; guard stop ferme les ports, politique recréée sans identifiants volatils, santé permanente restaurée. Aucun firewall entrant global remplacé.
+
+**ÉCHECS intermédiaires corrigés** : timeout IPv6 (choix IPv4 réservé à OVH), Host ignoré par Node fetch dans le test (http.request), fixture silencieuse remplacée, limites de démarrage atteintes par tests (reset ciblé), hash nft dépendant de handles (normalisation structurelle), résidu PyInstaller après SIGKILL **85 470 495 octets** (distribution Linux décompressée : **0 répertoire/0 octet**). Quota persistant de l'IP synthétique atteint, conservé ; aucune suppression de ledger pour faciliter les tests.
+
+**BLOQUÉ** : YouTube depuis OVH répond **401 AUTH_REQUIRED** après ~3,7 s, vérification anti-bot ; aucun cookie/session/proxy/contournement. Test de suivi réel d'un redirect public vers un canary privé bloqué par l'indisponibilité des sites de test. **NON TESTÉ** : HTTPS/Caddy public, Preview de bout en bout, autres plateformes, gros fichiers/HLS/DASH, rétention réelle 30 minutes sur VPS, reboot effectif et capacité WAN/production.
+
+Le modèle Caddy cible `api.vidfetch.app` via DNS-only puis gateway signé ; fichiers navigateur↔VPS directement, Vercel transporte seulement les petits grants/admissions JSON. Instructions DNS, Turnstile, variables Preview (noms seulement pour secrets), whitelist exacte, vérification et rollback dans le rapport. Pas de bascule depuis le Pi ni d'exposition avant accord distinct et preuve de fonctionnement sur une plateforme accessible.
+
+Audit final **2026-10-12T17:11:25Z** : santé 200 permanente sans marqueur fixture ; PID moteur **9270**, gateway **9271**, SSH **869** ; trois unités active/enabled, aucun enfant yt-dlp/ffmpeg ni résidu `_MEI`, RAM disponible **3 413 MiB**. Dernier cycle distribution finale **13/13**, reprise après crash contrôlé **11.31 s**. Quota persistant confirmé **429 QUOTA_EXCEEDED** ; aucun reset des quotas. Les empreintes de release finales correspondent aux bundles Mac.

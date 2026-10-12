@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { clsx } from "clsx";
-import { apiUrl, downloadsUnavailable } from "@/lib/api";
+import { apiFetch, downloadsUnavailable } from "@/lib/api";
 
 /**
  * Tiny client island so the rest of the header stays server-rendered.
@@ -16,7 +16,7 @@ export function EngineBadge() {
     const controller = new AbortController();
     const check = async () => {
       try {
-        const response = await fetch(apiUrl("/api/health"), { cache: "no-store", signal: controller.signal });
+        const response = await apiFetch("/api/health", { cache: "no-store", signal: controller.signal });
         const data = (await response.json()) as { ok?: boolean; engine?: { ytDlp?: string | null } };
         setStatus(data.ok && data.engine?.ytDlp ? "online" : "offline");
       } catch {
@@ -26,8 +26,10 @@ export function EngineBadge() {
     const idle = typeof window.requestIdleCallback === "function"
       ? window.requestIdleCallback(() => void check(), { timeout: 2500 })
       : window.setTimeout(() => void check(), 1200);
+    window.addEventListener("vidfetch-access-ready", check);
     return () => {
       controller.abort();
+      window.removeEventListener("vidfetch-access-ready", check);
       if (typeof window.cancelIdleCallback === "function" && typeof idle === "number") window.cancelIdleCallback(idle);
       else window.clearTimeout(idle as number);
     };

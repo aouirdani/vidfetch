@@ -3,8 +3,8 @@ import { PLATFORM_META, type Platform } from "./platforms";
 
 export const SITE = {
   name: "VidFetch",
-  domain: "vidfetch.io",
-  url: process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://vidfetch.io",
+  domain: "vidfetch.app",
+  url: "https://vidfetch.app",
   tagline: "Your videos, a link away",
   locale: "en_US",
   email: "support@vidfetch.io",
@@ -147,7 +147,7 @@ export function applicationSchema(options?: { name?: string; description?: strin
     description: options?.description ?? "Download public videos and audio from YouTube, TikTok, Instagram and X. Paste a link, choose a quality, and save the file directly to your device.",
     applicationCategory: "MultimediaApplication", operatingSystem: "Any modern web browser", browserRequirements: "Requires JavaScript",
     inLanguage: "en", isAccessibleForFree: true, publisher: { "@id": `${SITE.url}/#organization` },
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     featureList: options?.features ?? ["Download videos from YouTube, TikTok, Instagram and X", "Choose from the quality levels the source provides", "Convert the soundtrack to MP3 audio", "No account or installation required"],
   };
 }
@@ -181,7 +181,7 @@ export function faqSchema(faqs: Array<{ question: string; answer: string }>, url
 export function howToSchema(url: string): JsonLd {
   return {
     "@type": "HowTo", "@id": `${url}#howto`, name: "How to download a video with VidFetch", inLanguage: "en",
-    totalTime: "PT1M", tool: [{ "@type": "HowToTool", name: "A web browser" }],
+    tool: [{ "@type": "HowToTool", name: "A web browser" }],
     step: [
       { "@type": "HowToStep", position: 1, name: "Paste a link", text: "Copy the link to a public video on YouTube, TikTok, Instagram or X and paste it into the VidFetch field.", url: `${url}#extractor` },
       { "@type": "HowToStep", position: 2, name: "Choose a format", text: "Select Extract to preview the video, then pick a video quality or the MP3 audio option.", url: `${url}#extractor` },
@@ -199,15 +199,15 @@ export function breadcrumbSchema(items: Array<{ name: string; path: string }>): 
 
 /** A single @graph block keeps structured data valid and avoids duplicate node IDs. */
 export function jsonLdGraph(nodes: JsonLd[]): string {
-  return JSON.stringify({ "@context": "https://schema.org", "@graph": nodes });
+  return JSON.stringify({ "@context": "https://schema.org", "@graph": nodes }).replace(/</g, "\\u003c");
 }
 
 export const HOME_FAQS = [
   { question: "Is VidFetch free to use?", answer: "Yes. VidFetch is free, needs no account and shows no advertising. You paste a link, choose a format and download the file." },
   { question: "Which platforms are supported?", answer: "YouTube, TikTok, Instagram and X (formerly Twitter). VidFetch handles individual videos, Reels, Shorts and share links, but not profiles, hashtags or photo-only posts." },
   { question: "Can I download private or restricted videos?", answer: "No. VidFetch only reaches content that is publicly available to an anonymous visitor. Private accounts, deleted posts, login-gated media and region-blocked videos are reported as unavailable." },
-  { question: "Does VidFetch store my downloads?", answer: "No media files are kept. Video data streams through the server to your browser. Limited technical details such as the link, title, chosen format and transfer status are recorded so the service can be operated and debugged. They are never published on the site." },
+  { question: "Does VidFetch store my downloads?", answer: "No media files are kept. Video data streams through the server to your browser. Temporary transfer status and limited operational records help keep the service running. Download links and titles are not published." },
   { question: "How do I save a video as MP3?", answer: "Extract the link, open the Audio tab and pick MP3. The soundtrack is encoded with ffmpeg into a real MP3 file rather than a renamed video container." },
-  { question: "Is there a file size or length limit?", answer: "The download backend limits output to 256 MiB, declared media duration to 30 minutes and the whole operation to 10 minutes. One operation runs at a time. Extraction and downloads are temporarily unavailable on this frontend until its secure download service is connected." },
+  { question: "Is there a file size or length limit?", answer: "The download backend limits output to 256 MiB, declared media duration to 30 minutes and the whole operation to 10 minutes. One operation runs at a time. Availability also depends on the video source." },
   { question: "Is it legal to download videos?", answer: "It depends on the content and where you live. Only download videos you own, that are licensed for reuse, or that you have the rights holder's permission to save. Public visibility alone is not permission." },
 ];

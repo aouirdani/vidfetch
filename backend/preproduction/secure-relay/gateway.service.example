@@ -1,0 +1,31 @@
+[Unit]
+Description=VidFetch authenticated relay (PREPARED, NOT INSTALLED)
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=300
+StartLimitBurst=3
+[Service]
+User=vidfetch-relay
+Group=vidfetch-relay
+WorkingDirectory=/opt/vidfetch-relay
+EnvironmentFile=/etc/vidfetch-relay/private.env
+ExecStart=/usr/bin/node --max-old-space-size=96 /opt/vidfetch-relay/gateway.cjs
+Restart=on-failure
+RestartSec=15
+KillMode=control-group
+TimeoutStopSec=30
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+StateDirectory=vidfetch-relay
+ReadWritePaths=/var/lib/vidfetch-relay
+MemoryMax=256M
+TasksMax=64
+LimitNOFILE=1024
+StandardOutput=journal
+StandardError=journal
+[Install]
+WantedBy=multi-user.target

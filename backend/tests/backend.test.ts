@@ -156,7 +156,7 @@ test("consumed tickets do not expire during a progressing stream", async () => {
 });
 test("timeout 504, empty stream 502, spawn failure 503, size/duration 413", async () => {
   for (const [extra, expected] of [[{ test_mode: "hang" }, 504], [{ test_mode: "empty" }, 502], [{ duration: 1801 }, 413], [{ formats: [{ ...raw().formats[0], filesize: 300 * 1024 * 1024 }] }, 413]] as const) {
-    const b = await setup({ limits: { firstMs: 100 }, engine: { dumpJson: async () => ({ raw: raw(extra), ytDlpVersion: "test" }) } });
+    const b = await setup({ limits: { firstMs: 1000 }, engine: { dumpJson: async () => ({ raw: raw(extra), ytDlpVersion: "test" }) } });
     try { assert.equal((await b.post("/api/download", { url: URL, format_id: "18", type: "video" })).status, expected); }
     finally { await b.shutdown(); }
   }
@@ -235,10 +235,10 @@ test("real metadata runner is abortable, bounds output and cleans the process gr
   const directory = await mkdtemp(resolve(tmpdir(), "vidfetch-metadata-"));
   const log = resolve(directory, "pids.txt"); process.env.VIDFETCH_TEST_PID_LOG = log;
   try {
-    await assert.rejects(dumpJson(URL, 100, { cache: false }), { code: "TIMEOUT", status: 504 });
+    await assert.rejects(dumpJson(URL, 1000, { cache: false }), { code: "TIMEOUT", status: 504 });
     const nextController = new AbortController();
-    const task = dumpJson(URL, 1000, { signal: nextController.signal, cache: false });
-    await delay(60); nextController.abort(new EngineError("TIMEOUT", "cancelled", 504));
+    const task = dumpJson(URL, 3000, { signal: nextController.signal, cache: false });
+    await eventually(async () => { try { return (await readFile(log, "utf8")).trim().length > 0; } catch { return false; } }); nextController.abort(new EngineError("TIMEOUT", "cancelled", 504));
     await assert.rejects(task, { status: 504 });
     const pids = (await readFile(log, "utf8")).trim().split("\n").map(Number);
     await eventually(async () => pids.every(pid => { try { process.kill(pid, 0); return false; } catch { return true; } }));

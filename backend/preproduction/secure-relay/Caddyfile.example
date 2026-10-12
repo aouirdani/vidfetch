@@ -1,0 +1,28 @@
+# TEMPLATE ONLY. Requires your real hostname; DNS-only, no Cloudflare CDN proxy.
+{
+    log default {
+        format filter {
+            wrap json
+            fields {
+                request delete
+                resp_headers delete
+            }
+        }
+    }
+}
+download.example.net {
+    header {
+        Strict-Transport-Security "max-age=31536000"
+        X-Content-Type-Options nosniff
+        Referrer-Policy no-referrer
+    }
+    reverse_proxy 127.0.0.1:8789 {
+        header_up Host {host}
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Forwarded-Proto https
+        transport http {
+            response_header_timeout 240s
+        }
+    }
+    # No access log: URLs can contain download tickets.
+}

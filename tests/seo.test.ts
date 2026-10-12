@@ -75,7 +75,7 @@ describe("structured data", () => {
   it("describes the application as a free web app", () => {
     const app = applicationSchema() as Record<string, unknown>;
     assert.equal(app.isAccessibleForFree, true);
-    assert.deepEqual(app.offers, { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" });
+    assert.deepEqual(app.offers, { "@type": "Offer", price: "0", priceCurrency: "USD" });
     // Invented ratings violate Google's structured data policies.
     assert.equal("aggregateRating" in app, false);
     assert.equal("review" in app, false);
