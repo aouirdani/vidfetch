@@ -22,7 +22,7 @@ for (const path of paths) {
 checked('17 pages: HTTP 200, one H1, correct canonical, social cards and valid JSON-LD');
 assert.equal((await fetch(base + '/nonexistent')).status, 404);
 const missing = await (await fetch(base + '/blog/nonexistent')).text(); assert.match(missing, /noindex/);
-const robots = await (await fetch(base + '/robots.txt')).text(); assert.match(robots, /Disallow: \/api\//); assert.match(robots, /Disallow: \/auth\//);
+const robots = await (await fetch(base + '/robots.txt')).text(); assert.match(robots, /Disallow: \/api\//); assert.match(robots, /Disallow: \/auth\//); assert.doesNotMatch(robots, /Disallow: \/_next\//);
 assert.doesNotMatch(sitemap, /vidfetch\.io|127\.0\.0\.1|\/api\//);
 for (const path of ['/api/fetch-info', '/api/download']) {
   const response = await fetch(base + path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{"url":"https://youtu.be/aqz-KE-bpKQ"}' });

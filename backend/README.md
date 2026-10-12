@@ -90,3 +90,14 @@ La validation d'entrée utilise une liste exacte de domaines et chemins de médi
 Ces vérifications préalables ne constituent pas une isolation réseau complète : les redirections, requêtes secondaires, résolutions suivantes ou manifests traités dans yt-dlp/ffmpeg ne sont pas tous contrôlés par Node. Une future exposition exige une politique de sortie réseau couvrant aussi ces processus, en plus d'une authentification ou passerelle sécurisée. Voir les recommandations [OWASP sur SSRF](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html).
 
 Un frontend Vercel ne peut pas accéder directement au `127.0.0.1` du Pi. La validation ARM64 locale est faite ; le service systemd local est également actif ; restent le choix explicite d’un accès privé ou d’une passerelle sécurisée et les protections réseau associées, puis un adaptateur frontend conservant URL, format, type, ticket et polling du statut. Un service permanent ou une modification réseau nécessite l'accord explicite de l'utilisateur. Aucun tunnel, reverse proxy public, port forwarding, changement Vercel ou changement Supabase n'est réalisé ici.
+
+## Hébergement complet OVH préparé (2026-10-12)
+
+La cible `VIDFETCH_TARGET=ovh` compile un frontend Next.js standalone et conserve
+les moteurs dans un service distinct, avec passerelle authentifiée en loopback.
+Voir [le rapport et les étapes manuelles](../docs/OVH-FULL-MIGRATION.md).
+Les templates sont dans `deploy/ovh/`, le workflow dans `.github/workflows/deploy.yml`.
+Le CI/CD et l'exposition publique restent désactivés jusqu'aux validations indiquées.
+Ne pas confondre les fixtures `deploy/ovh/validation/` avec les entrypoints réels
+`backend/ovh/main.ts` et `backend/gateway/main.ts` ; les fixtures n'entrent pas dans
+les bundles de release. Aucun tunnel ou changement Raspberry Pi n'est nécessaire.
