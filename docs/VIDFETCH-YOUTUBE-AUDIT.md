@@ -1,6 +1,6 @@
 # VidFetch — audit de compatibilité YouTube sur OVH
 
-Audit du **13 octobre 2026**, indépendant de la Phase 10. Branche `work/vidfetch-youtube-audit-20261013`. Les sections 1 à 7 décrivent l'état constaté **avant** correctif ; la section 8 décrit le correctif de classement des erreurs préparé dans la même branche. Ce correctif ne débloque pas YouTube et n'ajoute aucun contournement.
+Audit du **13 octobre 2026**, indépendant de la Phase 10. Branche `work/vidfetch-youtube-audit-20261013`. Les sections 1 à 7 décrivent l'état constaté **avant** correctif et constituent l'audit, proposé dans sa propre PR. La section 8 décrit le correctif de classement des erreurs, proposé dans une PR séparée ; sa livraison est décrite dans `docs/VIDFETCH-ERROR-CLASSIFICATION-RELEASE.md`. Ce correctif ne débloque pas YouTube et n'ajoute aucun contournement.
 
 ## Conclusion : **BLOQUÉ**
 
@@ -149,6 +149,8 @@ Autres points :
 - Non testé : le parcours réel sur le VPS (routes fermées) et un vrai navigateur.
 
 ### Conséquence de déploiement, à lire avant de fusionner
+
+Détail, état du VPS et exigences de la livraison : `docs/VIDFETCH-ERROR-CLASSIFICATION-RELEASE.md`.
 
 Les deux artefacts protégés par le garde CI changent :
 
