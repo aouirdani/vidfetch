@@ -2,6 +2,23 @@
 
 Procédure d'administrateur, **non exécutée et non testée sur le VPS** (aucun accès VPS dans cette mission). Elle suppose les sauvegardes horodatées prévues à l'étape 2 du plan d'activation (`docs/VIDFETCH-PHASE9-ACTIVATION.md` §G). Garder une seconde session SSH ouverte pendant toute la procédure. **Ne jamais utiliser `firewall.py rollback` pour ce retour arrière** : il arrête Caddy et supprime toute la table d'ingress (l'apex disparaît aussi). On restaure l'ancienne table à la place.
 
+## Outils fournis (à préférer aux étapes manuelles)
+
+Les scripts de `deploy/ovh/media/admin/` exécutent ce retour arrière ; le tableau plus bas reste la référence manuelle si un script n'est pas utilisable.
+
+| Besoin | Commande | Ce qu'elle fait |
+|---|---|---|
+| **Urgence : fermer l'accès** (étapes 1 et 3 du tableau) | `sudo bash 04-cancel.sh` | remet `ingress.nft` et la table nft d'origine, le pointeur Caddy, retire le drop-in `media-test.conf`, recharge Caddy, vérifie le résultat. C'est le même script que la minuterie automatique (`restore-network.sh`) : étapes indépendantes, application directe de la table sauvegardée si l'outil pare-feu échoue. |
+| **Retour complet à la sauvegarde** (étapes 1 à 5, sauf redémarrages) | `sudo bash /var/backups/vidfetch-media-test-latest/restore-full.sh /var/backups/vidfetch-media-test-latest --yes` | vérifie l'intégrité de la sauvegarde, restaure le réseau, puis **toute** l'arborescence `/etc/vidfetch` (environnements, garde CI, drapeaux) à l'identique avec propriétaires et modes, l'unité Caddy et ses drop-ins, retire les fichiers media-test et le profil CI s'il n'existait pas. **Ne redémarre rien** et indique quoi redémarrer. Ne remplace pas les certificats Caddy. |
+| Fermer seulement le frontend | `sudo bash set-ready.sh 0` | `VIDFETCH_CONNECTION_READY=0`, redémarre uniquement le frontend |
+| Retirer le profil CI | `sudo bash 06-profile.sh remove` | le promoteur revient au profil fermé |
+
+Pendant la fenêtre de recette, la restauration réseau se déclenche **toute seule** (minuterie systemd armée par `03-network.sh`) tant que `04-confirm.sh` n'a pas été validé par une nouvelle connexion SSH depuis l'IP testeur.
+
+Après `restore-full.sh`, redémarrer uniquement ce dont l'environnement a changé : le frontend (`vidfetch-web-preproduction-20261013.service`) et, si son origine avait été modifiée, la passerelle (hors transfert actif). Puis faire les vérifications de l'étape 6.
+
+## Procédure manuelle de référence
+
 L'ordre compte : on ferme d'abord l'accès, puis on retire la configuration.
 
 | # | Action | Effet | Vérification |
