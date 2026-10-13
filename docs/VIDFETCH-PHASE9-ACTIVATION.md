@@ -66,3 +66,71 @@ Déjà en place depuis la Phase 8 et relue : `GET /api/download-access` fournit 
 4. Sur le VPS, en admin : sauvegarde (env, Caddy, nft), ouverture 80/443 conformément au plan, puis `install-web-secrets.sh`.
 5. Autoriser ensuite : installation du Caddy candidat, émission du certificat HTTP-01, `ready=1`, redémarrage du frontend seul, recette navigateur.
 6. Rollback : voir Phase 8 §12 (fermer Caddy, ready=0, restaurer sauvegardes ; ne pas supprimer certificats ni anciennes releases).
+
+---
+
+# Phase 9b — profil CI, réseau, certificat, script de secrets
+
+Branche inchangée (`work/vidfetch-activation-prep-20261013`), commits identifiables : `53e129ab` (profil CI + script), `3ce94e06` (Caddy + ingress + tests), puis ce document.
+
+## A. Défaut critique trouvé et corrigé dans le Caddy candidat de la Phase 8
+
+`deploy/ovh/media/Caddyfile.test-only` contenait `respond @notTester 403` au premier niveau du site `dl`. Caddy ordonne `handle` **avant** `respond` : le refus ne s'exécutait donc jamais. **Reproduit sur Caddy 2.11.7** (la version du VPS) : avec la liste `192.0.2.1/32`, un non-testeur recevait **200 de la passerelle** sur `/api/fetch-info` et `/api/download`. La Phase 8 n'avait validé que `caddy adapt` (syntaxe), pas le comportement. Le même défaut existait pour le refus hors Cloudflare de l'apex dans ce candidat.
+
+Correctif : refus dans un `handle` exclusif placé en premier, pour `dl` et pour l'apex. Test comportemental (`deploy/ovh/tests/test_caddy_gating.py`, 23 assertions avec un vrai Caddy dans Docker) : non-testeurs 403 partout ; testeur : uniquement les 5 routes autorisées atteignent la passerelle, `/api/health`, `/auth/admission`, `/auth/deployment`, `/internal/*` donnent 404 ; apex refuse un pair non-Cloudflare. Le même test exécuté sur la version Phase 8 échoue 13 fois. La configuration Caddy **active** du VPS (`public-test/Caddyfile`) ne contient pas ce motif et n'a pas été touchée.
+
+## B. Profil CI « recette médias »
+
+`deploy/ovh/ci/promote.py` : le profil est **désactivé par défaut**. Il n'existe que si root crée `/etc/vidfetch/ci-media-test-profile.json` avec exactement `{"profile":"media-test","apex":"basic-auth-noindex","dl":"testers-only"}` (fichier root, non inscriptible par groupe/autres ; tout autre contenu refuse le déploiement).
+
+| | profil fermé (défaut) | profil `media-test` |
+|---|---|---|
+| Garde (empreintes fichiers, services protégés, PID, artefacts moteur/passerelle) | inchangé | **inchangé** |
+| `downloads.available` | doit être `false` | doit être un booléen (état opérationnel) |
+| Apex | 401 Basic + noindex, `/api/download`, `/api/fetch-info` 503, sitemap 404 | tout cela **plus** `POST/GET /api/download-access` = 401, `/api/queue`, `/auth/transfer`, `/download-helper` = 503 |
+| Compte SSH CI | frontend seulement | inchangé |
+
+Le garde n'est ni supprimé ni contourné : changer Caddy, l'environnement ou la passerelle continue d'exiger une revue administrative et une mise à jour des empreintes. Tests : `deploy/ovh/tests/test_media_profile.py` (profil absent/inexact/permissions, booléen strict, checks additionnels, garde non référencé par le profil).
+
+## C. nftables (préparé, non appliqué)
+
+`deploy/ovh/media/render-ingress.py --testers FICHIER [--open-port-80]` génère la table `vidfetch_https_test_ingress` (même nom, même structure que l'actuelle, donc compatible avec `public-test/firewall.py apply` : remplacement atomique, `nft --check`, rien d'autre touché) et `VIDFETCH_MEDIA_TEST_IPS=…` pour Caddy, depuis la **même liste** (une seule source de vérité).
+
+Règles ajoutées : `tcp dport 443 ip saddr @testers4 accept`. Conservés : SSH 22, loopback, established, ICMP, DHCP, Cloudflare 80/443, reject de 3000/3001/8788/8789, drop UDP 443, `drop` final. Liste vide = ensemble vide = `dl` injoignable (fail closed, et Caddy retombe sur `192.0.2.1/32`).
+
+Validation du rendu : refus des préfixes plus larges que /24, des IPv6 (pas d'AAAA), des adresses privées/réservées/multicast/loopback/CGNAT, de tout chevauchement avec les plages Cloudflare (sinon n'importe quel client Cloudflare serait admis), plus de 32 entrées ; syntaxe vérifiée avec le vrai `nft --check` (Debian) pour liste pleine et vide. `tests/test_ingress.py` : 9 tests.
+
+**Limite** : nftables ne voit pas le nom d'hôte TLS. Un testeur autorisé peut donc aussi atteindre l'apex en 443, qui reste derrière Basic Auth. Le comportement des paquets vis-à-vis de vraies IP sources n'a pas été testé (pas de VPS/netns multiples ici) : seuls la syntaxe et le texte des règles le sont.
+
+## D. Certificat
+
+Voir `docs/VIDFETCH-DL-CERTIFICATE-OPTIONS.md`. **HTTP-01 recommandé** : aucun secret ni binaire en plus ; port 80 mondial qui ne répond que des 308 (mesuré). DNS-01 exigerait un binaire Caddy recompilé et un jeton capable de modifier tout le DNS de la zone.
+
+## E. `install-web-secrets.sh` : revue et tests
+
+Défauts trouvés dans ma première version et corrigés : valeurs écrites avec `echo` (remplacé par `printf '%s'`) ; `|| true` qui masquait une erreur de lecture de `grep` ; aucune vérification de propriétaire/symlink/permissions ; pas de verrou ; `chmod` forcé sans contrôle de l'existant ; clé HMAC non validée (le code attend exactement 43 caractères base64url) ; première occurrence prise au lieu de la dernière (systemd retient la dernière) ; clés factices de test Cloudflare (`1x0000…`) acceptables.
+
+Ajoutés : refus sous `bash -x`, root + propriétaire root + pas de symlink + modes ≤ 0640 sur les deux fichiers, `flock`, validation des formats, refus des clés factices Cloudflare, sauvegarde 0600 avant toute écriture, construction à côté puis `mv` atomique, vérification que seules les 4 variables ont changé et qu'elles sont uniques, aucune valeur affichée.
+
+Tests (`install-web-secrets.test.sh`, root sous Debian dans Docker, **fausses clés uniquement**) : succès, aucun secret dans la sortie, mode 600, remplacement sans doublon, autres lignes et `READY=0` préservés, sauvegarde correcte, pas de fichier temporaire, ré-exécution idempotente, refus (format, clés factices, HMAC absent, fichier lisible par tous, symlink, mauvais propriétaire, xtrace) sans modification ni sauvegarde. Les sauvegardes `.bak.*` contiennent des secrets : root 0600, à purger après recette.
+
+## F. Limites de cette recette (à lire avant d'inviter quiconque)
+
+1. **Un sous-domaine « réservé aux testeurs » n'est pas un contrôle d'accès par lui-même.** `dl` est en DNS only : son IP est publique, son certificat apparaîtra dans les journaux CT, et n'importe qui peut l'atteindre tant qu'une règle ne le refuse pas. La protection repose sur trois barrières cumulées qui doivent toutes être en place : nftables (443 testeurs), `remote_ip` Caddy, puis les contrôles applicatifs (grant HMAC lié à la clé du navigateur, preuve P-256, ticket unique, cookie hôte, quotas). Si une seule est mal appliquée, vérifier immédiatement que `dl` répond 403/refus depuis une IP non autorisée.
+2. Le défaut Caddy de la section A prouve que « syntaxe valide » ne suffit pas : **exécuter le test de refus depuis une vraie IP non testeuse** après installation (curl depuis un réseau extérieur : timeout/reset attendu, jamais 200).
+3. Une IP de testeur est partagée dès qu'il y a NAT/CGNAT ou réseau d'entreprise : tout le monde derrière elle passe le filtre réseau. Préférer des IP fixes individuelles ; les contrôles applicatifs restent la dernière barrière.
+4. Les IP testeurs sont à jour dans **deux** conséquences (nft et Caddy) : toujours régénérer les deux depuis le même fichier avec `render-ingress.py`.
+5. Port 80 mondial (si HTTP-01) : redirections seulement, mesuré avec Caddy 2.11.7 ; à re-vérifier après installation.
+6. Non testés : Turnstile réel, règles nft sur de vraies IP sources, émission/renouvellement Let's Encrypt, `install-web-secrets.sh` avec de vraies clés, parcours navigateur public. Aucun déploiement ni changement sur le VPS n'a eu lieu.
+
+## G. Opérations administratives (dans l'ordre, rien n'est fait)
+
+1. Fournir la liste des IP testeurs (IPv4 fixes) ; générer nft + env Caddy avec `render-ingress.py` ; relire le diff.
+2. Sauvegarder sous un répertoire root horodaté : `web.env`, `worker.env`/passerelle, Caddyfile, `public-https-test/ingress.nft`, garde CI, export `nft list ruleset`, stockage Caddy. Garder une seconde session SSH.
+3. Appliquer l'ingress avec `public-test/firewall.py apply` (atomique, `--check`) ; tester SSH ; décider `--open-port-80`.
+4. Installer le Caddy candidat corrigé (`caddy validate` + `adapt`, puis reload) ; surveiller l'émission HTTP-01 ; vérifier chaîne TLS stricte.
+5. Exécuter `install-web-secrets.sh` (saisie masquée) ; ne pas changer `ready`.
+6. Créer `/etc/vidfetch/ci-media-test-profile.json` (root 0644 ou 0600) **et** régénérer les empreintes du garde après revue ; sans cela le déploiement CI refuse, comme prévu.
+7. Depuis une IP non testeuse : `dl` doit refuser. Depuis une IP testeuse : parcours réel Turnstile → MP4/MP3.
+8. Alors seulement : `ready=1`, redémarrage du seul frontend.
+9. Rollback : retirer la table d'ingress modifiée (`firewall.py rollback`), restaurer Caddy/env depuis les sauvegardes, `ready=0`, supprimer le fichier de profil CI ; ne rien supprimer d'autre.
