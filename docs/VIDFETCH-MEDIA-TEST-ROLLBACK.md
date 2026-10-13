@@ -4,13 +4,14 @@ Procédure d'administrateur, **non exécutée et non testée sur le VPS** (aucun
 
 ## Outils fournis (à préférer aux étapes manuelles)
 
-Les scripts de `deploy/ovh/media/admin/` exécutent ce retour arrière ; le tableau plus bas reste la référence manuelle si un script n'est pas utilisable.
+Les scripts de `deploy/ovh/media/admin/` exécutent ce retour arrière ; le tableau plus bas reste la référence manuelle si un script n'est pas utilisable. Aucun de ces scripts ne supprime de répertoire ni ne supprime de façon récursive : ils retirent uniquement des fichiers nommés qu'ils ont eux-mêmes créés, après validation du chemin.
 
 | Besoin | Commande | Ce qu'elle fait |
 |---|---|---|
 | **Urgence : fermer l'accès** (étapes 1 et 3 du tableau) | `sudo bash 04-cancel.sh` | remet `ingress.nft` et la table nft d'origine, le pointeur Caddy, retire le drop-in `media-test.conf`, recharge Caddy, vérifie le résultat. C'est le même script que la minuterie automatique (`restore-network.sh`) : étapes indépendantes, application directe de la table sauvegardée si l'outil pare-feu échoue. |
 | **Retour complet à la sauvegarde** (étapes 1 à 5, sauf redémarrages) | `sudo bash /var/backups/vidfetch-media-test-latest/restore-full.sh /var/backups/vidfetch-media-test-latest --yes` | vérifie l'intégrité de la sauvegarde, restaure le réseau, puis **toute** l'arborescence `/etc/vidfetch` (environnements, garde CI, drapeaux) à l'identique avec propriétaires et modes, l'unité Caddy et ses drop-ins, retire les fichiers media-test et le profil CI s'il n'existait pas. **Ne redémarre rien** et indique quoi redémarrer. Ne remplace pas les certificats Caddy. |
 | Fermer seulement le frontend | `sudo bash set-ready.sh 0` | `VIDFETCH_CONNECTION_READY=0`, redémarre uniquement le frontend |
+| Revenir à l'ancienne passerelle | `sudo bash 08-gateway.sh rollback` | remet le bundle, le drop-in et l'environnement sauvegardés par la mise à niveau, redémarre la passerelle seule (hors transfert actif) et vérifie. Si le garde CI avait été réconcilié, remettre sa version précédente (`ci-web-test-guard.json.bak.<heure>`). |
 | Retirer le profil CI | `sudo bash 06-profile.sh remove` | le promoteur revient au profil fermé |
 
 Pendant la fenêtre de recette, la restauration réseau se déclenche **toute seule** (minuterie systemd armée par `03-network.sh`) tant que `04-confirm.sh` n'a pas été validé par une nouvelle connexion SSH depuis l'IP testeur.
