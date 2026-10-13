@@ -1,0 +1,101 @@
+{
+  "date": "2026-10-13",
+  "baseCommit": "f23ca65b0865ed771bf80a95de8e2a0de1ba45f1",
+  "publicReleaseUnchanged": "f23ca65b0865ed771bf80a95de8e2a0de1ba45f1",
+  "protectedFilesUnchanged": true,
+  "protectedServicePidsUnchanged": true,
+  "temporaryServicesStopped": true,
+  "engineOrphans": 0,
+  "video": {
+    "bytes": 11053871,
+    "sha256": "b2ded9ae5a20fa36ca8cec49ef923bffb5e1a51d9e8c1f8336273d2fa9d35ff0",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "codec_type": "video"
+        },
+        {
+          "codec_name": "aac",
+          "codec_type": "audio"
+        }
+      ],
+      "format": {
+        "duration": "33.002667",
+        "size": "11053871"
+      }
+    },
+    "decodeAndSingleUse": "PASS recorded in recipe-c journal"
+  },
+  "audio": {
+    "privateTLS": true,
+    "publicInternetTest": false,
+    "challenge": "mocked",
+    "metadata": "Blender official trailer OGV, injected metadata; original report label W3C was stale; worker-v3 used download.blender.org",
+    "engines": "real yt-dlp and ffmpeg, UID nft active",
+    "results": [
+      {
+        "type": "audio",
+        "bytes": 792620,
+        "elapsedMs": 3925,
+        "status": "completed",
+        "sha256": "38b23dc423846fff16d0d88950390ace9e9d3152d871ea8d0d0f9f676bd69ecf",
+        "probe": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_name": "mp3",
+              "codec_type": "audio"
+            }
+          ],
+          "format": {
+            "duration": "33.024000",
+            "size": "792620"
+          }
+        }
+      },
+      {
+        "disconnect": "aborted"
+      },
+      {
+        "expiry": "expired after default 55s ticket / 60s worker window",
+        "concurrency": "429 for a second operation",
+        "cors": "exact origin only",
+        "unauthenticated": "denied"
+      }
+    ]
+  },
+  "privateGatewayTLS": {
+    "trust": "explicit private fixture certificate; not public dl.vidfetch.app",
+    "authorization": "real signed grants, P256 proofs, cookies, tickets",
+    "challenge": "mocked verifier, no live Turnstile key"
+  },
+  "tests": {
+    "unit": 133,
+    "backend": 17,
+    "gateway": 2,
+    "queue": 4,
+    "deployment": 27,
+    "localSSRPages": 38,
+    "languages": 8,
+    "publicClosedMediaChecks": 12
+  },
+  "resources": {
+    "workerMP4PeakBytes": 91721728,
+    "workerOGVMP3PeakBytes": 87568384,
+    "workerAudioRecipeCpuSeconds": 5.340237,
+    "gatewayAndClientAudioPeakBytes": 36274176,
+    "gatewayAndClientAudioCpuSeconds": 1.744,
+    "availableMemoryMiB": 3229,
+    "availableDiskGiB": 35
+  },
+  "limitations": [
+    "W3C returned 403 on subsequent yt-dlp transfers; MP3 validated with official Blender source",
+    "No live Turnstile verification",
+    "No public media DNS/certificate/end-to-end test",
+    "No authorized TikTok/Instagram/X URLs supplied"
+  ]
+}
