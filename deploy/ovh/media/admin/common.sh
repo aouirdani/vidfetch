@@ -9,6 +9,7 @@ GUARD=${VM_GUARD:-/etc/vidfetch/ci-web-test-guard.json}
 BACKUPS=${VM_BACKUPS:-/var/backups}
 SYSTEMCTL=${VM_SYSTEMCTL:-systemctl}
 NFT=${VM_NFT:-nft}
+JOURNALCTL=${VM_JOURNALCTL:-journalctl}
 CADDY_UNIT=vidfetch-caddy.service
 WEB_UNIT=vidfetch-web-preproduction-20261013.service
 TIMER=vidfetch-media-rollback

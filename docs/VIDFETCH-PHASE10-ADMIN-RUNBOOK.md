@@ -85,7 +85,7 @@ bash ~/media-test-stage/admin/verify-tester.sh <TESTER_IP>        # copier le sc
 ```
 Attendu : chaîne TLS vérifiée strictement, `dl` : routes non listées 404, POST anonyme refusé, en-têtes `no-referrer` / `noindex` / `no-store`, apex 401 + routes médias 503, accès **direct** à l'apex (hors Cloudflare) 403. Sur le VPS : `curl -s --resolve vidfetch.app:443:127.0.0.1 -o /dev/null -w '%{http_code}\n' https://vidfetch.app/` → `401` (les contrôles locaux de la CI passent par le loopback, autorisé exprès).
 
-Quand **tout** est vert : `sudo bash 04-confirm.sh` (désarme la minuterie). Après cela le nouvel état est permanent, y compris au redémarrage (le fichier `ingress.nft` a été remplacé).
+Quand **tout** est vert : `sudo bash 04-confirm.sh`. Il désarme la minuterie **uniquement si sshd a journalisé une connexion réussie après l'application des règles** (donc une nouvelle connexion, pas une session ouverte avant) ; il affiche les sources des connexions et n'a volontairement aucune option `--force` : sans preuve, laisser la minuterie restaurer, corriger, recommencer. Après cela le nouvel état est permanent, y compris au redémarrage (le fichier `ingress.nft` a été remplacé).
 
 **Retour arrière de l'étape** : `sudo bash 04-cancel.sh` (ou le script de restauration de la sauvegarde) ; la minuterie assure la même chose automatiquement tant qu'elle n'est pas confirmée.
 
@@ -132,7 +132,8 @@ Le déploiement CI reste **désactivé** (`VIDFETCH_DEPLOY_ENABLED=false`) penda
 | Rendu pour `<TESTER_IP>/32` | `nft --check` OK (open80 et closed80), chargé dans un noyau de conteneur |
 | Caddy 2.11.7 réel | non-testeur 403 partout ; testeur : 5 routes seulement ; apex : non-Cloudflare 403, **loopback accepté** (voir ci-dessous) ; en-têtes `dl` |
 | `caddy reload` | la variable `VIDFETCH_MEDIA_TEST_IPS` est résolue par le processus CLI du reload : l'`EnvironmentFile` suffit, pas de redémarrage de Caddy |
-| Scripts d'administration (37 vérifications, conteneur root, outils système simulés) | refus sans sauvegarde/staging, minuterie armée **avant** l'application, échec d'application → restauration immédiate, restauration sans toucher env/garde, `ready=1` refusé sans profil/secrets, etc. |
+| Minuterie de restauration avec **vrai systemd** (conteneur privilégié, test optionnel `VIDFETCH_SLOW_TESTS=1`) | la session qui arme est détruite ; 120 s plus tard systemd restaure seul l'ingress d'origine, relance l'outil pare-feu, journalise, et `04-confirm.sh` refuse ensuite |
+| Scripts d'administration (54 vérifications, conteneur root, outils système simulés ; preflight avec valeurs « canari » : aucune fuite, aucun fichier modifié, seulement `systemctl is-active/show` et `nft list`) | refus sans sauvegarde/staging, minuterie armée **avant** l'application, échec d'application → restauration immédiate, restauration sans toucher env/garde, `ready=1` refusé sans profil/secrets, etc. |
 | `guard-update.py` | 4 tests : accepte seulement le modifié nommé, ajoute sans jamais retirer, refuse symlink/fichier modifiable |
 | Profil CI | 45+ tests Python (Phase 9) |
 

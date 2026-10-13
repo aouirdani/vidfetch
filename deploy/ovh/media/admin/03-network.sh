@@ -11,6 +11,7 @@ $SYSTEMCTL is-active --quiet $TIMER.timer && die "timer already armed: run 04-co
 if [ "$MODE" = open80 ]; then WANT_80=1; elif [ "$MODE" = closed80 ]; then WANT_80=0; else die "mode"; fi
 grep -q '^        tcp dport 80 accept$' "$BASE/ingress.nft.media-test" && HAS_80=1 || HAS_80=0
 [ "$WANT_80" = "$HAS_80" ] || die "staged ingress was rendered with a different port-80 mode; re-render and re-stage"
+rm -f "$B/armed-at"
 $SYSTEMCTL reset-failed $TIMER.service 2>/dev/null || true
 systemd-run --quiet --unit=$TIMER --on-active="${SECS}s" --timer-property=AccuracySec=1s --collect \
   --description="VidFetch media-test dead-man restore" "$B/restore-network.sh" "$B"
@@ -18,5 +19,6 @@ log "ARMED: original network state returns automatically in ${SECS}s unless you 
 install -o root -g root -m 0644 "$BASE/ingress.nft.media-test" "$BASE/ingress.nft.next"
 mv -f "$BASE/ingress.nft.next" "$BASE/ingress.nft"
 if ! "$FW" apply; then log "apply FAILED: restoring now"; "$B/restore-network.sh" "$B"; $SYSTEMCTL stop $TIMER.timer || true; exit 1; fi
+echo $(( $(date +%s) + 1 )) > "$B/armed-at"   # written AFTER the rules are live: 04-confirm.sh needs a NEW SSH login after it
 log "ingress applied. NOW: new SSH session from a second terminal; then 04-confirm.sh (or wait for the restore)."
 $SYSTEMCTL list-timers $TIMER.timer --no-pager | sed -n 1,3p

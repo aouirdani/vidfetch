@@ -20,16 +20,17 @@ case "$n" in
       stop) rm -f "$STATE/armed" ;; reload) [ -f "$STATE/reload-fails" ] && exit 1 || exit 0 ;; show) echo 4242 ;; esac ;;
   systemd-run) touch "$STATE/armed" ;;
   nft) echo "table inet vidfetch_https_test_ingress { }" ;;
+  journalctl) [ -f "$STATE/ssh-login" ] && echo "Accepted publickey for debian from 203.0.113.9 port 50000 ssh2: ED25519 SHA256:xxxx" ;;
   logger|runuser) ;;
 esac
 S
-chmod +x "$W/bin/stub"; for n in systemctl systemd-run nft logger runuser; do ln -s stub "$W/bin/$n"; done
+chmod +x "$W/bin/stub"; for n in systemctl systemd-run nft logger runuser journalctl; do ln -s stub "$W/bin/$n"; done
 cat > "$W/fw" <<'S'
 #!/bin/sh
 echo "fw $*" >> "$STATE/calls.log"; [ -f "$STATE/fw-fails" ] && grep -q NEW-INGRESS "$VM_BASE/ingress.nft" && exit 1; cp "$VM_BASE/ingress.nft" "$STATE/applied.nft"; exit 0
 S
 chmod +x "$W/fw"
-export STATE="$W/state" PATH="$W/bin:$PATH" VM_BASE="$W/base" VM_FW="$W/fw" VM_BACKUPS="$W/bk" VM_SYSTEMCTL="$W/bin/systemctl" VM_NFT="$W/bin/nft" VM_CADDY=/bin/true
+export STATE="$W/state" PATH="$W/bin:$PATH" VM_BASE="$W/base" VM_FW="$W/fw" VM_BACKUPS="$W/bk" VM_SYSTEMCTL="$W/bin/systemctl" VM_NFT="$W/bin/nft" VM_CADDY=/bin/true VM_JOURNALCTL="$W/bin/journalctl"
 fail=0; n=0; ok() { n=$((n+1)); echo "ok $n - $1"; }; bad() { n=$((n+1)); echo "not ok $n - $1"; fail=1; }
 calls() { cat "$STATE/calls.log" 2>/dev/null; }
 sums() { sha256sum /etc/vidfetch/web.env /etc/vidfetch/ci-web-test-guard.json | sha256sum; }
@@ -75,9 +76,17 @@ grep -q ORIGINAL-INGRESS "$W/base/ingress.nft" && [ "$(readlink "$W/base/current
 [ "$(sums)" = "$s1" ] && ok "restore never touches env or guard" || bad "restore touched env/guard"
 calls | grep -q '^fw apply' && ok "restore re-applies through the firewall helper" || bad "restore apply"
 
-# --- confirm / cancel
-touch "$STATE/armed"; bash "$A/04-confirm.sh" >/dev/null 2>&1 && [ ! -f "$STATE/armed" ] && ok "confirm disarms the timer" || bad "confirm"
+# --- confirm needs proof of a NEW ssh login since arming; cancel restores
+touch "$STATE/armed"; echo $(( $(date +%s) + 1 )) > "$B/armed-at"; rm -f "$STATE/ssh-login"
+bash "$A/04-confirm.sh" >/dev/null 2>&1 && bad "confirm without a new login" || ok "confirm refuses when no new SSH login was logged since arming"
+[ -f "$STATE/armed" ] && ok "timer still armed after the refused confirm" || bad "timer disarmed anyway"
+touch "$STATE/ssh-login"; out=$(bash "$A/04-confirm.sh" 2>&1); rc=$?
+[ $rc = 0 ] && [ ! -f "$STATE/armed" ] && ok "confirm disarms after a new login" || bad "confirm with login ($rc)"
+echo "$out" | grep -q "from=203.0.113.9" && ok "confirm shows login sources only" || bad "login display"
+calls | grep journalctl | grep -q -- "--since @$(cat "$B/armed-at")" && ok "journal queried from the arming instant" || bad "since arg"
 bash "$A/04-confirm.sh" >/dev/null 2>&1 && bad "confirm when not armed" || ok "confirm refuses when not armed (already fired)"
+rm -f "$B/armed-at"; touch "$STATE/armed"; bash "$A/04-confirm.sh" >/dev/null 2>&1 && bad "confirm without record" || ok "confirm refuses without an arming record"; rm -f "$STATE/armed"
+grep -q "AFTER the rules are live" "$A/03-network.sh" && ok "arming instant is recorded after the rules are applied" || bad "armed-at placement"
 
 # --- caddy switch
 printf 'import /etc/vidfetch/public-https-test/auth.caddy\nX-Robots-Tag "noindex, nofollow"\n' > "$W/base/Caddyfile.media-test"
@@ -107,4 +116,28 @@ printf 'VIDFETCH_MEDIA_TEST_IPS=1.2.3.0/24\n' > "$R/media-test-ips.env"; ( cd "$
 bash "$A/02-stage.sh" "$R" >/dev/null 2>&1 && bad "stage /24" || ok "stage refuses non-/32 testers"
 printf 'VIDFETCH_MEDIA_TEST_IPS=1.2.3.4/32\n' > "$R/media-test-ips.env"
 bash "$A/02-stage.sh" "$R" >/dev/null 2>&1 && bad "stage bad checksum" || ok "stage refuses files that do not match SHA256SUMS"
+
+# --- preflight: read-only and secret-free
+printf 'VIDFETCH_TARGET=ovh\nTURNSTILE_SECRET_KEY=CANARY-TURNSTILE-SECRET-9f3a\nVIDFETCH_ACCESS_SIGNING_KEY=CANARYHMACKEYCANARYHMACKEYCANARYHMACKE1\nVIDFETCH_GATEWAY_ORIGIN=https://api.vidfetch.app\n' > /etc/vidfetch/gateway.env; chmod 600 /etc/vidfetch/gateway.env
+echo 'DB_PASSWORD=CANARY-DB-PW-77' >> /etc/vidfetch/web.env
+find /etc/vidfetch /etc/systemd /var/lib/vidfetch-proxy "$W/base" "$W/bk" -type f -o -type l 2>/dev/null | sort | xargs -d '\n' sha256sum -- 2>/dev/null > "$W/tree.before"; : > "$STATE/calls.log"
+out=$(bash "$A/00-preflight.sh" 2>&1)
+echo "$out" | grep -qE 'CANARY' && bad "preflight printed a secret" || ok "preflight prints no secret value (canaries absent)"
+echo "$out" | grep -q 'VIDFETCH_GATEWAY_ORIGIN=https://api.vidfetch.app' && ok "preflight shows the non-secret gateway origin" || bad "gateway origin not shown"
+echo "$out" | grep -q 'TURNSTILE_SECRET_KEY' && ok "preflight lists variable NAMES (value hidden)" || bad "names not listed"
+find /etc/vidfetch /etc/systemd /var/lib/vidfetch-proxy "$W/base" "$W/bk" -type f -o -type l 2>/dev/null | sort | xargs -d '\n' sha256sum -- 2>/dev/null > "$W/tree.after"
+cmp -s "$W/tree.before" "$W/tree.after" && ok "preflight changed no file" || bad "preflight modified files"
+calls | grep -E '^(systemctl|nft)' | grep -qvE '^(systemctl (is-active|show|cat)|nft list)' && bad "preflight called a state-changing command: $(calls | grep -E '^(systemctl|nft)' | grep -vE '^(systemctl (is-active|show|cat)|nft list)' | head -2)" || ok "preflight only calls systemctl is-active/show and nft list"
+! echo "$out" | grep -q . && bad "preflight silent" || ok "preflight produced a report"
+
+# --- stage: positive run is inert (no reload, restart, daemon-reload, firewall, timer, pointer change)
+printf 'import /etc/vidfetch/public-https-test/auth.caddy\nX-Robots-Tag "noindex, nofollow"\n' > "$W/render/Caddyfile.test-only"
+printf 'T\n' > "$W/render/ingress.nft"; printf 'VIDFETCH_MEDIA_TEST_IPS=1.2.3.4/32\n' > "$W/render/media-test-ips.env"
+( cd "$W/render" && sha256sum ingress.nft media-test-ips.env Caddyfile.test-only > SHA256SUMS )
+: > "$STATE/calls.log"; ptr=$(readlink "$W/base/current"); ing=$(sha256sum "$W/base/ingress.nft" | cut -c1-64); dropin_before=$(ls /etc/systemd/system/vidfetch-caddy.service.d 2>/dev/null | wc -l)
+bash "$A/02-stage.sh" "$W/render" >/dev/null 2>&1 && ok "stage succeeds with a matching render directory" || bad "stage positive"
+calls | grep -qE '^(systemctl (reload|restart|daemon-reload|start|stop|enable|disable)|systemd-run|fw )' && bad "stage performed an activation call: $(calls | grep -E '^(systemctl (reload|restart|daemon-reload|start|stop)|systemd-run|fw )' | head -2)" || ok "stage made no reload/restart/daemon-reload/firewall/timer call"
+[ "$(readlink "$W/base/current")" = "$ptr" ] && [ "$(sha256sum "$W/base/ingress.nft" | cut -c1-64)" = "$ing" ] && ok "stage left the live pointer and ingress.nft untouched" || bad "stage changed live files"
+[ "$(ls /etc/systemd/system/vidfetch-caddy.service.d 2>/dev/null | wc -l)" = "$dropin_before" ] && ok "stage installed no systemd drop-in" || bad "stage dropin"
+[ -f "$W/base/Caddyfile.media-test" ] && [ -f "$W/base/ingress.nft.media-test" ] && [ -f "$W/base/media-test-ips.env" ] && ok "stage created only the three inert new files" || bad "stage files"
 exit $fail
