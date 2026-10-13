@@ -1,0 +1,815 @@
+"use strict";
+
+// backend/gateway/main.ts
+var import_node_fs = require("node:fs");
+var import_node_path = require("node:path");
+
+// src/lib/gateway-origin.ts
+function publicGatewayOrigin(value) {
+  try {
+    const url = new URL(value?.trim() ?? "");
+    const host = url.hostname.toLowerCase();
+    if (url.protocol !== "https:" || url.port || url.username || url.password || url.pathname !== "/" || url.search || url.hash || !host.includes(".") || /^[\d.]+$/.test(host) || host.includes(":") || host.endsWith(".") || /(?:^|\.)(?:localhost|local|internal|invalid)$/.test(host) || host.endsWith(".home.arpa")) return null;
+    return url.origin;
+  } catch {
+    return null;
+  }
+}
+
+// src/server/access-crypto.ts
+var import_node_crypto = require("node:crypto");
+var AccessError = class extends Error {
+  constructor(code, status = 401) {
+    super(code);
+    this.code = code;
+    this.status = status;
+  }
+};
+var digest = (value) => (0, import_node_crypto.createHash)("sha256").update(value).digest("base64url");
+function serviceKey(value) {
+  if (!value || !/^[A-Za-z0-9_-]{43}$/.test(value)) throw new AccessError("BACKEND_UNAVAILABLE", 503);
+  const key = Buffer.from(value, "base64url");
+  if (key.length !== 32 || key.toString("base64url") !== value) throw new AccessError("BACKEND_UNAVAILABLE", 503);
+  return key;
+}
+function browserKey(value) {
+  const k = value;
+  if (!k || k.kty !== "EC" || k.crv !== "P-256" || k.d || !/^[A-Za-z0-9_-]{43}$/.test(k.x ?? "") || !/^[A-Za-z0-9_-]{43}$/.test(k.y ?? "")) throw new AccessError("INVALID_PROOF");
+  const result = { kty: "EC", crv: "P-256", x: k.x, y: k.y };
+  try {
+    (0, import_node_crypto.createPublicKey)({ key: result, format: "jwk" });
+  } catch {
+    throw new AccessError("INVALID_PROOF");
+  }
+  return result;
+}
+function serviceMac(key, body, timestamp, nonce) {
+  return (0, import_node_crypto.createHmac)("sha256", key).update(JSON.stringify({ timestamp, nonce, body: digest(body) })).digest("base64url");
+}
+function verifyServiceMac(key, body, timestamp, nonce, mac) {
+  if (!/^\d{13}$/.test(timestamp) || Math.abs(Date.now() - Number(timestamp)) > 3e4 || !/^[a-f0-9-]{36}$/.test(nonce)) throw new AccessError("INVALID_ACCESS");
+  const a = Buffer.from(serviceMac(key, body, timestamp, nonce)), b = Buffer.from(mac);
+  if (a.length !== b.length || !(0, import_node_crypto.timingSafeEqual)(a, b)) throw new AccessError("INVALID_ACCESS");
+}
+function decode(value) {
+  if (!value || value.length > 6e3 || !/^[A-Za-z0-9_-]+$/.test(value)) throw new AccessError("INVALID_ACCESS");
+  try {
+    return JSON.parse(Buffer.from(value, "base64url").toString("utf8"));
+  } catch {
+    throw new AccessError("INVALID_ACCESS");
+  }
+}
+function verifyAccess(token, key, audience, purpose, now = Date.now()) {
+  if (token.length > 6e3) throw new AccessError("INVALID_ACCESS");
+  const parts = token.split(".");
+  if (parts.length !== 3) throw new AccessError("INVALID_ACCESS");
+  const header = decode(parts[0]);
+  if (!header || header.alg !== "HS256" || header.typ !== "JWT") throw new AccessError("INVALID_ACCESS");
+  const signature = Buffer.from(parts[2], "base64url"), expected = (0, import_node_crypto.createHmac)("sha256", key).update(`${parts[0]}.${parts[1]}`).digest();
+  if (signature.length !== expected.length || !(0, import_node_crypto.timingSafeEqual)(signature, expected)) throw new AccessError("INVALID_ACCESS");
+  const c = decode(parts[1]), seconds = Math.floor(now / 1e3);
+  if (!c || c.iss !== "vidfetch-access" || c.aud !== audience || c.purpose !== purpose || !/^[a-f0-9-]{36}$/.test(c.sub ?? "") || !Number.isInteger(c.iat) || !Number.isInteger(c.exp) || c.iat > seconds + 10 || c.exp <= seconds || c.exp <= c.iat || c.exp - c.iat > (purpose === "api" ? 120 : 1800)) throw new AccessError("EXPIRED_ACCESS");
+  c.key = browserKey(c.key);
+  return c;
+}
+function verifyProof(value, key, request, now = Date.now()) {
+  const parts = value.split(".");
+  if (parts.length !== 2 || value.length > 2e3) throw new AccessError("INVALID_PROOF");
+  const proof = decode(parts[0]);
+  if (!proof || Math.abs(Math.floor(now / 1e3) - proof.iat) > 30 || !Number.isInteger(proof.iat) || !/^[a-f0-9-]{36}$/.test(proof.jti ?? "") || proof.method !== request.method || proof.path !== request.path || proof.bodyHash !== digest(request.body) || proof.tokenHash !== digest(request.token)) throw new AccessError("INVALID_PROOF");
+  let valid = false;
+  try {
+    valid = (0, import_node_crypto.verify)("sha256", Buffer.from(parts[0]), { key: (0, import_node_crypto.createPublicKey)({ key: browserKey(key), format: "jwk" }), dsaEncoding: "ieee-p1363" }, Buffer.from(parts[1], "base64url"));
+  } catch {
+  }
+  if (!valid) throw new AccessError("INVALID_PROOF");
+  return proof;
+}
+
+// backend/gateway/ledger.ts
+var import_node_sqlite = require("node:sqlite");
+var GatewayLedger = class {
+  db;
+  constructor(file2) {
+    this.db = new import_node_sqlite.DatabaseSync(file2);
+    this.db.exec("PRAGMA journal_mode=WAL; CREATE TABLE IF NOT EXISTS counters(k TEXT PRIMARY KEY,n INTEGER NOT NULL,b INTEGER NOT NULL,expires INTEGER NOT NULL); CREATE TABLE IF NOT EXISTS proofs(k TEXT PRIMARY KEY,expires INTEGER NOT NULL)");
+  }
+  counter(key, expiry) {
+    const existing = this.db.prepare("SELECT n,b FROM counters WHERE k=?").get(key);
+    if (existing) return existing;
+    const capacity = this.db.prepare("SELECT COUNT(*) AS count FROM counters").get();
+    if (capacity.count >= 8192) throw new AccessError("BUSY", 429);
+    this.db.prepare("INSERT OR IGNORE INTO counters VALUES(?,0,0,?)").run(key, expiry);
+    return this.db.prepare("SELECT n,b FROM counters WHERE k=?").get(key);
+  }
+  prune(now = Date.now()) {
+    this.db.prepare("DELETE FROM counters WHERE expires<=?").run(now);
+    this.db.prepare("DELETE FROM proofs WHERE expires<=?").run(now);
+  }
+  rate(identity, scope, maximum, windowMs, now = Date.now()) {
+    this.prune(now);
+    const slot = Math.floor(now / windowMs), key = `rate:${identity}:${scope}:${slot}`;
+    const counter = this.counter(key, (slot + 1) * windowMs);
+    if (counter.n >= maximum) throw new AccessError("RATE_LIMITED", 429);
+    this.db.prepare("UPDATE counters SET n=n+1 WHERE k=?").run(key);
+  }
+  useProof(owner, nonce, now = Date.now()) {
+    this.prune(now);
+    const rows = this.db.prepare("SELECT COUNT(*) AS count FROM proofs").get();
+    if (rows.count >= 8192) throw new AccessError("BUSY", 429);
+    try {
+      this.db.prepare("INSERT INTO proofs VALUES(?,?)").run(`${owner}:${nonce}`, now + 9e4);
+    } catch {
+      throw new AccessError("REPLAYED_PROOF");
+    }
+  }
+  reserve(ip, owner, maximumBytes, now = Date.now()) {
+    const day = Math.floor(now / 864e5), expires = (day + 1) * 864e5;
+    const keys = [`daily:ip:${ip}:${day}`, `daily:owner:${owner}:${day}`, `daily:global:${day}`];
+    this.db.exec("BEGIN IMMEDIATE");
+    try {
+      for (let index = 0; index < keys.length; index++) {
+        const current = this.counter(keys[index], expires);
+        const quota = index === 2 ? 4 * 1024 ** 3 : 1024 ** 3;
+        if (current.n >= (index === 2 ? 100 : 8) || current.b + maximumBytes > quota) throw new AccessError("QUOTA_EXCEEDED", 429);
+        this.db.prepare("UPDATE counters SET n=n+1,b=b+? WHERE k=?").run(maximumBytes, keys[index]);
+      }
+      this.db.exec("COMMIT");
+    } catch (error) {
+      this.db.exec("ROLLBACK");
+      throw error;
+    }
+    let settled = false;
+    return (actualBytes) => {
+      if (settled) return;
+      settled = true;
+      const unused = maximumBytes - Math.max(0, Math.min(maximumBytes, actualBytes));
+      for (const key of keys) this.db.prepare("UPDATE counters SET b=MAX(0,b-?) WHERE k=?").run(unused, key);
+    };
+  }
+  close() {
+    this.db.close();
+  }
+};
+
+// backend/gateway/server.ts
+var import_node_http = require("node:http");
+var import_node_crypto4 = require("node:crypto");
+var import_node_net = require("node:net");
+var import_promises = require("node:stream/promises");
+var import_node_stream = require("node:stream");
+
+// src/lib/platforms.ts
+function normaliseUrl(raw) {
+  const trimmed = raw.trim();
+  if (!trimmed) return "";
+  const embedded = trimmed.match(/https?:\/\/[^\s<>"“”]+/i)?.[0];
+  const value = (embedded ?? trimmed).replace(/[.,;!]+$/, "");
+  return /^[a-z][a-z\d+.-]*:/i.test(value) ? value : `https://${value.replace(/^\/+/, "")}`;
+}
+function detectPlatform(raw) {
+  const value = normaliseUrl(raw);
+  const invalid = (reason) => ({ ok: false, platform: null, url: value, reason });
+  if (!value) return invalid("empty");
+  if (value.length > 4096) return invalid("scheme");
+  let parsed;
+  try {
+    parsed = new URL(value);
+  } catch {
+    return invalid("scheme");
+  }
+  if (!["https:", "http:"].includes(parsed.protocol) || parsed.username || parsed.password || parsed.port) {
+    return invalid("scheme");
+  }
+  const host = parsed.hostname.toLowerCase();
+  const path = parsed.pathname;
+  let platform = null;
+  let canonical = null;
+  if (["youtube.com", "www.youtube.com", "m.youtube.com", "music.youtube.com", "youtu.be", "www.youtu.be"].includes(host)) {
+    const id = host.endsWith("youtu.be") ? path.split("/")[1] : path === "/watch" ? parsed.searchParams.get("v") : path.match(/^\/(?:shorts|live|embed|v)\/([\w-]+)\/?$/)?.[1];
+    if (id && /^[\w-]{11}$/.test(id)) {
+      platform = "youtube";
+      canonical = `https://www.youtube.com/watch?v=${id}`;
+    }
+  } else if (["tiktok.com", "www.tiktok.com", "m.tiktok.com", "vm.tiktok.com", "vt.tiktok.com"].includes(host)) {
+    const video = path.match(/^\/@([\w.-]+)\/video\/(\d{15,25})\/?$/);
+    const mobile = path.match(/^\/(?:v|share\/video)\/(\d{15,25})(?:\.html)?\/?$/);
+    if (video) {
+      platform = "tiktok";
+      canonical = `https://www.tiktok.com/@${video[1]}/video/${video[2]}`;
+    } else if (mobile) {
+      platform = "tiktok";
+      canonical = `https://www.tiktok.com/@_/video/${mobile[1]}`;
+    } else if (["vm.tiktok.com", "vt.tiktok.com"].includes(host) && /^\/[\w-]+\/?$/.test(path) || /^\/t\/[\w-]+\/?$/.test(path)) {
+      platform = "tiktok";
+      canonical = `https://${host}${path}`;
+    }
+  } else if (["instagram.com", "www.instagram.com", "m.instagram.com", "instagr.am", "www.instagr.am"].includes(host)) {
+    const post = path.match(/^\/(?:[\w.]+\/)?(p|reel|reels|tv)\/([\w-]{5,80})(?:\/(?:embed\/)?)?$/);
+    const story = path.match(/^\/stories\/([\w.]+)\/(\d+)\/?$/);
+    const share = path.match(/^\/share\/(reel|p)\/([\w-]+)\/?$/);
+    if (post) {
+      platform = "instagram";
+      canonical = `https://www.instagram.com/${post[1] === "reels" ? "reel" : post[1]}/${post[2]}/`;
+    } else if (story) {
+      platform = "instagram";
+      canonical = `https://www.instagram.com/stories/${story[1]}/${story[2]}/`;
+    } else if (share) {
+      platform = "instagram";
+      canonical = `https://www.instagram.com/share/${share[1]}/${share[2]}/`;
+    }
+  } else if (["twitter.com", "www.twitter.com", "mobile.twitter.com", "x.com", "www.x.com"].includes(host)) {
+    const post = path.match(/^\/(?:([\w]{1,20})\/status(?:es)?|i\/web\/status)\/(\d+)(?:\/video\/\d+)?\/?$/);
+    if (post) {
+      platform = "twitter";
+      canonical = `https://x.com/${post[1] ?? "i/web"}/status/${post[2]}`;
+    }
+  }
+  return platform && canonical ? { ok: true, platform, url: canonical } : invalid("unsupported");
+}
+
+// backend/gateway/helper.ts
+var import_node_crypto2 = require("node:crypto");
+function downloadHelper(origins) {
+  const nonce = (0, import_node_crypto2.randomBytes)(18).toString("base64");
+  const allowed = JSON.stringify(origins).replace(/</g, "\\u003c");
+  const html = `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="referrer" content="no-referrer"><title>VidFetch download</title><p id="message">Waiting for download authorization\u2026</p><script nonce="${nonce}">
+const allowed=${allowed}; let used=false;
+const notify=(target,origin,type,error)=>target.postMessage({type,error},origin);
+addEventListener('message',async event=>{
+ if(used||event.source!==opener||!allowed.includes(event.origin)||event.data?.type!=='vidfetch-transfer')return;
+ used=true;
+ try{
+  const {ticket,grant,proof}=event.data;
+  const response=await fetch('/auth/transfer',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+grant,'X-VidFetch-Proof':proof},body:JSON.stringify({ticket}),cache:'no-store',credentials:'same-origin',redirect:'error'});
+  if(!response.ok)throw Error('Download authorization failed. Return to VidFetch and try again.');
+  notify(event.source,event.origin,'vidfetch-started');
+  document.getElementById('message').textContent='Saving your file. You can return to VidFetch.';
+  location.assign('/api/download?ticket='+encodeURIComponent(ticket));
+ }catch(error){document.getElementById('message').textContent=error.message;notify(event.source,event.origin,'vidfetch-error',error.message);}
+});
+for(const origin of allowed)opener?.postMessage({type:'vidfetch-helper-ready'},origin);
+</script></html>`;
+  return { html, csp: `default-src 'none'; script-src 'nonce-${nonce}'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'` };
+}
+
+// backend/gateway/queue.ts
+var import_node_crypto3 = require("node:crypto");
+var WaitingQueue = class {
+  entries = [];
+  accepting = true;
+  maximum;
+  waitMs;
+  heartbeatMs;
+  claimMs;
+  estimateMs;
+  constructor(options = {}) {
+    this.maximum = options.maxWaiting ?? 2;
+    this.waitMs = options.waitMs ?? 18e4;
+    this.heartbeatMs = options.heartbeatMs ?? 2e4;
+    this.claimMs = options.claimMs ?? 15e3;
+    this.estimateMs = options.estimateMs ?? 9e4;
+    if (![this.maximum, this.waitMs, this.heartbeatMs, this.claimMs, this.estimateMs].every((n) => Number.isInteger(n) && n > 0) || this.maximum > 8 || this.waitMs > 3e5 || this.heartbeatMs > this.waitMs || this.claimMs > this.waitMs) throw Error("Invalid queue bounds");
+  }
+  sweep(now = Date.now()) {
+    this.entries = this.entries.filter((e) => now < e.expires && now - e.seen < this.heartbeatMs && (e.offered === void 0 || now < e.offered + this.claimMs));
+  }
+  size(now = Date.now()) {
+    this.sweep(now);
+    return this.entries.length;
+  }
+  owned(token, owner, ip, now) {
+    this.sweep(now);
+    const entry = this.entries.find((e) => e.token === token && e.owner === owner && e.ip === ip);
+    if (!entry) throw new AccessError("QUEUE_EXPIRED", 404);
+    return entry;
+  }
+  enqueue(input, busy, now = Date.now()) {
+    this.sweep(now);
+    if (!this.accepting) throw new AccessError("BACKEND_UNAVAILABLE", 503);
+    if (this.entries.some((e) => e.owner === input.owner || e.ip === input.ip)) throw new AccessError("QUEUE_DUPLICATE", 429);
+    const eta = (this.entries.length + (busy ? 1 : 0)) * this.estimateMs;
+    if (this.entries.length >= this.maximum || eta > this.waitMs) throw new AccessError("QUEUE_FULL", 429);
+    if (input.body.length > 8192 || !["/api/download", "/api/fetch-info"].includes(input.path)) throw new AccessError("INVALID_QUEUE_REQUEST", 400);
+    const entry = { ...input, body: Buffer.from(input.body), token: (0, import_node_crypto3.randomBytes)(32).toString("base64url"), created: now, expires: now + this.waitMs, seen: now };
+    this.entries.push(entry);
+    return this.inspect(entry.token, entry.owner, entry.ip, busy, now);
+  }
+  inspect(token, owner, ip, busy, now = Date.now()) {
+    const entry = this.owned(token, owner, ip, now);
+    entry.seen = now;
+    const index = this.entries.indexOf(entry), available = index === 0 && !busy;
+    if (available && entry.offered === void 0) entry.offered = now;
+    return {
+      ok: true,
+      queued: true,
+      queueToken: entry.token,
+      status: available ? "available" : "waiting",
+      position: index + 1,
+      expiresAt: entry.expires,
+      claimBefore: entry.offered === void 0 ? null : Math.min(entry.expires, entry.offered + this.claimMs),
+      estimatedWaitMs: (index + (busy ? 1 : 0)) * this.estimateMs,
+      retryAfterMs: 3e3
+    };
+  }
+  claim(token, owner, ip, busy, now = Date.now()) {
+    const entry = this.owned(token, owner, ip, now);
+    if (busy || entry !== this.entries[0]) throw new AccessError("QUEUE_WAIT", 409);
+    this.entries.shift();
+    return { path: entry.path, body: entry.body };
+  }
+  cancel(token, owner, ip, now = Date.now()) {
+    const entry = this.owned(token, owner, ip, now);
+    this.entries = this.entries.filter((e) => e !== entry);
+  }
+  close() {
+    this.accepting = false;
+    this.entries = [];
+  }
+};
+
+// backend/gateway/server.ts
+function createGateway(options) {
+  const target = new URL(options.backend);
+  if (target.protocol !== "http:" || target.hostname !== "127.0.0.1" || target.username || target.password || target.pathname !== "/" || target.search || target.hash) throw new Error("Backend must be a fixed loopback origin");
+  if (options.backendSocket && options.backendSocket !== "/run/vidfetch-public/backend.sock") throw Error("Invalid isolated backend socket");
+  const queue = options.queue ? new WaitingQueue(options.queue) : void 0;
+  const bytesPerSecond = options.bytesPerSecond ?? 2 * 1024 ** 2;
+  if (!Number.isInteger(bytesPerSecond) || bytesPerSecond < 32768 || bytesPerSecond > 2 * 1024 ** 2) throw Error("Invalid streaming rate");
+  const jobs = /* @__PURE__ */ new Map();
+  const pending = /* @__PURE__ */ new Set();
+  let active = false;
+  let activeOwner, activeIp;
+  const maxBytes = options.maxBytes ?? 256 * 1024 ** 2, ticketMs = options.ticketMs ?? 55e3, retentionMs = options.retentionMs ?? 18e5;
+  function json(res, status, value) {
+    if (res.destroyed) return;
+    if (res.headersSent) {
+      res.destroy();
+      return;
+    }
+    res.writeHead(status, { "Content-Type": "application/json", "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff", ...status === 429 ? { "Retry-After": "60" } : {} });
+    res.end(JSON.stringify(value));
+  }
+  const alias = (value) => (0, import_node_crypto4.createHmac)("sha256", options.key).update(value).digest("base64url");
+  const release = (job) => {
+    clearTimeout(job.timer);
+    clearTimeout(job.totalTimer);
+    job.settle(job.bytes);
+    active = false;
+    activeOwner = void 0;
+    activeIp = void 0;
+  };
+  const prune = () => {
+    const now = Date.now();
+    for (const [token, job] of jobs) if (now >= job.retained) {
+      clearTimeout(job.timer);
+      jobs.delete(token);
+    }
+    options.ledger.prune(now);
+    queue?.sweep(now);
+  };
+  function upstream(path, method, body, signal) {
+    return new Promise((resolve, reject) => {
+      const request = (0, import_node_http.request)(new URL(path, target), { method, signal, ...options.backendSocket ? { socketPath: options.backendSocket } : {}, headers: { Host: "127.0.0.1:8788", ...body ? { "Content-Type": "application/json", "Content-Length": body.length } : {} } }, resolve);
+      request.on("error", reject);
+      request.setTimeout(path.includes("?ticket=") ? 3e4 : 18e4, () => request.destroy(new AccessError("TIMEOUT", 504)));
+      request.end(body);
+    });
+  }
+  async function upstreamJson(path, method, body, signal) {
+    const response = await upstream(path, method, body, signal);
+    let bytes = 0;
+    const chunks = [];
+    for await (const chunk of response) {
+      bytes += chunk.length;
+      if (bytes > 2 * 1024 ** 2) {
+        response.destroy();
+        throw new AccessError("UPSTREAM_INVALID", 502);
+      }
+      chunks.push(chunk);
+    }
+    let data;
+    try {
+      data = JSON.parse(Buffer.concat(chunks).toString("utf8"));
+    } catch {
+      throw new AccessError("UPSTREAM_INVALID", 502);
+    }
+    return { status: response.statusCode ?? 502, data };
+  }
+  async function readBody(req) {
+    let size = 0;
+    const chunks = [];
+    if (Number(req.headers["content-length"] ?? 0) > 8192) throw new AccessError("BODY_TOO_LARGE", 413);
+    let timer;
+    const deadline = new Promise((_, reject) => {
+      timer = setTimeout(() => {
+        req.destroy();
+        reject(new AccessError("TIMEOUT", 504));
+      }, 1e4);
+    });
+    try {
+      const iterator = req[Symbol.asyncIterator]();
+      while (true) {
+        const next = await Promise.race([iterator.next(), deadline]);
+        if (next.done) break;
+        size += next.value.length;
+        if (size > 8192) throw new AccessError("BODY_TOO_LARGE", 413);
+        chunks.push(next.value);
+      }
+      return Buffer.concat(chunks);
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+  async function handle(req, res) {
+    res.on("error", () => {
+    });
+    let controller;
+    let hold = false, published = false;
+    let quota;
+    let operationTimer;
+    let transferJob;
+    const onClose = () => {
+      if (!res.writableFinished) controller?.abort();
+    };
+    res.once("close", onClose);
+    try {
+      prune();
+      if (req.headers.host !== new URL(options.origin).host) throw new AccessError("FORBIDDEN_HOST", 403);
+      const peer = req.socket.remoteAddress;
+      if (!["127.0.0.1", "::1", "::ffff:127.0.0.1"].includes(peer ?? "")) throw new AccessError("FORBIDDEN_PROXY", 403);
+      if (req.headers["x-forwarded-proto"] !== "https") throw new AccessError("HTTPS_REQUIRED", 403);
+      if (options.proxy === "funnel" && (req.headers["tailscale-funnel-request"] !== "?1" || req.headers["x-forwarded-host"] !== new URL(options.origin).host)) throw new AccessError("FORBIDDEN_PROXY", 403);
+      const rawIp = req.headers["x-forwarded-for"];
+      if (typeof rawIp !== "string" || !(0, import_node_net.isIP)(rawIp)) throw new AccessError("FORBIDDEN_PROXY", 403);
+      const ip = alias((0, import_node_net.isIP)(rawIp) === 6 ? new URL(`http://[${rawIp}]`).hostname : rawIp);
+      options.ledger.rate(ip, "request", 120, 6e4);
+      const url = new URL(req.url ?? "/", options.origin);
+      if (url.origin !== options.origin) throw new AccessError("FORBIDDEN_HOST", 403);
+      let path = url.pathname;
+      const origin2 = req.headers.origin;
+      if (origin2 && !options.sites.includes(origin2) && origin2 !== options.origin) throw new AccessError("FORBIDDEN_ORIGIN", 403);
+      if (origin2 && options.sites.includes(origin2)) {
+        res.setHeader("Access-Control-Allow-Origin", origin2);
+        res.setHeader("Vary", "Origin");
+        res.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type, X-VidFetch-Proof");
+        res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+      }
+      if (req.method === "OPTIONS") {
+        if (!origin2 || !options.sites.includes(origin2)) throw new AccessError("FORBIDDEN_ORIGIN", 403);
+        res.writeHead(204);
+        res.end();
+        return;
+      }
+      if (path === "/auth/admission" && req.method === "POST") {
+        const body2 = await readBody(req);
+        const timestamp = String(req.headers["x-vidfetch-service-time"] ?? ""), nonce = String(req.headers["x-vidfetch-service-nonce"] ?? "");
+        verifyServiceMac(options.key, body2, timestamp, nonce, String(req.headers["x-vidfetch-service-mac"] ?? ""));
+        options.ledger.useProof("service", nonce);
+        let identity, requestNonce, keyHash;
+        try {
+          ({ identity, requestNonce, keyHash } = JSON.parse(body2.toString("utf8")));
+        } catch {
+          throw new AccessError("INVALID_JSON", 400);
+        }
+        if (typeof identity !== "string" || !/^[A-Za-z0-9_-]{43}$/.test(identity)) throw new AccessError("INVALID_ACCESS");
+        if (typeof requestNonce !== "string" || !/^[a-f0-9-]{36}$/.test(requestNonce) || typeof keyHash !== "string" || !/^[A-Za-z0-9_-]{43}$/.test(keyHash)) throw new AccessError("INVALID_ACCESS");
+        options.ledger.useProof(`issuer:${keyHash}`, requestNonce);
+        options.ledger.rate(identity, "grant", 10, 6e4);
+        json(res, 200, { ok: true });
+        return;
+      }
+      if (path === "/download-helper" && req.method === "GET") {
+        const helper = downloadHelper(options.sites);
+        res.writeHead(200, { "Content-Type": "text/html; charset=utf-8", "Content-Security-Policy": helper.csp, "Referrer-Policy": "no-referrer", "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff" });
+        res.end(helper.html);
+        return;
+      }
+      if (!["/api/health", "/api/fetch-info", "/api/download", "/api/queue", "/auth/transfer"].includes(path)) throw new AccessError("NOT_FOUND", 404);
+      const method = req.method ?? "";
+      if (!(path === "/api/health" && method === "GET" || ["/api/download", "/api/queue"].includes(path) && ["GET", "POST"].includes(method) || ["/api/fetch-info", "/auth/transfer"].includes(path) && method === "POST")) throw new AccessError("METHOD_NOT_ALLOWED", 405);
+      let body = method === "POST" ? await readBody(req) : Buffer.alloc(0);
+      let payload = {};
+      if (method === "POST") {
+        try {
+          payload = JSON.parse(body.toString("utf8"));
+        } catch {
+          throw new AccessError("INVALID_JSON", 400);
+        }
+        if (!payload || typeof payload !== "object" || Array.isArray(payload)) throw new AccessError("INVALID_JSON", 400);
+      }
+      let job;
+      const ticket = url.searchParams.get("ticket");
+      if (path === "/api/download" && method === "GET" && ticket) {
+        job = jobs.get(ticket);
+        const cookie = req.headers.cookie?.split(";").map((x) => x.trim()).find((x) => x.startsWith("__Secure-vidfetch-transfer="))?.slice("__Secure-vidfetch-transfer=".length);
+        if (!job || !cookie || alias(cookie) !== job.cookie || job.ip !== ip || job.used || Date.now() >= job.expires || req.headers["sec-fetch-site"] !== "same-origin") throw new AccessError("EXPIRED", 404);
+        job.used = true;
+        job.cookie = void 0;
+        clearTimeout(job.timer);
+        transferJob = job;
+        controller = job.controller;
+        let response;
+        try {
+          response = await upstream(`/api/download?ticket=${encodeURIComponent(job.inner)}`, "GET", void 0, controller.signal);
+        } catch {
+          job.terminal = "failed";
+          controller.abort();
+          release(job);
+          throw new AccessError("BACKEND_UNAVAILABLE", 503);
+        }
+        if (response.statusCode !== 200) {
+          response.destroy();
+          job.terminal = "failed";
+          controller.abort();
+          release(job);
+          throw new AccessError("BACKEND_UNAVAILABLE", 503);
+        }
+        res.setHeader("Set-Cookie", "__Secure-vidfetch-transfer=; Path=/api/download; Max-Age=0; Secure; HttpOnly; SameSite=Strict");
+        res.writeHead(200, { "Content-Type": response.headers["content-type"] ?? "application/octet-stream", "Content-Disposition": response.headers["content-disposition"] ?? 'attachment; filename="VidFetch_download"', "Cache-Control": "no-store", "Referrer-Policy": "no-referrer", "X-Content-Type-Options": "nosniff" });
+        const current = job;
+        let sourceFailed = false;
+        response.once("aborted", () => {
+          if (!current.controller.signal.aborted) sourceFailed = true;
+        });
+        response.once("error", () => {
+          if (!current.controller.signal.aborted) sourceFailed = true;
+        });
+        let nextOutput = Date.now();
+        let timer;
+        const throttle = new import_node_stream.Transform({ highWaterMark: 65536, transform(chunk, _encoding, callback) {
+          if (current.bytes + chunk.length > maxBytes) {
+            sourceFailed = true;
+            return callback(new AccessError("TOO_LARGE", 413));
+          }
+          current.bytes += chunk.length;
+          const wait = Math.max(0, nextOutput - Date.now());
+          nextOutput = Math.max(nextOutput, Date.now()) + chunk.length / bytesPerSecond * 1e3;
+          timer = setTimeout(() => {
+            timer = void 0;
+            callback(null, chunk);
+          }, wait);
+        }, destroy(error, callback) {
+          clearTimeout(timer);
+          callback(error);
+        } });
+        try {
+          await (0, import_promises.pipeline)(response, throttle, res, { signal: controller.signal });
+          current.delivered = true;
+        } catch {
+          current.terminal = !sourceFailed && res.destroyed && !res.writableFinished ? "aborted" : "failed";
+          controller.abort();
+        } finally {
+          clearTimeout(timer);
+          current.retained = Date.now() + retentionMs;
+          release(current);
+        }
+        return;
+      }
+      const grant = req.headers.authorization?.replace(/^Bearer /, "") ?? "";
+      const claims = verifyAccess(grant, options.key, options.origin, "api");
+      const proof = verifyProof(typeof req.headers["x-vidfetch-proof"] === "string" ? req.headers["x-vidfetch-proof"] : "", claims.key, { method, path: url.pathname + url.search, body, token: grant });
+      options.ledger.useProof(claims.sub, proof.jti);
+      let claimed = false;
+      if (path === "/api/queue") {
+        if (!queue) throw new AccessError("NOT_FOUND", 404);
+        const token = method === "GET" ? url.searchParams.get("job") : payload.claim ?? payload.cancel;
+        if (typeof token !== "string" || !/^[A-Za-z0-9_-]{43}$/.test(token)) throw new AccessError("INVALID_QUEUE_REQUEST", 400);
+        if (method === "GET") {
+          json(res, 200, queue.inspect(token, claims.sub, ip, active));
+          return;
+        }
+        if (typeof payload.cancel === "string") {
+          queue.cancel(token, claims.sub, ip);
+          json(res, 200, { ok: true, cancelled: true });
+          return;
+        }
+        const entry = queue.claim(token, claims.sub, ip, active);
+        path = entry.path;
+        body = entry.body;
+        payload = JSON.parse(body.toString("utf8"));
+        claimed = true;
+      }
+      if (path === "/auth/transfer") {
+        const outer = typeof payload.ticket === "string" ? payload.ticket : "";
+        job = jobs.get(outer);
+        if (!job || job.owner !== claims.sub || job.ip !== ip || job.used || Date.now() >= job.expires) throw new AccessError("EXPIRED", 404);
+        if (job.cookie) throw new AccessError("EXPIRED", 404);
+        const cookie = (0, import_node_crypto4.randomBytes)(32).toString("base64url");
+        job.cookie = alias(cookie);
+        res.setHeader("Set-Cookie", `__Secure-vidfetch-transfer=${cookie}; Path=/api/download; Max-Age=${Math.max(1, Math.floor((job.expires - Date.now()) / 1e3))}; Secure; HttpOnly; SameSite=Strict`);
+        json(res, 200, { ok: true });
+        return;
+      }
+      controller = new AbortController();
+      pending.add(controller);
+      const operationStarted = Date.now();
+      if (res.destroyed) controller.abort();
+      operationTimer = setTimeout(() => controller?.abort(), path === "/api/download" && method === "POST" ? options.operationMs ?? 6e5 : 18e4);
+      if (path === "/api/download" && method === "GET") {
+        const status = url.searchParams.get("status");
+        job = status ? jobs.get(status) : void 0;
+        if (!job || job.owner !== claims.sub) throw new AccessError("EXPIRED", 404);
+        const reply2 = await upstreamJson(`/api/download?status=${encodeURIComponent(job.inner)}`, "GET", void 0, controller.signal);
+        if (reply2.status === 200) {
+          const state = reply2.data.status;
+          if (["completed", "failed", "aborted", "expired"].includes(String(state))) job.retained = Math.min(job.retained, Number(reply2.data.updated ?? Date.now()) + retentionMs);
+          if (job.terminal) {
+            reply2.data.status = job.terminal;
+            reply2.data.bytes = job.bytes;
+            reply2.data.error = "The transfer stopped before delivery finished.";
+          }
+          if (state === "completed" && !job.delivered && !job.terminal) {
+            reply2.data.status = "streaming";
+            reply2.data.bytes = job.bytes;
+          }
+        }
+        json(res, reply2.status, reply2.data);
+        return;
+      }
+      if (path === "/api/health") {
+        const reply2 = await upstreamJson("/api/health", "GET", void 0, controller.signal);
+        if (options.requireIsolation !== false && reply2.data.engine?.isolationProfile !== (options.isolationProfile ?? "vidfetch-netns-v1")) throw new AccessError("SECURITY_NOT_READY", 503);
+        await options.admitWork?.();
+        if (queue) reply2.data.queue = { enabled: true, waiting: queue.size(), maximum: queue.maximum, maxWaitMs: queue.waitMs };
+        json(res, reply2.status, reply2.data);
+        return;
+      }
+      if (!queue && active || jobs.size >= 256) throw new AccessError("BUSY", 429);
+      const detection = detectPlatform(typeof payload.url === "string" ? payload.url : "");
+      if (!detection.ok) throw new AccessError("INVALID_URL", 400);
+      if (path === "/api/download" && (typeof payload.format_id !== "string" || !/^[a-zA-Z0-9_.-]{1,180}$/.test(payload.format_id) || !["video", "audio"].includes(String(payload.type)))) throw new AccessError("INVALID_FORMAT", 400);
+      if (!claimed) {
+        options.ledger.rate(ip, "work", 20, 6e5);
+        options.ledger.rate(claims.sub, "work", 20, 6e5);
+      }
+      if (queue && !claimed) {
+        if (activeOwner === claims.sub || activeIp === ip) throw new AccessError("QUEUE_DUPLICATE", 429);
+        if ([...jobs.values()].some((job2) => job2.owner === claims.sub && !job2.delivered && !job2.terminal)) throw new AccessError("QUEUE_DUPLICATE", 429);
+        if (active || queue.size()) {
+          json(res, 202, queue.enqueue({ owner: claims.sub, ip, path, body }, active));
+          return;
+        }
+      }
+      if (active) throw new AccessError("BUSY", 429);
+      active = true;
+      activeOwner = claims.sub;
+      activeIp = ip;
+      hold = true;
+      await options.admitWork?.();
+      if (options.requireIsolation !== false) {
+        const health = await upstreamJson("/api/health", "GET", void 0, controller.signal);
+        if (health.status !== 200 || health.data.engine?.isolationProfile !== (options.isolationProfile ?? "vidfetch-netns-v1")) throw new AccessError("SECURITY_NOT_READY", 503);
+      }
+      if (path === "/api/download") quota = options.ledger.reserve(ip, claims.sub, maxBytes);
+      const reply = await upstreamJson(path, method, body, controller.signal);
+      if (path === "/api/download" && reply.status === 201 && reply.data.ok === true) {
+        if (typeof reply.data.token !== "string" || !/^[a-f0-9-]{36}$/.test(reply.data.token)) throw new AccessError("UPSTREAM_INVALID", 502);
+        const token = (0, import_node_crypto4.randomBytes)(32).toString("base64url");
+        const current = { inner: reply.data.token, owner: claims.sub, ip, expires: Date.now() + ticketMs, retained: Date.now() + retentionMs, used: false, delivered: false, bytes: 0, settle: quota, controller, deadline: operationStarted + (options.operationMs ?? 6e5) };
+        current.timer = setTimeout(() => {
+          current.terminal = "expired";
+          const grace = queue ? Math.max(0, (options.backendTicketMs ?? 6e4) - ticketMs) + 1e3 : 0;
+          if (grace) {
+            current.timer = setTimeout(() => release(current), grace);
+            current.timer.unref();
+          } else release(current);
+        }, ticketMs);
+        current.timer.unref();
+        jobs.set(token, current);
+        reply.data.token = token;
+        reply.data.downloadUrl = `/api/download?ticket=${token}`;
+        published = true;
+        pending.delete(controller);
+        current.totalTimer = operationTimer;
+        operationTimer = void 0;
+        current.totalTimer?.unref();
+      }
+      json(res, reply.status, reply.data);
+    } catch (error) {
+      if (transferJob && !transferJob.delivered) {
+        transferJob.terminal ??= "failed";
+        transferJob.controller.abort();
+        release(transferJob);
+      }
+      const issue = error instanceof AccessError ? error : new AccessError("BACKEND_UNAVAILABLE", 503);
+      if (hold && !published) {
+        active = false;
+        activeOwner = void 0;
+        activeIp = void 0;
+        quota?.(0);
+      }
+      if (!res.destroyed) json(res, issue.status, { ok: false, code: issue.code, error: issue.status === 429 ? "The download service is busy or your quota is reached. Try later." : "The secure download request could not be completed." });
+    } finally {
+      clearTimeout(operationTimer);
+      res.removeListener("close", onClose);
+      if (controller && !published) pending.delete(controller);
+      if (hold && !published) {
+        active = false;
+        activeOwner = void 0;
+        activeIp = void 0;
+      }
+    }
+  }
+  const tasks = /* @__PURE__ */ new Set();
+  const server = (0, import_node_http.createServer)((req, res) => {
+    const task = handle(req, res);
+    tasks.add(task);
+    void task.finally(() => tasks.delete(task));
+  });
+  server.maxConnections = 32;
+  server.headersTimeout = 1e4;
+  server.requestTimeout = 15e3;
+  server.keepAliveTimeout = 5e3;
+  const sweeper = setInterval(prune, 6e4);
+  sweeper.unref();
+  const shutdown = async () => {
+    clearInterval(sweeper);
+    queue?.close();
+    for (const job of jobs.values()) {
+      job.controller.abort();
+      release(job);
+    }
+    for (const controller of pending) controller.abort();
+    server.closeAllConnections();
+    await Promise.all(tasks);
+    if (server.listening) await new Promise((resolve) => server.close(() => resolve()));
+    jobs.clear();
+    options.ledger.close();
+  };
+  return { server, shutdown };
+}
+
+// backend/gateway/pi-capacity.ts
+var import_promises2 = require("node:fs/promises");
+function checkPiCapacity(memory, temperature, voltageAlarm) {
+  const available = Number(memory.match(/^MemAvailable:\s+(\d+)/m)?.[1]), celsius = Number(temperature.trim()) / 1e3;
+  if (!Number.isFinite(available) || !Number.isFinite(celsius) || celsius <= 0 || celsius >= 65 || available < 256 * 1024 || voltageAlarm.trim() !== "0") throw new AccessError("RESOURCE_GUARD", 503);
+}
+function piCapacityGuard() {
+  let cached, expires = 0;
+  return async () => {
+    if (!cached || Date.now() >= expires) {
+      expires = Date.now() + 5e3;
+      cached = (async () => {
+        try {
+          if (process.platform !== "linux") throw Error("Linux required");
+          const entries = (await (0, import_promises2.readdir)("/sys/class/hwmon")).filter((n) => /^hwmon\d+$/.test(n));
+          if (entries.length > 32) throw Error("Invalid sensors");
+          const names = await Promise.all(entries.map(async (name) => ({ name, label: (await (0, import_promises2.readFile)(`/sys/class/hwmon/${name}/name`, "utf8")).trim() })));
+          const sensors = names.filter((n) => n.label === "rpi_volt");
+          if (sensors.length !== 1) throw Error("Power sensor unavailable");
+          const [memory, temperature, alarm] = await Promise.all([(0, import_promises2.readFile)("/proc/meminfo", "utf8"), (0, import_promises2.readFile)("/sys/class/thermal/thermal_zone0/temp", "utf8"), (0, import_promises2.readFile)(`/sys/class/hwmon/${sensors[0].name}/in0_lcrit_alarm`, "utf8")]);
+          checkPiCapacity(memory, temperature, alarm);
+        } catch {
+          throw new AccessError("RESOURCE_GUARD", 503);
+        }
+      })();
+    }
+    await cached;
+  };
+}
+
+// backend/gateway/main.ts
+var origin = publicGatewayOrigin(process.env.VIDFETCH_GATEWAY_ORIGIN);
+var sites = (process.env.VIDFETCH_SITE_ORIGINS ?? "").split(",").map((s) => publicGatewayOrigin(s));
+var file = process.env.VIDFETCH_QUOTA_DB;
+var proxy = process.env.VIDFETCH_PROXY ?? "reverse-proxy";
+if (proxy !== "funnel" && proxy !== "reverse-proxy") throw Error("Invalid gateway proxy mode");
+var isolationMode = process.env.VIDFETCH_ISOLATION_MODE ?? "netns";
+if (!["netns", "uid-nft"].includes(isolationMode)) throw Error("Invalid isolation mode");
+var onPi = proxy === "funnel" || process.env.VIDFETCH_PI_MODE === "1";
+if (!origin || !sites.length || sites.some((s) => !s) || !file?.startsWith("/") || process.env.VIDFETCH_GATEWAY_ENABLED !== "1") throw new Error("Gateway configuration incomplete; public serving is disabled");
+if (proxy === "funnel" && !new URL(origin).hostname.endsWith(".ts.net")) throw Error("Funnel requires its assigned ts.net hostname");
+function bounded(name, fallback, minimum, maximum) {
+  const value = process.env[name] ?? String(fallback);
+  if (!/^\d+$/.test(value) || Number(value) < minimum || Number(value) > maximum) throw Error("Invalid gateway bounds");
+  return Number(value);
+}
+(0, import_node_fs.mkdirSync)((0, import_node_path.dirname)(file), { recursive: true, mode: 448 });
+var app = createGateway({
+  origin,
+  sites,
+  key: serviceKey(process.env.VIDFETCH_ACCESS_SIGNING_KEY),
+  backend: process.env.VIDFETCH_PRIVATE_BACKEND ?? (onPi ? "http://127.0.0.1:8788" : "http://127.0.0.1:18788"),
+  backendSocket: onPi ? "/run/vidfetch-public/backend.sock" : void 0,
+  proxy,
+  admitWork: onPi ? piCapacityGuard() : void 0,
+  maxBytes: bounded("VIDFETCH_PUBLIC_MAX_MIB", onPi ? 16 : 256, 1, 256) * 1024 ** 2,
+  bytesPerSecond: bounded("VIDFETCH_STREAM_KIBPS", onPi ? 64 : 2048, 32, 2048) * 1024,
+  queue: process.env.VIDFETCH_QUEUE_ENABLED === "1" ? {
+    maxWaiting: bounded("VIDFETCH_QUEUE_MAX", 2, 1, 8),
+    waitMs: bounded("VIDFETCH_QUEUE_WAIT_SECONDS", 180, 20, 300) * 1e3,
+    estimateMs: bounded("VIDFETCH_QUEUE_ESTIMATE_SECONDS", 90, 1, 300) * 1e3
+  } : void 0,
+  isolationProfile: isolationMode === "uid-nft" ? "vidfetch-uid-nft-v1" : "vidfetch-netns-v1",
+  ledger: new GatewayLedger(file),
+  requireIsolation: true
+});
+app.server.listen(8789, "127.0.0.1", () => console.log("[vidfetch] authenticated gateway listening on loopback"));
+app.server.on("error", () => {
+  console.error("[vidfetch] gateway listener failed");
+  void app.shutdown();
+  process.exitCode = 1;
+});
+for (const signal of ["SIGTERM", "SIGINT"]) process.once(signal, () => void app.shutdown());

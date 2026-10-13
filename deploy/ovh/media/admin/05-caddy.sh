@@ -5,7 +5,11 @@
 # Internet, otherwise failed validations count against Let's Encrypt limits.
 . "$(dirname "$0")/common.sh"; need_root
 [ "${1:-}" = --port80-verified-from-outside ] || die "confirm from another network that http://dl.vidfetch.app/ answers 308 first"
-B=$(latest_backup); DROPIN=/etc/systemd/system/$CADDY_UNIT.d/media-test.conf
+B=$(latest_backup)
+take_lock
+require_current_backup "$B"
+restored_marker "$B" && die "the automatic restore already started or ran: re-run 03-network.sh first"
+[ ! -e "$B/confirmed" ] || die "the window was already confirmed: Caddy changes now need a new backup and a new 03-network.sh"
 $SYSTEMCTL is-active --quiet $TIMER.timer || die "arm the dead-man timer first (03-network.sh); it also restores this pointer"
 grep -q 'tcp dport 80 accept' "$BASE/ingress.nft" || die "port 80 is not open in the applied ingress"
 [ -f "$BASE/Caddyfile.media-test" ] || die "run 02-stage.sh"

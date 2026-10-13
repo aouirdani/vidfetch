@@ -45,7 +45,7 @@ BACKUP="$WEB_ENV.bak.$(date -u +%Y%m%dT%H%M%SZ)"
 cp -p "$WEB_ENV" "$BACKUP"; chmod 600 "$BACKUP"; echo "backup: $BACKUP"
 
 TMP=$(mktemp "$WEB_ENV.new.XXXXXX")
-trap 'rm -f "$TMP"' EXIT
+trap 'rm -f -- "${TMP:?}"' EXIT
 NAMES='^(TURNSTILE_SITE_KEY|TURNSTILE_SECRET_KEY|VIDFETCH_ACCESS_SIGNING_KEY|VIDFETCH_MEDIA_ORIGIN)='
 # Drop previous values for these names, keep every other line untouched.
 rc=0; grep -vE "$NAMES" "$WEB_ENV" > "$TMP" || rc=$?

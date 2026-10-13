@@ -23,6 +23,33 @@ class Scripts(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertGreaterEqual(result.stdout.count('\nok ') + result.stdout.startswith('ok '), 30)
 
+    def test_hardening_scenarios_in_container(self):
+        """Confirm proof (tester IP, public key, margin), restore under partial failure, locking, backup round-trip."""
+        if not shutil.which('docker') or subprocess.run(['docker', 'info'], capture_output=True).returncode:
+            self.skipTest('Docker not available')
+        result = subprocess.run(['docker', 'run', '--rm', '-v', f'{root}:/r:ro', 'python:3.12-slim', 'bash', '/r/deploy/ovh/tests/admin-hardening.test.sh'],
+                                capture_output=True, text=True, timeout=600)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertGreaterEqual(result.stdout.count('\nok '), 70)
+
+    def test_path_safety_in_container(self):
+        """Empty variables and invalid paths stop the scripts; canary files prove nothing else is created or removed."""
+        if not shutil.which('docker') or subprocess.run(['docker', 'info'], capture_output=True).returncode:
+            self.skipTest('Docker not available')
+        result = subprocess.run(['docker', 'run', '--rm', '-v', f'{root}:/r:ro', 'python:3.12-slim', 'bash', '/r/deploy/ovh/tests/path-safety.test.sh'],
+                                capture_output=True, text=True, timeout=600)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertGreaterEqual(result.stdout.count('\nok '), 65)
+
+    def test_no_recursive_removal_in_administrator_scripts(self):
+        import re
+        for script in sorted((root / 'deploy/ovh/media/admin').glob('*.sh')) + [root / 'deploy/ovh/media/install-web-secrets.sh']:
+            text = script.read_text()
+            self.assertIsNone(re.search(r'\brm +(-[a-zA-Z]*[rR][a-zA-Z]*|--recursive)', text), script.name)
+            self.assertIsNone(re.search(r'-delete\b|-exec +rm\b|xargs +(-\S+ +)*rm\b', text), script.name)
+            self.assertTrue(os.access(script, os.X_OK), f'{script.name} is not executable')
+            self.assertIsNone(re.search(r'"\$SYSD/\$[A-Z_]', text), script.name)
+
     def test_scripts_parse(self):
         for script in (root / 'deploy/ovh/media/admin').glob('*.sh'):
             self.assertEqual(subprocess.run(['bash', '-n', str(script)], capture_output=True).returncode, 0, script.name)
