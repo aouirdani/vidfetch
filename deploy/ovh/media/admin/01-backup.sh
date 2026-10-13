@@ -24,6 +24,7 @@ cp -p /etc/systemd/system/$CADDY_UNIT "$B/systemd/"; if [ -d /etc/systemd/system
 for u in $PROTECTED vidfetch-https-test-ingress.service $WEB_UNIT; do printf '%s %s %s\n' "$u" "$($SYSTEMCTL is-active $u)" "$($SYSTEMCTL show $u -pMainPID --value)"; done > "$B/units.txt"
 readlink -f /opt/vidfetch-web-preproduction-20261013/current > "$B/frontend-release.path"
 tar -C /var/lib -czf "$B/caddy-state.tgz" vidfetch-proxy   # ACME account + certificates (private keys): stays 0600
+echo "$TOOLKIT_REVISION" > "$B/toolkit-revision"
 install -m 0700 "$(dirname "$0")/restore-network.sh" "$B/restore-network.sh"
 install -m 0700 "$(dirname "$0")/07-restore-full.sh" "$B/restore-full.sh"
 ( cd "$B" && find . -type f ! -name MANIFEST.sha256 -print0 | sort -z | xargs -0 sha256sum > MANIFEST.sha256 )

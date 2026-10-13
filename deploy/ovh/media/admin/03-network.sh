@@ -8,6 +8,7 @@
 MODE=${1:?closed80|open80}; SECS=${2:-300}; B=$(latest_backup)
 [[ "$SECS" =~ ^[0-9]+$ ]] && [ "$SECS" -ge 120 ] && [ "$SECS" -le 1800 ] || die "SECONDS must be 120..1800"
 take_lock
+require_current_backup "$B"
 [ -f "$BASE/ingress.nft.media-test" ] || die "run 02-stage.sh first"
 $SYSTEMCTL is-active --quiet $TIMER.timer && die "timer already armed: run 04-confirm.sh or 04-cancel.sh"
 $SYSTEMCTL is-active --quiet $TIMER.service && die "the automatic restore is running: wait for it"

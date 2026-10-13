@@ -8,6 +8,7 @@
 . "$(dirname "$0")/common.sh"; need_root
 take_lock
 B=$(latest_backup)
+require_current_backup "$B"
 restored_marker "$B" && die "the automatic restore already started or ran: the window is over (re-run 03-network.sh)"
 $SYSTEMCTL is-active --quiet $TIMER.timer || die "timer not armed: check 'journalctl -t vidfetch-media-rollback'"
 [ -s "$B/armed-at" ] || die "no arming record (rules not confirmed live)"; ARMED=$(cat "$B/armed-at")

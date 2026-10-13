@@ -219,4 +219,42 @@ half_applied; touch "$STATE/restoring"; bash $A/03-network.sh open80 300 >/dev/n
 half_applied; date +%s.%N > "$B/restore-started"; bash $A/05-caddy.sh --port80-verified-from-outside >/dev/null 2>&1 && bad "05 after restore started" || ok "05 refuses once the automatic restore has started"
 half_applied; date +%s.%N > "$B/confirmed"; bash $A/05-caddy.sh --port80-verified-from-outside >/dev/null 2>&1 && bad "05 after confirm" || ok "05 refuses after the window was confirmed (new backup + new 03 needed)"
 half_applied; cp /dev/null $BASE/dummy; bash $A/03-network.sh open80 300 >/dev/null 2>&1 && bad "03 over modified system" || ok "03 refuses to arm over a system that already holds media-test changes"
+
+# ================================================================ E. scripts or backups left over from an older copy
+echo "# E. a backup made by an older copy of the scripts is refused; preflight says what is missing"
+reset_state; mkfix; bash $A/01-backup.sh >/dev/null 2>&1; B=$(readlink -f "$W/bk/vidfetch-media-test-latest"); stage_files
+[ "$(cat "$B/toolkit-revision")" = 2 ] && ok "a new backup records toolkit revision 2" || bad "revision file"
+rm -f "$B/toolkit-revision"; : > "$STATE/calls.log"     # what a backup taken with the PR #4 scripts looks like
+out=$(bash $A/03-network.sh open80 300 2>&1); rc=$?
+[ $rc != 0 ] && ! calls | grep -q '^systemd-run' && grep -q ORIGINAL-INGRESS $BASE/ingress.nft && ok "03 refuses a backup without the current revision: nothing armed, nothing applied" || bad "03 accepted an old backup (rc=$rc)"
+echo "$out" | grep -q "Run 01-backup.sh again" && ok "...and says to take a fresh backup" || bad "message: $out"
+echo 2 > "$B/toolkit-revision"; echo '# older restore logic' >> "$B/restore-network.sh"
+bash $A/03-network.sh open80 300 >/dev/null 2>&1 && bad "03 with a different restore script in the backup" || ok "03 refuses when the restore script inside the backup differs from this toolkit"
+touch "$STATE/armed"; printf 'tcp dport 80 accept\n' >> $BASE/ingress.nft
+bash $A/05-caddy.sh --port80-verified-from-outside >/dev/null 2>&1 && bad "05 with an old backup" || ok "05 refuses the same backup"
+date +%s.%N > "$B/armed-at"; bash $A/04-confirm.sh >/dev/null 2>&1 && bad "confirm with an old backup" || ok "04-confirm refuses the same backup"
+bash $A/04-cancel.sh >/dev/null 2>&1; grep -q ORIGINAL-INGRESS $BASE/ingress.nft && ok "04-cancel still restores from it (an emergency restore is never refused)" || bad "cancel with old backup"
+rm -f "$B/restore-started" "$B/restored"; sleep 1
+before=$(readlink "$W/bk/vidfetch-media-test-latest"); bash $A/01-backup.sh >/dev/null 2>&1
+[ "$(readlink "$W/bk/vidfetch-media-test-latest")" != "$before" ] && bash $A/03-network.sh open80 300 >/dev/null 2>&1 && ok "(control) after a fresh 01-backup.sh the same 03 succeeds" || bad "control after fresh backup"
+# preflight: revision, backup compatibility, frontend capability
+cat > "$W/bin/curl" <<'C'
+#!/usr/bin/env python3
+import sys, urllib.request
+try: sys.stdout.write(urllib.request.urlopen(sys.argv[-1], timeout=5).read().decode())
+except Exception: sys.exit(7)
+C
+chmod +x "$W/bin/curl"; mkdir -p "$W/www/api"; echo '{"ok":true,"release":"abc","downloads":{"available":false}}' > "$W/www/api/health"
+( cd "$W/www" && exec python3 -m http.server 3001 --bind 127.0.0.1 >/dev/null 2>&1 ) & sleep 1
+echo '{"ok":true,"available":false,"siteKey":""}' > "$W/www/api/download-access"       # frontend of the release active today
+out=$(bash $A/00-preflight.sh 2>&1)
+echo "$out" | grep -q "toolkit revision 2" && ok "preflight shows the toolkit revision" || bad "preflight revision"
+echo "$out" | grep -q "runtime media origin supported by this release: NO" && echo "$out" | grep -q "NO-GO for the recette: this frontend predates" && ok "preflight: a frontend without the runtime media configuration is a NO-GO" || bad "preflight frontend NO-GO"
+echo '{"ok":true,"available":false,"siteKey":"","gatewayOrigin":""}' > "$W/www/api/download-access"   # current main
+out=$(bash $A/00-preflight.sh 2>&1)
+echo "$out" | grep -q "runtime media origin supported by this release: yes" && ! echo "$out" | grep -q "this frontend predates" && ok "preflight: the current frontend is recognised" || bad "preflight frontend yes"
+echo "$out" | grep -q "usable with this toolkit" && ok "preflight: a current backup is reported usable" || bad "preflight backup usable"
+B=$(readlink -f "$W/bk/vidfetch-media-test-latest"); rm -f "$B/toolkit-revision"
+out=$(bash $A/00-preflight.sh 2>&1)   # captured first: grep -q on a live pipe would end it early under pipefail
+echo "$out" | grep -q "NOT usable" && echo "$out" | grep -q "run 01-backup.sh again" && ok "preflight: an older backup is reported NOT usable" || bad "preflight backup not usable"
 exit $fail

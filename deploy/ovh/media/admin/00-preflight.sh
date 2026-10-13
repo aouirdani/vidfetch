@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # READ-ONLY. Prints state and names/hashes only: never environment values, keys or hashes of passwords.
 . "$(dirname "$0")/common.sh"; need_root; set +e; export LC_ALL=C
+echo "== toolkit revision $TOOLKIT_REVISION (must be 2 or later: older copies have a confirmation step that cannot work with OpenSSH 10)"
+( cd "$(dirname "$0")" && sha256sum *.sh guard-update.py | cut -c1-16,65- | tr '\n' ' ' ); echo
+LATEST=$(readlink -f "$BACKUPS/vidfetch-media-test-latest" 2>/dev/null)
+if [ -n "$LATEST" ] && [ -d "$LATEST" ]; then if WHY=$(backup_problem "$LATEST"); then echo "  latest backup $LATEST: NOT usable ($WHY) -> run 01-backup.sh again before 03-network.sh"; else echo "  latest backup $LATEST: usable with this toolkit"; fi; else echo "  latest backup: none yet"; fi
 echo "== time/host"; date -u +%FT%TZ; hostname; . /etc/os-release; echo "$PRETTY_NAME $(uname -r)"
 echo "== SSH client as seen by the VPS: ${SSH_CONNECTION:-unknown}  (client_ip client_port server_ip port; empty under plain sudo: use sudo --preserve-env=SSH_CONNECTION)"
 echo "== protected units (active / MainPID)"
@@ -9,6 +13,14 @@ echo "== listeners on guarded ports"; ss -ltn | awk 'NR==1||$4 ~ /:(22|80|443|30
 echo "== frontend release + health"
 readlink -f /opt/vidfetch-web-preproduction-20261013/current
 curl -s -m 5 http://127.0.0.1:3001/api/health | python3 -c 'import sys,json;d=json.load(sys.stdin);print("ok=%s release=%s downloads=%s"%(d.get("ok"),d.get("release"),d.get("downloads")))'
+echo "== frontend capability needed for the MP4/MP3 recette (key names only)"
+curl -s -m 5 http://127.0.0.1:3001/api/download-access | python3 -c '
+import json, sys
+try: d = json.load(sys.stdin)
+except Exception: print("  could not read /api/download-access from the frontend"); raise SystemExit
+print("  runtime media origin supported by this release:", "yes" if "gatewayOrigin" in d else "NO")
+if "gatewayOrigin" not in d: print("  NO-GO for the recette: this frontend predates the runtime media configuration. Deploy the current main (ready=0) through CI first.")
+print("  downloads announced as available:", d.get("available"), "(must be False before activation)")'
 echo "== non-secret settings"
 grep -hE '^(VIDFETCH_CONNECTION_READY|VIDFETCH_TARGET|VIDFETCH_MEDIA_ORIGIN|VIDFETCH_GATEWAY_ORIGIN|VIDFETCH_SITE_ORIGINS)=' /etc/vidfetch/*.env 2>/dev/null | sed 's/^/  /' || true
 for f in /etc/vidfetch/*.env; do [ -f "$f" ] && echo "  $f variable NAMES: $(grep -oE '^[A-Za-z0-9_]+=' "$f" | tr -d '=' | tr '\n' ' ')"; done
