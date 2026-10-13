@@ -1,5 +1,7 @@
 # VidFetch — préparation CI/CD OVH, 13 octobre 2026
 
+> Mise à jour après les premiers runs : les instructions de reconstruction à chaque dispatch ci-dessous sont historiques. Consulter [la correction de réutilisation des artefacts](VIDFETCH-CICD-ARTIFACT-REUSE.md) pour la procédure actuelle `validate → verify → deploy` et le diagnostic du conflit d'uploads. Les helpers OVH et leurs protections restent inchangés.
+
 ## 1. Résultat et périmètre
 
 **VALIDÉ : infrastructure CI dédiée préparée et testée. NON TESTÉ : exécution réelle sur GitHub Actions et première activation du frontend public par ce pipeline.** Aucun push, fusion, dispatch, secret GitHub ou variable GitHub n'a été créé. Les deux verrous d'activation restent fermés.
