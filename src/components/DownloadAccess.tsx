@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { useI18n } from "@/i18n/context";
-import { authorizeDownloads } from "@/lib/api";
+import { authorizeDownloads, configureDownloadOrigin } from "@/lib/api";
 
-type Turnstile = { render(element: HTMLElement, options: { sitekey: string; language: string; action: string; callback: (token: string) => void; "expired-callback": () => void; "error-callback": () => void }): string; remove(id: string): void; reset(id: string): void };
+type Turnstile = { render(element: HTMLElement, options: { sitekey: string; language: string; action: string; callback: (token: string) => void; "expired-callback": () => void; "error-callback": () => void; "timeout-callback": () => void }): string; remove(id: string): void; reset(id: string): void };
 declare global { interface Window { turnstile?: Turnstile } }
 export function DownloadAccess({ onChange }: { onChange: (ready: boolean) => void }) {
   const { locale, messages: d } = useI18n();
@@ -18,6 +18,7 @@ export function DownloadAccess({ onChange }: { onChange: (ready: boolean) => voi
         callback: (token) => { void authorizeDownloads(token).then(() => { if (alive) { setMessage(d.verified); onChange(true); } }).catch(() => { if (alive) { setMessage(d.verifyFailed); onChange(false); } }); },
         "expired-callback": () => { if (alive) { setMessage(d.verifyAgain); onChange(false); } },
         "error-callback": () => { if (alive) { setMessage(d.verifyFailed); onChange(false); } },
+        "timeout-callback": () => { if (alive) { setMessage(d.verifyAgain); onChange(false); } },
       });
       resetWidget.current=()=>{if(widget){onChange(false);window.turnstile?.reset(widget);}};
     };
@@ -28,6 +29,7 @@ export function DownloadAccess({ onChange }: { onChange: (ready: boolean) => voi
       if (!alive) return;
       siteKey = config.available ? config.siteKey : "";
       if (!siteKey) { setMessage(d.backendUnavailable); onChange(false); return; }
+      if (config.gatewayOrigin) configureDownloadOrigin(config.gatewayOrigin);
       script = document.querySelector<HTMLScriptElement>('script[data-vidfetch-turnstile]');
       if (!script) { script = document.createElement("script"); script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"; script.async = true; script.dataset.vidfetchTurnstile = "1"; document.head.append(script); }
       script.addEventListener("load", ready); script.addEventListener("error",failed); ready();

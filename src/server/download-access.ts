@@ -1,7 +1,8 @@
 import { createHmac, randomUUID } from "node:crypto";
 import { isIP } from "node:net";
-import { publicGatewayOrigin } from "../lib/gateway-origin";
-import { AccessError, browserKey, keyId, serviceKey, serviceMac, signAccess, verifyAccess, verifyProof } from "./access-crypto";
+import { AccessError, browserKey, keyId, serviceMac, signAccess, verifyAccess, verifyProof } from "./access-crypto";
+import { mediaConfiguration } from "./media-config";
+import { verifyTurnstile } from "./turnstile";
 import { internalAdmissionPost } from "./internal-admission";
 import { publicJsonPost } from "./public-request";
 
@@ -62,26 +63,18 @@ export function createAccessIssuer(options: { key: Buffer; siteOrigin: string; g
 
 export async function issueDownloadAccess(request: Request) {
   const ovh = process.env.VIDFETCH_TARGET === "ovh";
-  const siteOrigin = publicGatewayOrigin(process.env.NEXT_PUBLIC_SITE_URL);
-  const gatewayOrigin = ovh ? siteOrigin : publicGatewayOrigin(process.env.NEXT_PUBLIC_API_ORIGIN);
-  if (!ovh && process.env.VIDFETCH_TARGET !== "secure-gateway" || process.env.VIDFETCH_CONNECTION_READY !== "1" || !gatewayOrigin || !siteOrigin || !process.env.TURNSTILE_SECRET_KEY) {
+  const config = mediaConfiguration();
+  if (!config) {
     return Response.json({ ok: false, code: "BACKEND_UNAVAILABLE", error: "The secure download service is unavailable." }, { status: 503, headers: { "Cache-Control": "no-store" } });
   }
   try {
-    const key = serviceKey(process.env.VIDFETCH_ACCESS_SIGNING_KEY);
+    const { key, siteOrigin, gatewayOrigin } = config;
     return createAccessIssuer({ key, siteOrigin, gatewayOrigin, admit: async (req, requestNonce, keyHash) => {
       const ip = req.headers.get("x-forwarded-for");
       if (!ip || !isIP(ip)) throw new AccessError("BACKEND_UNAVAILABLE",503);
       const normalized=isIP(ip)===6?new URL(`http://[${ip}]`).hostname:ip;
       const body=JSON.stringify({ identity:createHmac("sha256",key).update(normalized).digest("base64url"),requestNonce,keyHash }), timestamp=String(Date.now()),nonce=randomUUID();
       await (ovh ? internalAdmissionPost : publicJsonPost)(new URL("/auth/admission",gatewayOrigin),body,{"X-VidFetch-Service-Time":timestamp,"X-VidFetch-Service-Nonce":nonce,"X-VidFetch-Service-MAC":serviceMac(key,body,timestamp,nonce)});
-    }, verifyChallenge: async (token, hostname) => {
-      const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-        method: "POST", headers: { "Content-Type": "application/json" }, redirect: "error", signal: AbortSignal.timeout(8000),
-        body: JSON.stringify({ secret: process.env.TURNSTILE_SECRET_KEY, response: token, idempotency_key: randomUUID() }),
-      });
-      const result = await response.json() as { success?: boolean; hostname?: string; action?: string };
-      return response.ok && result.success === true && result.hostname === hostname && result.action === "vidfetch";
-    } })(request);
+    }, verifyChallenge: (token, hostname) => verifyTurnstile(token, hostname, process.env.TURNSTILE_SECRET_KEY!) })(request);
   } catch { return Response.json({ ok: false, code: "BACKEND_UNAVAILABLE", error: "The secure download service is unavailable." }, { status: 503 }); }
 }

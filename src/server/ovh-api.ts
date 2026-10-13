@@ -1,6 +1,8 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { request } from "node:http";
+import { mediaConfiguration } from "./media-config";
+import { internalGatewayReady } from "./internal-admission";
 export { fetchInfoPOST, downloadGET, downloadPOST } from "./unavailable-api";
 function release() { try { return JSON.parse(readFileSync(resolve(process.cwd(), "../manifest.json"), "utf8")).release; } catch { return "development"; } }
 let probe: { expires: number; result: Promise<boolean> } | undefined;
@@ -20,6 +22,6 @@ function engineReady(): Promise<boolean> {
 }
 /** Frontend remains usable when downloads are unavailable; probes stay internal. */
 export async function healthGET() {
-  const configured = process.env.VIDFETCH_CONNECTION_READY === "1" && !!process.env.TURNSTILE_SECRET_KEY && !!(process.env.TURNSTILE_SITE_KEY ?? process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
-  return Response.json({ ok: true, service: "VidFetch", frontend: { ready: true }, release: release(), downloads: { available: configured && await engineReady() } }, { headers: { "Cache-Control": "no-store" } });
+  const config = mediaConfiguration();
+  return Response.json({ ok: true, service: "VidFetch", frontend: { ready: true }, release: release(), downloads: { available: !!config && await engineReady() && await internalGatewayReady(config.gatewayOrigin, config.key) } }, { headers: { "Cache-Control": "no-store" } });
 }
