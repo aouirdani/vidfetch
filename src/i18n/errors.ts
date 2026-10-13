@@ -1,9 +1,17 @@
 import type { Messages } from "./dictionaries";
-/** Translate presentation only; API codes, enums and response shapes stay stable. */
+/**
+ * Translate presentation only; API codes, enums and response shapes stay stable.
+ * Exact codes come first so that four situations are never shown with the same words:
+ * the platform refusing our server, a video that needs an account, a video that is gone,
+ * and a real outage of the service.
+ */
 export function errorMessage(code: string | undefined, messages: Messages): string {
   if (code === "POPUP_BLOCKED") return messages.popupBlocked;
+  if (code === "UPSTREAM_BLOCKED") return messages.sourceBlocked;
+  if (code === "AUTH_REQUIRED") return messages.loginRequired;
+  if (code === "UNAVAILABLE") return messages.videoUnavailable;
   if (/FORMAT|NO_STREAM/.test(code ?? "")) return messages.noFormats;
-  if (/UNAVAILABLE|ENGINE_MISSING|MAINTENANCE/.test(code ?? "")) return messages.backendUnavailable;
+  if (/UNAVAILABLE|UNREACHABLE|ENGINE_MISSING|MAINTENANCE|SECURITY_NOT_READY|RESOURCE_GUARD/.test(code ?? "")) return messages.backendUnavailable;
   if (/RATE|QUOTA|QUEUE_FULL|BUSY|CONCURRENT/.test(code ?? "")) return messages.rateLimited;
   if (/AUTH|PRIVATE|FORBIDDEN|RESTRICT|CHALLENGE/.test(code ?? "")) return messages.restricted;
   if (/EXPIRED|TICKET|INVALID_ACCESS/.test(code ?? "")) return messages.expired;
