@@ -9,6 +9,10 @@ on:
         type: choice
         options: [validate, verify, deploy]
         default: validate
+      artifact_run_id:
+        description: 'Required for verify/deploy: successful run for this exact main commit (deploy requires a successful transfer)'
+        type: string
+        default: ''
 permissions:
   contents: read
 concurrency:
@@ -16,8 +20,12 @@ concurrency:
   cancel-in-progress: false
 jobs:
   build:
+    # Build once. Manual verify/deploy reuse the exact archive, never a rebuild.
+    if: github.event_name == 'push' || inputs.operation == 'validate'
     runs-on: ubuntu-24.04
     timeout-minutes: 40
+    outputs:
+      archive_sha256: ${{ steps.archive.outputs.sha256 }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
@@ -36,12 +44,14 @@ jobs:
       - run: python3 -m unittest discover -s deploy/ovh/tests -v
       - run: npm run check:release
       - name: Linux standalone frontend and checked engines (no production secrets)
+        id: archive
         env:
           VIDFETCH_RELEASE: ${{ github.sha }}
         run: |
           mkdir -p build/releases
           node scripts/ovh/build-release.mjs
           tar -czf release-${{ github.sha }}.tgz -C build/releases/${{ github.sha }} .
+          echo "sha256=$(sha256sum release-${{ github.sha }}.tgz | cut -d ' ' -f1)" >> "$GITHUB_OUTPUT"
       - name: Install isolated browser for local multilingual checks
         run: npx playwright install --with-deps chromium
       - name: Server HTML, eight languages, RTL and unchanged API paths
@@ -50,18 +60,24 @@ jobs:
         with:
           name: release-${{ github.sha }}
           path: release-${{ github.sha }}.tgz
-          retention-days: 7
+          retention-days: 30
           if-no-files-found: error
   deploy:
     needs: build
     # No PR event, fork or arbitrary ref can reach deployment credentials.
     # A manual verify transfers and validates without switching any service.
     if: >-
+      always() && !cancelled() &&
       github.ref == 'refs/heads/main' && github.repository == 'aouirdani/vidfetch' &&
+      ((github.event_name == 'push' && needs.build.result == 'success') ||
+       (github.event_name == 'workflow_dispatch' && needs.build.result == 'skipped')) &&
       ((github.event_name == 'workflow_dispatch' && inputs.operation == 'verify') ||
        (vars.VIDFETCH_DEPLOY_ENABLED == 'true' &&
         (github.event_name == 'push' || inputs.operation == 'deploy')))
     environment: Production
+    permissions:
+      contents: read
+      actions: read
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -69,8 +85,23 @@ jobs:
         with:
           persist-credentials: false
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        if: github.event_name == 'push'
         with:
           name: release-${{ github.sha }}
+      - name: Check archive from this build
+        if: github.event_name == 'push'
+        env:
+          EXPECTED_SHA256: ${{ needs.build.outputs.archive_sha256 }}
+        run: |
+          test "${#EXPECTED_SHA256}" -eq 64
+          printf '%s  release-%s.tgz\n' "$EXPECTED_SHA256" "$GITHUB_SHA" | sha256sum --check --strict
+      - name: Reuse the exact successful main artifact
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ARTIFACT_RUN_ID: ${{ inputs.artifact_run_id }}
+          RELEASE_OPERATION: ${{ inputs.operation }}
+        run: python3 scripts/ovh/reuse-release.py
       - name: Bounded transfer, protected frontend health checks and rollback
         env:
           DEPLOY_HOST: 15.235.127.165
@@ -79,6 +110,15 @@ jobs:
           DEPLOY_KNOWN_HOSTS: ${{ secrets.OVH_DEPLOY_KNOWN_HOSTS }}
           DEPLOY_OPERATION: ${{ github.event_name == 'workflow_dispatch' && inputs.operation == 'verify' && 'verify' || 'receive' }}
         run: sh scripts/ovh/deploy.sh
+      # Only a successful transfer can publish this exact archive for a later deploy.
+      - name: Retain verified archive without rebuilding or repacking
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: release-${{ github.sha }}
+          path: release-${{ github.sha }}.tgz
+          retention-days: 30
+          if-no-files-found: error
       - name: Deployment outcome
         if: always()
         env:

@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import tarfile
 import tempfile
+import sys
 from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
@@ -110,6 +111,55 @@ class Frontend(unittest.TestCase):
         self.assertEqual(p.verify(SHA, checksum), target)
         self.assertEqual((self.base / 'current').resolve(), self.old)
         self.assertTrue((p.INCOMING / (SHA + '.tgz')).exists())
+
+    def test_dispatch_verify_then_deploy_reuses_bytes_and_rejects_rebuild(self):
+        """Actual receiver + root-helper logic; only OS/service effects are mocked."""
+        spec = importlib.util.spec_from_file_location('ci_dispatch', folder / 'dispatch.py')
+        dispatch = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(dispatch)
+        source, checksum = self.archive()
+        original = source.read_bytes()
+        # Local fixture only: receiver must initially create its immutable upload.
+        source.rename(self.base / 'fixture-source.tgz')
+        p.GATE.write_text('APPROVED_FRONTEND_TEST')
+        switched = p.switch
+
+        def helper(*args):
+            with patch.object(sys, 'argv', ['promote.py', *args]):
+                p.main()
+            return 0
+
+        with patch.object(dispatch, 'FOLDER', p.INCOMING), patch.object(dispatch, 'helper', helper), \
+                patch.object(dispatch.signal, 'alarm'), patch.object(p.os, 'geteuid', return_value=0), \
+                patch.object(p.signal, 'signal'), patch.object(p, 'trusted'), patch.object(p, 'guards'), \
+                patch.object(p, 'protected_pids', return_value={'engine': '123', 'gateway': '456'}), \
+                patch.object(p, 'restart') as restart, patch.object(p, 'wait_health'), \
+                patch.object(p, 'origin_health'), patch.object(p, 'switch', side_effect=lambda target, sha, postcheck:
+                    switched(target, sha, do_restart=restart, check=p.wait_health, postcheck=postcheck)):
+            def send(mode, payload, digest):
+                with patch.dict(dispatch.os.environ, {'SSH_ORIGINAL_COMMAND': f'{mode} {SHA} {digest}'}), \
+                        patch.object(dispatch.sys, 'stdin', SimpleNamespace(buffer=io.BytesIO(payload))):
+                    return dispatch.main()
+            self.assertEqual(send('verify', original, checksum), 0)
+            self.assertEqual((self.base / 'current').resolve(), self.old)
+            target = self.base / 'releases' / SHA
+            manifest = (target / 'manifest.json').read_bytes()
+            self.assertEqual(send('receive', original, checksum), 0)
+            self.assertEqual((self.base / 'current').resolve(), target)
+            self.assertEqual(send('receive', original, checksum), 0)
+            restart.assert_called_once()
+            self.assertEqual(source.read_bytes(), original)
+            self.assertEqual((target / 'manifest.json').read_bytes(), manifest)
+            self.assertTrue(self.old.exists())
+            self.assertEqual((self.base / 'persisted').read_text(), 'persistent data')
+            different = original + b'changed rebuild'
+            with self.assertRaisesRegex(SystemExit, 'Existing upload differs'):
+                send('receive', different, hashlib.sha256(different).hexdigest())
+            with self.assertRaisesRegex(SystemExit, 'Archive checksum failed'):
+                send('receive', original, '0' * 64)
+            self.assertEqual(source.read_bytes(), original)
+            self.assertEqual((self.base / 'current').resolve(), target)
+            self.assertEqual(len(list(p.INCOMING.glob('upload-*'))), 2)
 
     def test_changed_engine_rejected(self):
         self.files['backend/vidfetch-ovh.cjs'] = b'changed'
