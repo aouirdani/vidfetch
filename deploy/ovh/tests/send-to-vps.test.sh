@@ -10,12 +10,13 @@ arch=$(docker version -f '{{.Server.Arch}}' 2>/dev/null) || exit 2
 img=vidfetch-ssh-test:deb13-$arch
 docker build -q --platform "linux/$arch" -t "$img" - >/dev/null <<'DOCKERFILE' || exit 2
 FROM debian:13
-RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends openssh-server >/dev/null && rm -rf /var/lib/apt/lists/* && mkdir -p /run/sshd && useradd -m -s /bin/bash debian
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends openssh-server >/dev/null && rm -rf /var/lib/apt/lists/* && mkdir -p /run/sshd && useradd -m -s /bin/bash debian && usermod -p '*' debian
 CMD ["/usr/sbin/sshd", "-D", "-e"]
 DOCKERFILE
 ssh-keygen -q -t ed25519 -N '' -f "$T/key" || exit 2
 docker run -d --name $c --platform "linux/$arch" -p 127.0.0.1::22 "$img" >/dev/null || exit 2
-docker exec $c sh -c 'mkdir -m 700 /home/debian/.ssh && cat > /home/debian/.ssh/authorized_keys && chown -R debian:debian /home/debian/.ssh && chmod 600 /home/debian/.ssh/authorized_keys' < "$T/key.pub" || exit 2
+docker exec -i $c sh -c 'mkdir -m 700 /home/debian/.ssh && cat > /home/debian/.ssh/authorized_keys && chown -R debian:debian /home/debian/.ssh && chmod 600 /home/debian/.ssh/authorized_keys' < "$T/key.pub" || exit 2
+docker exec $c test -s /home/debian/.ssh/authorized_keys || { echo "could not install the test key"; exit 2; }
 port=$(docker port $c 22/tcp | head -1 | sed 's/.*://')
 OPTS="-p $port -i $T/key -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ConnectTimeout=10"
 R() { ssh $OPTS debian@127.0.0.1 "$1"; }
@@ -48,6 +49,6 @@ R "[ \"\$(cat ~/media-test-stage/SOURCE_COMMIT)\" = $head ] && cd ~/media-test-s
 R 'cd ~/media-test-stage/admin && for f in 00-preflight.sh 01-backup.sh 03-network.sh 04-confirm.sh 07-restore-full.sh restore-network.sh; do [ -x $f ] || exit 1; done; bash -n 03-network.sh' && ok "scripts arrive executable and parse on the VPS" || bad "modes"
 R 'cd ~/media-test-stage/render-open80 && sha256sum --check --quiet SHA256SUMS && grep -q 203.0.113.9 media-test-ips.env' && ok "rendered directory delivered intact" || bad "render dir"
 R '[ "$(ls -A ~ | grep -v -e "^\.ssh$" -e "^\.bash" -e "^\.profile$" -e "^\.cache$" | tr "\n" " ")" = "media-test-stage " ]' && ok "nothing is written outside ~/media-test-stage" || bad "extra files: $(R 'ls -A ~ | tr "\n" " "')"
-R 'chmod -R go= ~/media-test-stage 2>/dev/null; [ -z "$(find ~/media-test-stage -maxdepth 1 -perm /022)" ]' && ok "no group/world-writable entry" || bad "permissions"
+R '[ -z "$(find ~/media-test-stage -newer ~/.ssh/authorized_keys -perm /077 ! -name "*.old-*" ! -path "*.old-*/*")" ]' && ok "what was uploaded is readable by the SSH user only" || bad "permissions: $(R 'find ~/media-test-stage -perm /077 | head -3')"
 sleep 1; send HEAD "$T/render-open80" >/dev/null 2>&1 && R '[ "$(ls -d ~/media-test-stage/admin.old-* | wc -l)" = 2 ] && grep -q "^TOOLKIT_REVISION=2$" ~/media-test-stage/admin/common.sh' && ok "a second run keeps the previous copy again and verifies" || bad "second run"
 exit $fail

@@ -16,16 +16,30 @@ Principes : chaque étape a une **vérification**, un **retour arrière**, et le
 
 Limite de l'IP : une IP résidentielle est souvent **dynamique** ; si elle change, `dl` te refuse (fail closed, pas de risque de sécurité) et il faut re-générer les fichiers. Désactiver VPN / iCloud Private Relay pour la recette, sinon l'IP vue sera différente.
 
-## 1. Envoi des fichiers (depuis le Mac)
+## 0 bis. Prérequis : le frontend de `main` doit être déployé (avec `ready=0`)
+
+La release active sur le VPS (`f23ca65b`) est antérieure à la Phase 8 : elle ne lit ni `VIDFETCH_MEDIA_ORIGIN` ni `TURNSTILE_SITE_KEY` à l'exécution (les fichiers `src/server/media-config.ts` et `turnstile.ts` n'y existent pas). **Avec elle, la recette MP4/MP3 ne peut pas fonctionner**, même après `ready=1`. Le pré-vol l'affiche : `runtime media origin supported by this release: NO`.
+
+Il faut donc déployer le frontend de `main` par la CI **avant les étapes 5 à 7**, tant que le garde CI correspond encore aux fichiers du VPS (ces étapes modifient des fichiers surveillés). Les bundles moteur et passerelle de `main` sont identiques à ceux en service (empreintes vérifiées), donc le promoteur accepte cette release. `ready` reste à 0 : rien n'est activé.
+
+1. Fusionner la PR de sécurisation, **pas** celle du classement des erreurs YouTube (elle change les bundles protégés et ferait refuser le déploiement).
+2. Le push sur `main` lance le build. Relever son identifiant : `gh run list --workflow deploy.yml --branch main --limit 1`.
+3. Transfert sans activation (possible même avec `VIDFETCH_DEPLOY_ENABLED=false`) : `gh workflow run deploy.yml --ref main -f operation=verify -f artifact_run_id=<id du build>`.
+4. 🔒 Activation, sur ton accord : ouvrir le garde frontend sur le VPS s'il est fermé (le pré-vol affiche `gate: open` ou `closed`), passer `VIDFETCH_DEPLOY_ENABLED` à `true`, puis `gh workflow run deploy.yml --ref main -f operation=deploy -f artifact_run_id=<id du run verify>`, et remettre la variable à `false`.
+5. Vérifier : `https://vidfetch.app/` répond 401, et le pré-vol affiche la nouvelle release, `runtime media origin supported by this release: yes` et `downloads announced as available: False`.
+
+## 1. Envoi des scripts (depuis le Mac, après la fusion)
+
+Des scripts plus anciens ont déjà été copiés dans `~/media-test-stage/admin` : ils doivent être **remplacés**. Leur étape de confirmation ne peut pas fonctionner avec OpenSSH 10. Une seule commande exporte les scripts depuis `origin/main`, conserve l'ancienne copie sous un nom daté (rien n'est supprimé), envoie les nouveaux et vérifie chaque fichier par empreinte sur le VPS :
 
 ```sh
-cd ~/Desktop/vidfetch/backend/artifacts/admin-prep-20261014
-( cd render-open80 && sha256sum --check SHA256SUMS )                 # attendu : 3 × OK
-ssh debian@15.235.127.165 'mkdir -m 700 -p ~/media-test-stage'
-scp -r checkout/deploy/ovh/media/admin checkout/deploy/ovh/media/install-web-secrets.sh render-open80 debian@15.235.127.165:media-test-stage/
-shasum -a 256 render-open80/* | sort > /tmp/local.sums; ssh debian@15.235.127.165 'cd ~/media-test-stage/render-open80 && sha256sum *' | shasum -a 256 -c -  >/dev/null 2>&1 || true
+cd ~/Desktop/vidfetch && git fetch origin
+bash <(git show origin/main:deploy/ovh/media/admin/send-to-vps.sh) origin/main backend/artifacts/admin-prep-20261014/render-open80
 ```
-Vérification : sur le VPS, `cd ~/media-test-stage/render-open80 && sha256sum --check SHA256SUMS` doit afficher 3 × OK. Retour arrière : `rm -rf ~/media-test-stage`.
+
+Le script est lu depuis `origin/main` et non depuis le répertoire de travail, qui peut être sur une autre branche. Il refuse si `origin/main` ne contient pas encore les scripts sécurisés (révision 2), si le répertoire rendu ne correspond pas à ses empreintes, ou si son Caddyfile n'est pas celui de la version exportée. Il n'écrit que dans `~/media-test-stage` du compte SSH : ni sudo, ni service, ni pare-feu.
+
+Sortie attendue : `VERIFIED on the VPS: N files, toolkit revision 2, commit <8 caractères>`. Retour arrière : les anciennes copies sont dans `~/media-test-stage/*.old-<date>`.
 
 ## 2. Pré-vol en lecture seule (sur le VPS)
 
@@ -34,6 +48,9 @@ ssh debian@15.235.127.165
 cd ~/media-test-stage/admin && sudo --preserve-env=SSH_CONNECTION bash 00-preflight.sh | tee ~/preflight-$(date -u +%H%M).txt
 ```
 **Go / No-go** (tout doit être vrai, sinon STOP et m'envoyer la sortie) :
+- Première ligne : `toolkit revision 2`. Si la ligne est absente, ce sont les anciens scripts : refaire l'étape 1.
+- `runtime media origin supported by this release: yes` (sinon, étape 0 bis) et `downloads announced as available: False`.
+- `latest backup` : `none yet` ou `usable with this toolkit`. S'il est `NOT usable`, il sera remplacé à l'étape 3.
 - `SSH client` = `<TESTER_IP>` ; services `ssh, vidfetch, vidfetch-gateway, vidfetch-web-candidate, vidfetch-caddy, vidfetch-https-test-ingress, vidfetch-web-preproduction-20261013` tous `active`.
 - `health ... downloads={'available': False}`, release = `f23ca65b…` ou la release active attendue.
 - `VIDFETCH_CONNECTION_READY=0`, aucun fichier `EXISTS` dans « prerequisites », profil CI absent, `guard entries: N, differing: 0`.
@@ -42,6 +59,8 @@ cd ~/media-test-stage/admin && sudo --preserve-env=SSH_CONNECTION bash 00-prefli
 - Noter le **nom du fichier d'environnement de la passerelle** (utile à l'étape 6).
 
 ## 3. Sauvegarde datée (aucune modification du système)
+
+**À refaire avec les nouveaux scripts, même si une sauvegarde existe déjà.** La minuterie de restauration exécute le script de restauration rangé *dans* la sauvegarde : une sauvegarde prise avec les anciens scripts ferait tourner l'ancienne restauration. `03-network.sh`, `04-confirm.sh` et `05-caddy.sh` refusent donc une sauvegarde d'une autre révision ; `04-cancel.sh`, lui, ne refuse jamais.
 
 ```sh
 sudo bash 01-backup.sh        # crée /var/backups/vidfetch-media-test-<horodatage>/ (0700) + lien « latest »
@@ -71,8 +90,8 @@ Le script **arme d'abord** une minuterie systemd transitoire (`vidfetch-media-ro
 
 Vérifications immédiates (≤ 2 min) :
 1. Depuis **B** : nouvelle connexion `ssh debian@15.235.127.165` → doit réussir.
-2. Mac, IP testeur : `bash ~/media-test-stage/admin/verify-tester.sh <TESTER_IP> pre-cert` → port 80 = 308, A/AAAA corrects, 3001/8788/8789 fermés.
-3. **Autre réseau** (téléphone en 4G, Wi-Fi coupé) : `bash verify-outsider.sh` → 443 fermé, apex direct refusé, SSH ok.
+2. Mac, IP testeur, depuis le dépôt (ce script ne s'exécute pas sur le VPS) : `cd ~/Desktop/vidfetch && bash <(git show origin/main:deploy/ovh/media/admin/verify-tester.sh) <TESTER_IP> pre-cert` → port 80 = 308, A/AAAA corrects, 3001/8788/8789 fermés.
+3. **Autre réseau** : sur un téléphone en 4G (Wi-Fi coupé), ouvrir `https://dl.vidfetch.app/` → la page ne doit pas se charger. Depuis un ordinateur sur un autre réseau, `verify-outsider.sh` fait le contrôle complet (443 fermé, apex direct refusé, SSH joignable).
 4. Apex inchangé : `curl -sI https://vidfetch.app/` → `401` + `x-robots-tag: noindex`.
 
 Si un contrôle échoue : `sudo bash 04-cancel.sh` (restaure tout de suite) ou attendre l'expiration.
@@ -86,7 +105,7 @@ Attendu : `certificate obtained successfully` pour `dl.vidfetch.app` en moins de
 
 Vérification complète depuis le Mac, IP testeur :
 ```sh
-bash ~/media-test-stage/admin/verify-tester.sh <TESTER_IP>        # copier le script sur le Mac au préalable : il ne s'exécute pas sur le VPS
+cd ~/Desktop/vidfetch && bash <(git show origin/main:deploy/ovh/media/admin/verify-tester.sh) <TESTER_IP>        # sur le Mac, pas sur le VPS
 ```
 Attendu : chaîne TLS vérifiée strictement, `dl` : routes non listées 404, POST anonyme refusé, en-têtes `no-referrer` / `noindex` / `no-store`, apex 401 + routes médias 503, accès **direct** à l'apex (hors Cloudflare) 403. Sur le VPS : `curl -s --resolve vidfetch.app:443:127.0.0.1 -o /dev/null -w '%{http_code}\n' https://vidfetch.app/` → `401` (les contrôles locaux de la CI passent par le loopback, autorisé exprès).
 
@@ -149,7 +168,8 @@ Le déploiement CI reste **désactivé** (`VIDFETCH_DEPLOY_ENABLED=false`) penda
 | Caddy 2.11.7 réel | non-testeur 403 partout ; testeur : 5 routes seulement ; apex : non-Cloudflare 403, **loopback accepté** (voir ci-dessous) ; en-têtes `dl` |
 | `caddy reload` | la variable `VIDFETCH_MEDIA_TEST_IPS` est résolue par le processus CLI du reload : l'`EnvironmentFile` suffit, pas de redémarrage de Caddy |
 | **Debian 13, vrai systemd, vrai journald, vrai OpenSSH 10.0p2** (mêmes versions que le VPS ; conteneur privilégié construit depuis l'image Debian officielle ; test optionnel `VIDFETCH_SLOW_TESTS=1`, ~5 min) | (1) `04-confirm.sh` avec de vraies connexions SSH : connexion dans la marge de 3 s, connexion depuis une autre adresse, lignes de journal falsifiées avec `logger`, ligne écrite par un processus non-root nommé `sshd-session` → refusées ; vraie connexion par clé depuis l'IP testeur après la marge → acceptée. Constat : OpenSSH 10 journalise sous `sshd-session`, pas `sshd`. (2) le script d'armement est tué (`kill -9`) pendant que l'outil pare-feu est bloqué, le pointeur Caddy et le drop-in sont à moitié posés, la 1re tentative de restauration échoue (pannes injectées) : systemd restaure seul, réessaie, et tout revient à l'état d'origine |
-| Sécurisation (82 vérifications ; 7 affaiblissements volontaires des scripts, tous détectés) : confirmation (IP testeur exacte, clé publique, marge de 3 s, IPv6/adresses ressemblantes/mot de passe refusés), restauration depuis un état à moitié appliqué et avec étapes en échec, verrou (chaque script n'est arrêté **que** par le verrou), aller-retour sauvegarde → tout modifier → restauration identique octet/propriétaire/mode, aucun secret affiché | voir `deploy/ovh/tests/admin-hardening.test.sh` |
+| Sécurisation (95 vérifications ; 7 affaiblissements volontaires des scripts, tous détectés) : confirmation (IP testeur exacte, clé publique, marge de 3 s, IPv6/adresses ressemblantes/mot de passe refusés), restauration depuis un état à moitié appliqué et avec étapes en échec, verrou (chaque script n'est arrêté **que** par le verrou), aller-retour sauvegarde → tout modifier → restauration identique octet/propriétaire/mode, aucun secret affiché | voir `deploy/ovh/tests/admin-hardening.test.sh` |
+| Transfert des scripts (`send-to-vps.sh`, 15 vérifications contre un vrai serveur OpenSSH en conteneur) | refuse une version sans les scripts sécurisés ou un répertoire rendu incohérent sans toucher au serveur ; remplace l'ancienne copie en la conservant sous un nom daté ; empreintes vérifiées sur le serveur ; rien n'est écrit hors de `~/media-test-stage` | 
 | Scripts d'administration (48 vérifications, conteneur root, outils système simulés ; preflight avec valeurs « canari » : aucune fuite, aucun fichier modifié, seulement `systemctl is-active/show` et `nft list`) | refus sans sauvegarde/staging, minuterie armée **avant** l'application, échec d'application → restauration immédiate, restauration sans toucher env/garde, `ready=1` refusé sans profil/secrets, etc. |
 | `guard-update.py` | 4 tests : accepte seulement le modifié nommé, ajoute sans jamais retirer, refuse symlink/fichier modifiable |
 | Profil CI | 45+ tests Python (Phase 9) |

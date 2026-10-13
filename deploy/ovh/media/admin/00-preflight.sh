@@ -24,8 +24,10 @@ print("  downloads announced as available:", d.get("available"), "(must be False
 echo "== non-secret settings"
 grep -hE '^(VIDFETCH_CONNECTION_READY|VIDFETCH_TARGET|VIDFETCH_MEDIA_ORIGIN|VIDFETCH_GATEWAY_ORIGIN|VIDFETCH_SITE_ORIGINS)=' /etc/vidfetch/*.env 2>/dev/null | sed 's/^/  /' || true
 for f in /etc/vidfetch/*.env; do [ -f "$f" ] && echo "  $f variable NAMES: $(grep -oE '^[A-Za-z0-9_]+=' "$f" | tr -d '=' | tr '\n' ' ')"; done
-echo "== media-test prerequisites (absent = good)"
-for f in /etc/vidfetch/ci-media-test-profile.json /etc/vidfetch/ci-web-test-ready $BASE/Caddyfile.media-test $BASE/media-test-ips.env /etc/systemd/system/$CADDY_UNIT.d/media-test.conf; do [ -e "$f" ] && echo "  EXISTS $f" || echo "  absent $f"; done
+echo "== CI frontend deployment gate (must be open to deploy the frontend through CI, closed otherwise)"
+if [ "$(cat /etc/vidfetch/ci-web-test-ready 2>/dev/null)" = APPROVED_FRONTEND_TEST ]; then echo "  gate: open"; else echo "  gate: closed"; fi
+echo "== media-test files (absent before the first run; staged files may exist if 02-stage.sh already ran)"
+for f in /etc/vidfetch/ci-media-test-profile.json $BASE/Caddyfile.media-test $BASE/ingress.nft.media-test $BASE/media-test-ips.env /etc/systemd/system/$CADDY_UNIT.d/media-test.conf; do [ -e "$f" ] && echo "  EXISTS $f" || echo "  absent $f"; done
 echo "== Caddy: config pointer, unit, version, storage"
 readlink "$BASE/current" || true; grep -E '^(ExecStart|ExecReload|EnvironmentFile)=' /etc/systemd/system/$CADDY_UNIT; ls /etc/systemd/system/$CADDY_UNIT.d/ 2>/dev/null; $CADDY version | head -1; du -sh /var/lib/vidfetch-proxy 2>/dev/null
 echo "== firewall helper + ingress file (hash) + live table"
