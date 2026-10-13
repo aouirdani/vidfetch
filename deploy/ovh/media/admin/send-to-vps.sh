@@ -17,7 +17,13 @@ cd "$(git rev-parse --show-toplevel)"
 COMMIT=$(git rev-parse --verify --quiet "$REF^{commit}") || die "unknown git ref $REF (run: git fetch origin)"
 REVISION=$(git show "$COMMIT:deploy/ovh/media/admin/common.sh" 2>/dev/null | sed -n 's/^TOOLKIT_REVISION=//p')
 [[ "$REVISION" =~ ^[0-9]+$ ]] && [ "$REVISION" -ge 2 ] || die "$REF ($(git rev-parse --short "$COMMIT")) does not contain the hardened toolkit (revision 2). Merge the hardening pull request, then: git fetch origin"
-WORK=$(mktemp -d); trap 'rm -rf "$WORK"' EXIT
+TMP_BASE=${TMPDIR:-/tmp}; TMP_BASE=${TMP_BASE%/}
+WORK=$(mktemp -d "${TMP_BASE:?}/vidfetch-send.XXXXXX")
+cleanup() {  # empties and removes ONLY the directory this run created, after re-checking its exact shape
+  [[ "${WORK:?}" == "${TMP_BASE:?}"/vidfetch-send.?????? ]] && [ -d "$WORK" ] && [ ! -L "$WORK" ] || return 0
+  find "$WORK" -mindepth 1 -depth -delete 2>/dev/null || true; rmdir -- "$WORK" 2>/dev/null || true
+}
+trap cleanup EXIT
 STAGE="$WORK/stage"; mkdir "$STAGE"
 git archive "$COMMIT" deploy/ovh/media/admin deploy/ovh/media/install-web-secrets.sh | tar -x -C "$WORK"
 mv "$WORK/deploy/ovh/media/admin" "$STAGE/admin"; mv "$WORK/deploy/ovh/media/install-web-secrets.sh" "$STAGE/install-web-secrets.sh"

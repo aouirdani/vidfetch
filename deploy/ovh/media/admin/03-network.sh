@@ -18,7 +18,7 @@ grep -q '^        tcp dport 80 accept$' "$BASE/ingress.nft.media-test" && HAS_80
 # The backup must describe the ORIGINAL state; refuse to arm over an already-modified system.
 grep -q 'testers4' "$BASE/ingress.nft" && die "live ingress.nft already contains testers4: run 04-cancel.sh, then take a fresh backup"
 [ "$(readlink "$BASE/current")" = "$(cat "$B/current.target")" ] || die "Caddy pointer differs from the backup: run 04-cancel.sh and re-take the backup"
-rm -f "$B/armed-at" "$B/restore-started" "$B/restored" "$B/confirmed"
+for marker in armed-at restore-started restored confirmed; do remove_expected_file "${B:?}" "$marker"; done
 $SYSTEMCTL reset-failed $TIMER.service 2>/dev/null || true
 systemd-run --quiet --unit=$TIMER --on-active="${SECS}s" --timer-property=AccuracySec=1s --collect \
   -p Restart=on-failure -p RestartSec=20s -p TimeoutStartSec=600 \

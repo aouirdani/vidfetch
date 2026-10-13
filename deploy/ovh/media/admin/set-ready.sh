@@ -9,7 +9,7 @@ if [ "$V" = 1 ]; then
   for n in TURNSTILE_SITE_KEY TURNSTILE_SECRET_KEY VIDFETCH_ACCESS_SIGNING_KEY VIDFETCH_MEDIA_ORIGIN; do grep -q "^$n=" "$F" || die "$n missing from $F"; done
 fi
 cp -p "$F" "$F.bak.$(date -u +%Y%m%dT%H%M%SZ)"
-T=$(mktemp "$F.new.XXXXXX"); trap 'rm -f "$T"' EXIT
+T=$(mktemp "${F:?}.new.XXXXXX"); trap 'rm -f -- "${T:?}"' EXIT
 grep -v '^VIDFETCH_CONNECTION_READY=' "$F" > "$T" || [ $? -le 1 ]; echo "VIDFETCH_CONNECTION_READY=$V" >> "$T"
 chown --reference="$F" "$T"; chmod --reference="$F" "$T"; mv -f "$T" "$F"; trap - EXIT
 $SYSTEMCTL restart $WEB_UNIT; sleep 3; $SYSTEMCTL is-active --quiet $WEB_UNIT || die "frontend not active: restore the .bak file"

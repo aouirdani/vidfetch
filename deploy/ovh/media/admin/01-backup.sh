@@ -10,7 +10,8 @@ grep -q 'testers4' "$BASE/ingress.nft" && die "ingress.nft already contains test
 TS=$(date -u +%Y%m%dT%H%M%SZ)
 # mktemp: a unique 0700 directory even when two backups are taken within the same second
 B=$(mktemp -d "$BACKUPS/vidfetch-media-test-$TS.XXXXXX"); mkdir -m 0700 "$B/public-https-test" "$B/systemd"
-trap 'rm -rf "$B"; echo "backup FAILED and was removed" >&2' ERR
+# A failed backup is never deleted recursively: it is set aside under a name "latest" can never point to.
+trap 'mv -- "${B:?}" "${B:?}.incomplete" 2>/dev/null; echo "backup FAILED: partial copy kept as ${B}.incomplete (root only); \"latest\" unchanged" >&2' ERR
 $NFT list ruleset > "$B/ruleset.nft"
 $NFT list table inet vidfetch_https_test_ingress > "$B/ingress-table.nft"
 grep -q 'table inet vidfetch_https_test_ingress' "$B/ingress-table.nft"

@@ -92,6 +92,10 @@ out=$(bash $B/restore-full.sh "$B" --yes 2>&1); rc=$?
 S1=$(snap)
 [ "$S1" = "$S0" ] && ok "after restore-full: every file, hash, owner, mode and link equals the pre-backup state" || { bad "state differs after restore"; diff <(echo "$S0") <(echo "$S1") | head -8; }
 [ ! -e /etc/vidfetch/ci-media-test-profile.json ] && [ ! -e $BASE/Caddyfile.media-test ] && [ ! -e $BASE/media-test-ips.env ] && ok "media-test files and CI profile removed" || bad "leftovers"
+echo '[Unit]' > /etc/systemd/system/vidfetch-caddy.service.d/zz-unknown.conf       # a drop-in the backup does not know
+out2=$(bash $B/restore-full.sh "$B" --yes 2>&1); rc=$?
+[ $rc = 0 ] && [ -f /etc/systemd/system/vidfetch-caddy.service.d/zz-unknown.conf ] && [ -f /etc/systemd/system/vidfetch-caddy.service.d/ci-frontend.conf ] && grep -q "not in the backup; it was left in place" <<< "$out2" && ok "restore-full never wipes the drop-in directory: an unknown file is reported and left in place" || bad "restore-full with an unknown drop-in (rc=$rc)"
+rm -f -- /etc/systemd/system/vidfetch-caddy.service.d/zz-unknown.conf
 echo "$out" | grep -qE "CANARY" && bad "restore printed a secret" || ok "restore output contains no secret value"
 calls | grep -E '^systemctl (restart|start|stop|enable)' | grep -v 'stop vidfetch-media-rollback' | grep -q . && bad "restore-full restarted something" || ok "restore-full restarted nothing (only prints what to restart)"
 # backup refusals on a modified system
@@ -102,7 +106,8 @@ touch /etc/systemd/system/vidfetch-caddy.service.d/media-test.conf; bash $A/01-b
 ln -sfn Caddyfile.media-test $BASE/current; bash $A/01-backup.sh >/dev/null 2>&1 && bad "backup with moved pointer" || ok "backup refuses when Caddy already points at media-test"; ln -sfn Caddyfile $BASE/current
 before=$(readlink "$W/bk/vidfetch-media-test-latest"); touch "$STATE/nft-list-fails"; sleep 1
 bash $A/01-backup.sh >/dev/null 2>&1 && bad "backup despite nft failure" || ok "a failing backup step fails the backup"
-[ "$(readlink "$W/bk/vidfetch-media-test-latest")" = "$before" ] && [ "$(ls -d $W/bk/vidfetch-media-test-2* | wc -l)" = 1 ] && ok "failed backup leaves no partial directory and the 'latest' link untouched" || bad "partial backup left behind"
+[ "$(readlink "$W/bk/vidfetch-media-test-latest")" = "$before" ] && [ "$(ls -d $W/bk/vidfetch-media-test-2* | grep -vc 'incomplete$')" = 1 ] && [ "$(ls -d $W/bk/*.incomplete | wc -l)" = 1 ] && ok "a failed backup is set aside as .incomplete (not deleted) and 'latest' is untouched" || bad "failed backup handling: $(ls $W/bk | tr '\n' ' ')"
+[ "$(stat -c %a "$(ls -d $W/bk/*.incomplete)")" = 700 ] && ok "...and the incomplete copy stays root-only" || bad "incomplete copy permissions"
 rm -f "$STATE/nft-list-fails"
 
 # ================================================================ A. confirm: who, when
