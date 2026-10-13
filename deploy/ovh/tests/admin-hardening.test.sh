@@ -131,7 +131,10 @@ out=$(cat "$STATE/out"); echo "$out" | grep -q "no new public-key SSH login" && 
 : > "$STATE/journal.txt"; echo "$(jl -30 $T)" >> "$STATE/journal.txt"; echo "$(jl 60 198.51.100.7)" >> "$STATE/journal.txt"; echo "$(jl 4 $T)" >> "$STATE/journal.txt"
 tryconfirm && ok "ACCEPTED: tester public-key login 4 s after the rules, among noise" || bad "valid login refused: $(cat "$STATE/out")"
 [ ! -f "$STATE/armed" ] && [ -s "$B/confirmed" ] && ok "timer disarmed and 'confirmed' recorded" || bad "state after accept"
-calls | grep journalctl | head -1 | grep -q -- "-t sshd" && calls | grep journalctl | head -1 | grep -q -- "-o short-unix" && calls | grep journalctl | head -1 | grep -q -- "--since @$(cut -d. -f1 "$B/armed-at")" && ok "journal queried with microsecond format, sshd identifier, since the arming second" || bad "journal args"
+J=$(calls | grep '^journalctl' | head -1)
+echo "$J" | grep -q -- "_UID=0" && echo "$J" | grep -q -- "_COMM=sshd-session" && echo "$J" | grep -q -- "_COMM=sshd " && ok "journal filtered on trusted fields: root + executable sshd / sshd-session (OpenSSH 10)" || bad "trusted journal fields: $J"
+echo "$J" | grep -q -- " -t " && bad "still filtering on the forgeable syslog identifier" || ok "no reliance on the forgeable syslog identifier"
+echo "$J" | grep -q -- "-o short-unix" && echo "$J" | grep -q -- "--since @$(cut -d. -f1 "$B/armed-at")" && ok "journal queried with microsecond timestamps, since the arming second" || bad "journal args"
 # margin is configurable but never negative-by-accident; boundary just after
 : > "$STATE/journal.txt"; jl 3.2 $T >> "$STATE/journal.txt"; tryconfirm && ok "login just after the margin (armed+3.2s) accepted" || bad "post-margin login"
 # configuration problems refuse

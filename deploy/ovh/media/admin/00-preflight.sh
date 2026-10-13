@@ -21,6 +21,10 @@ echo "== firewall helper + ingress file (hash) + live table"
 $NFT list table inet vidfetch_https_test_ingress | sed -n '1,40p'
 echo "== all nft tables"; $NFT list tables
 echo "== sshd effective (no secrets)"; sshd -T 2>/dev/null | grep -E '^(port|passwordauthentication|permitrootlogin|pubkeyauthentication|allowusers|allowgroups) '
+echo "== SSH login proof source (exactly what 04-confirm.sh reads: root sshd / sshd-session journal entries)"
+PROOF=$($JOURNALCTL _UID=0 _COMM=sshd _COMM=sshd-session --since "-120min" --no-pager -o short-unix 2>/dev/null | grep -c 'Accepted publickey for ')
+echo "  public-key logins logged by the SSH daemon in the last 120 min: $PROOF   (your own login must be counted: >= 1)"
+[ "${PROOF:-0}" -ge 1 ] || echo "  NO-GO: 04-confirm.sh would find no proof on this system. Do NOT run 03-network.sh; send this output."
 echo "== sessions"; who
 echo "== guarded files (path, current hash matches guard?)"
 python3 - "$GUARD" <<'PY'

@@ -38,6 +38,7 @@ cd ~/media-test-stage/admin && sudo --preserve-env=SSH_CONNECTION bash 00-prefli
 - `health ... downloads={'available': False}`, release = `f23ca65b…` ou la release active attendue.
 - `VIDFETCH_CONNECTION_READY=0`, aucun fichier `EXISTS` dans « prerequisites », profil CI absent, `guard entries: N, differing: 0`.
 - `firewall helper present`, `current` → `Caddyfile`, Caddy 2.11.7, table `vidfetch_https_test_ingress` présente (sans `testers4`), sshd : `passwordauthentication no` attendu.
+- `SSH login proof source` : au moins **1** connexion par clé publique comptée (la tienne). Si le script affiche `NO-GO`, la confirmation ne pourrait pas fonctionner sur ce système : ne pas lancer `03-network.sh`.
 - Noter le **nom du fichier d'environnement de la passerelle** (utile à l'étape 6).
 
 ## 3. Sauvegarde datée (aucune modification du système)
@@ -91,6 +92,7 @@ Attendu : chaîne TLS vérifiée strictement, `dl` : routes non listées 404, PO
 
 Quand **tout** est vert : `sudo bash 04-confirm.sh`. Il ne désarme la minuterie que sur **preuve** d'une nouvelle connexion SSH valide, lue dans le journal de sshd :
 
+- ligne écrite dans le journal **par le démon SSH lui-même** (processus root `sshd` ou `sshd-session`, champs de confiance de journald) : une ligne fabriquée avec `logger` est ignorée ;
 - authentification **par clé publique** (un mot de passe peut être fini de taper sur une connexion ouverte avant le changement) ;
 - journalisée **au moins 3 s après** l'instant, enregistré à la microseconde, où les nouvelles règles sont devenues actives : aucune connexion antérieure ne compte ;
 - provenant **exactement** d'une IPv4 de `media-test-ips.env` (la liste testeurs utilisée par nftables et Caddy) : une connexion depuis une autre IP, une IPv6 ou une adresse ressemblante est ignorée.
@@ -146,8 +148,8 @@ Le déploiement CI reste **désactivé** (`VIDFETCH_DEPLOY_ENABLED=false`) penda
 | Rendu pour `<TESTER_IP>/32` | `nft --check` OK (open80 et closed80), chargé dans un noyau de conteneur |
 | Caddy 2.11.7 réel | non-testeur 403 partout ; testeur : 5 routes seulement ; apex : non-Cloudflare 403, **loopback accepté** (voir ci-dessous) ; en-têtes `dl` |
 | `caddy reload` | la variable `VIDFETCH_MEDIA_TEST_IPS` est résolue par le processus CLI du reload : l'`EnvironmentFile` suffit, pas de redémarrage de Caddy |
-| **Vrai systemd et vrai journald** (conteneur privilégié, test optionnel `VIDFETCH_SLOW_TESTS=1`, ~4 min) | (1) `04-confirm.sh` sur le vrai journal : connexion dans la marge, autre IP, mot de passe, échec → refusés ; clé publique depuis l'IP testeur après la marge → accepté. (2) le script d'armement est tué (`kill -9`) pendant que l'outil pare-feu est bloqué, le pointeur Caddy et le drop-in sont à moitié posés, la 1re tentative de restauration échoue (pannes injectées) : systemd restaure seul, réessaie, et tout revient à l'état d'origine |
-| Sécurisation (80 vérifications, + 5 mutations volontaires toutes détectées) : confirmation (IP testeur exacte, clé publique, marge de 3 s, IPv6/adresses ressemblantes/mot de passe refusés), restauration depuis un état à moitié appliqué et avec étapes en échec, verrou (chaque script n'est arrêté **que** par le verrou), aller-retour sauvegarde → tout modifier → restauration identique octet/propriétaire/mode, aucun secret affiché | voir `deploy/ovh/tests/admin-hardening.test.sh` |
+| **Debian 13, vrai systemd, vrai journald, vrai OpenSSH 10.0p2** (mêmes versions que le VPS ; conteneur privilégié construit depuis l'image Debian officielle ; test optionnel `VIDFETCH_SLOW_TESTS=1`, ~5 min) | (1) `04-confirm.sh` avec de vraies connexions SSH : connexion dans la marge de 3 s, connexion depuis une autre adresse, lignes de journal falsifiées avec `logger`, ligne écrite par un processus non-root nommé `sshd-session` → refusées ; vraie connexion par clé depuis l'IP testeur après la marge → acceptée. Constat : OpenSSH 10 journalise sous `sshd-session`, pas `sshd`. (2) le script d'armement est tué (`kill -9`) pendant que l'outil pare-feu est bloqué, le pointeur Caddy et le drop-in sont à moitié posés, la 1re tentative de restauration échoue (pannes injectées) : systemd restaure seul, réessaie, et tout revient à l'état d'origine |
+| Sécurisation (82 vérifications ; 7 affaiblissements volontaires des scripts, tous détectés) : confirmation (IP testeur exacte, clé publique, marge de 3 s, IPv6/adresses ressemblantes/mot de passe refusés), restauration depuis un état à moitié appliqué et avec étapes en échec, verrou (chaque script n'est arrêté **que** par le verrou), aller-retour sauvegarde → tout modifier → restauration identique octet/propriétaire/mode, aucun secret affiché | voir `deploy/ovh/tests/admin-hardening.test.sh` |
 | Scripts d'administration (48 vérifications, conteneur root, outils système simulés ; preflight avec valeurs « canari » : aucune fuite, aucun fichier modifié, seulement `systemctl is-active/show` et `nft list`) | refus sans sauvegarde/staging, minuterie armée **avant** l'application, échec d'application → restauration immédiate, restauration sans toucher env/garde, `ready=1` refusé sans profil/secrets, etc. |
 | `guard-update.py` | 4 tests : accepte seulement le modifié nommé, ajoute sans jamais retirer, refuse symlink/fichier modifiable |
 | Profil CI | 45+ tests Python (Phase 9) |
