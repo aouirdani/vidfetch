@@ -1,0 +1,113 @@
+# PREPARED ONLY. Explicit approval is required before public activation.
+{
+    admin 127.0.0.1:2019
+    servers {
+        protocols h1 h2
+        trusted_proxies static 173.245.48.0/20 103.21.244.0/22 103.22.200.0/22 103.31.4.0/22 141.101.64.0/18 108.162.192.0/18 190.93.240.0/20 188.114.96.0/20 197.234.240.0/22 198.41.128.0/17 162.158.0.0/15 104.16.0.0/13 104.24.0.0/14 172.64.0.0/13 131.0.72.0/22 2400:cb00::/32 2606:4700::/32 2803:f800::/32 2405:b500::/32 2405:8100::/32 2a06:98c0::/29 2c0f:f248::/32
+        trusted_proxies_strict
+        client_ip_headers CF-Connecting-IP
+        max_header_size 16KB
+        timeouts {
+            read_header 10s
+            read_body 15s
+            idle 5m
+        }
+    }
+    # No access logger: queries contain media URLs and one-use tickets.
+    log default {
+        format filter {
+            wrap json
+            fields {
+                request>uri query {
+                    delete ticket
+                    delete status
+                    delete token
+                    delete url
+                    delete text
+                    delete link
+                    delete u
+                }
+                request>headers>Authorization delete
+                request>headers>Cookie delete
+                request>headers>X-Vidfetch-Proof delete
+            }
+        }
+    }
+}
+
+(launch_headers) {
+    header {
+        X-Content-Type-Options nosniff
+        Referrer-Policy strict-origin-when-cross-origin
+        X-Robots-Tag "{$VIDFETCH_ROBOTS_HEADER:noindex, nofollow}"
+        -Server
+    }
+}
+(frontend) {
+    request_body {
+        max_size 32KB
+    }
+    encode zstd gzip
+    reverse_proxy 127.0.0.1:3000 {
+        header_up Host vidfetch.app
+        header_up X-Forwarded-Proto https
+        header_up X-Forwarded-For {client_ip}
+        header_up -CF-Connecting-IP
+        header_up -X-Real-IP
+        transport http {
+            dial_timeout 3s
+            response_header_timeout 30s
+        }
+    }
+}
+(http01) {
+    # Cloudflare terminates TLS: ALPN validation cannot reach Caddy through it.
+    tls {
+        issuer acme {
+            disable_tlsalpn_challenge
+        }
+    }
+}
+
+vidfetch.app {
+    import http01
+    import launch_headers
+    @private path /auth/admission /auth/deployment /internal/*
+    handle @private {
+        respond 404
+    }
+    @media path /api/fetch-info /api/download /api/queue /auth/transfer /download-helper
+    handle @media {
+        header {
+            Content-Type application/json
+            Cache-Control no-store
+            X-Robots-Tag "noindex, nofollow"
+        }
+        respond `{"ok":false,"code":"BACKEND_UNAVAILABLE","error":"Video extraction and downloads are temporarily unavailable. Please try again later."}` 503
+    }
+    @authorization path /api/download-access
+    handle @authorization {
+        request_body {
+            max_size 8KB
+        }
+        header {
+            Cache-Control no-store
+            X-Robots-Tag "noindex, nofollow"
+        }
+        reverse_proxy 127.0.0.1:3000 {
+            header_up Host vidfetch.app
+            header_up X-Forwarded-Proto https
+            header_up X-Forwarded-For {client_ip}
+            header_up -CF-Connecting-IP
+            header_up -X-Real-IP
+        }
+    }
+    handle {
+        import frontend
+    }
+}
+www.vidfetch.app {
+    import http01
+    import launch_headers
+    redir https://vidfetch.app{uri} 301
+}
