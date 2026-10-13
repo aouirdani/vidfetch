@@ -2,21 +2,150 @@
   "date": "2026-10-13",
   "conclusion": "BLOQUE",
   "scope": "YouTube, unauthenticated, from OVH VPS 15.235.127.165; no cookies, proxy, PO token or client override",
-  "installed": { "ytDlp": "2026.08.19", "channel": "stable", "node": "22.23.3", "ytDlpEjs": "0.8.0", "ffmpeg": "7.1.5", "binarySha256": "58162f9bfdc27458ea47bfcb311cf47028f17d8154a8bf7d689861d46399230a", "matchesOfficialChecksums": true },
-  "official": { "latestStable": "2026.08.19", "latestNightly": "2026.10.10.233141", "latestEjs": "0.8.0", "nodeMinimum": "22.0.0" },
+  "installed": {
+    "ytDlp": "2026.08.19",
+    "channel": "stable",
+    "node": "22.23.3",
+    "ytDlpEjs": "0.8.0",
+    "ffmpeg": "7.1.5",
+    "binarySha256": "58162f9bfdc27458ea47bfcb311cf47028f17d8154a8bf7d689861d46399230a",
+    "matchesOfficialChecksums": true
+  },
+  "official": {
+    "latestStable": "2026.08.19",
+    "latestNightly": "2026.10.10.233141",
+    "latestEjs": "0.8.0",
+    "nodeMinimum": "22.0.0"
+  },
   "media": [
-    { "id": "aqz-KE-bpKQ", "title": "Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film", "channel": "Blender", "license": "Creative Commons Attribution license (reuse allowed)" },
-    { "id": "eRsGyueVLvQ", "title": "Sintel - Open Movie by Blender Foundation", "channel": "Blender", "license": "not stated in YouTube metadata (film released under CC BY by the Blender Foundation)", "use": "metadata only, no download" }
+    {
+      "id": "aqz-KE-bpKQ",
+      "title": "Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film",
+      "channel": "Blender",
+      "license": "Creative Commons Attribution license (reuse allowed)"
+    },
+    {
+      "id": "eRsGyueVLvQ",
+      "title": "Sintel - Open Movie by Blender Foundation",
+      "channel": "Blender",
+      "license": "not stated in YouTube metadata (film released under CC BY by the Blender Foundation)",
+      "use": "metadata only, no download"
+    }
   ],
   "results": [
-    { "origin": "residential", "ytDlp": "2026.08.19", "metadata": "OK", "playableFormats": 49, "maxHeight": 2160, "audioBytes": 3871021, "audioSha256": "0b9cd8bc786e283b11e9f61b55757e256c45ec02cdaa5cd9e981e76daa59b246", "mergedMp4Bytes": 8139400, "mergedMp4Sha256": "73b0a36c2bbeed9ebb2847236607961e1b456ef9e38178d2b1739bf507907692" },
-    { "origin": "residential", "ytDlp": "2026.10.10.233141", "metadata": "OK", "playableFormats": 57, "download": "NOT_TESTED" },
-    { "origin": "ovh", "ytDlp": "2026.08.19", "video": "aqz-KE-bpKQ", "attempts": 3, "successes": 0, "playabilityStatus": "LOGIN_REQUIRED", "reason": "Sign in to confirm you're not a bot", "formats": "NOT_TESTED", "download": "NOT_TESTED" },
-    { "origin": "ovh", "ytDlp": "2026.08.19", "video": "eRsGyueVLvQ", "attempts": 1, "successes": 0, "reason": "Sign in to confirm you're not a bot" },
-    { "origin": "ovh", "ytDlp": "2026.10.10.233141", "video": "aqz-KE-bpKQ", "attempts": 1, "successes": 0, "playabilityStatus": "LOGIN_REQUIRED", "clients": ["tv_samsung", "visionos", "web"] }
+    {
+      "origin": "residential",
+      "ytDlp": "2026.08.19",
+      "metadata": "OK",
+      "playableFormats": 49,
+      "maxHeight": 2160,
+      "audioBytes": 3871021,
+      "audioSha256": "0b9cd8bc786e283b11e9f61b55757e256c45ec02cdaa5cd9e981e76daa59b246",
+      "mergedMp4Bytes": 8139400,
+      "mergedMp4Sha256": "73b0a36c2bbeed9ebb2847236607961e1b456ef9e38178d2b1739bf507907692"
+    },
+    {
+      "origin": "residential",
+      "ytDlp": "2026.10.10.233141",
+      "metadata": "OK",
+      "playableFormats": 57,
+      "download": "NOT_TESTED"
+    },
+    {
+      "origin": "ovh",
+      "ytDlp": "2026.08.19",
+      "video": "aqz-KE-bpKQ",
+      "attempts": 3,
+      "successes": 0,
+      "playabilityStatus": "LOGIN_REQUIRED",
+      "reason": "Sign in to confirm you're not a bot",
+      "formats": "NOT_TESTED",
+      "download": "NOT_TESTED"
+    },
+    {
+      "origin": "ovh",
+      "ytDlp": "2026.08.19",
+      "video": "eRsGyueVLvQ",
+      "attempts": 1,
+      "successes": 0,
+      "reason": "Sign in to confirm you're not a bot"
+    },
+    {
+      "origin": "ovh",
+      "ytDlp": "2026.10.10.233141",
+      "video": "aqz-KE-bpKQ",
+      "attempts": 1,
+      "successes": 0,
+      "playabilityStatus": "LOGIN_REQUIRED",
+      "clients": [
+        "tv_samsung",
+        "visionos",
+        "web"
+      ]
+    }
   ],
-  "excludedCauses": ["network (generate_204 = 204)", "HTTP 403", "HTTP 429 / session rate limit", "captcha", "format or JS challenge failure", "yt-dlp version", "binary integrity", "missing JS runtime"],
-  "engineClassificationOfObservedError": { "code": "AUTH_REQUIRED", "status": 401, "uiMessageKey": "restricted" },
-  "notTested": ["active engine under vidfetch-worker", "frontend -> gateway -> engine path (media routes closed)", "formats and download from OVH", "cookies", "PO tokens", "proxies", "IPv6", "other player clients", "Shorts, live, age-restricted", "duration and extent of the block"],
-  "productionChanges": "none"
+  "excludedCauses": [
+    "network (generate_204 = 204)",
+    "HTTP 403",
+    "HTTP 429 / session rate limit",
+    "captcha",
+    "format or JS challenge failure",
+    "yt-dlp version",
+    "binary integrity",
+    "missing JS runtime"
+  ],
+  "engineClassificationOfObservedError": {
+    "code": "AUTH_REQUIRED",
+    "status": 401,
+    "uiMessageKey": "restricted"
+  },
+  "notTested": [
+    "active engine under vidfetch-worker",
+    "frontend -> gateway -> engine path (media routes closed)",
+    "formats and download from OVH",
+    "cookies",
+    "PO tokens",
+    "proxies",
+    "IPv6",
+    "other player clients",
+    "Shorts, live, age-restricted",
+    "duration and extent of the block"
+  ],
+  "productionChanges": "none",
+  "fixPrepared": {
+    "deployed": false,
+    "youtubeEnabled": false,
+    "workaroundsAdded": "none (no cookies, proxy, PO token or client override; asserted by tests)",
+    "classification": {
+      "botCheck": {
+        "before": "AUTH_REQUIRED 401",
+        "after": "UPSTREAM_BLOCKED 503"
+      },
+      "accountRequired": "AUTH_REQUIRED 401",
+      "unavailableVideo": "UNAVAILABLE 404",
+      "serviceOutage": "UPSTREAM_UNREACHABLE 503 (new) / BACKEND_UNAVAILABLE / ENGINE_MISSING / SECURITY_NOT_READY / RESOURCE_GUARD"
+    },
+    "newMessages": [
+      "sourceBlocked",
+      "loginRequired",
+      "videoUnavailable"
+    ],
+    "locales": 8,
+    "translationsNativeReviewed": [
+      "en (source)",
+      "fr"
+    ],
+    "protectedBundles": {
+      "engine": {
+        "active": "fa0d3d4e15a5a45ca0deb2b35e7ba03adc95c31b87500378068121f291c42287",
+        "afterFix": "f172a88f93713fbc7d94c4e8091000ac1171fac5f1e88277d2221cc174a2ed7e"
+      },
+      "gateway": {
+        "active": "0fa1404530c272b76aaec9aee18125660e8561c744e4ccc1fbb9c7dbee9850e5",
+        "afterFix": "81c913b0a241d4a6dba6aa56db3f6a6bffcc58dc635bc5c33c7083d38639424f",
+        "reason": "the gateway bundle embeds the UI dictionaries (download helper)"
+      }
+    },
+    "ciConsequence": "after merge the CI promoter refuses frontend deployments until an administrator releases engine, gateway and frontend from the same build"
+  }
 }

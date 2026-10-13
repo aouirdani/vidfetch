@@ -1,6 +1,6 @@
 # VidFetch — audit de compatibilité YouTube sur OVH
 
-Audit du **13 octobre 2026**, indépendant de la Phase 10. Branche locale `work/vidfetch-youtube-audit-20261013` (depuis `main` `6430aa89`), non poussée.
+Audit du **13 octobre 2026**, indépendant de la Phase 10. Branche `work/vidfetch-youtube-audit-20261013`. Les sections 1 à 7 décrivent l'état constaté **avant** correctif ; la section 8 décrit le correctif de classement des erreurs préparé dans la même branche. Ce correctif ne débloque pas YouTube et n'ajoute aucun contournement.
 
 ## Conclusion : **BLOQUÉ**
 
@@ -95,7 +95,7 @@ Constats :
 2. Le code `UNAVAILABLE` (vidéo indisponible) est affiché avec le message de panne du service, parce que la règle du frontend reconnaît aussi `BACKEND_UNAVAILABLE`.
 3. Le parcours réel navigateur → passerelle → moteur n'a **pas** été testé : les routes médias sont fermées en production (`downloads.available=false`).
 
-`tests/youtube-errors.test.ts` fige ce qui fonctionne (3 tests) et consigne les 4 écarts comme tests `todo`, sans changer le comportement : 140 tests, 136 réussis, 0 échec, 4 `todo`.
+Ces écarts sont corrigés par le correctif de la section 8.
 
 ## 5. Possibilités de correction et risques
 
@@ -124,3 +124,44 @@ Au-delà de la technique : les conditions d'utilisation de YouTube encadrent le 
 - VPS : `~/vidfetch-youtube-audit-20261013/` (script et journaux, 48 Ko ; binaire nightly supprimé ; aucun processus restant). Services inchangés après les tests : moteur, passerelle et Caddy actifs, release `f23ca65b…`, `downloads.available=false`, apex 401.
 - Local, hors Git : `backend/artifacts/youtube-audit-20261013/evidence/`. Les métadonnées obtenues depuis le Mac contiennent l'adresse IP du testeur dans les URL de flux : ne pas les versionner.
 - Résumé versionné : `backend/validation/youtube-audit-20261013.json`.
+
+## 8. Correctif de classement des erreurs (préparé, non déployé)
+
+Il ne change pas le fait que YouTube est bloqué depuis OVH : il fait dire la vérité au service. **Aucun cookie, proxy, PO Token ni changement de client n'est ajouté**, et un test le vérifie (`tests/youtube-errors.test.ts`, « no workaround is introduced »).
+
+| Situation | Avant | Après (code, statut) | Message affiché (fr) |
+|---|---|---|---|
+| **Blocage anti-robot** (`LOGIN_REQUIRED`, « not a bot ») | `AUTH_REQUIRED` 401 | `UPSTREAM_BLOCKED` 503 | « La plateforme source refuse les demandes automatisées provenant de notre serveur. Votre lien n'est pas en cause, et VidFetch ne contourne pas ce contrôle. » |
+| **Vidéo exigeant un compte** (limite d'âge, réservée aux membres) | `AUTH_REQUIRED` 401 | inchangé | « Cette vidéo exige la connexion à un compte, par exemple parce qu'elle est soumise à une limite d'âge ou réservée aux membres. VidFetch ne peut pas la télécharger. » |
+| **Vidéo indisponible** (supprimée, restriction géographique, format disparu) | `UNAVAILABLE` 404, affiché comme une panne ; la restriction géographique tombait en `ENGINE_ERROR` | `UNAVAILABLE` 404 | « Cette vidéo n'est pas disponible au téléchargement : elle a peut-être été supprimée, rendue privée, limitée à certaines régions, ou le lien ou le format a expiré. Vérifiez le lien d'origine et réessayez. » |
+| **Vraie panne du service** (moteur absent, passerelle fermée, serveur sans accès réseau) | panne réseau en `ENGINE_ERROR` 502, message générique | `UPSTREAM_UNREACHABLE` 503 (nouveau code), `BACKEND_UNAVAILABLE`, `ENGINE_MISSING`, `SECURITY_NOT_READY`, `RESOURCE_GUARD` | « L'analyse et les téléchargements sont temporairement indisponibles. Réessayez plus tard. » |
+| Vidéo privée, limite de débit, captcha, HTTP 403, délai dépassé | — | inchangés | inchangés |
+
+Autres points :
+- Le préfixe « `[extracteur] identifiant:` » des messages yt-dlp est ignoré : un identifiant de vidéo contenant `429`, `403` ou `404` ne peut plus fausser le diagnostic.
+- Le message du blocage ne suggère plus de configurer des cookies.
+- Les trois nouveaux messages existent dans les huit langues. **Les versions allemande, espagnole, italienne, portugaise, indonésienne et arabe sont de moi et n'ont pas été relues par un locuteur natif.**
+
+### Tests
+
+- `tests/youtube-errors.test.ts` (20 tests) : l'erreur réellement capturée sur OVH et les messages exacts de yt-dlp 2026.08.19 ; les quatre situations donnent quatre messages différents dans chaque langue ; tous les codes connus (40) gardent un message voulu ; aucun contournement introduit.
+- `backend/tests/backend.test.ts` : l'erreur capturée est rejouée par un faux binaire à travers le **vrai** lanceur du moteur et le **vrai** gestionnaire HTTP ; le client reçoit `503 UPSTREAM_BLOCKED`. La passerelle relaie statut et JSON tels quels (comportement déjà couvert par ses tests).
+- Non testé : le parcours réel sur le VPS (routes fermées) et un vrai navigateur.
+
+### Conséquence de déploiement, à lire avant de fusionner
+
+Les deux artefacts protégés par le garde CI changent :
+
+| Bundle | Empreinte active sur le VPS (identique à `main`) | Après ce correctif |
+|---|---|---|
+| `backend/vidfetch-ovh.cjs` (moteur) | `fa0d3d4e…c42287` | `f172a88f…a2ed7e` |
+| `backend/vidfetch-gateway.cjs` (passerelle) | `0fa14045…9850e5` | `81c913b0…39424f` |
+
+Le moteur change à cause du classement. La passerelle change parce qu'elle **embarque tous les dictionnaires** (page d'aide au téléchargement, `backend/gateway/helper.ts`). Une fois cette branche fusionnée, le promoteur CI refusera tout déploiement frontend (« Engine/gateway artifact changed ») tant qu'un administrateur n'aura pas livré ensemble le moteur, la passerelle et le frontend issus du même build. C'est le comportement voulu du garde, et cela évite qu'un nouveau frontend tourne avec un ancien moteur. À fusionner seulement quand cette livraison est planifiée.
+
+Constat plus général, hors de ce correctif : pour la même raison, **toute modification d'un texte d'interface** change le bundle de la passerelle et exige une livraison par l'administrateur.
+
+### YouTube reste désactivé
+
+Rien ici n'active YouTube. Tant que les tests réels depuis OVH échouent (section 2), ne pas annoncer YouTube, ne pas publier de page le promettant, et utiliser un média non-YouTube pour la recette privée. Si tu veux que le service refuse d'emblée les liens YouTube avec un message dédié, au lieu d'interroger YouTube à chaque demande, c'est un interrupteur par plateforme à ajouter : il n'est pas dans cette branche.
+
