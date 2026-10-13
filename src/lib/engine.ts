@@ -8,7 +8,7 @@ import ffmpegStatic from "ffmpeg-static";
 import { detectPlatform, platformName, type Platform } from "./platforms";
 import { startEngineProcess } from "./engine-process";
 
-export type EngineErrorCode = "INVALID_URL" | "UNSUPPORTED_PLATFORM" | "UNAVAILABLE" | "PRIVATE" | "AUTH_REQUIRED" | "RATE_LIMITED" | "UPSTREAM_BLOCKED" | "TIMEOUT" | "ENGINE_MISSING" | "ENGINE_ERROR" | "BUSY" | "NO_VIDEO" | "EXPIRED";
+export type EngineErrorCode = "INVALID_URL" | "UNSUPPORTED_PLATFORM" | "UNAVAILABLE" | "PRIVATE" | "AUTH_REQUIRED" | "RATE_LIMITED" | "UPSTREAM_BLOCKED" | "UPSTREAM_UNREACHABLE" | "TIMEOUT" | "ENGINE_MISSING" | "ENGINE_ERROR" | "BUSY" | "NO_VIDEO" | "EXPIRED";
 export class EngineError extends Error {
   constructor(readonly code: EngineErrorCode, message: string, readonly status: number, readonly detail?: string) {
     super(message);
@@ -194,9 +194,18 @@ export async function dumpJson(input: string, timeoutMs = 75000, options: { sign
 
 export function invalidateMetadata(url: string): void { cache.delete(url); }
 
+/**
+ * Four situations must never be confused (YouTube audit, 13 Oct 2026):
+ *  - UPSTREAM_BLOCKED     the platform refuses this *server* (anti-bot check, captcha, 403): the video is fine;
+ *  - AUTH_REQUIRED        the *video* needs an account (age-restricted, members-only, login wall);
+ *  - UNAVAILABLE/PRIVATE  the *video* (or the chosen format) is gone, private or region-restricted;
+ *  - UPSTREAM_UNREACHABLE the *service* could not reach the platform at all (DNS, connection): a real outage.
+ * Nothing here retries with cookies, proxies or other clients: a refusal is reported, never worked around.
+ */
 export function classifyEngineFailure(code: number | null, stderr: string, platform?: Platform): EngineError {
   const source = platform ? platformName(platform) : "The source platform";
-  const lower = stderr.toLowerCase();
+  // yt-dlp prefixes lines with "[extractor] <id>:"; an id such as "x-429-abc" must not read as an HTTP status.
+  const lower = stderr.replace(/^(ERROR|WARNING): \[[^\]\n]+\] \S+: /gm, "$1: ").toLowerCase();
   const detail = `exit=${code ?? "unknown"} ${stderr.slice(-1200)}`;
   if (/private (video|account)|only available.*follow|friends.only/.test(lower)) {
     return new EngineError("PRIVATE", "This video is private. VidFetch cannot access content you do not have permission to download.", 404, detail);
@@ -204,13 +213,25 @@ export function classifyEngineFailure(code: number | null, stderr: string, platf
   if (/429|rate.limit|too many requests/.test(lower)) {
     return new EngineError("RATE_LIMITED", `${source} is temporarily limiting requests from this server. Please wait a few minutes before trying again.`, 429, detail);
   }
+  // YouTube answers LOGIN_REQUIRED with "Sign in to confirm you're not a bot" to servers it distrusts, for public
+  // videos too. It contains "sign in", so it has to be recognised before the account rule below.
+  if (/not a bot|unusual traffic/.test(lower)) {
+    return new EngineError("UPSTREAM_BLOCKED", `${source} is refusing automated requests from this server (anti-bot check). The video itself may be public; VidFetch does not bypass this check.`, 503, detail);
+  }
   if (/login|log.in|log in|sign in|cookies.*needed|restricted video|registered users/.test(lower)) {
     return new EngineError("AUTH_REQUIRED", `${source} requires an authorized session for this video. Try a public post; the site operator can configure server-side cookies for content they are permitted to access.`, 401, detail);
   }
   if (/no video|no formats|only images|photo.mode/.test(lower)) {
     return new EngineError("NO_VIDEO", "This post does not contain a downloadable video. Photo-only posts are not supported.", 404, detail);
   }
-  if (/404|not found|unavailable|not available|removed|deleted|does not exist|unsupported url/.test(lower)) {
+  if (/requested format is not available/.test(lower)) {
+    return new EngineError("UNAVAILABLE", "This format is no longer available. Extract the video again and choose another quality.", 404, detail);
+  }
+  // The service itself cannot reach the platform: not the visitor's link, not a refusal by the platform.
+  if (/failed to resolve|name resolution|name or service not known|connection refused|connection reset|network is unreachable|no route to host/.test(lower)) {
+    return new EngineError("UPSTREAM_UNREACHABLE", `VidFetch could not reach ${source} from its server. Please try again later.`, 503, detail);
+  }
+  if (/404|not found|unavailable|not available|removed|deleted|does not exist|unsupported url|in your country|geo.?restricted/.test(lower)) {
     return new EngineError("UNAVAILABLE", "This video is unavailable, deleted, region-restricted, or its share link has expired. Check the original post and try again.", 404, detail);
   }
   if (/403|forbidden|challenge|captcha|unexpected response|empty media response|unable to extract.*data|impersonat/.test(lower)) {
