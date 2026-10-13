@@ -1,0 +1,22 @@
+[Unit]
+Description=VidFetch public HTTPS test ingress guard
+Before=vidfetch-caddy.service
+After=network-pre.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/usr/bin/python3 /usr/local/libexec/vidfetch-https-test-firewall apply
+User=root
+NoNewPrivileges=true
+CapabilityBoundingSet=CAP_NET_ADMIN
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+RestrictAddressFamilies=AF_NETLINK
+
+[Install]
+WantedBy=multi-user.target
