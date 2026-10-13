@@ -23,6 +23,9 @@ STORE = Path('/opt/vidfetch-ci-web')
 INCOMING = Path('/var/lib/vidfetch-deploy/ci-incoming')
 GATE = Path('/etc/vidfetch/ci-web-test-ready')
 GUARD = Path('/etc/vidfetch/ci-web-test-guard.json')
+# Absent file = the original closed profile. The file can only be created by root.
+PROFILE = Path('/etc/vidfetch/ci-media-test-profile.json')
+MEDIA_PROFILE = {'profile': 'media-test', 'apex': 'basic-auth-noindex', 'dl': 'testers-only'}
 UNIT = 'vidfetch-web-preproduction-20261013.service'
 PORT = 3001
 PROTECTED = ['ssh.service', 'vidfetch.service', 'vidfetch-gateway.service',
@@ -34,6 +37,21 @@ def trusted(path):
     info = path.lstat()
     if not stat.S_ISREG(info.st_mode) or info.st_uid != 0 or info.st_mode & 0o022:
         raise ValueError('Unsafe root configuration')
+
+
+def profile():
+    """'closed' (default) or 'media-test'. Anything unrecognised refuses to deploy.
+
+    media-test never relaxes the guard (file fingerprints, protected units, PIDs, engine
+    artifacts) or the public-origin checks; it only stops requiring that the frontend
+    reports downloads unavailable, and adds stricter apex checks for the media routes.
+    """
+    if not PROFILE.exists():
+        return 'closed'
+    trusted(PROFILE)
+    if json.loads(PROFILE.read_text()) != MEDIA_PROFILE:
+        raise ValueError('Unrecognised CI profile; administrator review required')
+    return 'media-test'
 
 
 def gate_open():
@@ -76,7 +94,10 @@ def response(port, path):
 def health(expected):
     status, body = response(PORT, '/api/health')
     data = json.loads(body)
-    if status != 200 or not data.get('ok') or data.get('release') != expected or data.get('downloads', {}).get('available') is not False:
+    available = data.get('downloads', {}).get('available')
+    # closed: media must be reported unavailable. media-test: operational state, but a real boolean.
+    allowed = isinstance(available, bool) if profile() == 'media-test' else available is False
+    if status != 200 or not data.get('ok') or data.get('release') != expected or not allowed:
         raise ValueError('Frontend readiness or closed-media check failed')
     if response(PORT, '/')[0] != 200 or response(PORT, '/api/download')[0] != 503:
         raise ValueError('Frontend HTTP readiness failed')
@@ -92,11 +113,22 @@ def wait_health(expected):
     raise ValueError('Frontend readiness timed out')
 
 
+ORIGIN_CHECKS = [('GET', '/', 401), ('GET', '/fr/', 401), ('GET', '/api/download', 503),
+                 ('GET', '/api/fetch-info', 503), ('GET', '/sitemap.xml', 404)]
+# media-test: the site may pass /api/download-access to Next.js, but only behind Basic Auth.
+# Every other media route stays closed on the apex, whatever the profile.
+MEDIA_CHECKS = [('POST', '/api/download-access', 401), ('GET', '/api/download-access', 401),
+                ('GET', '/api/queue', 503), ('GET', '/auth/transfer', 503), ('GET', '/download-helper', 503)]
+
+
+def origin_checks():
+    return ORIGIN_CHECKS + (MEDIA_CHECKS if profile() == 'media-test' else [])
+
+
 def origin_health():
     # Validate the actual Caddy origin using its public hostname and trusted TLS.
     # Cloudflare can reject requests from the VPS itself independently of origin health.
-    for path, expected in [('/', 401), ('/fr/', 401), ('/api/download', 503),
-                           ('/api/fetch-info', 503), ('/sitemap.xml', 404)]:
+    for method, path, expected in origin_checks():
         conn = http.client.HTTPSConnection('vidfetch.app', timeout=8)
         try:
             raw = socket.create_connection(('127.0.0.1', 443), timeout=8)
@@ -105,10 +137,10 @@ def origin_health():
             except BaseException:
                 raw.close()
                 raise
-            conn.request('GET', path)
+            conn.request(method, path, body=b'{}' if method == 'POST' else None)
             result = conn.getresponse()
             if result.status != expected or 'noindex' not in result.headers.get('X-Robots-Tag', ''):
-                raise ValueError('Origin test protection failed: ' + path + ' status ' + str(result.status))
+                raise ValueError('Origin test protection failed: ' + method + ' ' + path + ' status ' + str(result.status))
             if expected == 401 and 'Basic' not in result.headers.get('WWW-Authenticate', ''):
                 raise ValueError('Origin authentication missing')
             result.read(65536)
@@ -200,7 +232,7 @@ def main():
         raise ValueError('Root helper required')
     args = sys.argv[1:]
     if args == ['status']:
-        print(json.dumps({'gateOpen': gate_open(), 'release': release_id(BASE / 'current'),
+        print(json.dumps({'gateOpen': gate_open(), 'profile': profile(), 'release': release_id(BASE / 'current'),
                           'targetPort': PORT, 'pendingRecovery': (STORE / 'pending.json').exists()}))
         return
     if args == ['ready']:
