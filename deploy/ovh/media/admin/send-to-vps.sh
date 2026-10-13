@@ -35,6 +35,7 @@ echo "exporting toolkit revision $REVISION from $(git rev-parse --short "$COMMIT
 # 1. keep whatever is there under a dated name
 ssh "${SSH_OPTS[@]}" "$TARGET" "set -e; umask 077; mkdir -p ~/media-test-stage; cd ~/media-test-stage; ts=\$(date -u +%Y%m%dT%H%M%SZ); for n in $NAMES; do if [ -e \"\$n\" ]; then mv \"\$n\" \"\$n.old-\$ts\"; echo \"kept previous \$n as \$n.old-\$ts\"; fi; done"
 # 2. upload (tar keeps the executable bits), 3. verify on the VPS
-tar -C "$STAGE" -cf - . | ssh "${SSH_OPTS[@]}" "$TARGET" 'umask 077; tar -C ~/media-test-stage -xf -'
+# ustar + COPYFILE_DISABLE: macOS tar would otherwise add extended-attribute headers that GNU tar warns about
+COPYFILE_DISABLE=1 tar --format=ustar -C "$STAGE" -cf - . | ssh "${SSH_OPTS[@]}" "$TARGET" 'umask 077; tar -C ~/media-test-stage -xf -'
 ssh "${SSH_OPTS[@]}" "$TARGET" "set -e; cd ~/media-test-stage; sha256sum --check --quiet SHA256SUMS.toolkit; grep -q '^TOOLKIT_REVISION=$REVISION\$' admin/common.sh; [ -x admin/03-network.sh ]; echo \"VERIFIED on the VPS: \$(wc -l < SHA256SUMS.toolkit) files, toolkit revision $REVISION, commit \$(cut -c1-8 SOURCE_COMMIT)\""
 echo "Next, on the VPS: cd ~/media-test-stage/admin && sudo --preserve-env=SSH_CONNECTION bash 00-preflight.sh"
