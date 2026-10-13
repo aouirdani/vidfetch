@@ -112,6 +112,8 @@ untouched "after all refused restore runs the canaries are intact"
 
 echo "# 5. the rule is enforced in the sources"
 ! grep -n -E '\brm +(-[a-zA-Z]*[rR][a-zA-Z]*|--recursive)' "$A"/*.sh /r/deploy/ovh/media/install-web-secrets.sh && ok "no recursive rm in any administrator script" || bad "recursive rm found"
+! grep -n -E -- '-delete\b|-exec +rm\b|xargs +(-[^ ]+ +)*rm\b|shred\b' "$A"/*.sh /r/deploy/ovh/media/install-web-secrets.sh && ok "no other bulk deletion either (find -delete, -exec rm, xargs rm)" || bad "bulk deletion found"
+for f in "$A"/*.sh; do [ -x "$f" ] || { bad "not executable in the repository: ${f##*/}"; continue; }; done; [ -x "$A/08-gateway.sh" ] && ok "every administrator script is executable in the repository, 08-gateway.sh included" || true
 ! grep -n -E '\brm +-f +"?\$' "$A"/*.sh /r/deploy/ovh/media/install-web-secrets.sh | grep -v -- ' -- ' && ok "every rm of a variable path uses -- " || bad "rm of a variable path without --"
 ! grep -n -E '"\$SYSD/\$[A-Z_]+' "$A"/*.sh && ok 'no "$SYSD/$VAR" concatenation left: mandatory ${VAR:?} forms only' || bad 'unvalidated "$SYSD/$VAR" concatenation'
 grep -q 'dropin_dir "${SYSD:?SYSD is empty}" "${GW_UNIT:?GW_UNIT is empty}"' "$A/08-gateway.sh" && grep -q '= /etc/systemd/system/vidfetch-gateway.service.d \]' "$A/08-gateway.sh" && ok "08-gateway derives its drop-in directory through the validated helper and pins the exact production path" || bad "08-gateway path derivation"

@@ -46,6 +46,8 @@ class Scripts(unittest.TestCase):
         for script in sorted((root / 'deploy/ovh/media/admin').glob('*.sh')) + [root / 'deploy/ovh/media/install-web-secrets.sh']:
             text = script.read_text()
             self.assertIsNone(re.search(r'\brm +(-[a-zA-Z]*[rR][a-zA-Z]*|--recursive)', text), script.name)
+            self.assertIsNone(re.search(r'-delete\b|-exec +rm\b|xargs +(-\S+ +)*rm\b', text), script.name)
+            self.assertTrue(os.access(script, os.X_OK), f'{script.name} is not executable')
             self.assertIsNone(re.search(r'"\$SYSD/\$[A-Z_]', text), script.name)
 
     def test_scripts_parse(self):
