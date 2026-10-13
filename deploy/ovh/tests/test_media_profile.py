@@ -88,6 +88,20 @@ class Profile(unittest.TestCase):
         self.assertIn('Engine/gateway artifact changed', source)
         self.assertIn('Protected configuration changed', source)
 
+    def test_profile_is_selected_once_per_run(self):
+        self.write(p.MEDIA_PROFILE)
+        with self.trust(), patch.object(p, 'ACTIVE', p.profile()):
+            self.file.write_text('corrupt')  # changed or damaged mid-run
+            self.assertEqual(p.active_profile(), 'media-test')
+            self.assertIn(('POST', '/api/download-access', 401), p.origin_checks())
+        with patch.object(p, 'ACTIVE', 'closed'):
+            self.write(p.MEDIA_PROFILE)
+            with self.trust():
+                self.assertEqual(p.origin_checks(), p.ORIGIN_CHECKS)  # cannot be upgraded mid-run
+        self.file.write_text('corrupt')
+        with self.trust(), self.assertRaises(ValueError):
+            p.profile()  # main() calls this first, so nothing is changed
+
     def test_installer_script(self):
         script = Path(__file__).with_name('install-web-secrets.test.sh')
         prefix = [] if os.geteuid() == 0 else ['sudo', '-n']

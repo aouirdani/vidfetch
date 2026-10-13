@@ -54,6 +54,13 @@ def profile():
     return 'media-test'
 
 
+ACTIVE = None  # selected once per run in main(); never re-read mid-transaction
+
+
+def active_profile():
+    return ACTIVE if ACTIVE is not None else profile()
+
+
 def gate_open():
     if not GATE.exists():
         return False
@@ -96,7 +103,7 @@ def health(expected):
     data = json.loads(body)
     available = data.get('downloads', {}).get('available')
     # closed: media must be reported unavailable. media-test: operational state, but a real boolean.
-    allowed = isinstance(available, bool) if profile() == 'media-test' else available is False
+    allowed = isinstance(available, bool) if active_profile() == 'media-test' else available is False
     if status != 200 or not data.get('ok') or data.get('release') != expected or not allowed:
         raise ValueError('Frontend readiness or closed-media check failed')
     if response(PORT, '/')[0] != 200 or response(PORT, '/api/download')[0] != 503:
@@ -122,7 +129,7 @@ MEDIA_CHECKS = [('POST', '/api/download-access', 401), ('GET', '/api/download-ac
 
 
 def origin_checks():
-    return ORIGIN_CHECKS + (MEDIA_CHECKS if profile() == 'media-test' else [])
+    return ORIGIN_CHECKS + (MEDIA_CHECKS if active_profile() == 'media-test' else [])
 
 
 def origin_health():
@@ -230,6 +237,8 @@ def cancelled(signum, _frame):
 def main():
     if os.geteuid() != 0:
         raise ValueError('Root helper required')
+    global ACTIVE
+    ACTIVE = profile()  # an invalid profile file refuses before anything is changed
     args = sys.argv[1:]
     if args == ['status']:
         print(json.dumps({'gateOpen': gate_open(), 'profile': profile(), 'release': release_id(BASE / 'current'),

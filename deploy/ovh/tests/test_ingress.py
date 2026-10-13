@@ -14,7 +14,7 @@ spec.loader.exec_module(r)
 RANGES = json.loads((Path(__file__).parents[1] / 'public-test' / 'cloudflare-ranges.json').read_text())['ranges']
 CF4 = [ipaddress.ip_network(n) for n in RANGES['4']]
 # Public addresses used purely as syntax fixtures; they are NOT real testers.
-A, B = '8.8.8.0/24', '9.9.9.9/32'
+A, B = '8.8.8.0/28', '9.9.9.9/32'
 
 
 def table(testers=(), port80=False):
@@ -29,7 +29,7 @@ class Validation(unittest.TestCase):
         self.assertEqual([str(n) for n in self.load(f'# fake\n{B}  # laptop\n\n{A}\n')], [A, B] if A < B else [B, A])
 
     def test_refuses_dangerous_entries(self):
-        for bad in ['0.0.0.0/0', '8.0.0.0/8', '8.8.0.0/16', '10.0.0.1', '192.168.1.0/24', '127.0.0.1', '169.254.1.1',
+        for bad in ['0.0.0.0/0', '8.0.0.0/8', '8.8.0.0/16', '8.8.8.0/24', '8.8.8.0/27', '10.0.0.1', '192.168.1.0/24', '127.0.0.1', '169.254.1.1',
                     '100.64.0.1', '192.0.2.1/32', '198.51.100.7', '224.0.0.1', '8.8.8.1/24', 'not-an-ip',
                     '2001:db8::1', '2606:4700::1',
                     '104.16.0.1', '173.245.48.0/24', '162.159.1.1', '172.64.0.0/24']:
@@ -38,7 +38,7 @@ class Validation(unittest.TestCase):
 
     def test_refuses_overlap_duplicates_collapse_and_limit(self):
         with self.assertRaises(ValueError):
-            self.load('8.8.8.0/24\n8.8.8.8/32')
+            self.load('8.8.8.0/28\n8.8.8.8/32')
         self.assertEqual(len(self.load('9.9.9.9\n9.9.9.9/32')), 1)
         with self.assertRaises(ValueError):
             self.load('\n'.join(f'9.9.{i}.1' for i in range(r.MAX_TESTERS + 1)))

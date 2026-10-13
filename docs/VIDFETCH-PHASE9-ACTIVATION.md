@@ -98,7 +98,7 @@ Le garde n'est ni supprimé ni contourné : changer Caddy, l'environnement ou la
 
 Règles ajoutées : `tcp dport 443 ip saddr @testers4 accept`. Conservés : SSH 22, loopback, established, ICMP, DHCP, Cloudflare 80/443, reject de 3000/3001/8788/8789, drop UDP 443, `drop` final. Liste vide = ensemble vide = `dl` injoignable (fail closed, et Caddy retombe sur `192.0.2.1/32`).
 
-Validation du rendu : refus des préfixes plus larges que /24, des IPv6 (pas d'AAAA), des adresses privées/réservées/multicast/loopback/CGNAT, de tout chevauchement avec les plages Cloudflare (sinon n'importe quel client Cloudflare serait admis), plus de 32 entrées ; syntaxe vérifiée avec le vrai `nft --check` (Debian) pour liste pleine et vide. `tests/test_ingress.py` : 9 tests.
+Validation du rendu : refus des préfixes plus larges que /28 (16 adresses), des IPv6 (pas d'AAAA), des adresses privées/réservées/multicast/loopback/CGNAT, de tout chevauchement avec les plages Cloudflare (sinon n'importe quel client Cloudflare serait admis), plus de 32 entrées ; syntaxe vérifiée avec le vrai `nft --check` (Debian) pour liste pleine et vide. `tests/test_ingress.py` : 9 tests.
 
 **Limite** : nftables ne voit pas le nom d'hôte TLS. Un testeur autorisé peut donc aussi atteindre l'apex en 443, qui reste derrière Basic Auth. Le comportement des paquets vis-à-vis de vraies IP sources n'a pas été testé (pas de VPS/netns multiples ici) : seuls la syntaxe et le texte des règles le sont.
 
@@ -133,4 +133,10 @@ Tests (`install-web-secrets.test.sh`, root sous Debian dans Docker, **fausses cl
 6. Créer `/etc/vidfetch/ci-media-test-profile.json` (root 0644 ou 0600) **et** régénérer les empreintes du garde après revue ; sans cela le déploiement CI refuse, comme prévu.
 7. Depuis une IP non testeuse : `dl` doit refuser. Depuis une IP testeuse : parcours réel Turnstile → MP4/MP3.
 8. Alors seulement : `ready=1`, redémarrage du seul frontend.
-9. Rollback : retirer la table d'ingress modifiée (`firewall.py rollback`), restaurer Caddy/env depuis les sauvegardes, `ready=0`, supprimer le fichier de profil CI ; ne rien supprimer d'autre.
+9. Rollback : voir `docs/VIDFETCH-MEDIA-TEST-ROLLBACK.md` (restaurer l'ancienne table d'ingress — **pas** `firewall.py rollback`, qui supprime toute la table —, puis env/Caddy/garde ; rien d'autre n'est supprimé).
+
+---
+
+# Revue finale avant fusion
+
+Voir le résultat de la revue dans la PR #3. Correctifs apportés pendant la revue : en-tête `Referrer-Policy` de `dl` (la valeur `no-referrer` voulue était écrasée par `strict-origin-when-cross-origin`, vérifié), profil CI figé une seule fois par exécution, préfixe maximal des IP testeurs ramené à /28, image Caddy des tests épinglée par tag et empreinte, procédure de rollback complète rédigée (l'ancienne mention de `firewall.py rollback` était incorrecte).

@@ -34,6 +34,9 @@ done
 for path in /api/health /auth/admission /auth/deployment /internal/x /x; do
   expect "$(code GET dl.vidfetch.app $path)" 404 "dl tester cannot reach unlisted route: $path"
 done
+hdr=$(curl -s -D - -o /dev/null -H 'Host: dl.vidfetch.app' http://127.0.0.1:8080/api/fetch-info)
+echo "$hdr" | grep -qi '^Referrer-Policy: no-referrer' && echo "ok - dl sends Referrer-Policy: no-referrer" || { echo "not ok - dl Referrer-Policy"; fail=1; }
+echo "$hdr" | grep -qi '^X-Robots-Tag: noindex' && echo "ok - dl noindex" || { echo "not ok - dl noindex"; fail=1; }
 stop
 start /tmp/apex.caddy
 

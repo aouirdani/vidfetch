@@ -13,10 +13,10 @@ class CaddyGating(unittest.TestCase):
             self.skipTest('Docker not available')
         result = subprocess.run(
             ['docker', 'run', '--rm', '-v', f'{root / "deploy/ovh/tests/caddy-gating"}:/c:ro',
-             '-v', f'{root / "deploy/ovh/media"}:/src:ro', 'caddy:2', 'sh', '/c/run.sh'],
+             '-v', f'{root / "deploy/ovh/media"}:/src:ro', 'caddy:2.11.7@sha256:f2a1290d0463aad60660d4ec134943f183ee2a5f6c3eb7bf32dd984f2f020772', 'sh', '/c/run.sh'],
             capture_output=True, text=True, timeout=300)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        self.assertGreaterEqual(result.stdout.count('ok - '), 18)
+        self.assertGreaterEqual(result.stdout.count('ok - '), 25)
 
 
 if __name__ == '__main__':

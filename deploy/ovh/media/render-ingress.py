@@ -23,7 +23,7 @@ from pathlib import Path
 import sys
 
 MAX_TESTERS = 32
-MIN_PREFIX = 24  # a tester entry never covers more than 256 addresses
+MIN_PREFIX = 28  # a tester entry never covers more than 16 addresses (shared-NAT blast radius)
 
 
 def load_testers(text, cloudflare):

@@ -115,8 +115,15 @@ www.vidfetch.app {
 # Reserved documentation IP default DENIES every real visitor until testers set.
 dl.vidfetch.app {
     import http01
-    import test_headers
-    header Referrer-Policy no-referrer
+    # Own header set: the shared snippet's deferred Referrer-Policy would override this one.
+    header {
+        X-Content-Type-Options nosniff
+        Referrer-Policy no-referrer
+        X-Robots-Tag "noindex, nofollow"
+        Cache-Control "private, no-store, max-age=0"
+        -Server
+        defer
+    }
     @notTester not remote_ip {$VIDFETCH_MEDIA_TEST_IPS:192.0.2.1/32}
     # Must be a `handle` (first): a top-level `respond` runs after the handles below,
     # which would let non-testers through to the gateway (verified on Caddy 2.11.7).
