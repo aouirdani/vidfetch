@@ -16,7 +16,7 @@ cat > "$W/bin/stub" <<'S'
 n=$(basename "$0"); echo "$n $*" >> "$STATE/calls.log"
 case "$n" in
   systemctl) case "$1" in is-active) if [ "$2" = --quiet ]; then t=$3; else t=$2; fi
-        case "$t" in vidfetch-media-rollback.timer) [ -f "$STATE/armed" ] ;; *) exit 0 ;; esac ;;
+        case "$t" in vidfetch-media-rollback.timer) [ -f "$STATE/armed" ] ;; vidfetch-media-rollback.service) exit 1 ;; *) exit 0 ;; esac ;;
       stop) rm -f "$STATE/armed" ;; reload) [ -f "$STATE/reload-fails" ] && exit 1 || exit 0 ;; show) echo 4242 ;; esac ;;
   systemd-run) touch "$STATE/armed" ;;
   nft) echo "table inet vidfetch_https_test_ingress { }" ;;
@@ -76,17 +76,10 @@ grep -q ORIGINAL-INGRESS "$W/base/ingress.nft" && [ "$(readlink "$W/base/current
 [ "$(sums)" = "$s1" ] && ok "restore never touches env or guard" || bad "restore touched env/guard"
 calls | grep -q '^fw apply' && ok "restore re-applies through the firewall helper" || bad "restore apply"
 
-# --- confirm needs proof of a NEW ssh login since arming; cancel restores
-touch "$STATE/armed"; echo $(( $(date +%s) + 1 )) > "$B/armed-at"; rm -f "$STATE/ssh-login"
-bash "$A/04-confirm.sh" >/dev/null 2>&1 && bad "confirm without a new login" || ok "confirm refuses when no new SSH login was logged since arming"
-[ -f "$STATE/armed" ] && ok "timer still armed after the refused confirm" || bad "timer disarmed anyway"
-touch "$STATE/ssh-login"; out=$(bash "$A/04-confirm.sh" 2>&1); rc=$?
-[ $rc = 0 ] && [ ! -f "$STATE/armed" ] && ok "confirm disarms after a new login" || bad "confirm with login ($rc)"
-echo "$out" | grep -q "from=203.0.113.9" && ok "confirm shows login sources only" || bad "login display"
-calls | grep journalctl | grep -q -- "--since @$(cat "$B/armed-at")" && ok "journal queried from the arming instant" || bad "since arg"
-bash "$A/04-confirm.sh" >/dev/null 2>&1 && bad "confirm when not armed" || ok "confirm refuses when not armed (already fired)"
-rm -f "$B/armed-at"; touch "$STATE/armed"; bash "$A/04-confirm.sh" >/dev/null 2>&1 && bad "confirm without record" || ok "confirm refuses without an arming record"; rm -f "$STATE/armed"
-grep -q "AFTER the rules are live" "$A/03-network.sh" && ok "arming instant is recorded after the rules are applied" || bad "armed-at placement"
+# --- confirm/cancel details live in admin-hardening.test.sh; here only the basic wiring
+touch "$STATE/armed"; bash "$A/04-cancel.sh" >/dev/null 2>&1 && [ ! -f "$STATE/armed" ] && ok "cancel restores and disarms" || bad "cancel"
+rm -f "$B/restore-started" "$B/restored" "$B/confirmed"
+grep -q 'new public-key login' "$A/04-confirm.sh" && ok "confirm demands a public-key login" || bad "confirm text"
 
 # --- caddy switch
 printf 'import /etc/vidfetch/public-https-test/auth.caddy\nX-Robots-Tag "noindex, nofollow"\n' > "$W/base/Caddyfile.media-test"

@@ -23,6 +23,15 @@ class Scripts(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertGreaterEqual(result.stdout.count('\nok ') + result.stdout.startswith('ok '), 30)
 
+    def test_hardening_scenarios_in_container(self):
+        """Confirm proof (tester IP, public key, margin), restore under partial failure, locking, backup round-trip."""
+        if not shutil.which('docker') or subprocess.run(['docker', 'info'], capture_output=True).returncode:
+            self.skipTest('Docker not available')
+        result = subprocess.run(['docker', 'run', '--rm', '-v', f'{root}:/r:ro', 'python:3.12-slim', 'bash', '/r/deploy/ovh/tests/admin-hardening.test.sh'],
+                                capture_output=True, text=True, timeout=600)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertGreaterEqual(result.stdout.count('\nok '), 70)
+
     def test_scripts_parse(self):
         for script in (root / 'deploy/ovh/media/admin').glob('*.sh'):
             self.assertEqual(subprocess.run(['bash', '-n', str(script)], capture_output=True).returncode, 0, script.name)

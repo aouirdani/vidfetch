@@ -1,6 +1,6 @@
 # Phase 10 — procédure d'administration de la recette HTTPS privée `dl.vidfetch.app`
 
-**Rien de ce document n'a été exécuté sur le VPS.** Les scripts sont dans `deploy/ovh/media/admin/` et ont été testés hors VPS (voir §9). `<TESTER_IP>` = l'IPv4 /32 autorisée, vérifiée le 14 oct. 2026 : identique côté Mac (trois services externes) et côté VPS (`SSH_CONNECTION`). Les fichiers rendus pour cette IP sont dans `backend/artifacts/admin-prep-20261014/render-open80/` (hors Git, avec `SHA256SUMS`).
+**Rien de ce document n'a été exécuté sur le VPS.** Les scripts sont dans `deploy/ovh/media/admin/` et ont été testés hors VPS (voir §9). `<TESTER_IP>` = l'IPv4 /32 autorisée, vérifiée le 13 oct. 2026 : identique côté Mac (trois services externes) et côté VPS (`SSH_CONNECTION`). Les fichiers rendus pour cette IP sont dans `backend/artifacts/admin-prep-20261014/render-open80/` (hors Git, avec `SHA256SUMS`).
 
 Principes : chaque étape a une **vérification**, un **retour arrière**, et les étapes marquées 🔒 exigent ton accord explicite. Garder **deux sessions SSH** ouvertes pendant les étapes 4 et 5.
 
@@ -46,7 +46,11 @@ cd ~/media-test-stage/admin && sudo --preserve-env=SSH_CONNECTION bash 00-prefli
 sudo bash 01-backup.sh        # crée /var/backups/vidfetch-media-test-<horodatage>/ (0700) + lien « latest »
 sudo bash -c 'cd /var/backups/vidfetch-media-test-latest && sha256sum --check --quiet MANIFEST.sha256 && echo MANIFEST OK && ls'
 ```
-Contenu : `ruleset.nft` (tout le jeu de règles), `ingress-table.nft`, `public-https-test/` (Caddyfile, bootstrap, ingress.nft, auth.caddy), pointeur `current`, tous les `*.env` et `*.json` de `/etc/vidfetch` (garde CI, drapeaux), unité Caddy et ses drop-ins, état des unités/PID, état Caddy (comptes ACME et certificats, 0600), `restore-network.sh`. **Contient des secrets : root uniquement.** Retour arrière : aucun nécessaire (ajout seul).
+Contenu : `ruleset.nft` (tout le jeu de règles), `ingress-table.nft`, **toute l'arborescence `/etc/vidfetch`** copiée avec propriétaires, modes et liens d'origine (environnements, garde CI, drapeaux, `public-https-test/`), unité Caddy et ses drop-ins, état des unités/PID, état Caddy (comptes ACME et certificats, 0600), `restore-network.sh` et `restore-full.sh`. La sauvegarde est vérifiée (`diff -r`, manifeste SHA256) ; une étape en échec supprime la sauvegarde partielle et laisse le lien « latest » intact. Elle **refuse** de s'exécuter si le système porte déjà des changements media-test (sinon elle enregistrerait l'état modifié comme « original »).
+
+**Secrets** : le dossier est `0700 root` ; les fichiers copiés gardent leur mode d'origine pour que la restauration soit exacte, et sont protégés par ce dossier (testé : un utilisateur non privilégié ne peut lire aucun fichier). Rien de secret n'est affiché ni écrit dans le manifeste (empreintes uniquement). Ne jamais copier ce dossier hors du VPS sans chiffrement.
+
+**Restauration complète** (si nécessaire, étape manuelle) : `sudo bash /var/backups/vidfetch-media-test-latest/restore-full.sh /var/backups/vidfetch-media-test-latest --yes` remet le réseau, puis toute l'arborescence `/etc/vidfetch`, l'unité Caddy et ses drop-ins à l'identique, retire les fichiers media-test et le profil CI s'il n'existait pas. Il vérifie d'abord l'intégrité de la sauvegarde, **ne redémarre rien** et indique quoi redémarrer. Les certificats Caddy ne sont volontairement pas écrasés. Retour arrière de l'étape 3 : aucun nécessaire (ajout seul).
 
 ## 4. Mise en place des fichiers (staging), sans activation
 
@@ -85,9 +89,19 @@ bash ~/media-test-stage/admin/verify-tester.sh <TESTER_IP>        # copier le sc
 ```
 Attendu : chaîne TLS vérifiée strictement, `dl` : routes non listées 404, POST anonyme refusé, en-têtes `no-referrer` / `noindex` / `no-store`, apex 401 + routes médias 503, accès **direct** à l'apex (hors Cloudflare) 403. Sur le VPS : `curl -s --resolve vidfetch.app:443:127.0.0.1 -o /dev/null -w '%{http_code}\n' https://vidfetch.app/` → `401` (les contrôles locaux de la CI passent par le loopback, autorisé exprès).
 
-Quand **tout** est vert : `sudo bash 04-confirm.sh`. Il désarme la minuterie **uniquement si sshd a journalisé une connexion réussie après l'application des règles** (donc une nouvelle connexion, pas une session ouverte avant) ; il affiche les sources des connexions et n'a volontairement aucune option `--force` : sans preuve, laisser la minuterie restaurer, corriger, recommencer. Après cela le nouvel état est permanent, y compris au redémarrage (le fichier `ingress.nft` a été remplacé).
+Quand **tout** est vert : `sudo bash 04-confirm.sh`. Il ne désarme la minuterie que sur **preuve** d'une nouvelle connexion SSH valide, lue dans le journal de sshd :
+
+- authentification **par clé publique** (un mot de passe peut être fini de taper sur une connexion ouverte avant le changement) ;
+- journalisée **au moins 3 s après** l'instant, enregistré à la microseconde, où les nouvelles règles sont devenues actives : aucune connexion antérieure ne compte ;
+- provenant **exactement** d'une IPv4 de `media-test-ips.env` (la liste testeurs utilisée par nftables et Caddy) : une connexion depuis une autre IP, une IPv6 ou une adresse ressemblante est ignorée.
+
+Il n'a volontairement aucune option `--force` : sans preuve, laisser la minuterie restaurer, corriger, recommencer. Il refuse aussi dès que la restauration automatique a commencé. Après cela le nouvel état est permanent, y compris au redémarrage (le fichier `ingress.nft` a été remplacé).
 
 **Retour arrière de l'étape** : `sudo bash 04-cancel.sh` (ou le script de restauration de la sauvegarde) ; la minuterie assure la même chose automatiquement tant qu'elle n'est pas confirmée.
+
+**Ce que fait la restauration automatique** (`restore-network.sh`, lancée par systemd, sans session SSH) : remet `ingress.nft` et la table nft d'origine, le pointeur Caddy, retire le drop-in `media-test.conf`, recharge Caddy s'il tourne, puis **vérifie** le résultat. Chaque étape est indépendante : si l'outil pare-feu échoue, la table sauvegardée est appliquée directement par `nft` (vérification puis transaction atomique), et le pointeur Caddy est restauré quand même. Si une étape reste en échec, le script sort en erreur et systemd le relance toutes les 20 s.
+
+**Une seule opération à la fois** : `01`, `03`, `04-confirm` et `05` prennent un verrou commun (`/run/vidfetch-media-test.lock`) et refusent si une autre opération ou la restauration est en cours. La restauration, elle, attend la fin d'une opération en cours (45 s au plus) puis restaure de toute façon : un verrou bloqué ne peut pas l'empêcher. Après le début d'une restauration ou après `04-confirm.sh`, `05-caddy.sh` refuse : il faut une nouvelle sauvegarde et un nouveau `03-network.sh`.
 
 ## 6. 🔒 Turnstile, clé de service, passerelle (accord n°2)
 
@@ -132,8 +146,9 @@ Le déploiement CI reste **désactivé** (`VIDFETCH_DEPLOY_ENABLED=false`) penda
 | Rendu pour `<TESTER_IP>/32` | `nft --check` OK (open80 et closed80), chargé dans un noyau de conteneur |
 | Caddy 2.11.7 réel | non-testeur 403 partout ; testeur : 5 routes seulement ; apex : non-Cloudflare 403, **loopback accepté** (voir ci-dessous) ; en-têtes `dl` |
 | `caddy reload` | la variable `VIDFETCH_MEDIA_TEST_IPS` est résolue par le processus CLI du reload : l'`EnvironmentFile` suffit, pas de redémarrage de Caddy |
-| Minuterie de restauration avec **vrai systemd** (conteneur privilégié, test optionnel `VIDFETCH_SLOW_TESTS=1`) | la session qui arme est détruite ; 120 s plus tard systemd restaure seul l'ingress d'origine, relance l'outil pare-feu, journalise, et `04-confirm.sh` refuse ensuite |
-| Scripts d'administration (54 vérifications, conteneur root, outils système simulés ; preflight avec valeurs « canari » : aucune fuite, aucun fichier modifié, seulement `systemctl is-active/show` et `nft list`) | refus sans sauvegarde/staging, minuterie armée **avant** l'application, échec d'application → restauration immédiate, restauration sans toucher env/garde, `ready=1` refusé sans profil/secrets, etc. |
+| **Vrai systemd et vrai journald** (conteneur privilégié, test optionnel `VIDFETCH_SLOW_TESTS=1`, ~4 min) | (1) `04-confirm.sh` sur le vrai journal : connexion dans la marge, autre IP, mot de passe, échec → refusés ; clé publique depuis l'IP testeur après la marge → accepté. (2) le script d'armement est tué (`kill -9`) pendant que l'outil pare-feu est bloqué, le pointeur Caddy et le drop-in sont à moitié posés, la 1re tentative de restauration échoue (pannes injectées) : systemd restaure seul, réessaie, et tout revient à l'état d'origine |
+| Sécurisation (80 vérifications, + 5 mutations volontaires toutes détectées) : confirmation (IP testeur exacte, clé publique, marge de 3 s, IPv6/adresses ressemblantes/mot de passe refusés), restauration depuis un état à moitié appliqué et avec étapes en échec, verrou (chaque script n'est arrêté **que** par le verrou), aller-retour sauvegarde → tout modifier → restauration identique octet/propriétaire/mode, aucun secret affiché | voir `deploy/ovh/tests/admin-hardening.test.sh` |
+| Scripts d'administration (48 vérifications, conteneur root, outils système simulés ; preflight avec valeurs « canari » : aucune fuite, aucun fichier modifié, seulement `systemctl is-active/show` et `nft list`) | refus sans sauvegarde/staging, minuterie armée **avant** l'application, échec d'application → restauration immédiate, restauration sans toucher env/garde, `ready=1` refusé sans profil/secrets, etc. |
 | `guard-update.py` | 4 tests : accepte seulement le modifié nommé, ajoute sans jamais retirer, refuse symlink/fichier modifiable |
 | Profil CI | 45+ tests Python (Phase 9) |
 
