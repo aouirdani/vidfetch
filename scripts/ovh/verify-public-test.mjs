@@ -50,7 +50,7 @@ try {
   const robots = await (await pageRequest('/robots.txt')).text();
   assert.match(robots, /Disallow: \/\s*$/); assert.doesNotMatch(robots, /Sitemap:/i);
   const health = await (await pageRequest('/api/health', true)).json();
-  assert.equal(health.release, '689c592141287a1ca1e45569a89e5d76f18133ed');
+  assert.equal(health.release, process.env.VIDFETCH_EXPECTED_RELEASE ?? '689c592141287a1ca1e45569a89e5d76f18133ed');
   assert.equal(health.downloads.available, false); report.release = health.release;
   for (const path of ['/auth/admission', '/auth/deployment', '/internal/test']) assert.equal((await pageRequest(path)).status, 404);
   for (const path of ['/api/fetch-info', '/api/download', '/api/queue', '/api/download-access', '/auth/transfer', '/download-helper']) {

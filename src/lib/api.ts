@@ -1,5 +1,6 @@
 import type { Locale } from "../i18n/config";
 import { SecureDownloadClient } from "./secure-client";
+import { publicGatewayOrigin } from "./gateway-origin";
 import { resolveQueued,type QueueNotice } from "./queue-client";
 
 export type ApiError = { ok: false; error: string; code: string };
@@ -30,7 +31,14 @@ export { DOWNLOADS_UNAVAILABLE_MESSAGE } from "./service-contract";
 const API_ORIGIN = downloadsUnavailable ? "" : (process.env.NEXT_PUBLIC_API_ORIGIN ?? "").trim().replace(/\/+$/, "");
 export const secureGateway = process.env.NEXT_PUBLIC_SECURE_GATEWAY === "1";
 let client: SecureDownloadClient | null = null;
-function origin() { return API_ORIGIN || (typeof window !== "undefined" ? window.location.origin : "https://vidfetch.app"); }
+let runtimeOrigin: string | undefined;
+/** Only the same-origin issuer's public configuration selects this HTTPS origin. */
+export function configureDownloadOrigin(value: string) {
+  const next = publicGatewayOrigin(value);
+  if (!next) throw new Error("Invalid download origin");
+  if (next !== runtimeOrigin) { runtimeOrigin = next; client = null; }
+}
+function origin() { return runtimeOrigin || API_ORIGIN || (typeof window !== "undefined" ? window.location.origin : "https://vidfetch.app"); }
 function secureClient() { return secureGateway ? (client ??= new SecureDownloadClient(origin())) : null; }
 export async function authorizeDownloads(challenge: string) { await secureClient()?.authorize(challenge); window.dispatchEvent(new Event("vidfetch-access-ready")); }
 export const openSecureTransfer = (locale: Locale = "en") => secureClient()?.openTransfer(locale);
