@@ -31,7 +31,9 @@ mkdir "$T/render-open80"; printf 'table inet vidfetch_https_test_ingress {}\n' >
 cp deploy/ovh/media/Caddyfile.test-only "$T/render-open80/"; ( cd "$T/render-open80" && shasum -a 256 ingress.nft media-test-ips.env Caddyfile.test-only > SHA256SUMS )
 head=$(git rev-parse HEAD)
 
-empty=$(git commit-tree "$(git mktree </dev/null)" -m 'no toolkit' </dev/null)
+# a commit without the toolkit; explicit identity because CI runners have no git user configured
+empty=$(GIT_AUTHOR_NAME=test GIT_AUTHOR_EMAIL=test@example.invalid GIT_COMMITTER_NAME=test GIT_COMMITTER_EMAIL=test@example.invalid git commit-tree "$(git mktree </dev/null)" -m 'no toolkit' </dev/null) || exit 2
+[ -n "$empty" ] || exit 2
 send "$empty" >/dev/null 2>&1 && bad "a ref without the hardened toolkit was sent" || ok "refuses a git ref that does not contain toolkit revision 2"
 R 'grep -q "TOOLKIT_REVISION=1" ~/media-test-stage/admin/common.sh && ! ls ~/media-test-stage | grep -q old-' && ok "...and leaves the VPS copy untouched" || bad "remote changed on refusal"
 send no-such-ref >/dev/null 2>&1 && bad "unknown ref accepted" || ok "refuses an unknown git ref"

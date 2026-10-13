@@ -7,8 +7,9 @@ $SYSTEMCTL is-active --quiet $TIMER.timer && die "dead-man timer armed: confirm 
 [ ! -e "$DROPIN" ] || die "media-test drop-in present: system already modified; restore (04-cancel.sh) before a new backup"
 grep -q 'testers4' "$BASE/ingress.nft" && die "ingress.nft already contains testers4: not the original state"
 [ "$(basename "$(readlink "$BASE/current")")" != Caddyfile.media-test ] || die "Caddy already points at the media-test config: not the original state"
-TS=$(date -u +%Y%m%dT%H%M%SZ); B="$BACKUPS/vidfetch-media-test-$TS"
-[ ! -e "$B" ] || die "$B exists"; mkdir -m 0700 "$B" "$B/public-https-test" "$B/systemd"
+TS=$(date -u +%Y%m%dT%H%M%SZ)
+# mktemp: a unique 0700 directory even when two backups are taken within the same second
+B=$(mktemp -d "$BACKUPS/vidfetch-media-test-$TS.XXXXXX"); mkdir -m 0700 "$B/public-https-test" "$B/systemd"
 trap 'rm -rf "$B"; echo "backup FAILED and was removed" >&2' ERR
 $NFT list ruleset > "$B/ruleset.nft"
 $NFT list table inet vidfetch_https_test_ingress > "$B/ingress-table.nft"
