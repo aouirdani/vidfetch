@@ -39,9 +39,12 @@ echo "$hdr" | grep -qi '^Referrer-Policy: no-referrer' && echo "ok - dl sends Re
 echo "$hdr" | grep -qi '^X-Robots-Tag: noindex' && echo "ok - dl noindex" || { echo "not ok - dl noindex"; fail=1; }
 stop
 start /tmp/apex.caddy
-
+IP=$(hostname -i | awk '{print $1}')
+codeip() { curl -s -m 5 -o /dev/null -w '%{http_code}' -X "$1" -H "Host: $2" "http://$IP:8080$3"; }
 for path in / /api/download-access /api/fetch-info /api/download; do
-  expect "$(code GET vidfetch.app $path)" 403 "apex refuses non-Cloudflare peer: $path"
+  expect "$(codeip GET vidfetch.app $path)" 403 "apex refuses non-Cloudflare, non-loopback peer: $path"
 done
+# The CI promoter probes from 127.0.0.1: it must reach the origin (Basic Auth is its job).
+expect "$(code GET vidfetch.app /)" 200 "apex accepts loopback peer (promoter/audit probes)"
 stop
 exit $fail
