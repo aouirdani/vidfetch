@@ -13,6 +13,17 @@ echo "== listeners on guarded ports"; ss -ltn | awk 'NR==1||$4 ~ /:(22|80|443|30
 echo "== frontend release + health"
 readlink -f /opt/vidfetch-web-preproduction-20261013/current
 curl -s -m 5 http://127.0.0.1:3001/api/health | python3 -c 'import sys,json;d=json.load(sys.stdin);print("ok=%s release=%s downloads=%s"%(d.get("ok"),d.get("release"),d.get("downloads")))'
+echo "== code actually running vs the active frontend release manifest (the CI guard compares manifests, not running files)"
+MANIFEST=${VM_MANIFEST:-/opt/vidfetch-web-preproduction-20261013/current/manifest.json}
+for pair in "vidfetch.service:backend/vidfetch-ovh.cjs:engine" "vidfetch-gateway.service:backend/vidfetch-gateway.cjs:gateway"; do
+  unit=${pair%%:*}; rest=${pair#*:}; entry=${rest%%:*}; label=${rest#*:}
+  file=$($SYSTEMCTL show "$unit" -p ExecStart --value 2>/dev/null | grep -o '/[^ ;]*\.cjs' | head -1)
+  want=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["files"].get(sys.argv[2], ""))' "$MANIFEST" "$entry" 2>/dev/null)
+  if [ -z "$file" ] || [ ! -r "$file" ]; then echo "  $label: running file not found from the unit"; continue; fi
+  got=$(sha256sum "$file" | cut -c1-64)
+  if [ "$got" = "$want" ]; then echo "  $label: running bundle = release manifest (${got:0:12})"
+  else echo "  $label: DIFFERENT. running ${got:0:12} ($file), release manifest ${want:0:12}: the service does not run the code recorded in the release"; fi
+done
 echo "== frontend capability needed for the MP4/MP3 recette (key names only)"
 curl -s -m 5 http://127.0.0.1:3001/api/download-access | python3 -c '
 import json, sys

@@ -17,7 +17,7 @@ case "$n" in
         case "$t" in vidfetch-media-rollback.timer) [ -f "$STATE/armed" ];; vidfetch-media-rollback.service) [ -f "$STATE/restoring" ];; vidfetch-caddy.service) [ ! -f "$STATE/caddy-down" ];; *) exit 0;; esac ;;
       stop) rm -f "$STATE/armed" ;;
       reload) c=$(cat "$STATE/reload-fails" 2>/dev/null || echo 0); if [ "$c" -gt 0 ]; then echo $((c-1)) > "$STATE/reload-fails"; exit 1; fi ;;
-      show) echo 4242 ;; esac ;;
+      show) case "$*" in *ExecStart*) case "$2" in vidfetch.service) echo "{ path=/usr/bin/node ; argv[]=/usr/bin/node --max-old-space-size=192 $STATE/run/vidfetch-ovh.cjs ; ignore_errors=no }";; vidfetch-gateway.service) echo "{ path=/usr/bin/node ; argv[]=/usr/bin/node $STATE/run/vidfetch-gateway.cjs ; ignore_errors=no }";; esac;; *) echo 4242;; esac ;; esac ;;
   systemd-run) touch "$STATE/armed" ;;
   nft) [ -f "$STATE/nft-list-fails" ] && [ "$1" = list ] && exit 1
        case "$1" in --check) exit 0;; --file) [ -f "$STATE/nft-apply-fails" ] && exit 1; exit 0;; esac
@@ -254,6 +254,11 @@ echo '{"ok":true,"available":false,"siteKey":"","gatewayOrigin":""}' > "$W/www/a
 out=$(bash $A/00-preflight.sh 2>&1)
 echo "$out" | grep -q "runtime media origin supported by this release: yes" && ! echo "$out" | grep -q "this frontend predates" && ok "preflight: the current frontend is recognised" || bad "preflight frontend yes"
 echo "$out" | grep -q "usable with this toolkit" && ok "preflight: a current backup is reported usable" || bad "preflight backup usable"
+mkdir -p "$STATE/run"; echo ENGINE > "$STATE/run/vidfetch-ovh.cjs"; echo OLD-GATEWAY > "$STATE/run/vidfetch-gateway.cjs"
+printf '{"release":"abc","files":{"backend/vidfetch-ovh.cjs":"%s","backend/vidfetch-gateway.cjs":"%s"}}' "$(echo ENGINE | sha256sum | cut -c1-64)" "$(echo NEW-GATEWAY | sha256sum | cut -c1-64)" > "$W/manifest.json"
+out=$(VM_MANIFEST="$W/manifest.json" bash $A/00-preflight.sh 2>&1)
+echo "$out" | grep -q "engine: running bundle = release manifest" && ok "preflight: a running engine identical to the release manifest is reported as such" || bad "preflight engine same"
+echo "$out" | grep -q "gateway: DIFFERENT" && ok "preflight: a running gateway that differs from the release manifest is flagged" || bad "preflight gateway different"
 B=$(readlink -f "$W/bk/vidfetch-media-test-latest"); rm -f "$B/toolkit-revision"
 out=$(bash $A/00-preflight.sh 2>&1)   # captured first: grep -q on a live pipe would end it early under pipefail
 echo "$out" | grep -q "NOT usable" && echo "$out" | grep -q "run 01-backup.sh again" && ok "preflight: an older backup is reported NOT usable" || bad "preflight backup not usable"
