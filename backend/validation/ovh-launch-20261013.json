@@ -1,0 +1,316 @@
+{
+  "schema": 1,
+  "verifiedAtUtc": "2026-10-13T08:00:38.942550+00:00",
+  "branch": "work/vidfetch-ovh-launch-preparation-20261013",
+  "applicationRelease": "689c592141287a1ca1e45569a89e5d76f18133ed",
+  "publicActivation": false,
+  "sshStrictHostKeyChecking": true,
+  "unexplainedEarlierSshExitOne": "not reproduced; cause undetermined",
+  "archive": {
+    "release": "689c592141287a1ca1e45569a89e5d76f18133ed",
+    "sha256": "f2ea49aedf9f9ee729f8098393d1b051761dcae70023491a4a127529f2abf0b4",
+    "archiveBytes": 27553757,
+    "manifestFiles": 1684,
+    "node": "v22.23.3"
+  },
+  "locales": [
+    {
+      "locale": "en",
+      "SSR": true,
+      "mobile": true,
+      "selector": true,
+      "localizedUnavailable": true,
+      "localized404": true,
+      "RTL": false
+    },
+    {
+      "locale": "fr",
+      "SSR": true,
+      "mobile": true,
+      "selector": true,
+      "localizedUnavailable": true,
+      "localized404": true,
+      "RTL": false
+    },
+    {
+      "locale": "es",
+      "SSR": true,
+      "mobile": true,
+      "selector": true,
+      "localizedUnavailable": true,
+      "localized404": true,
+      "RTL": false
+    },
+    {
+      "locale": "pt-BR",
+      "SSR": true,
+      "mobile": true,
+      "selector": true,
+      "localizedUnavailable": true,
+      "localized404": true,
+      "RTL": false
+    },
+    {
+      "locale": "id",
+      "SSR": true,
+      "mobile": true,
+      "selector": true,
+      "localizedUnavailable": true,
+      "localized404": true,
+      "RTL": false
+    },
+    {
+      "locale": "de",
+      "SSR": true,
+      "mobile": true,
+      "selector": true,
+      "localizedUnavailable": true,
+      "localized404": true,
+      "RTL": false
+    },
+    {
+      "locale": "it",
+      "SSR": true,
+      "mobile": true,
+      "selector": true,
+      "localizedUnavailable": true,
+      "localized404": true,
+      "RTL": false
+    },
+    {
+      "locale": "ar",
+      "SSR": true,
+      "mobile": true,
+      "selector": true,
+      "localizedUnavailable": true,
+      "localized404": true,
+      "RTL": true
+    }
+  ],
+  "serverPages": 38,
+  "indexableCanonicals": 16,
+  "siteChecks": [
+    "38 server HTML pages",
+    "eight mobile/selector/degraded/404 journeys including RTL",
+    "16 sitemap canonicals and reciprocal equivalents",
+    "unreviewed articles and platform drafts unavailable",
+    "robots and root API paths unchanged"
+  ],
+  "transfers": [
+    {
+      "locale": "en",
+      "type": "video",
+      "bytes": 4360399,
+      "sha256": "dcbe6f2ea404a52d4b2f6fc91f274874e69be1671a1097eb3dc19f28f7c6e40f",
+      "completedBytes": 4360399,
+      "status": "completed",
+      "singleUse": true,
+      "startedAt": "2026-10-13T00:10:59.123Z",
+      "milliseconds": 4128,
+      "rtl": false
+    },
+    {
+      "locale": "ar",
+      "type": "audio",
+      "bytes": 792620,
+      "sha256": "38b23dc423846fff16d0d88950390ace9e9d3152d871ea8d0d0f9f676bd69ecf",
+      "completedBytes": 792620,
+      "status": "completed",
+      "singleUse": true,
+      "startedAt": "2026-10-13T00:11:06.424Z",
+      "milliseconds": 4297,
+      "rtl": true
+    }
+  ],
+  "fixtureLimitations": "Private SSH forwarding to OVH loopback Caddy, isolated UID-filtered worker, W3C Big Buck Bunny licensed trailer; challenge and metadata simulated. Not YouTube or public HTTPS validation.",
+  "security": {
+    "checks": [
+      "Untrusted peer cannot forge Cloudflare or forwarded client IP",
+      "Caddy download route requires authorization",
+      "Caddy blocks both service-only endpoints",
+      "Proof replay rejected",
+      "Different browser owner cannot read transfer status",
+      "Same actor cannot prepare a second active operation",
+      "TLS client disconnect propagates through Caddy and aborts transfer",
+      "No yt-dlp/ffmpeg child remains under worker UID"
+    ],
+    "receivedBeforeAbort": 4090,
+    "status": "aborted",
+    "engineChildren": []
+  },
+  "frontendOnlyProxy": {
+    "checks": [
+      "Arabic frontend via local TLS with staging noindex",
+      "Five sensitive media paths return 503 BACKEND_UNAVAILABLE, no-store",
+      "Service-only routes return 404",
+      "www redirects 301 to canonical origin, preserving path and query",
+      "Frontend health reaches multilingual release"
+    ],
+    "port": 3444,
+    "loopbackOnly": true,
+    "stopped": true,
+    "publicCertificate": false
+  },
+  "lifecycle": {
+    "checks": [
+      "stop/start on preproduction only",
+      "targeted restart",
+      "controlled crash automatically restarted",
+      "failed-start rollback restored multilingual release",
+      "previous English release can still start in preproduction",
+      "original frontend, backend, gateway, SSH and production pointer preserved"
+    ],
+    "crashRecoverySeconds": 6.047,
+    "restoredRelease": "689c592141287a1ca1e45569a89e5d76f18133ed",
+    "previousReleaseTested": "cbbd4fd974ff092c02e08d226e3e864fc8900382",
+    "protectedPidsBefore": {
+      "ssh.service": "869",
+      "vidfetch.service": "9270",
+      "vidfetch-gateway.service": "9271",
+      "vidfetch-web-candidate.service": "12561"
+    },
+    "protectedPidsAfter": {
+      "ssh.service": "869",
+      "vidfetch.service": "9270",
+      "vidfetch-gateway.service": "9271",
+      "vidfetch-web-candidate.service": "12561"
+    },
+    "enabledAtBoot": false
+  },
+  "resources": {
+    "startedAtUtc": "2026-10-13T00:10:55.288685+00:00",
+    "sampledSeconds": 45.209,
+    "samples": 180,
+    "maximumCombinedSampledBytes": 217001984,
+    "unitPeaksSinceServiceStartBytes": {
+      "vidfetch-web-preproduction-20261013.service": 101228544,
+      "vidfetch-launch-fixture-worker.service": 92020736,
+      "vidfetch-launch-fixture-gateway.service": 27754496,
+      "vidfetch-launch-fixture-proxy.service": 17936384
+    },
+    "cpuUsageSecondsSinceServiceStart": {
+      "vidfetch-web-preproduction-20261013.service": 7.000311,
+      "vidfetch-launch-fixture-worker.service": 4.856407,
+      "vidfetch-launch-fixture-gateway.service": 0.832838,
+      "vidfetch-launch-fixture-proxy.service": 0.43662
+    },
+    "cpuSecondsInSamplingWindow": {
+      "vidfetch-web-preproduction-20261013.service": 0.210112,
+      "vidfetch-launch-fixture-worker.service": 3.156857,
+      "vidfetch-launch-fixture-gateway.service": 0.473989,
+      "vidfetch-launch-fixture-proxy.service": 0.254963
+    },
+    "maximumOneCorePercent": {
+      "vidfetch-web-preproduction-20261013.service": 25.534262948207157,
+      "vidfetch-launch-fixture-worker.service": 100.56693227091655,
+      "vidfetch-launch-fixture-gateway.service": 27.106772908366594,
+      "vidfetch-launch-fixture-proxy.service": 10.261507936507982
+    },
+    "note": "Local bounded fixtures only. Kernel peaks cover complete service lifetime, including activity preceding this sampling window. No production-capacity claim."
+  },
+  "preservation": {
+    "protectedPidsEqual": true,
+    "originalPointerEqual": true,
+    "inspectedFilesEqual": true,
+    "sshSettingsEqual": true,
+    "nftablesEqual": true
+  },
+  "protectedMainPids": {
+    "ssh.service": "869",
+    "vidfetch.service": "9270",
+    "vidfetch-gateway.service": "9271",
+    "vidfetch-web-candidate.service": "12561"
+  },
+  "preproduction": {
+    "unit": "vidfetch-web-preproduction-20261013.service",
+    "port": 3001,
+    "listen": "127.0.0.1",
+    "state": "active",
+    "boot": "disabled",
+    "health": {
+      "status": 200,
+      "json": {
+        "ok": true,
+        "service": "VidFetch",
+        "frontend": {
+          "ready": true
+        },
+        "release": "689c592141287a1ca1e45569a89e5d76f18133ed",
+        "downloads": {
+          "available": false
+        }
+      }
+    }
+  },
+  "stoppedFixtureUnits": [
+    "vidfetch-launch-fixture-worker.service",
+    "vidfetch-launch-fixture-gateway.service",
+    "vidfetch-launch-fixture-proxy.service",
+    "vidfetch-launch-fixture-frontendonly.service"
+  ],
+  "engineChildren": [],
+  "memoryFinal": "total        used        free      shared  buff/cache   available\nMem:            3826         508        1225           0        2356        3318\nSwap:              0           0           0",
+  "diskFinal": "Filesystem      Size  Used Avail Use% Mounted on\n/dev/sda1        40G  2.7G   35G   8% /",
+  "gatewayOrigins": {
+    "VIDFETCH_GATEWAY_ORIGIN": "https://api.vidfetch.app",
+    "VIDFETCH_SITE_ORIGINS": "https://vidfetch.app",
+    "VIDFETCH_PRIVATE_BACKEND": "http://127.0.0.1:8788",
+    "VIDFETCH_PROXY": "reverse-proxy"
+  },
+  "serviceSigningKeysMatch": false,
+  "github": {
+    "repositorySecrets": [],
+    "ProductionEnvironmentSecrets": [],
+    "repositoryVariables": [],
+    "environments": [
+      "Preview",
+      "Production"
+    ],
+    "ProductionProtectionRules": [],
+    "ProductionBranchPolicy": null,
+    "deployWorkflowOnMain": "HTTP 404: absent",
+    "workflowTriggered": false
+  },
+  "retainedPhase3Tests": {
+    "unitAndSEO": 131,
+    "backend": 17,
+    "gateway": 2,
+    "queue": 4,
+    "deployment": 5,
+    "repeated": false
+  },
+  "checks": {
+    "eslint": "VALIDÉ",
+    "typescript": "VALIDÉ",
+    "linuxBuild": "VALIDÉ",
+    "nodeCheckBundles": "VALIDÉ",
+    "nftCheckOnly": "VALIDÉ",
+    "realTurnstile": "BLOQUÉ",
+    "publicHTTPS": "NON TESTÉ",
+    "certificateRenewal": "NON TESTÉ",
+    "OVHProviderFirewall": "NON TESTÉ",
+    "publicMediaCloudflare": "BLOQUÉ",
+    "GitHubActionsExecution": "BLOQUÉ",
+    "publicDomainHTTP": 521
+  },
+  "corrections": [
+    "Quoted Caddy staging X-Robots-Tag to set the header instead of regex replacement; actual local HTTPS regression check passed",
+    "Native browser test observes completion across the browser context before asserting the final status"
+  ],
+  "proofSha256": {
+    "vps-before.json": "e743f2a669dd23569e81c656b5075b814540cd61f9c5498a06cc4a4f558cfac0",
+    "vps-installation.json": "a0a0d50439aadd0c724e1e950ec7cbce7154c2a666dc710772b71024158860dd",
+    "vps-site-validation/verification.json": "39ac44af7d0014f893c90e40f9228459e777bee46ff8861c5f0d5f0e48e26ad8",
+    "vps-download-validation/verification.json": "15d0eabf7bf7b5fb5185d0ea19be4a25966dcdcc60524e494bba52069540caa9",
+    "vps-media-integrity-confirmed.txt": "8ef422fa3b9d81ee4363c0ee3d528dbe3c0a443f4739eed5d601d51d0711e1be",
+    "vps-fixture-security.json": "3607fc13231e484b0c8c33a1efd8fa5af04e62b9ef658ff588c8d77fd9be29bf",
+    "vps-lifecycle.json": "45c8c92361d0183504cebd3a6d0971c593c54e61abc9b1c7773a7189d875b3fe",
+    "vps-resources-streaming.json": "f081735e705f0b22a529cf5fa1458dedcfd56c24ce9fc55e90c07f4260b2ff49",
+    "vps-frontend-only-v2.json": "4517b74b44bd0293868ea15d0ed8bbdd3dee84939d764d0cab84b49784282d00",
+    "vps-final.json": "28702155247e55513efa708392e2c8d93dbe3762f3d41ac6904629904c902578",
+    "git-preservation-resumed.json": "692b4b9c79e83c3af03536e67559813dee2883ab51d3fdd68edcebaff5c22024",
+    "release-checksum.json": "8fc366b1d4d969a8663a5f5f54c43cde2f4c109781ba1f4e091312219444f1b9",
+    "github-audit.json": "db8eb8d80df80ef9d124e72c2b4087e3e0f1d038109619ab04d6abb37abf8596",
+    "linux-release-build-preserved.log": "b6380da1fa14469acd5579e23395512c2c73cd5a43f7d0b72c3125090a4e6286"
+  }
+}

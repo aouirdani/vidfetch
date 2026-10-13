@@ -1,0 +1,231 @@
+{
+  "schema": 1,
+  "verifiedAtUtc": "2026-10-12T23:49:48.591206+00:00",
+  "baseCommit": "789c0cc1c5a8a4edddc424830737014f03455e30",
+  "implementationCommit": "4952304018ba8f051b2c4053664066393f3cf0dc",
+  "branch": "work/vidfetch-international-seo-20261012",
+  "scope": "local isolated checkout; no remote service or public deployment changed",
+  "locales": [
+    "en",
+    "fr",
+    "es",
+    "pt-BR",
+    "id",
+    "de",
+    "it",
+    "ar"
+  ],
+  "checks": {
+    "eslint": {
+      "status": "VALIDÉ",
+      "exitCode": 0
+    },
+    "typescript": {
+      "status": "VALIDÉ",
+      "frontend": true,
+      "gateway": true
+    },
+    "unitAndSEO": {
+      "status": "VALIDÉ",
+      "passed": 131,
+      "failed": 0,
+      "skipped": 0
+    },
+    "backendSynthetic": {
+      "status": "VALIDÉ",
+      "passed": 17,
+      "realMedia": false
+    },
+    "gatewayLocalHTTPS": {
+      "status": "VALIDÉ",
+      "passed": 2
+    },
+    "boundedQueueSynthetic": {
+      "status": "VALIDÉ",
+      "passed": 4,
+      "maxEngineConcurrency": 1,
+      "maximumRssBytes": 82952192,
+      "productionCapacityValidated": false
+    },
+    "deploymentRollbackTemporaryFixtures": {
+      "status": "VALIDÉ",
+      "passed": 5
+    },
+    "serverHTMLAndBrowser": {
+      "status": "VALIDÉ",
+      "serverPages": 38,
+      "locales": 8,
+      "sitemapEntries": 16,
+      "transfers": 8,
+      "transferBytesEach": 992,
+      "engineMocked": true,
+      "rtl": true,
+      "publicNetworkUsed": false
+    },
+    "legacyEnglishHTTPSEO": {
+      "status": "VALIDÉ",
+      "pages": 17,
+      "groups": 4,
+      "browserErrors": 0,
+      "performance": {
+        "lcp": 344,
+        "cls": 0,
+        "paints": [
+          {
+            "name": "first-paint",
+            "ms": 284
+          },
+          {
+            "name": "first-contentful-paint",
+            "ms": 284
+          }
+        ],
+        "transferBytes": 196726,
+        "note": "One synthetic mobile navigation; not field Core Web Vitals or INP."
+      }
+    },
+    "vercelWithoutDatabaseOrEngines": {
+      "status": "VALIDÉ",
+      "groups": 7,
+      "apiTraces": 4,
+      "engineOrPostgresReferences": 0,
+      "BACKEND_UNAVAILABLE": 503
+    },
+    "productionBuilds": {
+      "status": "VALIDÉ",
+      "macOVHWebpack": true,
+      "macVercelWebpack": true,
+      "linuxOVHTurbopack": true,
+      "requiresDatabaseURL": false
+    },
+    "linuxRelease": {
+      "status": "VALIDÉ",
+      "implementationCommit": "4952304018ba8f051b2c4053664066393f3cf0dc",
+      "node": "v22.23.3",
+      "platform": "linux-x64",
+      "checkedFiles": 1684,
+      "manifestFailures": [],
+      "releaseSize": {
+        "files": 1685,
+        "bytes": 83732860
+      },
+      "appSize": {
+        "files": 1681,
+        "bytes": 83274023
+      },
+      "baselineAppSize": {
+        "files": 1509,
+        "bytes": 79604567
+      },
+      "includedGuideSources": 80,
+      "engineUnchanged": true,
+      "gatewaySize": {
+        "files": 3,
+        "bytes": 229689
+      },
+      "engineSha256": "fa0d3d4e15a5a45ca0deb2b35e7ba03adc95c31b87500378068121f291c42287",
+      "gatewaySha256": "0fa1404530c272b76aaec9aee18125660e8561c744e4ccc1fbb9c7dbee9850e5",
+      "releaseDeployed": false
+    },
+    "nodeCheckBundles": {
+      "status": "VALIDÉ",
+      "bundles": 2
+    },
+    "secretsAndForbiddenReleaseFiles": {
+      "status": "VALIDÉ",
+      "issues": 0,
+      "isCompleteSecurityCertification": false
+    },
+    "gitPreservation": {
+      "status": "VALIDÉ",
+      "priorFilesChecked": 87,
+      "priorFilesChanged": 0,
+      "previousCheckoutsClean": true,
+      "previousCommitsReachable": true,
+      "englishGuidesByteIdentical": 10
+    },
+    "newRealVideoAndMP3": {
+      "status": "NON TESTÉ",
+      "previousValidationPreserved": true
+    },
+    "githubActionsRunAndPublicHTTPS": {
+      "status": "NON TESTÉ",
+      "activated": false
+    },
+    "nativeLinguisticReview": {
+      "status": "NON TESTÉ",
+      "translationsAwaitingReview": 70
+    },
+    "youtubeOVHAntiBot": {
+      "status": "BLOQUÉ",
+      "reason": "Existing OVH provider challenge recorded in prior reports; no new remote attempt"
+    }
+  },
+  "content": {
+    "locales": [
+      {
+        "locale": "en",
+        "name": "English",
+        "totalGuides": 10,
+        "reviewed": 10,
+        "published": 0
+      },
+      {
+        "locale": "fr",
+        "name": "Français",
+        "totalGuides": 10,
+        "reviewed": 0,
+        "published": 0
+      },
+      {
+        "locale": "es",
+        "name": "Español",
+        "totalGuides": 10,
+        "reviewed": 0,
+        "published": 0
+      },
+      {
+        "locale": "pt-BR",
+        "name": "Português (Brasil)",
+        "totalGuides": 10,
+        "reviewed": 0,
+        "published": 0
+      },
+      {
+        "locale": "id",
+        "name": "Bahasa Indonesia",
+        "totalGuides": 10,
+        "reviewed": 0,
+        "published": 0
+      },
+      {
+        "locale": "de",
+        "name": "Deutsch",
+        "totalGuides": 10,
+        "reviewed": 0,
+        "published": 0
+      },
+      {
+        "locale": "it",
+        "name": "Italiano",
+        "totalGuides": 10,
+        "reviewed": 0,
+        "published": 0
+      },
+      {
+        "locale": "ar",
+        "name": "العربية",
+        "totalGuides": 10,
+        "reviewed": 0,
+        "published": 0
+      }
+    ],
+    "availablePages": 38,
+    "indexablePages": 16,
+    "translatedGuides": 70,
+    "platformIntents": 11
+  },
+  "protectedInfrastructureChanged": false,
+  "pushPerformed": false,
+  "mainMerged": false
+}

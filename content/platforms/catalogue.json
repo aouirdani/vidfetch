@@ -1,0 +1,255 @@
+[
+  {
+    "id": "youtube-video-downloader",
+    "platform": "youtube",
+    "status": "blocked-provider",
+    "published": false,
+    "legacyEnglishRoute": true,
+    "slugs": {
+      "en": "youtube-video-downloader",
+      "fr": "telecharger-video-youtube",
+      "es": "descargar-video-youtube",
+      "pt-BR": "baixar-video-youtube",
+      "id": "unduh-video-youtube",
+      "de": "youtube-video-herunterladen",
+      "it": "scaricare-video-youtube",
+      "ar": "تنزيل-فيديو-يوتيوب"
+    },
+    "editorialBrief": "Individual video URL, source formats and anonymous-access limitations; OVH anti-bot refusal must be resolved without circumvention.",
+    "gate": {
+      "authorizedMediaVerified": false,
+      "copyReviewed": false,
+      "permissionToPublish": false
+    }
+  },
+  {
+    "id": "youtube-to-mp3",
+    "platform": "youtube",
+    "status": "blocked-provider",
+    "published": false,
+    "legacyEnglishRoute": false,
+    "slugs": {
+      "en": "youtube-to-mp3",
+      "fr": "youtube-en-mp3",
+      "es": "youtube-a-mp3",
+      "pt-BR": "youtube-para-mp3",
+      "id": "youtube-ke-mp3",
+      "de": "youtube-in-mp3",
+      "it": "youtube-in-mp3",
+      "ar": "يوتيوب-إلى-mp3"
+    },
+    "editorialBrief": "Audio track selection, original audio versus actual MP3 transcoding, bitrate and permission; same YouTube validation block.",
+    "gate": {
+      "authorizedMediaVerified": false,
+      "copyReviewed": false,
+      "permissionToPublish": false
+    }
+  },
+  {
+    "id": "youtube-shorts-downloader",
+    "platform": "youtube",
+    "status": "blocked-provider",
+    "published": false,
+    "legacyEnglishRoute": false,
+    "slugs": {
+      "en": "youtube-shorts-downloader",
+      "fr": "telecharger-shorts-youtube",
+      "es": "descargar-shorts-youtube",
+      "pt-BR": "baixar-shorts-youtube",
+      "id": "unduh-shorts-youtube",
+      "de": "youtube-shorts-herunterladen",
+      "it": "scaricare-shorts-youtube",
+      "ar": "تنزيل-شورتس-يوتيوب"
+    },
+    "editorialBrief": "Short-form watch URLs and source formats; no promise of availability despite short duration.",
+    "gate": {
+      "authorizedMediaVerified": false,
+      "copyReviewed": false,
+      "permissionToPublish": false
+    }
+  },
+  {
+    "id": "tiktok-video-downloader",
+    "platform": "tiktok",
+    "status": "awaiting-capability-validation",
+    "published": false,
+    "legacyEnglishRoute": true,
+    "slugs": {
+      "en": "tiktok-video-downloader",
+      "fr": "telecharger-video-tiktok",
+      "es": "descargar-video-tiktok",
+      "pt-BR": "baixar-video-tiktok",
+      "id": "unduh-video-tiktok",
+      "de": "tiktok-video-herunterladen",
+      "it": "scaricare-video-tiktok",
+      "ar": "تنزيل-فيديو-تيك-توك"
+    },
+    "editorialBrief": "Individual TikTok post and short-link redirects subject to SSRF policy; source-format selection and creator permission.",
+    "gate": {
+      "authorizedMediaVerified": false,
+      "copyReviewed": false,
+      "permissionToPublish": false
+    }
+  },
+  {
+    "id": "tiktok-without-watermark",
+    "platform": "tiktok",
+    "status": "awaiting-capability-validation",
+    "published": false,
+    "legacyEnglishRoute": false,
+    "slugs": {
+      "en": "tiktok-without-watermark",
+      "fr": "tiktok-sans-filigrane",
+      "es": "tiktok-sin-marca-de-agua",
+      "pt-BR": "tiktok-sem-marca-dagua",
+      "id": "tiktok-tanpa-tanda-air",
+      "de": "tiktok-ohne-wasserzeichen",
+      "it": "tiktok-senza-filigrana",
+      "ar": "تيك-توك-دون-علامة-مائية"
+    },
+    "editorialBrief": "No watermark removal promise. Only consider source variants actually available and authorized; never imply erasure of protection.",
+    "gate": {
+      "authorizedMediaVerified": false,
+      "copyReviewed": false,
+      "permissionToPublish": false
+    }
+  },
+  {
+    "id": "tiktok-mp3",
+    "platform": "tiktok",
+    "status": "awaiting-capability-validation",
+    "published": false,
+    "legacyEnglishRoute": false,
+    "slugs": {
+      "en": "tiktok-mp3",
+      "fr": "tiktok-en-mp3",
+      "es": "tiktok-a-mp3",
+      "pt-BR": "tiktok-para-mp3",
+      "id": "tiktok-ke-mp3",
+      "de": "tiktok-in-mp3",
+      "it": "tiktok-in-mp3",
+      "ar": "تيك-توك-إلى-mp3"
+    },
+    "editorialBrief": "Only audio from an accessible authorized post; no claim to retrieve a separate music catalogue.",
+    "gate": {
+      "authorizedMediaVerified": false,
+      "copyReviewed": false,
+      "permissionToPublish": false
+    }
+  },
+  {
+    "id": "instagram-reels-downloader",
+    "platform": "instagram",
+    "status": "awaiting-capability-validation",
+    "published": false,
+    "legacyEnglishRoute": true,
+    "slugs": {
+      "en": "instagram-reels-downloader",
+      "fr": "telecharger-reels-instagram",
+      "es": "descargar-reels-instagram",
+      "pt-BR": "baixar-reels-instagram",
+      "id": "unduh-reels-instagram",
+      "de": "instagram-reels-herunterladen",
+      "it": "scaricare-reels-instagram",
+      "ar": "تنزيل-ريلز-انستغرام"
+    },
+    "editorialBrief": "Individual Reel; source may require login or provide no separate audio.",
+    "gate": {
+      "authorizedMediaVerified": false,
+      "copyReviewed": false,
+      "permissionToPublish": false
+    }
+  },
+  {
+    "id": "instagram-video-downloader",
+    "platform": "instagram",
+    "status": "awaiting-capability-validation",
+    "published": false,
+    "legacyEnglishRoute": false,
+    "slugs": {
+      "en": "instagram-video-downloader",
+      "fr": "telecharger-video-instagram",
+      "es": "descargar-video-instagram",
+      "pt-BR": "baixar-video-instagram",
+      "id": "unduh-video-instagram",
+      "de": "instagram-video-herunterladen",
+      "it": "scaricare-video-instagram",
+      "ar": "تنزيل-فيديو-انستغرام"
+    },
+    "editorialBrief": "Native individual video posts only; distinguish photo posts and private accounts.",
+    "gate": {
+      "authorizedMediaVerified": false,
+      "copyReviewed": false,
+      "permissionToPublish": false
+    }
+  },
+  {
+    "id": "instagram-story-downloader",
+    "platform": "instagram",
+    "status": "awaiting-capability-validation",
+    "published": false,
+    "legacyEnglishRoute": false,
+    "slugs": {
+      "en": "instagram-story-downloader",
+      "fr": "telecharger-story-instagram",
+      "es": "descargar-historias-instagram",
+      "pt-BR": "baixar-stories-instagram",
+      "id": "unduh-story-instagram",
+      "de": "instagram-story-herunterladen",
+      "it": "scaricare-storie-instagram",
+      "ar": "تنزيل-قصة-انستغرام"
+    },
+    "editorialBrief": "Feature not verified: anonymous story access, expiry and account privacy must be tested before any capability claim.",
+    "gate": {
+      "authorizedMediaVerified": false,
+      "copyReviewed": false,
+      "permissionToPublish": false
+    }
+  },
+  {
+    "id": "twitter-video-downloader",
+    "platform": "twitter",
+    "status": "awaiting-capability-validation",
+    "published": false,
+    "legacyEnglishRoute": true,
+    "slugs": {
+      "en": "twitter-video-downloader",
+      "fr": "telecharger-video-x",
+      "es": "descargar-video-x",
+      "pt-BR": "baixar-video-x",
+      "id": "unduh-video-x",
+      "de": "x-video-herunterladen",
+      "it": "scaricare-video-x",
+      "ar": "تنزيل-فيديو-x"
+    },
+    "editorialBrief": "Native video in a status, x.com/twitter.com forms, rendition selection and anonymous rate limits.",
+    "gate": {
+      "authorizedMediaVerified": false,
+      "copyReviewed": false,
+      "permissionToPublish": false
+    }
+  },
+  {
+    "id": "x-gif-downloader",
+    "platform": "twitter",
+    "status": "awaiting-capability-validation",
+    "published": false,
+    "legacyEnglishRoute": false,
+    "slugs": {
+      "en": "x-gif-downloader",
+      "fr": "telecharger-gif-x",
+      "es": "descargar-gif-x",
+      "pt-BR": "baixar-gif-x",
+      "id": "unduh-gif-x",
+      "de": "x-gif-herunterladen",
+      "it": "scaricare-gif-x",
+      "ar": "تنزيل-gif-x"
+    },
+    "editorialBrief": "Animated media may be encoded as video rather than GIF; inspect actual container, no unsupported GIF conversion claim.",
+    "gate": {
+      "authorizedMediaVerified": false,
+      "copyReviewed": false,
+      "permissionToPublish": false
+    }
+  }
+]

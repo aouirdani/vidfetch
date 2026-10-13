@@ -1,0 +1,87 @@
+name: Validate and deploy VidFetch
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: 'validate = CI only; verify = transfer without activation; deploy = gated frontend activation'
+        type: choice
+        options: [validate, verify, deploy]
+        default: validate
+permissions:
+  contents: read
+concurrency:
+  group: vidfetch-ovh-frontend-test
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22.23.3
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run test:backend
+      - run: node backend/gateway/run-tests.mjs
+      - run: node backend/gateway/run-load.mjs
+      - run: python3 -m unittest discover -s deploy/ovh/tests -v
+      - run: npm run check:release
+      - name: Linux standalone frontend and checked engines (no production secrets)
+        env:
+          VIDFETCH_RELEASE: ${{ github.sha }}
+        run: |
+          mkdir -p build/releases
+          node scripts/ovh/build-release.mjs
+          tar -czf release-${{ github.sha }}.tgz -C build/releases/${{ github.sha }} .
+      - name: Install isolated browser for local multilingual checks
+        run: npx playwright install --with-deps chromium
+      - name: Server HTML, eight languages, RTL and unchanged API paths
+        run: npm run test:i18n
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: release-${{ github.sha }}
+          path: release-${{ github.sha }}.tgz
+          retention-days: 7
+          if-no-files-found: error
+  deploy:
+    needs: build
+    # No PR event, fork or arbitrary ref can reach deployment credentials.
+    # A manual verify transfers and validates without switching any service.
+    if: >-
+      github.ref == 'refs/heads/main' && github.repository == 'aouirdani/vidfetch' &&
+      ((github.event_name == 'workflow_dispatch' && inputs.operation == 'verify') ||
+       (vars.VIDFETCH_DEPLOY_ENABLED == 'true' &&
+        (github.event_name == 'push' || inputs.operation == 'deploy')))
+    environment: Production
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: release-${{ github.sha }}
+      - name: Bounded transfer, protected frontend health checks and rollback
+        env:
+          DEPLOY_HOST: 15.235.127.165
+          DEPLOY_USER: vidfetch-deploy
+          DEPLOY_SSH_KEY: ${{ secrets.OVH_DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.OVH_DEPLOY_KNOWN_HOSTS }}
+          DEPLOY_OPERATION: ${{ github.event_name == 'workflow_dispatch' && inputs.operation == 'verify' && 'verify' || 'receive' }}
+        run: sh scripts/ovh/deploy.sh
+      - name: Deployment outcome
+        if: always()
+        env:
+          JOB_STATUS: ${{ job.status }}
+        run: |
+          printf '### OVH protected frontend\nResult: %s\nRelease: %s\nBackend and gateway activation: disabled\n' "$JOB_STATUS" "$GITHUB_SHA" >> "$GITHUB_STEP_SUMMARY"

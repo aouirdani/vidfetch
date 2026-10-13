@@ -1,20 +1,30 @@
 import type { NextConfig } from "next";
 import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD } from "next/constants";
 import { spawnSync } from "node:child_process";
+import { resolve } from "node:path";
+import { isLocalEngineHosting } from "./src/lib/deployment";
+import { publicGatewayOrigin } from "./src/lib/gateway-origin";
 
 /**
- * Two build targets share one codebase:
+ * Build targets share one codebase:
  *
- *  - default: full Node.js server (Docker / VPS / Render / Koyeb). Pages are
+ *  - default / vercel: frontend with unavailable media API; no database required.
+ *  - node: explicit full Node.js server (Docker / VPS / Render / Koyeb). Pages are
  *    prerendered, and `/api/*` runs yt-dlp and ffmpeg as child processes.
  *  - cloudflare-pages: static export of the UI only. Cloudflare Workers cannot
  *    spawn binaries, so `scripts/build-pages.mjs` removes `/api/*` from the
  *    route tree and the deployed site talks to a separate backend origin.
  */
-const isPagesBuild = process.env.VIDFETCH_TARGET === "cloudflare-pages";
-
 export default function configuration(phase: string): NextConfig {
-  const needsEngine = !isPagesBuild
+  const isOVH = process.env.VIDFETCH_TARGET === "ovh";
+  const isNodeHost = isLocalEngineHosting(process.env);
+  const isPagesBuild = process.env.VIDFETCH_TARGET === "cloudflare-pages"
+    && process.env.VERCEL !== "1" && !process.env.VERCEL_ENV;
+  const gateway = process.env.VIDFETCH_TARGET === "secure-gateway" && process.env.VIDFETCH_CONNECTION_READY === "1"
+    && process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && publicGatewayOrigin(process.env.NEXT_PUBLIC_SITE_URL) ? publicGatewayOrigin(process.env.NEXT_PUBLIC_API_ORIGIN) : null;
+  const downloadsUnavailable = !isNodeHost && !isPagesBuild && !gateway && !isOVH;
+  const unavailableApi = isOVH ? "./src/server/ovh-api.ts" : "./src/server/unavailable-api.ts";
+  const needsEngine = isNodeHost
     && [PHASE_PRODUCTION_BUILD, PHASE_DEVELOPMENT_SERVER].includes(phase)
     && process.env.VIDFETCH_SKIP_ENGINE_SETUP !== "1";
 
@@ -24,6 +34,34 @@ export default function configuration(phase: string): NextConfig {
   }
 
   return {
+    skipTrailingSlashRedirect: true,
+    outputFileTracingIncludes: { "/*": ["./content/guides/**/*.md"] },
+    ...(isOVH ? { output: "standalone" as const } : {}),
+    // The default frontend never needs engines, database credentials or platform flags.
+    // Alias at build time: engines and database code never enter its API bundles.
+    env: {
+      NEXT_PUBLIC_DOWNLOADS_UNAVAILABLE: downloadsUnavailable ? "1" : "0",
+      NEXT_PUBLIC_OVH_MODE: isOVH ? "1" : "0",
+      NEXT_PUBLIC_API_ORIGIN: isOVH ? "" : gateway ?? (downloadsUnavailable ? "" : (process.env.NEXT_PUBLIC_API_ORIGIN ?? "")),
+      NEXT_PUBLIC_SECURE_GATEWAY: (gateway || isOVH) ? "1" : "0",
+      NEXT_PUBLIC_TURNSTILE_SITE_KEY: gateway ? process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY! : "",
+    },
+    turbopack: {
+      root: resolve("."),
+      ...(!isNodeHost ? { resolveAlias: { "@vidfetch/media-api": unavailableApi } } : {}),
+    },
+    ...(!isNodeHost ? {
+      webpack(config, { webpack }) {
+        config.resolve.alias["@vidfetch/media-api"] = resolve(unavailableApi);
+        // Next's TypeScript paths resolver can resolve the facade before aliases.
+        // Replace the module request too, so dynamic local-engine imports never
+        // enter frontend-only route bundles or their deployment traces.
+        config.plugins.push(new webpack.NormalModuleReplacementPlugin(
+          /^@vidfetch\/media-api$/, resolve(unavailableApi),
+        ));
+        return config;
+      },
+    } : {}),
     // `output: export` emits plain HTML/CSS/JS that Cloudflare Pages serves from its CDN.
     ...(isPagesBuild ? { output: "export" as const, images: { unoptimized: true } } : {}),
     serverExternalPackages: ["ffmpeg-static", "ffprobe-static", "yt-dlp-exec"],
@@ -47,7 +85,8 @@ export default function configuration(phase: string): NextConfig {
             { key: "X-Content-Type-Options", value: "nosniff" },
             { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           ] },
-          { source: "/:file(icon.svg|og-image.jpg)", headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }] },
+          { source: "/_next/:path*", headers: [{ key: "X-Robots-Tag", value: "noindex" }] },
+          { source: "/:file(icon.svg|og-image.jpg|og-image-v2.jpg)", headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }] },
           { source: "/:path(sitemap.xml|robots.txt|manifest.webmanifest)", headers: [{ key: "Cache-Control", value: "public, max-age=3600, stale-while-revalidate=86400" }] },
         ];
       },

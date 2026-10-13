@@ -2,6 +2,29 @@
 
 An English-language video downloader for YouTube, TikTok, Instagram and X. Built with Next.js/React, Tailwind, Lucide, PostgreSQL/Drizzle, yt-dlp and ffmpeg. The optional Express entrypoint serves the same UI and API implementations; there is no second, divergent download engine.
 
+## Current Vercel / Raspberry Pi arrangement
+
+The Raspberry Pi backend is maintained separately in [backend/README.md](backend/README.md) and listens only on loopback. Its tested systemd service is not changed by a frontend build or Git push. The frontend cannot reach it remotely yet: an authenticated HTTPS gateway and engine egress protections still need implementation and validation.
+
+The default build excludes the local media/database handlers, skips engine setup and ignores `NEXT_PUBLIC_API_ORIGIN`. It needs neither `DATABASE_URL` nor Vercel-specific environment flags. Pages remain available, with a visible notice and disabled extraction controls. `/api/health` reports frontend health plus `downloads.available=false`; extraction, download preparation, ticket and status routes return JSON HTTP 503 with `BACKEND_UNAVAILABLE`. No video bytes transit Vercel. Supabase configuration and data remain unchanged; database-backed handlers are preserved and acquire their database lazily when used in explicit local Node hosting (`VIDFETCH_TARGET=node`). That opt-in is refused when Vercel flags identify the platform.
+
+See [DEPLOY-VERCEL.md](DEPLOY-VERCEL.md) for manual deployment, environment variable names, verification and rollback. The Node/Docker and legacy Cloudflare instructions below describe their separate hosting modes; they do not connect Vercel to the Pi.
+
+```sh
+npm ci
+npm run lint
+npm run typecheck
+npm test
+npm run build
+npm run test:vercel
+# Optional browser validation: Chrome on macOS, Playwright Chromium elsewhere.
+npm run test:vercel -- --browser
+npm run test:backend
+npm run check:release
+```
+
+The image `public/og-image.jpg` is generated from the maintained SVG beside it. `node scripts/generate-og-image.mjs` refuses to overwrite an existing JPEG; preserve that image first when regenerating.
+
 ## What works
 
 - Instagram public Reels, video posts, IGTV-style links and individual story links when the source permits access. Instagram `/share/reel/` links are resolved to their original post URL where possible.
@@ -17,18 +40,18 @@ An English-language video downloader for YouTube, TikTok, Instagram and X. Built
 
 ## Local development
 
-1. Copy `.env.example` to `.env` and configure `DATABASE_URL`.
+1. Copy `.env.example` to `.env` and configure the real `DATABASE_URL` for local database features. The example explicitly selects local Node hosting with `VIDFETCH_TARGET=node`; omit that opt-in for a frontend-only build.
 2. Install dependencies with `npm install`.
 3. Initialize PostgreSQL tables with `npx drizzle-kit push --config=drizzle.config.ts`.
 4. Run `npm run dev` and open `http://localhost:3000`.
 
-A Next development or production build runs `scripts/setup-media.mjs` if necessary. It downloads the official standalone yt-dlp release, validates its SHA-256 checksum and caches it in `.media-bin/`. Unlike the minimal Unix zip, the standalone binary includes browser-request support (`curl_cffi`) used by Instagram and TikTok. `ffmpeg-static` supplies ffmpeg when no system binary is present.
+In explicit Node hosting, a Next development or production build runs `scripts/setup-media.mjs` if necessary. It downloads the official standalone yt-dlp release, validates its SHA-256 checksum and caches it in `.media-bin/`. Unlike the minimal Unix zip, the standalone binary includes browser-request support (`curl_cffi`) used by Instagram and TikTok. `ffmpeg-static` supplies ffmpeg when no system binary is present. Database initialization happens on use, so compilation never requires a dummy connection string.
 
 For a provisioned deployment, set `YTDLP_PATH` and `FFMPEG_PATH`. To skip automatic engine installation, set `VIDFETCH_SKIP_ENGINE_SETUP=1` **only after** provisioning yt-dlp with the required dependencies. Refresh a cached engine by removing `.media-bin/yt-dlp` and rerunning `node scripts/setup-media.mjs`.
 
 ## Production Node / Express
 
-Build once with `npm run build`, then run either:
+Set `VIDFETCH_TARGET=node` at build time and runtime (or in `.env`). Build once with `npm run build`, then run either:
 
 - `npm run start`: standard Next.js Node server, usually port 3000.
 - `NODE_ENV=production PORT=5000 node server.js`: Express with restrictive CORS, the React UI, the same Next API handlers, and no overall download response timeout.

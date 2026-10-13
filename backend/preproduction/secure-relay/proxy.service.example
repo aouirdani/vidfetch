@@ -1,0 +1,30 @@
+# Pi ONLY, namespace must already exist and pass its separate network audit.
+[Unit]
+Description=VidFetch isolated Unix socket proxy (PREPARED ONLY)
+After=vidfetch-public-worker.service
+[Service]
+User=vidfetch-proxy
+Group=vidfetch-proxy
+NetworkNamespacePath=/run/netns/vidfetch-egress
+RuntimeDirectory=vidfetch-public
+RuntimeDirectoryMode=0750
+RuntimeDirectoryPreserve=no
+Environment=VIDFETCH_PUBLIC_WORKER_ENABLED=1
+Environment=VIDFETCH_BACKEND_SOCKET=/run/vidfetch-public/backend.sock
+ExecStart=/usr/bin/node --max-old-space-size=48 /opt/vidfetch-public/socket-proxy.mjs
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+RestrictAddressFamilies=AF_UNIX AF_INET
+KillMode=control-group
+Restart=on-failure
+RestartSec=15
+TasksMax=32
+LimitNOFILE=256
+TimeoutStopSec=15
+StandardOutput=journal
+StandardError=journal
+# systemd cleans only this unit's runtime directory on stop/crash.

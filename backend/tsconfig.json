@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "target": "ES2022", "lib": ["ES2022", "DOM"], "module": "CommonJS",
+    "moduleResolution": "Node", "esModuleInterop": true, "strict": true,
+    "skipLibCheck": true, "noEmit": true, "types": ["node"]
+  },
+  "include": ["*.ts", "../src/lib/engine.ts", "../src/lib/engine-process.ts", "../src/lib/extract.ts", "../src/lib/media.ts", "../src/lib/platforms.ts"]
+}

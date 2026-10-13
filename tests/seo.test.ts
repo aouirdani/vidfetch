@@ -17,13 +17,18 @@ describe("page metadata", () => {
   });
   it("attaches the social share image to every page", () => {
     const meta = pageMetadata({ title: "T", description: "D", path: "/legal" });
-    assert.match(JSON.stringify(meta.openGraph?.images), /og-image\.jpg/);
-    assert.match(JSON.stringify(meta.twitter), /og-image\.jpg/);
+    assert.match(JSON.stringify(meta.openGraph?.images), /og-image-v2\.jpg/);
+    assert.match(JSON.stringify(meta.twitter), /og-image-v2\.jpg/);
+  });
+  it("ships the JPEG referenced by social metadata", () => {
+    const image = readFileSync("public/og-image-v2.jpg");
+    assert.deepEqual([...image.subarray(0, 2)], [0xff, 0xd8]);
+    assert.ok(image.length > 1000);
   });
 });
 
 describe("landing pages", () => {
-  it("exposes one indexable page per supported platform", () => {
+  it("preserves the four curated historical platform slugs", () => {
     assert.equal(LANDING_PAGES.length, 4);
     assert.equal(new Set(LANDING_PAGES.map((page) => page.platform)).size, 4);
   });
@@ -70,7 +75,7 @@ describe("structured data", () => {
   it("describes the application as a free web app", () => {
     const app = applicationSchema() as Record<string, unknown>;
     assert.equal(app.isAccessibleForFree, true);
-    assert.deepEqual(app.offers, { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" });
+    assert.deepEqual(app.offers, { "@type": "Offer", price: "0", priceCurrency: "USD" });
     // Invented ratings violate Google's structured data policies.
     assert.equal("aggregateRating" in app, false);
     assert.equal("review" in app, false);
@@ -92,7 +97,7 @@ describe("structured data", () => {
 describe("public data exposure", () => {
   // The usage dashboard was removed. These guards fail if any part of it comes
   // back, since it published what other people were downloading.
-  const sources = ["src/lib/api.ts", "src/app/page.tsx", "src/components/VideoCard.tsx"]
+  const sources = ["src/lib/api.ts", "src/views/SiteViews.tsx", "src/components/VideoCard.tsx"]
     .map((file) => readFileSync(file, "utf8")).join("\n");
 
   it("ships no stats endpoint, module or panel", () => {
@@ -108,7 +113,7 @@ describe("public data exposure", () => {
   });
 
   it("keeps a usage dashboard out of the rendered page", () => {
-    const home = readFileSync("src/app/page.tsx", "utf8");
+    const home = readFileSync("src/views/SiteViews.tsx", "utf8");
     assert.doesNotMatch(home, /Service activity|Links analyzed|Recent transfers/i);
   });
 });

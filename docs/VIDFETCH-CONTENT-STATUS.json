@@ -1,0 +1,64 @@
+{
+  "locales": [
+    {
+      "locale": "en",
+      "name": "English",
+      "totalGuides": 10,
+      "reviewed": 10,
+      "published": 0
+    },
+    {
+      "locale": "fr",
+      "name": "Français",
+      "totalGuides": 10,
+      "reviewed": 0,
+      "published": 0
+    },
+    {
+      "locale": "es",
+      "name": "Español",
+      "totalGuides": 10,
+      "reviewed": 0,
+      "published": 0
+    },
+    {
+      "locale": "pt-BR",
+      "name": "Português (Brasil)",
+      "totalGuides": 10,
+      "reviewed": 0,
+      "published": 0
+    },
+    {
+      "locale": "id",
+      "name": "Bahasa Indonesia",
+      "totalGuides": 10,
+      "reviewed": 0,
+      "published": 0
+    },
+    {
+      "locale": "de",
+      "name": "Deutsch",
+      "totalGuides": 10,
+      "reviewed": 0,
+      "published": 0
+    },
+    {
+      "locale": "it",
+      "name": "Italiano",
+      "totalGuides": 10,
+      "reviewed": 0,
+      "published": 0
+    },
+    {
+      "locale": "ar",
+      "name": "العربية",
+      "totalGuides": 10,
+      "reviewed": 0,
+      "published": 0
+    }
+  ],
+  "availablePages": 38,
+  "indexablePages": 16,
+  "translatedGuides": 70,
+  "platformIntents": 11
+}

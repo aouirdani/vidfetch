@@ -1,0 +1,2 @@
+# Only the audited helper; no shell, systemctl, file editor or package manager.
+vidfetch-deploy ALL=(root) NOPASSWD: /usr/local/libexec/vidfetch-ci/promote.py

@@ -1,0 +1,31 @@
+# PREPARED ONLY. Do not install/activate before explicit public-access approval.
+# api.vidfetch.app must be DNS-only. Never reverse_proxy directly to the raw 8788 engine.
+{
+    log default {
+        format filter {
+            wrap json
+            fields {
+                request delete
+                resp_headers delete
+            }
+        }
+    }
+}
+api.vidfetch.app {
+    header {
+        Strict-Transport-Security "max-age=31536000"
+        X-Content-Type-Options nosniff
+        Referrer-Policy no-referrer
+    }
+    reverse_proxy 127.0.0.1:8789 {
+        header_up Host {host}
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Forwarded-Proto https
+        # Keep default progressive streaming and cancellation on client disconnect.
+        # No whole-body request/response buffering, no flush_interval -1.
+        transport http {
+            response_header_timeout 240s
+        }
+    }
+    # No access log: query strings can contain one-use tickets.
+}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useI18n } from "@/i18n/context";
 import { clsx } from "clsx";
 import { PlatformIcon } from "./PlatformIcon";
 import { PLATFORM_META, type Platform } from "@/lib/platforms";
@@ -11,11 +12,12 @@ export function PlatformChip({
   platform: Platform | null;
   detected?: boolean;
 }) {
+  const { messages: d } = useI18n();
   if (!platform) {
     return (
       <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-400">
         <span className="h-1.5 w-1.5 rounded-full bg-slate-500" />
-        Paste a link to get started
+        {d.emptyLink}
       </span>
     );
   }
@@ -39,7 +41,7 @@ export function PlatformChip({
         <PlatformIcon platform={platform} className="h-3 w-3" />
       </span>
       {meta.name}
-      {detected && <span className="text-cyan-300">detected</span>}
+      {detected && <span className="text-cyan-300">{d.detected}</span>}
     </span>
   );
 }

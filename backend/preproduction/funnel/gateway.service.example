@@ -1,0 +1,33 @@
+# Pi template only. Never replace the running vidfetch.service with this file.
+[Unit]
+Description=VidFetch authenticated Funnel gateway (PREPARED ONLY)
+After=network.target
+StartLimitIntervalSec=300
+StartLimitBurst=3
+[Service]
+User=vidfetch-gateway
+Group=vidfetch-proxy
+EnvironmentFile=/etc/vidfetch-gateway/private.env
+ExecStart=/usr/local/bin/node --max-old-space-size=64 /opt/vidfetch-gateway/gateway.cjs
+StateDirectory=vidfetch-gateway
+StateDirectoryMode=0700
+ReadWritePaths=/var/lib/vidfetch-gateway
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+CPUQuota=50%
+Nice=19
+TasksMax=48
+LimitNOFILE=512
+MemoryAccounting=no
+KillMode=control-group
+Restart=on-failure
+RestartSec=15
+TimeoutStopSec=30
+StandardOutput=journal
+StandardError=journal
+# No Install section: no automatic startup/public activation authorized.

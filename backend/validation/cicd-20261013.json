@@ -1,0 +1,142 @@
+{
+  "date": "2026-10-13",
+  "sourceApplicationCommit": "a9103d474056469882a7f9dbc64fed98dc364e84",
+  "publicReleaseUnchanged": "689c592141287a1ca1e45569a89e5d76f18133ed",
+  "workflowExecuted": false,
+  "githubSecretsConfigured": false,
+  "rootGateOpen": false,
+  "protectedServicesPreserved": {
+    "allPids": true,
+    "allOriginalFileHashesExceptApprovedCaddyDependency": true,
+    "caddyUnitOnlyApprovedDependencyChanged": true,
+    "publicRelease": true
+  },
+  "tests": {
+    "frontendUnitLinuxNode22": 131,
+    "backendLinuxNode22": 17,
+    "gatewayTLSLinuxNode22": 2,
+    "queueLinuxNode22": 4,
+    "deploymentUnitMac": 18,
+    "deploymentUnitDebian13": 13,
+    "serverRenderedPages": 38,
+    "localesPublic": 8,
+    "closedMediaPublic": 12,
+    "actionlint": "1.7.12 passed"
+  },
+  "ssh": {
+    "archiveBytes": 27553757,
+    "archiveSHA256": "f2ea49aedf9f9ee729f8098393d1b051761dcae70023491a4a127529f2abf0b4",
+    "tests": [
+      {
+        "test": "Dedicated key status",
+        "exit": 0,
+        "seconds": 1.489,
+        "output": "{\"gateOpen\": false, \"release\": \"689c592141287a1ca1e45569a89e5d76f18133ed\", \"targetPort\": 3001, \"pendingRecovery\": false}",
+        "error": ""
+      },
+      {
+        "test": "Shell command forbidden",
+        "exit": 1,
+        "seconds": 1.154,
+        "output": "",
+        "error": "Only status or a bounded release transfer is permitted"
+      },
+      {
+        "test": "Root shell forbidden",
+        "exit": 1,
+        "seconds": 1.157,
+        "output": "",
+        "error": "Only status or a bounded release transfer is permitted"
+      },
+      {
+        "test": "SFTP forbidden",
+        "exit": 1,
+        "seconds": 1.152,
+        "output": "",
+        "error": ""
+      },
+      {
+        "test": "Remote forwarding forbidden",
+        "exit": 255,
+        "seconds": 1.016,
+        "output": "",
+        "error": "Error: remote port forwarding failed for listen port 39123"
+      },
+      {
+        "test": "Activation gate closed",
+        "exit": 1,
+        "seconds": 1.276,
+        "output": "",
+        "error": "CI helper refused: Frontend deployment gate is closed"
+      },
+      {
+        "test": "Real bounded archive transfer and root verification",
+        "exit": 0,
+        "seconds": 5.265,
+        "output": "{\"operation\": \"verify\", \"release\": \"689c592141287a1ca1e45569a89e5d76f18133ed\", \"validated\": true, \"activated\": false, \"protectedServicesUnchanged\": true}",
+        "error": ""
+      },
+      {
+        "test": "State still unchanged",
+        "exit": 0,
+        "seconds": 1.284,
+        "output": "{\"gateOpen\": false, \"release\": \"689c592141287a1ca1e45569a89e5d76f18133ed\", \"targetPort\": 3001, \"pendingRecovery\": false}",
+        "error": ""
+      }
+    ]
+  },
+  "client": {
+    "verifiedTransfer": {
+      "operation": "verify",
+      "release": "689c592141287a1ca1e45569a89e5d76f18133ed",
+      "validated": true,
+      "activated": false,
+      "protectedServicesUnchanged": true
+    },
+    "privateKeyNeverLogged": true,
+    "wrongHostKeyRejected": true
+  },
+  "rollback": {
+    "fixturePort": 3012,
+    "evidence": "/opt/vidfetch-ci-validation-20261013-c6z7hbrg",
+    "tests": [
+      "real systemd restart and healthy atomic promotion",
+      "failed HTTP readiness restored previous release and service",
+      "interrupted transaction rolled back and checked",
+      "persistent file and all three releases retained"
+    ],
+    "publicDeploymentPerformed": false,
+    "resources": "MemoryCurrent=9781248\nMemoryPeak=10301440\nCPUUsageNSec=106112000",
+    "seconds": 35.539,
+    "protectedPidsUnchanged": true,
+    "publicPointerUnchanged": true,
+    "gateClosed": true,
+    "fixtureStopped": true,
+    "persistentFilesPreserved": true
+  },
+  "resources": {
+    "snapshotMiB": {
+      "ssh": 9.84,
+      "vidfetch": 15.66,
+      "vidfetch-gateway": 16.4,
+      "vidfetch-web-candidate": 63.55,
+      "vidfetch-web-preproduction-20261013": 79.04,
+      "vidfetch-caddy": 20.85
+    },
+    "availableMiB": 3238,
+    "freeDiskGiBApprox": 35
+  },
+  "proofFiles": {
+    "vps-final.json": "94bae9213818115082b58ce0a60cf5a58cc9cdc590c2a5ba5c1fb5a73965d728",
+    "vps-rollback.json": "d8acc96f4ff77c772ea4ac49e643f584fe00b2d9008e11d110ef69ec505128c7",
+    "ssh-validation.json": "a023c8dd605115972c2e0bdc2fe01b184e506ae2cc9d70c9600e940a060a1fb2",
+    "client-validation.json": "086fc4184915403909b0d08d1bf1eda0c61c73203a27ebeb1212fec05dfc78b0",
+    "public-after-cicd-v2.json": "c826e3a54576548c1ccc83ae47d5c48657fdc7e44ca8ebb40e524c19d620ac1e",
+    "linux-validation.log": "f53787675dbeb5ad4ad740adf85ac549455b39bfdfba391c023dedd85d5ad8a6",
+    "linux-build-complete.log": "671718c2e3097ffd916d366063a0a7ac3bdd9b775a66d6b8904952d3316fbba0",
+    "linux-build.log": "80f7781413869ddfa6f9b6a05e33eef98cca1263e222322e256cb4a385c56680",
+    "i18n-current-build-approved.log": "9c08cc5fcd94011bdcaa33c233cd71bac1eb6898150c5c9787d6e3561c458689",
+    "deployment-unit-complete.log": "9a1b6575880f4569512dff15a7b3ab2860bad1653a48f468a71ec2af8430b031",
+    "actionlint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

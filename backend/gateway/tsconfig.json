@@ -1,0 +1,5 @@
+{
+  "extends":"../tsconfig.json",
+  "compilerOptions":{"lib":["ES2022","DOM","DOM.Iterable"],"resolveJsonModule":true},
+  "include":["*.ts","../public-worker/*.ts","../../src/server/access-crypto.ts","../../src/server/download-access.ts","../../src/server/public-request.ts","../../src/lib/secure-client.ts"]
+}

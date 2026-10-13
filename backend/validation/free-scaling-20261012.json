@@ -1,0 +1,37 @@
+{
+  "date":"2026-10-12",
+  "branch":"work/vidfetch-secure-connection-20261012",
+  "baseCommit":"cf8cc173130f9832f2ca776c6fda563e67a6d9fb",
+  "architecture":"Funnel pilot, authenticated gateway on Pi, isolated worker; OCI/VPS deferred",
+  "activated":false,
+  "pushPerformed":false,
+  "piServiceModified":false,
+  "sudoPerformed":false,
+  "vercelSupabaseModified":false,
+  "piReadOnlyMeasurements":{
+    "architecture":"aarch64","node":"v22.22.2","backendPid":19166,"backendHealthHttp":200,"backendRestarts":0,
+    "sshPid":867,"port8787Listening":false,"port8788Binding":"127.0.0.1",
+    "backendRssMiB":55.9,"minimumAvailableMiB":587.6,"totalMiB":905.0,"swapUsedMiB":132.4,
+    "temperatureRangeC":[32.7,33.2],"observedIdleArmMHz":600,"interface":"wlan0",
+    "hasGlobalIpv6":true,"ipv6InboundTested":false,"tailscaleInstalled":false,"nodeSqliteAvailable":true,
+    "throttle":"0x50005","currentVoltageAlarm":1,
+    "finalHealthObservedUtc":"2026-10-12T10:05:45Z",
+    "operationalBundleSha256":"d370ccfb8574a2f714e86fcde6e555ddd665a846be761ffe29256a648d4a168c"
+  },
+  "uploadProbe":{"status":"BLOQUÉ","reason":"Current undervoltage and throttling","bytes":0,"maximumPlannedPayloadBytes":917504,"measuredIspMbps":null},
+  "preparedQueue":{"maxActive":1,"maxWaiting":2,"maxWaitSeconds":180,"heartbeatSeconds":20,"claimSeconds":15,"estimatedServiceSeconds":90,"estimateMeasured":false},
+  "preparedPublicLimits":{"maxFileMiB":16,"maxMediaMinutes":15,"streamKiBps":64,"operationSeconds":600,"globalAttemptsPerDay":100,"globalGiBPerDay":4},
+  "tests":{
+    "unitPassed":88,"unitFailed":0,"eslint":"VALIDÉ","typescript":"VALIDÉ",
+    "nextBuildDefaultAndSecureWithoutDatabase":"VALIDÉ","defaultHttpChrome":"VALIDÉ","nativeChrome":"VALIDÉ",
+    "realMacVideoMp3":"VALIDÉ, original short fixture, no Pi load",
+    "syntheticHttpsStages":[{"visitors":1,"completed":1,"queued":0,"rejected":0},{"visitors":2,"completed":2,"queued":1,"rejected":0},{"visitors":4,"completed":3,"queued":2,"rejected":1},{"visitors":8,"completed":3,"queued":2,"rejected":5}],
+    "maxSimultaneousSyntheticEngines":1,"syntheticMacPeakRssMiB":73.4,
+    "sourceTicketCleanupRace":"VALIDÉ",
+    "newPiEngineLoad":"BLOQUÉ",
+    "linuxPublicIsolation":"NON TESTÉ","realFunnel":"NON TESTÉ","publicPreview":"NON TESTÉ",
+    "productionCapacityValidated":false
+  },
+  "estimates":{"assumptions":"10 MiB/file, 20 seconds info/visitor, 20 seconds preparation, 64 KiB/s, 12-hour window; unmeasured averages","visitor100Conversion20WorkerHours":1.56,"visitor500Conversion20WorkerHours":7.78,"visitor3000Conversion20WorkerHours":46.67},
+  "remainingBlockers":["Current undervoltage","Unmeasured ISP and Funnel bandwidth","Unvalidated Linux namespace policy","Tailscale installation and public test require separate authorization","No universally reachable direct subdomain without authorized ingress or relay"]
+}

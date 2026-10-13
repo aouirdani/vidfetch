@@ -1,10 +1,12 @@
-import { spawn, spawnSync } from "node:child_process";
+import { spawnSync } from "node:child_process";
 import { existsSync } from "node:fs";
 import { chmod, copyFile, mkdtemp, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
+import { StringDecoder } from "node:string_decoder";
 import ffmpegStatic from "ffmpeg-static";
 import { detectPlatform, platformName, type Platform } from "./platforms";
+import { startEngineProcess } from "./engine-process";
 
 export type EngineErrorCode = "INVALID_URL" | "UNSUPPORTED_PLATFORM" | "UNAVAILABLE" | "PRIVATE" | "AUTH_REQUIRED" | "RATE_LIMITED" | "UPSTREAM_BLOCKED" | "TIMEOUT" | "ENGINE_MISSING" | "ENGINE_ERROR" | "BUSY" | "NO_VIDEO" | "EXPIRED";
 export class EngineError extends Error {
@@ -28,7 +30,9 @@ const pending = shared.__vidfetchExtractions ??= new Map();
 function binary(candidates: Array<string | null | undefined>, flag: string): { path: string; output: string } | null {
   for (const candidate of candidates) {
     if (!candidate || (candidate.includes("/") && !existsSync(candidate))) continue;
-    const result = spawnSync(candidate, [flag], { encoding: "utf8", timeout: 8000, windowsHide: true });
+    // Python zipapp startup measured >10s on Pi 3 ARM64; probe once before serving requests.
+    const timeout = process.platform === "linux" && process.arch === "arm64" ? 30000 : 8000;
+    const result = spawnSync(candidate, [flag], { encoding: "utf8", timeout, windowsHide: true });
     if (!result.error && result.status === 0) return { path: candidate, output: result.stdout.trim() };
   }
   return null;
@@ -69,6 +73,8 @@ export async function engineContext(platform: Platform): Promise<{ flags: string
     "--ignore-config", "--no-playlist", "--playlist-items", "1", "--no-progress", "--no-warnings", "--no-colors", "--no-cache-dir",
     "--socket-timeout", "20", "--retries", "3", "--extractor-retries", "2", "--fragment-retries", "3", "--js-runtimes", "node",
   ];
+  // Hosts that deliberately deny IPv6 egress must select IPv4 before connecting.
+  if (process.env.YTDLP_FORCE_IPV4 === "1") flags.push("--force-ipv4");
   if (engines().ffmpegPath) flags.push("--ffmpeg-location", engines().ffmpegPath!);
   const cookies = process.env[`YTDLP_${platform.toUpperCase()}_COOKIES`] || process.env.YTDLP_COOKIES_FILE;
   let directory: string | null = null;
@@ -89,12 +95,17 @@ export async function engineContext(platform: Platform): Promise<{ flags: string
 }
 
 /** Never follow a share-link redirect outside the same supported platform. */
-async function resolveInstagramShare(url: string): Promise<string> {
+async function resolveInstagramShare(url: string, signal?: AbortSignal): Promise<string> {
   if (!new URL(url).pathname.startsWith("/share/")) return url;
   let current = url;
   for (let i = 0; i < 5; i++) {
-    const response = await fetch(current, { redirect: "manual", signal: AbortSignal.timeout(15000), headers: { "User-Agent": "Mozilla/5.0" } });
-    await response.body?.cancel();
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(new EngineError("TIMEOUT", "The Instagram share link took too long to resolve.", 504)), 15000);
+    let response: Response;
+    try {
+      response = await fetch(current, { redirect: "manual", signal: signal ? AbortSignal.any([signal, controller.signal]) : controller.signal, headers: { "User-Agent": "Mozilla/5.0" } });
+      await response.body?.cancel();
+    } finally { clearTimeout(timer); }
     const location = response.headers.get("location");
     if (!location) break;
     const next = detectPlatform(new URL(location, current).toString());
@@ -105,25 +116,36 @@ async function resolveInstagramShare(url: string): Promise<string> {
   throw new EngineError("UNAVAILABLE", "This Instagram share link could not be resolved. Open the Reel and copy its original /reel/ or /p/ link.", 404);
 }
 
-function runMetadata(url: string, flags: string[], timeoutMs: number, platform: Platform): Promise<Record<string, unknown>> {
+function runMetadata(url: string, flags: string[], timeoutMs: number, platform: Platform, options: { signal?: AbortSignal; maxMetadataBytes?: number } = {}): Promise<Record<string, unknown>> {
   return new Promise((resolve, reject) => {
-    const child = spawn(ytDlpBinary(), [...flags, "--dump-json", "--skip-download", "--", url], { windowsHide: true, stdio: ["ignore", "pipe", "pipe"] });
-    let stdout = "", stderr = "", settled = false;
+    options.signal?.throwIfAborted();
+    const process = startEngineProcess(ytDlpBinary(), [...flags, "--dump-json", "--skip-download", "--", url]);
+    const child = process.child;
+    child.stdin.end();
+    let stdout = "", settled = false, size = 0;
+    const decoder = new StringDecoder("utf8");
     const finish = (error?: EngineError, raw?: Record<string, unknown>) => {
       if (settled) return;
       settled = true;
       clearTimeout(timer);
-      if (error) { child.kill("SIGKILL"); reject(error); } else resolve(raw!);
+      options.signal?.removeEventListener("abort", abort);
+      if (error) { process.stop(); void process.completion.then(() => reject(error)); } else resolve(raw!);
     };
+    const abort = () => finish(options.signal?.reason instanceof EngineError ? options.signal.reason : new EngineError("TIMEOUT", "The media request was cancelled.", 504));
     const timer = setTimeout(() => finish(new EngineError("TIMEOUT", `${platformName(platform)} is taking too long to respond. Please try again.`, 504)), timeoutMs);
+    options.signal?.addEventListener("abort", abort, { once: true });
+    if (options.signal?.aborted) abort();
     child.stdout.on("data", (chunk: Buffer) => {
-      stdout += chunk.toString("utf8");
-      if (stdout.length > 12 * 1024 * 1024) finish(new EngineError("ENGINE_ERROR", "The source returned too much metadata for a single video.", 502));
+      if (settled) return;
+      size += chunk.length;
+      if (size > (options.maxMetadataBytes ?? 12 * 1024 * 1024)) return finish(new EngineError("ENGINE_ERROR", "The source returned too much metadata for a single video.", 502));
+      stdout += decoder.write(chunk);
     });
-    child.stderr.on("data", (chunk: Buffer) => { stderr = (stderr + chunk.toString("utf8")).slice(-12000); });
     child.on("error", (error) => finish(new EngineError("ENGINE_ERROR", "The download engine could not start.", 503, error.message)));
-    child.on("close", (code) => {
+    void process.completion.then(({code, stderr}) => {
+      if (settled) return;
       if (code !== 0) return finish(classifyEngineFailure(code, stderr, platform));
+      stdout += decoder.end();
       try {
         const records = stdout.trim().split("\n").filter(Boolean).map((line) => JSON.parse(line) as Record<string, unknown>);
         const raw = records.find((item) => (Array.isArray(item.formats) && item.formats.length > 0) || typeof item.url === "string");
@@ -135,10 +157,20 @@ function runMetadata(url: string, flags: string[], timeoutMs: number, platform: 
 }
 
 /** Bounded five-minute metadata cache avoids three separate upstream extractions per download. */
-export async function dumpJson(input: string, timeoutMs = 75000): Promise<DumpResult> {
+export async function dumpJson(input: string, timeoutMs = 75000, options: { signal?: AbortSignal; cache?: boolean; maxMetadataBytes?: number } = {}): Promise<DumpResult> {
   const detection = detectPlatform(input);
   if (!detection.ok || !detection.platform) throw new EngineError("INVALID_URL", "Paste a valid YouTube, TikTok, Instagram or X video link.", 400);
   const url = detection.url, platform = detection.platform;
+  options.signal?.throwIfAborted();
+  // The standalone backend owns its requests and avoids retaining large raw metadata.
+  if (options.cache === false) {
+    const context = await engineContext(platform);
+    try {
+      const resolved = platform === "instagram" ? await resolveInstagramShare(url, options.signal) : url;
+      const raw = await runMetadata(resolved, context.flags, timeoutMs, platform, options);
+      return { raw, ytDlpVersion: engines().version };
+    } finally { await context.cleanup(); }
+  }
   const cached = cache.get(url);
   if (cached && cached.expires > Date.now()) return cached.value;
   cache.delete(url);
@@ -213,4 +245,11 @@ export function buildDownloadPlan(options: {
   return { args, ext, contentType: types[ext] ?? "application/octet-stream", convertToMp3, merged };
 }
 
-export function isEngineError(error: unknown): error is EngineError { return error instanceof EngineError; }
+export function isEngineError(error: unknown): error is EngineError {
+  if (error instanceof EngineError) return true;
+  if (!(error instanceof Error)) return false;
+  const candidate = error as Error & { status?: unknown; code?: unknown };
+  return typeof candidate.status === "number" && Number.isInteger(candidate.status)
+    && candidate.status >= 400 && candidate.status <= 599
+    && typeof candidate.code === "string" && /^[A-Z][A-Z0-9_]{0,63}$/.test(candidate.code);
+}

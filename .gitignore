@@ -1,9 +1,18 @@
 node_modules/
+node_modules.local-backup/
 .next/
+.vercel/
+out/
 .media-bin/
 .env
 .env.local
 .env.*.local
+.env.*
+!.env.example
+*.bak
+*.before-*
+*-backup
+next-env.d.ts
 *.tsbuildinfo
 *.log
 cookies*.txt
@@ -12,3 +21,9 @@ coverage/
 playwright-report/
 test-results/
 .DS_Store
+
+# Also ignore a local dependency symlink used by isolated worktrees.
+/node_modules
+
+# Python deployment checks use temporary bytecode only.
+__pycache__/

@@ -1,0 +1,45 @@
+{
+  "validatedAt": "2026-10-11T22:46:54.764015+00:00",
+  "baseCommit": "d2c4340082fb9b4110ffeda2aba3420f9868d602",
+  "branch": "release/vidfetch-vercel-20261011",
+  "buildDefault": {
+    "passed": true,
+    "DATABASE_URL": "absent",
+    "envFiles": "absent",
+    "VercelFlags": "absent",
+    "explicitTarget": "absent"
+  },
+  "buildNodeWithoutDatabase": true,
+  "typecheckFrontend": true,
+  "typecheckBackend": true,
+  "eslint": true,
+  "unitTests": {
+    "passed": 73,
+    "failed": 0
+  },
+  "backendTests": {
+    "passed": 17,
+    "failed": 0
+  },
+  "httpAndBrowserChecks": [
+    "health 200: frontend available, downloads unavailable, no database or engines",
+    "seven extraction/download requests return explicit JSON 503 before input processing",
+    "eight concurrent requests remain unavailable without engine work",
+    "HTTP methods: three 405 responses and automatic HEAD 200",
+    "six SEO pages, five public assets, unavailable notice, 404 and no stats exposure",
+    "all three API dependency traces exclude video engines and PostgreSQL",
+    "real browser: disabled controls, share link, mobile layout, SEO, no API requests or runtime errors"
+  ],
+  "temporaryServerStopped": true,
+  "databaseInitialization": "lazy, credentials required only on genuine access",
+  "databaseOperationsPreserved": true,
+  "newDatabaseConnections": false,
+  "piChanges": false,
+  "piBundleSha256": "d370ccfb8574a2f714e86fcde6e555ddd665a846be761ffe29256a648d4a168c",
+  "deliveryStatus": "validated-for-authorized-push",
+  "notTested": [
+    "New remote Vercel build",
+    "Real Supabase/PostgreSQL queries",
+    "Docker runtime"
+  ]
+}

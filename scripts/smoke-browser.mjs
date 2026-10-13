@@ -59,7 +59,7 @@ try {
   for (const slug of ["tiktok-video-downloader", "instagram-reels-downloader"]) {
     await page.goto(`${base}/${slug}`, { waitUntil: "networkidle" });
     assert.equal(await page.locator("h1").count(), 1);
-    assert.equal(await page.locator('link[rel="canonical"]').getAttribute("href"), `https://vidfetch.io/${slug}`);
+    assert.equal(await page.locator('link[rel="canonical"]').getAttribute("href"), `https://vidfetch.app/${slug}`);
     assert.ok(await page.locator('script[type="application/ld+json"]').count() >= 1);
     assert.ok(await page.getByRole("navigation", { name: "Breadcrumb" }).isVisible());
     assert.ok(await page.getByRole("textbox", { name: "Video link", exact: true }).isVisible());

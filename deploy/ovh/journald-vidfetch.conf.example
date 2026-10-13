@@ -1,0 +1,8 @@
+# Optional future /etc/systemd/journald@vidfetch.conf; do not change global journald.
+# Requires adding LogNamespace=vidfetch to approved VidFetch units.
+[Journal]
+Storage=persistent
+SystemMaxUse=100M
+MaxRetentionSec=14day
+RateLimitIntervalSec=30s
+RateLimitBurst=200

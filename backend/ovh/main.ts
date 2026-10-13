@@ -1,0 +1,10 @@
+import { createBackend } from "../server";
+import { engineStatus } from "../../src/lib/engine";
+import { verifyUidIsolation } from "./isolation";
+const profile=process.env.VIDFETCH_ISOLATION_PROFILE;
+if(process.env.VIDFETCH_OVH_WORKER_ENABLED!=="1"||!profile)throw Error("OVH worker activation disabled");
+verifyUidIsolation(profile);
+const app=createBackend({engine:{engineStatus:()=>({...engineStatus(),isolationProfile:verifyUidIsolation(profile)})}});
+app.server.listen(8788,"127.0.0.1",()=>console.log("[vidfetch] OVH worker listening on loopback"));
+app.server.on("error",()=>{console.error("[vidfetch] OVH listener failed");process.exitCode=1;void app.shutdown();});
+for(const signal of ["SIGTERM","SIGINT"] as const)process.once(signal,()=>void app.shutdown());

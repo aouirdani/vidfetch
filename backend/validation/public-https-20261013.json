@@ -1,0 +1,571 @@
+{
+  "schema": 1,
+  "verifiedAtUtc": "2026-10-13T09:01:41.339277+00:00",
+  "branch": "work/vidfetch-public-https-test-20261013",
+  "baseCommit": "80bc04b57306c2266b301c982b41f6441e13f974",
+  "applicationRelease": "689c592141287a1ca1e45569a89e5d76f18133ed",
+  "publicTestActive": true,
+  "downloadsEnabled": false,
+  "publicIndexingEnabled": false,
+  "publicTests": {
+    "testedAt": "2026-10-13T08:50:20.502Z",
+    "certificates": [
+      {
+        "host": "vidfetch.app",
+        "authorized": true,
+        "protocol": "TLSv1.3",
+        "subject": {
+          "CN": "vidfetch.app"
+        },
+        "issuer": {
+          "C": "US",
+          "O": "Let's Encrypt",
+          "CN": "YE1"
+        },
+        "validFrom": "Oct 11 15:28:56 2026 GMT",
+        "validTo": "Jan  9 15:28:55 2027 GMT",
+        "fingerprint256": "2D:C0:B2:13:E4:79:C9:BD:F9:8B:22:8F:10:52:FA:B2:78:77:D2:B6:13:90:5B:F2:EE:68:D5:31:7F:25:AB:C4"
+      },
+      {
+        "host": "www.vidfetch.app",
+        "authorized": true,
+        "protocol": "TLSv1.3",
+        "subject": {
+          "CN": "vidfetch.app"
+        },
+        "issuer": {
+          "C": "US",
+          "O": "Let's Encrypt",
+          "CN": "YE1"
+        },
+        "validFrom": "Oct 11 15:28:56 2026 GMT",
+        "validTo": "Jan  9 15:28:55 2027 GMT",
+        "fingerprint256": "2D:C0:B2:13:E4:79:C9:BD:F9:8B:22:8F:10:52:FA:B2:78:77:D2:B6:13:90:5B:F2:EE:68:D5:31:7F:25:AB:C4"
+      }
+    ],
+    "protection": [
+      {
+        "path": "/",
+        "anonymous": 401
+      },
+      {
+        "path": "/fr/",
+        "anonymous": 401
+      },
+      {
+        "path": "/es/",
+        "anonymous": 401
+      },
+      {
+        "path": "/pt/",
+        "anonymous": 401
+      },
+      {
+        "path": "/id/",
+        "anonymous": 401
+      },
+      {
+        "path": "/de/",
+        "anonymous": 401
+      },
+      {
+        "path": "/it/",
+        "anonymous": 401
+      },
+      {
+        "path": "/ar/",
+        "anonymous": 401
+      },
+      {
+        "path": "/api/health",
+        "anonymous": 401
+      },
+      {
+        "path": "/blog",
+        "anonymous": 401
+      },
+      {
+        "path": "/favicon.ico",
+        "anonymous": 401
+      },
+      {
+        "wrongPassword": 401
+      }
+    ],
+    "locales": [
+      {
+        "locale": "en",
+        "path": "/",
+        "status": 200,
+        "SSR": true,
+        "canonical": true,
+        "reciprocalHreflang": true,
+        "mobile": true,
+        "selector": true,
+        "localizedUnavailable": true,
+        "localized404": true,
+        "rtl": false,
+        "noindex": true,
+        "privateNoStore": true
+      },
+      {
+        "locale": "fr",
+        "path": "/fr/",
+        "status": 200,
+        "SSR": true,
+        "canonical": true,
+        "reciprocalHreflang": true,
+        "mobile": true,
+        "selector": true,
+        "localizedUnavailable": true,
+        "localized404": true,
+        "rtl": false,
+        "noindex": true,
+        "privateNoStore": true
+      },
+      {
+        "locale": "es",
+        "path": "/es/",
+        "status": 200,
+        "SSR": true,
+        "canonical": true,
+        "reciprocalHreflang": true,
+        "mobile": true,
+        "selector": true,
+        "localizedUnavailable": true,
+        "localized404": true,
+        "rtl": false,
+        "noindex": true,
+        "privateNoStore": true
+      },
+      {
+        "locale": "pt-BR",
+        "path": "/pt/",
+        "status": 200,
+        "SSR": true,
+        "canonical": true,
+        "reciprocalHreflang": true,
+        "mobile": true,
+        "selector": true,
+        "localizedUnavailable": true,
+        "localized404": true,
+        "rtl": false,
+        "noindex": true,
+        "privateNoStore": true
+      },
+      {
+        "locale": "id",
+        "path": "/id/",
+        "status": 200,
+        "SSR": true,
+        "canonical": true,
+        "reciprocalHreflang": true,
+        "mobile": true,
+        "selector": true,
+        "localizedUnavailable": true,
+        "localized404": true,
+        "rtl": false,
+        "noindex": true,
+        "privateNoStore": true
+      },
+      {
+        "locale": "de",
+        "path": "/de/",
+        "status": 200,
+        "SSR": true,
+        "canonical": true,
+        "reciprocalHreflang": true,
+        "mobile": true,
+        "selector": true,
+        "localizedUnavailable": true,
+        "localized404": true,
+        "rtl": false,
+        "noindex": true,
+        "privateNoStore": true
+      },
+      {
+        "locale": "it",
+        "path": "/it/",
+        "status": 200,
+        "SSR": true,
+        "canonical": true,
+        "reciprocalHreflang": true,
+        "mobile": true,
+        "selector": true,
+        "localizedUnavailable": true,
+        "localized404": true,
+        "rtl": false,
+        "noindex": true,
+        "privateNoStore": true
+      },
+      {
+        "locale": "ar",
+        "path": "/ar/",
+        "status": 200,
+        "SSR": true,
+        "canonical": true,
+        "reciprocalHreflang": true,
+        "mobile": true,
+        "selector": true,
+        "localizedUnavailable": true,
+        "localized404": true,
+        "rtl": true,
+        "noindex": true,
+        "privateNoStore": true
+      }
+    ],
+    "redirects": [
+      {
+        "url": "http://vidfetch.app/fr/?probe=1",
+        "status": 308,
+        "location": "https://vidfetch.app/fr/?probe=1"
+      },
+      {
+        "url": "http://www.vidfetch.app/fr/?probe=1",
+        "status": 308,
+        "location": "https://www.vidfetch.app/fr/?probe=1"
+      },
+      {
+        "url": "https://www.vidfetch.app/ar/?probe=1",
+        "status": 301,
+        "location": "https://vidfetch.app/ar/?probe=1"
+      }
+    ],
+    "media": [
+      {
+        "path": "/api/fetch-info",
+        "method": "GET",
+        "status": 503
+      },
+      {
+        "path": "/api/fetch-info",
+        "method": "POST",
+        "status": 503
+      },
+      {
+        "path": "/api/download",
+        "method": "GET",
+        "status": 503
+      },
+      {
+        "path": "/api/download",
+        "method": "POST",
+        "status": 503
+      },
+      {
+        "path": "/api/queue",
+        "method": "GET",
+        "status": 503
+      },
+      {
+        "path": "/api/queue",
+        "method": "POST",
+        "status": 503
+      },
+      {
+        "path": "/api/download-access",
+        "method": "GET",
+        "status": 503
+      },
+      {
+        "path": "/api/download-access",
+        "method": "POST",
+        "status": 503
+      },
+      {
+        "path": "/auth/transfer",
+        "method": "GET",
+        "status": 503
+      },
+      {
+        "path": "/auth/transfer",
+        "method": "POST",
+        "status": 503
+      },
+      {
+        "path": "/download-helper",
+        "method": "GET",
+        "status": 503
+      },
+      {
+        "path": "/download-helper",
+        "method": "POST",
+        "status": 503
+      }
+    ],
+    "browserErrors": [],
+    "release": "689c592141287a1ca1e45569a89e5d76f18133ed",
+    "ok": true,
+    "completedAt": "2026-10-13T08:50:59.357Z"
+  },
+  "originTLS": [
+    {
+      "host": "vidfetch.app",
+      "chainAndHostnameVerified": true,
+      "protocol": "TLSv1.3",
+      "certificate": {
+        "subject": [
+          [
+            [
+              "commonName",
+              "vidfetch.app"
+            ]
+          ]
+        ],
+        "issuer": [
+          [
+            [
+              "countryName",
+              "US"
+            ]
+          ],
+          [
+            [
+              "organizationName",
+              "Let's Encrypt"
+            ]
+          ],
+          [
+            [
+              "commonName",
+              "YE1"
+            ]
+          ]
+        ],
+        "version": 3,
+        "serialNumber": "05D4D625196450347A3CD13A95BA6A5B4CD7",
+        "notBefore": "Oct 13 07:41:18 2026 GMT",
+        "notAfter": "Jan 11 07:41:17 2027 GMT",
+        "subjectAltName": [
+          [
+            "DNS",
+            "vidfetch.app"
+          ]
+        ],
+        "caIssuers": [
+          "http://ye1.i.lencr.org/"
+        ],
+        "crlDistributionPoints": [
+          "http://ye1.c.lencr.org/88.crl"
+        ]
+      }
+    },
+    {
+      "host": "www.vidfetch.app",
+      "chainAndHostnameVerified": true,
+      "protocol": "TLSv1.3",
+      "certificate": {
+        "subject": [
+          [
+            [
+              "commonName",
+              "www.vidfetch.app"
+            ]
+          ]
+        ],
+        "issuer": [
+          [
+            [
+              "countryName",
+              "US"
+            ]
+          ],
+          [
+            [
+              "organizationName",
+              "Let's Encrypt"
+            ]
+          ],
+          [
+            [
+              "commonName",
+              "YE2"
+            ]
+          ]
+        ],
+        "version": 3,
+        "serialNumber": "050A9A48B563A8A9C5F1FC74F82F405CF2A2",
+        "notBefore": "Oct 13 07:41:19 2026 GMT",
+        "notAfter": "Jan 11 07:41:18 2027 GMT",
+        "subjectAltName": [
+          [
+            "DNS",
+            "www.vidfetch.app"
+          ]
+        ],
+        "caIssuers": [
+          "http://ye2.i.lencr.org/"
+        ],
+        "crlDistributionPoints": [
+          "http://ye2.c.lencr.org/35.crl"
+        ]
+      }
+    }
+  ],
+  "resources": {
+    "startedAt": "2026-10-13T08:49:43.453630+00:00",
+    "seconds": 90.009,
+    "samples": 359,
+    "maximumCombinedBytes": 101924864,
+    "memoryPeaksBytes": {
+      "vidfetch-web-preproduction-20261013.service": 78041088,
+      "vidfetch-caddy.service": 24477696
+    },
+    "maximumOneCoreCPUPercent": {
+      "vidfetch-web-preproduction-20261013.service": 63.42495448346022,
+      "vidfetch-caddy.service": 8.403662369033906
+    },
+    "cpuSeconds": {
+      "vidfetch-web-preproduction-20261013.service": 4.406432,
+      "vidfetch-caddy.service": 0.644483
+    }
+  },
+  "samplingCoversCompletePublicTest": true,
+  "publicPortChecks": [
+    {
+      "port": 80,
+      "directAccess": "blocked",
+      "reason": "ConnectionRefusedError"
+    },
+    {
+      "port": 443,
+      "directAccess": "blocked",
+      "reason": "ConnectionRefusedError"
+    },
+    {
+      "port": 3000,
+      "directAccess": "blocked",
+      "reason": "ConnectionRefusedError"
+    },
+    {
+      "port": 3001,
+      "directAccess": "blocked",
+      "reason": "ConnectionRefusedError"
+    },
+    {
+      "port": 8788,
+      "directAccess": "blocked",
+      "reason": "ConnectionRefusedError"
+    },
+    {
+      "port": 8789,
+      "directAccess": "blocked",
+      "reason": "ConnectionRefusedError"
+    },
+    {
+      "port": 5355,
+      "directAccess": "blocked",
+      "reason": "TimeoutError"
+    }
+  ],
+  "preservation": {
+    "protectedPidsUnchanged": true,
+    "originalFileHashesUnchanged": true,
+    "originalFrontendPointerUnchanged": true,
+    "existingNftRulesUnchanged": true
+  },
+  "services": {
+    "ssh.service": {
+      "MainPID": "869",
+      "NRestarts": "0",
+      "MemoryCurrent": "7192576",
+      "MemoryPeak": "34455552",
+      "CPUUsageNSec": "241152268000",
+      "ActiveState": "active",
+      "UnitFileState": "enabled"
+    },
+    "vidfetch.service": {
+      "MainPID": "9270",
+      "NRestarts": "1",
+      "MemoryCurrent": "16183296",
+      "MemoryPeak": "52596736",
+      "CPUUsageNSec": "1590353000",
+      "ActiveState": "active",
+      "UnitFileState": "enabled"
+    },
+    "vidfetch-gateway.service": {
+      "MainPID": "9271",
+      "NRestarts": "0",
+      "MemoryCurrent": "17121280",
+      "MemoryPeak": "19165184",
+      "CPUUsageNSec": "1089526000",
+      "ActiveState": "active",
+      "UnitFileState": "enabled"
+    },
+    "vidfetch-web-candidate.service": {
+      "MainPID": "12561",
+      "NRestarts": "0",
+      "MemoryCurrent": "66834432",
+      "MemoryPeak": "71319552",
+      "CPUUsageNSec": "2984463000",
+      "ActiveState": "active",
+      "UnitFileState": "disabled"
+    },
+    "vidfetch-web-preproduction-20261013.service": {
+      "MainPID": "25013",
+      "NRestarts": "0",
+      "MemoryCurrent": "71241728",
+      "MemoryPeak": "80420864",
+      "CPUUsageNSec": "5800391000",
+      "ActiveState": "active",
+      "UnitFileState": "enabled"
+    },
+    "vidfetch-caddy.service": {
+      "MainPID": "39987",
+      "NRestarts": "0",
+      "MemoryCurrent": "14807040",
+      "MemoryPeak": "16211968",
+      "CPUUsageNSec": "98895000",
+      "ActiveState": "active",
+      "UnitFileState": "enabled"
+    },
+    "vidfetch-https-test-ingress.service": {
+      "MainPID": "0",
+      "NRestarts": "0",
+      "MemoryCurrent": "[not set]",
+      "MemoryPeak": "7995392",
+      "CPUUsageNSec": "97123000",
+      "ActiveState": "active",
+      "UnitFileState": "enabled"
+    }
+  },
+  "journal": {
+    "entries": 134,
+    "userOrHashDetected": false,
+    "certificateObtained": 2,
+    "renewalMaintenanceStarted": true,
+    "publicRenewalPerformed": false
+  },
+  "memoryAfter": "total        used        free      shared  buff/cache   available\nMem:            3826         572        1152           0        2365        3253\nSwap:              0           0           0",
+  "diskAfter": "Filesystem      Size  Used Avail Use% Mounted on\n/dev/sda1        40G  2.7G   35G   8% /",
+  "noEngineChildren": true,
+  "ciRootGatePresent": false,
+  "githubAudit": {
+    "repositorySecrets": [],
+    "repositoryVariables": [],
+    "ProductionEnvironmentSecrets": [],
+    "workflowTriggered": false
+  },
+  "strictModeInCloudflareDashboard": "BLOQUÉ: awaiting manual confirmation, not inspected or changed",
+  "renewalPerformed": false,
+  "rebootTested": false,
+  "fullFinalRollbackTested": false,
+  "firewallSafetyRollbackTested": true,
+  "caddyRestartTested": true,
+  "afterRestartHTTP": {
+    "frontendAnonymous": 401,
+    "www": 301,
+    "media": 503
+  },
+  "credentials": "Private local file mode 0600, excluded from Git; no value included",
+  "proofSha256": {
+    "vps-before.json": "6b91924ae01992b7d8c87197f0d39f4b7ce39e10918451469fa3673743a07e3a",
+    "vps-final.json": "3d41db1c1e975dbd4d2b1f7f384abf3d2ad221a63e05301dc40d40a378015ff9",
+    "vps-first-https-audit.json": "0b647e91a2344c5743f27d5a359fdfcbaa1ced374802ebf3abe6bcdf01012b10",
+    "public-tests.json": "2e817bf2cd619756a079308003af0e60b4e6602ba08df31726bb444a5158868b",
+    "public-tests-v2.json": "6d859ece103977bddd8190db976047656e2d5e683399a3e64c4a965d1aad17c8",
+    "resources-public-tests.json": "65322dd13af7ea1c6d650b0fb0ecc2caf6328b774c2b1a8162852ba9ef3491cd",
+    "public-ports.json": "3f55dba8600c04fa5ab7002e3b6b1f5f20ef7b6a8e7315f9f6cb95ea16483328",
+    "http01-reachability.txt": "4b2420a6ee9d299b560378b0528472a9fe830b9690d290cd8166e9014a8de312"
+  }
+}

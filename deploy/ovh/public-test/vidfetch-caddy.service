@@ -1,0 +1,48 @@
+# Authorized Phase 5, protected frontend only.
+[Unit]
+Description=VidFetch HTTPS reverse proxy
+After=network-online.target vidfetch-web-preproduction-20261013.service vidfetch-https-test-ingress.service
+Requires=vidfetch-web-preproduction-20261013.service vidfetch-https-test-ingress.service
+BindsTo=vidfetch-https-test-ingress.service
+Wants=network-online.target
+
+[Service]
+Type=notify
+User=vidfetch-proxy
+Group=vidfetch-proxy
+Environment=XDG_DATA_HOME=/var/lib/vidfetch-proxy
+Environment=XDG_CONFIG_HOME=/var/lib/vidfetch-proxy
+ExecStart=/opt/vidfetch/tools/caddy-2.11.7/caddy run --config /etc/vidfetch/public-https-test/current --adapter caddyfile
+ExecReload=/opt/vidfetch/tools/caddy-2.11.7/caddy reload --address unix//run/vidfetch-caddy/admin.sock --config /etc/vidfetch/public-https-test/current --adapter caddyfile
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+RuntimeDirectory=vidfetch-caddy
+RuntimeDirectoryMode=0700
+StateDirectory=vidfetch-proxy
+StateDirectoryMode=0700
+UMask=0077
+NoNewPrivileges=true
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictRealtime=true
+LockPersonality=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+MemoryMax=192M
+CPUQuota=50%
+TasksMax=64
+LimitNOFILE=4096
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

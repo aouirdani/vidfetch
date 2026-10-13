@@ -1,0 +1,2 @@
+# Validate with visudo -cf before installation. No shell, systemctl or apt permission.
+vidfetch-deploy ALL=(root) NOPASSWD: /usr/local/libexec/vidfetch-promote

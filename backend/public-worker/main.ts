@@ -1,0 +1,12 @@
+import { createBackend } from "../server";
+import { engineStatus } from "../../src/lib/engine";
+import { verifyIsolationProfile } from "./isolation";
+const profile = process.env.VIDFETCH_ISOLATION_PROFILE;
+if (!profile || process.env.VIDFETCH_PUBLIC_WORKER_ENABLED !== "1") throw new Error("Public worker activation disabled");
+verifyIsolationProfile(profile);
+const megabytes=process.env.VIDFETCH_PUBLIC_MAX_MIB??"16",duration=process.env.VIDFETCH_PUBLIC_MAX_MINUTES??"15";
+if(!/^\d+$/.test(megabytes)||Number(megabytes)<1||Number(megabytes)>256||!/^\d+$/.test(duration)||Number(duration)<1||Number(duration)>30)throw Error("Invalid public worker limits");
+const app=createBackend({limits:{maxBytes:Number(megabytes)*1024**2,maxDuration:Number(duration)*60},engine:{engineStatus:()=>({...engineStatus(),isolationProfile:verifyIsolationProfile(profile)})}});
+app.server.listen(8788,"127.0.0.1");
+app.server.on("error",()=>{console.error("[vidfetch] isolated worker listener failed");process.exitCode=1;void app.shutdown();});
+for(const signal of ["SIGTERM","SIGINT"] as const)process.once(signal,()=>void app.shutdown());

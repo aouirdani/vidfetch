@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-12",
+  "branch": "work/vidfetch-secure-connection-20261012",
+  "baseCommit": "cf8cc173130f9832f2ca776c6fda563e67a6d9fb",
+  "deploymentPerformed": false,
+  "piModified": false,
+  "vercelModified": false,
+  "supabaseModified": false,
+  "githubPushPerformed": false,
+  "provider": "OCI Always Free candidate; account capacity and applicable conditions not yet validated",
+  "tests": {
+    "eslint": "VALIDÉ",
+    "typescriptFrontend": "VALIDÉ",
+    "typescriptBackend": "VALIDÉ",
+    "typescriptGatewayWorker": "VALIDÉ",
+    "nextBuildDefaultWithoutDatabaseOrEnvFiles": "VALIDÉ",
+    "nextBuildSecureWithoutDatabaseOrEnvFiles": "VALIDÉ",
+    "defaultHttpAndChrome": "VALIDÉ",
+    "unit": {"passed":80,"failed":0},
+    "backend": {"passed":17,"failed":0},
+    "httpsGatewaySecurity": "VALIDÉ, simulated backend and local trusted test CA",
+    "chromeNativeAttachment": {"status":"VALIDÉ","bytes":128000,"challenge":"simulated"},
+    "realEnginesLocalHttps": {
+      "media":"original generated two-second fixture; injected metadata only in test dependencies",
+      "video":{"bytes":49786,"status":"completed","sha256":"60783ec356863471e76672e2b5833b0542cf33cd7f7a2c0dcf6c7308845a7fb9"},
+      "mp3":{"bytes":49676,"status":"completed","sha256":"a3adbd8e0424f75136c12e093af728b28842fe9191c83bb6196c290aec3150c6"},
+      "fullDecode":"VALIDÉ",
+      "emptyMp3Rejected":"VALIDÉ"
+    },
+    "nodeCheckGatewayAndWorker":"VALIDÉ on Mac Node 22",
+    "linuxNamespaceEgressRules":"NON TESTÉ",
+    "futureSystemdUnits":"NON TESTÉ",
+    "realTurnstileAccount":"NON TESTÉ",
+    "realReverseSshPublicCertificate":"NON TESTÉ",
+    "publicVercelRelayPiBrowser":"NON TESTÉ",
+    "publicActivation":"BLOQUÉ before Linux isolation, provider and end-to-end validation"
+  },
+  "observedFailuresFixed":[
+    "MP3 output contained only ID3 metadata with ffmpeg exit 0; abort_on empty_output added to future source",
+    "Browser fetch illegal invocation; default fetch callbacks wrapped",
+    "Gateway TypeScript DOM.Iterable missing",
+    "Private IPv6 hostname normalization in control endpoint validation"
+  ],
+  "remainingLimits":[
+    "Non-streamable MP4 sources may be refused for MP3; no whole-file RAM fallback",
+    "Current Pi bundle does not yet receive the new empty-MP3 guard",
+    "Anonymous visitor authorization is not a Supabase personal identity",
+    "Root-owned isolation profile is an administrative attestation, not an automatic firewall audit",
+    "No new Pi RAM/CPU measurement for SSH/proxy/namespace architecture"
+  ],
+  "unchangedOperationalPiBundleSha256":"d370ccfb8574a2f714e86fcde6e555ddd665a846be761ffe29256a648d4a168c"
+}

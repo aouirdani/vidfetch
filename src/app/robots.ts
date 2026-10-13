@@ -10,7 +10,7 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: "*",
         allow: "/",
         // API routes return per-request media and JSON: never useful in an index.
-        disallow: ["/api/"],
+        disallow: ["/api/", "/auth/", "/download-helper", "/test/", "/staging/"],
       },
     ],
     sitemap: `${SITE.url}/sitemap.xml`,

@@ -1,5 +1,6 @@
 import { buildFormatMenu, formatDuration, normaliseFormat, type MediaFormat, type MediaInfo } from "./media";
 import { extractPlatformId, type Platform } from "./platforms";
+import { EngineError } from "./engine";
 
 type RawInfo = Record<string, unknown>;
 const str = (v: unknown): string | null => typeof v === "string" && v.trim() ? v.trim() : null;
@@ -24,7 +25,7 @@ export function toMediaInfo({ raw, platform, url, ffmpeg = false }: {
   const formats: MediaFormat[] = entries
     .filter((entry): entry is RawInfo => Boolean(entry) && typeof entry === "object")
     .map(normaliseFormat).filter((f): f is MediaFormat => f !== null);
-  if (!formats.length) throw new Error("This post has no downloadable video or audio. Photo-only posts are not supported.");
+  if (!formats.length) throw new EngineError("NO_VIDEO", "This post has no downloadable video or audio. Photo-only posts are not supported.", 404);
   const id = str(raw.id) ?? extractPlatformId(platform, url);
   const duration = num(raw.duration);
   const { videoFormats, audioFormats } = buildFormatMenu(formats, ffmpeg);

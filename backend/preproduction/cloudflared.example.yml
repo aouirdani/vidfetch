@@ -1,0 +1,18 @@
+# DESIGN ONLY: placeholders, no credentials, no public deployment authorized.
+# Requires the authenticated local gateway described in ACCESS-ARCHITECTURE.md.
+# Public media routes require an appropriate Cloudflare service/plan; not a free-media recommendation.
+tunnel: REPLACE_WITH_TUNNEL_UUID
+credentials-file: /etc/vidfetch/REPLACE_WITH_PRIVATE_CREDENTIALS.json
+ingress:
+  - hostname: download.example.net
+    service: http://127.0.0.1:8789
+    originRequest:
+      httpHostHeader: download.example.net
+      connectTimeout: 10s
+      disableChunkedEncoding: false
+      access:
+        required: true
+        teamName: REPLACE_WITH_ACCESS_TEAM
+        audTag:
+          - REPLACE_WITH_ACCESS_AUDIENCE
+  - service: http_status:404

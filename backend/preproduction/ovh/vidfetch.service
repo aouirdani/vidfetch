@@ -1,0 +1,53 @@
+[Unit]
+Description=VidFetch isolated video engine (OVH, loopback only)
+After=network-online.target vidfetch-egress.service
+Wants=network-online.target
+Requires=vidfetch-egress.service
+BindsTo=vidfetch-egress.service
+StartLimitIntervalSec=300
+StartLimitBurst=3
+
+[Service]
+Type=simple
+User=vidfetch-worker
+Group=vidfetch-worker
+WorkingDirectory=/var/lib/vidfetch-worker
+EnvironmentFile=/etc/vidfetch/worker.env
+ExecStart=/opt/vidfetch/tools/node-v22.23.3-linux-x64/bin/node --max-old-space-size=192 /opt/vidfetch/releases/ovh-20261012-rnllrb69-ipv4/vidfetch-ovh.cjs
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=30
+KillMode=control-group
+StateDirectory=vidfetch-worker
+StateDirectoryMode=0700
+UMask=0077
+NoNewPrivileges=true
+CapabilityBoundingSet=
+AmbientCapabilities=
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+RestrictRealtime=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+BindReadOnlyPaths=/etc/vidfetch/resolv.conf:/etc/resolv.conf
+MemoryAccounting=true
+MemoryHigh=768M
+MemoryMax=1G
+MemorySwapMax=0
+CPUAccounting=true
+CPUQuota=150%
+TasksMax=128
+LimitNOFILE=1024
+Nice=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

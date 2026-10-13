@@ -1,0 +1,33 @@
+# TEMPLATE, future separate validation unit; never overwrite vidfetch.service.
+[Unit]
+Description=VidFetch isolated public worker (PREPARED ONLY)
+After=network-online.target
+[Service]
+User=vidfetch-public
+Group=vidfetch-public
+NetworkNamespacePath=/run/netns/vidfetch-egress
+EnvironmentFile=/etc/vidfetch-public/worker.env
+ExecStart=/usr/bin/node --max-old-space-size=128 /opt/vidfetch-public/worker.cjs
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectControlGroups=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+ReadOnlyPaths=/etc/vidfetch-public/isolation.json
+BindReadOnlyPaths=/etc/vidfetch-public/resolv.conf:/etc/resolv.conf
+CPUQuota=150%
+TasksMax=128
+LimitNOFILE=1024
+MemoryAccounting=no
+KillMode=control-group
+Restart=on-failure
+RestartSec=15
+TimeoutStopSec=30
+StandardOutput=journal
+StandardError=journal
+# No Install section: activation requires a separately reviewed network plan.
