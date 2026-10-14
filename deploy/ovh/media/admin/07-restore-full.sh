@@ -42,7 +42,7 @@ if [ -e "$CADDY_DROPIN_DIR" ] || [ -L "$CADDY_DROPIN_DIR" ]; then [ -d "$CADDY_D
 # whole tree back, byte for byte, owner/mode preserved (cp -a overwrites, it removes nothing)
 cp -a "$B/etc-vidfetch-tree/." "$ETC/"
 # then remove ONLY what media-test creates, one named file at a time
-for name in Caddyfile.media-test ingress.nft.media-test media-test-ips.env; do remove_one "$ETC/public-https-test" "$name"; done
+for name in Caddyfile.media-test Caddyfile.public ingress.nft.media-test media-test-ips.env; do remove_one "$ETC/public-https-test" "$name"; done
 [ "$(cat "$B/ci-profile.state")" = present ] || remove_one "$ETC" ci-media-test-profile.json
 # Caddy unit, then its drop-ins restored by name
 CADDY_UNIT_FILE="${SYSD:?}/${CADDY_UNIT:?}"

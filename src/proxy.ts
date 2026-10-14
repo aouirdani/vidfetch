@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 /** Canonical URL spelling only; no geo, cookie or automatic language negotiation. */
 export function proxy(request: NextRequest) {
-  const url = request.nextUrl.clone(), path = url.pathname;
-  if (/^\/(?:fr|es|pt|id|de|it|ar)$/.test(path)) { url.pathname += "/"; return NextResponse.redirect(url, 308); }
+  // A plain URL, not request.nextUrl: NextURL re-applies the request's own trailing-slash state when it is
+  // serialised, which turned both redirects below into a redirect to the very same URL (an endless loop).
+  const url = new URL(request.url), path = url.pathname;
+  if (/^\/(?:fr|es|pt|id|de|it|ar)$/.test(path)) { url.pathname = path + "/"; return NextResponse.redirect(url, 308); }
   if (path !== "/" && path.endsWith("/") && !/^\/(?:fr|es|pt|id|de|it|ar)\/$/.test(path)) { url.pathname = path.replace(/\/+$/, ""); return NextResponse.redirect(url, 308); }
   return NextResponse.next();
 }

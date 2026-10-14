@@ -102,6 +102,110 @@ class Profile(unittest.TestCase):
         with self.trust(), self.assertRaises(ValueError):
             p.profile()  # main() calls this first, so nothing is changed
 
+    def test_public_profile_requires_exact_root_file(self):
+        self.write(p.PUBLIC_PROFILE)
+        with self.trust():
+            self.assertEqual(p.profile(), 'public')
+        for bad in ({**p.PUBLIC_PROFILE, 'dl': 'public'}, {**p.PUBLIC_PROFILE, 'apex': 'basic-auth-noindex'},
+                    {**p.PUBLIC_PROFILE, 'downloads': 'open'}, {'profile': 'public'}):
+            self.write(bad)
+            with self.trust(), self.assertRaises(ValueError):
+                p.profile()
+        self.write(p.PUBLIC_PROFILE)
+        self.file.chmod(0o666)
+        with self.assertRaises(ValueError):
+            p.profile()
+
+    def test_public_profile_still_requires_downloads_closed(self):
+        self.write(p.PUBLIC_PROFILE)
+        with self.trust():
+            self.health(False)
+        for value in (True, None, 'false', 0):
+            with self.trust(), self.assertRaises(ValueError):
+                self.health(value)
+
+    def test_public_checks_cover_every_closed_route(self):
+        self.write(p.PUBLIC_PROFILE)
+        with self.trust():
+            checks = {(m, x): c for m, x, c in p.origin_checks()}
+        for page in ('/', '/fr/', '/robots.txt', '/sitemap.xml'):
+            self.assertEqual(checks[('GET', page)], 200)
+        for path in ('/api/download', '/api/fetch-info', '/api/queue', '/auth/transfer', '/download-helper'):
+            self.assertEqual(checks[('GET', path)], 503)
+        self.assertEqual(checks[('POST', '/api/download-access')], 503)  # ready=0: the frontend refuses grants
+        self.assertEqual(checks[('GET', '/auth/admission')], 404)
+
+    def origin(self, answers):
+        """Run origin_health() against canned answers: path -> (status, headers, body)."""
+        class Response:
+            def __init__(self, status, headers, body):
+                self.status, self.headers, self.body = status, headers, body
+            def read(self, n):
+                return self.body[:n]
+        class Conn:
+            def __init__(self, host, timeout):
+                self.sock = None
+            def request(self, method, path, body=None):
+                self.key = (method, path)
+            def getresponse(self):
+                return Response(*answers[self.key])
+            def close(self):
+                pass
+        class Ctx:
+            def wrap_socket(self, raw, server_hostname):
+                return raw
+        with patch.object(p.http.client, 'HTTPSConnection', Conn), patch.object(p.socket, 'create_connection', lambda *a, **k: None), \
+             patch.object(p.ssl, 'create_default_context', lambda: Ctx()), self.trust():
+            p.origin_health()
+
+    def public_answers(self):
+        page = b'<html><head><meta name="robots" content="index, follow"/></head></html>'
+        robots = b'User-Agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: https://vidfetch.app/sitemap.xml\n'
+        sitemap = b'<urlset><url><loc>https://vidfetch.app/</loc></url></urlset>'
+        closed = {'X-Robots-Tag': 'noindex, nofollow'}
+        answers = {('GET', '/'): (200, {}, page), ('GET', '/fr/'): (200, {}, page),
+                   ('GET', '/robots.txt'): (200, {}, robots), ('GET', '/sitemap.xml'): (200, {}, sitemap)}
+        for m, x, c in p.PUBLIC_CHECKS[len(p.PUBLIC_PAGES):]:
+            answers[(m, x)] = (c, closed, b'')
+        return answers
+
+    def test_public_origin_accepts_the_public_site(self):
+        self.write(p.PUBLIC_PROFILE)
+        with patch.object(p, 'ACTIVE', 'public'):
+            self.origin(self.public_answers())
+
+    def test_public_origin_refuses_anything_not_indexable_or_not_closed(self):
+        self.write(p.PUBLIC_PROFILE)
+        cases = {
+            'Basic Auth still on': (('GET', '/'), (401, {'WWW-Authenticate': 'Basic realm="x"', 'X-Robots-Tag': 'noindex'}, b'')),
+            'noindex header': (('GET', '/fr/'), (200, {'X-Robots-Tag': 'noindex, nofollow'}, b'<html></html>')),
+            'noindex meta': (('GET', '/'), (200, {}, b'<meta name="robots" content="noindex, follow"/>')),
+            'robots disallows all': (('GET', '/robots.txt'), (200, {}, b'User-agent: *\nDisallow: /\nSitemap: https://vidfetch.app/sitemap.xml\n')),
+            'robots without sitemap': (('GET', '/robots.txt'), (200, {}, b'User-agent: *\nAllow: /\n')),
+            'sitemap 404': (('GET', '/sitemap.xml'), (404, {}, b'')),
+            'sitemap without home': (('GET', '/sitemap.xml'), (200, {}, b'<urlset></urlset>')),
+            'media route open': (('GET', '/api/download'), (200, {'X-Robots-Tag': 'noindex'}, b'')),
+            'grant issued': (('POST', '/api/download-access'), (200, {'X-Robots-Tag': 'noindex'}, b'{}')),
+            'api without noindex': (('GET', '/api/fetch-info'), (503, {}, b'')),
+            'auth endpoint exposed': (('GET', '/auth/admission'), (200, {'X-Robots-Tag': 'noindex'}, b'')),
+        }
+        for label, (key, answer) in cases.items():
+            answers = self.public_answers(); answers[key] = answer
+            with self.subTest(label), patch.object(p, 'ACTIVE', 'public'), self.assertRaises(ValueError):
+                self.origin(answers)
+
+    def test_closed_and_media_profiles_unchanged_by_public(self):
+        self.assertEqual(p.ORIGIN_CHECKS, [('GET', '/', 401), ('GET', '/fr/', 401), ('GET', '/api/download', 503),
+                                           ('GET', '/api/fetch-info', 503), ('GET', '/sitemap.xml', 404)])
+        with patch.object(p, 'ACTIVE', 'closed'):
+            self.assertEqual(p.origin_checks(), p.ORIGIN_CHECKS)
+        with patch.object(p, 'ACTIVE', 'media-test'):
+            self.assertEqual(p.origin_checks(), p.ORIGIN_CHECKS + p.MEDIA_CHECKS)
+        # a public site is refused under the closed profile: switching Caddy alone never passes CI
+        with patch.object(p, 'ACTIVE', 'closed'), self.assertRaises(ValueError):
+            answers = {(m, x): (200, {}, b'') for m, x, c in p.ORIGIN_CHECKS}
+            self.origin(answers)
+
     def test_installer_script(self):
         script = Path(__file__).with_name('install-web-secrets.test.sh')
         prefix = [] if os.geteuid() == 0 else ['sudo', '-n']

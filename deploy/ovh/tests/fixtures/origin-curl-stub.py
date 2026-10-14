@@ -4,7 +4,8 @@ would with the configuration the pointer currently selects, so the result change
 moves the pointer.
 
 Table: $ORIGIN_TABLES/<pointer name>, one line per route: HOST METHOD PATH CODE [header|header...]
-A route missing from the table answers STATUS:000 (no HTTPS answer, e.g. no certificate for that host).
+A header written BODY=<file> is not a header: <file> (under $ORIGIN_TABLES/bodies) is the response body, printed
+when curl is not told to discard it (origin_page). A route missing from the table answers STATUS:000.
 Each call is appended to $STATE/curl.log; an insecure option (-k / --insecure) is refused outright.
 """
 import os
@@ -31,5 +32,11 @@ except FileNotFoundError:
 if not answer:
     sys.stdout.write('STATUS:000')
     sys.exit(35)
-code, headers = answer[0], (answer[1].split('|') if len(answer) > 1 else [])
-sys.stdout.write('HTTP/2 %s\r\n' % code + ''.join(h + '\r\n' for h in headers) + '\r\nSTATUS:%s' % code)
+code, fields = answer[0], (answer[1].split('|') if len(answer) > 1 else [])
+headers = [f for f in fields if not f.startswith('BODY=')]
+body = ''
+for f in fields:
+    if f.startswith('BODY=') and '-o' not in args:
+        with open(os.path.join(os.environ['ORIGIN_TABLES'], 'bodies', f[5:])) as source:
+            body = source.read()
+sys.stdout.write('HTTP/2 %s\r\n' % code + ''.join(h + '\r\n' for h in headers) + '\r\n' + body + ('\n' if body else '') + 'STATUS:%s' % code)

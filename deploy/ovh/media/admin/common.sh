@@ -148,3 +148,77 @@ dl_gated() {
   done
   return $fails
 }
+
+# ---- public launch (05-caddy.sh --public) ----------------------------------------------------------------------
+# The CI promoter reads one root-owned profile file; its content selects the profile (absent = closed).
+CI_PROFILE=${VM_PROFILE-/etc/vidfetch/ci-media-test-profile.json}
+CI_HELPER=${VM_CI_HELPER-/usr/local/libexec/vidfetch-ci/promote.py}
+MEDIA_PROFILE_JSON='{"profile":"media-test","apex":"basic-auth-noindex","dl":"testers-only"}'
+PUBLIC_PROFILE_JSON='{"profile":"public","apex":"public-indexable","dl":"testers-only"}'
+ci_profile_path() {
+  [[ "${CI_PROFILE:?CI profile path is empty}" == /*/ci-media-test-profile.json && "$CI_PROFILE" != *..* && "$CI_PROFILE" != *//* ]] || die "unexpected CI profile path: $CI_PROFILE"
+  printf '%s' "$CI_PROFILE"
+}
+# ci_profile_name: closed | media-test | public | unknown
+ci_profile_name() {
+  local p; p=$(ci_profile_path)
+  if [ ! -e "$p" ] && [ ! -L "$p" ]; then echo closed; return; fi
+  [ -f "$p" ] && [ ! -L "$p" ] || { echo unknown; return; }
+  case "$(cat "$p")" in "$MEDIA_PROFILE_JSON") echo media-test ;; "$PUBLIC_PROFILE_JSON") echo public ;; *) echo unknown ;; esac
+}
+# write_public_profile: atomic, root-owned 0644, exactly what the promoter accepts.
+write_public_profile() {
+  local p; p=$(ci_profile_path)
+  printf '%s\n' "$PUBLIC_PROFILE_JSON" > "$p.new" && chown root:root "$p.new" && chmod 0644 "$p.new" && mv -f "$p.new" "$p"
+}
+# remove_public_profile: removes the profile file only when it is exactly the public one (never a media-test one).
+remove_public_profile() {
+  local p; p=$(ci_profile_path)
+  [ "$(ci_profile_name)" = public ] || return 0
+  remove_expected_file "${p%/*}" "${p##*/}"
+}
+urldecode() { local s=${1//+/ }; printf '%b' "${s//%/\\x}"; }
+# origin_page HOST METHOD PATH: like origin(), with the body between the headers and "STATUS:<code>".
+origin_page() {
+  local host=${1:?} method=${2:?} path=${3:?} data=()
+  [ "$method" != POST ] || data=(-H 'Content-Type: application/json' --data '{}')
+  $CURL -s -m 15 -D - -w '\nSTATUS:%{http_code}' -X "$method" "${data[@]}" --resolve "$host:443:127.0.0.1" "https://$host$path" 2>/dev/null || true
+}
+# apex_public: the public apex as a search engine sees it, on the real origin (loopback, strict TLS). Prints one
+# summary line per check group, and "  ..." lines for failures; status 1 if anything is wrong.
+apex_public() {
+  local fails=0 out code locs loc path n=0 canonical spec method want
+  out=$(origin_page vidfetch.app GET /sitemap.xml); code=${out##*STATUS:}
+  if [ "$code" != 200 ]; then echo "  sitemap.xml: HTTP $code, expected 200"; return 1; fi
+  locs=$(grep -o '<loc>[^<]*</loc>' <<< "$out" | sed 's#</*loc>##g')
+  [ -n "$locs" ] || { echo "  sitemap.xml lists no URL"; return 1; }
+  while IFS= read -r loc; do
+    n=$((n+1))
+    case "$loc" in https://vidfetch.app/*) path=${loc#https://vidfetch.app} ;; *) echo "  sitemap URL outside https://vidfetch.app/: $loc"; fails=1; continue ;; esac
+    out=$(origin_page vidfetch.app GET "$path"); code=${out##*STATUS:}
+    if [ "$code" != 200 ]; then echo "  $path: HTTP $code, expected 200"; fails=1; continue; fi
+    if grep -qi '^x-robots-tag:.*noindex' <<< "$out"; then echo "  $path: X-Robots-Tag noindex"; fails=1; fi
+    if grep -qi '^www-authenticate:' <<< "$out"; then echo "  $path: asks for credentials"; fails=1; fi
+    if grep -qiE '<meta name="robots" content="[^"]*noindex' <<< "$out"; then echo "  $path: robots meta noindex"; fails=1; fi
+    canonical=$(grep -o '<link rel="canonical" href="[^"]*"' <<< "$out" | head -n1 | sed 's/.*href="//; s/"$//')
+    [ "$(urldecode "${canonical%/}")" = "$(urldecode "${loc%/}")" ] || { echo "  $path: canonical '$canonical' is not its sitemap URL"; fails=1; }
+  done <<< "$locs"
+  echo "sitemap: $n URL(s) checked: 200, no credentials, no noindex, self-canonical"
+  out=$(origin_page vidfetch.app GET /robots.txt); code=${out##*STATUS:}
+  if [ "$code" = 200 ] && grep -q '^Sitemap: https://vidfetch.app/sitemap.xml' <<< "$out" && ! grep -qiE '^Disallow: */[[:space:]]*$' <<< "$out" && ! grep -qi '^x-robots-tag:.*noindex' <<< "$out"; then
+    echo "robots.txt: served by the frontend, publishes the sitemap, disallows only private paths"
+  else echo "  robots.txt: HTTP $code or wrong content (Sitemap line missing, Disallow: / or noindex)"; fails=1; fi
+  out=$(origin vidfetch.app GET /fr); code=${out##*STATUS:}
+  if [ "$code" = 308 ] && grep -qiE '^location: (https://vidfetch\.app)?/fr/[[:space:]]*$' <<< "$out"; then echo "redirects: /fr -> /fr/ once (no loop)"
+  else echo "  /fr: HTTP $code, expected one 308 to /fr/ (frontend fix deployed?)"; fails=1; fi
+  for spec in GET:/api/download:503 GET:/api/fetch-info:503 GET:/api/queue:503 GET:/auth/transfer:503 GET:/download-helper:503 POST:/api/download-access:503 GET:/auth/admission:404 GET:/internal/state:404; do
+    IFS=: read -r method path want <<< "$spec"
+    out=$(origin vidfetch.app "$method" "$path"); code=${out##*STATUS:}
+    if [ "$code" != "$want" ]; then echo "  $method $path: HTTP $code, expected $want"; fails=1; continue; fi
+    grep -qi '^x-robots-tag:.*noindex' <<< "$out" || { echo "  $method $path: no noindex header"; fails=1; }
+  done
+  out=$(origin_page vidfetch.app GET /api/health)
+  if grep -q '"downloads":{"available":false}' <<< "$out"; then echo "downloads: closed (media routes 503, grants refused, frontend reports unavailable)"
+  else echo "  /api/health does not report downloads unavailable (ready must stay 0)"; fails=1; fi
+  return $fails
+}

@@ -10,6 +10,10 @@ Règles valables pour toutes les étapes :
 - YouTube est exclu de la recette : il est bloqué depuis OVH (`VIDFETCH-YOUTUBE-AUDIT.md`). Prévoir une ou deux URL de médias autorisés sur une autre plateforme ; leur extraction depuis OVH n'a pas été testée.
 - Deux fenêtres successives, chacune avec sa propre minuterie de restauration : d'abord le réseau (étape 5, `vidfetch-media-rollback`), confirmé par une connexion SSH ; ensuite Caddy (étape 6, `vidfetch-caddy-rollback`), confirmé par des contrôles de l'origine. La fenêtre Caddy ne touche jamais au pare-feu.
 
+## Lancement public prioritaire
+
+Décision du 14 octobre : rendre le site public et indexable avec `ready=0` avant la recette MP4/MP3. Suivre `VIDFETCH-LANCEMENT-PUBLIC.md`. Sa fenêtre publique (`05-caddy.sh --public`) remplace l'étape 6 ci-dessous et obtient aussi le certificat de `dl`. Les étapes 7 et 8 restent à faire plus tard, depuis l'IP domestique.
+
 ## Reprise : réseau déjà confirmé, Caddy pas encore activé
 
 C'est l'état du VPS le 14 octobre : `03-network.sh open80` puis `04-confirm.sh` ont réussi, la table contient `testers4`, le port 80 de `dl` répond 308, Caddy est sur sa configuration d'origine. `01-backup.sh` refuse, et c'est normal : la sauvegarde prise à l'étape 4 reste la bonne, il n'en faut pas de nouvelle.
