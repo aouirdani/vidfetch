@@ -63,6 +63,6 @@ case "${1:-}" in
     install -o root -g root -m 0755 "$BK/promote.py" "$DEST.next" && mv -f "$DEST.next" "$DEST"
     cmp -s "$BK/promote.py" "$DEST" || die "rollback copy failed"
     status_ok "$BK/status-after-rollback.json" restored || die "the restored helper fails its status check: inspect $DEST"
-    log "previous CI helper restored from $BK" ;;
+    log "previous CI helper restored from $BK (sha256 $(digest "$DEST" | cut -c1-16)); status: $(cat "$BK/status-after-rollback.json")" ;;
   *) die "check|install|rollback" ;;
 esac

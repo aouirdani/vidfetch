@@ -50,14 +50,9 @@ if grep -q testers4 "$BASE_FOR_FW/ingress.nft"; then echo "table inet vidfetch_h
 S
 printf '#!/bin/sh\nexec python3 %s/origin-curl-stub.py "$@"\n' "$F" > "$W/curl-origin"
 chmod +x "$W/fw" "$W/curl-origin"
-# The CI helper installed on the VPS before 09-ci-helper.sh install is the one of commit 88fbe237, which predates
-# every CI profile: its status has NO "profile" field. A faithful stand-in, same status output byte for byte.
-cat > "$W/old-helper.py" <<'P'
-#!/usr/bin/env python3
-import json, sys
-if sys.argv[1:] == ['status']:
-    print(json.dumps({'gateOpen': True, 'release': 'test', 'targetPort': 3001, 'pendingRecovery': False}))
-P
+# The CI helper installed on the VPS before 09-ci-helper.sh install: the REAL promote.py of commit 88fbe237, the very
+# bytes found on the VPS on 14 October (sha256 d977b793...). It predates every CI profile: its status has no "profile".
+OLD_HELPER=$F/promote-88fbe237.py.fixture; OLD_SHA=d977b793313773f70a9984791fb35f7efe49e7f36dac820e168b13854f4683c5
 . "$F/origin-tables.sh"
 export STATE="$W/state" BASE_FOR_FW=$BASE PATH="$W/bin:$PATH" VM_BACKUPS="$W/bk" VM_FW="$W/fw" VM_CADDY=/bin/true VM_JOURNALCTL="$W/bin/journalctl" \
   VM_LOCK="$W/lock" VM_LOCK_WAIT=1 VM_RESTORE_LOCK_WAIT=30 VM_SYSTEMCTL="$W/bin/systemctl" VM_NFT="$W/bin/nft" \
@@ -108,7 +103,7 @@ refuse_confirm() { local label=$1 s0; s0=$(state)
 
 echo "# 1. opening the public window from the VPS state"
 network_confirmed
-cp "$VM_CI_HELPER" "$W/new-helper"; install -m 0755 "$W/old-helper.py" "$VM_CI_HELPER"
+cp "$VM_CI_HELPER" "$W/new-helper"; install -m 0755 "$OLD_HELPER" "$VM_CI_HELPER"
 refuse05 "the installed CI helper does not know the public profile yet (09-ci-helper.sh install first)"
 install -m 0755 "$W/new-helper" "$VM_CI_HELPER"
 printf '%s\n' "$MEDIA_JSON" > $PROFILE; refuse05 "a media-test CI profile is installed"; rm -f $PROFILE
@@ -183,7 +178,9 @@ confirmed; rm -f $PROFILE; bash $A/06-profile.sh install-public >/dev/null 2>&1 
 
 echo "# 4. 09-ci-helper.sh: the only CI change, reversible"
 mkfix; ln -sfn /usr/local/bin/python3 /usr/bin/python3 2>/dev/null; echo '{"release":"test"}' > /tmp/manifest.json
-install -m 0755 "$W/old-helper.py" "$VM_CI_HELPER"; before=$(sha256sum < "$VM_CI_HELPER")
+install -m 0755 "$OLD_HELPER" "$VM_CI_HELPER"; before=$(sha256sum < "$VM_CI_HELPER")
+[ "$(sha256sum "$VM_CI_HELPER" | cut -c1-64)" = "$OLD_SHA" ] && ok "the old helper under test is byte-identical to the one installed on the VPS (d977b793...)" || bad "old helper fixture differs from the VPS one"
+st=$("$VM_CI_HELPER" status 2>&1); python3 -c 'import json, sys; d = json.loads(sys.argv[1]); assert "profile" not in d and d["release"] == "test"' "$st" && ok "the real old helper runs here and its status has no profile field: $st" || bad "old helper status: $st"
 out=$(bash $A/09-ci-helper.sh check 2>&1); [ $? = 0 ] && echo "$out" | grep -q "differs" && [ "$(sha256sum < "$VM_CI_HELPER")" = "$before" ] && ok "check is read-only and reports the difference" || bad "check: $out"
 out=$(bash $A/09-ci-helper.sh install 2>&1); rc=$?
 [ $rc = 0 ] && cmp -s "$VM_CI_HELPER" "$W/tk/promote.py" && [ "$(stat -c %a "$VM_CI_HELPER")" = 755 ] && echo "$out" | grep -q '"profile": "closed"' && ok "install: new helper in place (0755), its status runs and still reports the closed profile" || bad "install rc=$rc: $out"
@@ -191,10 +188,10 @@ BK=$(readlink -f "$W/bk/vidfetch-ci-helper-latest"); [ "$(sha256sum < "$BK/promo
 for f in "$W/libexec/vidfetch-ci/release-lib.py"; do [ -f "$f" ] || bad "release-lib.py touched"; done
 printf '%s\n' "$PUBLIC_JSON" > $PROFILE; bash $A/09-ci-helper.sh rollback >/dev/null 2>&1 && bad "rollback with the public profile" || ok "rollback refuses while the public profile is in force (the old helper would not know it)"
 rm -f $PROFILE; out=$(bash $A/09-ci-helper.sh rollback 2>&1); rc=$?
-[ $rc = 0 ] && [ "$(sha256sum < "$VM_CI_HELPER")" = "$before" ] && echo "$out" | grep -q "previous CI helper restored" && ok "rollback puts the previous helper back and validates it, although its status has no profile field (88fbe237)" || bad "rollback rc=$rc: $out"
+[ $rc = 0 ] && [ "$(sha256sum "$VM_CI_HELPER" | cut -c1-64)" = "$OLD_SHA" ] && echo "$out" | grep -q "previous CI helper restored from .* (sha256 ${OLD_SHA:0:16})" && ok "rollback restores the real 88fbe237 helper, prints its sha256, and exits 0 although its status has no profile field" || bad "rollback rc=$rc: $out"
 printf '#!/bin/sh\necho not-json\n' > "$W/broken-helper"; BKL=$(readlink -f "$W/bk/vidfetch-ci-helper-latest"); cp "$BKL/promote.py" "$W/keep-old"; install -m 0755 "$W/broken-helper" "$BKL/promote.py"
 bash $A/09-ci-helper.sh rollback >/dev/null 2>&1 && bad "a restored helper with an invalid status was accepted" || ok "a restored helper whose status is not valid JSON is reported"
-install -m 0755 "$W/keep-old" "$BKL/promote.py"; install -m 0755 "$W/old-helper.py" "$VM_CI_HELPER"
+install -m 0755 "$W/keep-old" "$BKL/promote.py"; install -m 0755 "$OLD_HELPER" "$VM_CI_HELPER"
 printf '%s\n' '{"profile":"something-else"}' > $PROFILE; out=$(bash $A/09-ci-helper.sh install 2>&1); rc=$?
 [ $rc != 0 ] && [ "$(sha256sum < "$VM_CI_HELPER")" = "$before" ] && echo "$out" | grep -q "previous helper put back" && ok "a new helper failing its status check is replaced by the previous one at once" || bad "failed install rc=$rc: $out"
 rm -f $PROFILE
