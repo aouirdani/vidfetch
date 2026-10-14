@@ -110,12 +110,12 @@ Vérifications immédiates (≤ 2 min) :
 
 Si un contrôle échoue : `sudo bash 04-cancel.sh` (restaure tout de suite) ou attendre l'expiration.
 
-Puis, **toujours avant de confirmer**, dans A (le port 80 est joignable : condition indispensable pour l'ACME) :
+Quand ces contrôles réseau sont verts : `sudo bash 04-confirm.sh` (détails plus bas). **Ensuite seulement**, la fenêtre Caddy, avec sa propre minuterie (`vidfetch-caddy-rollback`). Elle ne touche pas au pare-feu, et le port 80 est déjà joignable, condition indispensable pour l'ACME :
 ```sh
-sudo bash 05-caddy.sh --port80-verified-from-outside     # pointeur → Caddyfile.media-test, drop-in EnvironmentFile, reload (pas de restart)
+sudo bash 05-caddy.sh --port80-verified-from-outside 900   # minuterie Caddy armée, puis drop-in EnvironmentFile, pointeur → Caddyfile.media-test, reload (pas de restart)
 sudo journalctl -u vidfetch-caddy --since '-3min' --no-pager | grep -iE 'obtain|certificate|acme|error' | tail -15
 ```
-Attendu : `certificate obtained successfully` pour `dl.vidfetch.app` en moins de 2 minutes. En cas d'erreur de validation : **ne pas relancer en boucle** (limite Let's Encrypt : 5 échecs/h par nom) ; `04-cancel.sh`, diagnostic, puis réessayer.
+Attendu : `certificate obtained successfully` pour `dl.vidfetch.app` en moins de 2 minutes. En cas d'erreur de validation : **ne pas relancer en boucle** (limite Let's Encrypt : 5 échecs/h par nom) ; `05-cancel.sh` tout de suite (Caddy seul revient, le réseau reste), diagnostic, puis réessayer.
 
 Vérification complète depuis le Mac, IP testeur :
 ```sh
@@ -123,7 +123,9 @@ cd ~/Desktop/vidfetch && bash <(git show origin/main:deploy/ovh/media/admin/veri
 ```
 Attendu : chaîne TLS vérifiée strictement, `dl` : routes non listées 404, POST anonyme refusé, en-têtes `no-referrer` / `noindex` / `no-store`, apex 401 + routes médias 503, accès **direct** à l'apex (hors Cloudflare) 403. Sur le VPS : `curl -s --resolve vidfetch.app:443:127.0.0.1 -o /dev/null -w '%{http_code}\n' https://vidfetch.app/` → `401` (les contrôles locaux de la CI passent par le loopback, autorisé exprès).
 
-Quand **tout** est vert : `sudo bash 04-confirm.sh`. Il ne désarme la minuterie que sur **preuve** d'une nouvelle connexion SSH valide, lue dans le journal de sshd :
+Quand tout est vert, y compris `verify-outsider.sh` depuis un réseau non testeur : `sudo bash 05-confirm.sh --external-checks-passed`. Il contrôle depuis le VPS, en TLS strict par le loopback, le certificat de `dl` et son refus d'un non-testeur (403), ainsi que les protections de l'apex, le drop-in et les règles réseau. Il ne désarme la minuterie Caddy que si tout est conforme. `05-cancel.sh` remet Caddy seul, avant ou après confirmation.
+
+`04-confirm.sh`, lui, ne désarme la minuterie réseau que sur **preuve** d'une nouvelle connexion SSH valide, lue dans le journal de sshd :
 
 - ligne écrite dans le journal **par le démon SSH lui-même** (processus root `sshd` ou `sshd-session`, champs de confiance de journald) : une ligne fabriquée avec `logger` est ignorée ;
 - authentification **par clé publique** (un mot de passe peut être fini de taper sur une connexion ouverte avant le changement) ;
@@ -136,7 +138,7 @@ Il n'a volontairement aucune option `--force` : sans preuve, laisser la minuteri
 
 **Ce que fait la restauration automatique** (`restore-network.sh`, lancée par systemd, sans session SSH) : remet `ingress.nft` et la table nft d'origine, le pointeur Caddy, retire le drop-in `media-test.conf`, recharge Caddy s'il tourne, puis **vérifie** le résultat. Chaque étape est indépendante : si l'outil pare-feu échoue, la table sauvegardée est appliquée directement par `nft` (vérification puis transaction atomique), et le pointeur Caddy est restauré quand même. Si une étape reste en échec, le script sort en erreur et systemd le relance toutes les 20 s.
 
-**Une seule opération à la fois** : `01`, `03`, `04-confirm` et `05` prennent un verrou commun (`/run/vidfetch-media-test.lock`) et refusent si une autre opération ou la restauration est en cours. La restauration, elle, attend la fin d'une opération en cours (45 s au plus) puis restaure de toute façon : un verrou bloqué ne peut pas l'empêcher. Après le début d'une restauration ou après `04-confirm.sh`, `05-caddy.sh` refuse : il faut une nouvelle sauvegarde et un nouveau `03-network.sh`.
+**Une seule opération à la fois** : `01`, `03`, `04-confirm` et `05` prennent un verrou commun (`/run/vidfetch-media-test.lock`) et refusent si une autre opération ou la restauration est en cours. La restauration, elle, attend la fin d'une opération en cours (45 s au plus) puis restaure de toute façon : un verrou bloqué ne peut pas l'empêcher. `05-caddy.sh` refuse tant que la fenêtre réseau n'est pas confirmée (minuterie réseau armée, pas de `04-confirm.sh`) ou si la restauration réseau a commencé. Après `04-confirm.sh`, aucune nouvelle sauvegarde n'est nécessaire : celle de l'étape 4 sert aussi à la fenêtre Caddy.
 
 ## 6. 🔒 Turnstile, clé de service, passerelle (accord n°2)
 

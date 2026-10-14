@@ -1,6 +1,6 @@
 # Recette privée MP4/MP3 sur `dl.vidfetch.app` : procédure d'exécution
 
-Procédure de référence. Elle remplace l'ordre des étapes de `VIDFETCH-PHASE10-ADMIN-RUNBOOK.md`, qui reste le détail de chaque script. **Rien n'a été exécuté sur le VPS.** `<TESTER_IP>` est l'IPv4 autorisée ; les fichiers rendus pour elle sont dans `backend/artifacts/admin-prep-20261014/render-open80/` (hors Git).
+Procédure de référence. Elle remplace l'ordre des étapes de `VIDFETCH-PHASE10-ADMIN-RUNBOOK.md`, qui reste le détail de chaque script. Sur le VPS, l'administrateur a exécuté les étapes 1 à 5 (état au 14 octobre, voir « Reprise »). `<TESTER_IP>` est l'IPv4 autorisée ; les fichiers rendus pour elle sont dans `backend/artifacts/admin-prep-20261014/render-open80/` (hors Git).
 
 Règles valables pour toutes les étapes :
 
@@ -8,6 +8,21 @@ Règles valables pour toutes les étapes :
 - Basic Auth, noindex et routes médias de l'apex restent en place du début à la fin. `VIDFETCH_DEPLOY_ENABLED` vaut `false`, sauf pendant la commande `deploy` de l'étape 1.
 - Ne pas fusionner la PR du classement des erreurs avant la fin : elle change les bundles protégés et ferait refuser le déploiement de l'étape 1.
 - YouTube est exclu de la recette : il est bloqué depuis OVH (`VIDFETCH-YOUTUBE-AUDIT.md`). Prévoir une ou deux URL de médias autorisés sur une autre plateforme ; leur extraction depuis OVH n'a pas été testée.
+- Deux fenêtres successives, chacune avec sa propre minuterie de restauration : d'abord le réseau (étape 5, `vidfetch-media-rollback`), confirmé par une connexion SSH ; ensuite Caddy (étape 6, `vidfetch-caddy-rollback`), confirmé par des contrôles de l'origine. La fenêtre Caddy ne touche jamais au pare-feu.
+
+## Reprise : réseau déjà confirmé, Caddy pas encore activé
+
+C'est l'état du VPS le 14 octobre : `03-network.sh open80` puis `04-confirm.sh` ont réussi, la table contient `testers4`, le port 80 de `dl` répond 308, Caddy est sur sa configuration d'origine. `01-backup.sh` refuse, et c'est normal : la sauvegarde prise à l'étape 4 reste la bonne, il n'en faut pas de nouvelle.
+
+1. Une fois la PR de la fenêtre Caddy validée par la CI et fusionnée, envoyer les scripts de `main`, puis vérifier (étape 2) :
+
+   ```sh
+   bash <(git show origin/main:deploy/ovh/media/admin/send-to-vps.sh) origin/main backend/artifacts/admin-prep-20261014/render-open80
+   cd ~/media-test-stage/admin && sudo --preserve-env=SSH_CONNECTION bash 00-preflight.sh | tee ~/preflight-caddy.txt
+   ```
+
+   Le pré-vol doit afficher `latest backup …: usable with this toolkit`, les deux minuteries `inactive` et `network window confirmed, Caddy still original: next step is 05-caddy.sh (no new backup)`.
+2. Reprendre à l'étape 6 ci-dessous. Ne pas relancer `01-backup.sh`, `02-stage.sh`, `03-network.sh` ni `04-confirm.sh`.
 
 ## Préalable : les scripts doivent être sur `main`
 
@@ -107,28 +122,31 @@ Deux terminaux SSH ouverts. Dans le premier :
 sudo bash 03-network.sh open80 900
 ```
 
-La minuterie systemd est armée avant le changement : sans confirmation, l'ingress et Caddy d'origine reviennent seuls au bout de 15 minutes.
+La minuterie systemd est armée avant le changement : sans confirmation, l'ingress d'origine revient seul au bout de 15 minutes.
 
-- **Contrôle**, avant de continuer :
+- **Contrôle**, avant de confirmer :
   - nouvelle connexion SSH depuis le second terminal ;
   - sur le Mac : `cd ~/Desktop/vidfetch && bash <(git show origin/main:deploy/ovh/media/admin/verify-tester.sh) <TESTER_IP> pre-cert` ;
   - téléphone en 4G, Wi-Fi coupé : `https://dl.vidfetch.app/` ne doit pas se charger ;
   - `curl -sI https://vidfetch.app/` répond toujours 401.
+- **Quand tout est vert** : `sudo bash 04-confirm.sh`. Il exige une connexion SSH par clé, postérieure aux nouvelles règles, depuis `<TESTER_IP>`. Les règles réseau deviennent permanentes ; Caddy n'a pas encore changé.
 - **Retour arrière** : `sudo bash 04-cancel.sh`, ou laisser la minuterie agir.
 
-## 6. Certificat de `dl.vidfetch.app`
+## 6. Certificat de `dl.vidfetch.app` (fenêtre Caddy)
 
-Toujours sans avoir confirmé :
+Uniquement après `04-confirm.sh`. Le script refuse tant que la minuterie réseau est armée, si les règles réseau ne sont plus celles qui ont été confirmées, si Caddy ne pointe plus sur sa configuration d'origine, ou si l'apex n'est pas déjà protégé (401, noindex, routes médias 503, sitemap 404, vérifiés sur le VPS en TLS strict).
 
 ```sh
-sudo bash 05-caddy.sh --port80-verified-from-outside
+sudo bash 05-caddy.sh --port80-verified-from-outside 900
 sudo journalctl -u vidfetch-caddy --since '-3min' --no-pager | grep -iE 'obtain|certificate|acme|error' | tail -15
 ```
 
-- **Contrôle** : `certificate obtained successfully` pour `dl.vidfetch.app` ; puis sur le Mac la vérification complète, `bash <(git show origin/main:deploy/ovh/media/admin/verify-tester.sh) <TESTER_IP>`, doit finir par `ALL … CHECKS PASSED`.
-- En cas d'erreur de validation, ne pas relancer en boucle (5 échecs par heure chez Let's Encrypt) : `04-cancel.sh`, diagnostic, reprise à l'étape 5.
-- **Quand tout est vert** : `sudo bash 04-confirm.sh`. Il exige une connexion SSH par clé, postérieure aux nouvelles règles, depuis `<TESTER_IP>`.
-- **Retour arrière** : `sudo bash 04-cancel.sh` avant confirmation ; après, `restore-full.sh` (étape « Retour arrière complet »).
+`05-caddy.sh` arme d'abord sa propre minuterie systemd (`vidfetch-caddy-rollback`, 15 minutes). Ensuite seulement, il écrit le drop-in de la liste testeurs, bascule le pointeur vers `Caddyfile.media-test` et recharge Caddy, sans redémarrage. Sans `05-confirm.sh`, la configuration Caddy d'origine revient seule ; les règles réseau ne bougent pas. Si le rechargement échoue, la restauration est immédiate.
+
+- **Contrôle** : `certificate obtained successfully` pour `dl.vidfetch.app`. Puis, sur le Mac, `bash <(git show origin/main:deploy/ovh/media/admin/verify-tester.sh) <TESTER_IP>` doit finir par `ALL … CHECKS PASSED`. Enfin, depuis un réseau non testeur (téléphone en 4G ou autre ordinateur), `verify-outsider.sh` doit afficher le même résultat.
+- En cas d'erreur de validation ACME : `sudo bash 05-cancel.sh` tout de suite. Ne pas laisser Caddy réessayer : Let's Encrypt limite à 5 échecs par heure et par nom. Puis diagnostic, et reprise de cette étape.
+- **Quand tout est vert** : `sudo bash 05-confirm.sh --external-checks-passed`. Depuis le VPS, en TLS strict par le loopback, il vérifie que `dl` présente un certificat de confiance et refuse un non-testeur (403) sur toutes ses routes, avec noindex et no-referrer. Il vérifie aussi que l'apex garde Basic Auth, noindex, ses routes médias fermées et son sitemap en 404, que Caddy tourne sur la bonne configuration avec le bon drop-in, et que les règles réseau confirmées sont intactes. Il ne désarme la minuterie que si tout est conforme.
+- **Retour arrière** : `sudo bash 05-cancel.sh`, avant ou après confirmation (Caddy seul, réseau inchangé) ; `04-cancel.sh` remet en plus le réseau d'origine. Un redémarrage du VPS pendant la fenêtre efface la minuterie : `05-confirm.sh` refuse alors, et il faut lancer `05-cancel.sh` puis `05-caddy.sh`.
 
 ## 7. Secrets Turnstile et garde CI
 
@@ -172,6 +190,6 @@ sudo systemctl restart vidfetch-web-preproduction-20261013.service
 
 ## Ce qui a été testé, et ce qui ne l'a pas été
 
-Testé hors VPS : tous les scripts, dont la mise à niveau et le retour arrière de la passerelle sur Debian 13 avec systemd et Node 22, à partir du bundle réellement en service ; les règles nftables dans un vrai noyau ; Caddy 2.11.7 ; la confirmation SSH avec OpenSSH 10 ; le transfert contre un vrai serveur SSH ; le comportement du frontend à `ready=0` et `ready=1`.
+Testé hors VPS : tous les scripts, dont la mise à niveau et le retour arrière de la passerelle sur Debian 13 avec systemd et Node 22, à partir du bundle réellement en service ; les règles nftables dans un vrai noyau ; Caddy 2.11.7 ; la confirmation SSH avec OpenSSH 10 ; le transfert contre un vrai serveur SSH ; le comportement du frontend à `ready=0` et `ready=1`. La fenêtre Caddy a été testée sur Debian 13 avec systemd, journald, OpenSSH et Caddy 2.11.7 réels, sous l'unité de production : bascule par rechargement avec le même processus, liste testeurs lue depuis le drop-in, contrôles TLS stricts, minuterie déclenchée sans session, nouvelle tentative de systemd après un premier échec. Le certificat y vient de l'autorité interne de Caddy, pas de Let's Encrypt.
 
 Non testé : le VPS lui-même, Turnstile réel, l'émission du certificat, l'extraction de médias non-YouTube depuis OVH, et le parcours complet dans un navigateur.

@@ -81,16 +81,14 @@ touch "$STATE/armed"; bash "$A/04-cancel.sh" >/dev/null 2>&1 && [ ! -f "$STATE/a
 rm -f "$B/restore-started" "$B/restored" "$B/confirmed"
 grep -q 'new public-key login' "$A/04-confirm.sh" && ok "confirm demands a public-key login" || bad "confirm text"
 
-# --- caddy switch
+# --- caddy switch: details in caddy-window.test.sh; here only that it waits for the confirmed network window
 printf 'import /etc/vidfetch/public-https-test/auth.caddy\nX-Robots-Tag "noindex, nofollow"\n' > "$W/base/Caddyfile.media-test"
 bash "$A/05-caddy.sh" >/dev/null 2>&1 && bad "05 without flag" || ok "05 requires the port-80 confirmation flag"
-bash "$A/05-caddy.sh" --port80-verified-from-outside >/dev/null 2>&1 && bad "05 without timer" || ok "05 refuses without an armed timer"
-touch "$STATE/armed"; printf 'tcp dport 80 accept\n' >> "$W/base/ingress.nft"
-touch "$STATE/reload-fails"; bash "$A/05-caddy.sh" --port80-verified-from-outside >/dev/null 2>&1 && bad "05 reload fail" || ok "05 fails when reload fails"
-[ "$(readlink "$W/base/current")" = Caddyfile ] && ok "failed reload: pointer restored" || bad "pointer after failed reload"
-rm -f "$STATE/reload-fails"; bash "$A/05-caddy.sh" --port80-verified-from-outside >/dev/null 2>&1 || bad "05 failed"
-[ "$(readlink "$W/base/current")" = Caddyfile.media-test ] && grep -q "EnvironmentFile=$W/base/media-test-ips.env" /etc/systemd/system/vidfetch-caddy.service.d/media-test.conf && ok "pointer switched, env drop-in written" || bad "05 result"
-[ "$(stat -c %a /etc/systemd/system/vidfetch-caddy.service.d/media-test.conf)" = 644 ] && ok "drop-in mode 0644" || bad "dropin mode"
+out=$(bash "$A/05-caddy.sh" --port80-verified-from-outside 2>&1) && bad "05 without network window" || { grep -q "network window is not confirmed" <<< "$out" && ok "05 refuses before the network window is confirmed" || bad "05 message: $out"; }
+touch "$STATE/armed"; date +%s.%N > "$B/confirmed"
+out=$(bash "$A/05-caddy.sh" --port80-verified-from-outside 2>&1) && bad "05 inside the network window" || { grep -q "network dead-man timer is still armed" <<< "$out" && ok "05 refuses while the network timer is armed (04-confirm.sh first)" || bad "05 message: $out"; }
+rm -f "$STATE/armed" "$B/confirmed"
+[ "$(readlink "$W/base/current")" = Caddyfile ] && [ ! -e /etc/systemd/system/vidfetch-caddy.service.d/media-test.conf ] && ! calls | grep -q 'vidfetch-caddy-rollback' && ok "refused 05 runs left the pointer, the drop-in and the timers alone" || bad "05 acted while refusing"
 [ "$(sums)" = "$s1" ] && ok "caddy step leaves env/guard untouched" || bad "05 touched env"
 
 # --- ready flag

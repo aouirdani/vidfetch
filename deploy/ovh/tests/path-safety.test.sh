@@ -103,6 +103,18 @@ rn() { env "$@" bash "$A/restore-network.sh" "$B"; }
 out=$(rn VM_DROPIN= 2>&1); [ $? != 0 ] && grep -q "DROPIN is empty" <<< "$out" && ok "restore-network stops: DROPIN empty" || bad "restore-network DROPIN empty: $out"
 out=$(rn VM_DROPIN=/etc/passwd 2>&1); [ $? != 0 ] && grep -q "unexpected drop-in path" <<< "$out" && [ -s /etc/passwd ] && ok "restore-network stops: DROPIN pointing at /etc/passwd (file intact)" || bad "restore-network accepted /etc/passwd"
 out=$(rn VM_DROPIN=$CADDYD/../vidfetch-caddy.service.d/media-test.conf 2>&1); [ $? != 0 ] && ok "restore-network stops: DROPIN with .." || bad "restore-network accepted .."
+rc_() { env "$@" bash "$A/restore-caddy.sh" "$B"; }
+out=$(rc_ VM_DROPIN= 2>&1); [ $? != 0 ] && grep -q "DROPIN is empty" <<< "$out" && ok "restore-caddy stops: DROPIN empty" || bad "restore-caddy DROPIN empty: $out"
+out=$(rc_ VM_DROPIN=/etc/passwd 2>&1); [ $? != 0 ] && grep -q "unexpected drop-in path" <<< "$out" && [ -s /etc/passwd ] && ok "restore-caddy stops: DROPIN pointing at /etc/passwd (file intact)" || bad "restore-caddy accepted /etc/passwd"
+out=$(rc_ VM_DROPIN=$CADDYD/../vidfetch-caddy.service.d/media-test.conf 2>&1); [ $? != 0 ] && ok "restore-caddy stops: DROPIN with .." || bad "restore-caddy accepted .."
+out=$(rc_ VM_BASE=/etc/vidfetch/../vidfetch/public-https-test 2>&1); [ $? != 0 ] && grep -q "unexpected path" <<< "$out" && ok "restore-caddy stops: BASE with .." || bad "restore-caddy accepted BASE with .."
+out=$(bash "$A/restore-caddy.sh" "" 2>&1); [ $? != 0 ] && ok "restore-caddy stops: empty backup directory" || bad "restore-caddy empty backup dir"
+out=$(bash "$A/restore-caddy.sh" var/backups/x 2>&1); [ $? != 0 ] && grep -q "path must be absolute" <<< "$out" && ok "restore-caddy stops: relative backup directory" || bad "restore-caddy relative backup dir"
+out=$(bash "$A/restore-caddy.sh" "$B" 2>&1); [ $? != 0 ] && grep -q "invalid backup" <<< "$out" && ok "restore-caddy stops: backup without a recorded pointer" || bad "restore-caddy without current.target: $out"
+for s in 05-confirm.sh 05-cancel.sh; do
+  out=$(env VM_DROPIN=/etc/passwd bash "$A/$s" --external-checks-passed 2>&1); [ $? != 0 ] && grep -q "unexpected Caddy drop-in path" <<< "$out" && ok "$s stops: unexpected drop-in path" || bad "$s accepted an unexpected drop-in path"
+  out=$(env VM_DROPIN= bash "$A/$s" --external-checks-passed 2>&1); [ $? != 0 ] && grep -q "DROPIN is empty" <<< "$out" && ok "$s stops: DROPIN empty" || bad "$s DROPIN empty"
+done
 out=$(env VM_DROPIN=/etc/passwd bash "$A/05-caddy.sh" --port80-verified-from-outside 2>&1); [ $? != 0 ] && grep -q "unexpected Caddy drop-in path" <<< "$out" && ok "05-caddy stops: unexpected drop-in path" || bad "05-caddy accepted an unexpected drop-in path"
 out=$(env VM_DROPIN= bash "$A/05-caddy.sh" --port80-verified-from-outside 2>&1); [ $? != 0 ] && grep -q "DROPIN is empty" <<< "$out" && ok "05-caddy stops: DROPIN empty" || bad "05-caddy DROPIN empty"
 out=$(env VM_PROFILE=/etc/passwd bash "$A/06-profile.sh" remove 2>&1); [ $? != 0 ] && [ -s /etc/passwd ] && ok "06-profile remove stops: unexpected profile path (file intact)" || bad "06-profile accepted /etc/passwd"
