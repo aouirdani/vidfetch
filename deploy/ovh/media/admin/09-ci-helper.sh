@@ -22,7 +22,18 @@ validate_source() {
   grep -q "^PUBLIC_PROFILE = {'profile': 'public', 'apex': 'public-indexable', 'dl': 'testers-only'}$" "$SRC" || die "this promote.py has no public profile"
   grep -q "^MEDIA_PROFILE = {'profile': 'media-test', 'apex': 'basic-auth-noindex', 'dl': 'testers-only'}$" "$SRC" || die "this promote.py lost the media-test profile"
 }
-status_ok() { "$DEST" status > "$1" 2>&1 && python3 -c 'import json, sys; d = json.load(open(sys.argv[1])); assert d["profile"] in ("closed", "media-test", "public")' "$1"; }
+# status_ok FILE [restored]: the helper's read-only status is valid JSON naming the active release. The new helper must
+# also report its profile. The helper installed before the CI profiles existed (commit 88fbe237, still on the VPS
+# on 14 October) prints no "profile" field at all: that is accepted only when it is the one being restored.
+status_ok() {
+  "$DEST" status > "$1" 2>&1 && python3 -c '
+import json, sys
+d = json.load(open(sys.argv[1]))
+assert isinstance(d.get("release"), str) and d["release"]
+if sys.argv[2] != "restored" or "profile" in d:
+    assert d.get("profile") in ("closed", "media-test", "public")
+' "$1" "${2:-new}"
+}
 case "${1:-}" in
   check)
     validate_source
@@ -51,7 +62,7 @@ case "${1:-}" in
     [ -n "$BK" ] && [ -f "$BK/promote.py" ] || die "no CI helper backup (install was never run)"
     install -o root -g root -m 0755 "$BK/promote.py" "$DEST.next" && mv -f "$DEST.next" "$DEST"
     cmp -s "$BK/promote.py" "$DEST" || die "rollback copy failed"
-    status_ok "$BK/status-after-rollback.json" || die "the restored helper fails its status check: inspect $DEST"
-    log "previous CI helper restored from $BK" ;;
+    status_ok "$BK/status-after-rollback.json" restored || die "the restored helper fails its status check: inspect $DEST"
+    log "previous CI helper restored from $BK (sha256 $(digest "$DEST" | cut -c1-16)); status: $(cat "$BK/status-after-rollback.json")" ;;
   *) die "check|install|rollback" ;;
 esac
