@@ -111,6 +111,16 @@ out=$(rc_ VM_BASE=/etc/vidfetch/../vidfetch/public-https-test 2>&1); [ $? != 0 ]
 out=$(bash "$A/restore-caddy.sh" "" 2>&1); [ $? != 0 ] && ok "restore-caddy stops: empty backup directory" || bad "restore-caddy empty backup dir"
 out=$(bash "$A/restore-caddy.sh" var/backups/x 2>&1); [ $? != 0 ] && grep -q "path must be absolute" <<< "$out" && ok "restore-caddy stops: relative backup directory" || bad "restore-caddy relative backup dir"
 out=$(bash "$A/restore-caddy.sh" "$B" 2>&1); [ $? != 0 ] && grep -q "invalid backup" <<< "$out" && ok "restore-caddy stops: backup without a recorded pointer" || bad "restore-caddy without current.target: $out"
+out=$(rc_ VM_PROFILE= 2>&1); [ $? != 0 ] && grep -q "PROFILE is empty" <<< "$out" && ok "restore-caddy stops: CI profile path empty" || bad "restore-caddy VM_PROFILE empty: $out"
+out=$(rc_ VM_PROFILE=/etc/passwd 2>&1); [ $? != 0 ] && grep -q "unexpected CI profile path" <<< "$out" && [ -s /etc/passwd ] && ok "restore-caddy stops: CI profile path pointing at /etc/passwd (file intact)" || bad "restore-caddy accepted VM_PROFILE=/etc/passwd"
+out=$(rc_ VM_PROFILE=/etc/vidfetch/../vidfetch/ci-media-test-profile.json 2>&1); [ $? != 0 ] && ok "restore-caddy stops: CI profile path with .." || bad "restore-caddy accepted a profile path with .."
+ci() { env VM_SKIP_ROOT=1 "$@" bash "$A/09-ci-helper.sh" rollback; }
+out=$(ci VM_CI_HELPER= 2>&1); [ $? != 0 ] && grep -q "CI helper path is empty" <<< "$out" && ok "09-ci-helper stops: helper path empty" || bad "09-ci-helper empty path: $out"
+out=$(ci VM_CI_HELPER=/etc/passwd 2>&1); [ $? != 0 ] && grep -q "unexpected CI helper path" <<< "$out" && [ -s /etc/passwd ] && ok "09-ci-helper stops: helper path /etc/passwd (file intact)" || bad "09-ci-helper accepted /etc/passwd"
+out=$(ci VM_CI_HELPER=/usr/local/libexec/../libexec/vidfetch-ci/promote.py 2>&1); [ $? != 0 ] && ok "09-ci-helper stops: helper path with .." || bad "09-ci-helper accepted .."
+out=$(ci VM_CI_HELPER=usr/local/libexec/vidfetch-ci/promote.py 2>&1); [ $? != 0 ] && ok "09-ci-helper stops: relative helper path" || bad "09-ci-helper accepted a relative path"
+out=$(env VM_CI_HELPER=/tmp/vidfetch-ci/promote.py bash "$A/09-ci-helper.sh" check 2>&1); [ $? != 0 ] && grep -q "for the offline tests only" <<< "$out" && ok "09-ci-helper refuses a helper override outside the offline tests" || bad "09-ci-helper override accepted: $out"
+out=$(env VM_PROFILE=/etc/passwd bash "$A/05-confirm.sh" --external-checks-passed 2>&1); [ $? != 0 ] && [ -s /etc/passwd ] && ok "05-confirm stops before writing anything when the CI profile path is unexpected" || bad "05-confirm with VM_PROFILE=/etc/passwd"
 for s in 05-confirm.sh 05-cancel.sh; do
   out=$(env VM_DROPIN=/etc/passwd bash "$A/$s" --external-checks-passed 2>&1); [ $? != 0 ] && grep -q "unexpected Caddy drop-in path" <<< "$out" && ok "$s stops: unexpected drop-in path" || bad "$s accepted an unexpected drop-in path"
   out=$(env VM_DROPIN= bash "$A/$s" --external-checks-passed 2>&1); [ $? != 0 ] && grep -q "DROPIN is empty" <<< "$out" && ok "$s stops: DROPIN empty" || bad "$s DROPIN empty"

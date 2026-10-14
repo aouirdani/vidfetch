@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
-# Usage: 05-caddy.sh --port80-verified-from-outside [SECONDS=900, 120..1800]
+# Usage: 05-caddy.sh --port80-verified-from-outside [--public] [SECONDS=900, 120..1800]
 # Caddy window. It runs AFTER the network window was confirmed (04-confirm.sh) and never touches nftables or
 # ingress.nft: the confirmed network rules stay exactly as they are, whatever happens here.
+#   default   staged Caddyfile.media-test (02-stage.sh): apex keeps Basic Auth and noindex
+#   --public  Caddyfile.public from this toolkit: apex pages public and indexable, downloads still closed, dl
+#             identical to the media-test candidate (tester-only). The CI profile must be closed: 05-confirm.sh
+#             installs the public one, and the rollback removes it again (Caddy and CI always agree).
 #  1) arms a dead-man timer of its own (vidfetch-caddy-rollback, systemd: independent of any SSH session) running
 #     restore-caddy.sh, copied into the backup: without 05-confirm.sh, the original Caddy configuration comes back;
 #  2) writes the env drop-in, switches the pointer to the staged config and reloads (no restart, certificates kept).
@@ -9,7 +13,9 @@
 # otherwise failed validations count against Let's Encrypt limits.
 . "$(dirname "$0")/common.sh"; need_root
 [ "${1:-}" = --port80-verified-from-outside ] || die "confirm from another network that http://dl.vidfetch.app/ answers 308 first"
-SECS=${2:-900}
+shift; MODE=media-test; STAGED=Caddyfile.media-test
+if [ "${1:-}" = --public ]; then MODE=public; STAGED=Caddyfile.public; shift; fi
+SECS=${1:-900}
 [[ "$SECS" =~ ^[0-9]+$ ]] && [ "$SECS" -ge 120 ] && [ "$SECS" -le 1800 ] || die "SECONDS must be 120..1800"
 B=$(latest_backup)
 take_lock
@@ -28,11 +34,24 @@ DROPDIR=${DROPIN%/*}   # validated by common.sh: an absolute .../vidfetch-caddy.
 $SYSTEMCTL is-active --quiet $CADDY_UNIT || die "Caddy is not running"
 # --- the staged configuration: present, still protective, valid with the tester list it will get
 [ -f "$BASE/Caddyfile.media-test" ] || die "run 02-stage.sh"
-grep -q 'import /etc/vidfetch/public-https-test/auth.caddy' "$BASE/Caddyfile.media-test" || die "Basic Auth import missing from the staged config"
-grep -q 'X-Robots-Tag "noindex, nofollow"' "$BASE/Caddyfile.media-test" || die "noindex missing from the staged config"
+if [ "$MODE" = media-test ]; then
+  grep -q 'import /etc/vidfetch/public-https-test/auth.caddy' "$BASE/Caddyfile.media-test" || die "Basic Auth import missing from the staged config"
+  grep -q 'X-Robots-Tag "noindex, nofollow"' "$BASE/Caddyfile.media-test" || die "noindex missing from the staged config"
+else
+  [ "$(ci_profile_name)" = closed ] || die "the CI profile is '$(ci_profile_name)': the public window starts from the closed profile (06-profile.sh remove)"
+  grep -q "^PUBLIC_PROFILE = {'profile': 'public'," "$CI_HELPER" 2>/dev/null || die "the installed CI helper does not know the public profile: run 09-ci-helper.sh install first"
+  SRC="$(cd "$(dirname "$0")/.." && pwd)/Caddyfile.public"
+  [ -f "$SRC" ] && [ ! -L "$SRC" ] || die "Caddyfile.public missing next to this toolkit: send it again (send-to-vps.sh)"
+  # dl must stay exactly the reviewed tester-only block; the apex must keep its origin lock and closed media routes.
+  cmp -s <(sed -n '/^dl\.vidfetch\.app {/,$p' "$SRC") <(sed -n '/^dl\.vidfetch\.app {/,$p' "$BASE/Caddyfile.media-test") || die "the dl block of Caddyfile.public differs from the staged tester-only one"
+  grep -q '^    handle @outsideCloudflare {' "$SRC" && grep -q '^    @media path /api/fetch-info /api/download /api/queue /auth/transfer /download-helper$' "$SRC" \
+    && grep -q '@notTester not remote_ip {$VIDFETCH_MEDIA_TEST_IPS:192.0.2.1/32}' "$SRC" || die "Caddyfile.public lost its origin lock, its closed media routes or the tester gate"
+  install -o root -g root -m 0644 "$SRC" "$BASE/Caddyfile.public.next" && mv -f "$BASE/Caddyfile.public.next" "$BASE/Caddyfile.public"
+  cmp -s "$SRC" "$BASE/Caddyfile.public" || die "could not stage Caddyfile.public"
+fi
 LIST=$(tester_list)
 runuser -u vidfetch-proxy -- env "VIDFETCH_MEDIA_TEST_IPS=$LIST" XDG_CONFIG_HOME=/var/lib/vidfetch-proxy XDG_DATA_HOME=/var/lib/vidfetch-proxy \
-  "$CADDY" validate --config "$BASE/Caddyfile.media-test" --adapter caddyfile >/dev/null 2>&1 || die "caddy validate fails on the staged config: run 02-stage.sh again"
+  "$CADDY" validate --config "$BASE/$STAGED" --adapter caddyfile >/dev/null 2>&1 || die "caddy validate fails on $STAGED"
 # --- the apex must already be protected, otherwise 05-confirm.sh would prove nothing about this change
 if ! out=$(apex_protected base); then printf '%s\n' "$out" >&2; die "the apex is not protected as expected BEFORE the change: nothing done"; fi
 # --- arm first, change second
@@ -56,10 +75,10 @@ restore_now() {
 }
 { dropin_text > "$DROPIN.new" && chmod 0644 "$DROPIN.new" && mv -f "$DROPIN.new" "$DROPIN"; } || restore_now "drop-in write FAILED"
 $SYSTEMCTL daemon-reload || restore_now "daemon-reload FAILED"
-ln -sfn Caddyfile.media-test "$BASE/current" || restore_now "pointer switch FAILED"
+ln -sfn "$STAGED" "$BASE/current" || restore_now "pointer switch FAILED"
 $SYSTEMCTL reload $CADDY_UNIT || restore_now "reload FAILED"
 sleep 3
 $SYSTEMCTL is-active --quiet $CADDY_UNIT || restore_now "Caddy is not active after the reload"
-log "Caddy reloaded on the media-test configuration. Watch issuance: journalctl -u $CADDY_UNIT --since '-3min' --no-pager | grep -iE 'obtain|certificate|acme|error'"
-log "On a validation error: 05-cancel.sh at once (do not let Caddy retry). When the certificate is there: verify-tester.sh from the tester machine, verify-outsider.sh from 4G, then 05-confirm.sh --external-checks-passed"
+log "Caddy reloaded on $STAGED. Watch issuance: journalctl -u $CADDY_UNIT --since '-3min' --no-pager | grep -iE 'obtain|certificate|acme|error'"
+log "On a validation error: 05-cancel.sh at once (do not let Caddy retry). When the certificate is there: verify-tester.sh from the tester machine, verify-outsider.sh from 4G, then 05-confirm.sh --external-checks-passed (it applies the $MODE checks)"
 $SYSTEMCTL list-timers $CADDY_TIMER.timer --no-pager | sed -n 1,3p

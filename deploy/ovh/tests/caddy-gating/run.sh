@@ -2,7 +2,7 @@
 # Runs INSIDE the caddy:2 image (apk available). Local-only; nothing is installed on the VPS.
 set -u
 apk add -q python3 curl >/dev/null 2>&1
-python3 /c/gen.py /src/Caddyfile.test-only /tmp/dl.caddy /tmp/apex.caddy || exit 2
+python3 /c/gen.py /src/Caddyfile.test-only /tmp/dl.caddy /tmp/apex.caddy /src/Caddyfile.public /tmp/public.caddy || exit 2
 python3 - <<'PY' &
 import http.server
 class H(http.server.BaseHTTPRequestHandler):
@@ -46,5 +46,34 @@ for path in / /api/download-access /api/fetch-info /api/download; do
 done
 # The CI promoter probes from 127.0.0.1: it must reach the origin (Basic Auth is its job).
 expect "$(code GET vidfetch.app /)" 200 "apex accepts loopback peer (promoter/audit probes)"
+stop
+
+# ---- public apex (Caddyfile.public): pages and robots/sitemap reach the frontend, indexable; downloads stay closed
+start /tmp/public.caddy
+hdr() { curl -s -m 5 -D - -o /dev/null -X "$1" -H "Host: vidfetch.app" "http://127.0.0.1:8080$2" | tr -d '\r'; }
+body() { curl -s -m 5 -X "$1" -H "Host: vidfetch.app" "http://127.0.0.1:8080$2"; }
+for path in / /fr/ /legal /fr/mentions-legales /robots.txt /sitemap.xml; do
+  h=$(hdr GET $path)
+  expect "$(echo "$h" | head -1 | cut -d' ' -f2)" 200 "public: $path answered by the frontend"
+  expect "$(body GET $path)" BACKEND-REACHED "public: $path proxied to the frontend (not answered by Caddy)"
+  echo "$h" | grep -qi '^x-robots-tag' && { echo "not ok - public: $path carries an X-Robots-Tag header"; fail=1; } || echo "ok - public: $path has no X-Robots-Tag header (indexable)"
+  echo "$h" | grep -qi '^www-authenticate' && { echo "not ok - public: $path asks for credentials"; fail=1; } || echo "ok - public: $path asks for no credentials"
+done
+for path in /api/fetch-info /api/download /api/queue /auth/transfer /download-helper; do
+  for method in GET POST; do
+    h=$(hdr $method $path)
+    expect "$(echo "$h" | head -1 | cut -d' ' -f2)" 503 "public: $method $path stays closed (503)"
+    echo "$h" | grep -qi '^x-robots-tag: noindex' && echo "ok - public: $method $path noindex" || { echo "not ok - public: $method $path without noindex"; fail=1; }
+  done
+  expect "$(body GET $path | grep -c BACKEND-REACHED)" 0 "public: $path never reaches a backend"
+done
+h=$(hdr POST /api/download-access)
+echo "$h" | grep -qi '^x-robots-tag: noindex' && echo "ok - public: /api/download-access noindex (the frontend decides availability)" || { echo "not ok - public: /api/download-access without noindex"; fail=1; }
+for path in /auth/admission /auth/deployment /internal/x /server-status; do
+  expect "$(code GET vidfetch.app $path)" 404 "public: $path stays 404"
+done
+for path in / /robots.txt /sitemap.xml /api/download; do
+  expect "$(codeip GET vidfetch.app $path)" 403 "public: a direct non-Cloudflare peer is still refused: $path"
+done
 stop
 exit $fail

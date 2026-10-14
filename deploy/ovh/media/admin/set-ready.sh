@@ -7,6 +7,7 @@ V=${1:?0|1}; F=${2:-/etc/vidfetch/web.env}; [[ "$V" =~ ^[01]$ ]] || die "0 or 1"
 if [ "$V" = 1 ]; then
   [ -f /etc/vidfetch/ci-media-test-profile.json ] || die "install the CI media-test profile first (06-profile.sh)"
   for n in TURNSTILE_SITE_KEY TURNSTILE_SECRET_KEY VIDFETCH_ACCESS_SIGNING_KEY VIDFETCH_MEDIA_ORIGIN; do grep -q "^$n=" "$F" || die "$n missing from $F"; done
+  [ "$(ci_profile_name)" != public ] || log "NOTE: public CI profile: CI deploys and rollback checks refuse while READY=1 (downloads must be reported closed); set READY=0 again after the tester session"
 fi
 cp -p "$F" "$F.bak.$(date -u +%Y%m%dT%H%M%SZ)"
 T=$(mktemp "${F:?}.new.XXXXXX"); trap 'rm -f -- "${T:?}"' EXIT

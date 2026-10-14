@@ -18,9 +18,14 @@ die() { echo "REFUSED: $*" >&2; exit 1; }
 cd "$(git rev-parse --show-toplevel)"
 COMMIT=$(git rev-parse --verify --quiet "$REF^{commit}") || die "unknown git ref $REF (run: git fetch origin)"
 PREFIX=deploy/ovh/media; ADMIN=$PREFIX/admin; INSTALLER=$PREFIX/install-web-secrets.sh
+# The public launch also needs the public Caddy configuration and the CI promoter that knows the public profile.
+# Both land at the top of ~/media-test-stage; nothing is installed by this script.
+PUBLIC=$PREFIX/Caddyfile.public; PROMOTER=deploy/ovh/ci/promote.py
+SOURCES="$ADMIN $INSTALLER"
+for extra in "$PUBLIC" "$PROMOTER"; do git cat-file -e "$COMMIT:$extra" 2>/dev/null && SOURCES="$SOURCES $extra"; done
 REVISION=$(git show "$COMMIT:$ADMIN/common.sh" 2>/dev/null | sed -n 's/^TOOLKIT_REVISION=//p')
 [[ "$REVISION" =~ ^[0-9]+$ ]] && [ "$REVISION" -ge 2 ] || die "$REF ($(git rev-parse --short "$COMMIT")) does not contain the hardened toolkit (revision 2). Merge the hardening pull request, then: git fetch origin"
-NAMES="admin install-web-secrets.sh SOURCE_COMMIT SHA256SUMS.toolkit"
+NAMES="admin install-web-secrets.sh Caddyfile.public promote.py SOURCE_COMMIT SHA256SUMS.toolkit"
 RNAME=""
 if [ -n "$RENDER" ]; then
   RENDER=${RENDER%/}
@@ -32,8 +37,9 @@ if [ -n "$RENDER" ]; then
 fi
 # Expected SHA-256 of every file as it will sit in ~/media-test-stage, computed from the git objects themselves.
 checksums() {
-  git ls-tree -r --name-only "$COMMIT" "$ADMIN" "$INSTALLER" | LC_ALL=C sort | while IFS= read -r path; do
-    printf '%s  ./%s\n' "$(git cat-file blob "$COMMIT:$path" | shasum -a 256 | cut -c1-64)" "${path#"$PREFIX"/}"
+  # shellcheck disable=SC2086
+  git ls-tree -r --name-only "$COMMIT" $SOURCES | LC_ALL=C sort | while IFS= read -r path; do
+    printf '%s  ./%s\n' "$(git cat-file blob "$COMMIT:$path" | shasum -a 256 | cut -c1-64)" "${path#deploy/ovh/*/}"
   done
   printf '%s  ./SOURCE_COMMIT\n' "$(printf '%s\n' "$COMMIT" | shasum -a 256 | cut -c1-64)"
   if [ -n "$RNAME" ]; then
@@ -48,7 +54,8 @@ echo "sending toolkit revision $REVISION from $(git rev-parse --short "$COMMIT")
 # 1. the staging directory is private to the SSH user; whatever is there is kept under a dated name
 remote "set -e; umask 077; mkdir -p ~/media-test-stage; cd ~/media-test-stage; chmod 700 .; ts=\$(date -u +%Y%m%dT%H%M%SZ); for n in $NAMES; do if [ -e \"\$n\" ]; then mv -- \"\$n\" \"\$n.old-\$ts\"; echo \"kept previous \$n as \$n.old-\$ts\"; fi; done"
 # 2. the toolkit, streamed from the commit (executable bits come from git); deploy/ovh/media/ is stripped on arrival
-git archive "$COMMIT" "$ADMIN" "$INSTALLER" | remote 'umask 077; tar -C ~/media-test-stage --strip-components=3 -xf -'
+# shellcheck disable=SC2086
+git archive "$COMMIT" $SOURCES | remote 'umask 077; tar -C ~/media-test-stage --strip-components=3 -xf -'
 # 3. the rendered directory, as a plain ustar stream (no macOS extended-attribute headers)
 if [ -n "$RNAME" ]; then COPYFILE_DISABLE=1 tar --format=ustar -C "$(dirname "$RENDER")" -cf - "$RNAME" | remote 'umask 077; tar -C ~/media-test-stage -xf -'; fi
 # 4. what was sent, and the checksums to verify it against

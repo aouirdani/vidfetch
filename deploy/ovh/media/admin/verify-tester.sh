@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Run from the TESTER machine/network (the /32 you authorised). Read-only: plain HTTPS requests, no credentials.
-# Usage: verify-tester.sh EXPECTED_TESTER_IP [PHASE]     PHASE = pre-cert (port 80 only) | full (default)
+# Usage: verify-tester.sh EXPECTED_TESTER_IP [PHASE]     PHASE = pre-cert (port 80 only) | full (default) | public
+# public: same dl checks (certificate, gate, headers), with the apex expected public and indexable, downloads closed.
 set -u
 IP=${1:?expected tester IPv4}; PHASE=${2:-full}; VPS=15.235.127.165; fail=0; n=0
 ok() { n=$((n+1)); echo "ok $n - $1"; }; bad() { n=$((n+1)); echo "NOT OK $n - $1"; fail=1; }
@@ -22,10 +23,17 @@ h=$(curl -s -m 10 -D - -o /dev/null https://dl.vidfetch.app/nope)
 echo "$h" | grep -qi '^referrer-policy: no-referrer' && ok "dl: Referrer-Policy no-referrer" || bad "dl referrer policy"
 echo "$h" | grep -qi '^x-robots-tag: noindex' && ok "dl: noindex" || bad "dl noindex"
 echo "$h" | grep -qi '^cache-control: .*no-store' && ok "dl: no-store" || bad "dl cache"
-chk "$(code https://vidfetch.app/)" 401 "apex via Cloudflare: Basic Auth (401)"
-chk "$(curl -s -m 10 -D - -o /dev/null https://vidfetch.app/ | grep -ci '^x-robots-tag:.*noindex')" 1 "apex: noindex header"
-chk "$(code -X POST https://vidfetch.app/api/download-access)" 401 "apex /api/download-access needs Basic Auth first (401)"
+if [ "$PHASE" = public ]; then
+  chk "$(code https://vidfetch.app/)" 200 "apex via Cloudflare: public (200)"
+  chk "$(curl -s -m 10 -D - -o /dev/null https://vidfetch.app/ | grep -ci '^x-robots-tag:.*noindex')" 0 "apex: no noindex header"
+  chk "$(code -X POST -H 'Content-Type: application/json' -d '{}' https://vidfetch.app/api/download-access)" 503 "apex /api/download-access issues no grant while ready=0 (503)"
+  chk "$(code https://vidfetch.app/sitemap.xml)" 200 "apex sitemap published (200)"
+else
+  chk "$(code https://vidfetch.app/)" 401 "apex via Cloudflare: Basic Auth (401)"
+  chk "$(curl -s -m 10 -D - -o /dev/null https://vidfetch.app/ | grep -ci '^x-robots-tag:.*noindex')" 1 "apex: noindex header"
+  chk "$(code -X POST https://vidfetch.app/api/download-access)" 401 "apex /api/download-access needs Basic Auth first (401)"
+  chk "$(code https://vidfetch.app/sitemap.xml)" 404 "apex sitemap stays 404"
+fi
 for path in /api/download /api/fetch-info /api/queue /auth/transfer /download-helper; do chk "$(code https://vidfetch.app$path)" 503 "apex $path stays closed (503)"; done
-chk "$(code https://vidfetch.app/sitemap.xml)" 404 "apex sitemap stays 404"
 chk "$(code --resolve vidfetch.app:443:$VPS https://vidfetch.app/)" 403 "apex hit DIRECTLY (bypassing Cloudflare) from the tester IP is refused by Caddy (403)"
 echo; [ $fail = 0 ] && echo "ALL $n CHECKS PASSED" || echo "FAILURES PRESENT"; exit $fail

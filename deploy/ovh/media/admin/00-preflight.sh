@@ -39,6 +39,7 @@ echo "== CI frontend deployment gate (must be open to deploy the frontend throug
 if [ "$(cat /etc/vidfetch/ci-web-test-ready 2>/dev/null)" = APPROVED_FRONTEND_TEST ]; then echo "  gate: open"; else echo "  gate: closed"; fi
 echo "== media-test files (absent before the first run; staged files may exist if 02-stage.sh already ran)"
 for f in /etc/vidfetch/ci-media-test-profile.json $BASE/Caddyfile.media-test $BASE/ingress.nft.media-test $BASE/media-test-ips.env /etc/systemd/system/$CADDY_UNIT.d/media-test.conf; do [ -e "$f" ] && echo "  EXISTS $f" || echo "  absent $f"; done
+echo "== CI profile: $(ci_profile_name) (closed = no file; must match Caddy: public only with Caddyfile.public)"
 echo "== media-test windows: network (03/04) then Caddy (05)"
 for t in $TIMER $CADDY_TIMER; do printf '  %-26s timer %s\n' "$t" "$($SYSTEMCTL is-active $t.timer)"; done
 if [ -n "$LATEST" ] && [ -d "$LATEST" ]; then

@@ -50,6 +50,11 @@ R 'd=$(ls -d ~/media-test-stage/admin.old-* | head -1) && grep -q "old confirm" 
 R "[ \"\$(cat ~/media-test-stage/SOURCE_COMMIT)\" = $head ] && cd ~/media-test-stage && sha256sum --check --quiet SHA256SUMS.toolkit" && ok "source commit recorded and every file matches its checksum on the VPS" || bad "checksum / commit"
 R 'cd ~/media-test-stage/admin && for f in 00-preflight.sh 01-backup.sh 03-network.sh 04-confirm.sh 07-restore-full.sh restore-network.sh; do [ -x $f ] || exit 1; done; bash -n 03-network.sh' && ok "scripts arrive executable and parse on the VPS" || bad "modes"
 R 'cd ~/media-test-stage/render-open80 && sha256sum --check --quiet SHA256SUMS && grep -q 203.0.113.9 media-test-ips.env' && ok "rendered directory delivered intact" || bad "render dir"
+if git cat-file -e HEAD:deploy/ovh/media/Caddyfile.public 2>/dev/null; then
+  [ "$(R 'sha256sum ~/media-test-stage/Caddyfile.public ~/media-test-stage/promote.py' | cut -c1-64 | tr '\n' ' ')" = "$(git show HEAD:deploy/ovh/media/Caddyfile.public | shasum -a 256 | cut -c1-64) $(git show HEAD:deploy/ovh/ci/promote.py | shasum -a 256 | cut -c1-64) " ] \
+    && R 'cd ~/media-test-stage && grep -q "^./Caddyfile.public$" <(cut -c67- SHA256SUMS.toolkit) && grep -q "^./promote.py$" <(cut -c67- SHA256SUMS.toolkit) && [ -x admin/09-ci-helper.sh ]' \
+    && ok "the public Caddyfile and the CI promoter arrive next to the toolkit, byte-identical and covered by the checksums" || bad "public launch files"
+fi
 R '[ "$(ls -A ~ | grep -v -e "^\.ssh$" -e "^\.bash" -e "^\.profile$" -e "^\.cache$" | tr "\n" " ")" = "media-test-stage " ]' && ok "nothing is written outside ~/media-test-stage" || bad "extra files: $(R 'ls -A ~ | tr "\n" " "')"
 R '[ -z "$(find ~/media-test-stage -newer ~/.ssh/authorized_keys -perm /077 ! -name "*.old-*" ! -path "*.old-*/*")" ]' && ok "what was uploaded is readable by the SSH user only" || bad "permissions: $(R 'find ~/media-test-stage -perm /077 | head -3')"
 sleep 1; send HEAD "$T/render-open80" >/dev/null 2>&1 && R '[ "$(ls -d ~/media-test-stage/admin.old-* | wc -l)" = 2 ] && grep -q "^TOOLKIT_REVISION=2$" ~/media-test-stage/admin/common.sh' && ok "a second run keeps the previous copy again and verifies" || bad "second run"

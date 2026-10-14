@@ -9,6 +9,9 @@
 #  3. 05-confirm: refused without the flag, accepted on the real origin; 05-cancel reverts Caddy only
 #  4. the timer fires with no session: Caddy back to the original config, network rules untouched
 #  5. Caddy down and unable to start at the first attempt: systemd retries the rollback until Caddy is back
+#  6. public launch: 09-ci-helper.sh installs the public-aware promoter; 05-caddy.sh --public; the REAL promoter
+#     refuses the public apex while the CI profile is closed and accepts it once 05-confirm.sh installed the public
+#     profile; 05-cancel.sh and the timer bring back the protected apex AND the closed profile together
 set -u
 src=$(cd "$(dirname "$0")/../../.." && pwd); id=$$; c=vidfetch-cw-$id; fail=0
 trap 'docker rm -f $c >/dev/null 2>&1' EXIT
@@ -27,7 +30,17 @@ docker run -d --name $c --platform "linux/$arch" --privileged --cgroupns=host -v
 i=0; until docker exec $c systemctl is-system-running 2>/dev/null | grep -qE 'running|degraded'; do i=$((i+1)); [ $i -gt 60 ] && { echo "systemd did not start"; exit 2; }; sleep 1; done
 ok() { echo "ok - $1"; }; bad() { echo "not ok - $1"; fail=1; }
 X() { docker exec $c sh -c "$1"; }
-A=/r/deploy/ovh/media/admin; BASE=/etc/vidfetch/public-https-test; DROPIN=/etc/systemd/system/vidfetch-caddy.service.d/media-test.conf
+A=/root/media-test-stage/admin; BASE=/etc/vidfetch/public-https-test; DROPIN=/etc/systemd/system/vidfetch-caddy.service.d/media-test.conf
+# The toolkit laid out as send-to-vps.sh leaves it on the VPS: admin/ next to Caddyfile.public and promote.py.
+X "mkdir -p /root/media-test-stage && cp -R /r/deploy/ovh/media/admin /root/media-test-stage/ && cp /r/deploy/ovh/media/Caddyfile.public /r/deploy/ovh/ci/promote.py /root/media-test-stage/" || exit 2
+# No Internet ACME in a test: the public file gets the same internal-CA issuer as the two others (below), nothing else.
+X "python3 - <<'PY'
+import re
+path = '/root/media-test-stage/Caddyfile.public'
+text, n = re.subn(r'\(http01\) \{.*?\n\}\n', '(http01) {\n    tls internal\n}\n', open(path).read(), count=1, flags=re.S)
+assert n == 1
+open(path, 'w').write(text)
+PY" || exit 2
 X "systemctl is-active --quiet systemd-journald.service" || { echo "journald is not running in the test container"; exit 2; }
 OWNIP=$(docker exec $c sh -c "hostname -I | cut -d' ' -f1")
 echo "# setup: Caddy $(docker exec $c /opt/vidfetch/tools/caddy-2.11.7/caddy version | cut -d' ' -f1), tester IP = container address $OWNIP"
@@ -75,7 +88,7 @@ ExecStart=/usr/local/libexec/vidfetch-https-test-firewall apply
 U
 cat > /etc/systemd/system/vidfetch-web-preproduction-20261013.service <<'U'
 [Service]
-ExecStart=/usr/bin/python3 -m http.server 3001 --bind 127.0.0.1 --directory /srv
+ExecStart=/usr/bin/python3 /r/deploy/ovh/tests/fixtures/fake-frontend.py 3001
 U
 cat > /etc/systemd/system/fake-gateway.service <<'U'
 [Service]
@@ -145,5 +158,41 @@ X "journalctl -t vidfetch-caddy-rollback --no-pager | grep -q 'INCOMPLETE'" && !
 X "chmod 644 $BASE/Caddyfile"
 i=0; until X "test -e $B/caddy-restored"; do i=$((i+1)); [ $i -gt 90 ] && break; sleep 1; done
 X "test -e $B/caddy-restored" && X "systemctl is-active --quiet vidfetch-caddy.service" && [ "$(code --resolve vidfetch.app:443:127.0.0.1 https://vidfetch.app/)" = 401 ] && ok "systemd retried (Restart=on-failure): Caddy started on the original config, apex 401" || bad "retry"
+
+echo "# 6. public launch: Caddy and the CI promoter switch together, and come back together"
+# The CI helper installed today: the promoter of the previous release (no public profile) and its library.
+OLD=$(cd "$src" && git show 8675f55d:deploy/ovh/ci/promote.py 2>/dev/null) || OLD=""
+[ -n "$OLD" ] || { echo "SKIP 6: previous promoter not in this clone"; exit $fail; }
+X "mkdir -p /usr/local/libexec/vidfetch-ci /opt/vidfetch-ci-web && cp /r/deploy/ovh/ci/release-lib.py /usr/local/libexec/vidfetch-ci/ && echo '{\"release\":\"test\"}' > /tmp/manifest.json" || exit 2
+printf '%s\n' "$OLD" | docker exec -i $c sh -c 'cat > /usr/local/libexec/vidfetch-ci/promote.py && chmod 0755 /usr/local/libexec/vidfetch-ci/promote.py'
+X "bash $A/05-caddy.sh --port80-verified-from-outside --public 600" >/dev/null 2>&1 && bad "public window with the old promoter" || ok "05-caddy --public refuses while the installed promoter does not know the public profile"
+OUT=$(docker exec $c bash $A/09-ci-helper.sh install 2>&1); echo "$OUT" | grep -q '"profile": "closed"' && X "grep -q '^PUBLIC_PROFILE' /usr/local/libexec/vidfetch-ci/promote.py" && ok "09-ci-helper install: public-aware promoter in place, its real status runs (profile closed)" || bad "09-ci-helper install: $OUT"
+PIDS0=$(docker exec $c sh -c 'for u in ssh vidfetch-caddy vidfetch-web-preproduction-20261013 fake-gateway; do systemctl show $u -p MainPID --value; done | tr "\n" " "')
+NET1=$(docker exec $c sh -c "sha256sum $BASE/ingress.nft /var/tmp/live-table | cut -c1-64; cat /var/tmp/fw-calls | wc -l")
+# The success marker is assembled at run time: Python 3.13 tracebacks quote the -c source, which must never match.
+PROMOTE="python3 -c 'import runpy; runpy.run_path(\"/usr/local/libexec/vidfetch-ci/promote.py\")[\"origin_health\"](); print(\"ORIGIN\", \"OK\")'"
+X "$PROMOTE" 2>/dev/null | grep -q 'ORIGIN OK' && ok "(control) the real promoter accepts today's protected apex under the closed profile" || bad "promoter on the protected apex"
+hdr() { docker exec $c curl -s -m 10 -D - -o /dev/null "$@" | tr -d '\r'; }
+X "bash $A/05-caddy.sh --port80-verified-from-outside --public 600" >/tmp/cw-pub-$id 2>&1 && ok "05-caddy --public succeeds on the real Caddy" || { bad "05-caddy --public: $(tail -4 /tmp/cw-pub-$id)"; X "journalctl -u vidfetch-caddy --no-pager | tail -12"; exit 1; }
+rm -f /tmp/cw-pub-$id
+h=$(hdr --resolve vidfetch.app:443:127.0.0.1 https://vidfetch.app/)
+echo "$h" | head -1 | grep -q ' 200' && ! echo "$h" | grep -qi '^x-robots-tag' && ! echo "$h" | grep -qi '^www-authenticate' && ok "apex public: 200, no credentials, no X-Robots-Tag (strict TLS through loopback)" || bad "apex public headers: $(echo "$h" | head -6 | tr '\n' ' ')"
+[ "$(code --resolve vidfetch.app:443:127.0.0.1 https://vidfetch.app/api/download)" = 503 ] && [ "$(code -X POST -H 'Content-Type: application/json' -d '{}' --resolve vidfetch.app:443:127.0.0.1 https://vidfetch.app/api/download-access)" = 503 ] && hdr --resolve vidfetch.app:443:127.0.0.1 https://vidfetch.app/api/download | grep -qi '^x-robots-tag: noindex' && ok "downloads stay closed: media route 503, no grant (503), noindex on the APIs" || bad "closed downloads"
+[ "$(code --resolve dl.vidfetch.app:443:127.0.0.1 https://dl.vidfetch.app/api/fetch-info)" = 403 ] && [ "$(docker exec $c curl -s -m 10 --resolve dl.vidfetch.app:443:$OWNIP https://dl.vidfetch.app/api/fetch-info)" = GATEWAY-REACHED ] && ok "dl unchanged: trusted certificate, non-tester 403, tester reaches the gateway" || bad "dl in the public window"
+X "test ! -e /etc/vidfetch/ci-media-test-profile.json" && ok "during the window the CI profile is still closed" || bad "profile during the window"
+X "$PROMOTE" 2>&1 | grep -q 'Origin test protection failed' && ok "the real promoter REFUSES the public apex while the CI profile is closed (no CI deploy can slip in)" || bad "promoter during the window"
+OUT=$(docker exec $c bash $A/05-confirm.sh --external-checks-passed 2>&1); rc=$?
+[ $rc = 0 ] && echo "$OUT" | grep -q 'sitemap: 3 URL(s) checked' && echo "$OUT" | grep -q 'CI profile: public' && ok "05-confirm (public) accepts the real origin: sitemap pages, robots, redirect, closed downloads, dl; public profile installed" || bad "05-confirm public: $OUT"
+! X "systemctl is-active --quiet vidfetch-caddy-rollback.timer" && ok "rollback timer disarmed" || bad "timer still armed"
+X "$PROMOTE" 2>/dev/null | grep -q 'ORIGIN OK' && ok "the real promoter now ACCEPTS the public apex under the public profile (CI deploys and rollback keep working)" || bad "promoter after confirm: $(docker exec $c sh -c "$PROMOTE" 2>&1 | tail -1)"
+X "bash $A/05-cancel.sh >/dev/null" && [ "$(code --resolve vidfetch.app:443:127.0.0.1 https://vidfetch.app/)" = 401 ] && X "test ! -e /etc/vidfetch/ci-media-test-profile.json" && ok "05-cancel: Basic Auth back AND the CI profile closed again" || bad "05-cancel public"
+X "$PROMOTE" 2>/dev/null | grep -q 'ORIGIN OK' && ok "...and the real promoter accepts the protected apex again (Caddy and CI agree)" || bad "promoter after cancel"
+X "bash $A/05-caddy.sh --port80-verified-from-outside --public 120 >/dev/null" || { bad "05-caddy --public (timer run)"; exit 1; }
+echo "# waiting for the Caddy rollback timer of the public window (120 s)..."
+i=0; until X "test -e \$(readlink -f /var/backups/vidfetch-media-test-latest)/caddy-restored"; do i=$((i+1)); [ $i -gt 200 ] && break; sleep 1; done
+[ "$(docker exec $c readlink $BASE/current)" = Caddyfile ] && [ "$(code --resolve vidfetch.app:443:127.0.0.1 https://vidfetch.app/)" = 401 ] && X "test ! -e /etc/vidfetch/ci-media-test-profile.json" && ok "no confirmation: the timer alone brings back the protected apex, CI profile closed" || bad "public timer rollback"
+[ "$(docker exec $c sh -c "sha256sum $BASE/ingress.nft /var/tmp/live-table | cut -c1-64; cat /var/tmp/fw-calls | wc -l")" = "$NET1" ] && ok "the whole public launch touched no network rule (same ingress.nft, same live table, no firewall call)" || bad "network touched by the public launch"
+PIDS1=$(docker exec $c sh -c 'for u in ssh vidfetch-caddy vidfetch-web-preproduction-20261013 fake-gateway; do systemctl show $u -p MainPID --value; done | tr "\n" " "')
+[ "$PIDS1" = "$PIDS0" ] && ok "SSH, Caddy, frontend and gateway kept the same processes (reloads only, nothing restarted)" || bad "PIDs changed: $PIDS0 -> $PIDS1"
 LOGIN && ok "SSH key login still accepted at the end" || bad "SSH"
 exit $fail

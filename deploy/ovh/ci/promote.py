@@ -26,6 +26,8 @@ GUARD = Path('/etc/vidfetch/ci-web-test-guard.json')
 # Absent file = the original closed profile. The file can only be created by root.
 PROFILE = Path('/etc/vidfetch/ci-media-test-profile.json')
 MEDIA_PROFILE = {'profile': 'media-test', 'apex': 'basic-auth-noindex', 'dl': 'testers-only'}
+# Public launch: the apex pages are public and indexable, downloads stay closed and dl stays tester-only.
+PUBLIC_PROFILE = {'profile': 'public', 'apex': 'public-indexable', 'dl': 'testers-only'}
 UNIT = 'vidfetch-web-preproduction-20261013.service'
 PORT = 3001
 PROTECTED = ['ssh.service', 'vidfetch.service', 'vidfetch-gateway.service',
@@ -40,18 +42,24 @@ def trusted(path):
 
 
 def profile():
-    """'closed' (default) or 'media-test'. Anything unrecognised refuses to deploy.
+    """'closed' (default), 'media-test' or 'public'. Anything unrecognised refuses to deploy.
 
     media-test never relaxes the guard (file fingerprints, protected units, PIDs, engine
     artifacts) or the public-origin checks; it only stops requiring that the frontend
     reports downloads unavailable, and adds stricter apex checks for the media routes.
+    public never relaxes the guard either: it expects the apex pages indexable without
+    credentials, still requires downloads reported unavailable, and checks every media,
+    API and auth route closed and noindex.
     """
     if not PROFILE.exists():
         return 'closed'
     trusted(PROFILE)
-    if json.loads(PROFILE.read_text()) != MEDIA_PROFILE:
-        raise ValueError('Unrecognised CI profile; administrator review required')
-    return 'media-test'
+    data = json.loads(PROFILE.read_text())
+    if data == MEDIA_PROFILE:
+        return 'media-test'
+    if data == PUBLIC_PROFILE:
+        return 'public'
+    raise ValueError('Unrecognised CI profile; administrator review required')
 
 
 ACTIVE = None  # selected once per run in main(); never re-read mid-transaction
@@ -102,7 +110,7 @@ def health(expected):
     status, body = response(PORT, '/api/health')
     data = json.loads(body)
     available = data.get('downloads', {}).get('available')
-    # closed: media must be reported unavailable. media-test: operational state, but a real boolean.
+    # closed and public: media must be reported unavailable. media-test: operational state, but a real boolean.
     allowed = isinstance(available, bool) if active_profile() == 'media-test' else available is False
     if status != 200 or not data.get('ok') or data.get('release') != expected or not allowed:
         raise ValueError('Frontend readiness or closed-media check failed')
@@ -128,8 +136,32 @@ MEDIA_CHECKS = [('POST', '/api/download-access', 401), ('GET', '/api/download-ac
                 ('GET', '/api/queue', 503), ('GET', '/auth/transfer', 503), ('GET', '/download-helper', 503)]
 
 
+# public: these pages must answer 200 without credentials and without any noindex (header or meta); everything
+# else listed must stay closed and carry X-Robots-Tag noindex.
+PUBLIC_PAGES = ['/', '/fr/', '/robots.txt', '/sitemap.xml']
+PUBLIC_CHECKS = [('GET', page, 200) for page in PUBLIC_PAGES] + [
+    ('GET', '/api/download', 503), ('GET', '/api/fetch-info', 503), ('GET', '/api/queue', 503),
+    ('GET', '/auth/transfer', 503), ('GET', '/download-helper', 503), ('POST', '/api/download-access', 503),
+    ('GET', '/auth/admission', 404), ('GET', '/internal/state', 404)]
+
+
 def origin_checks():
+    if active_profile() == 'public':
+        return PUBLIC_CHECKS
     return ORIGIN_CHECKS + (MEDIA_CHECKS if active_profile() == 'media-test' else [])
+
+
+def public_page_problem(path, headers, body):
+    """Why a public page is not indexable, or None. Body = the first 256 KiB."""
+    if 'noindex' in headers.get('X-Robots-Tag', '') or headers.get('WWW-Authenticate'):
+        return 'noindex header or credentials requested'
+    if re.search(rb'<meta name="robots" content="[^"]*noindex', body):
+        return 'robots meta noindex'
+    if path == '/robots.txt' and (b'Sitemap: https://vidfetch.app/sitemap.xml' not in body or re.search(rb'(?mi)^Disallow: */\s*$', body)):
+        return 'robots.txt does not publish the sitemap or disallows everything'
+    if path == '/sitemap.xml' and b'<loc>https://vidfetch.app/</loc>' not in body:
+        return 'sitemap without the home page'
+    return None
 
 
 def origin_health():
@@ -146,11 +178,16 @@ def origin_health():
                 raise
             conn.request(method, path, body=b'{}' if method == 'POST' else None)
             result = conn.getresponse()
+            body = result.read(262144)
+            if active_profile() == 'public' and path in PUBLIC_PAGES and method == 'GET':
+                problem = public_page_problem(path, result.headers, body) if result.status == expected else 'status ' + str(result.status)
+                if problem:
+                    raise ValueError('Public page not indexable: ' + path + ': ' + problem)
+                continue
             if result.status != expected or 'noindex' not in result.headers.get('X-Robots-Tag', ''):
                 raise ValueError('Origin test protection failed: ' + method + ' ' + path + ' status ' + str(result.status))
             if expected == 401 and 'Basic' not in result.headers.get('WWW-Authenticate', ''):
                 raise ValueError('Origin authentication missing')
-            result.read(65536)
         finally:
             conn.close()
 
