@@ -5,7 +5,7 @@
 take_lock
 $SYSTEMCTL is-active --quiet $TIMER.timer && die "dead-man timer armed: confirm or cancel first"
 [ ! -e "$DROPIN" ] || die "media-test drop-in present: system already modified; restore (04-cancel.sh) before a new backup"
-grep -q 'testers4' "$BASE/ingress.nft" && die "ingress.nft already contains testers4: not the original state"
+grep -q 'testers4' "$BASE/ingress.nft" && die "ingress.nft already contains testers4: not the original state. No new backup is needed once 04-confirm.sh succeeded: the latest one stays valid, continue with 05-caddy.sh (04-cancel.sh only to start over)"
 [ "$(basename "$(readlink "$BASE/current")")" != Caddyfile.media-test ] || die "Caddy already points at the media-test config: not the original state"
 TS=$(date -u +%Y%m%dT%H%M%SZ)
 # mktemp: a unique 0700 directory even when two backups are taken within the same second

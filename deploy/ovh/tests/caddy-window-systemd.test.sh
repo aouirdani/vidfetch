@@ -1,0 +1,149 @@
+#!/bin/sh
+# Host side, opt-in (about 8 minutes). A throwaway Debian 13 container (same release as the VPS) runs a REAL systemd
+# as PID 1, a REAL OpenSSH server and the REAL Caddy 2.11.7 under the production unit file
+# (deploy/ovh/public-test/vidfetch-caddy.service: User vidfetch-proxy, Type=notify, sandboxing, reload over the
+# admin socket). Only the firewall helper and nft are stubs. Certificates come from Caddy's internal CA, added to
+# the container's trust store, so the scripts' strict TLS checks run unchanged. The host is never involved.
+#  1. the VPS state: network window confirmed with a real key login; 01-backup and 03-network refuse; 05-caddy works
+#  2. 05-caddy: drop-in read at reload (tester reaches the gateway, loopback refused), same Caddy PID, timer armed
+#  3. 05-confirm: refused without the flag, accepted on the real origin; 05-cancel reverts Caddy only
+#  4. the timer fires with no session: Caddy back to the original config, network rules untouched
+#  5. Caddy down and unable to start at the first attempt: systemd retries the rollback until Caddy is back
+set -u
+src=$(cd "$(dirname "$0")/../../.." && pwd); id=$$; c=vidfetch-cw-$id; fail=0
+trap 'docker rm -f $c >/dev/null 2>&1' EXIT
+arch=$(docker version -f '{{.Server.Arch}}' 2>/dev/null) || exit 2
+img=vidfetch-caddywin-test:deb13-$arch
+docker build -q --platform "linux/$arch" -t "$img" - >/dev/null <<'DOCKERFILE' || { echo "could not build the test image"; exit 2; }
+FROM caddy:2.11.7@sha256:f2a1290d0463aad60660d4ec134943f183ee2a5f6c3eb7bf32dd984f2f020772 AS caddy
+FROM debian:13
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends systemd systemd-sysv dbus openssh-server openssh-client util-linux procps ca-certificates curl python3 >/dev/null && rm -rf /var/lib/apt/lists/* && systemctl mask getty.target console-getty.service systemd-logind.service >/dev/null 2>&1; mkdir -p /run/sshd
+COPY --from=caddy /usr/bin/caddy /opt/vidfetch/tools/caddy-2.11.7/caddy
+STOPSIGNAL SIGRTMIN+3
+CMD ["/sbin/init"]
+DOCKERFILE
+docker run -d --name $c --platform "linux/$arch" --privileged --cgroupns=host -v /sys/fs/cgroup:/sys/fs/cgroup:rw --tmpfs /run --tmpfs /run/lock -v "$src":/r:ro "$img" >/dev/null || exit 2
+i=0; until docker exec $c systemctl is-system-running 2>/dev/null | grep -qE 'running|degraded'; do i=$((i+1)); [ $i -gt 60 ] && { echo "systemd did not start"; exit 2; }; sleep 1; done
+ok() { echo "ok - $1"; }; bad() { echo "not ok - $1"; fail=1; }
+X() { docker exec $c sh -c "$1"; }
+A=/r/deploy/ovh/media/admin; BASE=/etc/vidfetch/public-https-test; DROPIN=/etc/systemd/system/vidfetch-caddy.service.d/media-test.conf
+X "systemctl is-active --quiet systemd-journald.service" || { echo "journald is not running in the test container"; exit 2; }
+OWNIP=$(docker exec $c sh -c "hostname -I | cut -d' ' -f1")
+echo "# setup: Caddy $(docker exec $c /opt/vidfetch/tools/caddy-2.11.7/caddy version | cut -d' ' -f1), tester IP = container address $OWNIP"
+X "mkdir -p /root/.ssh && chmod 700 /root/.ssh && ssh-keygen -q -t ed25519 -N '' -f /root/.ssh/id_ed25519 && cat /root/.ssh/id_ed25519.pub > /root/.ssh/authorized_keys && chmod 600 /root/.ssh/authorized_keys && systemctl start ssh.service" || { echo "no sshd"; exit 2; }
+LOGIN() { X "ssh -4 -q -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=/root/.ssh/kh root@$OWNIP true"; }
+# Caddy configurations: the live Phase 5 file and the candidate, both from the repository; only the ACME issuer
+# is replaced by Caddy's internal CA (no Internet in a test).
+X "python3 - <<'PY'
+import re
+for src, dst in (('/r/deploy/ovh/public-test/Caddyfile', '/tmp/live.caddy'), ('/r/deploy/ovh/media/Caddyfile.test-only', '/tmp/candidate.caddy')):
+    text = open(src).read()
+    text, n = re.subn(r'\(http01\) \{.*?\n\}\n', '(http01) {\n    tls internal\n}\n', text, count=1, flags=re.S)
+    assert n == 1, src
+    open(dst, 'w').write(text)
+PY" || exit 2
+X "
+set -e
+useradd --system --no-create-home --shell /usr/sbin/nologin vidfetch-proxy
+mkdir -p $BASE /usr/local/libexec /usr/local/bin /opt/vidfetch-web-preproduction-20261013 /etc/systemd/system/vidfetch-caddy.service.d /srv/gw/api
+ln -sfn /tmp /opt/vidfetch-web-preproduction-20261013/current
+cp /tmp/live.caddy $BASE/Caddyfile; cp /tmp/live.caddy $BASE/Caddyfile.bootstrap; ln -sfn Caddyfile $BASE/current
+printf 'basic_auth {\n    tester %s\n}\n' \"\$(/opt/vidfetch/tools/caddy-2.11.7/caddy hash-password --plaintext test-only-password)\" > $BASE/auth.caddy
+chmod 644 $BASE/*; echo ORIGINAL > $BASE/ingress.nft
+echo '{\"files\":{}}' > /etc/vidfetch/ci-web-test-guard.json; echo VIDFETCH_CONNECTION_READY=0 > /etc/vidfetch/web.env; chmod 600 /etc/vidfetch/web.env
+echo 'table inet vidfetch_https_test_ingress { set cloudflare4 {} }' > /var/tmp/live-table
+cat > /usr/local/libexec/vidfetch-https-test-firewall <<'F'
+#!/bin/sh
+if grep -q testers4 $BASE/ingress.nft; then echo 'table inet vidfetch_https_test_ingress { set testers4 {} }'; else echo 'table inet vidfetch_https_test_ingress { set cloudflare4 {} }'; fi > /var/tmp/live-table
+echo applied >> /var/tmp/fw-calls
+F
+cat > /usr/local/bin/nft <<'F'
+#!/bin/sh
+case \"\$1\" in --check|--file) echo \"nft \$*\" >> /var/tmp/fw-calls; exit 0;; esac
+if [ \"\$1 \$2\" = 'list ruleset' ]; then echo 'table inet x {}'; else cat /var/tmp/live-table; fi
+F
+chmod +x /usr/local/libexec/vidfetch-https-test-firewall /usr/local/bin/nft
+echo GATEWAY-REACHED > /srv/gw/api/fetch-info
+cat > /etc/systemd/system/vidfetch-https-test-ingress.service <<'U'
+[Unit]
+Before=vidfetch-caddy.service
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/usr/local/libexec/vidfetch-https-test-firewall apply
+U
+cat > /etc/systemd/system/vidfetch-web-preproduction-20261013.service <<'U'
+[Service]
+ExecStart=/usr/bin/python3 -m http.server 3001 --bind 127.0.0.1 --directory /srv
+U
+cat > /etc/systemd/system/fake-gateway.service <<'U'
+[Service]
+ExecStart=/usr/bin/python3 -m http.server 8789 --bind 127.0.0.1 --directory /srv/gw
+U
+cp /r/deploy/ovh/public-test/vidfetch-caddy.service /etc/systemd/system/vidfetch-caddy.service
+systemctl daemon-reload
+systemctl start fake-gateway.service vidfetch-caddy.service
+" || { echo "setup failed"; X "journalctl -u vidfetch-caddy --no-pager | tail -20"; exit 2; }
+ROOT=/var/lib/vidfetch-proxy/caddy/pki/authorities/local/root.crt
+i=0; until docker exec $c test -s $ROOT; do i=$((i+1)); [ $i -gt 30 ] && { echo "Caddy internal CA not created"; X "journalctl -u vidfetch-caddy --no-pager | tail -20"; exit 2; }; sleep 1; done
+X "cp $ROOT /usr/local/share/ca-certificates/vidfetch-test-caddy-root.crt && update-ca-certificates >/dev/null 2>&1" || exit 2
+code() { docker exec $c curl -s -m 10 -o /dev/null -w '%{http_code}' "$@"; }     # strict TLS: never -k
+i=0; until [ "$(code --resolve vidfetch.app:443:127.0.0.1 https://vidfetch.app/)" = 401 ]; do i=$((i+1)); [ $i -gt 30 ] && { echo "apex not served with a trusted certificate"; exit 2; }; sleep 1; done
+ok "(setup) real Caddy under the production unit serves the live config: apex 401 through loopback, strict TLS"
+PID0=$(docker exec $c systemctl show vidfetch-caddy -p MainPID --value)
+
+echo "# 1. the state reached on the VPS: network window confirmed"
+R=/var/tmp/render
+X "mkdir -p $R && cd $R && printf 'NEW\n        tcp dport 80 accept\n        tcp dport 443 ip saddr @testers4 accept\n' > ingress.nft && printf 'VIDFETCH_MEDIA_TEST_IPS=$OWNIP/32\n' > media-test-ips.env && cp /tmp/candidate.caddy Caddyfile.test-only && sha256sum ingress.nft media-test-ips.env Caddyfile.test-only > SHA256SUMS"
+X "bash $A/01-backup.sh >/dev/null && bash $A/02-stage.sh $R" >/tmp/cw-stage-$id 2>&1 && grep -q 'Valid configuration' /tmp/cw-stage-$id && ok "01-backup, then 02-stage with a REAL caddy validate of the candidate (as vidfetch-proxy)" || { bad "backup/stage: $(tail -3 /tmp/cw-stage-$id)"; exit 1; }
+rm -f /tmp/cw-stage-$id
+B=$(docker exec $c readlink -f /var/backups/vidfetch-media-test-latest)
+X "bash $A/03-network.sh open80 300 >/dev/null" || { bad "03-network"; exit 1; }
+sleep 4; LOGIN && X "bash $A/04-confirm.sh >/dev/null" && X "test -e $B/confirmed" && ! X "systemctl is-active --quiet vidfetch-media-rollback.timer" && ok "network window confirmed by a REAL public-key login from the tester IP (04-confirm.sh)" || { bad "network confirm"; exit 1; }
+X "bash $A/01-backup.sh" >/dev/null 2>&1 && bad "01-backup accepted" || ok "01-backup refuses, as on the VPS"
+X "bash $A/03-network.sh open80 300" >/dev/null 2>&1 && bad "03 re-armed" || ok "03-network refuses, as on the VPS"
+NET0=$(docker exec $c sh -c "sha256sum $BASE/ingress.nft /var/tmp/live-table | cut -c1-64; cat /var/tmp/fw-calls | wc -l")
+
+echo "# 2. 05-caddy.sh on the real Caddy"
+X "bash $A/05-caddy.sh --port80-verified-from-outside 600" >/tmp/cw-05-$id 2>&1 && ok "05-caddy.sh succeeds" || { bad "05-caddy: $(tail -5 /tmp/cw-05-$id)"; X "journalctl -u vidfetch-caddy --no-pager | tail -15"; exit 1; }
+rm -f /tmp/cw-05-$id
+X "systemctl is-active --quiet vidfetch-caddy-rollback.timer" && X "systemctl show vidfetch-caddy-rollback.service -p ExecStart --value" | grep -q "$B/restore-caddy.sh" && ok "systemd rollback timer armed, running restore-caddy.sh from the backup" || bad "rollback timer"
+[ "$(docker exec $c systemctl show vidfetch-caddy -p MainPID --value)" = "$PID0" ] && ok "same Caddy process (reload, not restart)" || bad "Caddy was restarted"
+[ "$(code --resolve dl.vidfetch.app:443:127.0.0.1 https://dl.vidfetch.app/api/fetch-info)" = 403 ] && ok "dl: trusted certificate, loopback (non-tester) refused 403 on a gateway route" || bad "dl loopback"
+[ "$(docker exec $c curl -s -m 10 --resolve dl.vidfetch.app:443:$OWNIP https://dl.vidfetch.app/api/fetch-info)" = GATEWAY-REACHED ] && ok "dl: the tester IP reaches the gateway: the drop-in's tester list was read at reload" || bad "tester does not reach the gateway (drop-in env not applied?)"
+[ "$(code --resolve dl.vidfetch.app:443:$OWNIP https://dl.vidfetch.app/api/health)" = 404 ] && ok "dl: tester still cannot reach an unlisted route (404)" || bad "dl unlisted route"
+[ "$(code --resolve vidfetch.app:443:127.0.0.1 https://vidfetch.app/)" = 401 ] && [ "$(code -X POST --resolve vidfetch.app:443:127.0.0.1 https://vidfetch.app/api/download-access)" = 401 ] && ok "apex: Basic Auth kept, /api/download-access behind it" || bad "apex after switch"
+[ "$(docker exec $c sh -c "sha256sum $BASE/ingress.nft /var/tmp/live-table | cut -c1-64; cat /var/tmp/fw-calls | wc -l")" = "$NET0" ] && ok "network untouched: same ingress.nft, same live table, no firewall call" || bad "network changed by 05-caddy"
+
+echo "# 3. 05-confirm.sh and 05-cancel.sh"
+X "bash $A/05-confirm.sh" >/dev/null 2>&1 && bad "confirm without flag" || ok "05-confirm refuses without --external-checks-passed"
+OUT=$(docker exec $c bash $A/05-confirm.sh --external-checks-passed 2>&1); rc=$?
+[ $rc = 0 ] && echo "$OUT" | grep -q 'dl: trusted certificate' && echo "$OUT" | grep -q 'apex: Basic Auth' && ok "05-confirm accepts on the REAL origin (strict TLS through loopback)" || bad "confirm on the real origin: $OUT"
+! X "systemctl is-active --quiet vidfetch-caddy-rollback.timer" && X "test -s $B/caddy-confirmed" && ok "Caddy rollback timer disarmed, confirmation recorded" || bad "state after confirm"
+X "bash $A/05-cancel.sh >/dev/null" && [ "$(docker exec $c readlink $BASE/current)" = Caddyfile ] && ! X "test -e $DROPIN" && ok "05-cancel: original pointer, no drop-in" || bad "05-cancel"
+[ "$(code --resolve dl.vidfetch.app:443:127.0.0.1 https://dl.vidfetch.app/)" = 000 ] && [ "$(code --resolve vidfetch.app:443:127.0.0.1 https://vidfetch.app/)" = 401 ] && ok "...the real Caddy no longer serves dl; apex 401" || bad "after cancel"
+[ "$(docker exec $c sh -c "sha256sum $BASE/ingress.nft /var/tmp/live-table | cut -c1-64; cat /var/tmp/fw-calls | wc -l")" = "$NET0" ] && X "test -e $B/confirmed" && ok "...network rules still the confirmed ones" || bad "network changed by 05-cancel"
+
+echo "# 4. no confirmation: the systemd timer restores Caddy alone"
+X "bash $A/05-caddy.sh --port80-verified-from-outside 120 >/dev/null" || { bad "05-caddy (timer run)"; exit 1; }
+[ "$(code --resolve dl.vidfetch.app:443:127.0.0.1 https://dl.vidfetch.app/)" = 403 ] && ok "(setup) media-test config live" || bad "setup 4"
+echo "# waiting for the Caddy rollback timer (120 s)..."
+i=0; until X "test -e $B/caddy-restored"; do i=$((i+1)); [ $i -gt 200 ] && break; sleep 1; done
+[ "$(docker exec $c readlink $BASE/current)" = Caddyfile ] && ! X "test -e $DROPIN" && X "test -e $B/caddy-restored" && ok "timer fired with no session: original pointer, drop-in removed, restore recorded" || bad "timer restore"
+[ "$(docker exec $c systemctl show vidfetch-caddy -p MainPID --value)" = "$PID0" ] && [ "$(code --resolve dl.vidfetch.app:443:127.0.0.1 https://dl.vidfetch.app/)" = 000 ] && [ "$(code --resolve vidfetch.app:443:127.0.0.1 https://vidfetch.app/)" = 401 ] && ok "Caddy reloaded in place: dl gone, apex 401" || bad "Caddy after the timer"
+[ "$(docker exec $c sh -c "sha256sum $BASE/ingress.nft /var/tmp/live-table | cut -c1-64; cat /var/tmp/fw-calls | wc -l")" = "$NET0" ] && X "test -e $B/confirmed" && ! X "systemctl is-active --quiet vidfetch-media-rollback.timer" && ok "network rules untouched by the Caddy rollback (no firewall call, still confirmed)" || bad "network touched by the Caddy rollback"
+X "journalctl -t vidfetch-caddy-rollback --no-pager" | grep -q 'Caddy restored' && ok "rollback logged under vidfetch-caddy-rollback" || bad "journal"
+X "bash $A/05-confirm.sh --external-checks-passed" >/dev/null 2>&1 && bad "confirm after rollback" || ok "05-confirm refuses once the rollback ran"
+
+echo "# 5. Caddy down and its configuration unreadable at the first attempt: systemd retries"
+X "bash $A/05-caddy.sh --port80-verified-from-outside 120 >/dev/null" || { bad "05-caddy (retry run)"; exit 1; }
+X "systemctl stop vidfetch-caddy.service; chmod 600 $BASE/Caddyfile"
+echo "# waiting for the first (failing) rollback attempt..."
+i=0; until X "journalctl -t vidfetch-caddy-rollback --no-pager | grep -q 'INCOMPLETE'"; do i=$((i+1)); [ $i -gt 200 ] && break; sleep 1; done
+X "journalctl -t vidfetch-caddy-rollback --no-pager | grep -q 'INCOMPLETE'" && ! X "test -e $B/caddy-restored" && ok "first attempt: Caddy cannot start, restore reported INCOMPLETE (exit 1)" || bad "first attempt"
+X "chmod 644 $BASE/Caddyfile"
+i=0; until X "test -e $B/caddy-restored"; do i=$((i+1)); [ $i -gt 90 ] && break; sleep 1; done
+X "test -e $B/caddy-restored" && X "systemctl is-active --quiet vidfetch-caddy.service" && [ "$(code --resolve vidfetch.app:443:127.0.0.1 https://vidfetch.app/)" = 401 ] && ok "systemd retried (Restart=on-failure): Caddy started on the original config, apex 401" || bad "retry"
+LOGIN && ok "SSH key login still accepted at the end" || bad "SSH"
+exit $fail

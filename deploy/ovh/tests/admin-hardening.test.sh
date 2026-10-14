@@ -14,11 +14,12 @@ n=$(basename "$0"); echo "$n $*" >> "$STATE/calls.log"
 case "$n" in
   systemctl) case "$1" in
       is-active) [ "$2" = --quiet ] && t=$3 || t=$2
-        case "$t" in vidfetch-media-rollback.timer) [ -f "$STATE/armed" ];; vidfetch-media-rollback.service) [ -f "$STATE/restoring" ];; vidfetch-caddy.service) [ ! -f "$STATE/caddy-down" ];; *) exit 0;; esac ;;
-      stop) rm -f "$STATE/armed" ;;
+        case "$t" in vidfetch-media-rollback.timer) [ -f "$STATE/armed" ];; vidfetch-media-rollback.service) [ -f "$STATE/restoring" ];; vidfetch-caddy.service) [ ! -f "$STATE/caddy-down" ];;
+          vidfetch-caddy-rollback.timer) [ -f "$STATE/caddy-armed" ];; vidfetch-caddy-rollback.service) exit 1;; *) exit 0;; esac ;;
+      stop) case "$2" in vidfetch-caddy-rollback.timer) rm -f "$STATE/caddy-armed";; *) rm -f "$STATE/armed";; esac ;;
       reload) c=$(cat "$STATE/reload-fails" 2>/dev/null || echo 0); if [ "$c" -gt 0 ]; then echo $((c-1)) > "$STATE/reload-fails"; exit 1; fi ;;
       show) case "$*" in *ExecStart*) case "$2" in vidfetch.service) echo "{ path=/usr/bin/node ; argv[]=/usr/bin/node --max-old-space-size=192 $STATE/run/vidfetch-ovh.cjs ; ignore_errors=no }";; vidfetch-gateway.service) echo "{ path=/usr/bin/node ; argv[]=/usr/bin/node $STATE/run/vidfetch-gateway.cjs ; ignore_errors=no }";; esac;; *) echo 4242;; esac ;; esac ;;
-  systemd-run) touch "$STATE/armed" ;;
+  systemd-run) case "$*" in *--unit=vidfetch-caddy-rollback*) touch "$STATE/caddy-armed";; *) touch "$STATE/armed";; esac ;;
   nft) [ -f "$STATE/nft-list-fails" ] && [ "$1" = list ] && exit 1
        case "$1" in --check) exit 0;; --file) [ -f "$STATE/nft-apply-fails" ] && exit 1; exit 0;; esac
        if [ "$1 $2" = "list ruleset" ]; then echo "table inet x {}"; else cat "$STATE/live-table" 2>/dev/null || echo "table inet vidfetch_https_test_ingress { set cloudflare4 {} }"; fi ;;
@@ -32,8 +33,12 @@ cat > "$W/fw" <<'S'
 echo "fw $*" >> "$STATE/calls.log"; [ -f "$STATE/fw-fails" ] && exit 1; cp "$BASE_FOR_FW/ingress.nft" "$STATE/applied.nft"; exit 0
 S
 chmod +x "$W/fw"
+# origin probes of 05-caddy.sh (common.sh origin()): answers per Caddy configuration, see fixtures/
+printf '#!/bin/sh\nexec python3 /r/deploy/ovh/tests/fixtures/origin-curl-stub.py "$@"\n' > "$W/curl-origin"; chmod +x "$W/curl-origin"
+. /r/deploy/ovh/tests/fixtures/origin-tables.sh; origin_tables "$W/origin"
 export STATE="$W/state" BASE_FOR_FW=$BASE PATH="$W/bin:$PATH" VM_BACKUPS="$W/bk" VM_FW="$W/fw" VM_CADDY=/bin/true VM_JOURNALCTL="$W/bin/journalctl" \
-  VM_LOCK="$W/lock" VM_LOCK_WAIT=1 VM_RESTORE_LOCK_WAIT=30 VM_SYSTEMCTL="$W/bin/systemctl" VM_NFT="$W/bin/nft"
+  VM_LOCK="$W/lock" VM_LOCK_WAIT=1 VM_RESTORE_LOCK_WAIT=30 VM_SYSTEMCTL="$W/bin/systemctl" VM_NFT="$W/bin/nft" \
+  VM_CURL="$W/curl-origin" ORIGIN_BASE=$BASE ORIGIN_TABLES="$W/origin"
 fail=0; n=0; ok() { n=$((n+1)); echo "ok $n - $1"; }; bad() { n=$((n+1)); echo "not ok $n - $1"; fail=1; }
 calls() { cat "$STATE/calls.log" 2>/dev/null; }
 reset_state() { rm -f "$STATE"/* ; : > "$STATE/calls.log"; }
@@ -76,8 +81,11 @@ diff -r /etc/vidfetch "$B/etc-vidfetch-tree" >/dev/null && ok "whole /etc/vidfet
 S0=$(snap)
 # --- mutate EVERYTHING the activation touches
 stage_files; bash $A/03-network.sh open80 300 >/dev/null 2>&1 || bad "03 in D"
-touch "$STATE/armed"; echo 'import auth.caddy' >> $BASE/Caddyfile.media-test
+# network window confirmed (04-confirm.sh is covered in A), then the Caddy window
+rm -f "$STATE/armed"; date +%s.%N > "$B/confirmed"; echo "table inet vidfetch_https_test_ingress { set testers4 {} }" > "$STATE/live-table"
+echo 'import auth.caddy' >> $BASE/Caddyfile.media-test
 bash $A/05-caddy.sh --port80-verified-from-outside >/dev/null 2>&1 || bad "05 in D"
+rm -f "$STATE/live-table"   # the stub table does not follow the helper: restore-full verifies the restored table
 printf 'TURNSTILE_SITE_KEY=%s\nTURNSTILE_SECRET_KEY=%s\nVIDFETCH_ACCESS_SIGNING_KEY=%s\nVIDFETCH_MEDIA_ORIGIN=https://dl.vidfetch.app\nVIDFETCH_CONNECTION_READY=1\n' x $CAN1 $CAN2 >> /etc/vidfetch/web.env
 sed -i 's#api.vidfetch.app#dl.vidfetch.app#' /etc/vidfetch/gateway.env
 echo '{"files":{"/etc/vidfetch/web.env":"zzz","/etc/vidfetch/new":"1"}}' > /etc/vidfetch/ci-web-test-guard.json
@@ -195,6 +203,7 @@ grep -q NEW-INGRESS $BASE/ingress.nft && ok "...and nothing was changed" || bad 
 echo "# C. no concurrent Caddy/network changes during the restore window"
 holder() { ( exec 9>"$W/lock"; flock 9; sleep "$1" ) & sleep 0.5; }
 clean_armed() { reset_state; mkfix; bash $A/01-backup.sh >/dev/null 2>&1; B=$(readlink -f "$W/bk/vidfetch-media-test-latest"); stage_files; bash $A/03-network.sh open80 300 >/dev/null 2>&1 || bad "clean_armed: 03 failed"; }
+clean_confirmed() { clean_armed; rm -f "$STATE/armed"; date +%s.%N > "$B/confirmed"; echo "table inet vidfetch_https_test_ingress { set testers4 {} }" > "$STATE/live-table"; }
 # each script is otherwise perfectly valid: ONLY the held lock may stop it
 reset_state; mkfix; bash $A/01-backup.sh >/dev/null 2>&1; B=$(readlink -f "$W/bk/vidfetch-media-test-latest"); stage_files; : > "$STATE/calls.log"
 holder 5; bash $A/03-network.sh open80 300 >/dev/null 2>&1 && bad "03 while lock held" || ok "03-network refuses while another operation holds the lock"
@@ -204,9 +213,10 @@ ARM=$(cat "$B/armed-at"); : > "$STATE/journal.txt"; printf '%s vps sshd[1]: Acce
 holder 5; bash $A/04-confirm.sh >/dev/null 2>&1 && bad "confirm while lock held" || ok "04-confirm refuses while another operation holds the lock (valid login present)"
 [ -f "$STATE/armed" ] && [ ! -e "$B/confirmed" ] && ok "...timer still armed" || bad "confirm acted despite the lock"
 wait; bash $A/04-confirm.sh >/dev/null 2>&1 && ok "(control) the same confirm succeeds once the lock is free" || bad "control confirm"
-clean_armed; holder 5; bash $A/05-caddy.sh --port80-verified-from-outside >/dev/null 2>&1 && bad "05 while lock held" || ok "05-caddy refuses while another operation holds the lock"
-[ "$(readlink $BASE/current)" = Caddyfile ] && [ ! -e /etc/systemd/system/vidfetch-caddy.service.d/media-test.conf ] && ok "...pointer and drop-in untouched" || bad "05 acted despite the lock"
+clean_confirmed; holder 5; bash $A/05-caddy.sh --port80-verified-from-outside >/dev/null 2>&1 && bad "05 while lock held" || ok "05-caddy refuses while another operation holds the lock"
+[ "$(readlink $BASE/current)" = Caddyfile ] && [ ! -e /etc/systemd/system/vidfetch-caddy.service.d/media-test.conf ] && [ ! -f "$STATE/caddy-armed" ] && ok "...pointer, drop-in and Caddy timer untouched" || bad "05 acted despite the lock"
 wait; bash $A/05-caddy.sh --port80-verified-from-outside >/dev/null 2>&1 && ok "(control) the same 05 succeeds once the lock is free" || bad "control 05"
+rm -f "$STATE/live-table"
 reset_state; mkfix; before=$(ls $W/bk | wc -l); holder 5; bash $A/01-backup.sh >/dev/null 2>&1 && bad "backup while lock held" || ok "01-backup refuses while another operation holds the lock"
 [ "$(ls $W/bk | wc -l)" = "$before" ] && ok "...no backup directory created" || bad "backup acted despite the lock"; wait
 half_applied; holder 4; t0=$(date +%s)
@@ -222,7 +232,7 @@ VM_RESTORE_LOCK_WAIT=40 bash $A/03-network.sh open80 300 >/dev/null 2>&1; rc=$?;
 [ $((t1-t0)) -le 5 ] && ok "...IMMEDIATELY: the restore does not wait for the lock its own caller holds (took $((t1-t0))s)" || bad "failed-apply restore was delayed $((t1-t0))s by the caller's own lock"
 half_applied; touch "$STATE/restoring"; bash $A/03-network.sh open80 300 >/dev/null 2>&1 && bad "03 while restore service active" || ok "03 refuses while the automatic restore service is running"; rm -f "$STATE/restoring"
 half_applied; date +%s.%N > "$B/restore-started"; bash $A/05-caddy.sh --port80-verified-from-outside >/dev/null 2>&1 && bad "05 after restore started" || ok "05 refuses once the automatic restore has started"
-half_applied; date +%s.%N > "$B/confirmed"; bash $A/05-caddy.sh --port80-verified-from-outside >/dev/null 2>&1 && bad "05 after confirm" || ok "05 refuses after the window was confirmed (new backup + new 03 needed)"
+clean_armed; out=$(bash $A/05-caddy.sh --port80-verified-from-outside 2>&1) && bad "05 inside the network window" || { grep -q "04-confirm.sh first" <<< "$out" && [ "$(readlink $BASE/current)" = Caddyfile ] && ok "05 refuses inside the network window: the network is confirmed first (04-confirm.sh)" || bad "05 inside the window: $out"; }
 half_applied; cp /dev/null $BASE/dummy; bash $A/03-network.sh open80 300 >/dev/null 2>&1 && bad "03 over modified system" || ok "03 refuses to arm over a system that already holds media-test changes"
 
 # ================================================================ E. scripts or backups left over from an older copy

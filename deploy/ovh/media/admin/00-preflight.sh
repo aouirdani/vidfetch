@@ -39,6 +39,12 @@ echo "== CI frontend deployment gate (must be open to deploy the frontend throug
 if [ "$(cat /etc/vidfetch/ci-web-test-ready 2>/dev/null)" = APPROVED_FRONTEND_TEST ]; then echo "  gate: open"; else echo "  gate: closed"; fi
 echo "== media-test files (absent before the first run; staged files may exist if 02-stage.sh already ran)"
 for f in /etc/vidfetch/ci-media-test-profile.json $BASE/Caddyfile.media-test $BASE/ingress.nft.media-test $BASE/media-test-ips.env /etc/systemd/system/$CADDY_UNIT.d/media-test.conf; do [ -e "$f" ] && echo "  EXISTS $f" || echo "  absent $f"; done
+echo "== media-test windows: network (03/04) then Caddy (05)"
+for t in $TIMER $CADDY_TIMER; do printf '  %-26s timer %s\n' "$t" "$($SYSTEMCTL is-active $t.timer)"; done
+if [ -n "$LATEST" ] && [ -d "$LATEST" ]; then
+  echo "  markers in the latest backup: $(cd "$LATEST" && ls -1 armed-at confirmed restore-started restored caddy-armed-at caddy-confirmed caddy-restore-started caddy-restored 2>/dev/null | tr '\n' ' ')"
+  if [ -e "$LATEST/confirmed" ] && ! restored_marker "$LATEST" && [ "$(readlink "$BASE/current")" = "$(cat "$LATEST/current.target" 2>/dev/null)" ]; then echo "  network window confirmed, Caddy still original: next step is 05-caddy.sh (no new backup)"; fi
+fi
 echo "== Caddy: config pointer, unit, version, storage"
 readlink "$BASE/current" || true; grep -E '^(ExecStart|ExecReload|EnvironmentFile)=' /etc/systemd/system/$CADDY_UNIT; ls /etc/systemd/system/$CADDY_UNIT.d/ 2>/dev/null; $CADDY version | head -1; du -sh /var/lib/vidfetch-proxy 2>/dev/null
 echo "== firewall helper + ingress file (hash) + live table"
