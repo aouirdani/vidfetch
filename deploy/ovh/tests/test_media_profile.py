@@ -144,11 +144,12 @@ class Profile(unittest.TestCase):
                 return self.body[:n]
         class Conn:
             def __init__(self, host, timeout):
-                self.sock = None
+                self.sock, self.host = None, host
             def request(self, method, path, body=None):
                 self.key = (method, path)
             def getresponse(self):
-                return Response(*answers[self.key])
+                # apex answers are keyed (method, path); dl.vidfetch.app answers (host, method, path)
+                return Response(*answers[self.key if self.host == 'vidfetch.app' else (self.host, *self.key)])
             def close(self):
                 pass
         class Ctx:
@@ -205,6 +206,70 @@ class Profile(unittest.TestCase):
         with patch.object(p, 'ACTIVE', 'closed'), self.assertRaises(ValueError):
             answers = {(m, x): (200, {}, b'') for m, x, c in p.ORIGIN_CHECKS}
             self.origin(answers)
+
+    def test_public_downloads_profile_requires_exact_root_file(self):
+        self.write(p.PUBLIC_DL_PROFILE)
+        with self.trust():
+            self.assertEqual(p.profile(), 'public-downloads')
+        for bad in ({**p.PUBLIC_DL_PROFILE, 'dl': 'testers-only', 'extra': 1}, {**p.PUBLIC_DL_PROFILE, 'apex': 'basic-auth-noindex'},
+                    {'profile': 'public-downloads'}):
+            self.write(bad)
+            with self.trust(), self.assertRaises(ValueError):
+                p.profile()
+
+    def test_public_downloads_accepts_boolean_only(self):
+        self.write(p.PUBLIC_DL_PROFILE)
+        with self.trust():
+            self.health(True)
+            self.health(False)
+        for value in (None, 'true', 1):
+            with self.trust(), self.assertRaises(ValueError):
+                self.health(value)
+
+    def test_public_downloads_checks(self):
+        with patch.object(p, 'ACTIVE', 'public-downloads'):
+            checks = {(m, x): c for m, x, c in p.origin_checks()}
+            self.assertEqual(len(p.origin_checks()), len(p.PUBLIC_CHECKS))
+            self.assertEqual(checks[('POST', '/api/download-access')], 403)  # no grant without the site's origin
+            for page in p.PUBLIC_PAGES:
+                self.assertEqual(checks[('GET', page)], 200)
+            for path in ('/api/download', '/api/fetch-info', '/api/queue', '/auth/transfer', '/download-helper'):
+                self.assertEqual(checks[('GET', path)], 503)  # the apex never serves media, dl does
+            self.assertEqual(p.dl_checks(), [('POST', '/api/fetch-info', 401), ('GET', '/', 404), ('GET', '/api/health', 404)])
+        for other in ('closed', 'media-test', 'public'):
+            with patch.object(p, 'ACTIVE', other):
+                self.assertEqual(p.dl_checks(), [])
+
+    def public_dl_answers(self):
+        answers = self.public_answers()
+        answers[('POST', '/api/download-access')] = (403, {'X-Robots-Tag': 'noindex, nofollow'}, b'{}')
+        dl = {'X-Robots-Tag': 'noindex, nofollow', 'Referrer-Policy': 'no-referrer'}
+        answers[('dl.vidfetch.app', 'POST', '/api/fetch-info')] = (401, dl, b'{}')
+        answers[('dl.vidfetch.app', 'GET', '/')] = (404, dl, b'')
+        answers[('dl.vidfetch.app', 'GET', '/api/health')] = (404, dl, b'')
+        return answers
+
+    def test_public_downloads_origin_accepts_the_open_site(self):
+        self.write(p.PUBLIC_DL_PROFILE)
+        with patch.object(p, 'ACTIVE', 'public-downloads'):
+            self.origin(self.public_dl_answers())
+
+    def test_public_downloads_origin_refuses_deviations(self):
+        self.write(p.PUBLIC_DL_PROFILE)
+        dl = {'X-Robots-Tag': 'noindex, nofollow'}
+        cases = {
+            'gateway route served without a grant': (('dl.vidfetch.app', 'POST', '/api/fetch-info'), (200, dl, b'{}')),
+            'dl serves something else': (('dl.vidfetch.app', 'GET', '/'), (200, dl, b'')),
+            'dl without noindex': (('dl.vidfetch.app', 'POST', '/api/fetch-info'), (401, {}, b'')),
+            'grant issued without the site origin': (('POST', '/api/download-access'), (200, dl, b'{}')),
+            'apex page noindex': (('GET', '/'), (200, {'X-Robots-Tag': 'noindex'}, b'')),
+            'apex media route open': (('GET', '/api/download'), (200, dl, b'')),
+            'apex Basic Auth back': (('GET', '/fr/'), (401, {'WWW-Authenticate': 'Basic realm="x"'}, b'')),
+        }
+        for label, (key, answer) in cases.items():
+            answers = self.public_dl_answers(); answers[key] = answer
+            with self.subTest(label), patch.object(p, 'ACTIVE', 'public-downloads'), self.assertRaises(ValueError):
+                self.origin(answers)
 
     def test_installer_script(self):
         script = Path(__file__).with_name('install-web-secrets.test.sh')

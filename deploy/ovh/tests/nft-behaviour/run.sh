@@ -44,6 +44,41 @@ expect "$(probe b 80)" open "other B reaches 80 (ACME redirect only)"
 expect "$(probe b 443)" closed "other B still refused on 443"
 expect "$(probe a 443)" open "tester A still reaches 443"
 expect "$(probe b 8789)" closed "other B refused on 8789"
+echo "# public-download table: dl open to every IPv4, within per-address limits"
+apply public-dl
+# The administrator scripts recognise the live table by these exact texts (common.sh public_dl_table_problem).
+live=$(docker exec nft-srv-$id nft list table inet vidfetch_https_test_ingress)
+for pattern in 'set dl_conn4' 'ct count over 32' 'limit rate over 120/minute burst 60 packets' 'meta nfproto ipv4 tcp dport 443 accept' 'tcp dport 22 accept' 'tcp dport { 3000, 3001, 8788, 8789 } reject'; do
+  printf '%s' "$live" | grep -qF -- "$pattern" && echo "ok - live listing contains: $pattern" || { echo "not ok - live listing lacks: $pattern"; fail=1; }
+done
+printf '%s' "$live" | grep -q 'testers4' && echo "ok - live listing keeps the tester set (05-caddy/05-confirm checks rely on it)" || { echo "not ok - tester set gone"; fail=1; }
+for who in a b; do
+  expect "$(probe $who 443)" open "public-dl: $who reaches 443"
+  expect "$(probe $who 80)" open "public-dl: $who reaches 80 (ACME, redirect)"
+  expect "$(probe $who 22)" open "public-dl: $who still reaches ssh 22"
+  for p in 3000 3001 8788 8789; do expect "$(probe $who $p)" closed "public-dl: $who refused on internal $p"; done
+done
+docker exec nft-b-$id sh -c 'apk add -q python3 >/dev/null 2>&1' || { echo "not ok - client python"; fail=1; }
+docker cp "$here/hold.py" nft-b-$id:/tmp/hold.py >/dev/null && docker cp "$here/burst.py" nft-b-$id:/tmp/burst.py >/dev/null
+# B holds connections open: the first 32 are accepted, the 33rd is reset; another address is not affected.
+docker exec -d nft-b-$id sh -c "python3 /tmp/hold.py $S 40 8 > /tmp/hold.out 2>&1"; sleep 4
+expect "$(probe b 443)" closed "public-dl: while B holds 32 connections, its next one is refused"
+expect "$(probe a 443)" open "public-dl: another address still reaches 443 while B is at its limit"
+expect "$(probe b 22)" open "public-dl: B at its connection limit still reaches ssh 22"
+sleep 8; out=$(docker exec nft-b-$id cat /tmp/hold.out)
+echo "$out" | grep -q '^refused at 33$' && echo "$out" | grep -q '^accepted 32$' && echo "ok - public-dl: 32 open connections per address, the 33rd is reset" || { echo "not ok - connection limit: $out"; fail=1; }
+sleep 30   # the new-connection allowance refills (2 per second)
+# New-connection rate: a burst beyond the allowance is reset for that address only.
+r=$(docker exec nft-b-$id python3 /tmp/burst.py $S); accepted=${r% *}; reset=${r#* }
+[ "${reset:-0}" -ge 20 ] && [ "${accepted:-0}" -ge 20 ] && echo "ok - public-dl: a burst of 150 new connections is cut after the allowance ($accepted accepted, $reset reset)" || { echo "not ok - rate limit: $r"; fail=1; }
+expect "$(probe a 443)" open "public-dl: the rate limit of B does not affect A"
+expect "$(probe b 22)" open "public-dl: B at its rate limit still reaches ssh 22"
+expect "$(probe b 80)" open "public-dl: B at its 443 limits still reaches 80 (ACME)"
+echo "# back to the tester table (what the public-download rollback restores)"
+apply open80
+docker exec nft-srv-$id sh -c 'nft list table inet vidfetch_https_test_ingress > /tmp/table-open80-again.txt; cmp /tmp/table-open80.txt /tmp/table-open80-again.txt' && echo "ok - restored tester table identical to the one before" || { echo "not ok - tester table differs after restore"; fail=1; }
+expect "$(probe b 443)" closed "after restore: other B refused on 443 again"
+expect "$(probe a 443)" open "after restore: tester A reaches 443"
 echo "# atomic restore of the original table"
 apply original
 docker exec nft-srv-$id sh -c 'nft list table inet vidfetch_https_test_ingress > /tmp/table-restored.txt; cmp /tmp/table-original.txt /tmp/table-restored.txt' && echo "ok - restored table identical to original" || { echo "not ok - restore differs"; fail=1; }

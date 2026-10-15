@@ -155,21 +155,23 @@ CI_PROFILE=${VM_PROFILE-/etc/vidfetch/ci-media-test-profile.json}
 CI_HELPER=${VM_CI_HELPER-/usr/local/libexec/vidfetch-ci/promote.py}
 MEDIA_PROFILE_JSON='{"profile":"media-test","apex":"basic-auth-noindex","dl":"testers-only"}'
 PUBLIC_PROFILE_JSON='{"profile":"public","apex":"public-indexable","dl":"testers-only"}'
+PUBLIC_DL_PROFILE_JSON='{"profile":"public-downloads","apex":"public-indexable","dl":"public"}'
 ci_profile_path() {
   [[ "${CI_PROFILE:?CI profile path is empty}" == /*/ci-media-test-profile.json && "$CI_PROFILE" != *..* && "$CI_PROFILE" != *//* ]] || die "unexpected CI profile path: $CI_PROFILE"
   printf '%s' "$CI_PROFILE"
 }
-# ci_profile_name: closed | media-test | public | unknown
+# ci_profile_name: closed | media-test | public | public-downloads | unknown
 ci_profile_name() {
   local p; p=$(ci_profile_path)
   if [ ! -e "$p" ] && [ ! -L "$p" ]; then echo closed; return; fi
   [ -f "$p" ] && [ ! -L "$p" ] || { echo unknown; return; }
-  case "$(cat "$p")" in "$MEDIA_PROFILE_JSON") echo media-test ;; "$PUBLIC_PROFILE_JSON") echo public ;; *) echo unknown ;; esac
+  case "$(cat "$p")" in "$MEDIA_PROFILE_JSON") echo media-test ;; "$PUBLIC_PROFILE_JSON") echo public ;; "$PUBLIC_DL_PROFILE_JSON") echo public-downloads ;; *) echo unknown ;; esac
 }
-# write_public_profile: atomic, root-owned 0644, exactly what the promoter accepts.
+# write_public_profile [public|public-downloads]: atomic, root-owned 0644, exactly what the promoter accepts.
 write_public_profile() {
-  local p; p=$(ci_profile_path)
-  printf '%s\n' "$PUBLIC_PROFILE_JSON" > "$p.new" && chown root:root "$p.new" && chmod 0644 "$p.new" && mv -f "$p.new" "$p"
+  local p json=$PUBLIC_PROFILE_JSON; p=$(ci_profile_path)
+  [ "${1:-public}" = public ] || { [ "$1" = public-downloads ] && json=$PUBLIC_DL_PROFILE_JSON; } || die "unknown profile $1"
+  printf '%s\n' "$json" > "$p.new" && chown root:root "$p.new" && chmod 0644 "$p.new" && mv -f "$p.new" "$p"
 }
 # remove_public_profile: removes the profile file only when it is exactly the public one (never a media-test one).
 remove_public_profile() {
@@ -184,10 +186,13 @@ origin_page() {
   [ "$method" != POST ] || data=(-H 'Content-Type: application/json' --data '{}')
   $CURL -s -m 15 -D - -w '\nSTATUS:%{http_code}' -X "$method" "${data[@]}" --resolve "$host:443:127.0.0.1" "https://$host$path" 2>/dev/null || true
 }
-# apex_public: the public apex as a search engine sees it, on the real origin (loopback, strict TLS). Prints one
-# summary line per check group, and "  ..." lines for failures; status 1 if anything is wrong.
+# apex_public [closed|open]: the public apex as a search engine sees it, on the real origin (loopback, strict TLS).
+# closed (default): downloads must be closed (ready=0); open: the frontend may grant downloads (ready=1), but never to
+# a request without the site's browser origin. Prints one line per check group, "  ..." per failure; status 1 if wrong.
 apex_public() {
-  local fails=0 out code locs loc path n=0 canonical spec method want
+  local fails=0 out code locs loc path n=0 canonical spec method want mode=${1:-closed} grant=503
+  [ "$mode" = closed ] || [ "$mode" = open ] || die "apex_public: closed or open"
+  [ "$mode" = closed ] || grant=403
   out=$(origin_page vidfetch.app GET /sitemap.xml); code=${out##*STATUS:}
   if [ "$code" != 200 ]; then echo "  sitemap.xml: HTTP $code, expected 200"; return 1; fi
   locs=$(grep -o '<loc>[^<]*</loc>' <<< "$out" | sed 's#</*loc>##g')
@@ -211,14 +216,49 @@ apex_public() {
   out=$(origin vidfetch.app GET /fr); code=${out##*STATUS:}
   if [ "$code" = 308 ] && grep -qiE '^location: (https://vidfetch\.app)?/fr/[[:space:]]*$' <<< "$out"; then echo "redirects: /fr -> /fr/ once (no loop)"
   else echo "  /fr: HTTP $code, expected one 308 to /fr/ (frontend fix deployed?)"; fails=1; fi
-  for spec in GET:/api/download:503 GET:/api/fetch-info:503 GET:/api/queue:503 GET:/auth/transfer:503 GET:/download-helper:503 POST:/api/download-access:503 GET:/auth/admission:404 GET:/internal/state:404; do
+  for spec in GET:/api/download:503 GET:/api/fetch-info:503 GET:/api/queue:503 GET:/auth/transfer:503 GET:/download-helper:503 POST:/api/download-access:$grant GET:/auth/admission:404 GET:/internal/state:404; do
     IFS=: read -r method path want <<< "$spec"
     out=$(origin vidfetch.app "$method" "$path"); code=${out##*STATUS:}
     if [ "$code" != "$want" ]; then echo "  $method $path: HTTP $code, expected $want"; fails=1; continue; fi
     grep -qi '^x-robots-tag:.*noindex' <<< "$out" || { echo "  $method $path: no noindex header"; fails=1; }
   done
   out=$(origin_page vidfetch.app GET /api/health)
-  if grep -q '"downloads":{"available":false}' <<< "$out"; then echo "downloads: closed (media routes 503, grants refused, frontend reports unavailable)"
-  else echo "  /api/health does not report downloads unavailable (ready must stay 0)"; fails=1; fi
+  if [ "$mode" = closed ]; then
+    if grep -q '"downloads":{"available":false}' <<< "$out"; then echo "downloads: closed (media routes 503, grants refused, frontend reports unavailable)"
+    else echo "  /api/health does not report downloads unavailable (ready must stay 0)"; fails=1; fi
+  else
+    if grep -q '"downloads":{"available":true}' <<< "$out"; then echo "downloads: offered by the frontend; the apex itself still serves no media (503), grants need the site's browser origin"
+    else echo "  /api/health does not report downloads available"; fails=1; fi
+  fi
+  return $fails
+}
+
+# ---- public downloads (10-dl-public.sh, 10-dl-confirm.sh, 10-dl-cancel.sh, restore-dl.sh, 11-downloads.sh) ----------
+DL_TIMER=vidfetch-dl-rollback
+WEB_ENV=${VM_WEB_ENV-/etc/vidfetch/web.env}
+# ready_value: the frontend's VIDFETCH_CONNECTION_READY (last assignment wins, as for systemd); "" if unset.
+ready_value() { sed -n 's/^VIDFETCH_CONNECTION_READY=//p' "${WEB_ENV:?}" | tail -n1; }
+latest_dl_snapshot() { local s; s=$(readlink -f "$BACKUPS/vidfetch-public-dl-latest" 2>/dev/null) || true; [ -n "$s" ] && [ -d "$s" ] || die "no public-download snapshot: 10-dl-public.sh was never run"; echo "$s"; }
+# public_dl_table_problem: why the live ingress table is NOT the public-download one (status 0), else status 1.
+public_dl_table_problem() {
+  local table
+  table=$($NFT list table inet vidfetch_https_test_ingress 2>/dev/null) || { echo "cannot read the live nft table"; return 0; }
+  grep -q 'set dl_conn4' <<< "$table" && grep -q 'ct count over 32' <<< "$table" && grep -q 'limit rate over 120/minute burst 60 packets' <<< "$table" \
+    || { echo "the per-address limits are not in the live table"; return 0; }
+  grep -qE 'meta nfproto ipv4 tcp dport 443 accept' <<< "$table" || { echo "443 is not open to IPv4 in the live table"; return 0; }
+  grep -q 'tcp dport 22 accept' <<< "$table" && grep -qE 'tcp dport \{ 3000, 3001, 8788, 8789 \} reject' <<< "$table" || { echo "SSH or the internal-port refusal is missing"; return 0; }
+  return 1
+}
+# dl_public: dl.vidfetch.app answers EVERY visitor (here: loopback, which was refused before) with a trusted
+# certificate, serves only the gateway routes, and those still demand a grant. Prints one line per failure.
+dl_public() {
+  local spec method path want out code fails=0
+  for spec in POST:/api/fetch-info:401 POST:/api/download:401 GET:/:404 GET:/api/health:404 GET:/auth/admission:404; do
+    IFS=: read -r method path want <<< "$spec"
+    out=$(origin dl.vidfetch.app "$method" "$path"); code=${out##*STATUS:}
+    if [ "$code" = 000 ]; then echo "  dl: no HTTPS answer with a trusted certificate"; return 1; fi
+    if [ "$code" != "$want" ]; then echo "  dl $method $path: HTTP $code, expected $want"; fails=1; continue; fi
+    grep -qi '^x-robots-tag:.*noindex' <<< "$out" && grep -qi '^referrer-policy: *no-referrer' <<< "$out" || { echo "  dl $method $path: noindex / no-referrer headers missing"; fails=1; }
+  done
   return $fails
 }

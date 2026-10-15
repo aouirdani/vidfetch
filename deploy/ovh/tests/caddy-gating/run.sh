@@ -2,11 +2,15 @@
 # Runs INSIDE the caddy:2 image (apk available). Local-only; nothing is installed on the VPS.
 set -u
 apk add -q python3 curl >/dev/null 2>&1
-python3 /c/gen.py /src/Caddyfile.test-only /tmp/dl.caddy /tmp/apex.caddy /src/Caddyfile.public /tmp/public.caddy || exit 2
+python3 /c/gen.py /src/Caddyfile.test-only /tmp/dl.caddy /tmp/apex.caddy /src/Caddyfile.public /tmp/public.caddy /src/Caddyfile.public-dl /tmp/public-dl.caddy || exit 2
 python3 - <<'PY' &
 import http.server
 class H(http.server.BaseHTTPRequestHandler):
-    def do_GET(s): s.send_response(200); s.end_headers(); s.wfile.write(b"BACKEND-REACHED")
+    def do_GET(s):
+        # Read the whole body before answering, as the real gateway does: otherwise an early answer races Caddy's
+        # body limit and an oversized body may come back 200 instead of 413.
+        s.rfile.read(int(s.headers.get("Content-Length") or 0))
+        s.send_response(200); s.end_headers(); s.wfile.write(b"BACKEND-REACHED")
     do_POST=do_GET
     def log_message(*a): pass
 for port in (8789, 3001):
@@ -75,5 +79,21 @@ done
 for path in / /robots.txt /sitemap.xml /api/download; do
   expect "$(codeip GET vidfetch.app $path)" 403 "public: a direct non-Cloudflare peer is still refused: $path"
 done
+stop
+
+# ---- public dl (Caddyfile.public-dl): any visitor reaches the gateway routes (which require a grant), nothing else
+export VIDFETCH_MEDIA_TEST_IPS=192.0.2.1/32; start /tmp/public-dl.caddy
+dlhdr() { curl -s -m 5 -D - -o /dev/null -X "$1" -H "Host: dl.vidfetch.app" "http://$2:8080$3" | tr -d '\r'; }
+for peer in 127.0.0.1 "$IP"; do
+  for path in /api/fetch-info /api/download /api/queue /auth/transfer /download-helper; do
+    expect "$(curl -s -m 5 -X POST -H "Host: dl.vidfetch.app" "http://$peer:8080$path")" BACKEND-REACHED "public dl: a non-tester ($peer) reaches the gateway route $path"
+  done
+  for path in / /api/health /auth/admission /auth/deployment /internal/x /x; do
+    expect "$(curl -s -m 5 -o /dev/null -w '%{http_code}' -H "Host: dl.vidfetch.app" "http://$peer:8080$path")" 404 "public dl: unlisted route $path stays 404 for $peer"
+  done
+  h=$(dlhdr GET "$peer" /api/fetch-info)
+  echo "$h" | grep -qi '^referrer-policy: no-referrer' && echo "$h" | grep -qi '^x-robots-tag: noindex' && echo "$h" | grep -qi '^cache-control: .*no-store' && echo "ok - public dl: no-referrer, noindex, no-store for $peer" || { echo "not ok - public dl headers for $peer"; fail=1; }
+done
+big=$(head -c 9000 /dev/zero | tr '\0' 'a'); expect "$(curl -s -m 5 -o /dev/null -w '%{http_code}' -X POST --data "$big" -H "Host: dl.vidfetch.app" http://127.0.0.1:8080/api/fetch-info)" 413 "public dl: request bodies above 8 KB are refused before the gateway"
 stop
 exit $fail

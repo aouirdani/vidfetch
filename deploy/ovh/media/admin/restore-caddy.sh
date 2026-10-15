@@ -27,7 +27,7 @@ for checked in "$DROPIN" "$BASE" "$B" "$PROFILE"; do case "$checked" in /*) ;; *
 [ -d "$B" ] && [ ! -L "$B" ] && [ -f "$B/current.target" ] || { say "invalid backup $B"; exit 1; }
 # The pointer goes back to what the backup recorded: a configuration file of $BASE, never the media-test one.
 TARGET=$(cat "$B/current.target"); NAME=${TARGET#"$BASE"/}
-[[ "$NAME" =~ ^[A-Za-z0-9][A-Za-z0-9._-]*$ ]] && [ "$NAME" != Caddyfile.media-test ] && [ "$NAME" != Caddyfile.public ] && [ -f "$BASE/$NAME" ] \
+[[ "$NAME" =~ ^[A-Za-z0-9][A-Za-z0-9._-]*$ ]] && [ "$NAME" != Caddyfile.media-test ] && [ "$NAME" != Caddyfile.public ] && [ "$NAME" != Caddyfile.public-dl ] && [ -f "$BASE/$NAME" ] \
   || { say "unexpected Caddy target in $B/current.target: '$TARGET'"; exit 1; }
 if [ "${2:-}" = --check ]; then echo "Caddy restore possible from $B: pointer back to $TARGET, drop-in removed"; exit 0; fi
 date +%s.%N > "$B/caddy-restore-started"   # from now on 05-confirm.sh refuses: this Caddy window is over

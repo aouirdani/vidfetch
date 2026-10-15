@@ -53,6 +53,7 @@ R 'cd ~/media-test-stage/render-open80 && sha256sum --check --quiet SHA256SUMS &
 if git cat-file -e HEAD:deploy/ovh/media/Caddyfile.public 2>/dev/null; then
   [ "$(R 'sha256sum ~/media-test-stage/Caddyfile.public ~/media-test-stage/promote.py' | cut -c1-64 | tr '\n' ' ')" = "$(git show HEAD:deploy/ovh/media/Caddyfile.public | shasum -a 256 | cut -c1-64) $(git show HEAD:deploy/ovh/ci/promote.py | shasum -a 256 | cut -c1-64) " ] \
     && R 'cd ~/media-test-stage && grep -q "^./Caddyfile.public$" <(cut -c67- SHA256SUMS.toolkit) && grep -q "^./promote.py$" <(cut -c67- SHA256SUMS.toolkit) && [ -x admin/09-ci-helper.sh ]' \
+    && { ! git cat-file -e HEAD:deploy/ovh/media/Caddyfile.public-dl 2>/dev/null || R 'cd ~/media-test-stage && grep -q "^./Caddyfile.public-dl$" <(cut -c67- SHA256SUMS.toolkit) && grep -q "^./public-dl-ingress.py$" <(cut -c67- SHA256SUMS.toolkit) && [ -x admin/10-dl-public.sh ] && [ -x admin/11-downloads.sh ]'; } \
     && ok "the public Caddyfile and the CI promoter arrive next to the toolkit, byte-identical and covered by the checksums" || bad "public launch files"
 fi
 R '[ "$(ls -A ~ | grep -v -e "^\.ssh$" -e "^\.bash" -e "^\.profile$" -e "^\.cache$" | tr "\n" " ")" = "media-test-stage " ]' && ok "nothing is written outside ~/media-test-stage" || bad "extra files: $(R 'ls -A ~ | tr "\n" " "')"

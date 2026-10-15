@@ -20,6 +20,7 @@ validate_source() {
   [ -f "$SRC" ] && [ ! -L "$SRC" ] || die "promote.py missing next to this toolkit: send it again (send-to-vps.sh)"
   python3 -c 'import ast, sys; ast.parse(open(sys.argv[1]).read())' "$SRC" || die "promote.py does not parse"
   grep -q "^PUBLIC_PROFILE = {'profile': 'public', 'apex': 'public-indexable', 'dl': 'testers-only'}$" "$SRC" || die "this promote.py has no public profile"
+  grep -q "^PUBLIC_DL_PROFILE = {'profile': 'public-downloads', 'apex': 'public-indexable', 'dl': 'public'}$" "$SRC" || die "this promote.py has no public-downloads profile"
   grep -q "^MEDIA_PROFILE = {'profile': 'media-test', 'apex': 'basic-auth-noindex', 'dl': 'testers-only'}$" "$SRC" || die "this promote.py lost the media-test profile"
 }
 # status_ok FILE [restored]: the helper's read-only status is valid JSON naming the active release. The new helper must
@@ -58,6 +59,7 @@ case "${1:-}" in
   rollback)
     take_lock
     [ "$(ci_profile_name)" != public ] || die "the public CI profile is in force and the previous helper does not know it: revert the public window first (05-cancel.sh)"
+    [ "$(ci_profile_name)" != public-downloads ] || die "the public-downloads CI profile is in force and the previous helper does not know it: 11-downloads.sh close first"
     BK=$(readlink -f "$LATEST" 2>/dev/null) || true
     [ -n "$BK" ] && [ -f "$BK/promote.py" ] || die "no CI helper backup (install was never run)"
     install -o root -g root -m 0755 "$BK/promote.py" "$DEST.next" && mv -f "$DEST.next" "$DEST"

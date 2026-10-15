@@ -9,10 +9,11 @@ P=${VM_PROFILE-/etc/vidfetch/ci-media-test-profile.json}
 [ "${P:?profile path is empty}" != "${P%/ci-media-test-profile.json}" ] || die "unexpected profile path: $P"
 case "${1:-}" in
   install) [ ! -e "$P" ] || die "already present"
-    [ "$(readlink "$BASE/current")" != Caddyfile.public ] || die "Caddy serves the public configuration: the media-test profile would contradict it"
+    case "$(readlink "$BASE/current")" in Caddyfile.public|Caddyfile.public-dl) die "Caddy serves the public configuration: the media-test profile would contradict it" ;; esac
     printf '%s\n' '{"profile":"media-test","apex":"basic-auth-noindex","dl":"testers-only"}' > "$P.new"; chown root:root "$P.new"; chmod 0644 "$P.new"; mv "$P.new" "$P"; log "installed $P" ;;
   install-public) [ "$P" = "$CI_PROFILE" ] || die "unexpected profile path"
-    [ "$(readlink "$BASE/current")" = Caddyfile.public ] || die "Caddy does not serve the public configuration"
+    case "$(readlink "$BASE/current")" in Caddyfile.public|Caddyfile.public-dl) ;; *) die "Caddy does not serve the public configuration" ;; esac
+    [ "$(ready_value)" = 0 ] || die "ready=1: the matching profile is public-downloads (11-downloads.sh open|close manages it)"
     [ -e "$(latest_backup)/caddy-confirmed" ] || die "the public window is not confirmed: use 05-confirm.sh"
     [ "$(ci_profile_name)" = closed ] || [ "$(ci_profile_name)" = public ] || die "another profile is installed"
     write_public_profile; log "installed the public profile in $P" ;;

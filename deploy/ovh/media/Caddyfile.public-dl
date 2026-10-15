@@ -1,0 +1,154 @@
+# PUBLIC apex AND PUBLIC dl.vidfetch.app. Identical to Caddyfile.public except the dl block, which no longer filters
+# testers: every visitor may reach the gateway routes, which themselves require a Turnstile-backed grant, proof and
+# quotas (anonymous requests get 401). Caddyfile.public was derived from Caddyfile.test-only; its differences:
+#   * no Basic Auth on the site and no site-wide noindex header (pages carry their own robots meta);
+#   * robots.txt and sitemap.xml come from the frontend (Caddy no longer answers them itself);
+#   * API, auth and helper paths keep X-Robots-Tag noindex.
+# Unchanged on purpose: the origin answers Cloudflare and loopback only, the media routes answer 503 here,
+# /auth/admission, /auth/deployment and /internal/* stay 404, and dl.vidfetch.app stays reserved to the testers.
+{
+    admin unix//run/vidfetch-caddy/admin.sock
+    servers {
+        protocols h1 h2
+        trusted_proxies static 173.245.48.0/20 103.21.244.0/22 103.22.200.0/22 103.31.4.0/22 141.101.64.0/18 108.162.192.0/18 190.93.240.0/20 188.114.96.0/20 197.234.240.0/22 198.41.128.0/17 162.158.0.0/15 104.16.0.0/13 104.24.0.0/14 172.64.0.0/13 131.0.72.0/22 2400:cb00::/32 2606:4700::/32 2803:f800::/32 2405:b500::/32 2405:8100::/32 2a06:98c0::/29 2c0f:f248::/32
+        trusted_proxies_strict
+        client_ip_headers CF-Connecting-IP
+        max_header_size 16KB
+        timeouts {
+            read_header 10s
+            read_body 15s
+            idle 5m
+        }
+    }
+    # No access logger: queries contain media URLs and one-use tickets.
+    log default {
+        format filter {
+            wrap json
+            fields {
+                request>uri query {
+                    delete ticket
+                    delete status
+                    delete token
+                    delete url
+                    delete text
+                    delete link
+                    delete u
+                }
+                request>headers>Authorization delete
+                request>headers>Cookie delete
+                request>headers>X-Vidfetch-Proof delete
+            }
+        }
+    }
+}
+
+(public_headers) {
+    header {
+        X-Content-Type-Options nosniff
+        Referrer-Policy strict-origin-when-cross-origin
+        Cache-Control "private, no-store, max-age=0"
+        -Server
+        defer
+    }
+}
+(http01) {
+    tls {
+        issuer acme {
+            dir https://acme-v02.api.letsencrypt.org/directory
+            disable_tlsalpn_challenge
+        }
+    }
+}
+vidfetch.app {
+    import http01
+    import public_headers
+    handle_errors {
+        import public_headers
+        respond "{err.status_text}" {err.status_code}
+    }
+    # Never indexable, whatever answers: APIs, one-use auth endpoints and the download helper.
+    @noindex path /api/* /auth/* /download-helper /internal/* /server-status
+    header @noindex {
+        X-Robots-Tag "noindex, nofollow"
+        defer
+    }
+    # Loopback is allowed: the CI promoter and the audit scripts probe the real origin
+    # from the VPS itself (127.0.0.1:443, SNI vidfetch.app). Direct visitors on the Internet are refused.
+    @outsideCloudflare not remote_ip 173.245.48.0/20 103.21.244.0/22 103.22.200.0/22 103.31.4.0/22 141.101.64.0/18 108.162.192.0/18 190.93.240.0/20 188.114.96.0/20 197.234.240.0/22 198.41.128.0/17 162.158.0.0/15 104.16.0.0/13 104.24.0.0/14 172.64.0.0/13 131.0.72.0/22 2400:cb00::/32 2606:4700::/32 2803:f800::/32 2405:b500::/32 2405:8100::/32 2a06:98c0::/29 2c0f:f248::/32 127.0.0.1/32 ::1/128
+    # `handle` blocks are mutually exclusive and evaluated in written order. A bare
+    # top-level `respond` is sorted AFTER `handle` by Caddy and would never run first.
+    handle @outsideCloudflare {
+        respond 403
+    }
+    @private path /auth/admission /auth/deployment /internal/* /server-status
+    handle @private {
+        respond 404
+    }
+    @media path /api/fetch-info /api/download /api/queue /auth/transfer /download-helper
+    handle @media {
+        header Content-Type application/json
+        respond `{"ok":false,"code":"BACKEND_UNAVAILABLE","error":"Downloads are unavailable during this private test."}` 503
+    }
+    handle {
+        route {
+            request_body {
+                max_size 32KB
+            }
+            encode zstd gzip
+            reverse_proxy 127.0.0.1:3001 {
+                header_up Host vidfetch.app
+                header_up X-Forwarded-Proto https
+                header_up X-Forwarded-For {client_ip}
+                header_up -Authorization
+                header_up -Proxy-Authorization
+                header_up -CF-Connecting-IP
+                header_up -X-Real-IP
+                transport http {
+                    dial_timeout 3s
+                    response_header_timeout 30s
+                }
+            }
+        }
+    }
+}
+www.vidfetch.app {
+    import http01
+    import public_headers
+    redir https://vidfetch.app{uri} 301
+}
+
+# Public: DNS-only record, public certificate, public ingress with per-address connection limits (public-dl-ingress.py).
+dl.vidfetch.app {
+    import http01
+    # Own header set: the shared snippet's deferred Referrer-Policy would override this one.
+    header {
+        X-Content-Type-Options nosniff
+        Referrer-Policy no-referrer
+        X-Robots-Tag "noindex, nofollow"
+        Cache-Control "private, no-store, max-age=0"
+        -Server
+        defer
+    }
+    @download path /api/fetch-info /api/download /api/queue /auth/transfer /download-helper
+    handle @download {
+        request_body {
+            max_size 8KB
+        }
+        reverse_proxy 127.0.0.1:8789 {
+            header_up Host dl.vidfetch.app
+            header_up X-Forwarded-Proto https
+            # Direct peer only: no trust in client-supplied CF or forwarding headers.
+            header_up X-Forwarded-For {remote_host}
+            header_up -Proxy-Authorization
+            header_up -CF-Connecting-IP
+            header_up -X-Real-IP
+            transport http {
+                dial_timeout 3s
+                response_header_timeout 240s
+            }
+        }
+    }
+    handle {
+        respond 404
+    }
+}

@@ -173,7 +173,11 @@ https://vidfetch.app/ar/%D8%A7%D9%84%D8%B4%D8%B1%D9%88%D8%B7-%D9%88%D8%A7%D9%84%
 
 Ne soumettez ni les pages en `noindex`, ni `/api/`, ni `dl.vidfetch.app`.
 
-## 6. Plus tard, depuis l'IP domestique
+## 6. Ouverture des téléchargements
+
+Voir `VIDFETCH-OUVERTURE-TELECHARGEMENTS.md` : `dl` public avec `ready=0` (`10-dl-public.sh`), secrets Turnstile, puis `11-downloads.sh open`, avec un retour arrière vers l'apex public à chaque étape. Ce chemin remplace la recette depuis l'IP domestique décrite ci-dessous.
+
+## 7. Recette depuis l'IP domestique (ancien chemin)
 
 1. `verify-tester.sh <TESTER_IP> public`.
 2. Les étapes 7 et 8 de `VIDFETCH-RECETTE-PRIVEE.md` : secrets Turnstile, garde CI, puis `set-ready.sh 1` le temps de la recette MP4/MP3.
