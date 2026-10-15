@@ -121,6 +121,16 @@ out=$(ci VM_CI_HELPER=/usr/local/libexec/../libexec/vidfetch-ci/promote.py 2>&1)
 out=$(ci VM_CI_HELPER=usr/local/libexec/vidfetch-ci/promote.py 2>&1); [ $? != 0 ] && ok "09-ci-helper stops: relative helper path" || bad "09-ci-helper accepted a relative path"
 out=$(env VM_CI_HELPER=/tmp/vidfetch-ci/promote.py bash "$A/09-ci-helper.sh" check 2>&1); [ $? != 0 ] && grep -q "for the offline tests only" <<< "$out" && ok "09-ci-helper refuses a helper override outside the offline tests" || bad "09-ci-helper override accepted: $out"
 out=$(env VM_PROFILE=/etc/passwd bash "$A/05-confirm.sh" --external-checks-passed 2>&1); [ $? != 0 ] && [ -s /etc/passwd ] && ok "05-confirm stops before writing anything when the CI profile path is unexpected" || bad "05-confirm with VM_PROFILE=/etc/passwd"
+rd() { env "$@" bash "$A/restore-dl.sh" "$B"; }
+out=$(bash "$A/restore-dl.sh" "" 2>&1); [ $? != 0 ] && ok "restore-dl stops: empty snapshot directory" || bad "restore-dl empty snapshot"
+out=$(bash "$A/restore-dl.sh" var/backups/x 2>&1); [ $? != 0 ] && grep -q "path must be absolute" <<< "$out" && ok "restore-dl stops: relative snapshot directory" || bad "restore-dl relative: $out"
+out=$(bash "$A/restore-dl.sh" /var/backups/../tmp 2>&1); [ $? != 0 ] && grep -q "unexpected path" <<< "$out" && ok "restore-dl stops: snapshot path with .." || bad "restore-dl ..: $out"
+out=$(rd VM_BASE=/etc/vidfetch/../vidfetch/public-https-test 2>&1); [ $? != 0 ] && grep -q "unexpected path" <<< "$out" && ok "restore-dl stops: BASE with .." || bad "restore-dl BASE ..: $out"
+out=$(bash "$A/restore-dl.sh" "$B" 2>&1); [ $? != 0 ] && grep -q "invalid snapshot" <<< "$out" && ok "restore-dl stops: directory that is not a snapshot (nothing touched)" || bad "restore-dl non-snapshot: $out"
+for s in 10-dl-public.sh 10-dl-confirm.sh 10-dl-cancel.sh 11-downloads.sh; do
+  out=$(env VM_DROPIN=/etc/passwd bash "$A/$s" open 2>&1); [ $? != 0 ] && [ -s /etc/passwd ] && ok "$s stops on an unexpected drop-in path (common checks)" || bad "$s accepted VM_DROPIN=/etc/passwd"
+done
+out=$(env VM_BACKUPS=/nonexistent bash "$A/10-dl-confirm.sh" --external-checks-passed 2>&1); [ $? != 0 ] && grep -q "no public-download snapshot" <<< "$out" && ok "10-dl-confirm stops when no snapshot exists" || bad "10-dl-confirm without snapshot: $out"
 for s in 05-confirm.sh 05-cancel.sh; do
   out=$(env VM_DROPIN=/etc/passwd bash "$A/$s" --external-checks-passed 2>&1); [ $? != 0 ] && grep -q "unexpected Caddy drop-in path" <<< "$out" && ok "$s stops: unexpected drop-in path" || bad "$s accepted an unexpected drop-in path"
   out=$(env VM_DROPIN= bash "$A/$s" --external-checks-passed 2>&1); [ $? != 0 ] && grep -q "DROPIN is empty" <<< "$out" && ok "$s stops: DROPIN empty" || bad "$s DROPIN empty"

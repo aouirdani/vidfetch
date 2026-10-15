@@ -6,6 +6,7 @@ removed; every matcher, handle and respond is kept verbatim so ordering is what 
 import sys
 src, out_dl, out_apex = sys.argv[1:4]
 public_src, out_public = (sys.argv[4:6] + [None, None])[:2]
+public_dl_src, out_public_dl = (sys.argv[6:8] + [None, None])[:2]
 s = open(src).read()
 snip = s[s.index('(test_headers)'):s.index('(http01)')]
 head = '{\n  auto_https off\n  admin off\n}\n'
@@ -27,3 +28,16 @@ if public_src:
     papex = papex.replace('    import http01\n', '')
     assert 'http01' not in papex
     open(out_public, 'w').write(head + psnip + papex)
+
+if public_dl_src:
+    # Public downloads: outside the dl block (after the header comment) the file must be Caddyfile.public byte for byte,
+    # so the public apex, its SEO and www stay exactly as they are; the dl block only loses the tester filter.
+    q, r = open(public_src).read(), open(public_dl_src).read()
+    body = lambda text: text[text.index('\n{\n'):text.index('\n}\n', text.index('www.vidfetch.app {')) + 3]  # global, apex, www
+    assert body(q) == body(r), 'Caddyfile.public-dl differs from Caddyfile.public outside the dl block'
+    dlq, dlr = q[q.index('dl.vidfetch.app {'):], r[r.index('dl.vidfetch.app {'):]
+    assert 'notTester' in dlq and 'notTester' not in dlr and 'remote_ip' not in dlr
+    gate = dlq[dlq.index('    @notTester'):dlq.index('    @download')]
+    assert dlq.replace(gate, '') == dlr, 'the dl block differs by more than the tester filter'
+    pdl = dlr.replace('dl.vidfetch.app {', 'http://dl.vidfetch.app:8080 {', 1).replace('    import http01\n', '')
+    open(out_public_dl, 'w').write(head + pdl)

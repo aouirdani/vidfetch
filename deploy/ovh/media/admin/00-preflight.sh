@@ -46,6 +46,8 @@ if [ -n "$LATEST" ] && [ -d "$LATEST" ]; then
   echo "  markers in the latest backup: $(cd "$LATEST" && ls -1 armed-at confirmed restore-started restored caddy-armed-at caddy-confirmed caddy-restore-started caddy-restored 2>/dev/null | tr '\n' ' ')"
   if [ -e "$LATEST/confirmed" ] && ! restored_marker "$LATEST" && [ "$(readlink "$BASE/current")" = "$(cat "$LATEST/current.target" 2>/dev/null)" ]; then echo "  network window confirmed, Caddy still original: next step is 05-caddy.sh (no new backup)"; fi
 fi
+DLS=$(readlink -f "$BACKUPS/vidfetch-public-dl-latest" 2>/dev/null)
+echo "== public downloads: ready=$(ready_value), dl rollback timer $($SYSTEMCTL is-active $DL_TIMER.timer), snapshot ${DLS:-none} $([ -n "$DLS" ] && cd "$DLS" 2>/dev/null && ls -1 armed-at confirmed restore-started restored 2>/dev/null | tr '\n' ' ')"
 echo "== Caddy: config pointer, unit, version, storage"
 readlink "$BASE/current" || true; grep -E '^(ExecStart|ExecReload|EnvironmentFile)=' /etc/systemd/system/$CADDY_UNIT; ls /etc/systemd/system/$CADDY_UNIT.d/ 2>/dev/null; $CADDY version | head -1; du -sh /var/lib/vidfetch-proxy 2>/dev/null
 echo "== firewall helper + ingress file (hash) + live table"

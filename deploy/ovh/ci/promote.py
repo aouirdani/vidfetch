@@ -28,6 +28,8 @@ PROFILE = Path('/etc/vidfetch/ci-media-test-profile.json')
 MEDIA_PROFILE = {'profile': 'media-test', 'apex': 'basic-auth-noindex', 'dl': 'testers-only'}
 # Public launch: the apex pages are public and indexable, downloads stay closed and dl stays tester-only.
 PUBLIC_PROFILE = {'profile': 'public', 'apex': 'public-indexable', 'dl': 'testers-only'}
+# Public downloads: same public apex; dl.vidfetch.app open to everyone; the frontend may announce downloads.
+PUBLIC_DL_PROFILE = {'profile': 'public-downloads', 'apex': 'public-indexable', 'dl': 'public'}
 UNIT = 'vidfetch-web-preproduction-20261013.service'
 PORT = 3001
 PROTECTED = ['ssh.service', 'vidfetch.service', 'vidfetch-gateway.service',
@@ -42,7 +44,7 @@ def trusted(path):
 
 
 def profile():
-    """'closed' (default), 'media-test' or 'public'. Anything unrecognised refuses to deploy.
+    """'closed' (default), 'media-test', 'public' or 'public-downloads'. Anything unrecognised refuses to deploy.
 
     media-test never relaxes the guard (file fingerprints, protected units, PIDs, engine
     artifacts) or the public-origin checks; it only stops requiring that the frontend
@@ -50,6 +52,9 @@ def profile():
     public never relaxes the guard either: it expects the apex pages indexable without
     credentials, still requires downloads reported unavailable, and checks every media,
     API and auth route closed and noindex.
+    public-downloads keeps every public check, accepts a real boolean for downloads (operational state), expects
+    grants refused to a request without a browser origin, and checks dl.vidfetch.app: gateway routes demand a grant,
+    nothing else is served.
     """
     if not PROFILE.exists():
         return 'closed'
@@ -59,6 +64,8 @@ def profile():
         return 'media-test'
     if data == PUBLIC_PROFILE:
         return 'public'
+    if data == PUBLIC_DL_PROFILE:
+        return 'public-downloads'
     raise ValueError('Unrecognised CI profile; administrator review required')
 
 
@@ -110,8 +117,8 @@ def health(expected):
     status, body = response(PORT, '/api/health')
     data = json.loads(body)
     available = data.get('downloads', {}).get('available')
-    # closed and public: media must be reported unavailable. media-test: operational state, but a real boolean.
-    allowed = isinstance(available, bool) if active_profile() == 'media-test' else available is False
+    # closed and public: media must be reported unavailable. media-test, public-downloads: operational state, a real boolean.
+    allowed = isinstance(available, bool) if active_profile() in ('media-test', 'public-downloads') else available is False
     if status != 200 or not data.get('ok') or data.get('release') != expected or not allowed:
         raise ValueError('Frontend readiness or closed-media check failed')
     if response(PORT, '/')[0] != 200 or response(PORT, '/api/download')[0] != 503:
@@ -145,10 +152,23 @@ PUBLIC_CHECKS = [('GET', page, 200) for page in PUBLIC_PAGES] + [
     ('GET', '/auth/admission', 404), ('GET', '/internal/state', 404)]
 
 
+# public-downloads: the same apex, except that a grant request without the site's browser origin is refused (403)
+# instead of 503; and dl.vidfetch.app is checked too.
+PUBLIC_DL_CHECKS = [check if check[:2] != ('POST', '/api/download-access') else ('POST', '/api/download-access', 403)
+                    for check in PUBLIC_CHECKS]
+DL_CHECKS = [('POST', '/api/fetch-info', 401), ('GET', '/', 404), ('GET', '/api/health', 404)]
+
+
 def origin_checks():
     if active_profile() == 'public':
         return PUBLIC_CHECKS
+    if active_profile() == 'public-downloads':
+        return PUBLIC_DL_CHECKS
     return ORIGIN_CHECKS + (MEDIA_CHECKS if active_profile() == 'media-test' else [])
+
+
+def dl_checks():
+    return DL_CHECKS if active_profile() == 'public-downloads' else []
 
 
 def public_page_problem(path, headers, body):
@@ -167,26 +187,27 @@ def public_page_problem(path, headers, body):
 def origin_health():
     # Validate the actual Caddy origin using its public hostname and trusted TLS.
     # Cloudflare can reject requests from the VPS itself independently of origin health.
-    for method, path, expected in origin_checks():
-        conn = http.client.HTTPSConnection('vidfetch.app', timeout=8)
+    for host, (method, path, expected) in [('vidfetch.app', c) for c in origin_checks()] + [('dl.vidfetch.app', c) for c in dl_checks()]:
+        conn = http.client.HTTPSConnection(host, timeout=8)
         try:
             raw = socket.create_connection(('127.0.0.1', 443), timeout=8)
             try:
-                conn.sock = ssl.create_default_context().wrap_socket(raw, server_hostname='vidfetch.app')
+                conn.sock = ssl.create_default_context().wrap_socket(raw, server_hostname=host)
             except BaseException:
                 raw.close()
                 raise
             conn.request(method, path, body=b'{}' if method == 'POST' else None)
             result = conn.getresponse()
             body = result.read(262144)
-            if active_profile() == 'public' and path in PUBLIC_PAGES and method == 'GET':
+            if host == 'vidfetch.app' and active_profile() in ('public', 'public-downloads') and path in PUBLIC_PAGES and method == 'GET':
                 problem = public_page_problem(path, result.headers, body) if result.status == expected else 'status ' + str(result.status)
                 if problem:
                     raise ValueError('Public page not indexable: ' + path + ': ' + problem)
                 continue
             if result.status != expected or 'noindex' not in result.headers.get('X-Robots-Tag', ''):
-                raise ValueError('Origin test protection failed: ' + method + ' ' + path + ' status ' + str(result.status))
-            if expected == 401 and 'Basic' not in result.headers.get('WWW-Authenticate', ''):
+                raise ValueError('Origin test protection failed: ' + host + ' ' + method + ' ' + path + ' status ' + str(result.status))
+            # Basic Auth is the apex's own protection; dl's 401 comes from the gateway (grant required), not from Basic.
+            if host == 'vidfetch.app' and expected == 401 and 'Basic' not in result.headers.get('WWW-Authenticate', ''):
                 raise ValueError('Origin authentication missing')
         finally:
             conn.close()

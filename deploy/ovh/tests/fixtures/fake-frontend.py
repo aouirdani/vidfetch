@@ -1,12 +1,16 @@
 """Stand-in for the Next.js frontend in caddy-window-systemd.test.sh: answers the routes the public checks read
 exactly as the real build does (verified against `next start` of main): sitemap, robots.txt, indexable pages with a
-self canonical, the /fr -> /fr/ redirect, downloads reported unavailable (ready=0) and grants refused.
+self canonical, the /fr -> /fr/ redirect. Like the real frontend, downloads are offered only when its environment
+(read at start, systemd EnvironmentFile) has VIDFETCH_CONNECTION_READY=1 and the Turnstile keys; a grant request
+without the site's browser origin is then refused (403), and with ready=0 every grant request gets 503.
 Usage: fake-frontend.py PORT"""
 import http.server
 import json
+import os
 import sys
 
 SITE = 'https://vidfetch.app'
+OPEN = os.environ.get('VIDFETCH_CONNECTION_READY') == '1' and bool(os.environ.get('TURNSTILE_SITE_KEY')) and bool(os.environ.get('TURNSTILE_SECRET_KEY'))
 PAGES = {'/': SITE, '/fr/': SITE + '/fr/', '/legal': SITE + '/legal'}
 ROBOTS = 'User-Agent: *\nAllow: /\nDisallow: /api/\nDisallow: /auth/\nDisallow: /download-helper\n\nHost: https://vidfetch.app\nSitemap: https://vidfetch.app/sitemap.xml\n'
 
@@ -35,9 +39,11 @@ class Frontend(http.server.BaseHTTPRequestHandler):
         if path == '/robots.txt':
             return self.answer(200, ROBOTS, 'text/plain')
         if path == '/api/health':
-            return self.answer(200, json.dumps({'ok': True, 'service': 'VidFetch', 'frontend': {'ready': True}, 'downloads': {'available': False}}, separators=(',', ':')), 'application/json')
+            return self.answer(200, json.dumps({'ok': True, 'service': 'VidFetch', 'frontend': {'ready': True}, 'downloads': {'available': OPEN}}, separators=(',', ':')), 'application/json')
         if path == '/api/download-access':
-            return self.answer(200, '{"ok":true,"available":false,"siteKey":"","gatewayOrigin":""}', 'application/json')
+            config = {'ok': True, 'available': OPEN, 'siteKey': os.environ.get('TURNSTILE_SITE_KEY', '') if OPEN else '',
+                      'gatewayOrigin': os.environ.get('VIDFETCH_MEDIA_ORIGIN', '') if OPEN else ''}
+            return self.answer(200, json.dumps(config, separators=(',', ':')), 'application/json')
         if path == '/fr':
             return self.answer(308, '', headers=[('Location', '/fr/')])
         if path in PAGES:
@@ -46,7 +52,11 @@ class Frontend(http.server.BaseHTTPRequestHandler):
 
     def do_POST(self):
         if self.path == '/api/download-access':
-            return self.answer(503, '{"ok":false,"code":"BACKEND_UNAVAILABLE"}', 'application/json')
+            if not OPEN:
+                return self.answer(503, '{"ok":false,"code":"BACKEND_UNAVAILABLE"}', 'application/json')
+            if self.headers.get('Origin') != SITE:
+                return self.answer(403, '{"ok":false,"code":"FORBIDDEN_ORIGIN"}', 'application/json')
+            return self.answer(403, '{"ok":false,"code":"CHALLENGE_REQUIRED"}', 'application/json')
         return self.answer(405, '')
 
     def log_message(self, *args):

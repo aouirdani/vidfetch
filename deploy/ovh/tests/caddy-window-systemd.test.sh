@@ -12,6 +12,9 @@
 #  6. public launch: 09-ci-helper.sh installs the public-aware promoter; 05-caddy.sh --public; the REAL promoter
 #     refuses the public apex while the CI profile is closed and accepts it once 05-confirm.sh installed the public
 #     profile; 05-cancel.sh and the timer bring back the protected apex AND the closed profile together
+#  7. public downloads: 10-dl-public.sh opens dl.vidfetch.app with downloads closed; 10-dl-confirm.sh after a real
+#     key login; 11-downloads.sh open/close moves ready and the CI profile together while the REAL promoter accepts
+#     each state; 10-dl-cancel.sh and the timer bring back tester-only dl with the public apex untouched
 set -u
 src=$(cd "$(dirname "$0")/../../.." && pwd); id=$$; c=vidfetch-cw-$id; fail=0
 trap 'docker rm -f $c >/dev/null 2>&1' EXIT
@@ -32,14 +35,14 @@ ok() { echo "ok - $1"; }; bad() { echo "not ok - $1"; fail=1; }
 X() { docker exec $c sh -c "$1"; }
 A=/root/media-test-stage/admin; BASE=/etc/vidfetch/public-https-test; DROPIN=/etc/systemd/system/vidfetch-caddy.service.d/media-test.conf
 # The toolkit laid out as send-to-vps.sh leaves it on the VPS: admin/ next to Caddyfile.public and promote.py.
-X "mkdir -p /root/media-test-stage && cp -R /r/deploy/ovh/media/admin /root/media-test-stage/ && cp /r/deploy/ovh/media/Caddyfile.public /r/deploy/ovh/ci/promote.py /root/media-test-stage/" || exit 2
+X "mkdir -p /root/media-test-stage && cp -R /r/deploy/ovh/media/admin /root/media-test-stage/ && cp /r/deploy/ovh/media/Caddyfile.public /r/deploy/ovh/media/Caddyfile.public-dl /r/deploy/ovh/media/public-dl-ingress.py /r/deploy/ovh/ci/promote.py /root/media-test-stage/" || exit 2
 # No Internet ACME in a test: the public file gets the same internal-CA issuer as the two others (below), nothing else.
 X "python3 - <<'PY'
 import re
-path = '/root/media-test-stage/Caddyfile.public'
-text, n = re.subn(r'\(http01\) \{.*?\n\}\n', '(http01) {\n    tls internal\n}\n', open(path).read(), count=1, flags=re.S)
-assert n == 1
-open(path, 'w').write(text)
+for path in ('/root/media-test-stage/Caddyfile.public', '/root/media-test-stage/Caddyfile.public-dl'):
+    text, n = re.subn(r'\(http01\) \{.*?\n\}\n', '(http01) {\n    tls internal\n}\n', open(path).read(), count=1, flags=re.S)
+    assert n == 1
+    open(path, 'w').write(text)
 PY" || exit 2
 X "systemctl is-active --quiet systemd-journald.service" || { echo "journald is not running in the test container"; exit 2; }
 OWNIP=$(docker exec $c sh -c "hostname -I | cut -d' ' -f1")
@@ -63,12 +66,12 @@ mkdir -p $BASE /usr/local/libexec /usr/local/bin /opt/vidfetch-web-preproduction
 ln -sfn /tmp /opt/vidfetch-web-preproduction-20261013/current
 cp /tmp/live.caddy $BASE/Caddyfile; cp /tmp/live.caddy $BASE/Caddyfile.bootstrap; ln -sfn Caddyfile $BASE/current
 printf 'basic_auth {\n    tester %s\n}\n' \"\$(/opt/vidfetch/tools/caddy-2.11.7/caddy hash-password --plaintext test-only-password)\" > $BASE/auth.caddy
-chmod 644 $BASE/*; echo ORIGINAL > $BASE/ingress.nft
+chmod 644 $BASE/*; printf 'table inet vidfetch_https_test_ingress {\n    # ORIGINAL (Cloudflare only)\n}\n' > $BASE/ingress.nft
 echo '{\"files\":{}}' > /etc/vidfetch/ci-web-test-guard.json; echo VIDFETCH_CONNECTION_READY=0 > /etc/vidfetch/web.env; chmod 600 /etc/vidfetch/web.env
 echo 'table inet vidfetch_https_test_ingress { set cloudflare4 {} }' > /var/tmp/live-table
 cat > /usr/local/libexec/vidfetch-https-test-firewall <<'F'
 #!/bin/sh
-if grep -q testers4 $BASE/ingress.nft; then echo 'table inet vidfetch_https_test_ingress { set testers4 {} }'; else echo 'table inet vidfetch_https_test_ingress { set cloudflare4 {} }'; fi > /var/tmp/live-table
+cp $BASE/ingress.nft /var/tmp/live-table
 echo applied >> /var/tmp/fw-calls
 F
 cat > /usr/local/bin/nft <<'F'
@@ -88,13 +91,16 @@ ExecStart=/usr/local/libexec/vidfetch-https-test-firewall apply
 U
 cat > /etc/systemd/system/vidfetch-web-preproduction-20261013.service <<'U'
 [Service]
+EnvironmentFile=/etc/vidfetch/web.env
 ExecStart=/usr/bin/python3 /r/deploy/ovh/tests/fixtures/fake-frontend.py 3001
 U
 cat > /etc/systemd/system/fake-gateway.service <<'U'
 [Service]
-ExecStart=/usr/bin/python3 -m http.server 8789 --bind 127.0.0.1 --directory /srv/gw
+ExecStart=/usr/bin/python3 /r/deploy/ovh/tests/fixtures/fake-gateway.py 8789
 U
-cp /r/deploy/ovh/public-test/vidfetch-caddy.service /etc/systemd/system/vidfetch-caddy.service
+sed 's#^Requires=vidfetch-web-preproduction-20261013.service vidfetch-https-test-ingress.service#Requires=vidfetch-https-test-ingress.service#' /r/deploy/ovh/public-test/vidfetch-caddy.service > /etc/systemd/system/vidfetch-caddy.service
+grep -q '^Requires=vidfetch-https-test-ingress.service$' /etc/systemd/system/vidfetch-caddy.service
+cp /r/deploy/ovh/ci/caddy-frontend-dependency.conf /etc/systemd/system/vidfetch-caddy.service.d/ci-frontend.conf
 systemctl daemon-reload
 systemctl start fake-gateway.service vidfetch-caddy.service
 " || { echo "setup failed"; X "journalctl -u vidfetch-caddy --no-pager | tail -20"; exit 2; }
@@ -108,7 +114,7 @@ PID0=$(docker exec $c systemctl show vidfetch-caddy -p MainPID --value)
 
 echo "# 1. the state reached on the VPS: network window confirmed"
 R=/var/tmp/render
-X "mkdir -p $R && cd $R && printf 'NEW\n        tcp dport 80 accept\n        tcp dport 443 ip saddr @testers4 accept\n' > ingress.nft && printf 'VIDFETCH_MEDIA_TEST_IPS=$OWNIP/32\n' > media-test-ips.env && cp /tmp/candidate.caddy Caddyfile.test-only && sha256sum ingress.nft media-test-ips.env Caddyfile.test-only > SHA256SUMS"
+X "mkdir -p $R && cd $R && python3 -c \"import importlib.util, ipaddress, json; spec = importlib.util.spec_from_file_location('ri', '/r/deploy/ovh/media/render-ingress.py'); r = importlib.util.module_from_spec(spec); spec.loader.exec_module(r); g = json.load(open('/r/deploy/ovh/public-test/cloudflare-ranges.json'))['ranges']; open('ingress.nft', 'w').write(r.render([ipaddress.ip_network('$OWNIP/32')], g['4'], g['6'], True))\" && printf 'VIDFETCH_MEDIA_TEST_IPS=$OWNIP/32\n' > media-test-ips.env && cp /tmp/candidate.caddy Caddyfile.test-only && sha256sum ingress.nft media-test-ips.env Caddyfile.test-only > SHA256SUMS"
 X "bash $A/01-backup.sh >/dev/null && bash $A/02-stage.sh $R" >/tmp/cw-stage-$id 2>&1 && grep -q 'Valid configuration' /tmp/cw-stage-$id && ok "01-backup, then 02-stage with a REAL caddy validate of the candidate (as vidfetch-proxy)" || { bad "backup/stage: $(tail -3 /tmp/cw-stage-$id)"; exit 1; }
 rm -f /tmp/cw-stage-$id
 B=$(docker exec $c readlink -f /var/backups/vidfetch-media-test-latest)
@@ -194,5 +200,43 @@ i=0; until X "test -e \$(readlink -f /var/backups/vidfetch-media-test-latest)/ca
 [ "$(docker exec $c sh -c "sha256sum $BASE/ingress.nft /var/tmp/live-table | cut -c1-64; cat /var/tmp/fw-calls | wc -l")" = "$NET1" ] && ok "the whole public launch touched no network rule (same ingress.nft, same live table, no firewall call)" || bad "network touched by the public launch"
 PIDS1=$(docker exec $c sh -c 'for u in ssh vidfetch-caddy vidfetch-web-preproduction-20261013 fake-gateway; do systemctl show $u -p MainPID --value; done | tr "\n" " "')
 [ "$PIDS1" = "$PIDS0" ] && ok "SSH, Caddy, frontend and gateway kept the same processes (reloads only, nothing restarted)" || bad "PIDs changed: $PIDS0 -> $PIDS1"
+
+echo "# 7. public downloads on the real Caddy, with the real CI promoter"
+X "bash $A/05-caddy.sh --port80-verified-from-outside --public 600 >/dev/null && bash $A/05-confirm.sh --external-checks-passed >/dev/null" && ok "(setup) public apex confirmed again, CI profile public" || { bad "setup 7"; exit 1; }
+PIDS3=$(docker exec $c sh -c 'for u in ssh vidfetch-caddy fake-gateway; do systemctl show $u -p MainPID --value; done | tr "\n" " "')
+X "bash $A/10-dl-public.sh 600" >/tmp/cw-dl-$id 2>&1 && ok "10-dl-public.sh succeeds (dl public, downloads closed)" || { bad "10-dl-public: $(tail -5 /tmp/cw-dl-$id)"; X "journalctl -u vidfetch-caddy --no-pager | tail -12"; exit 1; }
+rm -f /tmp/cw-dl-$id
+S=$(docker exec $c readlink -f /var/backups/vidfetch-public-dl-latest)
+[ "$(code -X POST -H 'Content-Type: application/json' -d '{}' --resolve dl.vidfetch.app:443:127.0.0.1 https://dl.vidfetch.app/api/fetch-info)" = 401 ] && ok "a non-tester now reaches the gateway through the real Caddy, which demands a grant (401)" || bad "public dl gateway route"
+[ "$(code --resolve dl.vidfetch.app:443:127.0.0.1 https://dl.vidfetch.app/)" = 404 ] && [ "$(code --resolve dl.vidfetch.app:443:127.0.0.1 https://dl.vidfetch.app/api/health)" = 404 ] && ok "dl serves nothing but the gateway routes (404)" || bad "public dl unlisted routes"
+h=$(hdr --resolve vidfetch.app:443:127.0.0.1 https://vidfetch.app/)
+echo "$h" | head -1 | grep -q ' 200' && ! echo "$h" | grep -qi '^x-robots-tag' && [ "$(code --resolve vidfetch.app:443:127.0.0.1 https://vidfetch.app/api/download)" = 503 ] && ok "the apex is unchanged: public, indexable, media routes closed" || bad "apex during public dl"
+X "grep -q dl_conn4 /var/tmp/live-table && grep -q 'tcp dport 443 ip saddr @testers4 accept' $S/ingress.nft && grep -q 'tcp dport 22 accept' $BASE/ingress.nft" && ok "live table public with per-address limits; SSH rule kept; the snapshot holds the tester ingress" || bad "ingress after open"
+X "$PROMOTE" 2>/dev/null | grep -q 'ORIGIN OK' && ok "the real promoter (profile public) still accepts the apex" || bad "promoter during the dl window"
+X "bash $A/10-dl-confirm.sh --external-checks-passed" >/dev/null 2>&1 && bad "dl confirmed without a new SSH login" || ok "10-dl-confirm refuses without a NEW key login after the change"
+sleep 4; LOGIN || bad "login"
+OUT=$(docker exec $c bash $A/10-dl-confirm.sh --external-checks-passed 2>&1); rc=$?
+[ $rc = 0 ] && echo "$OUT" | grep -q 'SSH: new public-key login' && echo "$OUT" | grep -q 'dl: public with a trusted certificate' && echo "$OUT" | grep -q 'sitemap: 3 URL(s) checked' && ok "10-dl-confirm accepts: real key login, public apex (SEO), public dl, closed downloads" || bad "10-dl-confirm: $OUT"
+! X "systemctl is-active --quiet vidfetch-dl-rollback.timer" && ok "rollback timer disarmed" || bad "dl timer still armed"
+X "bash $A/11-downloads.sh open" >/dev/null 2>&1 && bad "downloads opened without secrets" || ok "11-downloads open refuses without the Turnstile and signing secrets"
+X "printf 'VIDFETCH_MEDIA_ORIGIN=https://dl.vidfetch.app\nTURNSTILE_SITE_KEY=0x4AAAAAAA-test-only\nTURNSTILE_SECRET_KEY=test-only-not-a-secret\nVIDFETCH_ACCESS_SIGNING_KEY=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n' >> /etc/vidfetch/web.env"
+OUT=$(docker exec $c bash $A/11-downloads.sh open 2>&1); rc=$?
+[ $rc = 0 ] && X "grep -q '^VIDFETCH_CONNECTION_READY=1$' /etc/vidfetch/web.env && grep -q public-downloads /etc/vidfetch/ci-media-test-profile.json" && ok "11-downloads open: ready=1 and CI profile public-downloads, origin checks passed" || bad "11-downloads open: $OUT"
+docker exec $c curl -s -m 5 http://127.0.0.1:3001/api/health | grep -q '"available":true' && ok "the frontend (restarted alone) now offers downloads" || bad "frontend not open"
+X "$PROMOTE" 2>/dev/null | grep -q 'ORIGIN OK' && ok "the REAL promoter accepts the open site under public-downloads (apex and dl checks: CI deploys and rollback keep working)" || bad "promoter public-downloads: $(docker exec $c sh -c "$PROMOTE" 2>&1 | tail -1)"
+OUT=$(docker exec $c bash $A/11-downloads.sh close 2>&1); rc=$?
+[ $rc = 0 ] && X "grep -q '^VIDFETCH_CONNECTION_READY=0$' /etc/vidfetch/web.env && grep -q '\"profile\":\"public\"' /etc/vidfetch/ci-media-test-profile.json" && docker exec $c curl -s -m 5 http://127.0.0.1:3001/api/health | grep -q '"available":false' && ok "11-downloads close: ready=0, CI profile public, the frontend closed again" || bad "11-downloads close: $OUT"
+X "$PROMOTE" 2>/dev/null | grep -q 'ORIGIN OK' && ok "the real promoter accepts the closed state under public" || bad "promoter after close"
+X "bash $A/10-dl-cancel.sh >/dev/null" && [ "$(docker exec $c readlink $BASE/current)" = Caddyfile.public ] && X "cmp -s $S/ingress.nft $BASE/ingress.nft && ! grep -q dl_conn4 /var/tmp/live-table" && [ "$(code --resolve dl.vidfetch.app:443:127.0.0.1 https://dl.vidfetch.app/api/fetch-info)" = 403 ] && ok "10-dl-cancel: tester-only dl again (non-tester 403), tester ingress byte-identical" || bad "10-dl-cancel"
+[ "$(code --resolve vidfetch.app:443:127.0.0.1 https://vidfetch.app/)" = 200 ] && ok "...and the apex is still public (never back to Basic Auth)" || bad "apex after 10-dl-cancel"
+X "bash $A/10-dl-public.sh 120 >/dev/null" || { bad "10-dl-public (timer run)"; exit 1; }
+S2=$(docker exec $c readlink -f /var/backups/vidfetch-public-dl-latest)
+[ "$(code -X POST -d '{}' --resolve dl.vidfetch.app:443:127.0.0.1 https://dl.vidfetch.app/api/fetch-info)" = 401 ] && ok "(setup) dl public again" || bad "setup timer run"
+echo "# waiting for the public-download rollback timer (120 s)..."
+i=0; until X "test -e $S2/restored"; do i=$((i+1)); [ $i -gt 200 ] && break; sleep 1; done
+[ "$(docker exec $c readlink $BASE/current)" = Caddyfile.public ] && X "test -e $S2/restored && cmp -s $S2/ingress.nft $BASE/ingress.nft && ! grep -q dl_conn4 /var/tmp/live-table" && [ "$(code --resolve dl.vidfetch.app:443:127.0.0.1 https://dl.vidfetch.app/api/fetch-info)" = 403 ] && [ "$(code --resolve vidfetch.app:443:127.0.0.1 https://vidfetch.app/)" = 200 ] && ok "no confirmation: the timer alone brings back tester-only dl; the apex stays public" || bad "dl timer rollback"
+X "grep -q '\"profile\":\"public\"' /etc/vidfetch/ci-media-test-profile.json && grep -q '^VIDFETCH_CONNECTION_READY=0$' /etc/vidfetch/web.env" && ok "...CI profile public and ready=0 throughout" || bad "profile or ready after the dl rollback"
+PIDS4=$(docker exec $c sh -c 'for u in ssh vidfetch-caddy fake-gateway; do systemctl show $u -p MainPID --value; done | tr "\n" " "')
+[ "$PIDS4" = "$PIDS3" ] && ok "SSH, Caddy and gateway kept their processes through section 7 (only the frontend restarted, by 11-downloads)" || bad "PIDs changed: $PIDS3 -> $PIDS4"
 LOGIN && ok "SSH key login still accepted at the end" || bad "SSH"
 exit $fail

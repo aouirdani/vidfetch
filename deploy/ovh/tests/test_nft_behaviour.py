@@ -15,7 +15,7 @@ class NftBehaviour(unittest.TestCase):
         if result.returncode == 2:
             self.skipTest('container network / NET_ADMIN unavailable: ' + result.stdout[-300:])
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        self.assertGreaterEqual(result.stdout.count('ok - '), 30)
+        self.assertGreaterEqual(result.stdout.count('ok - '), 50)
 
 
 if __name__ == '__main__':

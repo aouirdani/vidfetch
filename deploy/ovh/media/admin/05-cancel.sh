@@ -3,6 +3,7 @@
 # 05-confirm.sh, for the media-test and the public window: a public CI profile goes away with the public Caddy.
 # The network rules confirmed with 04-confirm.sh stay as they are; 04-cancel.sh restores those.
 . "$(dirname "$0")/common.sh"; need_root
+[ "$(readlink "$BASE/current")" != Caddyfile.public-dl ] || die "dl.vidfetch.app is public: close it first (11-downloads.sh close, then 10-dl-cancel.sh)"
 B=$(latest_backup); remove_expected_file "${B:?}" caddy-confirmed
 if RESTORE_FORCE=1 "$(dirname "$0")/restore-caddy.sh" "$B"; then
   $SYSTEMCTL stop $CADDY_TIMER.timer 2>/dev/null || true

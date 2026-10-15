@@ -34,4 +34,19 @@ origin_tables() {
     printf 'vidfetch.app GET /api/health 200 %s|BODY=health\n' "$robots"
     for r in 'GET /' 'GET /api/fetch-info' 'POST /api/download'; do printf 'dl.vidfetch.app %s 403 %s\n' "$r" "$dl"; done
   } > "$dir/Caddyfile.public"
+  # Caddyfile.public-dl: the same public apex; dl now answers anyone (loopback included): gateway routes demand a grant.
+  printf '{"ok":true,"frontend":{"ready":true},"downloads":{"available":true}}\n' > "$dir/bodies/health-open"
+  printf '{"ok":true,"available":true,"siteKey":"0x4AAAAAAA-test-site-key","gatewayOrigin":"https://dl.vidfetch.app"}\n' > "$dir/bodies/access-open"
+  printf '{"ok":true,"available":false,"siteKey":"","gatewayOrigin":""}\n' > "$dir/bodies/access-closed"
+  {
+    grep -v '^dl.vidfetch.app ' "$dir/Caddyfile.public"
+    printf 'vidfetch.app GET /api/download-access 200 %s|BODY=access-closed\n' "$robots"
+    printf '127.0.0.1:3001 GET /api/health 200 BODY=health\n'
+    for r in 'POST /api/fetch-info' 'POST /api/download'; do printf 'dl.vidfetch.app %s 401 %s\n' "$r" "$dl"; done
+    for r in 'GET /' 'GET /api/health' 'GET /auth/admission'; do printf 'dl.vidfetch.app %s 404 %s\n' "$r" "$dl"; done
+  } > "$dir/Caddyfile.public-dl"
+  # ...and once ready=1: grants are offered to the site's browser origin only, the frontend reports downloads.
+  sed -e 's#^vidfetch.app POST /api/download-access 503#vidfetch.app POST /api/download-access 403#' \
+      -e 's#BODY=health$#BODY=health-open#' -e 's#|BODY=health$#|BODY=health-open#' -e 's#BODY=access-closed#BODY=access-open#' \
+      "$dir/Caddyfile.public-dl" > "$dir/Caddyfile.public-dl.open"
 }

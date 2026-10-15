@@ -39,7 +39,7 @@ class Scripts(unittest.TestCase):
         result = subprocess.run(['docker', 'run', '--rm', '-v', f'{root}:/r:ro', 'python:3.12-slim', 'bash', '/r/deploy/ovh/tests/path-safety.test.sh'],
                                 capture_output=True, text=True, timeout=600)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        self.assertGreaterEqual(result.stdout.count('\nok '), 85)
+        self.assertGreaterEqual(result.stdout.count('\nok '), 95)
 
     def test_caddy_window_in_container(self):
         """05-caddy only after the confirmed network window, own rollback timer, network never touched, confirm on origin proof."""
@@ -58,6 +58,15 @@ class Scripts(unittest.TestCase):
                                 capture_output=True, text=True, timeout=1200)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertGreaterEqual(result.stdout.count('\nok '), 55)
+
+    def test_public_downloads_in_container(self):
+        """dl.vidfetch.app opened with downloads closed, rollback to the PUBLIC apex, ready and CI profile moved together."""
+        if not shutil.which('docker') or subprocess.run(['docker', 'info'], capture_output=True).returncode:
+            self.skipTest('Docker not available')
+        result = subprocess.run(['docker', 'run', '--rm', '-v', f'{root}:/r:ro', 'python:3.12-slim', 'bash', '/r/deploy/ovh/tests/public-downloads.test.sh'],
+                                capture_output=True, text=True, timeout=1800)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertGreaterEqual(result.stdout.count('\nok '), 68)
 
     def test_no_recursive_removal_in_administrator_scripts(self):
         import re
