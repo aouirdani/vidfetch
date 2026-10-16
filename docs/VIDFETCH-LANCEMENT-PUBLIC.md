@@ -87,7 +87,7 @@ sudo bash 09-ci-helper.sh install
 ```
 
 - **Contrôle** : `CI helper replaced`, puis le statut affiché par le nouveau helper indique `"profile": "closed"`. Le profil en vigueur ne change pas.
-- **Retour arrière** : `sudo bash 09-ci-helper.sh rollback`. Le script refuse tant que le profil public est en place ; lancer `05-cancel.sh` d'abord.
+- **Retour arrière** : `sudo bash 09-ci-helper.sh rollback`. Il remet le promoteur sauvegardé uniquement si celui-ci applique le profil en vigueur. Sinon, il refuse sans rien changer et indique quoi refermer d'abord (`05-cancel.sh`, ou `11-downloads.sh close` pour `public-downloads`). Une fois le promoteur remis, son propre `status` doit annoncer ce profil ; sinon, celui qui était en place revient aussitôt.
 
 ## 4. Bascule publique, avec minuterie de 900 s
 
@@ -193,7 +193,7 @@ Tant que `ready=1`, le promoteur public refuse les déploiements CI ; `set-ready
 | Ne rien faire pendant la fenêtre | — | la minuterie fait la même chose au bout de 900 s |
 | Revenir aussi sur le réseau | `sudo bash 04-cancel.sh` | ingress d'origine, Caddy d'origine, profil `closed` |
 | Tout remettre | `restore-full.sh` (voir `VIDFETCH-RECETTE-PRIVEE.md`) | état de la sauvegarde ; `Caddyfile.public` retiré par son nom |
-| Ancien promoteur | `sudo bash 09-ci-helper.sh rollback`, après `05-cancel.sh` | helper précédent, statut vérifié |
+| Ancien promoteur | `sudo bash 09-ci-helper.sh rollback` (refusé si le promoteur sauvegardé ne connaît pas le profil en vigueur) | helper précédent, son statut annonce le profil en vigueur |
 | Frontend précédent | `sudo /usr/local/libexec/vidfetch-ci/rollback.py` | fonctionne avec l'apex protégé comme public, grâce au profil |
 
 ## Tests

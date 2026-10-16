@@ -59,7 +59,7 @@ Protections inchangées, déjà présentes dans la passerelle :
   bash <(git show origin/main:deploy/ovh/media/admin/send-to-vps.sh) origin/main backend/artifacts/admin-prep-20261014/render-open80
   ```
   Ils arrivent avec `Caddyfile.public-dl`, `public-dl-ingress.py` et le nouveau `promote.py`.
-- Promoteur à jour : `sudo bash 09-ci-helper.sh check`, puis `install`. Son `status` doit afficher `"profile": "public"`.
+- Promoteur à jour : `sudo bash 09-ci-helper.sh check`, puis `install`. Son `status` doit afficher `"profile": "public"`. Retour arrière : `sudo bash 09-ci-helper.sh rollback` remet le promoteur précédent (`00732df2…`, qui connaît le profil `public`). Il refuse sous `public-downloads`, que ce promoteur ne connaît pas : fermer d'abord les téléchargements.
 - Un réseau **non testeur** pour la vérification externe, par exemple un téléphone en 4G en partage de connexion. L'IP domestique est celle du testeur (ensemble `testers4`) et ne convient pas pour `verify-outsider.sh`.
 
 ## 1. `dl.vidfetch.app` public, téléchargements fermés (fenêtre de 900 s)

@@ -14,6 +14,7 @@ A=$W/tk/admin
 mkdir -p "$W/bin" "$W/bk" "$W/state" "$W/libexec/vidfetch-ci" /var/lib/vidfetch-proxy /opt/vidfetch-web-preproduction-20261013 /opt/vidfetch-ci-web
 BASE=/etc/vidfetch/public-https-test; DROPIN=/etc/systemd/system/vidfetch-caddy.service.d/media-test.conf; PROFILE=/etc/vidfetch/ci-media-test-profile.json
 PUBLIC_JSON='{"profile":"public","apex":"public-indexable","dl":"testers-only"}'; MEDIA_JSON='{"profile":"media-test","apex":"basic-auth-noindex","dl":"testers-only"}'
+DL_JSON='{"profile":"public-downloads","apex":"public-indexable","dl":"public"}'
 cat > "$W/bin/stub" <<'S'
 #!/bin/sh
 n=$(basename "$0"); echo "$n $*" >> "$STATE/calls.log"
@@ -185,12 +186,19 @@ out=$(bash $A/09-ci-helper.sh check 2>&1); [ $? = 0 ] && echo "$out" | grep -q "
 out=$(bash $A/09-ci-helper.sh install 2>&1); rc=$?
 [ $rc = 0 ] && cmp -s "$VM_CI_HELPER" "$W/tk/promote.py" && [ "$(stat -c %a "$VM_CI_HELPER")" = 755 ] && echo "$out" | grep -q '"profile": "closed"' && ok "install: new helper in place (0755), its status runs and still reports the closed profile" || bad "install rc=$rc: $out"
 BK=$(readlink -f "$W/bk/vidfetch-ci-helper-latest"); [ "$(sha256sum < "$BK/promote.py")" = "$before" ] && ok "the previous helper is kept in a dated backup" || bad "helper backup"
-for f in "$W/libexec/vidfetch-ci/release-lib.py"; do [ -f "$f" ] || bad "release-lib.py touched"; done
-printf '%s\n' "$PUBLIC_JSON" > $PROFILE; bash $A/09-ci-helper.sh rollback >/dev/null 2>&1 && bad "rollback with the public profile" || ok "rollback refuses while the public profile is in force (the old helper would not know it)"
+[ -f "$W/libexec/vidfetch-ci/release-lib.py" ] || bad "release-lib.py touched"
+printf '%s\n' "$PUBLIC_JSON" > $PROFILE; out=$(bash $A/09-ci-helper.sh rollback 2>&1); rc=$?
+[ $rc != 0 ] && cmp -s "$VM_CI_HELPER" "$W/tk/promote.py" && grep -q "CI profile in force is 'public' and the helper saved in .* does not define it: nothing changed; revert the public window first" <<< "$out" \
+  && ok "rollback to 88fbe237 refused under the public profile (it does not define it): nothing changed" || bad "rollback to 88fbe237 under public rc=$rc: $out"
+printf '%s\n' "$DL_JSON" > $PROFILE; out=$(bash $A/09-ci-helper.sh rollback 2>&1); rc=$?
+[ $rc != 0 ] && cmp -s "$VM_CI_HELPER" "$W/tk/promote.py" && grep -q "CI profile in force is 'public-downloads' and the helper saved in .* does not define it: nothing changed; close downloads first (11-downloads.sh close)" <<< "$out" \
+  && ok "rollback to 88fbe237 refused under the public-downloads profile: nothing changed" || bad "rollback to 88fbe237 under public-downloads rc=$rc: $out"
 rm -f $PROFILE; out=$(bash $A/09-ci-helper.sh rollback 2>&1); rc=$?
 [ $rc = 0 ] && [ "$(sha256sum "$VM_CI_HELPER" | cut -c1-64)" = "$OLD_SHA" ] && echo "$out" | grep -q "previous CI helper restored from .* (sha256 ${OLD_SHA:0:16})" && ok "rollback restores the real 88fbe237 helper, prints its sha256, and exits 0 although its status has no profile field" || bad "rollback rc=$rc: $out"
 printf '#!/bin/sh\necho not-json\n' > "$W/broken-helper"; BKL=$(readlink -f "$W/bk/vidfetch-ci-helper-latest"); cp "$BKL/promote.py" "$W/keep-old"; install -m 0755 "$W/broken-helper" "$BKL/promote.py"
-bash $A/09-ci-helper.sh rollback >/dev/null 2>&1 && bad "a restored helper with an invalid status was accepted" || ok "a restored helper whose status is not valid JSON is reported"
+out=$(bash $A/09-ci-helper.sh rollback 2>&1); rc=$?
+[ $rc != 0 ] && [ "$(sha256sum "$VM_CI_HELPER" | cut -c1-64)" = "$OLD_SHA" ] && grep -q "the helper that was in place is back" <<< "$out" \
+  && ok "a restored helper whose status is not valid JSON is refused and the helper that was in place is put back" || bad "broken restored helper rc=$rc: $out"
 install -m 0755 "$W/keep-old" "$BKL/promote.py"; install -m 0755 "$OLD_HELPER" "$VM_CI_HELPER"
 printf '%s\n' '{"profile":"something-else"}' > $PROFILE; out=$(bash $A/09-ci-helper.sh install 2>&1); rc=$?
 [ $rc != 0 ] && [ "$(sha256sum < "$VM_CI_HELPER")" = "$before" ] && echo "$out" | grep -q "previous helper put back" && ok "a new helper failing its status check is replaced by the previous one at once" || bad "failed install rc=$rc: $out"
@@ -198,4 +206,78 @@ rm -f $PROFILE
 sed '/^PUBLIC_PROFILE = /d' "$W/tk/promote.py" > "$W/tk/promote.py.x"; mv "$W/tk/promote.py" "$W/promote.good"; mv "$W/tk/promote.py.x" "$W/tk/promote.py"
 bash $A/09-ci-helper.sh install >/dev/null 2>&1 && bad "helper without public profile installed" || ok "a promote.py without the public profile is refused before anything is changed"
 mv "$W/promote.good" "$W/tk/promote.py"
+
+echo "# 4b. rollback follows the profile in force: the real 00732df2 helper (on the VPS since 14 October) and the new one"
+mkfix; echo '{"release":"test"}' > /tmp/manifest.json
+PREV_HELPER=$F/promote-00732df2.py.fixture; PREV_SHA=00732df27734e00782ae80420f6da807b78cdeecbe4779ff0e30d8e107edda27
+NEW_SHA=$(sha256sum "$W/tk/promote.py" | cut -c1-64)
+hsha() { sha256sum "$VM_CI_HELPER" | cut -c1-64; }
+latest() { readlink -f "$W/bk/vidfetch-ci-helper-latest"; }
+[ "$(sha256sum "$PREV_HELPER" | cut -c1-64)" = "$PREV_SHA" ] && ok "the 00732df2 fixture is byte-identical to the helper installed on the VPS (00732df2...)" || bad "00732df2 fixture differs"
+python3 - "$A/09-ci-helper.sh" "$A/common.sh" "$W/tk/promote.py" "$PREV_HELPER" <<'PY' && ok "rollback looks for exactly the profiles the scripts write; the new helper defines all three, 00732df2 all but public-downloads" || bad "profile lines, common.sh and helpers disagree"
+import ast, json, re, sys
+script, common, new, prev = (open(p).read() for p in sys.argv[1:5])
+lines = dict(re.findall(r'^ +([a-z-]+)\) line="([A-Z_]+ = \{.*\})" ;;$', script, re.M))
+names = {'media-test': 'MEDIA_PROFILE_JSON', 'public': 'PUBLIC_PROFILE_JSON', 'public-downloads': 'PUBLIC_DL_PROFILE_JSON'}
+assert set(lines) == set(names), lines
+for name, var in names.items():
+    written = json.loads(re.search(r"^%s='(.*)'$" % var, common, re.M).group(1))
+    assert ast.literal_eval(lines[name].split(' = ', 1)[1]) == written, name
+    assert lines[name] in new.splitlines(), name
+    assert (lines[name] in prev.splitlines()) == (name != 'public-downloads'), name
+PY
+# today's VPS: helper 00732df2, public profile
+install -m 0755 "$PREV_HELPER" "$VM_CI_HELPER"; printf '%s\n' "$PUBLIC_JSON" > $PROFILE
+out=$(bash $A/09-ci-helper.sh check 2>&1); rc=$?
+[ $rc = 0 ] && grep -q differs <<< "$out" && grep -q "CI profile in force: public$" <<< "$out" && [ "$(hsha)" = "$PREV_SHA" ] \
+  && ok "check from today's VPS state (helper 00732df2, profile public): read-only, reports the difference and the profile" || bad "check rc=$rc: $out"
+out=$(bash $A/09-ci-helper.sh install 2>&1); rc=$?
+[ $rc = 0 ] && [ "$(hsha)" = "$NEW_SHA" ] && grep -q '"profile": "public"' <<< "$out" && [ "$(cat $PROFILE)" = "$PUBLIC_JSON" ] && [ "$(sha256sum "$(latest)/promote.py" | cut -c1-64)" = "$PREV_SHA" ] \
+  && ok "install under the public profile: new helper in place, its status reports public, 00732df2 kept in the backup, profile untouched" || bad "install under public rc=$rc: $out"
+out=$(bash $A/09-ci-helper.sh rollback 2>&1); rc=$?
+[ $rc = 0 ] && [ "$(hsha)" = "$PREV_SHA" ] && grep -q "previous CI helper restored from .* (sha256 ${PREV_SHA:0:16}); CI profile in force: public; status: .*\"profile\": \"public\"" <<< "$out" && [ "$(cat $PROFILE)" = "$PUBLIC_JSON" ] \
+  && ok "rollback to 00732df2 under the public profile: restored, and its own status reports public" || bad "rollback to 00732df2 under public rc=$rc: $out"
+# downloads opened later: 00732df2 does not know public-downloads
+bash $A/09-ci-helper.sh install >/dev/null 2>&1 && [ "$(hsha)" = "$NEW_SHA" ] || bad "reinstall under public"
+printf '%s\n' "$DL_JSON" > $PROFILE; BK=$(latest)
+out=$(bash $A/09-ci-helper.sh rollback 2>&1); rc=$?
+[ $rc != 0 ] && [ "$(hsha)" = "$NEW_SHA" ] && [ ! -e "$BK/promote.py.replaced" ] && grep -q "CI profile in force is 'public-downloads' and the helper saved in .* does not define it: nothing changed; close downloads first (11-downloads.sh close)" <<< "$out" \
+  && ok "rollback to 00732df2 refused under public-downloads (it does not define it): nothing changed" || bad "rollback to 00732df2 under public-downloads rc=$rc: $out"
+install -m 0755 "$PREV_HELPER" "$VM_CI_HELPER"
+out=$(bash $A/09-ci-helper.sh install 2>&1); rc=$?
+[ $rc = 0 ] && [ "$(hsha)" = "$NEW_SHA" ] && grep -q '"profile": "public-downloads"' <<< "$out" \
+  && ok "install under the public-downloads profile: accepted, the new helper's status reports public-downloads" || bad "install under public-downloads rc=$rc: $out"
+# a later helper while downloads are open: the saved one defines public-downloads, so rollback is possible
+cp "$W/tk/promote.py" "$W/promote.current"; printf '# a later revision\n' >> "$W/tk/promote.py"
+out=$(bash $A/09-ci-helper.sh install 2>&1); rc=$?
+[ $rc = 0 ] && cmp -s "$VM_CI_HELPER" "$W/tk/promote.py" && grep -q '"profile": "public-downloads"' <<< "$out" && ok "a later helper installs while downloads are open" || bad "later helper under public-downloads rc=$rc: $out"
+out=$(bash $A/09-ci-helper.sh rollback 2>&1); rc=$?
+[ $rc = 0 ] && [ "$(hsha)" = "$NEW_SHA" ] && grep -q "CI profile in force: public-downloads; status: .*\"profile\": \"public-downloads\"" <<< "$out" \
+  && ok "rollback under public-downloads to a helper that defines it: restored, its status reports public-downloads" || bad "rollback to a public-downloads helper rc=$rc: $out"
+mv "$W/promote.current" "$W/tk/promote.py"
+# the saved helper defines the profile but does not apply it (reads another profile file): put back the helper in place
+printf '%s\n' "$PUBLIC_JSON" > $PROFILE
+sed "s#^PROFILE = Path('/etc/vidfetch/ci-media-test-profile.json')#PROFILE = Path('/etc/vidfetch/elsewhere.json')#" "$PREV_HELPER" > "$W/blind-helper"
+grep -q "^PROFILE = Path('/etc/vidfetch/elsewhere.json')" "$W/blind-helper" || bad "blind helper fixture"
+BK=$(latest); cp "$BK/promote.py" "$W/keep-bk"; install -m 0755 "$W/blind-helper" "$BK/promote.py"
+out=$(bash $A/09-ci-helper.sh rollback 2>&1); rc=$?
+[ $rc != 0 ] && [ "$(hsha)" = "$NEW_SHA" ] && grep -q "status reports profile 'closed', in force: 'public'" <<< "$out" && grep -q "the restored helper does not apply the 'public' profile .*the helper that was in place is back" <<< "$out" \
+  && ok "a restored helper whose own status reports another profile (closed under public) is refused; the helper in place is put back" || bad "blind restored helper rc=$rc: $out"
+install -m 0755 "$W/keep-bk" "$BK/promote.py"
+# install: a new helper that would apply another profile than the one in force is refused, the previous one put back
+install -m 0755 "$PREV_HELPER" "$VM_CI_HELPER"; cp "$W/tk/promote.py" "$W/promote.current"
+sed "s#^PROFILE = Path('/etc/vidfetch/ci-media-test-profile.json')#PROFILE = Path('/etc/vidfetch/elsewhere.json')#" "$W/promote.current" > "$W/tk/promote.py"
+out=$(bash $A/09-ci-helper.sh install 2>&1); rc=$?
+[ $rc != 0 ] && [ "$(hsha)" = "$PREV_SHA" ] && grep -q "status reports profile 'closed', in force: 'public'" <<< "$out" && grep -q "CI profile in force: public): previous helper put back" <<< "$out" \
+  && ok "install refused when the new helper would apply another profile than the one in force: 00732df2 put back" || bad "install of a blind helper rc=$rc: $out"
+mv "$W/promote.current" "$W/tk/promote.py"
+# an unrecognised profile file: no helper is known to apply it
+printf '%s\n' '{"profile": "public"}' > $PROFILE
+out=$(bash $A/09-ci-helper.sh rollback 2>&1); rc=$?
+[ $rc != 0 ] && [ "$(hsha)" = "$PREV_SHA" ] && grep -q "CI profile in force is 'unknown' .*nothing changed; inspect the CI profile file first" <<< "$out" \
+  && ok "rollback refused under an unrecognised profile file: nothing changed" || bad "rollback under an unknown profile rc=$rc: $out"
+rm -f $PROFILE; mv "$W/bk/vidfetch-ci-helper-latest" "$W/latest.keep"
+out=$(bash $A/09-ci-helper.sh rollback 2>&1); rc=$?
+[ $rc != 0 ] && [ "$(hsha)" = "$PREV_SHA" ] && grep -q "no CI helper backup" <<< "$out" && ok "rollback without any backup refuses: nothing changed" || bad "rollback without backup rc=$rc: $out"
+mv "$W/latest.keep" "$W/bk/vidfetch-ci-helper-latest"
 exit $fail
