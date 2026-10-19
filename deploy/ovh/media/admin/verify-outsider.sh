@@ -15,11 +15,28 @@ if [ "$MODE" != --public-dl ]; then
 else
   tls=$(echo | openssl s_client -connect $VPS:443 -servername dl.vidfetch.app -verify_hostname dl.vidfetch.app -verify_return_error 2>&1)
   echo "$tls" | grep -q 'Verification: OK' && ok "public dl: certificate chain and hostname verify (strict)" || bad "public dl: certificate does not verify"
-  for spec in POST:/api/fetch-info:401 POST:/api/download:401 GET:/:404 GET:/api/health:404 GET:/auth/admission:404; do
+  # Anonymous POSTs shaped like the site's own (JSON, no grant): the gateway reads the body, then checks the grant
+  # before any engine call, so it must refuse them itself with 401 INVALID_ACCESS. That refusal code, from the gateway's
+  # own JSON error body, is what proves the engine was not reached; a realistic request is refused the same way.
+  for p in /api/fetch-info /api/download; do
+    for body in '{}' '{"url":"https://www.tiktok.com/@example/video/1234567890123456789","format_id":"18","type":"video"}'; do
+      [ "$body" = '{}' ] && what='{}' || what='a sample request'
+      out=$(curl -s -m 10 -w '\n%{http_code}' -X POST -H 'Content-Type: application/json' --data "$body" "https://dl.vidfetch.app$p"); c=${out##*$'\n'}
+      [ "$c" = 401 ] && grep -q '"code":"INVALID_ACCESS"' <<< "${out%$'\n'*}" && ok "public dl: anonymous JSON POST $p with $what refused by the gateway (401 INVALID_ACCESS), engine not reached" \
+        || bad "public dl: anonymous JSON POST $p with $what answered $c, expected 401 with the gateway's INVALID_ACCESS refusal"
+    done
+  done
+  # A POST without a body is malformed: refused before the grant is even read (400 INVALID_JSON).
+  for p in /api/fetch-info /api/download; do
+    out=$(curl -s -m 10 -w '\n%{http_code}' -X POST "https://dl.vidfetch.app$p"); c=${out##*$'\n'}
+    [ "$c" = 400 ] && grep -q '"code":"INVALID_JSON"' <<< "${out%$'\n'*}" && ok "public dl: POST $p without a body refused by the gateway (400 INVALID_JSON)" \
+      || bad "public dl: POST $p without a body answered $c, expected 400 with the gateway's INVALID_JSON refusal"
+  done
+  for spec in GET:/:404 GET:/api/health:404 GET:/auth/admission:404; do
     m=${spec%%:*}; r=${spec#*:}; p=${r%:*}; w=${r##*:}
     c=$(curl -s -m 10 -o /dev/null -w '%{http_code}' -X "$m" https://dl.vidfetch.app$p); [ "$c" = "$w" ] && ok "public dl: $m $p answers $w to an anonymous visitor" || bad "public dl: $m $p answered $c, expected $w"
   done
-  h=$(curl -s -m 10 -D - -o /dev/null -X POST https://dl.vidfetch.app/api/fetch-info)
+  h=$(curl -s -m 10 -D - -o /dev/null -X POST -H 'Content-Type: application/json' --data '{}' https://dl.vidfetch.app/api/fetch-info)
   echo "$h" | grep -qi '^referrer-policy: no-referrer' && echo "$h" | grep -qi '^x-robots-tag: noindex' && ok "public dl: no-referrer and noindex headers" || bad "public dl: headers"
   c=$(curl -s -m 8 -o /dev/null -w '%{http_code}' --resolve vidfetch.app:443:$VPS https://vidfetch.app/ 2>/dev/null); [ "$c" = 403 ] && ok "apex direct to the VPS (bypassing Cloudflare) refused by Caddy (403)" || bad "apex direct answered $c"
 fi

@@ -119,3 +119,48 @@ test("deployment diagnostics require service authentication and drain refuses ne
     assert.equal((await request("/api/fetch-info", "POST")).status, 400);
   } finally { await gateway.shutdown(); }
 });
+
+// The exact anonymous requests verify-outsider.sh --public-dl sends to dl.vidfetch.app, against the gateway configured as
+// in production (reverse proxy, queue, uid-nft isolation): each is refused by the gateway itself with the code that
+// script checks, and the engine behind it receives nothing at all.
+test("anonymous requests are refused by the gateway itself and never reach the engine", async () => {
+  const secret = randomBytes(32), folder = await mkdtemp(resolve("backend/artifacts/anonymous-test-"));
+  let engineRequests = 0;
+  const engine = createServer((_req, res) => { engineRequests++; res.setHeader("Content-Type", "application/json"); res.end('{"ok":true,"engine":"reached"}'); });
+  engine.listen(0, "127.0.0.1"); await once(engine, "listening");
+  const engineAddress = engine.address(); assert(engineAddress && typeof engineAddress !== "string");
+  const gateway = createGateway({ origin: "https://dl.vidfetch.app", sites: ["https://vidfetch.app"], key: secret, backend: `http://127.0.0.1:${engineAddress.port}`,
+    proxy: "reverse-proxy", queue: { maxWaiting: 2, waitMs: 180000, estimateMs: 90000 }, isolationProfile: "vidfetch-uid-nft-v1", requireIsolation: true,
+    maxBytes: 256 * 1024 ** 2, bytesPerSecond: 2048 * 1024, ledger: new GatewayLedger(resolve(folder, "quota.sqlite")) });
+  gateway.server.listen(0, "127.0.0.1"); await once(gateway.server, "listening");
+  const address = gateway.server.address(); assert(address && typeof address !== "string");
+  const send = (path: string, method: string, body?: string, extra: Record<string, string> = {}): Promise<{ status: number; headers: Record<string, unknown>; json: Record<string, unknown> }> => new Promise((done, reject) => {
+    const headers = { Host: "dl.vidfetch.app", "X-Forwarded-Proto": "https", "X-Forwarded-For": "203.0.113.150", ...(body === undefined ? {} : { "Content-Type": "application/json" }), ...extra };
+    const req = httpRequest(`http://127.0.0.1:${address.port}${path}`, { method, headers }, res => {
+      const chunks: Buffer[] = []; res.on("data", chunk => chunks.push(chunk));
+      res.on("end", () => { const text = Buffer.concat(chunks).toString("utf8"); let json: Record<string, unknown> = {}; try { json = JSON.parse(text); } catch { /* not JSON */ } done({ status: res.statusCode ?? 0, headers: res.headers, json }); });
+    }); req.on("error", reject); req.end(body);
+  });
+  const sample = '{"url":"https://www.tiktok.com/@example/video/1234567890123456789","format_id":"18","type":"video"}';
+  try {
+    for (const path of ["/api/fetch-info", "/api/download"]) {
+      for (const body of ["{}", sample]) {
+        const reply = await send(path, "POST", body);
+        assert.equal(reply.status, 401, `${path} ${body}`); assert.equal(reply.json.code, "INVALID_ACCESS", `${path} ${body}`); assert.equal(reply.json.ok, false);
+        assert.equal(reply.headers["cache-control"], "no-store");
+      }
+      // a forged or expired grant changes nothing
+      for (const grant of ["x.y.z", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"]) {
+        const reply = await send(path, "POST", sample, { Authorization: `Bearer ${grant}`, "X-VidFetch-Proof": "forged" });
+        assert.equal(reply.status, 401, `${path} forged grant`); assert.equal(reply.json.code, "INVALID_ACCESS");
+      }
+      const empty = await send(path, "POST");
+      assert.equal(empty.status, 400, `${path} without a body`); assert.equal(empty.json.code, "INVALID_JSON");
+    }
+    // the other anonymous ways in: health, a download ticket without its cookie, the queue
+    assert.equal((await send("/api/health", "GET")).status, 401);
+    assert.equal((await send("/api/download?ticket=" + "a".repeat(43), "GET")).status, 404);
+    assert.equal((await send("/api/queue", "POST", '{"claim":"' + "a".repeat(43) + '"}')).status, 401);
+    assert.equal(engineRequests, 0, "an anonymous request reached the engine");
+  } finally { await gateway.shutdown(); engine.close(); }
+});
