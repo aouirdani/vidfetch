@@ -68,6 +68,15 @@ class Scripts(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertGreaterEqual(result.stdout.count('\nok '), 68)
 
+    def test_rollback_helper_in_container(self):
+        """12-rollback-helper.sh: the VPS recovery helper replaced by the guarded one, kept in a backup, and put back."""
+        if not shutil.which('docker') or subprocess.run(['docker', 'info'], capture_output=True).returncode:
+            self.skipTest('Docker not available')
+        result = subprocess.run(['docker', 'run', '--rm', '-v', f'{root}:/r:ro', 'python:3.12-slim', 'bash', '/r/deploy/ovh/tests/rollback-helper.test.sh'],
+                                capture_output=True, text=True, timeout=600)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertGreaterEqual(result.stdout.count('\nok '), 29)
+
     def test_no_recursive_removal_in_administrator_scripts(self):
         import re
         for script in sorted((root / 'deploy/ovh/media/admin').glob('*.sh')) + [root / 'deploy/ovh/media/install-web-secrets.sh']:

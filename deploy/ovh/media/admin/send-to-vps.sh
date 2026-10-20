@@ -19,14 +19,15 @@ cd "$(git rev-parse --show-toplevel)"
 COMMIT=$(git rev-parse --verify --quiet "$REF^{commit}") || die "unknown git ref $REF (run: git fetch origin)"
 PREFIX=deploy/ovh/media; ADMIN=$PREFIX/admin; INSTALLER=$PREFIX/install-web-secrets.sh
 # The public launch also needs the public Caddy configuration and the CI promoter that knows the public profile.
-# Both land at the top of ~/media-test-stage; nothing is installed by this script.
-PUBLIC=$PREFIX/Caddyfile.public; PROMOTER=deploy/ovh/ci/promote.py
+# Both land at the top of ~/media-test-stage; nothing is installed by this script. So does the administrator
+# recovery helper (rollback.py), which only 12-rollback-helper.sh installs.
+PUBLIC=$PREFIX/Caddyfile.public; PROMOTER=deploy/ovh/ci/promote.py; ROLLBACK=deploy/ovh/ci/rollback.py
 PUBLIC_DL=$PREFIX/Caddyfile.public-dl; DL_INGRESS=$PREFIX/public-dl-ingress.py
 SOURCES="$ADMIN $INSTALLER"
-for extra in "$PUBLIC" "$PROMOTER" "$PUBLIC_DL" "$DL_INGRESS"; do git cat-file -e "$COMMIT:$extra" 2>/dev/null && SOURCES="$SOURCES $extra"; done
+for extra in "$PUBLIC" "$PROMOTER" "$PUBLIC_DL" "$DL_INGRESS" "$ROLLBACK"; do git cat-file -e "$COMMIT:$extra" 2>/dev/null && SOURCES="$SOURCES $extra"; done
 REVISION=$(git show "$COMMIT:$ADMIN/common.sh" 2>/dev/null | sed -n 's/^TOOLKIT_REVISION=//p')
 [[ "$REVISION" =~ ^[0-9]+$ ]] && [ "$REVISION" -ge 2 ] || die "$REF ($(git rev-parse --short "$COMMIT")) does not contain the hardened toolkit (revision 2). Merge the hardening pull request, then: git fetch origin"
-NAMES="admin install-web-secrets.sh Caddyfile.public promote.py Caddyfile.public-dl public-dl-ingress.py SOURCE_COMMIT SHA256SUMS.toolkit"
+NAMES="admin install-web-secrets.sh Caddyfile.public promote.py Caddyfile.public-dl public-dl-ingress.py rollback.py SOURCE_COMMIT SHA256SUMS.toolkit"
 RNAME=""
 if [ -n "$RENDER" ]; then
   RENDER=${RENDER%/}

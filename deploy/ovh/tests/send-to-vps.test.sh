@@ -56,6 +56,11 @@ if git cat-file -e HEAD:deploy/ovh/media/Caddyfile.public 2>/dev/null; then
     && { ! git cat-file -e HEAD:deploy/ovh/media/Caddyfile.public-dl 2>/dev/null || R 'cd ~/media-test-stage && grep -q "^./Caddyfile.public-dl$" <(cut -c67- SHA256SUMS.toolkit) && grep -q "^./public-dl-ingress.py$" <(cut -c67- SHA256SUMS.toolkit) && [ -x admin/10-dl-public.sh ] && [ -x admin/11-downloads.sh ]'; } \
     && ok "the public Caddyfile and the CI promoter arrive next to the toolkit, byte-identical and covered by the checksums" || bad "public launch files"
 fi
+if git cat-file -e HEAD:deploy/ovh/media/admin/12-rollback-helper.sh 2>/dev/null; then
+  [ "$(R 'sha256sum ~/media-test-stage/rollback.py' | cut -c1-64)" = "$(git show HEAD:deploy/ovh/ci/rollback.py | shasum -a 256 | cut -c1-64)" ] \
+    && R 'cd ~/media-test-stage && grep -q "^./rollback.py$" <(cut -c67- SHA256SUMS.toolkit) && [ -x admin/12-rollback-helper.sh ]' \
+    && ok "rollback.py arrives next to the toolkit for 12-rollback-helper.sh, byte-identical and covered by the checksums" || bad "rollback helper files"
+fi
 R '[ "$(ls -A ~ | grep -v -e "^\.ssh$" -e "^\.bash" -e "^\.profile$" -e "^\.cache$" | tr "\n" " ")" = "media-test-stage " ]' && ok "nothing is written outside ~/media-test-stage" || bad "extra files: $(R 'ls -A ~ | tr "\n" " "')"
 R '[ -z "$(find ~/media-test-stage -newer ~/.ssh/authorized_keys -perm /077 ! -name "*.old-*" ! -path "*.old-*/*")" ]' && ok "what was uploaded is readable by the SSH user only" || bad "permissions: $(R 'find ~/media-test-stage -perm /077 | head -3')"
 sleep 1; send HEAD "$T/render-open80" >/dev/null 2>&1 && R '[ "$(ls -d ~/media-test-stage/admin.old-* | wc -l)" = 2 ] && grep -q "^TOOLKIT_REVISION=2$" ~/media-test-stage/admin/common.sh' && ok "a second run keeps the previous copy again and verifies" || bad "second run"
