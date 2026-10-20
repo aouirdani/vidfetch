@@ -38,7 +38,7 @@ sudo python3 activate-reviewed.py activate <SHA> <ARCHIVE_SHA256> <GATEWAY_SHA25
 
 ## 3. Tests
 
-**`deploy/ovh/tests/test_activate_reviewed.py`: 31 tests.** They use the real promoter and its archive library; only `systemctl`, `nft`, `/proc` and the HTTP checks are simulated.
+**`deploy/ovh/tests/test_activate_reviewed.py`: 36 tests.** They use the real promoter and its archive library; only `systemctl`, `nft`, `/proc` and the HTTP checks are simulated.
 
 - **Success**
   - check without switching (allowed even with downloads open);
@@ -70,15 +70,23 @@ sudo python3 activate-reviewed.py activate <SHA> <ARCHIVE_SHA256> <GATEWAY_SHA25
   - downloads reopened during the activation;
   - **interrupted activation** (SIGTERM), then a successful re-run;
   - restoration that cannot be validated: `pending.json` kept and a new run refused until `rollback.py`.
+- **State transitions:**
+  - an interruption during the pre-checks is a refusal, recorded, nothing changed;
+  - inside the switch, an interruption is undone by the promoter;
+  - once switched, interruptions are ignored, nothing is undone automatically, and a failed final re-check is reported as such ("activated; final re-check FAILED", code 2, `rollback.py` named), never as a rollback;
+  - re-running on the active release is refused;
+  - every run keeps its own record, even within one second.
 - **Lock unchanged:** the CI promoter still refuses this release, and its rule and its list are identical.
 
-**Mutations: 6 out of 6 caught.** The tests fail if one removes:
+**Mutations: 8 out of 8 caught.** The tests fail if one removes:
 - the fingerprint comparison;
 - the engine check;
 - the "downloads closed" requirement;
 - the infrastructure comparison;
 - the refusal of the CI account;
-- the gateway drift check.
+- the gateway drift check;
+- interruptions being ignored once the switch is done;
+- the refusal of an already active release.
 
 **Shell scripts:**
 - `public-downloads.test.sh`:
