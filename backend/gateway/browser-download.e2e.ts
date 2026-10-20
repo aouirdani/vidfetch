@@ -197,17 +197,49 @@ async function runEngine(name: string, type: BrowserType, clientJs: string): Pro
   return results;
 }
 
+// Version compatibility, one MP4 attempt each (BROWSER_E2E_SCENARIO):
+//   popup        a client that opens the helper as a window (the frontend before this change) against this gateway
+//   refused      a client that frames the helper against a gateway that forbids framing (frontend deployed first)
+//   no-downloads this client with a sandbox lacking allow-downloads (proves the permission is needed)
+async function runScenario(name: string, type: BrowserType, clientJs: string, scenario: string): Promise<Result[]> {
+  const s = await stack(clientJs), results: Result[] = [];
+  const check = (test: string, pass: boolean, detail: string) => { results.push({ name: test, pass, detail }); console.log(`${pass ? "ok  " : "FAIL"} ${name.padEnd(8)} ${test} (${detail})`); };
+  const browser = await type.launch({ proxy: { server: `http://127.0.0.1:${s.proxyPort}` } }).catch(async error => { await s.close(); throw error; });
+  try {
+    const context = await browser.newContext({ ignoreHTTPSErrors: true, acceptDownloads: true });
+    const page = await context.newPage(); await page.goto(s.site + "/");
+    const popup = context.waitForEvent("page", { timeout: 30000 }).catch(() => null);
+    const pageDownload = page.waitForEvent("download", { timeout: 25000 }).catch(() => null);
+    const outcome = await timed(page.evaluate(() => (window as unknown as { run: (o: object) => Promise<unknown> }).run({ type: "video" })).then(() => "started", e => String(e).slice(0, 120)), 40000, "scenario run");
+    const helperServed = s.edgeLog.some(e => e.path === "/download-helper" && e.status === 200), transfer = s.edgeLog.some(e => e.path === "/auth/transfer");
+    if (scenario === "popup") {
+      const win = await popup, file = win ? await timed(win.waitForEvent("download"), 30000, "popup download") : null, bytes = file ? await saved(file) : Buffer.alloc(0);
+      check("frontend with the helper window + this gateway: still works", outcome === "started" && !!win && sha(bytes) === sha(payload("video")), `run ${outcome}, helper window ${!!win}, ${bytes.length} bytes`);
+    } else {
+      const file = await pageDownload, extra = context.pages().length - 1;
+      const reason = scenario === "refused" ? "helper not frameable: no download, no tab, clear error" : "sandbox without allow-downloads: no file saved";
+      check(reason, !file && extra === 0 && (scenario !== "refused" || (/could not connect/.test(outcome) && helperServed && !transfer)),
+        `run: ${outcome}; download ${file ? "SAVED" : "none"}; extra pages ${extra}; helper served ${helperServed}; /auth/transfer reached ${transfer}`);
+    }
+    await context.close();
+  } catch (error) { check("run", false, String(error).slice(0, 200)); }
+  finally { await timed(browser.close(), 15000, "browser close").catch(() => {}); await timed(s.close(), 15000, "servers close").catch(() => {}); }
+  return results;
+}
+
 export async function main() {
   // An early exit (a promise that can never settle) must never look like success.
   process.exitCode = 1;
-  const clientJs = process.env.BROWSER_E2E_CLIENT ? await readFile(process.env.BROWSER_E2E_CLIENT, "utf8")
+  const scenario = process.env.BROWSER_E2E_SCENARIO ?? "";
+  let clientJs = process.env.BROWSER_E2E_CLIENT ? await readFile(process.env.BROWSER_E2E_CLIENT, "utf8")
     : (await build({ entryPoints: ["src/lib/secure-client.ts"], bundle: true, format: "iife", globalName: "VidFetchClient", platform: "browser", write: false, target: "es2020" })).outputFiles[0].text;
+  if (scenario === "no-downloads") clientJs = clientJs.replace("allow-scripts allow-same-origin allow-downloads", "allow-scripts allow-same-origin");
   const wanted = (process.env.BROWSERS ?? "chromium,firefox,webkit").split(",");
   const engines: Record<string, BrowserType> = { chromium, firefox, webkit };
   let failures = 0;
   for (const name of wanted) {
     console.log(`-- ${name}`);
-    const results = await runEngine(name, engines[name], clientJs).catch(error => { console.log(`FAIL ${name.padEnd(8)} run (${String(error).slice(0, 300)})`); return [{ name: "run", pass: false, detail: "" }]; });
+    const results = await (scenario ? runScenario(name, engines[name], clientJs, scenario) : runEngine(name, engines[name], clientJs)).catch(error => { console.log(`FAIL ${name.padEnd(8)} run (${String(error).slice(0, 300)})`); return [{ name: "run", pass: false, detail: "" }]; });
     failures += results.filter(r => !r.pass).length;
   }
   console.log(failures ? `FAILURES: ${failures}` : "ALL BROWSER DOWNLOAD CHECKS PASSED");
