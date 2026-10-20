@@ -220,6 +220,21 @@ OUT=$(docker exec $c bash $A/10-dl-confirm.sh --external-checks-passed 2>&1); rc
 ! X "systemctl is-active --quiet vidfetch-dl-rollback.timer" && ok "rollback timer disarmed" || bad "dl timer still armed"
 X "bash $A/11-downloads.sh open" >/dev/null 2>&1 && bad "downloads opened without secrets" || ok "11-downloads open refuses without the Turnstile and signing secrets"
 X "printf 'VIDFETCH_MEDIA_ORIGIN=https://dl.vidfetch.app\nTURNSTILE_SITE_KEY=0x4AAAAAAA-test-only\nTURNSTILE_SECRET_KEY=test-only-not-a-secret\nVIDFETCH_ACCESS_SIGNING_KEY=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n' >> /etc/vidfetch/web.env"
+# the engine and gateway units name their bundles, and the active release manifest lists the same ones (as on the VPS)
+docker exec -i $c sh -c 'cat > /root/release-fixture.sh' <<'FIX'
+set -e; mkdir -p /srv/bundles; printf engine > /srv/bundles/vidfetch-ovh.cjs; printf gateway > /srv/bundles/vidfetch-gateway.cjs
+for u in vidfetch:vidfetch-ovh vidfetch-gateway:vidfetch-gateway; do printf '[Service]\nExecStart=/usr/bin/env node /srv/bundles/%s.cjs\n' "${u#*:}" > "/etc/systemd/system/${u%%:*}.service"; done
+systemctl daemon-reload
+python3 -c 'import hashlib,json; m=json.load(open("/tmp/manifest.json")); h=lambda f: hashlib.sha256(open(f,"rb").read()).hexdigest()
+m["files"]={"backend/vidfetch-ovh.cjs": h("/srv/bundles/vidfetch-ovh.cjs"), "backend/vidfetch-gateway.cjs": h("/srv/bundles/vidfetch-gateway.cjs")}; json.dump(m, open("/tmp/manifest.json","w"))'
+FIX
+X "bash /root/release-fixture.sh" || { bad "release fixture"; exit 1; }
+X "printf 'older gateway' > /srv/bundles/vidfetch-gateway.cjs"
+for cmd in "11-downloads.sh open" "set-ready.sh 1"; do
+  OUT=$(docker exec $c bash $A/$cmd 2>&1) && bad "$cmd opened downloads in front of an older gateway" || {
+    printf '%s' "$OUT" | grep -q 'not those of the active frontend release' && ok "$cmd refuses while the gateway in service is not the active release's" || bad "$cmd: $(printf '%s' "$OUT" | tail -1)"; }
+done
+X "grep -q '^VIDFETCH_CONNECTION_READY=0$' /etc/vidfetch/web.env && printf gateway > /srv/bundles/vidfetch-gateway.cjs" || bad "ready changed by a refused opening"
 OUT=$(docker exec $c bash $A/11-downloads.sh open 2>&1); rc=$?
 [ $rc = 0 ] && X "grep -q '^VIDFETCH_CONNECTION_READY=1$' /etc/vidfetch/web.env && grep -q public-downloads /etc/vidfetch/ci-media-test-profile.json" && ok "11-downloads open: ready=1 and CI profile public-downloads, origin checks passed" || bad "11-downloads open: $OUT"
 docker exec $c curl -s -m 5 http://127.0.0.1:3001/api/health | grep -q '"available":true' && ok "the frontend (restarted alone) now offers downloads" || bad "frontend not open"

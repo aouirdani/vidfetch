@@ -220,6 +220,14 @@ confirmed_dl; with_secrets; cp "$VM_CI_HELPER" "$W/helper.keep"; sed -i '/^PUBLI
 opened; with_secrets; refuse11 "dl window not confirmed"
 confirmed_dl; with_secrets; printf 'older gateway' > "$W/run/gateway.cjs"; refuse11 "the gateway in service is older than the active release's (08-gateway.sh upgrade not done)"
 confirmed_dl; with_secrets; printf 'other engine' > "$W/run/engine.cjs"; refuse11 "the engine in service is not the active release's"
+# set-ready.sh called directly (outside 11-downloads.sh): the same rule for 1, never for 0
+confirmed_dl; with_secrets; printf 'older gateway' > "$W/run/gateway.cjs"; s0=$(state); : > "$STATE/calls.log"
+out=$(bash $A/set-ready.sh 1 2>&1); rc=$?
+[ $rc != 0 ] && grep -q 'not those of the active frontend release' <<< "$out" && [ "$(state)" = "$s0" ] && [ "$(ready)" = 0 ] && ! calls | grep -q '^systemctl restart' && [ -z "$(ls /etc/vidfetch/web.env.bak.* 2>/dev/null)" ] \
+  && ok "set-ready.sh 1 called directly refuses an older gateway: ready stays 0, nothing restarted, no backup written" || bad "direct set-ready.sh 1 with drift: rc=$rc ready=$(ready) $(tail -1 <<< "$out")"
+out=$(bash $A/set-ready.sh 0 2>&1); rc=$?
+[ $rc = 0 ] && [ "$(ready)" = 0 ] && ok "set-ready.sh 0 is never blocked by a drift (closing must always work)" || bad "set-ready.sh 0 with drift: rc=$rc $(tail -1 <<< "$out")"
+rm -f /etc/vidfetch/web.env.bak.*
 confirmed_dl; with_secrets; out=$(bash $A/11-downloads.sh open 2>&1); rc=$?
 [ $rc = 0 ] && [ "$(profile)" = public-downloads ] && [ "$(ready)" = 1 ] && calls | grep -q '^systemctl restart vidfetch-web-preproduction-20261013.service' && ok "open: CI profile public-downloads, ready=1, only the frontend restarted" || bad "open rc=$rc state=$(state): $out"
 echo "$out" | grep -q "downloads: offered by the frontend" && echo "$out" | grep -q "sitemap: 3 URL(s) checked" && ok "open: the public apex stays indexable, the frontend offers the widget and dl" || bad "open checks: $out"
