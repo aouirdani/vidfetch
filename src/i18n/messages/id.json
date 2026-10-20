@@ -64,6 +64,7 @@
   "transferStopped": "Transfer terhenti sebelum selesai. Coba lagi.",
   "statusStopped": "Pembaruan status terhenti. Periksa pengelola unduhan peramban.",
   "waitingCancelled": "Permintaan dalam antrean dibatalkan. Anda dapat mencoba lagi.",
+  "cancel": "Batal",
   "transferFooter": "Disimpan langsung ke perangkat Anda. Tanpa akun.",
   "footerAbout": "Simpan video yang dapat diakses dan milik Anda atau yang boleh Anda unduh.",
   "footerLinks": "Tautan berguna",

@@ -10,6 +10,7 @@ import { spawnSync } from "node:child_process";
 import { Readable } from "node:stream";
 import { setTimeout as delay } from "node:timers/promises";
 import { createGateway } from "./server";
+import { downloadHelper } from "./helper";
 import { GatewayLedger } from "./ledger";
 import { createAccessIssuer } from "../../src/server/download-access";
 import { SecureDownloadClient } from "../../src/lib/secure-client";
@@ -163,4 +164,33 @@ test("anonymous requests are refused by the gateway itself and never reach the e
     assert.equal((await send("/api/queue", "POST", '{"claim":"' + "a".repeat(43) + '"}')).status, 401);
     assert.equal(engineRequests, 0, "an anonymous request reached the engine");
   } finally { await gateway.shutdown(); engine.close(); }
+});
+
+test("the download helper can be framed only by the site's exact origins and obeys only its own window", async () => {
+  const site = "https://vidfetch.app", helper = downloadHelper([site], "fr");
+  assert.match(helper.csp, /(?:^|; )frame-ancestors https:\/\/vidfetch\.app(?:;|$)/);
+  assert.doesNotMatch(helper.csp, /frame-ancestors[^;]*(?:\*|'self'|https?:(?:;|\s|$))/);
+  for (const directive of ["default-src 'none'", "connect-src 'self'", "base-uri 'none'", "form-action 'none'"]) assert.ok(helper.csp.includes(directive), directive);
+  // Anything that is not an exact origin keeps the page unframeable.
+  for (const origins of [[], ["https://vidfetch.app; script-src *"], ["*"], ["https://vidfetch.app/path"], ["javascript:alert(1)"], [site, "https://evil.example x"]])
+    assert.match(downloadHelper(origins, "fr").csp, /frame-ancestors 'none'/, JSON.stringify(origins));
+  // It answers only the window that framed (or, for older pages, opened) it, from an allowed origin.
+  assert.ok(helper.html.includes("const host=parent!==window?parent:opener;"));
+  assert.ok(helper.html.includes("event.source!==host||!allowed.includes(event.origin)"));
+  assert.ok(!/ticket=|grant|proof/.test(helper.html.split("<script")[0]), "no credential outside the script");
+  // Served as such by the gateway, without authentication, and without reaching the engine.
+  const folder = await mkdtemp(resolve("backend/artifacts/helper-test-"));
+  const gateway = createGateway({ origin: "https://dl.vidfetch.app", sites: [site], key: randomBytes(32), backend: "http://127.0.0.1:9", proxy: "reverse-proxy",
+    ledger: new GatewayLedger(resolve(folder, "quota.sqlite")) });
+  gateway.server.listen(0, "127.0.0.1"); await once(gateway.server, "listening");
+  const address = gateway.server.address(); assert(address && typeof address !== "string");
+  try {
+    const reply = await new Promise<{ status: number; csp: string }>((done, reject) => {
+      const req = httpRequest(`http://127.0.0.1:${address.port}/download-helper?lang=ar`, { headers: { Host: "dl.vidfetch.app", "X-Forwarded-Proto": "https", "X-Forwarded-For": "203.0.113.151" } },
+        res => { res.resume(); res.on("end", () => done({ status: res.statusCode ?? 0, csp: String(res.headers["content-security-policy"] ?? "") })); });
+      req.on("error", reject); req.end();
+    });
+    assert.equal(reply.status, 200);
+    assert.match(reply.csp, /frame-ancestors https:\/\/vidfetch\.app;/);
+  } finally { await gateway.shutdown(); }
 });

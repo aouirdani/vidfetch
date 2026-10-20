@@ -64,6 +64,7 @@
   "transferStopped": "La transferencia se interrumpió. Inténtalo de nuevo.",
   "statusStopped": "El seguimiento se interrumpió. Consulta las descargas de tu navegador.",
   "waitingCancelled": "La solicitud en espera se canceló. Puedes volver a intentarlo.",
+  "cancel": "Cancelar",
   "transferFooter": "Guardado directo en tu dispositivo. Sin cuenta.",
   "footerAbout": "Guarda vídeos accesibles que sean tuyos o que tengas permiso para descargar.",
   "footerLinks": "Enlaces útiles",
