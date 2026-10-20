@@ -64,6 +64,7 @@ class Reviewed(unittest.TestCase):
         self.rules = RULES % '\t\telements = { 198.51.100.7 limit rate over 120/minute burst 60 packets }\n'
         self.profile, self.protected = 'public', {'ssh.service': '869', 'vidfetch-gateway.service': '102', 'vidfetch.service': '101'}
         self.health_fails_for, self.restarts, self.on_restart, self.guard_error = set(), [], None, None
+        self.nft_calls, self.on_nft = 0, {}   # call number -> action, to act between the switch's check and the final one
         for target, name, value in [(self.p, 'BASE', self.base), (self.p, 'STORE', self.store), (self.p, 'INCOMING', t / 'incoming'),
                                     (self.tool, 'WEB_ENV', self.web_env), (self.tool, 'TOOLKIT_LOCK', t / 'run/toolkit.lock'),
                                     (self.tool, 'CADDY_BASE', t / 'caddy'), (self.tool, 'SSHD_CONFIG', t / 'sshd_config'), (self.tool, 'PROC', t / 'proc'),
@@ -102,6 +103,9 @@ class Reviewed(unittest.TestCase):
 
     def command(self, args):
         if args[0].endswith('nft'):
+            self.nft_calls += 1
+            if self.nft_calls in self.on_nft:
+                self.on_nft.pop(self.nft_calls)()
             return self.rules
         unit, prop = args[2], args[3]
         if prop == '-pExecStart':
@@ -194,6 +198,12 @@ class Reviewed(unittest.TestCase):
         self.on_restart = traffic
         code, output = self.go()
         self.assertEqual(code, 0, output)
+
+    def test_every_run_keeps_its_own_record(self):
+        self.assertEqual(self.go('check')[0], 0)
+        self.assertEqual(self.go('check')[0], 0)
+        self.assertEqual(self.go(gateway='c' * 64)[0], 1)
+        self.assertEqual([r['result'][:7] for r in self.records()], ['checked', 'checked', 'refused'])
 
     def test_no_secret_in_output_or_record(self):
         code, output = self.go()
@@ -391,6 +401,54 @@ class Reviewed(unittest.TestCase):
         code, output = self.go()                                         # and nothing new can start meanwhile
         self.assertEqual(code, 1)
         self.assertIn('run rollback.py first', output)
+
+    # ---- state transitions around the switch
+    def test_a_final_recheck_failure_after_a_successful_switch_is_not_called_a_rollback(self):
+        def drift():   # 1st nft call: before; 2nd: inside the switch (passes); 3rd: the final re-check
+            self.rules = RULES.replace('tcp dport 22 accept', 'tcp dport 22 drop') % ''
+        self.on_nft = {3: drift}
+        code, output = self.go()
+        self.assertEqual(code, 2, output)
+        self.assertIn('final re-check failed', output)
+        self.assertIn('rollback.py', output)
+        self.assertEqual(self.current(), self.store / 'releases' / SHA)    # the release stays active: nothing is undone
+        self.assertEqual(json.loads((self.store / 'previous.json').read_text())['path'], str(self.old))
+        self.assertFalse((self.store / 'pending.json').exists())
+        self.assertTrue(self.records()[-1]['result'].startswith('activated; final re-check FAILED'), self.records()[-1])
+
+    def test_signals_are_ignored_once_switched_then_restored(self):
+        import signal
+        seen = {}
+        self.on_nft = {3: lambda: seen.setdefault('post', signal.getsignal(signal.SIGTERM))}
+        self.on_restart = lambda: seen.setdefault('switch', signal.getsignal(signal.SIGTERM))
+        original = signal.getsignal(signal.SIGTERM)
+        code, output = self.go()
+        self.assertEqual(code, 0, output)
+        self.assertIs(seen['switch'], self.p.cancelled)        # inside the switch: an interruption is undone
+        self.assertEqual(seen['post'], signal.SIG_IGN)         # once switched: nothing left to undo, interruptions ignored
+        self.assertEqual(signal.getsignal(signal.SIGTERM), original)
+
+    def test_a_rerun_on_the_active_release_is_refused_and_changes_nothing(self):
+        self.assertEqual(self.go()[0], 0)
+        restarts = list(self.restarts)
+        code, output = self.go()
+        self.assertEqual(code, 1, output)
+        self.assertIn('already the active one', output)
+        self.assertEqual(self.current(), self.store / 'releases' / SHA)
+        self.assertEqual(self.restarts, restarts)
+        self.assertTrue(self.records()[-1]['result'].startswith('refused:'))
+
+    def test_an_interruption_during_the_pre_checks_changes_nothing(self):
+        import signal
+        def interrupted():
+            signal.getsignal(signal.SIGTERM)(signal.SIGTERM, None)   # what the installed handler does on SIGTERM
+        self.guards = interrupted
+        with patch.object(self.p, 'guards', interrupted):
+            code, output = self.go()
+        self.assertEqual(code, 1, output)
+        self.assertIn('pre-check failed', output)
+        self.assert_untouched(output)
+        self.assertTrue(self.records()[-1]['result'].startswith('refused: pre-check failed'))
 
     def test_interrupted_activation(self):
         def interrupt():

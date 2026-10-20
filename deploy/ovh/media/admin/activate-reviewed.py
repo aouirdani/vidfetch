@@ -174,6 +174,8 @@ def reviewed_release(p, sha, archive, gateway, infra):
     if shutil.disk_usage(p.STORE).free < 3 * 1024**3:
         raise Refused('less than 3 GiB free in the release store')
     current_dir = (p.BASE / 'current').resolve(strict=True)
+    if current_dir == p.STORE / 'releases' / sha:
+        raise Refused('this release is already the active one: nothing to do (08-gateway.sh check tells whether the gateway follows)')
     p.trusted(current_dir / 'manifest.json')
     current = json.loads((current_dir / 'manifest.json').read_text())['files']
     if infra['engine_bundle'] != current.get(ENGINE):
@@ -222,7 +224,8 @@ def record(p, entry):
     folder = p.STORE / 'reviewed'
     folder.mkdir(mode=0o700, exist_ok=True)
     os.chmod(folder, 0o700)
-    name = folder / f"{time.strftime('%Y%m%dT%H%M%SZ', time.gmtime())}-{entry['release'][:12]}-{entry['mode']}.json"
+    now = time.time_ns()   # unique and in chronological order, even for two runs within the same second
+    name = folder / f"{time.strftime('%Y%m%dT%H%M%S', time.gmtime(now // 10**9))}.{now % 10**9:09d}Z-{entry['release'][:12]}-{entry['mode']}.json"
     fd = os.open(name, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
     with os.fdopen(fd, 'w') as output:
         json.dump(entry, output, indent=2, sort_keys=True)
@@ -235,8 +238,13 @@ def run(argv, p=None):
     p = p or load_promoter()
     entry = {'mode': mode, 'release': sha, 'archive_sha256': archive, 'gateway_sha256': gateway,
              'administrator': os.environ.get('SUDO_USER', 'root'), 'started': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}
+    signals = (signal.SIGTERM, signal.SIGINT, signal.SIGHUP)
+    saved = {sig: signal.getsignal(sig) for sig in signals}
+    phase = 'pre'   # pre: nothing changed yet | switch: the promoter's switch decides | post: switched, nothing undone
     with lock(p.STORE / 'lock'), lock(TOOLKIT_LOCK):
         try:
+            for sig in signals:   # an interruption becomes an exception: recorded, and undone by the switch when inside it
+                signal.signal(sig, p.cancelled)
             try:   # everything before the switch: a failure here changes nothing and is a refusal
                 if mode == 'activate':
                     downloads_closed(p)
@@ -268,16 +276,21 @@ def run(argv, p=None):
                     raise ValueError(problem)
                 unchanged(before, infrastructure(p))
 
-            for sig in (signal.SIGTERM, signal.SIGINT, signal.SIGHUP):
-                signal.signal(sig, p.cancelled)
-            if current_dir == target:
-                p.wait_health(sha)
-                after_switch()
-            else:
-                p.switch(target, sha, do_restart=p.restart, check=p.wait_health, postcheck=after_switch)
-            p.guards()
-            unchanged(before, infrastructure(p))
+            phase = 'switch'
+            p.switch(target, sha, do_restart=p.restart, check=p.wait_health, postcheck=after_switch)
+            # From here the release is active and previous.json names its predecessor: nothing is undone automatically.
+            phase = 'post'
+            for sig in signals:
+                signal.signal(sig, signal.SIG_IGN)
             entry['result'] = 'activated'
+            try:
+                p.guards()
+                unchanged(before, infrastructure(p))
+            except Exception as error:
+                entry['result'] = f'activated; final re-check FAILED: {error}'
+                print(f'ACTIVATED, but the final re-check failed: {error}\nDownloads stay closed. Inspect; to go back: '
+                      'sudo /usr/local/libexec/vidfetch-ci/rollback.py', file=sys.stderr)
+                return 2
             print(f'ACTIVATED: frontend release {sha[:12]} (previous {entry["previous_release"][:12]}, kept for rollback.py).')
             print('The gateway in service is still the previous one; downloads stay closed. Next, on this VPS:')
             print(f'  sudo bash 08-gateway.sh check   {gateway}')
@@ -298,6 +311,8 @@ def run(argv, p=None):
                 print(f'FAILED, previous release restored and validated: {error}', file=sys.stderr)
             raise
         finally:
+            for sig, handler in saved.items():
+                signal.signal(sig, handler)
             entry['ended'] = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
             try:
                 print('record:', record(p, entry))
