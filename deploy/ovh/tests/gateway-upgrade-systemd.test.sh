@@ -47,6 +47,7 @@ chmod 0644 $R/vidfetch-ovh.cjs
 KEY=$(python3 -c 'import base64,os; print(base64.urlsafe_b64encode(os.urandom(32)).decode().rstrip("="))')
 printf 'VIDFETCH_GATEWAY_ENABLED=1\nVIDFETCH_GATEWAY_ORIGIN=https://api.vidfetch.app\nVIDFETCH_SITE_ORIGINS=https://vidfetch.app\nVIDFETCH_QUOTA_DB=/var/lib/vidfetch-gateway/quota.sqlite\nVIDFETCH_ISOLATION_MODE=uid-nft\nVIDFETCH_PRIVATE_BACKEND=http://127.0.0.1:8788\nVIDFETCH_QUEUE_ENABLED=1\nVIDFETCH_ACCESS_SIGNING_KEY=%s\nUNRELATED_SECRET=%s\n' "$KEY" "$1" > /etc/vidfetch/gateway.env
 chmod 0600 /etc/vidfetch/gateway.env; : > /etc/vidfetch/worker.env; chmod 0600 /etc/vidfetch/worker.env
+printf 'VIDFETCH_TARGET=ovh\nVIDFETCH_CONNECTION_READY=0\n' > /etc/vidfetch/web.env; chmod 0600 /etc/vidfetch/web.env   # downloads closed, as during a gateway change
 echo '{"files":{}}' > /etc/vidfetch/ci-web-test-guard.json; chmod 0600 /etc/vidfetch/ci-web-test-guard.json
 N=/opt/vidfetch/tools/node-v22.23.3-linux-x64/bin/node
 cat > /etc/systemd/system/vidfetch.service <<UNIT
@@ -168,6 +169,9 @@ refuse "while a media process (ffprobe) is running" "a media process" upgrade "$
 X 'kill $(cat /root/media.pid); systemd-run --quiet --unit=vidfetch-media-rollback --on-active=600s /bin/true'
 refuse "while the network dead-man timer is armed" "dead-man timer is armed" upgrade "$EXPECTED"
 X "systemctl stop vidfetch-media-rollback.timer"
+X "sed -i 's/^VIDFETCH_CONNECTION_READY=0\$/VIDFETCH_CONNECTION_READY=1/' /etc/vidfetch/web.env"
+refuse "while downloads are open (ready=1): a frontend must never face an older gateway" "downloads are open" upgrade "$EXPECTED"
+X "sed -i 's/^VIDFETCH_CONNECTION_READY=1\$/VIDFETCH_CONNECTION_READY=0/' /etc/vidfetch/web.env"
 [ "$(state)" = "$S0" ] && [ "$(pidgw)" = "$GW0" ] && [ "$(pideng)" = "$ENG0" ] && X "[ ! -e /etc/systemd/system/vidfetch-gateway.service.d ]" && ok "after every refusal: same files, same processes, no drop-in directory" || bad "a refusal had side effects"
 
 echo "# 3. upgrade"
@@ -190,6 +194,10 @@ docker exec $c bash $G check "$EXPECTED" 2>&1 | grep -q "already is the expected
 docker exec $c bash $G upgrade "$EXPECTED" 2>&1 | grep -q "nothing to do" && [ "$(pidgw)" = "$GW1" ] && ok "a second upgrade does nothing and restarts nothing" || bad "second upgrade"
 
 echo "# 4. rollback"
+X "sed -i 's/^VIDFETCH_CONNECTION_READY=0\$/VIDFETCH_CONNECTION_READY=1/' /etc/vidfetch/web.env"
+GWU=$(pidgw); refuse "a rollback while downloads are open (ready=1)" "downloads are open" rollback
+[ "$(pidgw)" = "$GWU" ] && [ "$(running)" = "$NEWPATH" ] && ok "...the upgraded gateway keeps running untouched" || bad "rollback refusal touched the gateway"
+X "sed -i 's/^VIDFETCH_CONNECTION_READY=1\$/VIDFETCH_CONNECTION_READY=0/' /etc/vidfetch/web.env"
 OUT=$(docker exec $c bash $G rollback 2>&1); rc=$?
 [ $rc = 0 ] && echo "$OUT" | grep -q "ROLLBACK VERIFIED" && ok "rollback succeeds and verifies itself" || bad "rollback (rc=$rc): $(echo "$OUT" | tail -4)"
 [ "$(running)" = "$OLD" ] && [ "$(state)" = "$S0" ] && X "[ ! -e /etc/systemd/system/vidfetch-gateway.service.d ]" && ok "previous bundle running; unit, environment and files exactly as before; drop-in and its (empty) directory gone" || bad "state after rollback: $(running)"

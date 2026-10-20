@@ -238,6 +238,24 @@ DL_TIMER=vidfetch-dl-rollback
 WEB_ENV=${VM_WEB_ENV-/etc/vidfetch/web.env}
 # ready_value: the frontend's VIDFETCH_CONNECTION_READY (last assignment wins, as for systemd); "" if unset.
 ready_value() { sed -n 's/^VIDFETCH_CONNECTION_READY=//p' "${WEB_ENV:?}" | tail -n1; }
+# Downloads may be offered only while the engine and the gateway in service are the ones the active frontend release
+# was built with: a frontend facing an older gateway (e.g. after activate-reviewed.py and before 08-gateway.sh
+# upgrade, or after a gateway rollback) is refused before anything opens. release_drift: why not (status 0), else 1.
+RELEASE_MANIFEST=${VM_MANIFEST-/opt/vidfetch-web-preproduction-20261013/current/manifest.json}
+release_drift() {
+  local unit name bundle want
+  while read -r unit name; do
+    bundle=$($SYSTEMCTL show "$unit" -p ExecStart --value 2>/dev/null | grep -o '/[^ ;]*\.cjs' | head -1)
+    want=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["files"].get(sys.argv[2], ""))' "${RELEASE_MANIFEST:?}" "$name" 2>/dev/null)
+    [ -n "$bundle" ] && [ -f "$bundle" ] || { echo "cannot find the bundle that $unit runs"; return 0; }
+    [ -n "$want" ] || { echo "the active release manifest does not list $name"; return 0; }
+    [ "$(sha256sum "$bundle" | cut -c1-64)" = "$want" ] || { echo "$unit does not run the active release's $name"; return 0; }
+  done <<'UNITS'
+vidfetch.service backend/vidfetch-ovh.cjs
+vidfetch-gateway.service backend/vidfetch-gateway.cjs
+UNITS
+  return 1
+}
 latest_dl_snapshot() { local s; s=$(readlink -f "$BACKUPS/vidfetch-public-dl-latest" 2>/dev/null) || true; [ -n "$s" ] && [ -d "$s" ] || die "no public-download snapshot: 10-dl-public.sh was never run"; echo "$s"; }
 # public_dl_table_problem: why the live ingress table is NOT the public-download one (status 0), else status 1.
 public_dl_table_problem() {

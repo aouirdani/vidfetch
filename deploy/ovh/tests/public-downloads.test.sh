@@ -33,7 +33,11 @@ case "$n" in
               if [ -f "$STATE/reload-kills" ]; then rm -f "$STATE/reload-kills"; touch "$STATE/caddy-down"; fi ;;
       start) rm -f "$STATE/caddy-down" ;;
       restart) [ -f "$STATE/restart-fails" ] && exit 1; true ;;
-      show) echo 4242 ;;
+      show) case "$2 $4" in
+          "vidfetch-gateway.service ExecStart") echo "{ path=/usr/bin/node ; argv[]=/usr/bin/node $RUN_DIR/gateway.cjs ; ignore_errors=no }" ;;
+          "vidfetch.service ExecStart") echo "{ path=/usr/bin/node ; argv[]=/usr/bin/node $RUN_DIR/engine.cjs ; ignore_errors=no }" ;;
+          "vidfetch-gateway.service EnvironmentFiles") echo "/etc/vidfetch/gateway.env (ignore_errors=no)" ;;
+          *) echo 4242 ;; esac ;;
     esac ;;
   systemd-run)
     echo "  at arming: pointer=$(readlink "$BASE_FOR_FW/current") dl-rules=$(grep -c dl_conn4 "$BASE_FOR_FW/ingress.nft")" >> "$STATE/calls.log"
@@ -61,7 +65,7 @@ chmod +x "$W/fw" "$W/curl-origin"
 export STATE="$W/state" BASE_FOR_FW=$BASE PATH="$W/bin:$PATH" VM_BACKUPS="$W/bk" VM_FW="$W/fw" VM_CADDY=/bin/true VM_JOURNALCTL="$W/bin/journalctl" \
   VM_LOCK="$W/lock" VM_LOCK_WAIT=1 VM_RESTORE_LOCK_WAIT=30 VM_SYSTEMCTL="$W/bin/systemctl" VM_NFT="$W/bin/nft" \
   VM_CURL="$W/curl-origin" ORIGIN_BASE=$BASE ORIGIN_TABLES="$W/origin" VM_CI_HELPER="$W/libexec/vidfetch-ci/promote.py" VM_SKIP_ROOT=1 \
-  VM_WEB_ENV=/etc/vidfetch/web.env
+  VM_WEB_ENV=/etc/vidfetch/web.env VM_MANIFEST="$W/release/manifest.json" RUN_DIR="$W/run"
 fail=0; n=0; ok() { n=$((n+1)); echo "ok $n - $1"; }; bad() { n=$((n+1)); echo "not ok $n - $1"; fail=1; }
 calls() { cat "$STATE/calls.log" 2>/dev/null; }
 CAN1=CANARY-TURNSTILE-SECRET-1a2b; CAN2=CANARYHMACKEYCANARYHMACKEYCANARYHMACKE1
@@ -83,6 +87,11 @@ mkfix() {
   printf '[Unit]\nRequires=x\n' > /etc/systemd/system/vidfetch-caddy.service.d/ci-frontend.conf; rm -f $DROPIN
   echo web > /var/lib/vidfetch-proxy/x; ln -sfn /tmp /opt/vidfetch-web-preproduction-20261013/current
   install -m 0755 "$W/tk/promote.py" "$VM_CI_HELPER"; cp /r/deploy/ovh/ci/release-lib.py "$W/libexec/vidfetch-ci/"
+  rm -rf "$W/run" "$W/release"; mkdir -p "$W/run" "$W/release/backend"
+  printf 'engine' > "$W/run/engine.cjs"; printf 'gateway' > "$W/run/gateway.cjs"; cp "$W/run/gateway.cjs" "$W/release/backend/vidfetch-gateway.cjs"
+  python3 -c 'import hashlib,json,sys; d=sys.argv[1]; h=lambda f: hashlib.sha256(open(f,"rb").read()).hexdigest()
+json.dump({"schema":1,"release":"a"*40,"platform":"linux-x64","files":{"backend/vidfetch-ovh.cjs":h(d+"/run/engine.cjs"),"backend/vidfetch-gateway.cjs":h(d+"/run/gateway.cjs")}},open(d+"/release/manifest.json","w"))' "$W"
+  printf '[Service]\nExecStart=/usr/bin/node %s/run/gateway.cjs\n' "$W" > /etc/systemd/system/vidfetch-gateway.service; chmod 644 /etc/systemd/system/vidfetch-gateway.service
 }
 stage_files() { cp "$W/open80.nft" $BASE/ingress.nft.media-test; printf 'VIDFETCH_MEDIA_TEST_IPS=203.0.113.9/32\n' > $BASE/media-test-ips.env
   cp /r/deploy/ovh/media/Caddyfile.test-only $BASE/Caddyfile.media-test; }
@@ -209,6 +218,8 @@ refuse11 "Turnstile and signing secrets not installed"
 with_secrets; sed -i 's#^VIDFETCH_MEDIA_ORIGIN=.*#VIDFETCH_MEDIA_ORIGIN=https://evil.example#' /etc/vidfetch/web.env; refuse11 "media origin is not https://dl.vidfetch.app"
 confirmed_dl; with_secrets; cp "$VM_CI_HELPER" "$W/helper.keep"; sed -i '/^PUBLIC_DL_PROFILE = /d' "$VM_CI_HELPER"; refuse11 "CI helper without public-downloads"; cp "$W/helper.keep" "$VM_CI_HELPER"
 opened; with_secrets; refuse11 "dl window not confirmed"
+confirmed_dl; with_secrets; printf 'older gateway' > "$W/run/gateway.cjs"; refuse11 "the gateway in service is older than the active release's (08-gateway.sh upgrade not done)"
+confirmed_dl; with_secrets; printf 'other engine' > "$W/run/engine.cjs"; refuse11 "the engine in service is not the active release's"
 confirmed_dl; with_secrets; out=$(bash $A/11-downloads.sh open 2>&1); rc=$?
 [ $rc = 0 ] && [ "$(profile)" = public-downloads ] && [ "$(ready)" = 1 ] && calls | grep -q '^systemctl restart vidfetch-web-preproduction-20261013.service' && ok "open: CI profile public-downloads, ready=1, only the frontend restarted" || bad "open rc=$rc state=$(state): $out"
 echo "$out" | grep -q "downloads: offered by the frontend" && echo "$out" | grep -q "sitemap: 3 URL(s) checked" && ok "open: the public apex stays indexable, the frontend offers the widget and dl" || bad "open checks: $out"
@@ -220,6 +231,19 @@ bash $A/11-downloads.sh open >"$STATE/out" 2>&1; rc=$?
 [ $rc != 0 ] && [ "$(profile)" = public ] && [ "$(ready)" = 0 ] && grep -q "closed again" "$STATE/out" && ok "a failed check after opening closes again at once (ready=0, CI profile public)" || bad "failed open rc=$rc state=$(state)"
 confirmed_dl; with_secrets; touch "$STATE/restart-fails"; bash $A/11-downloads.sh open >"$STATE/out" 2>&1; rc=$?
 [ $rc != 0 ] && [ "$(profile)" = public ] && ok "the frontend cannot restart: CI profile back to public" || bad "restart failure rc=$rc state=$(state)"; rm -f "$STATE/restart-fails"
+
+echo "# 6b. 08-gateway.sh changes the gateway only while downloads are closed"
+confirmed_dl; with_secrets; bash $A/11-downloads.sh open >/dev/null 2>&1; s0=$(state); : > "$STATE/calls.log"
+G=$(sha256sum "$W/release/backend/vidfetch-gateway.cjs" | cut -c1-64)
+out=$(bash $A/08-gateway.sh upgrade "$G" 2>&1); rc=$?
+[ $rc != 0 ] && grep -q 'downloads are open' <<< "$out" && [ "$(state)" = "$s0" ] && ! calls | grep -qE '^systemctl (stop|start|daemon-reload)' && ok "08-gateway upgrade refuses while downloads are open, nothing touched" || bad "08-gateway upgrade with downloads open: rc=$rc $(tail -1 <<< "$out")"
+GB=$(mktemp -d "$W/bk/vidfetch-gateway-upgrade-test.XXXXXX"); echo /nonexistent/vidfetch-gateway.cjs > "$GB/previous-bundle.path"
+( cd "$GB" && find . -type f ! -name MANIFEST.sha256 -print0 | xargs -0 sha256sum > MANIFEST.sha256 ); ln -sfn "$GB" "$W/bk/vidfetch-gateway-upgrade-latest"
+out=$(bash $A/08-gateway.sh rollback 2>&1); rc=$?
+[ $rc != 0 ] && grep -q 'downloads are open' <<< "$out" && [ "$(state)" = "$s0" ] && ! calls | grep -qE '^systemctl (stop|start|daemon-reload)' && ok "08-gateway rollback refuses while downloads are open: no frontend ever faces an older gateway" || bad "08-gateway rollback with downloads open: rc=$rc $(tail -1 <<< "$out")"
+sed -i 's/^VIDFETCH_CONNECTION_READY=.*$/VIDFETCH_TARGET=ovh/' /etc/vidfetch/web.env
+out=$(bash $A/08-gateway.sh upgrade "$G" 2>&1); [ $? != 0 ] && grep -q 'downloads are open (ready=)' <<< "$out" && ok "08-gateway: a missing ready setting counts as open" || bad "08-gateway missing ready: $(tail -1 <<< "$out")"
+rm -f -- "$W/bk/vidfetch-gateway-upgrade-latest" "$GB/previous-bundle.path" "$GB/MANIFEST.sha256"; rmdir -- "$GB"
 
 echo "# 7. every other path keeps network, Caddy, ready and the CI profile in agreement"
 confirmed_dl; with_secrets; bash $A/11-downloads.sh open >/dev/null 2>&1
