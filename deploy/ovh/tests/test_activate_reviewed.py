@@ -180,7 +180,7 @@ class Reviewed(unittest.TestCase):
         self.assertFalse((self.store / 'pending.json').exists())
         self.assertIn(f'08-gateway.sh upgrade {GATEWAY_NEW}', output)
         entry = self.records()[-1]
-        self.assertEqual((entry['result'], entry['previous_release'], entry['gateway_sha256'], entry['administrator']), ('activated', OLD, GATEWAY_NEW, 'debian'))
+        self.assertEqual((entry['result'], entry['exit_code'], entry['previous_release'], entry['gateway_sha256'], entry['administrator']), ('activated', 0, OLD, GATEWAY_NEW, 'debian'))
         self.assertEqual(entry['gateway_in_service'], sha256(OLD_FILES['backend/vidfetch-gateway.cjs']))
         record = next((self.store / 'reviewed').iterdir())
         self.assertEqual(oct(record.stat().st_mode & 0o777), '0o600')
@@ -218,6 +218,7 @@ class Reviewed(unittest.TestCase):
         self.assertIn('does not match the independently built fingerprint', output)
         self.assert_untouched(output)
         self.assertTrue(self.records()[-1]['result'].startswith('refused:'))
+        self.assertEqual(self.records()[-1]['exit_code'], 1)
 
     def test_modified_manifest(self):
         # the manifest announces the reviewed gateway, the archive carries another file
@@ -345,14 +346,15 @@ class Reviewed(unittest.TestCase):
         self.assertFalse((self.store / 'previous.json').exists())
         self.assertTrue(self.records()[-1]['result'].startswith('failed and rolled back'), self.records()[-1])
 
-    def raises_after_switch(self, label):
-        with self.assertRaises(BaseException) as caught:
-            self.go()
-        return str(caught.exception)
+    def fails_after_switch(self, expected):
+        code, output = self.go()
+        self.assertEqual(code, expected, output)
+        self.assertEqual(self.records()[-1]['exit_code'], expected)
+        return output
 
     def test_frontend_unhealthy_after_the_switch(self):
         self.health_fails_for = {SHA}
-        error = self.raises_after_switch('health')
+        error = self.fails_after_switch(3)
         self.assertIn('readiness', error)
         self.assert_rolled_back(error)
 
@@ -360,7 +362,7 @@ class Reviewed(unittest.TestCase):
         def change():
             self.rules = RULES.replace('tcp dport 22 accept', 'tcp dport 22 drop') % ''
         self.on_restart = change
-        error = self.raises_after_switch('nft')
+        error = self.fails_after_switch(3)
         self.assertIn('nft_rules', error)
         self.assert_rolled_back(error)
 
@@ -370,7 +372,7 @@ class Reviewed(unittest.TestCase):
             (Path(self.temp.name) / 'caddy/Caddyfile.public').write_text('apex only')
             (Path(self.temp.name) / 'caddy/current').symlink_to('Caddyfile.public')
         self.on_restart = change
-        error = self.raises_after_switch('caddy')
+        error = self.fails_after_switch(3)
         self.assertIn('caddy', error)
         self.assert_rolled_back(error)
 
@@ -378,7 +380,7 @@ class Reviewed(unittest.TestCase):
         def change():
             self.protected['vidfetch-gateway.service'] = '999'
         self.on_restart = change
-        error = self.raises_after_switch('pids')
+        error = self.fails_after_switch(3)
         self.assertIn('protected_pids', error)
         self.assert_rolled_back(error)
 
@@ -386,14 +388,14 @@ class Reviewed(unittest.TestCase):
         def reopen():
             self.web_env.write_text('VIDFETCH_CONNECTION_READY=1\n')
         self.on_restart = reopen
-        error = self.raises_after_switch('ready')
+        error = self.fails_after_switch(3)
         self.assertIn('downloads must be closed', error)
         self.web_env.write_text('VIDFETCH_CONNECTION_READY=1\n')
         self.assert_rolled_back(error)
 
     def test_restoration_that_cannot_be_validated_is_left_to_rollback_py(self):
         self.health_fails_for = {SHA, OLD}   # the previous release does not come back healthy either
-        error = self.raises_after_switch('both unhealthy')
+        error = self.fails_after_switch(4)
         self.assertIn('readiness', error)
         self.assertEqual(self.current(), self.old)                      # the pointer is back on the previous release
         self.assertTrue((self.store / 'pending.json').exists())          # but the transaction stays open for rollback.py
@@ -415,6 +417,7 @@ class Reviewed(unittest.TestCase):
         self.assertEqual(json.loads((self.store / 'previous.json').read_text())['path'], str(self.old))
         self.assertFalse((self.store / 'pending.json').exists())
         self.assertTrue(self.records()[-1]['result'].startswith('activated; final re-check FAILED'), self.records()[-1])
+        self.assertEqual(self.records()[-1]['exit_code'], 2)
 
     def test_signals_are_ignored_once_switched_then_restored(self):
         import signal
@@ -454,7 +457,7 @@ class Reviewed(unittest.TestCase):
         def interrupt():
             self.p.cancelled(15, None)   # what SIGTERM does during the switch
         self.on_restart = interrupt
-        error = self.raises_after_switch('interrupt')
+        error = self.fails_after_switch(3)
         self.assertIn('Deployment interrupted', error)
         self.assert_rolled_back(error)
         # and the administrator can simply run it again
@@ -462,6 +465,100 @@ class Reviewed(unittest.TestCase):
         code, output = self.go()
         self.assertEqual(code, 0, output)
         self.assertEqual(self.current(), self.store / 'releases' / SHA)
+
+    # ---- exit status = the state actually reached, for interruptions and incomplete restorations
+    def test_an_interruption_right_after_the_switch_is_reported_as_activated(self):
+        switch = self.p.switch
+        def switched_then_interrupted(*args, **kwargs):
+            switch(*args, **kwargs)
+            self.p.cancelled(15, None)   # SIGTERM between the switch's return and the final re-check
+        with patch.object(self.p, 'switch', switched_then_interrupted):
+            code, output = self.go()
+        self.assertEqual(code, 2, output)
+        self.assertIn('final re-check did not complete', output)
+        self.assertEqual(self.current(), self.store / 'releases' / SHA)   # active, not undone, not called a rollback
+        self.assertEqual(json.loads((self.store / 'previous.json').read_text())['path'], str(self.old))
+        self.assertFalse((self.store / 'pending.json').exists())
+        self.assertEqual(self.records()[-1]['exit_code'], 2)
+        self.assertTrue(self.records()[-1]['result'].startswith('activated; final re-check FAILED (interrupted)'), self.records()[-1])
+
+    def test_a_restoration_interrupted_by_a_failed_restart_is_not_validated(self):
+        def restore_fails():
+            raise subprocess.CalledProcessError(1, ['systemctl', 'restart', 'vidfetch-web.service'])
+        def first_restart():   # the new release fails; the restart of the previous one fails too
+            self.on_restart = restore_fails
+        self.health_fails_for, self.on_restart = {SHA}, first_restart
+        output = self.fails_after_switch(4)
+        self.assertIn('pending.json kept', output)
+        self.assertEqual(self.current(), self.old)                       # pointer back, but its restart not validated
+        self.assertTrue((self.store / 'pending.json').exists())
+        self.assertIn('rollback NOT validated', self.records()[-1]['result'])
+        self.assertEqual(self.go()[0], 1)                                 # nothing new before rollback.py
+
+    def test_a_switch_that_cannot_record_its_predecessor_is_not_validated(self):
+        (self.store / 'previous.next').mkdir()   # the switch's last step (previous.json) fails after the new release passed
+        output = self.fails_after_switch(4)
+        self.assertIn('pending.json kept', output)
+        self.assertEqual(self.current(), self.store / 'releases' / SHA)
+        self.assertTrue((self.store / 'pending.json').exists())
+        self.assertEqual(self.go()[0], 1)
+
+    def test_another_release_active_after_a_failure_is_not_validated(self):
+        other = self.store / 'releases' / ('c' * 40)
+        self.release(other, 'c' * 40, OLD_FILES)
+        def elsewhere(*args, **kwargs):
+            os.remove(self.base / 'current')
+            (self.base / 'current').symlink_to(other)
+            raise RuntimeError('pointer changed by someone else')
+        with patch.object(self.p, 'switch', elsewhere):
+            code, output = self.go()
+        self.assertEqual(code, 4, output)
+        self.assertIn(f'unexpected active release {"c" * 40}', output)
+
+    def test_a_second_run_during_the_switch_is_refused_and_the_first_completes(self):
+        seen = {}
+        def concurrent():
+            seen['second'] = self.go()
+        self.on_restart = concurrent
+        code, output = self.go()
+        self.assertEqual(code, 0, output)
+        self.assertEqual(seen['second'][0], 'refused-early')   # run() raises Refused: exit status 1 from the command line
+        self.assertIn('another operation holds', seen['second'][1])
+        self.assertEqual(self.current(), self.store / 'releases' / SHA)
+        self.assertEqual([r['exit_code'] for r in self.records()], [0])
+
+    def test_the_record_is_written_with_interruptions_ignored(self):
+        import signal
+        record, seen = self.tool.record, []
+        def recording(p, entry):   # a signal now must not replace the exit status nor lose the record
+            seen.append(signal.getsignal(signal.SIGTERM))
+            return record(p, entry)
+        with patch.object(self.tool, 'record', recording):
+            self.assertEqual(self.go()[0], 0)
+            self.assertEqual(self.go(gateway='c' * 64)[0], 1)
+        self.assertEqual(seen, [signal.SIG_IGN, signal.SIG_IGN])
+        self.assertEqual([r['exit_code'] for r in self.records()], [0, 1])
+
+
+class CommandLine(unittest.TestCase):
+    """The exit status seen by the administrator's shell, before anything can change."""
+    tool = root / 'deploy/ovh/media/admin/activate-reviewed.py'
+
+    def status(self, *argv):
+        done = subprocess.run(['python3', str(self.tool), *argv], capture_output=True, text=True, timeout=30,
+                              env={k: v for k, v in os.environ.items() if k != 'SSH_ORIGINAL_COMMAND'})
+        return done.returncode, done.stderr
+
+    def test_malformed_arguments_exit_1(self):
+        code, err = self.status('activate', 'abc')
+        self.assertEqual(code, 1, err)
+        self.assertIn('REFUSED: usage', err)
+
+    @unittest.skipIf(os.geteuid() == 0, 'checks the non-root refusal')
+    def test_not_root_exits_1(self):
+        code, err = self.status('check', SHA, 'a' * 64, 'b' * 64)
+        self.assertEqual(code, 1, err)
+        self.assertIn('REFUSED: run as root', err)
 
 
 class Source(unittest.TestCase):

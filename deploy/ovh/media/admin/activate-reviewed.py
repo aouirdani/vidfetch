@@ -27,6 +27,15 @@ else is the promoter's rule or stricter:
     bundles must be identical after the switch, or the switch is undone by the promoter's own rollback;
   - one operation at a time: the promoter's lock and the administrator toolkit's lock are both held.
 Each run leaves a root-only record under the promoter's store (reviewed/); no secret is read into it or printed.
+
+Exit status: the state actually reached (also written in the record as exit_code).
+  0  checked, nothing switched; or activated and re-checked
+  1  refused: nothing switched (arguments, access, a lock held, any pre-check, an interruption before the switch)
+  2  activated, but the final re-check failed or did not run: the new release stays active, downloads stay closed;
+     inspect, and to go back: rollback.py
+  3  failed during the switch; the previous release is active and validated by the promoter's own rollback
+  4  failed, and the restoration is NOT validated (pending.json kept, or another release is active): downloads stay
+     closed; inspect, then rollback.py. Also any unexpected error, whose state is unknown.
 """
 import fcntl
 import hashlib
@@ -69,12 +78,18 @@ def digest(path):
 
 
 def load_promoter(path=HELPER):
-    info = path.lstat()
+    try:
+        info = path.lstat()
+    except OSError as error:
+        raise Refused(f'{path}: {error.strerror}') from None
     if not stat.S_ISREG(info.st_mode) or info.st_uid != 0 or info.st_mode & 0o022:
         raise Refused(f'{path} is not a root-owned, non-writable promoter')
     spec = importlib.util.spec_from_file_location('vidfetch_installed_promote', path)
     module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
+    try:
+        spec.loader.exec_module(module)
+    except Exception as error:   # nothing changed yet
+        raise Refused(f'{path} cannot be loaded: {error}') from None
     return module
 
 
@@ -95,7 +110,10 @@ def arguments(argv):
 
 
 def lock(path):
-    handle = open(path, 'a')
+    try:
+        handle = open(path, 'a')
+    except OSError as error:
+        raise Refused(f'{path}: {error.strerror}') from None
     try:
         fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
     except BlockingIOError:
@@ -220,6 +238,23 @@ def reviewed_release(p, sha, archive, gateway, infra):
     return target, current_dir
 
 
+def reached(p, target, previous):
+    """After a failure in or right after the switch, the state actually left, read from the promoter's own record and
+    pointer: its switch removes pending.json only once the restored previous release passed its checks, or once
+    previous.json names the predecessor of a completed switch. Returns (exit status, why not validated)."""
+    if (p.STORE / 'pending.json').exists():
+        return 4, 'pending.json kept'
+    try:
+        active = (p.BASE / 'current').resolve(strict=True)
+    except OSError as error:
+        return 4, f'active release unreadable: {error.strerror}'
+    if active == previous:
+        return 3, None
+    if active == target:
+        return 2, None
+    return 4, f'unexpected active release {active.name}'
+
+
 def record(p, entry):
     folder = p.STORE / 'reviewed'
     folder.mkdir(mode=0o700, exist_ok=True)
@@ -240,7 +275,12 @@ def run(argv, p=None):
              'administrator': os.environ.get('SUDO_USER', 'root'), 'started': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}
     signals = (signal.SIGTERM, signal.SIGINT, signal.SIGHUP)
     saved = {sig: signal.getsignal(sig) for sig in signals}
-    phase = 'pre'   # pre: nothing changed yet | switch: the promoter's switch decides | post: switched, nothing undone
+    phase = 'pre'   # pre: nothing changed yet | switch: the promoter's switch decides | post: switched, nothing undone | done
+
+    def finish(code, result):
+        entry['result'], entry['exit_code'] = result, code
+        return code
+
     with lock(p.STORE / 'lock'), lock(TOOLKIT_LOCK):
         try:
             for sig in signals:   # an interruption becomes an exception: recorded, and undone by the switch when inside it
@@ -260,9 +300,8 @@ def run(argv, p=None):
             except Exception as error:
                 raise Refused(f'pre-check failed: {error}') from None
             if mode == 'check':
-                entry['result'] = 'checked: ready for activation'
                 print(f'CHECKED: release {sha[:12]} is in {target}; gateway {gateway[:16]}… reviewed; engine unchanged; nothing switched')
-                return 0
+                return finish(0, 'checked: ready for activation')
 
             def after_switch():
                 """Run by the promoter's switch after the new release starts (any exception restores the previous one)
@@ -282,15 +321,15 @@ def run(argv, p=None):
             phase = 'post'
             for sig in signals:
                 signal.signal(sig, signal.SIG_IGN)
-            entry['result'] = 'activated'
             try:
                 p.guards()
                 unchanged(before, infrastructure(p))
             except Exception as error:
-                entry['result'] = f'activated; final re-check FAILED: {error}'
                 print(f'ACTIVATED, but the final re-check failed: {error}\nDownloads stay closed. Inspect; to go back: '
                       'sudo /usr/local/libexec/vidfetch-ci/rollback.py', file=sys.stderr)
-                return 2
+                return finish(2, f'activated; final re-check FAILED: {error}')
+            phase = 'done'
+            finish(0, 'activated')
             print(f'ACTIVATED: frontend release {sha[:12]} (previous {entry["previous_release"][:12]}, kept for rollback.py).')
             print('The gateway in service is still the previous one; downloads stay closed. Next, on this VPS:')
             print(f'  sudo bash 08-gateway.sh check   {gateway}')
@@ -298,32 +337,44 @@ def run(argv, p=None):
             print('then reconcile the guard, test, and only then 11-downloads.sh open (it refuses while the gateway differs).')
             return 0
         except Refused as error:
-            entry['result'] = f'refused: {error}'
             print(f'REFUSED: {error}', file=sys.stderr)
-            return 1
-        except BaseException as error:
-            if (p.STORE / 'pending.json').exists():   # the switch could not validate its own restoration
-                entry['result'] = f'failed; rollback NOT validated (pending.json kept): {error}'
-                print(f'FAILED and the restoration of the previous release could not be validated: {error}\n'
-                      'Downloads stay closed. Inspect, then run: sudo /usr/local/libexec/vidfetch-ci/rollback.py', file=sys.stderr)
-            else:
-                entry['result'] = f'failed and rolled back: {error}'
+            return finish(1, f'refused: {error}')
+        except BaseException as error:   # never re-raised: the exit status is the state actually reached
+            if phase == 'pre':   # e.g. a check calling sys.exit: nothing switched
+                print(f'REFUSED: interrupted before the switch: {error!r}', file=sys.stderr)
+                return finish(1, f'refused: interrupted before the switch: {error!r}')
+            if phase == 'done':   # activated and re-checked; only the report failed
+                return 0
+            code, why = reached(p, target, current_dir)
+            if code == 2:   # the switch completed; the failure came before or during the final re-check
+                print(f'ACTIVATED, but the final re-check did not complete: {error}\nDownloads stay closed. Inspect; to go back: '
+                      'sudo /usr/local/libexec/vidfetch-ci/rollback.py', file=sys.stderr)
+                return finish(2, f'activated; final re-check FAILED (interrupted): {error}')
+            if code == 3:
                 print(f'FAILED, previous release restored and validated: {error}', file=sys.stderr)
-            raise
+                return finish(3, f'failed and rolled back: {error}')
+            print(f'FAILED and the restoration of the previous release could not be validated ({why}): {error}\n'
+                  'Downloads stay closed. Inspect, then run: sudo /usr/local/libexec/vidfetch-ci/rollback.py', file=sys.stderr)
+            return finish(4, f'failed; rollback NOT validated ({why}): {error}')
         finally:
-            for sig, handler in saved.items():
-                signal.signal(sig, handler)
+            for sig in signals:   # the record is written whatever arrives now
+                signal.signal(sig, signal.SIG_IGN)
             entry['ended'] = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
             try:
                 print('record:', record(p, entry))
-            except OSError as error:
+            except Exception as error:
                 print(f'WARNING: record not written: {error}', file=sys.stderr)
+            for sig, handler in saved.items():
+                signal.signal(sig, handler)
 
 
 if __name__ == '__main__':
     try:
-        sys.exit(run(sys.argv[1:]))
-    except Refused as error:
-        sys.exit(f'REFUSED: {error}')
-    except Exception as error:   # details printed above and in the record
-        sys.exit(f'FAILED: {error}')
+        status = run(sys.argv[1:])
+    except Refused as error:   # arguments, access, promoter or lock: before anything changed
+        print(f'REFUSED: {error}', file=sys.stderr)
+        status = 1
+    except Exception as error:   # not expected: the state is unknown, so it is reported as not validated
+        print(f'FAILED, state unknown: {error}\nDownloads stay closed. Inspect pending.json and the active release first.', file=sys.stderr)
+        status = 4
+    sys.exit(status)
