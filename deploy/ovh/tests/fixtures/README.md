@@ -25,3 +25,11 @@ the closed, media-test and public profiles, not public-downloads. `public-launch
 
 - SHA-256: `00732df27734e00782ae80420f6da807b78cdeecbe4779ff0e30d8e107edda27` (the hash of the installed helper).
 - Project code only; no key or secret. Do not edit it.
+
+`rollback-76bb56b6.py.fixture` is the administrator recovery helper installed on the OVH VPS
+(`/usr/local/libexec/vidfetch-ci/rollback.py`, installed by `deploy/ovh/ci/install.py`), i.e. `deploy/ovh/ci/rollback.py`
+of `main` at `070287ce`, byte for byte. It has no downloads guard: `test_rollback_guard.py` shows what it restores, and
+`rollback-helper.test.sh` installs it as the helper that `12-rollback-helper.sh install` replaces and `restore` puts back.
+
+- SHA-256: `76bb56b67eb684a520764ce9aaea8de3b6ce219dbfa3fa6d292ffc6302a03cae` (prefix `76bb56b6` read on the VPS).
+- Project code only; no key or secret. Do not edit it.
