@@ -9,6 +9,13 @@ The CI promoter (`deploy/ovh/ci/promote.py`) refuses, on purpose, any release wh
 - `11-downloads.sh open` refuses as long as the engine or gateway in service does not belong to the active release;
 - `set-ready.sh 1` applies the same refusal, even when it is called directly rather than through `11-downloads.sh`. `set-ready.sh 0` is never blocked: closing must always be possible.
 
+**What "in service" means.** It is the bundle that each unit's **main process** executes, not only the one its configuration names. All three conditions must hold, otherwise opening is refused:
+- the unit has a running process;
+- that process runs the `.cjs` file named in `ExecStart` (`/proc/<PID>/cmdline`);
+- the file has not changed since that process started (`ctime` ≤ start + 2 s, since both clocks are rounded down).
+
+So a unit edited, or a bundle rewritten, without a restart is refused until the service is restarted. `activate-reviewed.py` and `rollback.py` (separate PR) already compared the process; the shell check now does too.
+
 ## 1. Invariants
 
 | # | Rule | Enforced by |
@@ -119,10 +126,22 @@ The code is read from the promoter's own state (`pending.json`, the `current` po
   - `11-downloads.sh open` refuses with an older gateway, and with a foreign engine;
   - `set-ready.sh 1` called directly refuses an older gateway: `ready` stays 0, nothing restarted, no backup written;
   - `set-ready.sh 0` is never blocked by a difference;
+  - the process, not only the unit (fake `/proc`), each refused with its reason:
+    - the gateway process still runs another bundle than the one its unit names;
+    - the engine bundle was rewritten after its process started;
+    - the gateway has no process;
+    - the engine start time cannot be read;
+  - a bundle written within the 2 s tolerance is accepted;
+  - `set-ready.sh 1` called directly refuses a pending restart, while `set-ready.sh 0` and `11-downloads.sh close` still work during it;
   - `08-gateway.sh upgrade` and `rollback` refuse while downloads are open, with nothing touched;
   - a missing `ready` counts as open.
 - `gateway-upgrade-systemd.test.sh` (real systemd, Debian 13): refusals with `ready=1` before the upgrade and before the rollback; the upgraded gateway keeps running untouched.
-- `caddy-window-systemd.test.sh` (real systemd and Caddy): the engine and gateway units name their bundles, as on the VPS; with an older gateway, `11-downloads.sh open` and `set-ready.sh 1` both refuse; once the bundles match, the opening succeeds.
+- `caddy-window-systemd.test.sh` (real systemd and Caddy): the engine and gateway units name their bundles and run them, as on the VPS. `11-downloads.sh open` and `set-ready.sh 1` both refuse in three cases:
+  - an older gateway;
+  - a new `ExecStart` (drop-in plus `daemon-reload`) with no restart;
+  - the bundle rewritten in place, with the same bytes, after the process started.
+
+  `set-ready.sh 0` still works during these differences. After a restart, the opening succeeds.
 
 ## 4. Deployment plan: gateway first, then frontend
 

@@ -37,6 +37,8 @@ case "$n" in
           "vidfetch-gateway.service ExecStart") echo "{ path=/usr/bin/node ; argv[]=/usr/bin/node $RUN_DIR/gateway.cjs ; ignore_errors=no }" ;;
           "vidfetch.service ExecStart") echo "{ path=/usr/bin/node ; argv[]=/usr/bin/node $RUN_DIR/engine.cjs ; ignore_errors=no }" ;;
           "vidfetch-gateway.service EnvironmentFiles") echo "/etc/vidfetch/gateway.env (ignore_errors=no)" ;;
+          "vidfetch-gateway.service MainPID") cat "$STATE/gateway-pid" 2>/dev/null || echo 4243 ;;
+          "vidfetch.service MainPID") echo 4244 ;;
           *) echo 4242 ;; esac ;;
     esac ;;
   systemd-run)
@@ -65,7 +67,7 @@ chmod +x "$W/fw" "$W/curl-origin"
 export STATE="$W/state" BASE_FOR_FW=$BASE PATH="$W/bin:$PATH" VM_BACKUPS="$W/bk" VM_FW="$W/fw" VM_CADDY=/bin/true VM_JOURNALCTL="$W/bin/journalctl" \
   VM_LOCK="$W/lock" VM_LOCK_WAIT=1 VM_RESTORE_LOCK_WAIT=30 VM_SYSTEMCTL="$W/bin/systemctl" VM_NFT="$W/bin/nft" \
   VM_CURL="$W/curl-origin" ORIGIN_BASE=$BASE ORIGIN_TABLES="$W/origin" VM_CI_HELPER="$W/libexec/vidfetch-ci/promote.py" VM_SKIP_ROOT=1 \
-  VM_WEB_ENV=/etc/vidfetch/web.env VM_MANIFEST="$W/release/manifest.json" RUN_DIR="$W/run"
+  VM_WEB_ENV=/etc/vidfetch/web.env VM_MANIFEST="$W/release/manifest.json" RUN_DIR="$W/run" VM_PROC="$W/proc"
 fail=0; n=0; ok() { n=$((n+1)); echo "ok $n - $1"; }; bad() { n=$((n+1)); echo "not ok $n - $1"; fail=1; }
 calls() { cat "$STATE/calls.log" 2>/dev/null; }
 CAN1=CANARY-TURNSTILE-SECRET-1a2b; CAN2=CANARYHMACKEYCANARYHMACKEYCANARYHMACKE1
@@ -76,6 +78,9 @@ spec = importlib.util.spec_from_file_location('ri', '/r/deploy/ovh/media/render-
 ranges = json.load(open('/r/deploy/ovh/public-test/cloudflare-ranges.json'))['ranges']
 open(sys.argv[1], 'w').write(r.render([ipaddress.ip_network('203.0.113.9/32')], ranges['4'], ranges['6'], True))
 PY
+# fakeproc PID BUNDLE START: the engine or gateway process as release_drift reads it from /proc (cmdline, start time)
+fakeproc() { mkdir -p "$W/proc/$1"; printf '/usr/bin/node\0%s\0' "$2" > "$W/proc/$1/cmdline"
+  printf '%s (node) S%s %s 0 0\n' "$1" "$(printf ' 0%.0s' $(seq 18))" $(( ($3 - 1000000000) * $(getconf CLK_TCK) )) > "$W/proc/$1/stat"; }
 mkfix() {
   rm -rf /etc/vidfetch; mkdir -p $BASE /etc/systemd/system/vidfetch-caddy.service.d
   printf 'VIDFETCH_TARGET=ovh\nVIDFETCH_CONNECTION_READY=0\n' > /etc/vidfetch/web.env
@@ -92,6 +97,9 @@ mkfix() {
   python3 -c 'import hashlib,json,sys; d=sys.argv[1]; h=lambda f: hashlib.sha256(open(f,"rb").read()).hexdigest()
 json.dump({"schema":1,"release":"a"*40,"platform":"linux-x64","files":{"backend/vidfetch-ovh.cjs":h(d+"/run/engine.cjs"),"backend/vidfetch-gateway.cjs":h(d+"/run/gateway.cjs")}},open(d+"/release/manifest.json","w"))' "$W"
   printf '[Service]\nExecStart=/usr/bin/node %s/run/gateway.cjs\n' "$W" > /etc/systemd/system/vidfetch-gateway.service; chmod 644 /etc/systemd/system/vidfetch-gateway.service
+  # both processes run the bundles their units name, and started after those files were written
+  rm -rf "$W/proc"; mkdir -p "$W/proc"; echo "btime 1000000000" > "$W/proc/stat"
+  fakeproc 4243 "$W/run/gateway.cjs" $(( $(date +%s) + 3600 )); fakeproc 4244 "$W/run/engine.cjs" $(( $(date +%s) + 3600 ))
 }
 stage_files() { cp "$W/open80.nft" $BASE/ingress.nft.media-test; printf 'VIDFETCH_MEDIA_TEST_IPS=203.0.113.9/32\n' > $BASE/media-test-ips.env
   cp /r/deploy/ovh/media/Caddyfile.test-only $BASE/Caddyfile.media-test; }
@@ -220,6 +228,18 @@ confirmed_dl; with_secrets; cp "$VM_CI_HELPER" "$W/helper.keep"; sed -i '/^PUBLI
 opened; with_secrets; refuse11 "dl window not confirmed"
 confirmed_dl; with_secrets; printf 'older gateway' > "$W/run/gateway.cjs"; refuse11 "the gateway in service is older than the active release's (08-gateway.sh upgrade not done)"
 confirmed_dl; with_secrets; printf 'other engine' > "$W/run/engine.cjs"; refuse11 "the engine in service is not the active release's"
+# the PROCESS, not only the unit: each refusal names its reason, and ready, the profile and the network stay as they were
+refuse11why() { local label=$1 why=$2 s0; s0=$(state); bash $A/11-downloads.sh open >"$STATE/out" 2>&1; rc=$?
+  [ $rc != 0 ] && [ "$(state)" = "$s0" ] && grep -q -- "$why" "$STATE/out" && ok "11-downloads open refuses: $label" || bad "11-downloads open: $label (rc=$rc $(state)) $(grep -m1 REFUSED "$STATE/out")"; }
+confirmed_dl; with_secrets; fakeproc 4243 "$W/run/gateway-before-restart.cjs" $(( $(date +%s) + 3600 ))
+refuse11why "the gateway unit names the release's bundle but its process still runs another (ExecStart changed, no restart)" "the process of vidfetch-gateway.service does not run the bundle its unit names"
+confirmed_dl; with_secrets; fakeproc 4244 "$W/run/engine.cjs" $(( $(date +%s) - 600 ))
+refuse11why "the engine bundle was rewritten after its process started (same content, no restart)" "the bundle of vidfetch.service changed after its process started"
+confirmed_dl; with_secrets; echo 0 > "$STATE/gateway-pid"; refuse11why "the gateway has no running process" "vidfetch-gateway.service has no running process"
+confirmed_dl; with_secrets; rm -f "$W/proc/4244/stat"; refuse11why "the engine's start time cannot be read" "cannot read when the process of vidfetch.service started"
+confirmed_dl; with_secrets; fakeproc 4243 "$W/run/gateway.cjs" $(( $(date +%s) - 1 )); printf 'gateway' > "$W/run/gateway.cjs"
+out=$(bash $A/11-downloads.sh open 2>&1); [ $? = 0 ] && [ "$(ready)" = 1 ] && ok "a bundle written up to 2 s after the start time read from /proc is accepted (both clocks are rounded down)" || bad "tolerance: $(grep -m1 REFUSED <<< "$out")"
+bash $A/11-downloads.sh close >/dev/null 2>&1
 # set-ready.sh called directly (outside 11-downloads.sh): the same rule for 1, never for 0
 confirmed_dl; with_secrets; printf 'older gateway' > "$W/run/gateway.cjs"; s0=$(state); : > "$STATE/calls.log"
 out=$(bash $A/set-ready.sh 1 2>&1); rc=$?
@@ -227,6 +247,20 @@ out=$(bash $A/set-ready.sh 1 2>&1); rc=$?
   && ok "set-ready.sh 1 called directly refuses an older gateway: ready stays 0, nothing restarted, no backup written" || bad "direct set-ready.sh 1 with drift: rc=$rc ready=$(ready) $(tail -1 <<< "$out")"
 out=$(bash $A/set-ready.sh 0 2>&1); rc=$?
 [ $rc = 0 ] && [ "$(ready)" = 0 ] && ok "set-ready.sh 0 is never blocked by a drift (closing must always work)" || bad "set-ready.sh 0 with drift: rc=$rc $(tail -1 <<< "$out")"
+rm -f /etc/vidfetch/web.env.bak.*
+confirmed_dl; with_secrets; fakeproc 4243 "$W/run/gateway-before-restart.cjs" $(( $(date +%s) + 3600 )); s0=$(state)
+out=$(bash $A/set-ready.sh 1 2>&1); rc=$?
+[ $rc != 0 ] && grep -q 'does not run the bundle its unit names' <<< "$out" && [ "$(state)" = "$s0" ] && [ "$(ready)" = 0 ] \
+  && ok "set-ready.sh 1 called directly refuses while the gateway restart is pending: ready stays 0" || bad "direct set-ready.sh 1, restart pending: rc=$rc $(tail -1 <<< "$out")"
+for why in pending no-process; do
+  [ $why = no-process ] && echo 0 > "$STATE/gateway-pid"
+  out=$(bash $A/set-ready.sh 0 2>&1); [ $? = 0 ] && [ "$(ready)" = 0 ] && ok "set-ready.sh 0 still works with the gateway $why" || bad "set-ready.sh 0, gateway $why: $(tail -1 <<< "$out")"
+done
+rm -f /etc/vidfetch/web.env.bak.* "$STATE/gateway-pid"
+confirmed_dl; with_secrets; bash $A/11-downloads.sh open >/dev/null 2>&1; [ "$(ready)" = 1 ] || bad "setup: open"
+fakeproc 4243 "$W/run/gateway-before-restart.cjs" $(( $(date +%s) + 3600 ))
+out=$(bash $A/11-downloads.sh close 2>&1); rc=$?
+[ $rc = 0 ] && [ "$(ready)" = 0 ] && [ "$(profile)" = public ] && ok "11-downloads.sh close works while the gateway restart is pending (closing is never blocked)" || bad "close with restart pending: rc=$rc $(state)"
 rm -f /etc/vidfetch/web.env.bak.*
 confirmed_dl; with_secrets; out=$(bash $A/11-downloads.sh open 2>&1); rc=$?
 [ $rc = 0 ] && [ "$(profile)" = public-downloads ] && [ "$(ready)" = 1 ] && calls | grep -q '^systemctl restart vidfetch-web-preproduction-20261013.service' && ok "open: CI profile public-downloads, ready=1, only the frontend restarted" || bad "open rc=$rc state=$(state): $out"
