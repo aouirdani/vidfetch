@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import { LOCALES, type Locale } from "../src/i18n/config";
 import { dictionary } from "../src/i18n/dictionaries";
-import { platformCandidates, availablePlatformPages, type PlatformCandidate, type PlatformCopy } from "../src/lib/platform-pages";
+import { PLATFORM_TOOLS_TITLE, platformCandidates, availablePlatformPages, platformLinks, type PlatformCandidate, type PlatformCopy } from "../src/lib/platform-pages";
 import { resolvePage, sitePages, languageAlternates } from "../src/lib/site-pages";
 import { localizedMetadata, platformPageSchemas } from "../src/lib/localized-seo";
 import { PLATFORM_META, detectPlatform } from "../src/lib/platforms";
@@ -147,6 +147,18 @@ describe("priority platform pages: publication", () => {
     });
     // and the catalogue is back to unpublished
     assert.equal(availablePlatformPages("en").length, 0);
+  });
+
+  it("links approved pages contextually from the home page and from each other, in their own language only", () => {
+    for (const locale of LOCALES) assert.deepEqual(platformLinks(locale), []);   // nothing approved: no link
+    approved(["tiktok-video-downloader", "tiktok-mp3"], () => {
+      assert.deepEqual(platformLinks("en").map(l => l.href), ["/tiktok-video-downloader", "/tiktok-to-mp3"]);
+      assert.deepEqual(platformLinks("en", "tiktok-mp3").map(l => l.href), ["/tiktok-video-downloader"]);
+      assert.deepEqual(platformLinks("fr").map(l => l.href), ["/fr/telecharger-video-tiktok"]);
+      assert.deepEqual(platformLinks("es"), []);
+      for (const link of platformLinks("en")) assert.equal(resolvePage(link.href.split("/").filter(Boolean))?.indexable, true);
+    });
+    for (const locale of LOCALES) assert.ok(PLATFORM_TOOLS_TITLE[locale].trim().length > 5);
   });
 
   it("gives a single-language page no foreign alternate", () => {
