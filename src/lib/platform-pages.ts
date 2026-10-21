@@ -5,6 +5,8 @@ export type PlatformCopy = {
   status: "ready"; title: string; description: string; heading: string; intro: string;
   instructions: string[]; supported: string[]; limits: string[];
   faqs: { question: string; answer: string }[]; relatedGuides: string[];
+  /** Optional page-specific section headings; the shared dictionary headings are used otherwise. */
+  sections?: { steps?: string; formats?: string; faq?: string };
   updated: string; publishedAt: string;
 };
 export type PlatformCandidate = {

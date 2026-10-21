@@ -42,7 +42,18 @@ describe("priority platform pages: copy", () => {
       assert.equal(copy.status, "ready");
       assert.ok(copy.instructions.length >= 3 && copy.supported.length >= 1 && copy.limits.length >= 1 && copy.faqs.length >= 3, `${id}/${locale} incomplete`);
       assert.match(copy.publishedAt, /^\d{4}-\d{2}-\d{2}$/);
+      assert.ok(copy.sections?.steps && copy.sections.formats && copy.sections.faq, `${id}/${locale}: page-specific H2 headings missing`);
     }
+  });
+
+  it("gives every priority page its own H1 and H2 outline", () => {
+    const outlines = PRIORITY.map(([id, locale]) => {
+      const copy = platformCandidates.find(e => e.id === id)!.copy![locale]!;
+      return [copy.heading, copy.sections!.steps!, copy.sections!.formats!, copy.sections!.faq!];
+    });
+    const all = outlines.flat();
+    assert.equal(new Set(all).size, all.length, "a heading is repeated across pages");
+    for (const outline of outlines) assert.ok(outline.every(h => h.length >= 12 && h.length <= 70));
   });
 
   it("uses unique titles and descriptions that fit search results, distinct from every home page", () => {

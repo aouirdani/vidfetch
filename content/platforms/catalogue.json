@@ -137,6 +137,11 @@
           "reduce-video-size",
           "video-download-fails"
         ],
+        "sections": {
+          "steps": "How to download a TikTok video",
+          "formats": "Supported TikTok links and limits",
+          "faq": "TikTok downloader questions"
+        },
         "updated": "2026-10-21",
         "publishedAt": "2026-10-21"
       },
@@ -186,6 +191,11 @@
           "reduce-video-size",
           "video-download-fails"
         ],
+        "sections": {
+          "steps": "Comment télécharger une vidéo TikTok",
+          "formats": "Liens TikTok acceptés et limites",
+          "faq": "Questions sur le téléchargement TikTok"
+        },
         "updated": "2026-10-21",
         "publishedAt": "2026-10-21"
       }
@@ -277,6 +287,11 @@
           "mp3-vs-m4a",
           "video-download-fails"
         ],
+        "sections": {
+          "steps": "How to convert a TikTok to MP3",
+          "formats": "What the MP3 contains and its limits",
+          "faq": "TikTok to MP3 questions"
+        },
         "updated": "2026-10-21",
         "publishedAt": "2026-10-21"
       }
@@ -346,6 +361,11 @@
           "mp4-vs-webm",
           "video-download-fails"
         ],
+        "sections": {
+          "steps": "How to download an Instagram Reel",
+          "formats": "Supported Instagram links and limits",
+          "faq": "Instagram Reels questions"
+        },
         "updated": "2026-10-21",
         "publishedAt": "2026-10-21"
       }
@@ -414,6 +434,11 @@
           "mp4-vs-webm",
           "video-download-fails"
         ],
+        "sections": {
+          "steps": "Cómo descargar un vídeo de Instagram",
+          "formats": "Enlaces de Instagram admitidos y límites",
+          "faq": "Preguntas sobre Instagram"
+        },
         "updated": "2026-10-21",
         "publishedAt": "2026-10-21"
       }
@@ -505,6 +530,11 @@
           "720p-1080p-4k",
           "video-download-fails"
         ],
+        "sections": {
+          "steps": "How to download a video from X",
+          "formats": "Supported X links and limits",
+          "faq": "X (Twitter) video questions"
+        },
         "updated": "2026-10-21",
         "publishedAt": "2026-10-21"
       }
