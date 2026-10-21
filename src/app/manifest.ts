@@ -7,7 +7,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: `${SITE.name} — Video Downloader`,
     short_name: SITE.name,
-    description: "Download public videos and audio from YouTube, TikTok, Instagram and X. Paste a link, choose a quality, and save the file to your device.",
+    description: "Save public videos as MP4 or their soundtrack as MP3 from a link. Paste a link, choose a format the source provides, and save the file to your device.",
     start_url: "/",
     scope: "/",
     display: "standalone",
@@ -27,7 +27,8 @@ export default function manifest(): MetadataRoute.Manifest {
       method: "GET",
       params: { title: "title", text: "text", url: "url" },
     },
-    shortcuts: LANDING_PAGES.map((page) => ({
+    // YouTube access is currently blocked on our hosting: no shortcut promises it.
+    shortcuts: LANDING_PAGES.filter((page) => page.platform !== "youtube").map((page) => ({
       name: page.title,
       short_name: PLATFORM_SHORT[page.platform],
       url: `/${page.slug}`,

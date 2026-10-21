@@ -32,8 +32,11 @@ try {
   const dom = await noJS.newPage();
   const sitemap = await (await fetch(base + '/sitemap.xml')).text();
   const canonicalPaths = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => new URL(m[1]).pathname);
-  assert.equal(canonicalPaths.length, 16);
-  assert.equal(new Set(canonicalPaths).size, 16);
+  // 8 homes + 8 legal pages + the 3 approved TikTok pages; Instagram and X stay gated.
+  assert.equal(canonicalPaths.length, 19);
+  assert.equal(new Set(canonicalPaths).size, 19);
+  const platformAlternates = { '/tiktok-video-downloader': ['en', 'fr', 'x-default'], '/fr/telecharger-video-tiktok': ['en', 'fr', 'x-default'], '/tiktok-to-mp3': ['en', 'x-default'] };
+  const alternatesOf = new Map();
   assert.doesNotMatch(sitemap, /youtube|\/api\/|mp4-vs-webm/);
   const englishGuides = (await import('node:fs/promises')).readdir('content/guides');
   const guidePaths = (await englishGuides).filter(name => name.endsWith('.md')).map(name => '/blog/' + name.slice(0, -3));
@@ -51,12 +54,19 @@ try {
     assert.equal(data.canonical, new URL(path, 'https://vidfetch.app').href, path);
     const indexable = canonicalPaths.includes(path);
     assert.equal(/noindex/.test(data.robots ?? ''), !indexable, path);
-    assert.equal(Object.keys(data.alternates).length, indexable ? 9 : 0, path);
+    if (!indexable) assert.equal(Object.keys(data.alternates).length, 0, path);
+    else if (platformAlternates[path]) assert.deepEqual(Object.keys(data.alternates).sort(), [...platformAlternates[path]].sort(), path);
+    else assert.equal(Object.keys(data.alternates).length, 9, path);
+    if (indexable) alternatesOf.set(new URL(path, 'https://vidfetch.app').href, data.alternates);
     assert.ok(data.jsonld.length, path);
     for (const href of data.links.filter(href => href.startsWith('/') && !href.startsWith('//'))) assert.ok(allPaths.has(decodeURI(href.split('#')[0].split('?')[0]) || '/'), `${path} -> ${href}`);
     const locale = locales[roots.findIndex(root => root && decodeURI(path).startsWith('/' + root))] ?? 'en';
     assert.equal(data.lang, locale, path); assert.equal(data.dir, locale === 'ar' ? 'rtl' : 'ltr');
     evidence.serverPages++;
+  }
+  for (const [url, alternates] of alternatesOf) {
+    assert.ok(Object.values(alternates).includes(url), `${url} is not in its own hreflang set`);
+    for (const target of Object.values(alternates)) assert.deepEqual(alternatesOf.get(target), alternates, `${url} -> ${target}: hreflang not reciprocal`);
   }
   for (const [i, locale] of locales.entries()) {
     const path = '/' + roots[i], d = dictionaries[locale];
@@ -121,8 +131,9 @@ try {
   assert.equal((await fetch(base + '/api/fetch-info')).status, 405);
   assert.equal((await fetch(base + '/fr/api/download')).status, 404);
   assert.equal((await fetch(base + '/fr/guides/mp4-ou-webm')).status, 404);
+  for (const gated of ['/es/descargar-video-instagram', '/fr/telecharger-reels-instagram', '/fr/telecharger-video-x', '/tiktok-mp3']) assert.equal((await fetch(base + gated)).status, 404, gated);
   const robots = await (await fetch(base + '/robots.txt')).text(); assert.match(robots, /Disallow: \/api\//);
-  evidence.checks.push('38 server-rendered pages; eight locales, selectors, localized 404 and degraded UI', 'reciprocal hreflang and self canonicals', '16 sitemap entries; no drafts, empty guide indexes or platform claims', 'RTL mobile navigation, LTR URL field and radio keyboard controls', 'eight synthetic native transfers with real helper and byte integrity; mocked engines, no media conversion claim', 'API paths, methods and BACKEND_UNAVAILABLE unchanged');
+  evidence.checks.push(`${evidence.serverPages} server-rendered pages; eight locales, selectors, localized 404 and degraded UI`, 'reciprocal hreflang and self canonicals', '19 sitemap entries (3 approved TikTok pages); no drafts or empty guide indexes; Instagram and X pages gated (404 or noindex)', 'RTL mobile navigation, LTR URL field and radio keyboard controls', 'eight synthetic native transfers with real helper and byte integrity; mocked engines, no media conversion claim', 'API paths, methods and BACKEND_UNAVAILABLE unchanged');
   writeFileSync('../http-browser-verification.json', JSON.stringify(evidence, null, 2));
   console.log(JSON.stringify(evidence, null, 2));
 } finally {

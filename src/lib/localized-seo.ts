@@ -29,6 +29,18 @@ export function localizedIdentity(locale: Locale) {
     logo: { "@type": "ImageObject", url: `${SITE.url}${OG_IMAGE.url}` } },
   { "@type": "WebSite", "@id": `${url}#website`, name: SITE.name, url, inLanguage: locale, publisher: { "@id": `${SITE.url}/#organization` } }];
 }
+/** Approved platform page: the visible breadcrumb and the tool the page offers, described only with its visible copy. */
+export function platformPageSchemas(page: SitePage, copy: { title: string; description: string; heading: string; supported: string[] }) {
+  const d = dictionary(page.locale), url = new URL(page.path, SITE.url).href, home = new URL(homePath(page.locale), SITE.url).href;
+  return [
+    { "@type": "BreadcrumbList", "@id": `${url}#breadcrumb`, itemListElement: [
+      { "@type": "ListItem", position: 1, name: d.home, item: home },
+      { "@type": "ListItem", position: 2, name: copy.title, item: url }] },
+    { "@type": "WebApplication", "@id": `${url}#app`, name: copy.heading, url, description: copy.description, inLanguage: page.locale,
+      applicationCategory: "MultimediaApplication", operatingSystem: "Web", isAccessibleForFree: true,
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, featureList: copy.supported, publisher: { "@id": `${SITE.url}/#organization` } },
+  ];
+}
 export function localizedPageSchema(page: SitePage, name: string, description: string) {
   const url = new URL(page.path, SITE.url).href;
   return { "@type": "WebPage", "@id": `${url}#page`, name, description, url, inLanguage: page.locale, dateModified: CONTENT_UPDATED,

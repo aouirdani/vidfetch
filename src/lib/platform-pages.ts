@@ -5,6 +5,8 @@ export type PlatformCopy = {
   status: "ready"; title: string; description: string; heading: string; intro: string;
   instructions: string[]; supported: string[]; limits: string[];
   faqs: { question: string; answer: string }[]; relatedGuides: string[];
+  /** Optional page-specific section headings; the shared dictionary headings are used otherwise. */
+  sections?: { steps?: string; formats?: string; faq?: string };
   updated: string; publishedAt: string;
 };
 export type PlatformCandidate = {
@@ -26,3 +28,15 @@ export function approvedPlatformCopy(entry: PlatformCandidate, locale: Locale): 
 }
 export function availablePlatformPages(locale: Locale) { return platformCandidates.filter(entry => approvedPlatformCopy(entry, locale)); }
 export function platformPagePath(entry: PlatformCandidate, locale: Locale) { return `${locale === "en" ? "" : `/${LANGUAGES[locale].prefix}`}/${entry.slugs[locale]}`; }
+/** Section title for contextual links to the approved platform pages of a language (kept out of the shared dictionaries). */
+export const PLATFORM_TOOLS_TITLE: Record<Locale, string> = {
+  en: "Download by platform", fr: "Télécharger par plateforme", es: "Descargar por plataforma", "pt-BR": "Baixar por plataforma",
+  id: "Unduh per platform", de: "Nach Plattform herunterladen", it: "Scarica per piattaforma", ar: "التنزيل حسب المنصة",
+};
+/** Contextual internal links: the approved platform pages of a language, optionally without the current one. */
+export function platformLinks(locale: Locale, except?: string) {
+  return availablePlatformPages(locale).filter(entry => entry.id !== except).map(entry => {
+    const copy = approvedPlatformCopy(entry, locale)!;
+    return { id: entry.id, href: platformPagePath(entry, locale), label: copy.heading, description: copy.description };
+  });
+}

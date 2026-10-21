@@ -94,7 +94,7 @@ try {
     assert.doesNotMatch(html, /Engine unavailable|connected to the backend/i);
     assert.equal((html.match(/<h1(?:\s|>)/g) ?? []).length, 1);
   }
-  for (const path of ["/robots.txt", "/sitemap.xml", "/manifest.webmanifest", "/icon.svg", "/og-image-v2.jpg"]) {
+  for (const path of ["/robots.txt", "/sitemap.xml", "/manifest.webmanifest", "/icon.svg", "/og-image-v3.jpg"]) {
     const response = await request(path);
     assert.equal(response.status, 200, path);
     await response.body?.cancel();
