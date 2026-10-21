@@ -165,6 +165,23 @@ Feasibility is estimated from experience with yt-dlp extractors and datacenter I
 - YouTube pages stay unpublished;
 - home title and H1 changes go through the page-level override (no dictionary change, so no gateway change) or the gateway window.
 
+### Improvements recorded after the SEO release went live (21/10/2026)
+
+Release `d6fc88a1` has been live since 19:34 UTC (run 39662777799). None of the items below is urgent: Instagram and X stay out of the sitemap and are `noindex`. Each one needs its own authorization.
+
+| # | Item | Where | Bundles affected | Path to production |
+|---|---|---|---|---|
+| S1 | **YouTube example in the error message.** A link from a platform with no example of its own (X: `examples: []`) shows `https://www.youtube.com/watch?v=…` as the example. Show the TikTok example instead, or no example. | `src/components/FetchForm.tsx:59` (fallback `PLATFORM_META.youtube.examples[0]`) | frontend only, to confirm with a bundle rebuild | CI promoter |
+| S2 | **Manifest shortcuts to pages that are not indexable.** `/instagram-reels-downloader` and `/twitter-video-downloader` (200, `noindex`) appear as PWA shortcuts. Keep only the published pages (TikTok), with the same gate as the sitemap. | `src/app/manifest.ts` (`LANDING_PAGES`) | frontend only | CI promoter |
+| S3 | **"Supported links" sentence under the form:** "Recognizes individual YouTube, TikTok, Instagram and X links". It is accurate (recognition ≠ access), but it names YouTube. Align it with the validated platforms. | `supportedHint` in the 8 dictionaries | **gateway** (the dictionaries are compiled into it) | gateway window (PR #16), or a page-level override with no dictionary change |
+| S4 | **`lastmod` in the sitemap:** every URL carries `2026-10-12`, including the 3 TikTok pages published on 21/10. Use each page's real publication or modification date. | sitemap generator | frontend only | CI promoter |
+
+**Kept on purpose:**
+- the FAQ answer saying YouTube access is currently blocked;
+- the trademark notice ("not affiliated with YouTube, TikTok, …").
+
+Both are honest information, not a claim.
+
 **GEO:**
 - the same identity sentence everywhere;
 - a "Supported sites" table with validation dates and limits, readable in the HTML;
