@@ -1,6 +1,10 @@
-# Reviewed engine change (PR B): specification
+# Reviewed engine change (PR B): specification v2
 
-**Status: specification and tests only.** The tests in this branch describe the expected behaviour and **fail until the implementation exists**. Nothing here changes the engine, the gateway, production, the CI promoter or its account. Implementation needs the owner's authorization.
+**Status, 21/10/2026: v2.**
+- v2 records the owner's design decisions (§6) and the read-only reading of the VPS units (21/10, 20:03 UTC, §1).
+- **No implementation is authorized yet.** The plan is in `docs/VIDFETCH-MOTEUR-REVUE-PLAN.md`.
+- The tests in this branch were written against v1 and fail until the implementation exists. Step 1 of the plan brings them to v2.
+- Nothing here changes the engine, the gateway, production, the CI promoter or its account.
 
 **Why.** Every planned engine change needs a reviewed path to production:
 - PR #7 (error classification);
@@ -13,18 +17,21 @@ Today the CI promoter refuses any release whose engine or gateway changed, and *
 
 ## 1. Facts the design depends on
 
-Each fact is read from the repository. Each is re-checked read-only at W0 (§4) before any window.
+**Confirmed** = read on the VPS on 21/10 at 20:03 UTC (`systemctl cat` and `systemctl show`, read-only). The other rows come from the repository. Every row is re-read at W0 before any window.
 
-| # | Fact | Source | Consequence |
+| # | Fact | Status | Consequence |
 |---|---|---|---|
-| F1 | Engine and gateway run from `/opt/vidfetch/releases/<dir>`, not from the frontend release pointer. | `08-gateway.sh` header; `backend/preproduction/ovh/vidfetch.service` | A new frontend release does not move them: each one is upgraded by its own script. |
-| F2 | `vidfetch.service` runs with:<br>- `User=vidfetch-worker`, `NoNewPrivileges=true`, `CapabilityBoundingSet=`;<br>- `BindsTo=vidfetch-egress.service` and `EnvironmentFile=/etc/vidfetch/worker.env`;<br>- a listener on `127.0.0.1:8788`. | engine unit template, `backend/ovh/main.ts` | The upgrade must check uid, privileges and listener, not only "it answers". |
-| F3 | At every health call, the engine re-checks its isolation and reports `engine.isolationProfile = "vidfetch-uid-nft-v1"`. The check covers:<br>- `/etc/vidfetch/isolation.json` (root-owned);<br>- its own uid, `CapEff=0` and `NoNewPrivs=1`;<br>- the hash of the nft rules file;<br>- no cookie or proxy variable. | `backend/ovh/isolation.ts` | The health answer is an isolation proof. A bundle that fails it must be rolled back. |
-| F4 | **The gateway unit has `Requires=vidfetch.service` and `After=vidfetch.service`.** | gateway unit read on the VPS on 13/10, reproduced in `gateway-upgrade-systemd.test.sh` | **Stopping or restarting the engine stops or restarts the gateway.** An engine change always gives the gateway a new PID. The procedure restarts the gateway explicitly on its **unchanged** bundle and verifies it. Unit files are not modified. |
-| F5 | `08-gateway.sh` refuses unless the running engine is the engine of the active release. | `08-gateway.sh` `blocker()` | When both bundles change, **the engine goes first**. |
-| F6 | `11-downloads.sh open` and `set-ready.sh 1` refuse if the engine **or** the gateway in service is not the active release's (manifest, process, ctime). | `common.sh` `release_drift` (PR #16) | Downloads cannot reopen before both follow. Nothing to add there. |
-| F7 | With `ready=1`, the PR #17 guard in `rollback.py` refuses a release whose engine or gateway differs from those in service. | `deploy/ovh/ci/rollback.py` (PR #17) | Same protection for a frontend rollback after an engine change. |
-| F8 | The engine bundle is deterministic: `node backend/ovh/build.mjs /tmp/e.cjs`. | rebuilt three times on 21/10: `fa0d3d4e…` = production | `ENGINE_SHA256` can be rebuilt independently by the administrator, like `GATEWAY_SHA256`. |
+| F1 | Engine and gateway run from `/opt/vidfetch/releases/<dir>`, not from the frontend release pointer. | **confirmed**: engine in `ovh-20261012-rnllrb69-ipv4/vidfetch-ovh.cjs` (`fa0d3d4e…`, from the unit file itself); gateway in `gateway-0fa1404530c272b7/vidfetch-gateway.cjs`, through the drop-in `20-gateway-release.conf` that `08-gateway.sh` installed on 13/10 | A new frontend release does not move them: each one is upgraded by its own script. `vidfetch.service.d/` does not exist yet, so the first engine upgrade creates it. |
+| F2 | `vidfetch.service` runs with:<br>- `User=vidfetch-worker`, `NoNewPrivileges=true`, `CapabilityBoundingSet=`;<br>- `EnvironmentFile=/etc/vidfetch/worker.env`;<br>- a listener on `127.0.0.1:8788`. | **confirmed**; the process (PID 9270) runs as `vidfetch-worker` with `NoNewPrivs=1` and `CapEff=0` | The upgrade checks uid, privileges and listener, not only "it answers". |
+| F3 | At every health call, the engine re-checks its isolation and reports `engine.isolationProfile = "vidfetch-uid-nft-v1"`. The check covers:<br>- `isolation.json`;<br>- its uid, `CapEff` and `NoNewPrivs`;<br>- the hash of the nft rules file;<br>- no cookie or proxy variable. | repository (`backend/ovh/isolation.ts`) | The health answer is an isolation proof. A bundle that fails it is rolled back. |
+| F4 | **The gateway has `Requires=vidfetch.service` and `After=vidfetch.service`.** The engine shows `RequiredBy=vidfetch-gateway.service`. No other unit depends on the engine. | **confirmed** | **Stopping or restarting the engine stops or restarts the gateway.** Accepted by the owner (§6, decision 1). The procedure restarts the gateway explicitly on its unchanged bundle and verifies it. No unit file is modified. |
+| F5 | `08-gateway.sh` refuses unless the running engine is the engine of the active release. | repository | When both bundles change, **the engine goes first**. |
+| F6 | `11-downloads.sh open` and `set-ready.sh 1` refuse if the engine or the gateway in service is not the active release's (manifest, process, ctime). | repository (PR #16) | Downloads cannot reopen before both follow. |
+| F7 | With `ready=1`, the PR #17 guard in `rollback.py` refuses a release whose engine or gateway differs from those in service. | repository (PR #17) | Same protection for a frontend rollback. |
+| F8 | The engine bundle is deterministic: `node backend/ovh/build.mjs /tmp/e.cjs`. | rebuilt three times on 21/10: `fa0d3d4e…` | `ENGINE_SHA256` is rebuilt independently, like `GATEWAY_SHA256`. |
+| F9 | **The engine has `Requires=` and `BindsTo=vidfetch-egress.service`.** That oneshot unit runs `egress-control.py start`, and on stop runs `egress-control.py stop`, which **removes the worker's egress policy**. | **confirmed** (new in v2) | **The procedure never stops, restarts or reloads `vidfetch-egress.service`.** Stopping the engine leaves it active (`RemainAfterExit`). The verification requires its `ActiveEnterTimestamp` to be unchanged and the egress rules to be identical. |
+| F10 | **`StartLimitBurst=3` within `StartLimitIntervalSec=300`** on the engine and on the gateway. | **confirmed** (new in v2) | One upgrade followed by an automatic rollback is 2 starts per unit, and a crash can add one more. **`reset-failed` before every start**, rollback included, as `08-gateway.sh` already does. Otherwise a third start within 5 minutes would leave the unit stopped. |
+| F11 | Restart counters at the time of the reading: engine `NRestarts=1`, gateway `NRestarts=0`. | **confirmed** | The observation (§3 B3) compares `NRestarts` with its own starting value, not with zero. |
 
 ## 2. Invariants
 
@@ -34,105 +41,103 @@ These extend I1–I7 of `docs/VIDFETCH-ACTIVATION-REVUE.md`.
 |---|---|
 | E1 | **Downloads are open only if the frontend, engine and gateway come from the same release.** Every engine change happens with `ready=0`. |
 | E2 | The new engine is the one the administrator **rebuilt independently**: `ENGINE_SHA256` = manifest = extracted file = installed file. |
-| E3 | The isolation does not change:<br>- same uid (`vidfetch-worker`), `NoNewPrivs=1`, `CapEff=0`;<br>- `isolationProfile` reported;<br>- byte-identical: `worker.env`, `isolation.json`, the engine unit file, the nft ruleset (dynamic set elements excluded);<br>- the engine listens on `127.0.0.1:8788` only. |
-| E4 | Only the engine and the gateway restart (F4):<br>- the gateway restarts on **the same bundle** as before;<br>- frontend, Caddy and SSH keep their PIDs;<br>- `gateway.env`, `web.env`, Caddy, `sshd_config` and the secrets are unchanged. |
-| E5 | No operation is cut:<br>- downloads are closed;<br>- no established connection on 8788 or 8789;<br>- no `yt-dlp`, `ffmpeg` or `ffprobe` process;<br>- the gateway queue is empty (signed `/auth/deployment`: `active=False waiting=False`). |
-| E6 | Any failed verification, or an interruption (SIGTERM, SIGINT, SIGHUP) before the end of the settling period, rolls back automatically to the previous engine bundle, then verifies the restoration. |
+| E3 | The isolation does not change:<br>- same uid, `NoNewPrivs=1`, `CapEff=0`;<br>- `isolationProfile` reported;<br>- byte-identical: `worker.env`, `isolation.json`, unit files, the nft ruleset (dynamic set elements excluded);<br>- `vidfetch-egress.service` not stopped (F9);<br>- loopback listeners only. |
+| E4 | Only the engine and the gateway restart (F4):<br>- the gateway on **the same bundle**;<br>- frontend, Caddy and SSH keep their PIDs;<br>- `gateway.env`, `web.env`, Caddy, `sshd_config` and the secrets are unchanged. |
+| E5 | No operation is cut:<br>- downloads closed;<br>- no established connection on 8788 or 8789 (retried for up to 10 s, because of Node's keep-alive);<br>- no `yt-dlp`, `ffmpeg` or `ffprobe` process;<br>- empty queue (signed `/auth/deployment`: `active=False waiting=False`). |
+| E6 | **During the settling period of `upgrade`:** any failed verification, or an interruption (SIGTERM, SIGINT, SIGHUP), rolls back automatically, then verifies the restoration. |
 | E7 | One operation at a time: the toolkit lock is shared with `08-gateway.sh`, `11-downloads.sh` and `set-ready.sh`. |
 | E8 | No secret appears in the output, the journal or the records. Backups are root-only (`0700`). |
-| E9 | The CI is unchanged:<br>- the promoter rule and `ENGINE_FILES` stay as they are;<br>- the CI account cannot run either tool (absent from `install.py`, `dispatch.py` and the sudoers). |
+| E9 | The CI is unchanged:<br>- the promoter rule and `ENGINE_FILES` stay as they are;<br>- the CI account can run none of these tools. |
+| **E10** | **Observation (decision 2).** Downloads reopen only after **at least 15 minutes** of uninterrupted observation of the processes in service, with the compatibility checks of §3 B3, all green. |
+| **E11** | **Old bundles (decision 3).** No tool removes a file or a directory under `/opt/vidfetch/releases/`. Pruning stays a separate, manual and named operation. |
 
 ## 3. Components
 
-### B1. `activate-reviewed.py`: optional fifth argument `ENGINE_SHA256`
+### B1. `activate-reviewed.py`: optional fifth argument `ENGINE_SHA256` (unchanged since v1)
 
 ```sh
 sudo python3 activate-reviewed.py check|activate SHA ARCHIVE_SHA256 GATEWAY_SHA256                # unchanged: gateway only
 sudo python3 activate-reviewed.py check|activate SHA ARCHIVE_SHA256 GATEWAY_SHA256 ENGINE_SHA256  # new
 ```
 
-**With five arguments:**
-- Both fingerprints are always given, even for a bundle that does not change. The administrator states the whole expected pair, with no default.
-- The release gateway = `GATEWAY_SHA256` = the extracted file. The release engine = `ENGINE_SHA256` = the extracted file.
-- At least one of the two bundles differs from the active release. Otherwise: "use the CI promoter".
-- The engine and the gateway in service are those of the active release (no drift beforehand).
-- `activate` requires downloads to be closed. `check` does not.
-- Everything else is unchanged:
-  - the promoter's archive checks, lock, guard, health and origin checks, and switch;
-  - `pending.json` and `previous.json`;
-  - the infrastructure compared before and after, including both bundles in service and the protected PIDs. The frontend switch never restarts the engine.
-- The record also carries:
-  - `engine_sha256`, the reviewed engine. With four arguments it is still the engine in service, which then equals the release's;
-  - `engine_in_service`, `engine_changed` and `gateway_changed`.
-- The next steps printed after `ACTIVATED` depend on what changed:
-  1. `13-engine.sh check|upgrade <ENGINE>`, only if the engine changed;
-  2. `08-gateway.sh check|upgrade <GATEWAY>`, only if the gateway changed;
-  3. reconcile the guard;
-  4. `11-downloads.sh open`.
+**Rules:**
+- Both fingerprints are always given, even for a bundle that does not change. Each must equal the release manifest and the extracted file.
+- At least one bundle differs from the active release. Otherwise: "use the CI promoter".
+- No drift beforehand: the engine and the gateway in service are those of the active release.
+- `activate` requires downloads to be closed.
+- Everything else is the promoter's: archive checks, lock, guard, health and origin checks, switch, `pending.json` and `previous.json`, and the infrastructure compared before and after. The frontend switch never restarts the engine.
 
-**With four arguments:** exactly today's behaviour. An engine change is still refused ("engine bundle changed: not covered by this review"), and the message now names the five-argument form.
+**Record:**
+- `engine_sha256`, the reviewed engine;
+- `engine_in_service`, `engine_changed` and `gateway_changed`.
 
-### B2. `13-engine.sh check | upgrade | rollback` (new, mirrors `08-gateway.sh`)
+**Next steps printed** after `ACTIVATED`:
+1. `13-engine.sh`, if the engine changed;
+2. `08-gateway.sh`, if the gateway changed;
+3. `13-engine.sh observe`;
+4. guard reconciliation;
+5. `11-downloads.sh open`.
+
+**Four arguments:** today's behaviour. An engine change is refused, and the message names the five-argument form.
+
+### B2. `13-engine.sh check | upgrade | rollback` (mirrors `08-gateway.sh`)
 
 ```sh
 sudo bash 13-engine.sh check    ENGINE_SHA256   # read-only report and verdict
-sudo bash 13-engine.sh upgrade  ENGINE_SHA256   # one controlled stop/start of the engine (and therefore of the gateway, F4)
-sudo bash 13-engine.sh rollback                 # back to the drop-in state saved by upgrade
+sudo bash 13-engine.sh upgrade  ENGINE_SHA256   # controlled stop/start of the engine, therefore of the gateway (F4)
+sudo bash 13-engine.sh rollback                 # back to the state saved by upgrade
 ```
 
 **Preconditions, shared by check and upgrade.** The first one that fails is printed:
 1. `ENGINE_SHA256` is 64 hexadecimal characters.
 2. `<active release>/backend/vidfetch-ovh.cjs` is root-owned and not writable by others, and has `ENGINE_SHA256`. The manifest lists the same value.
-3. The **gateway in service** is the gateway of the active release **or** of `previous.json`; any other bundle is refused. With both bundles changing, the old gateway is still running at this point.
-4. Both units are active. The engine unit file, `worker.env` and `isolation.json` are root-owned and not writable by others; the content of the last two is never printed.
-5. The engine `ExecStart` names exactly one `.cjs`, and the engine process runs it (`/proc/<PID>/cmdline`).
-6. The engine process already meets E3: it runs as `vidfetch-worker`, with `NoNewPrivs=1` and `CapEff=0`. A sound starting state is required. A stray drop-in such as `User=root` is refused before anything changes, not discovered after.
+3. The gateway in service belongs to the active release or to `previous.json`. Any third bundle is refused.
+4. Engine, gateway and `vidfetch-egress.service` are active. The engine unit, `worker.env` and `isolation.json` are root-owned and not writable by others; their contents are never printed.
+5. The engine `ExecStart` names exactly one `.cjs`, and the process runs it.
+6. The engine process already meets E3: `vidfetch-worker`, `NoNewPrivs=1`, `CapEff=0`. A stray drop-in is refused before anything changes.
 
 **upgrade only:**
 - `ready=0`; a missing or unreadable value counts as open;
 - toolkit lock held;
 - no dead-man timer armed;
-- idle as defined in E5.
-  - Node's HTTP keep-alive leaves a socket between the gateway and the engine open for up to 5 s after a request. The connection check on 8788 is therefore retried for up to 10 s before refusing.
-  - A connection still open after that is real activity.
-
-**Interface details fixed by the tests:**
-- **Output:** the same probe lines as `08-gateway.sh` (`engine_health=… ok=… isolation=…`, `alive=…`, `deployment_signed=…`, `deployment_unsigned=…`).
-- **Verdicts:** `VERDICT: upgrade needed and possible`, `already is the expected bundle`, `nothing to do`, `UPGRADED`, `FAILED:`, `ROLLBACK VERIFIED`.
-- **Test overrides:** `VM_ENGINE_SETTLE` (settling time) and `VM_PREVIOUS` (`/opt/vidfetch-ci-web/previous.json` by default), in addition to the `VM_*` variables of `common.sh` and `08-gateway.sh`.
+- idle (E5).
 
 **Steps:**
-1. **Backup** in `/var/backups/vidfetch-engine-upgrade-<UTC>.XXXXXX` (`0700`), pointed to by the link `vidfetch-engine-upgrade-latest`. It holds:
-   - the engine unit and the state of its drop-in directory;
+1. **Backup** in `/var/backups/vidfetch-engine-upgrade-<UTC>.XXXXXX` (`0700`), with the link `vidfetch-engine-upgrade-latest`. It holds:
+   - the engine unit and the state of `vidfetch.service.d/`;
    - `worker.env` and the directory of the engine bundle in use;
    - the gateway's bundle path and SHA-256;
    - the quota ledger, copied while the gateway is stopped;
-   - `before.txt` (PIDs, ExecStart) and `MANIFEST.sha256`.
+   - `before.txt`: PIDs, `NRestarts`, `ExecStart`, and the egress unit's `ActiveEnterTimestamp`;
+   - `MANIFEST.sha256`.
 2. **New bundle** in `/opt/vidfetch/releases/engine-<16 hex>/vidfetch-ovh.cjs`:
    - written root `0644` through `.new`, then `mv`;
-   - an existing file with other content is refused, never overwritten;
+   - an existing file with other content is refused, never overwritten (E11);
    - `node --check` must pass.
 3. **Drop-in** `vidfetch.service.d/20-engine-release.conf`: the unit's own `ExecStart` with only the bundle path replaced.
-4. `daemon-reload`, then:
-   - stop the gateway, stop the engine, copy the ledger;
-   - `reset-failed` both units;
-   - start the engine and wait for its health;
-   - start the gateway and wait until it answers.
+4. **Restart sequence:**
+   1. `daemon-reload`;
+   2. stop the gateway, then stop the engine, **never the egress unit** (F9);
+   3. copy the ledger;
+   4. `reset-failed` both units (F10);
+   5. start the engine and wait for its health;
+   6. start the gateway and wait until it answers.
 5. **Verification.** Anything wrong rolls back automatically (E6):
-   - **Engine process:** a new PID, `cmdline` = new bundle, uid = `vidfetch-worker`, `NoNewPrivs=1`, `CapEff=0`.
+   - **Engine process:** a new PID, the new bundle, `vidfetch-worker`, `NoNewPrivs=1`, `CapEff=0`.
    - **Engine answer:** `engine_health=200 ok=True isolation=vidfetch-uid-nft-v1`; listener `127.0.0.1:8788` only.
-   - **Gateway process:** a new PID (F4), running **the same path and SHA-256** as before.
+   - **Gateway process:** a new PID (F4), running the same path and SHA-256 as before.
    - **Gateway answer:**
      - `alive=True`;
      - `deployment_signed=200 draining=False active=False`, with `deployment_unsigned` 401 or 403;
      - `helper_fr=200`, `unknown_path=404`, `fetch_info_anonymous` 401 or 403;
      - listener `127.0.0.1:8789` only.
-   - **Files identical** (content, owner, mode): `worker.env`, `isolation.json`, `gateway.env`, both unit files, the old release directory.
-   - **Network and other services:** the nft ruleset hash is identical (dynamic elements excluded); the frontend, Caddy and SSH PIDs are unchanged.
-   - **Settling:** after `SETTLE` seconds (12 by default), neither process has restarted.
+   - **Egress:** `vidfetch-egress.service` active, `ActiveEnterTimestamp` unchanged, nft ruleset hash identical.
+   - **Files identical** (content, owner, mode): `worker.env`, `isolation.json`, `gateway.env`, the unit files, the old release directory.
+   - **Other services:** frontend, Caddy and SSH have the same PIDs.
+   - **Settling (automatic rollback):** after `SETTLE` seconds, **60 by default** (was 12 in v1), neither process has restarted.
 6. **Printed output:**
-   - the guard commands, to run only once satisfied: `guard-update.py add <drop-in> <new bundle>`;
-   - the next step, `08-gateway.sh upgrade`, if the gateway changes too;
+   - the next step: `08-gateway.sh upgrade` if the gateway changes, otherwise `13-engine.sh observe`;
+   - the guard commands (`guard-update.py add <drop-in> <bundle>`);
    - the rollback command.
 
 **rollback:**
@@ -140,128 +145,111 @@ sudo bash 13-engine.sh rollback                 # back to the drop-in state save
   - downloads are open;
   - the system is not idle;
   - the backup fails its integrity check;
-  - **the gateway in service is not the one recorded in the backup**, meaning `08-gateway.sh upgrade` ran after this engine upgrade. Run `08-gateway.sh rollback` first, so the order is always the reverse of the upgrade.
+  - the gateway in service is not the one recorded in the backup. In that case `08-gateway.sh upgrade` came after, so run `08-gateway.sh rollback` first.
 - **Restores:**
-  - this script's drop-in: the saved one, or none (removed by name; the directory is removed only if this script created it and it is empty);
+  - this script's drop-in: the saved one, or none (removed by name; the directory only with `rmdir`, only if this script created it and it is empty);
   - `worker.env` from the backup.
-- **Then:** stop the gateway, stop the engine, start the engine, start the gateway.
-- **Verifies:**
-  - the engine runs the previous path and SHA-256, with the same isolation checks as the upgrade;
-  - the gateway runs the bundle recorded in the backup;
-  - the files are byte-identical to the backup.
+- **Then:** `daemon-reload`, stop the gateway, stop the engine, `reset-failed` both, start the engine, start the gateway.
+- **Verifies** the previous engine (path, SHA-256, isolation), the recorded gateway, files identical to the backup, and the egress unit untouched.
+- **Never removes** the new bundle directory (E11).
 
-**Path safety:** the same rules as `08-gateway.sh`, so `${VAR:?}`, exact expected paths, files named one by one, no `rm -rf`, and a test with empty and invalid paths.
+**Interface details fixed by the tests:**
+- **Output:** the same probe lines as `08-gateway.sh`.
+- **Verdicts:** `VERDICT: upgrade needed and possible`, `already is the expected bundle`, `nothing to do`, `UPGRADED`, `FAILED:`, `ROLLBACK VERIFIED`, `OBSERVED OK`, `OBSERVATION FAILED`.
+- **Test overrides:**
+  - `VM_ENGINE_SETTLE`;
+  - `VM_PREVIOUS` (`/opt/vidfetch-ci-web/previous.json` by default);
+  - `VM_OBSERVE_MIN`, test only: the 900 s production minimum applies whenever it is not set;
+  - plus the `VM_*` variables of `common.sh`.
+
+**Path safety:** the same rules as `08-gateway.sh`, so `${VAR:?}`, exact paths, files named one by one, no `rm -rf`, and tests with empty and invalid paths.
+
+### B3. `13-engine.sh observe [SECONDS]`: observation and compatibility checks (new in v2, decision 2)
+
+```sh
+sudo bash 13-engine.sh observe        # 900 s (15 min) by default; a shorter value is refused
+sudo bash 13-engine.sh observe 1800   # longer if wanted
+```
+
+**Read-only.** It changes nothing, restarts nothing and takes no lock. It may also run with downloads open, for example at W0 for the reference state.
+
+**Every 30 s, for the whole duration, all of these must hold:**
+
+| # | Check | Why |
+|---|---|---|
+| O1 | Engine and gateway: same `MainPID` as at the start of the observation, and `NRestarts` unchanged (F11) | a crash restart would be invisible to a single reading |
+| O2 | **Compatibility of the bundles in service:** engine and gateway = the active release manifest (bundle, process, ctime). This is `release_drift`, so NO-DRIFT. | the frontend, engine and gateway come from the same release |
+| O3 | **Gateway/engine compatibility:** the engine answers `ok=True` with the isolation proof. The gateway answers `alive=True` and the signed `/auth/deployment` 200, and refuses unsigned or anonymous requests. | the new engine and the gateway still speak the same contract on the internal endpoints |
+| O4 | **Frontend compatibility:** local `/api/health` reports the active release, and `downloads.available` matches `ready` | the frontend sees the gateway it expects |
+| O5 | **Isolation:** `vidfetch-worker`, `NoNewPrivs=1`, `CapEff=0`; egress unit `ActiveEnterTimestamp` unchanged; nft ruleset identical; loopback listeners | E3 holds for the whole duration, not only at the start |
+| O6 | **Journal:** no line at priority `warning` or above from `vidfetch` or `vidfetch-gateway` since the start of the observation | early errors (crashed module, rejected configuration) |
+| O7 | **Resources:** `MemoryCurrent` below `MemoryHigh` (768 MiB for the engine, 192 MiB for the gateway) | a leak or a runaway at start |
+| O8 | Frontend, Caddy and SSH PIDs unchanged; `worker.env`, `gateway.env`, `web.env`, `isolation.json` and unit files unchanged | E4 |
+
+**Result:**
+- `OBSERVED OK`, written to a root-only record `/var/backups/vidfetch-observation-<UTC>.json` (PIDs, duration, checks), only if every round passed for at least 900 s.
+- Otherwise `OBSERVATION FAILED: <check>`, plus the exact rollback sequence for the current state (§4). **No automatic action:** downloads are still closed and nothing is exposed. The reverse order (gateway first) makes a multi-step rollback a decision for the administrator.
+
+**Enforcement on reopening (recommended, to confirm).** `11-downloads.sh open` and `set-ready.sh 1` (`common.sh`) refuse unless the latest `OBSERVED OK` record:
+- names the current `MainPID` of the engine and of the gateway;
+- lasted at least 900 s.
+
+So after any engine or gateway restart, reopening waits for a full observation. `set-ready.sh 0` and `close` are never blocked. One consequence: the next close-and-reopen, for any reason, needs one 15-minute observation first. It is read-only and can run while downloads are still open.
+
+### Old bundles (decision 3)
+
+None of the three tools (`activate-reviewed.py`, `13-engine.sh`, `08-gateway.sh`) removes anything under `/opt/vidfetch/releases/`. Successive versions accumulate there; the plan includes a disk-space check in `check`. The tests check that the previous and the new directory are still present after `upgrade`, `rollback` and an automatic rollback.
 
 ## 4. Maintenance window (engine and gateway changing together)
 
-Downloads are closed for about 12 minutes. The site and the SEO pages stay online, because only the engine and the gateway restart.
+Downloads are closed for **about 30 minutes**, including the 15 minutes of observation. The site and the SEO pages stay online.
 
 | Step | Command (VPS, `~/media-test-stage/admin`) | Expected |
 |---|---|---|
-| W0 | reference state + read-only confirmation of F1–F4 (unit files, `Requires=`, drop-in directories) | equal to the last reading |
+| W0 | reference state; F1–F11 re-read; `13-engine.sh observe` (downloads still open) | equal to the last reading; `OBSERVED OK` |
 | W1 | `11-downloads.sh close`, then `guard-update.py accept /etc/vidfetch/web.env` | `ready=0`, `public` profile, guard N/0 |
 | W2 | `activate-reviewed.py check <SHA> <ARCHIVE> <GATEWAY> <ENGINE>` | `CHECKED`; nothing switched |
-| W3 | `activate-reviewed.py activate …` (same five arguments) | `ACTIVATED`; old engine and old gateway still running; downloads closed |
-| W4 | `13-engine.sh check <ENGINE>`, then `upgrade <ENGINE>` | `UPGRADED`; new engine; gateway restarted on its unchanged bundle |
+| W3 | `activate-reviewed.py activate …` | `ACTIVATED`; old engine and old gateway still running |
+| W4 | `13-engine.sh check <ENGINE>`, then `upgrade <ENGINE>` | `UPGRADED` after 60 s of settling; gateway restarted on its unchanged bundle |
 | W5 | `08-gateway.sh check <GATEWAY>`, then `upgrade <GATEWAY>` (only if the gateway changes) | `UPGRADED`; the engine is not restarted |
-| W6 | `guard-update.py add` for both drop-ins and both bundles | guard N+4/0 (or N+2/0) |
-| W7 | `11-downloads.sh open`, then `guard-update.py accept /etc/vidfetch/web.env` | refused if W4 or W5 was skipped; otherwise `ready=1`, `public-downloads` |
-| W8 | real tests (MP4 and MP3 per validated platform), monitoring, leak scan | no 5xx, no secret, quota +N |
+| **W6** | **`13-engine.sh observe`** (≥ 15 min) | **`OBSERVED OK`** |
+| W7 | `guard-update.py add` for both drop-ins and both bundles | guard N+4/0 (or N+2/0) |
+| W8 | `11-downloads.sh open`, then `guard-update.py accept /etc/vidfetch/web.env` | refused without W6 (B3), or if W4/W5 was skipped (F6); otherwise `ready=1`, `public-downloads` |
+| W9 | real tests (MP4 and MP3 per validated platform), monitoring, leak scan | no 5xx, no secret, quota +N |
 
 **Rollback, always in the reverse order, with downloads closed:**
 
 | Situation | Sequence |
 |---|---|
-| Failure in W4 | automatic (E6); then `rollback.py` (frontend); then `open` |
-| Failure in W5 | `08-gateway.sh` rolls back by itself; then `13-engine.sh rollback`; then `rollback.py`; then `open` |
-| Problem after W7 | 1. `close`<br>2. `08-gateway.sh rollback`<br>3. `13-engine.sh rollback`<br>4. `rollback.py`<br>5. restore the guard backup<br>6. `open` |
+| Failure in W4 | automatic (E6); then `rollback.py` (frontend); then `observe`; then `open` |
+| Failure in W5 | `08-gateway.sh` rolls back by itself; then `13-engine.sh rollback`; then `rollback.py`; then `observe`; then `open` |
+| `OBSERVATION FAILED` in W6 | `08-gateway.sh rollback` (if W5 ran), `13-engine.sh rollback`, `rollback.py`, `observe`, `open` |
+| Problem after W8 | 1. `close`<br>2. `08-gateway.sh rollback`<br>3. `13-engine.sh rollback`<br>4. `rollback.py`<br>5. restore the guard backup<br>6. `observe`<br>7. `open` |
 
-At every step `open` refuses until the frontend, engine and gateway match again (F6).
+At every step `open` refuses until the frontend, engine and gateway match (F6) and a full observation of the processes in service has passed (B3).
 
 ## 5. Tests
 
-### Written in this branch (red until the implementation exists)
+The detail is in the plan (`docs/VIDFETCH-MOTEUR-REVUE-PLAN.md`, step 1). In short:
+- **B1:** `test_activate_reviewed_engine.py`, 16 tests, already written.
+- **B2 and B3:** `engine-upgrade-systemd.test.sh`, already written for B2.
+  - It gains: an egress unit whose `stop` removes the rules (F9); the gateway started through a `20-gateway-release.conf` drop-in, as on the VPS (F1); a start-limit case (F10); and the `observe` cases.
+  - The `observe` cases: OK; failures on a restart, a warning in the journal, a drift and a stopped egress unit; refusal of a duration below 900 s.
+- **Enforcement on reopening:** `public-downloads.test.sh` gains `open` and `set-ready.sh 1` refused without an observation record, or with one naming other PIDs or lasting less than 900 s, while `close` and `set-ready.sh 0` keep working.
+- **Mutations:** the list is in the plan (step 5).
 
-**`deploy/ovh/tests/test_activate_reviewed_engine.py`** reuses the harness of `test_activate_reviewed.py`: the real promoter, with `systemctl`, `nft` and `/proc` simulated. It covers:
-- **Success:**
-  - engine only: `check` and `activate`, the record, the next steps;
-  - engine and gateway together: the order printed (engine first).
-- **Refusals, nothing changed:**
-  - wrong engine fingerprint, and the right fingerprint but a tampered file;
-  - nothing changed (back to the CI);
-  - engine drift beforehand;
-  - downloads open;
-  - malformed fifth argument;
-  - a gateway fingerprint that is not the release's when only the engine changes.
-- **Failure inside the switch:** an engine restarted during the frontend switch is undone by the promoter (code 3).
-- **Compatibility:**
-  - the four-argument form still refuses an engine change and names the five-argument form;
-  - the CI promoter still refuses the release.
+**This branch must not be merged as it is.** The implementation comes in the same PR, and every test is green before the merge request.
 
-**`deploy/ovh/tests/engine-upgrade-systemd.test.sh`** with **`test_engine_upgrade_systemd.py`** runs as an opt-in slow test (`VIDFETCH_SLOW_TESTS=1`). It uses a real systemd under Debian 13 and Node 22, with **the engine and gateway units as on the VPS**, including `Requires=` and the hardening. It covers:
-- **check:** read-only; prints no secret.
-- **Refusals, nothing changed:**
-  - wrong or malformed fingerprint;
-  - the release copy differs from the manifest;
-  - a third gateway in service;
-  - a connection open on 8788 or 8789;
-  - a media process running;
-  - the dead-man timer armed;
-  - downloads open, or `ready` missing;
-  - the engine not running as `vidfetch-worker` (stray drop-in).
-- **upgrade:**
-  - the engine runs the new bundle from its own directory, as `vidfetch-worker`, `NoNewPrivs=1`, `CapEff=0`, with the isolation reported;
-  - the gateway is restarted on its unchanged bundle; the "frontend" PID is unchanged;
-  - a single drop-in; files identical; backup root-only and complete;
-  - no secret in the output or the journal;
-  - guard untouched, its command printed;
-  - a second run does nothing.
-- **rollback:**
-  - refused while downloads are open;
-  - refused while the gateway is not the one recorded in the backup;
-  - otherwise verified, with every file byte-identical.
-- **Automatic rollback:**
-  - a bundle that exits at start;
-  - a bundle that answers without the isolation proof;
-  - SIGTERM during the settling period.
+## 6. Owner decisions (21/10/2026) and remaining questions
 
-  A bundle cannot change its own uid (`NoNewPrivileges`, no capability). The uid case is therefore a precondition refusal, not a rollback.
+**Decisions:**
+1. **Gateway restart accepted** when the engine change requires it (F4, confirmed), within a controlled window. The unit files stay as they are.
+2. **At least 15 minutes of observation** after the restart, with compatibility checks: `observe` (B3), mandatory before reopening.
+3. **Old bundles are never removed automatically** (E11).
+4. **Read-only reading of the units** done on 21/10 at 20:03 UTC. F4 is confirmed; F9, F10 and F11 are new.
+5. **Revised specification** (this document) and **implementation plan**, without code.
 
-**Current state of these tests** (21/10, before any implementation):
-
-| Suite | Result |
-|---|---|
-| `test_activate_reviewed_engine.py` | 16 tests: 14 fail on "usage: … GATEWAY_SHA256" or on the missing `ENGINE_SHA256` mention. 2 already pass and must stay green: the CI promoter still refuses the release; a malformed fifth argument is refused. |
-| `test_engine_upgrade_systemd.py` | 4 source tests fail on "13-engine.sh is not implemented yet"; the systemd test is skipped without `VIDFETCH_SLOW_TESTS=1`. |
-| `engine-upgrade-systemd.test.sh` | stops at its first line (`not ok - 13-engine.sh is not implemented yet`, exit 1), before any container. Its syntax was checked with `dash -n`. |
-| `test_activate_reviewed.py` (PR #16) | 44 tests, still all green. |
-
-**This branch must not be merged as it is.** The implementation (B1 and B2) comes in the same PR, and every test is green before the merge request.
-- **Neighbours:** another drop-in in `vidfetch.service.d` is preserved.
-
-### Mutations to run on the implementation (target: all caught)
-
-**`activate-reviewed.py`:**
-1. remove the `ENGINE_SHA256` comparison with the manifest;
-2. remove the comparison with the extracted file;
-3. remove the "at least one bundle changes" rule;
-4. remove the engine drift check;
-5. allow an engine change in the four-argument form.
-
-**`13-engine.sh`:**
-1. remove the `ready=0` requirement;
-2. remove the idle check;
-3. remove the uid / `NoNewPrivs` / `CapEff` check;
-4. remove the isolation proof check;
-5. accept a gateway restarted on another bundle;
-6. remove the file comparison;
-7. remove the automatic rollback on SIGTERM;
-8. remove the gateway-order check in `rollback`;
-9. overwrite an existing bundle directory.
-
-## 6. Questions for the owner (before implementation)
-
-1. **F4, the gateway restart.** I recommend accepting that an engine change also restarts the gateway, during the window and with downloads closed. The alternative is changing the gateway unit (`Requires=` → `Wants=`), which touches a protected unit for little gain.
-2. **Engine settling time.** 12 s, as for the gateway, or longer? The engine is checked through its health answer only.
-3. **Old bundle directories** under `/opt/vidfetch/releases/` are never removed automatically. Pruning stays a separate, manual and named operation.
-4. **W0 confirmation.** One read-only reading of the two unit files on the VPS (`systemctl cat`), to confirm F2 and F4 before implementation.
+**Remaining questions:**
+1. **Enforcement on reopening** (B3): enforce the observation inside `11-downloads.sh open` and `set-ready.sh 1`, or keep it as a written procedure only? Enforcing it is recommended.
+2. **On `OBSERVATION FAILED`:** no automatic action (recommended, since downloads stay closed), or an automatic engine rollback when the gateway did not change?
+3. **Settling period of `upgrade`:** 60 s (recommended), before the 15-minute observation.
