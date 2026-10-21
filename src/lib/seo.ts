@@ -13,7 +13,7 @@ export const SITE = {
 /** Stable content revision date for dateModified; bump when page copy changes. */
 export const CONTENT_UPDATED = "2026-10-12";
 
-export const OG_IMAGE = { url: "/og-image-v2.jpg", width: 1200, height: 630, alt: "VidFetch — download videos from YouTube, TikTok, Instagram and X", type: "image/jpeg" } as const;
+export const OG_IMAGE = { url: "/og-image-v3.jpg", width: 1200, height: 630, alt: "VidFetch — save public videos as MP4 or MP3 from a link", type: "image/jpeg" } as const;
 
 /** Thumbnail hosts resolved after extraction; early DNS lookups shave latency off the media preview. */
 export const MEDIA_CDN_HOSTS = ["https://i.ytimg.com", "https://scontent.cdninstagram.com", "https://p16-sign-va.tiktokcdn.com", "https://pbs.twimg.com"] as const;
@@ -129,7 +129,7 @@ type JsonLd = Record<string, unknown>;
 export function organisationSchema(): JsonLd {
   return {
     "@type": "Organization", "@id": `${SITE.url}/#organization`, name: SITE.name, url: SITE.url,
-    description: "VidFetch is a web application for downloading public videos and audio from YouTube, TikTok, Instagram and X.",
+    description: "VidFetch is a free web application that saves public videos as MP4 or their soundtrack as MP3 from a link, with no account.",
     logo: { "@type": "ImageObject", url: `${SITE.url}${OG_IMAGE.url}`, width: OG_IMAGE.width, height: OG_IMAGE.height },
     contactPoint: [{ "@type": "ContactPoint", contactType: "customer support", email: SITE.email, availableLanguage: ["English"] }],
   };
@@ -144,11 +144,11 @@ export function applicationSchema(options?: { name?: string; description?: strin
     "@type": "WebApplication", "@id": `${options?.url ?? SITE.url}/#app`,
     name: options?.name ?? `${SITE.name} — Video Downloader`,
     url: options?.url ?? SITE.url,
-    description: options?.description ?? "Download public videos and audio from YouTube, TikTok, Instagram and X. Paste a link, choose a quality, and save the file directly to your device.",
+    description: options?.description ?? "Save public videos as MP4 or their soundtrack as MP3. Paste a link, choose a format the source provides, and save the file to your device.",
     applicationCategory: "MultimediaApplication", operatingSystem: "Any modern web browser", browserRequirements: "Requires JavaScript",
     inLanguage: "en", isAccessibleForFree: true, publisher: { "@id": `${SITE.url}/#organization` },
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    featureList: options?.features ?? ["Download videos from YouTube, TikTok, Instagram and X", "Choose from the quality levels the source provides", "Convert the soundtrack to MP3 audio", "No account or installation required"],
+    featureList: options?.features ?? ["Save public videos from a link", "Choose from the formats the source provides", "Convert the soundtrack to MP3 audio (192 kbps)", "No account or installation required"],
   };
 }
 
@@ -183,7 +183,7 @@ export function howToSchema(url: string): JsonLd {
     "@type": "HowTo", "@id": `${url}#howto`, name: "How to download a video with VidFetch", inLanguage: "en",
     tool: [{ "@type": "HowToTool", name: "A web browser" }],
     step: [
-      { "@type": "HowToStep", position: 1, name: "Paste a link", text: "Copy the link to a public video on YouTube, TikTok, Instagram or X and paste it into the VidFetch field.", url: `${url}#extractor` },
+      { "@type": "HowToStep", position: 1, name: "Paste a link", text: "Copy the link to a public video and paste it into the VidFetch field.", url: `${url}#extractor` },
       { "@type": "HowToStep", position: 2, name: "Choose a format", text: "Select Extract to preview the video, then pick a video quality or the MP3 audio option.", url: `${url}#extractor` },
       { "@type": "HowToStep", position: 3, name: "Save the file", text: "Select Download with VidFetch. The file streams straight to your browser's download folder.", url: `${url}#extractor` },
     ],
@@ -203,8 +203,8 @@ export function jsonLdGraph(nodes: JsonLd[]): string {
 }
 
 export const HOME_FAQS = [
-  { question: "Is VidFetch free to use?", answer: "Yes. VidFetch is free, needs no account and shows no advertising. You paste a link, choose a format and download the file." },
-  { question: "Which platforms are supported?", answer: "YouTube, TikTok, Instagram and X (formerly Twitter). VidFetch handles individual videos, Reels, Shorts and share links, but not profiles, hashtags or photo-only posts." },
+  { question: "Is VidFetch free to use?", answer: "Yes. VidFetch is free and needs no account; the site is funded by advertising. You paste a link, choose a format and download the file." },
+  { question: "Which platforms are supported?", answer: "Links to individual public videos from TikTok, Instagram and X (formerly Twitter) are recognized. YouTube links are recognized, but YouTube access from our hosting is currently blocked by the provider\u2019s anti-bot checks. Profiles, hashtags and photo-only posts are not supported." },
   { question: "Can I download private or restricted videos?", answer: "No. VidFetch only reaches content that is publicly available to an anonymous visitor. Private accounts, deleted posts, login-gated media and region-blocked videos are reported as unavailable." },
   { question: "Does VidFetch store my downloads?", answer: "No media files are kept. Video data streams through the server to your browser. Temporary transfer status and limited operational records help keep the service running. Download links and titles are not published." },
   { question: "How do I save a video as MP3?", answer: "Extract the link, open the Audio tab and pick MP3. The soundtrack is encoded with ffmpeg into a real MP3 file rather than a renamed video container." },
