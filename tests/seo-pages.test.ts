@@ -111,15 +111,21 @@ describe("priority platform pages: copy", () => {
 });
 
 describe("priority platform pages: publication", () => {
-  it("stays unpublished until the owner approves each gate", () => {
+  it("publishes exactly the three approved TikTok pages; Instagram and X stay gated and not indexable", () => {
+    const open = { authorizedMediaVerified: true, copyReviewed: true, permissionToPublish: true };
+    const shut = { authorizedMediaVerified: false, copyReviewed: false, permissionToPublish: false };
     for (const [id] of PRIORITY) {
       const entry = platformCandidates.find(e => e.id === id) as PlatformCandidate;
-      assert.equal(entry.published, false);
-      assert.deepEqual(entry.gate, { authorizedMediaVerified: false, copyReviewed: false, permissionToPublish: false });
+      const tiktok = entry.platform === "tiktok";
+      assert.equal(entry.published, tiktok, id);
+      assert.deepEqual(entry.gate, tiktok ? open : shut, id);
     }
-    for (const locale of LOCALES) assert.equal(availablePlatformPages(locale).length, 0);
-    assert.equal(resolvePage(["fr", "telecharger-video-tiktok"]), undefined);
-    assert.equal(resolvePage(["tiktok-video-downloader"])?.indexable, false);   // historical English URL: noindex until approved
+    const published = LOCALES.flatMap(locale => availablePlatformPages(locale).map(entry => `${locale}:${entry.id}`));
+    assert.deepEqual(published, ["en:tiktok-video-downloader", "en:tiktok-mp3", "fr:tiktok-video-downloader"]);
+    for (const segments of [["tiktok-video-downloader"], ["tiktok-to-mp3"], ["fr", "telecharger-video-tiktok"]]) assert.equal(resolvePage(segments)?.indexable, true, segments.join("/"));
+    for (const segments of [["instagram-reels-downloader"], ["twitter-video-downloader"], ["youtube-video-downloader"]]) assert.equal(resolvePage(segments)?.indexable, false, segments.join("/"));
+    for (const segments of [["es", "descargar-video-instagram"], ["fr", "telecharger-reels-instagram"], ["fr", "telecharger-video-x"], ["tiktok-mp3"]]) assert.equal(resolvePage(segments), undefined, segments.join("/"));
+    assert.equal(sitePages().filter(p => p.indexable).length, 19);
   });
 
   it("once approved: indexable, self-canonical, reciprocal hreflang, in the sitemap, with structured data from the visible copy", () => {
@@ -145,12 +151,13 @@ describe("priority platform pages: publication", () => {
       assert.equal("aggregateRating" in app || "review" in app, false);
       assert.doesNotMatch(JSON.stringify([crumbs, app]), /youtube/i);
     });
-    // and the catalogue is back to unpublished
-    assert.equal(availablePlatformPages("en").length, 0);
+    // and the catalogue is back to what is published: the two English TikTok pages
+    assert.deepEqual(availablePlatformPages("en").map(e => e.id), ["tiktok-video-downloader", "tiktok-mp3"]);
   });
 
   it("links approved pages contextually from the home page and from each other, in their own language only", () => {
-    for (const locale of LOCALES) assert.deepEqual(platformLinks(locale), []);   // nothing approved: no link
+    // published today: TikTok only
+    assert.deepEqual(LOCALES.map(locale => platformLinks(locale).map(l => l.href)), [["/tiktok-video-downloader", "/tiktok-to-mp3"], ["/fr/telecharger-video-tiktok"], [], [], [], [], [], []]);
     approved(["tiktok-video-downloader", "tiktok-mp3"], () => {
       assert.deepEqual(platformLinks("en").map(l => l.href), ["/tiktok-video-downloader", "/tiktok-to-mp3"]);
       assert.deepEqual(platformLinks("en", "tiktok-mp3").map(l => l.href), ["/tiktok-video-downloader"]);

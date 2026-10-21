@@ -72,7 +72,7 @@
     "id": "tiktok-video-downloader",
     "platform": "tiktok",
     "status": "awaiting-capability-validation",
-    "published": false,
+    "published": true,
     "legacyEnglishRoute": true,
     "slugs": {
       "en": "tiktok-video-downloader",
@@ -86,9 +86,9 @@
     },
     "editorialBrief": "Individual TikTok post and short-link redirects subject to SSRF policy; source-format selection and creator permission.",
     "gate": {
-      "authorizedMediaVerified": false,
-      "copyReviewed": false,
-      "permissionToPublish": false
+      "authorizedMediaVerified": true,
+      "copyReviewed": true,
+      "permissionToPublish": true
     },
     "copy": {
       "en": {
@@ -228,7 +228,7 @@
     "id": "tiktok-mp3",
     "platform": "tiktok",
     "status": "awaiting-capability-validation",
-    "published": false,
+    "published": true,
     "legacyEnglishRoute": false,
     "slugs": {
       "en": "tiktok-to-mp3",
@@ -242,9 +242,9 @@
     },
     "editorialBrief": "Only audio from an accessible authorized post; no claim to retrieve a separate music catalogue.",
     "gate": {
-      "authorizedMediaVerified": false,
-      "copyReviewed": false,
-      "permissionToPublish": false
+      "authorizedMediaVerified": true,
+      "copyReviewed": true,
+      "permissionToPublish": true
     },
     "copy": {
       "en": {
