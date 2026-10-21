@@ -89,6 +89,106 @@
       "authorizedMediaVerified": false,
       "copyReviewed": false,
       "permissionToPublish": false
+    },
+    "copy": {
+      "en": {
+        "status": "ready",
+        "title": "TikTok Video Downloader – Save as MP4",
+        "description": "Paste a public TikTok link and save the video as MP4. Free, no account, works with app share links. Files up to 256 MB and videos up to 30 minutes.",
+        "heading": "Download a TikTok video as MP4",
+        "intro": "Paste the link of a public TikTok video and VidFetch lists the MP4 renditions TikTok publishes for that post, with their resolution. Pick one and the file is saved to your phone or computer. Nothing to install, no account, no sign-in.",
+        "instructions": [
+          "In the TikTok app, tap Share and then Copy link. On a computer, copy the address of the video page.",
+          "Paste the link in the field above and select Extract. A short automatic verification may run before the first download.",
+          "Keep the Video tab, choose a resolution and select Download. Keep the page open until the transfer finishes."
+        ],
+        "supported": [
+          "Video pages such as https://www.tiktok.com/@creator/video/7059698374567611694",
+          "Short links from the app share menu: vm.tiktok.com, vt.tiktok.com and tiktok.com/t/…",
+          "A whole share message pasted from the app: the link inside it is used",
+          "MP4 video, or MP3 audio from the Audio tab"
+        ],
+        "limits": [
+          "Only public videos open: private accounts, friends-only posts and deleted videos cannot be downloaded.",
+          "Photo posts (slideshows), profiles, hashtags and live streams are not supported.",
+          "VidFetch saves a rendition TikTok publishes and does not edit the image, so it cannot remove a watermark that is part of the video.",
+          "Each connection can make up to 8 downloads per day, and the service shares a daily capacity between all users."
+        ],
+        "faqs": [
+          {
+            "question": "Can I download a TikTok video without a watermark?",
+            "answer": "Only if TikTok publishes such a rendition for that post. VidFetch lists the formats TikTok returns and saves the one you pick unchanged; it does not crop, blur or re-encode the image to hide a watermark."
+          },
+          {
+            "question": "Do links copied from the TikTok app work?",
+            "answer": "Yes. Short links such as vm.tiktok.com or tiktok.com/t/ are accepted, and you can paste the full share message: VidFetch finds the link inside it."
+          },
+          {
+            "question": "Why does a TikTok link fail?",
+            "answer": "The most common reasons are a private or deleted video, a region restriction, a photo post, or an expired short link. VidFetch shows the reason instead of producing an empty file."
+          },
+          {
+            "question": "Is there a limit?",
+            "answer": "Files up to 256 MB, videos up to 30 minutes, one preparation at a time, and up to 8 downloads per day for each connection."
+          }
+        ],
+        "relatedGuides": [
+          "video-format-smartphone",
+          "reduce-video-size",
+          "video-download-fails"
+        ],
+        "updated": "2026-10-21",
+        "publishedAt": "2026-10-21"
+      },
+      "fr": {
+        "status": "ready",
+        "title": "Télécharger une vidéo TikTok en MP4",
+        "description": "Collez le lien d'une vidéo TikTok publique et enregistrez-la en MP4. Gratuit, sans compte, liens de partage de l'appli acceptés, jusqu'à 256 Mo.",
+        "heading": "Télécharger une vidéo TikTok en MP4",
+        "intro": "Collez le lien d'une vidéo TikTok publique : VidFetch affiche les versions MP4 que TikTok publie pour cette vidéo, avec leur résolution. Choisissez-en une et le fichier s'enregistre sur votre téléphone ou votre ordinateur, sans application à installer ni compte à créer.",
+        "instructions": [
+          "Dans l'application TikTok, touchez Partager puis Copier le lien. Sur ordinateur, copiez l'adresse de la page de la vidéo.",
+          "Collez le lien dans le champ ci-dessus puis choisissez Analyser. Une courte vérification automatique peut s'afficher avant le premier téléchargement.",
+          "Restez sur l'onglet Vidéo, choisissez une résolution puis Télécharger. Gardez la page ouverte jusqu'à la fin du transfert."
+        ],
+        "supported": [
+          "Les pages vidéo du type https://www.tiktok.com/@createur/video/7059698374567611694",
+          "Les liens courts du menu Partager : vm.tiktok.com, vt.tiktok.com et tiktok.com/t/…",
+          "Le message de partage complet collé depuis l'application : le lien qu'il contient est utilisé",
+          "La vidéo en MP4, ou le son en MP3 depuis l'onglet Audio"
+        ],
+        "limits": [
+          "Seules les vidéos publiques s'ouvrent : comptes privés, publications réservées aux amis et vidéos supprimées sont exclus.",
+          "Les publications photo (diaporamas), les profils, les hashtags et les directs ne sont pas pris en charge.",
+          "VidFetch enregistre une version publiée par TikTok sans retoucher l'image : un filigrane incrusté dans la vidéo ne peut pas être retiré.",
+          "Chaque connexion peut effectuer jusqu'à 8 téléchargements par jour, et la capacité quotidienne du service est partagée entre tous les utilisateurs."
+        ],
+        "faqs": [
+          {
+            "question": "Peut-on télécharger une vidéo TikTok sans filigrane ?",
+            "answer": "Seulement si TikTok publie une telle version pour cette vidéo. VidFetch liste les formats renvoyés par TikTok et enregistre celui que vous choisissez tel quel ; il ne recadre ni ne floute l'image pour masquer un filigrane."
+          },
+          {
+            "question": "Les liens copiés depuis l'application fonctionnent-ils ?",
+            "answer": "Oui. Les liens courts vm.tiktok.com ou tiktok.com/t/ sont acceptés, et vous pouvez coller tout le message de partage : VidFetch y retrouve le lien."
+          },
+          {
+            "question": "Pourquoi un lien TikTok échoue-t-il ?",
+            "answer": "Le plus souvent : vidéo privée ou supprimée, restriction géographique, publication photo ou lien court expiré. VidFetch indique la raison au lieu de produire un fichier vide."
+          },
+          {
+            "question": "Y a-t-il une limite ?",
+            "answer": "Fichiers jusqu'à 256 Mo, vidéos jusqu'à 30 minutes, une préparation à la fois, et jusqu'à 8 téléchargements par jour pour chaque connexion."
+          }
+        ],
+        "relatedGuides": [
+          "video-format-smartphone",
+          "reduce-video-size",
+          "video-download-fails"
+        ],
+        "updated": "2026-10-21",
+        "publishedAt": "2026-10-21"
+      }
     }
   },
   {
@@ -121,7 +221,7 @@
     "published": false,
     "legacyEnglishRoute": false,
     "slugs": {
-      "en": "tiktok-mp3",
+      "en": "tiktok-to-mp3",
       "fr": "tiktok-en-mp3",
       "es": "tiktok-a-mp3",
       "pt-BR": "tiktok-para-mp3",
@@ -135,6 +235,51 @@
       "authorizedMediaVerified": false,
       "copyReviewed": false,
       "permissionToPublish": false
+    },
+    "copy": {
+      "en": {
+        "status": "ready",
+        "title": "TikTok to MP3 – Save a TikTok Sound",
+        "description": "Turn the sound of a public TikTok video into a real MP3 file (192 kbps). Paste the link, open the Audio tab and save it. Free and no account needed.",
+        "heading": "Convert a TikTok video to MP3",
+        "intro": "Want the voice-over, a talk or the music of a TikTok you are allowed to keep? Paste the link of the public video, open the Audio tab and VidFetch encodes its soundtrack into a genuine MP3 file at 192 kbps, ready for any player.",
+        "instructions": [
+          "Copy the link of the TikTok video: Share, then Copy link in the app, or the page address on a computer.",
+          "Paste it in the field above and select Extract.",
+          "Open the Audio tab, choose MP3 and select Download. Keep the page open until the file is saved."
+        ],
+        "supported": [
+          "Any public TikTok video link, including vm.tiktok.com and tiktok.com/t/ short links",
+          "MP3 encoded with ffmpeg at 192 kbps from the video's soundtrack",
+          "Videos up to 30 minutes"
+        ],
+        "limits": [
+          "The MP3 comes from a specific video: TikTok sound pages (/music/…) and playlists are not supported.",
+          "The audio is converted from the soundtrack TikTok serves; it cannot be better than that source.",
+          "Music in a video may be protected by copyright: only keep audio you have the right to use."
+        ],
+        "faqs": [
+          {
+            "question": "Is the file a real MP3?",
+            "answer": "Yes. The soundtrack is decoded and re-encoded with ffmpeg as an MP3 at 192 kbps; it is not a video file renamed to .mp3."
+          },
+          {
+            "question": "Can I download a sound from its TikTok sound page?",
+            "answer": "No. Paste the link of a video that uses the sound instead; VidFetch converts the audio of that video."
+          },
+          {
+            "question": "Will the MP3 play on my phone or in my car?",
+            "answer": "MP3 is supported by practically every phone, computer, car stereo and audio editor, which is why VidFetch uses it for audio downloads."
+          }
+        ],
+        "relatedGuides": [
+          "video-to-audio",
+          "mp3-vs-m4a",
+          "video-download-fails"
+        ],
+        "updated": "2026-10-21",
+        "publishedAt": "2026-10-21"
+      }
     }
   },
   {
@@ -158,6 +303,52 @@
       "authorizedMediaVerified": false,
       "copyReviewed": false,
       "permissionToPublish": false
+    },
+    "copy": {
+      "en": {
+        "status": "ready",
+        "title": "Instagram Reels Downloader – Save MP4",
+        "description": "Save a public Instagram Reel as MP4 from its link. Reels, video posts and share links supported. No account, no app, original resolution kept.",
+        "heading": "Download an Instagram Reel as MP4",
+        "intro": "Paste the link of a public Reel and VidFetch lists the video renditions Instagram publishes for it. The file is saved as an MP4 at the source resolution, without re-encoding, and you can take the soundtrack as MP3 when the Reel has one.",
+        "instructions": [
+          "Open the Reel, tap the share (paper plane) icon and choose Copy link.",
+          "Paste the link in the field above and select Extract.",
+          "Choose a format in the Video or Audio tab and select Download. Keep the page open until the transfer finishes."
+        ],
+        "supported": [
+          "Reel links such as https://www.instagram.com/reel/Chunk8-jurw/",
+          "Video post links (/p/…) and longer videos (/tv/…)",
+          "Share links of the form instagram.com/share/reel/…",
+          "MP4 video, or MP3 audio when the Reel has a soundtrack"
+        ],
+        "limits": [
+          "Private accounts, close-friends content and anything that requires being signed in cannot be downloaded.",
+          "Instagram applies strict anti-automation checks: a public Reel can occasionally be refused, and VidFetch then reports it instead of producing a broken file.",
+          "Photo-only posts contain no video. For a carousel, only its first item is read: if that item is a photo, there is no video to save."
+        ],
+        "faqs": [
+          {
+            "question": "Does it keep the original quality?",
+            "answer": "Yes. Video downloads are not re-encoded: the MP4 keeps the resolution and codec Instagram serves for that Reel."
+          },
+          {
+            "question": "Can I download Reels from a private account?",
+            "answer": "No. VidFetch only opens content that an anonymous visitor can see, and it does not ask for your Instagram login."
+          },
+          {
+            "question": "Why was a public Reel refused?",
+            "answer": "Instagram sometimes blocks automated requests from servers or asks for a sign-in. VidFetch shows that reason; trying again later may work, but it never bypasses the restriction."
+          }
+        ],
+        "relatedGuides": [
+          "video-format-smartphone",
+          "mp4-vs-webm",
+          "video-download-fails"
+        ],
+        "updated": "2026-10-21",
+        "publishedAt": "2026-10-21"
+      }
     }
   },
   {
@@ -181,6 +372,51 @@
       "authorizedMediaVerified": false,
       "copyReviewed": false,
       "permissionToPublish": false
+    },
+    "copy": {
+      "es": {
+        "status": "ready",
+        "title": "Descargar vídeos de Instagram en MP4",
+        "description": "Guarda un vídeo o un Reel público de Instagram en MP4 a partir de su enlace. Sin cuenta ni aplicación, con la resolución original. Audio en MP3 opcional.",
+        "heading": "Descargar vídeos de Instagram",
+        "intro": "Pega el enlace de un vídeo o de un Reel público y VidFetch muestra las versiones que Instagram publica para esa publicación. El archivo se guarda en MP4 con su resolución original, sin recomprimirlo, y puedes quedarte solo con el sonido en MP3 cuando la publicación lo tiene.",
+        "instructions": [
+          "Abre la publicación, toca el icono de compartir (el avión de papel) y elige Copiar enlace.",
+          "Pega el enlace en el campo de arriba y selecciona Analizar.",
+          "Elige un formato en la pestaña Vídeo o Audio y selecciona Descargar. Mantén la página abierta hasta que termine la transferencia."
+        ],
+        "supported": [
+          "Publicaciones de vídeo como https://www.instagram.com/p/… y Reels como https://www.instagram.com/reel/Chunk8-jurw/",
+          "Vídeos largos (/tv/…) y enlaces compartidos del tipo instagram.com/share/reel/…",
+          "Vídeo en MP4, o audio en MP3 cuando la publicación tiene sonido"
+        ],
+        "limits": [
+          "Las cuentas privadas, el contenido para mejores amigos y todo lo que exige iniciar sesión no se puede descargar.",
+          "Instagram aplica controles estrictos contra la automatización: a veces rechaza un vídeo público, y VidFetch lo indica en lugar de entregar un archivo dañado.",
+          "Las publicaciones de solo fotos no contienen vídeo. En un carrusel solo se lee el primer elemento: si es una foto, no hay vídeo que guardar."
+        ],
+        "faqs": [
+          {
+            "question": "¿Se mantiene la calidad original?",
+            "answer": "Sí. Los vídeos no se recomprimen: el MP4 conserva la resolución y el códec que Instagram sirve para esa publicación."
+          },
+          {
+            "question": "¿Puedo descargar vídeos de una cuenta privada?",
+            "answer": "No. VidFetch solo abre lo que puede ver un visitante sin sesión iniciada y nunca te pide tu contraseña de Instagram."
+          },
+          {
+            "question": "¿Por qué se ha rechazado un vídeo público?",
+            "answer": "Instagram bloquea a veces las solicitudes automáticas desde servidores o pide iniciar sesión. VidFetch muestra el motivo; volver a intentarlo más tarde puede funcionar, pero nunca se salta la restricción."
+          }
+        ],
+        "relatedGuides": [
+          "video-format-smartphone",
+          "mp4-vs-webm",
+          "video-download-fails"
+        ],
+        "updated": "2026-10-21",
+        "publishedAt": "2026-10-21"
+      }
     }
   },
   {
@@ -227,6 +463,51 @@
       "authorizedMediaVerified": false,
       "copyReviewed": false,
       "permissionToPublish": false
+    },
+    "copy": {
+      "en": {
+        "status": "ready",
+        "title": "Twitter / X Video Downloader – MP4",
+        "description": "Save the video of a public X (Twitter) post as MP4. Paste the post link, choose a bitrate and download. x.com and twitter.com links work. No account.",
+        "heading": "Download a video from X (Twitter)",
+        "intro": "Paste the link of a public post that contains a video. X publishes the same video in several MP4 renditions; VidFetch lists them with their resolution so you can choose between quality and file size, then saves the one you pick.",
+        "instructions": [
+          "On X, open the post, tap Share and choose Copy link.",
+          "Paste the link in the field above and select Extract.",
+          "Choose a rendition in the Video tab, or MP3 in the Audio tab, and select Download. Keep the page open until the file is saved."
+        ],
+        "supported": [
+          "Post links such as https://x.com/user/status/1234567890123456789",
+          "Older twitter.com and mobile.twitter.com links, and links to a specific video of a post (/video/1)",
+          "MP4 video, or MP3 audio when the post has sound"
+        ],
+        "limits": [
+          "Protected accounts, deleted posts and media marked as sensitive that require signing in cannot be downloaded.",
+          "Posts with only images, polls or a link to another site have no video to save.",
+          "X can limit anonymous requests from servers; VidFetch then reports the error instead of returning an empty file."
+        ],
+        "faqs": [
+          {
+            "question": "Which quality can I choose?",
+            "answer": "The renditions X publishes for that video, usually several resolutions and bitrates. VidFetch shows the ones it receives; it does not upscale them."
+          },
+          {
+            "question": "Do I need an X account?",
+            "answer": "No. VidFetch only reaches posts that anyone can see without signing in, and it never asks for your X credentials."
+          },
+          {
+            "question": "Can I keep only the sound of an X video?",
+            "answer": "Yes, when the post has an audio track: open the Audio tab and choose MP3. The soundtrack is encoded with ffmpeg at 192 kbps."
+          }
+        ],
+        "relatedGuides": [
+          "bitrate-vs-resolution",
+          "720p-1080p-4k",
+          "video-download-fails"
+        ],
+        "updated": "2026-10-21",
+        "publishedAt": "2026-10-21"
+      }
     }
   },
   {
