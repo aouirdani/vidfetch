@@ -72,6 +72,9 @@ class ReviewedEngine(unittest.TestCase):
         self.assertEqual(json.loads((self.store / 'previous.json').read_text())['path'], str(self.old))   # rollback.py's target
         self.assertIn(f'13-engine.sh upgrade {ENGINE_NEW}', output)
         self.assertNotIn('08-gateway.sh upgrade', output)   # the gateway does not change: nothing to upgrade there
+        # the 15-minute observation comes before the reopening (spec v3, decision 1)
+        self.assertLess(output.index(f'13-engine.sh upgrade {ENGINE_NEW}'), output.index('13-engine.sh observe'))
+        self.assertLess(output.index('13-engine.sh observe'), output.index('11-downloads.sh open'))
         entry = self.records()[-1]
         self.assertEqual((entry['result'], entry['exit_code'], entry['engine_sha256'], entry['engine_in_service'],
                           entry['engine_changed'], entry['gateway_changed']), ('activated', 0, ENGINE_NEW, ENGINE_OLD, True, False))
@@ -82,6 +85,8 @@ class ReviewedEngine(unittest.TestCase):
         engine_step, gateway_step = output.find(f'13-engine.sh upgrade {ENGINE_NEW}'), output.find(f'08-gateway.sh upgrade {GATEWAY_NEW}')
         self.assertGreaterEqual(engine_step, 0, output)
         self.assertGreater(gateway_step, engine_step, '08-gateway.sh refuses while the engine is not the release engine (F5)')
+        self.assertGreater(output.find('13-engine.sh observe'), gateway_step, 'one observation, after both upgrades')
+        self.assertGreater(output.find('11-downloads.sh open'), output.find('13-engine.sh observe'))
         entry = self.records()[-1]
         self.assertEqual((entry['engine_changed'], entry['gateway_changed'], entry['gateway_sha256']), (True, True, GATEWAY_NEW))
 
