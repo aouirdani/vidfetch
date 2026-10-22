@@ -1,18 +1,28 @@
 """Opt-in end to end: the real Next build behind the real Caddy 2.11.7 running Caddyfile.public, crawled through Caddy.
-16 sitemap URLs indexable, the 22 other prerendered pages noindex, downloads closed, one-hop redirects.
+The sitemap lists exactly the pages of fixtures/public-indexing-expected.json, each indexable with its expected hreflang
+set; every other prerendered page is exactly one of its noindex pages; downloads closed, one-hop redirects.
 Needs a local `VIDFETCH_TARGET=ovh next build` (absent in the CI test step, so it skips there) and Docker.
 
 Run with: VIDFETCH_TARGET=ovh npx next build && python3 -m unittest deploy/ovh/tests/test_public_indexing.py
 """
 from pathlib import Path
+import json
 import shutil
 import subprocess
 import unittest
 
 root = Path(__file__).parents[3]
+expected = json.loads((root / 'deploy/ovh/tests/fixtures/public-indexing-expected.json').read_text(encoding='utf-8'))
 
 
 class PublicIndexing(unittest.TestCase):
+    def test_expected_pages_are_explicit(self):
+        indexable, noindex = expected['indexable'], expected['noindex']
+        self.assertTrue(set(indexable.values()) <= set(expected['hreflang']), 'unknown hreflang group')
+        self.assertEqual(len(noindex), len(set(noindex)))
+        self.assertFalse(set(indexable) & set(noindex), 'a page cannot be both indexable and noindex')
+        self.assertTrue(all(path.startswith('/') for path in [*indexable, *noindex]))
+
     def test_public_apex_through_real_caddy(self):
         if not (root / '.next' / 'BUILD_ID').exists():
             self.skipTest('no local frontend build')
@@ -22,8 +32,12 @@ class PublicIndexing(unittest.TestCase):
         if result.returncode == 2:
             self.skipTest('environment missing: ' + result.stdout[-200:])
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        self.assertIn('sitemap lists 16 distinct canonical URLs', result.stdout)
-        self.assertIn('22 prerendered pages outside the sitemap, all noindex', result.stdout)
+        indexable, noindex = len(expected['indexable']), len(expected['noindex'])
+        self.assertIn(f'sitemap lists exactly the {indexable} expected canonical URLs ({indexable} listed)', result.stdout)
+        lines = result.stdout.splitlines()
+        self.assertEqual(sum(line.startswith('ok ') and ' - indexable ' in line for line in lines), indexable)
+        self.assertEqual(sum(line.startswith('ok ') and ' - not indexable on purpose ' in line for line in lines), noindex)
+        self.assertIn(f'exactly the {noindex} expected prerendered pages outside the sitemap, all noindex ({noindex} found)', result.stdout)
         self.assertIn('ALL PASSED', result.stdout)
 
 

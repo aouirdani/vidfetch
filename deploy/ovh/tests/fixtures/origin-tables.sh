@@ -15,8 +15,8 @@ origin_tables() {
   { cat "$dir/common"; printf 'vidfetch.app GET /api/download-access 401 %s\nvidfetch.app POST /api/download-access 401 %s\n' "$auth" "$auth"
     for r in 'GET /' 'GET /api/fetch-info' 'POST /api/download'; do printf 'dl.vidfetch.app %s 403 %s\n' "$r" "$dl"; done; } > "$dir/Caddyfile.media-test"
   rm -f -- "$dir/common"
-  # Caddyfile.public: what the public apex answers (three sitemap URLs are enough for the stub; the real frontend
-  # has sixteen, checked by scripts/i18n/verify-site.mjs and public-indexing.test.sh).
+  # Caddyfile.public: what the public apex answers (three sitemap URLs are enough for the stub; the real frontend's
+  # pages are in fixtures/public-indexing-expected.json, checked by verify-site.mjs and public-indexing.test.sh).
   mkdir -p "$dir/bodies"
   printf '<urlset><url><loc>https://vidfetch.app/</loc></url><url><loc>https://vidfetch.app/fr/</loc></url><url><loc>https://vidfetch.app/ar/%%D8%%A7%%D9%%84</loc></url></urlset>\n' > "$dir/bodies/sitemap"
   printf 'User-Agent: *\nAllow: /\nDisallow: /api/\nDisallow: /auth/\n\nSitemap: https://vidfetch.app/sitemap.xml\n' > "$dir/bodies/robots"
