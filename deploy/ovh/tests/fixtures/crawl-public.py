@@ -1,13 +1,19 @@
 """Crawls the public apex THROUGH Caddy (Caddyfile.public in front of the real Next build) as a search engine would:
-every sitemap URL must be indexable, every other prerendered page must stay noindex, downloads must stay closed.
-Usage: crawl-public.py BASE_URL PAGES_FILE   (PAGES_FILE: every prerendered page path, one per line)"""
+the sitemap must list exactly the expected pages, each indexable with its expected hreflang set, every other
+prerendered page must be exactly the expected noindex ones, downloads must stay closed.
+Usage: crawl-public.py BASE_URL PAGES_FILE EXPECTED_FILE   (PAGES_FILE: every prerendered page path, one per line;
+EXPECTED_FILE: public-indexing-expected.json)"""
+import json
 import re
 import sys
 import urllib.error
 import urllib.parse
 import urllib.request
 
-base, pages_file = sys.argv[1:3]
+base, pages_file, expected_file = sys.argv[1:4]
+expected = json.load(open(expected_file, encoding='utf-8'))
+expected_hreflang = {path: set(expected['hreflang'][group]) for path, group in expected['indexable'].items()}
+expected_noindex = set(expected['noindex'])
 fail = 0
 count = 0
 
@@ -51,7 +57,12 @@ def meta(body, pattern):
 status, headers, sitemap = get('/sitemap.xml')
 locs = re.findall(r'<loc>([^<]+)</loc>', sitemap)
 (ok if status == 200 and 'noindex' not in headers.get('X-Robots-Tag', '') else bad)(f'sitemap.xml served by the frontend through Caddy ({status})')
-(ok if len(locs) == 16 and len(set(locs)) == 16 else bad)(f'sitemap lists {len(locs)} distinct canonical URLs (16 expected)')
+sitemap_paths = {urllib.parse.unquote(loc[len('https://vidfetch.app'):]) for loc in locs if loc.startswith('https://vidfetch.app/')}
+sitemap_urls = {urllib.parse.unquote(loc).rstrip('/') for loc in locs}
+missing, unexpected = sorted(set(expected_hreflang) - sitemap_paths), sorted(sitemap_paths - set(expected_hreflang))
+(ok if len(locs) == len(set(locs)) == len(sitemap_paths) and not missing and not unexpected else bad)(
+    f'sitemap lists exactly the {len(expected_hreflang)} expected canonical URLs ({len(locs)} listed'
+    + (f'; missing {missing}' if missing else '') + (f'; unexpected {unexpected}' if unexpected else '') + ')')
 canonical_paths = set()
 for loc in locs:
     path = loc[len('https://vidfetch.app'):] if loc.startswith('https://vidfetch.app/') else None
@@ -71,19 +82,29 @@ for loc in locs:
     canonical = meta(body, r'<link rel="canonical" href="([^"]*)"')
     if canonical is None or urllib.parse.unquote(canonical).rstrip('/') != urllib.parse.unquote(loc).rstrip('/'):
         problems.append(f'canonical {canonical!r}')
-    alternates = set(re.findall(r'<link rel="alternate" hrefLang="([^"]+)"', body))
-    if len(alternates) != 9 or 'x-default' not in alternates:
-        problems.append(f'{len(alternates)} hreflang alternates')
+    alternates = dict(re.findall(r'<link rel="alternate" hrefLang="([^"]+)" href="([^"]*)"', body))
+    wanted = expected_hreflang.get(urllib.parse.unquote(path), set())
+    if set(alternates) != wanted:
+        problems.append(f'hreflang {sorted(alternates)} ({sorted(wanted)} expected)')
+    outside = sorted(href for href in alternates.values() if urllib.parse.unquote(href).rstrip('/') not in sitemap_urls)
+    if outside:
+        problems.append(f'hreflang to URLs outside the sitemap {outside}')
+    if alternates.get('x-default') != alternates.get('en'):
+        problems.append('x-default differs from en')
     if not meta(body, r'<title>([^<]+)</title>') or not meta(body, r'<meta name="description" content="([^"]+)"'):
         problems.append('title or description missing')
-    (bad if problems else ok)(f'indexable {urllib.parse.unquote(path)}' + (': ' + ', '.join(problems) if problems else ': 200, index, self-canonical, 9 hreflang, title, description'))
+    (bad if problems else ok)(f'indexable {urllib.parse.unquote(path)}' + (': ' + ', '.join(problems) if problems else
+                              f': 200, index, self-canonical, {len(alternates)} hreflang into the sitemap, title, description'))
 
-others = [p.strip() for p in open(pages_file) if p.strip() and p.strip() not in canonical_paths]
+others = [p.strip() for p in open(pages_file, encoding='utf-8') if p.strip() and p.strip() not in canonical_paths]
 for path in others:
     status, headers, body = get(urllib.parse.quote(path))
     robots = meta(body, r'<meta name="robots" content="([^"]*)"')
     (ok if status == 200 and robots and 'noindex' in robots else bad)(f'not indexable on purpose {path}: {status}, robots {robots!r}')
-(ok if len(others) == 22 else bad)(f'{len(others)} prerendered pages outside the sitemap, all noindex (22 expected)')
+missing, unexpected = sorted(expected_noindex - set(others)), sorted(set(others) - expected_noindex)
+(ok if len(others) == len(set(others)) and not missing and not unexpected else bad)(
+    f'exactly the {len(expected_noindex)} expected prerendered pages outside the sitemap, all noindex ({len(others)} found'
+    + (f'; missing {missing}' if missing else '') + (f'; unexpected {unexpected}' if unexpected else '') + ')')
 
 status, headers, robots_txt = get('/robots.txt')
 (ok if status == 200 and 'Sitemap: https://vidfetch.app/sitemap.xml' in robots_txt and not re.search(r'(?m)^Disallow: */\s*$', robots_txt)

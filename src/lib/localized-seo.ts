@@ -41,8 +41,8 @@ export function platformPageSchemas(page: SitePage, copy: { title: string; descr
       offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, featureList: copy.supported, publisher: { "@id": `${SITE.url}/#organization` } },
   ];
 }
-export function localizedPageSchema(page: SitePage, name: string, description: string) {
+export function localizedPageSchema(page: SitePage, name: string, description: string, modified: string = CONTENT_UPDATED) {
   const url = new URL(page.path, SITE.url).href;
-  return { "@type": "WebPage", "@id": `${url}#page`, name, description, url, inLanguage: page.locale, dateModified: CONTENT_UPDATED,
+  return { "@type": "WebPage", "@id": `${url}#page`, name, description, url, inLanguage: page.locale, dateModified: modified,
     isPartOf: { "@id": `${new URL(homePath(page.locale), SITE.url).href}#website` } };
 }

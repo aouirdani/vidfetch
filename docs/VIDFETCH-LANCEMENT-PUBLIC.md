@@ -206,7 +206,7 @@ Tant que `ready=1`, le promoteur public refuse les déploiements CI ; `set-ready
 | `test_media_profile.py` (CI) | profil public : fichier exact, téléchargements fermés exigés, toute page non indexable ou route ouverte refusée |
 | `public-launch.test.sh` (CI) | préconditions, refus de confirmation, cohérence Caddy/CI à chaque retour arrière (y compris en cas d'échec entre deux étapes), `09-ci-helper.sh`, aucun appel réseau ni redémarrage |
 | `caddy-window-systemd.test.sh` (sur demande, systemd, Caddy et promoteur réels) | voir ci-dessous |
-| `public-indexing.test.sh` (sur demande, Next réel derrière Caddy réel) | 16 URL indexables, 22 en `noindex`, téléchargements fermés |
+| `public-indexing.test.sh` (sur demande, Next réel derrière Caddy réel) | exactement les URL indexables et `noindex` de `fixtures/public-indexing-expected.json`, hreflang attendus, téléchargements fermés |
 
 Le test `caddy-window-systemd.test.sh` vérifie notamment :
 

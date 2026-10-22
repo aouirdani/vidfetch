@@ -93,7 +93,7 @@
     "copy": {
       "en": {
         "status": "ready",
-        "title": "TikTok Video Downloader – Save as MP4",
+        "title": "TikTok Video Downloader – Save MP4 from a Link",
         "description": "Paste a public TikTok link and save the video as MP4. Free, no account, works with app share links. Files up to 256 MB and videos up to 30 minutes.",
         "heading": "Download a TikTok video as MP4",
         "intro": "Paste the link of a public TikTok video and VidFetch lists the MP4 renditions TikTok publishes for that post, with their resolution. Pick one and the file is saved to your phone or computer. Nothing to install, no account, no sign-in.",
@@ -130,6 +130,22 @@
           {
             "question": "Is there a limit?",
             "answer": "Files up to 256 MB, videos up to 30 minutes, one preparation at a time, and up to 8 downloads per day for each connection."
+          },
+          {
+            "question": "What quality do I get? Is the download in HD?",
+            "answer": "You choose among the resolutions TikTok publishes for that post, shown before the download. VidFetch saves the file TikTok serves without re-encoding it, so the MP4 keeps TikTok's own quality; it never upscales a video."
+          },
+          {
+            "question": "Does it work on a phone?",
+            "answer": "Yes. Open VidFetch in your phone's browser, paste the link copied from the TikTok app and follow the same steps: the browser saves the MP4 like any other downloaded file."
+          },
+          {
+            "question": "Is it free? Do I need an account?",
+            "answer": "Yes, it is free, with no account, no app and no sign-in. The daily limits are listed above."
+          },
+          {
+            "question": "Can I keep only the sound?",
+            "answer": "Yes. After Extract, open the Audio tab and choose MP3 (192 kbps). The TikTok to MP3 page explains the conversion."
           }
         ],
         "relatedGuides": [
@@ -142,7 +158,7 @@
           "formats": "Supported TikTok links and limits",
           "faq": "TikTok downloader questions"
         },
-        "updated": "2026-10-21",
+        "updated": "2026-10-22",
         "publishedAt": "2026-10-21"
       },
       "fr": {
@@ -184,6 +200,22 @@
           {
             "question": "Y a-t-il une limite ?",
             "answer": "Fichiers jusqu'à 256 Mo, vidéos jusqu'à 30 minutes, une préparation à la fois, et jusqu'à 8 téléchargements par jour pour chaque connexion."
+          },
+          {
+            "question": "Quelle qualité obtient-on ? Le téléchargement est-il en HD ?",
+            "answer": "Vous choisissez parmi les résolutions que TikTok publie pour cette vidéo, affichées avant le téléchargement. VidFetch enregistre le fichier fourni par TikTok sans le réencoder : le MP4 garde la qualité d'origine de TikTok, et aucune vidéo n'est artificiellement agrandie."
+          },
+          {
+            "question": "Est-ce que ça marche sur téléphone ?",
+            "answer": "Oui. Ouvrez VidFetch dans le navigateur de votre téléphone, collez le lien copié depuis l'application TikTok et suivez les mêmes étapes : le navigateur enregistre le MP4 comme n'importe quel fichier téléchargé."
+          },
+          {
+            "question": "Est-ce gratuit ? Faut-il un compte ?",
+            "answer": "Oui. VidFetch est gratuit, sans compte à créer ni application à installer. Les limites quotidiennes sont indiquées plus haut."
+          },
+          {
+            "question": "Peut-on récupérer seulement le son ?",
+            "answer": "Oui. Après l'analyse, ouvrez l'onglet Audio et choisissez MP3 (192 kbps). La page TikTok en MP3 détaille la conversion."
           }
         ],
         "relatedGuides": [
@@ -196,7 +228,7 @@
           "formats": "Liens TikTok acceptés et limites",
           "faq": "Questions sur le téléchargement TikTok"
         },
-        "updated": "2026-10-21",
+        "updated": "2026-10-22",
         "publishedAt": "2026-10-21"
       }
     }
@@ -280,6 +312,18 @@
           {
             "question": "Will the MP3 play on my phone or in my car?",
             "answer": "MP3 is supported by practically every phone, computer, car stereo and audio editor, which is why VidFetch uses it for audio downloads."
+          },
+          {
+            "question": "What bitrate is the MP3? Can I get 320 kbps?",
+            "answer": "The MP3 is encoded at 192 kbps. A higher bitrate would not make it better than its source: the file is made from the soundtrack TikTok serves, and re-encoding cannot add detail that is not in that source."
+          },
+          {
+            "question": "Does it work on a phone?",
+            "answer": "Yes. Open VidFetch in your phone's browser, paste the link copied from the TikTok app, open the Audio tab and download: the browser saves the MP3 like any other downloaded file."
+          },
+          {
+            "question": "Is it free? Do I need an account?",
+            "answer": "Yes, it is free, with no account, no app and no sign-in. Each connection can make up to 8 downloads per day."
           }
         ],
         "relatedGuides": [
@@ -292,8 +336,62 @@
           "formats": "What the MP3 contains and its limits",
           "faq": "TikTok to MP3 questions"
         },
-        "updated": "2026-10-21",
+        "updated": "2026-10-22",
         "publishedAt": "2026-10-21"
+      },
+      "fr": {
+        "status": "ready",
+        "title": "TikTok en MP3 – Récupérer le son d'une vidéo",
+        "description": "Convertissez le son d'une vidéo TikTok publique en vrai fichier MP3 à 192 kbps : collez le lien, ouvrez l'onglet Audio et enregistrez. Gratuit et sans compte.",
+        "heading": "Convertir une vidéo TikTok en MP3",
+        "intro": "Une voix off, un extrait de conférence ou une musique que vous avez le droit de conserver ? Collez le lien de la vidéo TikTok publique et ouvrez l'onglet Audio : VidFetch convertit sa bande-son en véritable fichier MP3, à écouter hors ligne.",
+        "instructions": [
+          "Copiez le lien de la vidéo : dans l'application TikTok, touchez Partager puis Copier le lien ; sur ordinateur, copiez l'adresse de la page.",
+          "Collez le lien dans le champ ci-dessus puis choisissez Analyser. Une courte vérification automatique peut s'afficher avant le premier téléchargement.",
+          "Ouvrez l'onglet Audio, choisissez MP3 puis Télécharger. Gardez la page ouverte jusqu'à l'enregistrement du fichier."
+        ],
+        "supported": [
+          "Les vidéos TikTok publiques, y compris via les liens courts vm.tiktok.com, vt.tiktok.com et tiktok.com/t/…",
+          "Le message de partage complet collé depuis l'application : le lien qu'il contient est utilisé",
+          "Un MP3 encodé avec ffmpeg à 192 kbps à partir de la bande-son de la vidéo",
+          "Des vidéos jusqu'à 30 minutes"
+        ],
+        "limits": [
+          "Le MP3 provient d'une vidéo précise : les pages Son de TikTok (/music/…) et les playlists ne sont pas prises en charge.",
+          "Le son est converti à partir de la bande-son fournie par TikTok : il ne peut pas être de meilleure qualité que cette source.",
+          "La musique d'une vidéo peut être protégée par le droit d'auteur : ne conservez que les sons que vous avez le droit d'utiliser.",
+          "Chaque connexion peut effectuer jusqu'à 8 téléchargements par jour, et la capacité quotidienne du service est partagée entre tous les utilisateurs."
+        ],
+        "faqs": [
+          {
+            "question": "Le fichier est-il un vrai MP3 ?",
+            "answer": "Oui. La bande-son est décodée puis réencodée en MP3 avec ffmpeg : ce n'est pas une vidéo renommée en .mp3."
+          },
+          {
+            "question": "Peut-on télécharger un son depuis sa page Son sur TikTok ?",
+            "answer": "Non. Collez plutôt le lien d'une vidéo qui utilise ce son : VidFetch convertit l'audio de cette vidéo."
+          },
+          {
+            "question": "Pourquoi 192 kbps et pas 320 kbps ?",
+            "answer": "Un débit plus élevé ne rendrait pas le son meilleur que sa source : le MP3 est fabriqué à partir de la bande-son fournie par TikTok, et un réencodage ne peut pas ajouter de détails absents de cette source. À 192 kbps, le fichier reste aussi plus léger."
+          },
+          {
+            "question": "Le MP3 se lit-il sur téléphone ou en voiture ?",
+            "answer": "Le MP3 est lu par presque tous les téléphones, ordinateurs, autoradios et logiciels de montage : c'est pourquoi VidFetch l'utilise pour l'audio."
+          },
+          {
+            "question": "Est-ce gratuit ? Faut-il un compte ?",
+            "answer": "Oui. VidFetch est gratuit, sans compte à créer ni application à installer ; seul le nombre de téléchargements par jour est limité."
+          }
+        ],
+        "relatedGuides": [],
+        "sections": {
+          "steps": "Comment convertir un TikTok en MP3",
+          "formats": "Ce que contient le MP3 et ses limites",
+          "faq": "Questions sur TikTok en MP3"
+        },
+        "updated": "2026-10-22",
+        "publishedAt": "2026-10-22"
       }
     }
   },
