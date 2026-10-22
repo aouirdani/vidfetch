@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
-import { LANDING_PAGES, SITE } from "@/lib/seo";
+import { SITE } from "@/lib/seo";
+import { approvedPlatformCopy, availablePlatformPages, platformPagePath } from "@/lib/platform-pages";
 
 export const dynamic = "force-static";
 
@@ -27,15 +28,16 @@ export default function manifest(): MetadataRoute.Manifest {
       method: "GET",
       params: { title: "title", text: "text", url: "url" },
     },
-    // YouTube access is currently blocked on our hosting: no shortcut promises it.
-    shortcuts: LANDING_PAGES.filter((page) => page.platform !== "youtube").map((page) => ({
-      name: page.title,
-      short_name: PLATFORM_SHORT[page.platform],
-      url: `/${page.slug}`,
+    // Only the platform pages that are published and indexable (the same gate as the sitemap): never a page that is
+    // still a draft or noindex, and never YouTube, which is blocked on our hosting.
+    shortcuts: availablePlatformPages("en").map((entry) => ({
+      name: approvedPlatformCopy(entry, "en")!.heading,
+      short_name: SHORTCUT_NAMES[entry.id] ?? entry.platform,
+      url: platformPagePath(entry, "en"),
     })),
   };
 }
 
-const PLATFORM_SHORT: Record<string, string> = {
-  youtube: "YouTube", tiktok: "TikTok", instagram: "Instagram", twitter: "X",
+const SHORTCUT_NAMES: Record<string, string> = {
+  "tiktok-video-downloader": "TikTok MP4", "tiktok-mp3": "TikTok MP3",
 };
