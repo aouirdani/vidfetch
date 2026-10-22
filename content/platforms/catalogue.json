@@ -211,7 +211,7 @@
           },
           {
             "question": "Est-ce gratuit ? Faut-il un compte ?",
-            "answer": "Oui, c'est gratuit, sans compte, sans application et sans connexion. Les limites quotidiennes sont indiquées plus haut."
+            "answer": "Oui. VidFetch est gratuit, sans compte à créer ni application à installer. Les limites quotidiennes sont indiquées plus haut."
           },
           {
             "question": "Peut-on récupérer seulement le son ?",
@@ -315,7 +315,7 @@
           },
           {
             "question": "What bitrate is the MP3? Can I get 320 kbps?",
-            "answer": "The MP3 is encoded at 192 kbps. A higher bitrate would not sound better: the file is made from the soundtrack TikTok serves, and re-encoding cannot add detail that is not in that source."
+            "answer": "The MP3 is encoded at 192 kbps. A higher bitrate would not make it better than its source: the file is made from the soundtrack TikTok serves, and re-encoding cannot add detail that is not in that source."
           },
           {
             "question": "Does it work on a phone?",
@@ -344,14 +344,14 @@
         "title": "TikTok en MP3 – Récupérer le son d'une vidéo",
         "description": "Convertissez le son d'une vidéo TikTok publique en vrai fichier MP3 à 192 kbps : collez le lien, ouvrez l'onglet Audio et enregistrez. Gratuit et sans compte.",
         "heading": "Convertir une vidéo TikTok en MP3",
-        "intro": "Une voix off, un extrait de conférence ou une musique que vous avez le droit de conserver ? Collez le lien de la vidéo TikTok publique et ouvrez l'onglet Audio : VidFetch convertit sa bande-son en véritable fichier MP3 à 192 kbps, lisible sur tous vos appareils.",
+        "intro": "Une voix off, un extrait de conférence ou une musique que vous avez le droit de conserver ? Collez le lien de la vidéo TikTok publique et ouvrez l'onglet Audio : VidFetch convertit sa bande-son en véritable fichier MP3, à écouter hors ligne.",
         "instructions": [
           "Copiez le lien de la vidéo : dans l'application TikTok, touchez Partager puis Copier le lien ; sur ordinateur, copiez l'adresse de la page.",
           "Collez le lien dans le champ ci-dessus puis choisissez Analyser. Une courte vérification automatique peut s'afficher avant le premier téléchargement.",
           "Ouvrez l'onglet Audio, choisissez MP3 puis Télécharger. Gardez la page ouverte jusqu'à l'enregistrement du fichier."
         ],
         "supported": [
-          "Toute vidéo TikTok publique, y compris les liens courts vm.tiktok.com, vt.tiktok.com et tiktok.com/t/…",
+          "Les vidéos TikTok publiques, y compris via les liens courts vm.tiktok.com, vt.tiktok.com et tiktok.com/t/…",
           "Le message de partage complet collé depuis l'application : le lien qu'il contient est utilisé",
           "Un MP3 encodé avec ffmpeg à 192 kbps à partir de la bande-son de la vidéo",
           "Des vidéos jusqu'à 30 minutes"
@@ -365,7 +365,7 @@
         "faqs": [
           {
             "question": "Le fichier est-il un vrai MP3 ?",
-            "answer": "Oui. La bande-son est décodée puis réencodée avec ffmpeg en MP3 à 192 kbps : ce n'est pas une vidéo renommée en .mp3."
+            "answer": "Oui. La bande-son est décodée puis réencodée en MP3 avec ffmpeg : ce n'est pas une vidéo renommée en .mp3."
           },
           {
             "question": "Peut-on télécharger un son depuis sa page Son sur TikTok ?",
@@ -373,7 +373,7 @@
           },
           {
             "question": "Pourquoi 192 kbps et pas 320 kbps ?",
-            "answer": "Un débit plus élevé n'améliorerait pas le son : le MP3 est fabriqué à partir de la bande-son fournie par TikTok, et un réencodage ne peut pas ajouter des détails absents de cette source."
+            "answer": "Un débit plus élevé ne rendrait pas le son meilleur que sa source : le MP3 est fabriqué à partir de la bande-son fournie par TikTok, et un réencodage ne peut pas ajouter de détails absents de cette source. À 192 kbps, le fichier reste aussi plus léger."
           },
           {
             "question": "Le MP3 se lit-il sur téléphone ou en voiture ?",
@@ -381,7 +381,7 @@
           },
           {
             "question": "Est-ce gratuit ? Faut-il un compte ?",
-            "answer": "Oui, c'est gratuit, sans compte, sans application et sans connexion. Chaque connexion peut effectuer jusqu'à 8 téléchargements par jour."
+            "answer": "Oui. VidFetch est gratuit, sans compte à créer ni application à installer ; seul le nombre de téléchargements par jour est limité."
           }
         ],
         "relatedGuides": [],
