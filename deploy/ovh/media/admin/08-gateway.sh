@@ -13,7 +13,8 @@
 # uses the same restart. Nothing else in the environment file changes; keys and secrets are never printed.
 # The engine is left alone (it must already be the release's engine) and is not restarted.
 # Not touched: sudoers, the CI account and its upload directory, nftables, Caddy, DNS, the CI guard.
-# Any failure after the switch triggers the rollback automatically.
+# Any failure after the switch triggers the rollback automatically. upgrade and rollback refuse while downloads are open
+# (ready=1): close them with 11-downloads.sh close first; 11-downloads.sh open refuses until the gateway matches the release.
 #
 # Path safety: the only directory this script creates or empties is the drop-in directory of
 # vidfetch-gateway.service, validated below; it removes exactly one file there (its own drop-in), by name, and
@@ -119,6 +120,11 @@ report() {
   echo "endpoints       :"; probe | sed 's/^/    /'
 }
 
+# The running gateway changes only while downloads are closed (ready=0): during an upgrade or a rollback, the frontend
+# and the gateway may come from different releases, and a frontend must never use an older gateway than its own.
+# An unreadable or missing setting counts as open.
+downloads_closed() { [ "$(ready_value 2>/dev/null)" = 0 ]; }
+
 # Preconditions shared by check and upgrade; prints the first reason it cannot proceed and returns 0, else returns 1.
 blocker() {
   local run src
@@ -172,6 +178,7 @@ upgrade)
   [ -z "$OPTION" ] || [ "$OPTION" = --origin-dl ] || die "unknown option $OPTION"
   take_lock
   if why=$(blocker); then die "$why"; fi
+  downloads_closed || die "downloads are open (ready=$(ready_value)): close them first (11-downloads.sh close); the gateway only changes while no frontend can use it"
   safe_dir "${RELEASES:?RELEASES is empty}" "release directory"
   $SYSTEMCTL is-active --quiet $TIMER.timer && die "the network dead-man timer is armed: finish that step first"
   PREV=$(unit_bundle "$GW_UNIT"); ENV=$(env_file)
@@ -255,6 +262,7 @@ rollback)
   take_lock
   B=$(readlink -f "$STATE_LINK" 2>/dev/null) || true; [ -n "$B" ] && [ -f "$B/previous-bundle.path" ] || die "no gateway upgrade backup found"
   ( cd "$B" && sha256sum --check --quiet MANIFEST.sha256 ) || die "the backup fails its integrity check"
+  downloads_closed || die "downloads are open (ready=$(ready_value)): close them first (11-downloads.sh close), so that no frontend ever uses an older gateway than its own"
   if ! why=$(idle); then die "not idle: $why"; fi
   restore_from "$B" || exit 1
   echo "If the CI guard had already been reconciled, put back its previous version (guard-update.py kept ci-web-test-guard.json.bak.<time>)."

@@ -220,6 +220,34 @@ OUT=$(docker exec $c bash $A/10-dl-confirm.sh --external-checks-passed 2>&1); rc
 ! X "systemctl is-active --quiet vidfetch-dl-rollback.timer" && ok "rollback timer disarmed" || bad "dl timer still armed"
 X "bash $A/11-downloads.sh open" >/dev/null 2>&1 && bad "downloads opened without secrets" || ok "11-downloads open refuses without the Turnstile and signing secrets"
 X "printf 'VIDFETCH_MEDIA_ORIGIN=https://dl.vidfetch.app\nTURNSTILE_SITE_KEY=0x4AAAAAAA-test-only\nTURNSTILE_SECRET_KEY=test-only-not-a-secret\nVIDFETCH_ACCESS_SIGNING_KEY=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n' >> /etc/vidfetch/web.env"
+# the engine and gateway units name their bundles and RUN them (real processes, as on the VPS), and the active release
+# manifest lists the same files
+docker exec -i $c sh -c 'cat > /root/release-fixture.sh' <<'FIX'
+set -e; mkdir -p /srv/bundles/v2; printf engine > /srv/bundles/vidfetch-ovh.cjs; printf gateway > /srv/bundles/vidfetch-gateway.cjs
+for u in vidfetch:vidfetch-ovh vidfetch-gateway:vidfetch-gateway; do printf '[Service]\nExecStart=/usr/bin/python3 -c "__import__(\047time\047).sleep(10**6)" /srv/bundles/%s.cjs\n' "${u#*:}" > "/etc/systemd/system/${u%%:*}.service"; done
+systemctl daemon-reload; systemctl start vidfetch.service vidfetch-gateway.service
+python3 -c 'import hashlib,json; m=json.load(open("/tmp/manifest.json")); h=lambda f: hashlib.sha256(open(f,"rb").read()).hexdigest()
+m["files"]={"backend/vidfetch-ovh.cjs": h("/srv/bundles/vidfetch-ovh.cjs"), "backend/vidfetch-gateway.cjs": h("/srv/bundles/vidfetch-gateway.cjs")}; json.dump(m, open("/tmp/manifest.json","w"))'
+FIX
+X "bash /root/release-fixture.sh" || { bad "release fixture"; exit 1; }
+refuse_open() {   # refuse_open LABEL REASON: 11-downloads.sh open and set-ready.sh 1 both refuse for REASON; ready stays 0
+  for cmd in "11-downloads.sh open" "set-ready.sh 1"; do
+    OUT=$(docker exec $c bash $A/$cmd 2>&1) && bad "$cmd opened downloads: $1" || {
+      printf '%s' "$OUT" | grep -q "$2" && X "grep -q '^VIDFETCH_CONNECTION_READY=0$' /etc/vidfetch/web.env" && ok "$cmd refuses: $1" || bad "$cmd ($1): $(printf '%s' "$OUT" | tail -1)"; }
+  done
+}
+X "printf 'older gateway' > /srv/bundles/vidfetch-gateway.cjs"
+refuse_open "the gateway in service is not the active release's" 'not those of the active frontend release'
+X "printf gateway > /srv/bundles/vidfetch-gateway.cjs && systemctl restart vidfetch-gateway.service"
+# a new ExecStart (drop-in, daemon-reload) with no restart: the unit names the release's bundle, the process runs another
+X "cp /srv/bundles/vidfetch-gateway.cjs /srv/bundles/v2/ && mkdir -p /etc/systemd/system/vidfetch-gateway.service.d && printf '[Service]\nExecStart=\nExecStart=/usr/bin/python3 -c \"__import__(\047time\047).sleep(10**6)\" /srv/bundles/v2/vidfetch-gateway.cjs\n' > /etc/systemd/system/vidfetch-gateway.service.d/20-gateway-release.conf && systemctl daemon-reload"
+refuse_open "ExecStart changed without a restart (real systemd and /proc)" 'does not run the bundle its unit names'
+X "systemctl restart vidfetch-gateway.service"
+# the bundle rewritten in place (same bytes, so the same SHA-256) after the process started, with no restart
+sleep 3; X "printf gateway > /srv/bundles/v2/vidfetch-gateway.cjs"
+refuse_open "bundle rewritten after the process started, without a restart" 'changed after its process started'
+X "bash $A/set-ready.sh 0" >/dev/null 2>&1 && X "grep -q '^VIDFETCH_CONNECTION_READY=0$' /etc/vidfetch/web.env" && ok "set-ready.sh 0 still works during that drift" || bad "set-ready.sh 0 blocked by a drift"
+X "systemctl restart vidfetch-gateway.service"
 OUT=$(docker exec $c bash $A/11-downloads.sh open 2>&1); rc=$?
 [ $rc = 0 ] && X "grep -q '^VIDFETCH_CONNECTION_READY=1$' /etc/vidfetch/web.env && grep -q public-downloads /etc/vidfetch/ci-media-test-profile.json" && ok "11-downloads open: ready=1 and CI profile public-downloads, origin checks passed" || bad "11-downloads open: $OUT"
 docker exec $c curl -s -m 5 http://127.0.0.1:3001/api/health | grep -q '"available":true' && ok "the frontend (restarted alone) now offers downloads" || bad "frontend not open"
