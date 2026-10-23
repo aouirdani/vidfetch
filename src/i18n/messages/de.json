@@ -64,6 +64,7 @@
   "transferStopped": "Die Übertragung wurde unterbrochen. Versuche es erneut.",
   "statusStopped": "Statusmeldungen sind ausgeblieben. Prüfe die Downloads deines Browsers.",
   "waitingCancelled": "Die wartende Anfrage wurde abgebrochen. Du kannst es erneut versuchen.",
+  "cancel": "Abbrechen",
   "transferFooter": "Direkt auf deinem Gerät gespeichert. Kein Konto erforderlich.",
   "footerAbout": "Speichere zugängliche Videos, die dir gehören oder die du herunterladen darfst.",
   "footerLinks": "Nützliche Links",

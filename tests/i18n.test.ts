@@ -55,9 +55,10 @@ for (const locale of LOCALES) {
     const helper = downloadHelper(["https://vidfetch.app"], locale);
     assert.ok(helper.html.includes(`lang="${locale}" dir="${LANGUAGES[locale].dir}"`));
     assert.ok(helper.html.includes(dictionaries[locale].helperWaiting));
-    assert.ok(helper.html.includes('event.source!==opener'));
+    assert.ok(helper.html.includes('event.source!==host'));
     assert.ok(helper.html.includes("'/auth/transfer'"));
     assert.match(helper.csp, /default-src 'none'/);
+    assert.match(helper.csp, /frame-ancestors https:\/\/vidfetch\.app;/);
   });
 }
 test("sitemap contains exactly published canonical equivalents and excludes unverified content", () => {

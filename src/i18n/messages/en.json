@@ -64,6 +64,7 @@
   "transferStopped": "The transfer stopped before it finished. Please try again.",
   "statusStopped": "Status updates stopped. Check your browser’s download manager.",
   "waitingCancelled": "The waiting request was cancelled. You can try again.",
+  "cancel": "Cancel",
   "transferFooter": "Saved straight to your device. No account required.",
   "footerAbout": "Save accessible videos you own or have permission to download.",
   "footerLinks": "Useful links",
