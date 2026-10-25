@@ -1,0 +1,52 @@
+{
+  "_comment": "Exact public apex index state that crawl-public.py checks through the real Caddy (public-indexing.test.sh). Update it deliberately with every page published or withdrawn; sitemap paths are listed decoded.",
+  "hreflang": {
+    "all": ["ar", "de", "en", "es", "fr", "id", "it", "pt-BR", "x-default"],
+    "en-fr": ["en", "fr", "x-default"]
+  },
+  "indexable": {
+    "/": "all",
+    "/legal": "all",
+    "/tiktok-video-downloader": "en-fr",
+    "/tiktok-to-mp3": "en-fr",
+    "/fr/": "all",
+    "/fr/mentions-legales": "all",
+    "/fr/telecharger-video-tiktok": "en-fr",
+    "/fr/tiktok-en-mp3": "en-fr",
+    "/es/": "all",
+    "/es/aviso-legal": "all",
+    "/pt/": "all",
+    "/pt/termos-e-privacidade": "all",
+    "/id/": "all",
+    "/id/ketentuan-dan-privasi": "all",
+    "/de/": "all",
+    "/de/rechtliches": "all",
+    "/it/": "all",
+    "/it/note-legali": "all",
+    "/ar/": "all",
+    "/ar/الشروط-والخصوصية": "all"
+  },
+  "noindex": [
+    "/blog",
+    "/blog/720p-1080p-4k",
+    "/blog/backup-your-videos",
+    "/blog/bitrate-vs-resolution",
+    "/blog/h264-h265-av1",
+    "/blog/mp3-vs-m4a",
+    "/blog/mp4-vs-webm",
+    "/blog/reduce-video-size",
+    "/blog/video-download-fails",
+    "/blog/video-format-smartphone",
+    "/blog/video-to-audio",
+    "/youtube-video-downloader",
+    "/instagram-reels-downloader",
+    "/twitter-video-downloader",
+    "/fr/guides",
+    "/es/guias",
+    "/pt/guias",
+    "/id/panduan",
+    "/de/ratgeber",
+    "/it/guide",
+    "/ar/أدلة"
+  ]
+}

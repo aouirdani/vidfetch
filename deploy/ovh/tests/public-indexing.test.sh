@@ -21,4 +21,4 @@ grep -q "host.docker.internal:$PORT" "$T/public.caddy" || { echo "upstream not r
 docker run -d --name $c -v "$T":/t:ro -v "$src/deploy/ovh/tests/fixtures":/f:ro caddy:2.11.7@sha256:f2a1290d0463aad60660d4ec134943f183ee2a5f6c3eb7bf32dd984f2f020772 \
   caddy run --adapter caddyfile --config /t/public.caddy >/dev/null || exit 2
 docker exec $c apk add -q python3 >/dev/null 2>&1 || exit 2
-docker exec $c python3 /f/crawl-public.py http://127.0.0.1:8080 /t/pages
+docker exec $c python3 /f/crawl-public.py http://127.0.0.1:8080 /t/pages /f/public-indexing-expected.json

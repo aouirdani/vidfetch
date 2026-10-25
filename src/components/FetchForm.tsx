@@ -12,6 +12,7 @@ import { interpolate } from "@/i18n/config";
 import { errorMessage } from "@/i18n/errors";
 import { DownloadAccess } from "./DownloadAccess";
 import { detectPlatform, PLATFORMS, PLATFORM_META, type Platform } from "@/lib/platforms";
+import { YOUTUBE_NOTICE } from "@/lib/youtube-notice";
 
 // The result card is only needed after a successful extraction.
 const VideoCard = dynamic(() => import("./VideoCard").then((module) => module.VideoCard), {
@@ -19,7 +20,8 @@ const VideoCard = dynamic(() => import("./VideoCard").then((module) => module.Vi
   loading: () => <VideoCardSkeleton />,
 });
 
-const EXAMPLES = PLATFORMS.filter((id) => PLATFORM_META[id].examples.length > 0)
+// No YouTube example: YouTube links are not available on our hosting (see YOUTUBE_NOTICE).
+const EXAMPLES = PLATFORMS.filter((id) => id !== "youtube" && PLATFORM_META[id].examples.length > 0)
   .map((id) => ({ id, label: PLATFORM_META[id].name, url: PLATFORM_META[id].examples[0] }));
 
 /**
@@ -40,7 +42,7 @@ function sharedLink(): string | null {
 }
 
 export function FetchForm({ compact = false, platform }: { compact?: boolean; platform?: Platform }) {
-  const { messages: d } = useI18n();
+  const { messages: d, locale } = useI18n();
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<FetchInfoSuccess | null>(null);
@@ -54,9 +56,11 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
   const requestRef = useRef<AbortController | null>(null);
   const detection = useMemo(() => detectPlatform(value), [value]);
   const invalid = value.trim().length > 0 && !detection.ok;
-  const canSubmit = detection.ok && !loading;
+  // A YouTube link is answered at once, in the page: no verification, no request to the server.
+  const youtube = detection.ok && detection.platform === "youtube";
+  const canSubmit = detection.ok && !youtube && !loading;
   // On a platform page, show that platform's link shape rather than a generic one.
-  const hint = PLATFORM_META[platform ?? "tiktok"].examples[0] ?? PLATFORM_META.youtube.examples[0];
+  const hint = PLATFORM_META[platform ?? "tiktok"].examples[0] ?? PLATFORM_META.tiktok.examples[0];
 
   useEffect(() => () => requestRef.current?.abort(), []);
   useEffect(() => {
@@ -75,6 +79,7 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
       inputRef.current?.focus();
       return;
     }
+    if (check.platform === "youtube") { setValue(check.url); setError(null); setResult(null); return; }
     if (!authorized) { pending.current = check.url; setVerificationNeeded(true); setError(null); return; }
     requestRef.current?.abort();
     const controller = new AbortController();
@@ -194,7 +199,14 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
         )}
       </form>
 
-      {verificationNeeded && <DownloadAccess onChange={setAuthorized} />}
+      {youtube && (
+        <div role="status" className="mx-auto mt-5 w-full max-w-3xl rounded-2xl border border-amber-400/30 bg-amber-500/[0.07] p-4">
+          <p className="text-sm font-semibold text-amber-100">{YOUTUBE_NOTICE[locale].title}</p>
+          <p className="mt-1 text-sm leading-relaxed text-amber-100/85">{YOUTUBE_NOTICE[locale].text}</p>
+        </div>
+      )}
+
+      {verificationNeeded && !youtube && <DownloadAccess onChange={setAuthorized} />}
 
       {error && (
         <div role="alert" className="mx-auto mt-5 w-full max-w-3xl animate-rise rounded-2xl border border-red-400/25 bg-red-500/[0.08] p-4">
