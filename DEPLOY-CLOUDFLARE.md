@@ -38,7 +38,7 @@ the Docker runtime, and set:
 | `NODE_ENV` | `production` |
 | `PORT` | `5000` (or whatever the host injects) |
 | `DATABASE_URL` | your PostgreSQL connection string |
-| `CORS_ORIGIN` | `https://vidfetch.io,https://vidfetch.pages.dev` |
+| `CORS_ORIGIN` | `https://vidfetch.app,https://vidfetch.pages.dev` |
 | `YTDLP_PATH` | `/opt/vidfetch/bin/yt-dlp` |
 | `FFMPEG_PATH` | `/usr/bin/ffmpeg` |
 
@@ -57,7 +57,7 @@ curl https://your-backend.example.com/api/health
 
 If `ffmpeg` is `false`, MP3 conversion and track merging are unavailable.
 
-**Give the backend its own hostname**, for example `api.vidfetch.io`. If that
+**Give the backend its own hostname**, for example `api.vidfetch.app`. If that
 record is proxied through Cloudflare (orange cloud), note that the free plan
 applies a 100 MB response cap and a 100-second origin timeout — both of which
 large downloads will exceed. Set the record to **DNS only** (grey cloud), or
@@ -77,7 +77,7 @@ Worker, so there are no Functions quotas or execution limits on downloads.
 Set this as a **build-time** variable on the Pages project:
 
 ```
-NEXT_PUBLIC_API_ORIGIN = https://api.vidfetch.io
+NEXT_PUBLIC_API_ORIGIN = https://api.vidfetch.app
 ```
 
 The backend's `CORS_ORIGIN` must list your Pages domain, because the browser
@@ -92,7 +92,7 @@ response back, so the browser only sees one origin and CORS is irrelevant.
 Set this as a **runtime** variable on the Pages project:
 
 ```
-API_ORIGIN = https://api.vidfetch.io
+API_ORIGIN = https://api.vidfetch.app
 ```
 
 Trade-off: every API call, including the file transfer, consumes a Pages
@@ -116,7 +116,7 @@ Git**, pick the repository, then set:
 | Build output directory | `out` |
 | Node version | `NODE_VERSION = 22` |
 
-Add the variables from Step 2, plus `NEXT_PUBLIC_SITE_URL=https://vidfetch.io`
+Add the variables from Step 2, plus `NEXT_PUBLIC_SITE_URL=https://vidfetch.app`
 so canonical URLs, `sitemap.xml` and Open Graph tags use the real domain.
 
 `scripts/build-pages.mjs` temporarily moves `src/app/api` out of the route tree
@@ -135,12 +135,12 @@ npx wrangler pages deploy      # settings come from wrangler.toml
 
 ## Step 4 — Domain and DNS
 
-In **Pages → Custom domains**, add `vidfetch.io` (and `www`). Cloudflare creates
+In **Pages → Custom domains**, add `vidfetch.app` (and `www`). Cloudflare creates
 the records automatically.
 
 ```
-vidfetch.io       → Pages project        (proxied)
-api.vidfetch.io   → backend host          (DNS only — see Step 1)
+vidfetch.app       → Pages project        (proxied)
+api.vidfetch.app   → backend host          (DNS only — see Step 1)
 ```
 
 ---

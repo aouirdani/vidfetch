@@ -158,7 +158,37 @@
           "formats": "Supported TikTok links and limits",
           "faq": "TikTok downloader questions"
         },
-        "updated": "2026-10-22",
+        "details": [
+          {
+            "heading": "Finding the MP4 on an iPhone",
+            "paragraphs": [
+              "In Safari, a Downloads button appears next to the search field as soon as the transfer starts: tap it to follow the progress and open the file. The finished MP4 is kept in the Files app, in the Downloads folder (Browse, then iCloud Drive), unless you chose another download location.",
+              "A downloaded file is not added to the Photos app automatically. Open it in Files and use the Share menu to send it to Photos or to another app; the options offered there depend on your iOS version."
+            ]
+          },
+          {
+            "heading": "Finding the MP4 on Android",
+            "paragraphs": [
+              "In Chrome, open the menu and choose Downloads to see the file, share it, rename it or delete it. The MP4 is also in your phone's download location, which the Files app shows; that app can have another name depending on the manufacturer.",
+              "Many gallery apps show downloaded videos in a separate Download album rather than next to your own recordings, so look there if the video seems to be missing."
+            ]
+          },
+          {
+            "heading": "When a TikTok download stops or does not start",
+            "paragraphs": [
+              "Before the first download, VidFetch may run a short automatic verification that protects the service from automated abuse; the download continues once it is done. When the service is busy, your request waits in a short queue and the page shows your position.",
+              "Each preparation is limited to 10 minutes and each connection to 8 downloads per day. A download link is valid briefly and only once: if it has expired, select Extract again instead of reusing an old link, and keep the page open until your browser reports the file as complete."
+            ]
+          },
+          {
+            "heading": "What VidFetch does with the TikTok link",
+            "paragraphs": [
+              "The link you paste is sent to VidFetch's server, which asks TikTok for the formats of that one public post. The file you choose then passes through the server to your browser: it is not kept as a media file on the server, and no account or TikTok login is involved.",
+              "VidFetch does not open private accounts, friends-only posts or region-restricted videos. Saving a video does not give you the right to republish it: ask the creator before reusing their work."
+            ]
+          }
+        ],
+        "updated": "2026-10-27",
         "publishedAt": "2026-10-21"
       },
       "fr": {
@@ -228,7 +258,37 @@
           "formats": "Liens TikTok acceptés et limites",
           "faq": "Questions sur le téléchargement TikTok"
         },
-        "updated": "2026-10-22",
+        "details": [
+          {
+            "heading": "Retrouver le MP4 sur un iPhone",
+            "paragraphs": [
+              "Dans Safari, un bouton Téléchargements apparaît à côté du champ de recherche dès le début du transfert : touchez-le pour suivre la progression et ouvrir le fichier. Le MP4 terminé est rangé dans l'app Fichiers, dossier Téléchargements (Parcourir, puis iCloud Drive), sauf si vous avez choisi un autre emplacement.",
+              "Un fichier téléchargé n'est pas ajouté automatiquement à l'app Photos. Ouvrez-le dans Fichiers et passez par le menu Partager pour l'envoyer vers Photos ou une autre app ; les options proposées dépendent de votre version d'iOS."
+            ]
+          },
+          {
+            "heading": "Retrouver le MP4 sur Android",
+            "paragraphs": [
+              "Dans Chrome, ouvrez le menu puis Téléchargements pour voir le fichier, le partager, le renommer ou le supprimer. Le MP4 se trouve aussi dans l'emplacement de téléchargement du téléphone, visible dans l'app Fichiers, dont le nom peut varier selon le fabricant.",
+              "Beaucoup d'applications de galerie rangent les vidéos téléchargées dans un album Download distinct de vos propres vidéos : regardez-y si la vidéo semble introuvable."
+            ]
+          },
+          {
+            "heading": "Quand un téléchargement TikTok s'arrête ou ne démarre pas",
+            "paragraphs": [
+              "Avant le premier téléchargement, VidFetch peut afficher une courte vérification automatique qui protège le service contre les abus automatisés ; le téléchargement se poursuit une fois celle-ci terminée. Quand le service est chargé, votre demande attend dans une file courte et la page indique votre position.",
+              "Chaque préparation est limitée à 10 minutes et chaque connexion à 8 téléchargements par jour. Un lien de téléchargement n'est valable que peu de temps et une seule fois : s'il a expiré, relancez l'analyse au lieu de réutiliser un ancien lien, et gardez la page ouverte jusqu'à ce que le navigateur indique que le fichier est complet."
+            ]
+          },
+          {
+            "heading": "Ce que VidFetch fait du lien TikTok",
+            "paragraphs": [
+              "Le lien collé est envoyé au serveur de VidFetch, qui demande à TikTok les formats de cette seule publication publique. Le fichier choisi transite ensuite par le serveur jusqu'à votre navigateur : il n'est pas conservé comme fichier média sur le serveur, et aucun compte ni connexion TikTok n'est utilisé.",
+              "VidFetch n'ouvre pas les comptes privés, les publications réservées aux amis ni les vidéos bloquées dans votre pays. Enregistrer une vidéo ne donne pas le droit de la republier : demandez l'accord du créateur avant de réutiliser son travail."
+            ]
+          }
+        ],
+        "updated": "2026-10-27",
         "publishedAt": "2026-10-21"
       }
     }
@@ -336,7 +396,30 @@
           "formats": "What the MP3 contains and its limits",
           "faq": "TikTok to MP3 questions"
         },
-        "updated": "2026-10-22",
+        "details": [
+          {
+            "heading": "Where the MP3 is saved on a phone",
+            "paragraphs": [
+              "On an iPhone, Safari keeps the MP3 in the Downloads folder of the Files app, where you can play it or share it to another app. On Android, Chrome lists it under Downloads in its menu, and the file sits in your phone's download location with your other downloaded files.",
+              "The MP3 is a file on your device: it does not appear in the library of a music streaming app."
+            ]
+          },
+          {
+            "heading": "MP3 or an original audio track?",
+            "paragraphs": [
+              "When the Audio tab lists an original track, that file keeps the format TikTok serves, without conversion. The MP3 option is a new 192 kbps encoding of the soundtrack, made for older players, car stereos and editing software that expect MP3.",
+              "Choose the original track when it is offered and your player accepts it; choose MP3 when a device or an app asks for that format. Neither option can make the sound better than its source."
+            ]
+          },
+          {
+            "heading": "Music in TikTok videos and your rights",
+            "paragraphs": [
+              "Many TikTok videos use commercial songs that the creator or TikTok may use on the platform. Saving a soundtrack as an MP3 does not give you any right to publish, sell or reuse that music elsewhere.",
+              "The safest audio to keep is your own: a voice-over you recorded, a talk you gave, or a sound whose creator allows you to reuse it."
+            ]
+          }
+        ],
+        "updated": "2026-10-27",
         "publishedAt": "2026-10-21"
       },
       "fr": {
@@ -390,7 +473,30 @@
           "formats": "Ce que contient le MP3 et ses limites",
           "faq": "Questions sur TikTok en MP3"
         },
-        "updated": "2026-10-22",
+        "details": [
+          {
+            "heading": "Où se trouve le MP3 sur un téléphone",
+            "paragraphs": [
+              "Sur iPhone, Safari range le MP3 dans le dossier Téléchargements de l'app Fichiers, où vous pouvez l'écouter ou le partager vers une autre app. Sur Android, le MP3 apparaît dans Téléchargements, depuis le menu de Chrome, et se trouve dans l'emplacement de téléchargement du téléphone, avec vos autres fichiers téléchargés.",
+              "Le MP3 est un fichier sur votre appareil : il n'apparaît pas dans la bibliothèque d'une application de streaming musical."
+            ]
+          },
+          {
+            "heading": "MP3 ou piste audio d'origine ?",
+            "paragraphs": [
+              "Quand l'onglet Audio propose une piste d'origine, ce fichier garde le format fourni par TikTok, sans conversion. L'option MP3 est un nouvel encodage de la bande-son à 192 kbps, pensé pour les anciens lecteurs, les autoradios et les logiciels de montage qui attendent du MP3.",
+              "Choisissez la piste d'origine quand elle est proposée et que votre lecteur l'accepte ; choisissez le MP3 quand un appareil ou une app exige ce format. Aucune des deux options ne rend le son meilleur que sa source."
+            ]
+          },
+          {
+            "heading": "La musique des vidéos TikTok et vos droits",
+            "paragraphs": [
+              "Beaucoup de vidéos TikTok utilisent des chansons du commerce que le créateur ou TikTok peuvent utiliser sur la plateforme. Enregistrer la bande-son en MP3 ne vous donne aucun droit de publier, de vendre ou de réutiliser cette musique ailleurs.",
+              "Les sons les plus sûrs à conserver sont les vôtres : une voix off que vous avez enregistrée, une intervention que vous avez faite, ou un son dont le créateur autorise la réutilisation."
+            ]
+          }
+        ],
+        "updated": "2026-10-27",
         "publishedAt": "2026-10-22"
       }
     }

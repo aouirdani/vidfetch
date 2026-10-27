@@ -7,7 +7,7 @@ export const SITE = {
   url: "https://vidfetch.app",
   tagline: "Your videos, a link away",
   locale: "en_US",
-  email: "support@vidfetch.io",
+  email: "support@vidfetch.app",
 } as const;
 
 /** Stable content revision date for dateModified; bump when page copy changes. */

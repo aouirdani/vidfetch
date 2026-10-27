@@ -5,7 +5,7 @@ const headers = { "Cache-Control": "no-store" };
 export async function healthGET() {
   return Response.json({
     ok: true,
-    service: "vidfetch.io",
+    service: "VidFetch",
     engine: { ytDlp: null, ffmpeg: false },
     downloads: { available: false, code: "BACKEND_UNAVAILABLE", error: DOWNLOADS_UNAVAILABLE_MESSAGE },
     timestamp: new Date().toISOString(),

@@ -11,18 +11,15 @@ import { useI18n } from "@/i18n/context";
 import { interpolate } from "@/i18n/config";
 import { errorMessage } from "@/i18n/errors";
 import { DownloadAccess } from "./DownloadAccess";
-import { detectPlatform, PLATFORMS, PLATFORM_META, type Platform } from "@/lib/platforms";
+import { detectPlatform, PLATFORM_META, type Platform } from "@/lib/platforms";
 import { YOUTUBE_NOTICE } from "@/lib/youtube-notice";
+import { FORM_COPY, TIKTOK_LINK_SHAPES } from "@/lib/form-copy";
 
 // The result card is only needed after a successful extraction.
 const VideoCard = dynamic(() => import("./VideoCard").then((module) => module.VideoCard), {
   ssr: false,
   loading: () => <VideoCardSkeleton />,
 });
-
-// No YouTube example: YouTube links are not available on our hosting (see YOUTUBE_NOTICE).
-const EXAMPLES = PLATFORMS.filter((id) => id !== "youtube" && PLATFORM_META[id].examples.length > 0)
-  .map((id) => ({ id, label: PLATFORM_META[id].name, url: PLATFORM_META[id].examples[0] }));
 
 /**
  * Reads a shared link from the address bar on first paint.
@@ -61,6 +58,9 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
   const canSubmit = detection.ok && !youtube && !loading;
   // On a platform page, show that platform's link shape rather than a generic one.
   const hint = PLATFORM_META[platform ?? "tiktok"].examples[0] ?? PLATFORM_META.tiktok.examples[0];
+  // TikTok is the platform validated on our hosting: the TikTok pages speak only of TikTok links. A language without
+  // reviewed form copy keeps the published dictionary line.
+  const form = FORM_COPY[locale], supported = (platform === "tiktok" ? form?.tiktokHint : form?.supportedHint) ?? d.supportedHint;
 
   useEffect(() => () => requestRef.current?.abort(), []);
   useEffect(() => {
@@ -182,20 +182,16 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
         <div className="mt-3 flex min-h-6 flex-wrap items-center justify-center gap-x-3 gap-y-2">
           {value ? <PlatformChip platform={detection.platform} detected={detection.ok} /> : null}
           <p id="url-help" className={clsx("text-xs leading-relaxed", invalid ? "text-amber-300" : "text-slate-400")}>
-            {invalid ? <>{d.linkExample} <code dir="ltr" className="rounded bg-white/5 px-1.5 py-0.5 font-mono text-[11px] text-slate-300">{hint}</code></> : d.supportedHint}
+            {invalid ? <>{d.linkExample} <code dir="ltr" className="rounded bg-white/5 px-1.5 py-0.5 font-mono text-[11px] text-slate-300">{hint}</code></> : supported}
           </p>
         </div>
 
+        {/* Link shapes as plain text: no example button, so the page never starts a download of someone else's video. */}
         {!result && !loading && (
-          <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
-            <span className="text-[11px] text-slate-400">{d.examples}</span>
-            {EXAMPLES.map((example) => (
-              <button key={example.id} type="button" disabled={loading} onClick={() => void submit(example.url)}
-                className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-[11px] font-medium text-slate-300 transition hover:border-cyan-400/40 hover:text-cyan-200 disabled:opacity-40">
-                {example.label}
-              </button>
-            ))}
-          </div>
+          <p className="mt-4 flex flex-wrap items-center justify-center gap-2 text-[11px] text-slate-400">
+            <span>{d.linkExample}</span>
+            {TIKTOK_LINK_SHAPES.map((shape) => <code key={shape} dir="ltr" className="rounded bg-white/5 px-1.5 py-0.5 font-mono text-slate-300">{shape}</code>)}
+          </p>
         )}
       </form>
 

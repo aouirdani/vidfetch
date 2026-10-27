@@ -1,4 +1,4 @@
-# VidFetch · vidfetch.io
+# VidFetch · vidfetch.app
 
 An English-language video downloader for YouTube, TikTok, Instagram and X. Built with Next.js/React, Tailwind, Lucide, PostgreSQL/Drizzle, yt-dlp and ffmpeg. The optional Express entrypoint serves the same UI and API implementations; there is no second, divergent download engine.
 
@@ -56,7 +56,7 @@ Set `VIDFETCH_TARGET=node` at build time and runtime (or in `.env`). Build once 
 - `npm run start`: standard Next.js Node server, usually port 3000.
 - `NODE_ENV=production PORT=5000 node server.js`: Express with restrictive CORS, the React UI, the same Next API handlers, and no overall download response timeout.
 
-`CORS_ORIGIN` is a comma-separated allowlist, defaulting to `https://vidfetch.io`. Local origins are automatically added in development. For testing the production Express server locally, explicitly include `http://localhost:5000`.
+`CORS_ORIGIN` is a comma-separated allowlist, defaulting to `https://vidfetch.app`. Local origins are automatically added in development. For testing the production Express server locally, explicitly include `http://localhost:5000`.
 
 The media pipeline needs a long-running Node process. Do not deploy its download route to a short-lived edge/serverless function. Disable reverse-proxy buffering and configure suitable proxy idle timeouts. Multiple replicas need sticky routing because short-lived download tickets and metadata caches are process-local.
 
@@ -64,7 +64,7 @@ The media pipeline needs a long-running Node process. Do not deploy its download
 
 The Docker image contains Node 22, Python 3, current `yt-dlp[default,curl-cffi]`, ffmpeg and an unprivileged runtime user. `tini` reaps child processes. Docker Compose provisions PostgreSQL, runs Drizzle schema setup, then starts the app on port 5000.
 
-Configure `POSTGRES_USER`, `POSTGRES_DB` and a generated URL-safe `POSTGRES_PASSWORD` in `.env`. `openssl rand -hex 24` can generate the password. Set `CORS_ORIGIN=https://vidfetch.io,http://localhost:5000` if testing locally. Then run `docker compose up -d --build`.
+Configure `POSTGRES_USER`, `POSTGRES_DB` and a generated URL-safe `POSTGRES_PASSWORD` in `.env`. `openssl rand -hex 24` can generate the password. Set `CORS_ORIGIN=https://vidfetch.app,http://localhost:5000` if testing locally. Then run `docker compose up -d --build`.
 
 For a separately managed database: `docker build -t vidfetch .`, initialize the schema using the configured `DATABASE_URL`, and run `docker run --env-file .env -p 5000:5000 vidfetch`.
 

@@ -31,56 +31,56 @@ afterEach(() => { globalThis.fetch = realFetch; });
 
 describe("Cloudflare Pages API proxy", () => {
   it("refuses to run without a configured backend", async () => {
-    const response = await onRequest({ request: new Request("https://vidfetch.io/api/health"), env: {} });
+    const response = await onRequest({ request: new Request("https://vidfetch.app/api/health"), env: {} });
     assert.equal(response.status, 503);
     assert.equal((await response.json() as { code: string }).code, "API_ORIGIN_MISSING");
   });
 
   it("rejects a plaintext backend origin", async () => {
-    const response = await onRequest({ request: new Request("https://vidfetch.io/api/health"), env: { API_ORIGIN: "http://insecure.example.com" } });
+    const response = await onRequest({ request: new Request("https://vidfetch.app/api/health"), env: { API_ORIGIN: "http://insecure.example.com" } });
     assert.equal(response.status, 503);
     assert.equal((await response.json() as { code: string }).code, "API_ORIGIN_INSECURE");
   });
 
   it("still allows a local backend for development", async () => {
     stubFetch(new Response("{}", { status: 200 }));
-    const response = await onRequest({ request: new Request("https://vidfetch.io/api/health"), env: { API_ORIGIN: "http://localhost:3000" } });
+    const response = await onRequest({ request: new Request("https://vidfetch.app/api/health"), env: { API_ORIGIN: "http://localhost:3000" } });
     assert.equal(response.status, 200);
     assert.equal(calls[0].url, "http://localhost:3000/api/health");
   });
 
   it("blocks methods the API does not implement", async () => {
-    const response = await onRequest({ request: new Request("https://vidfetch.io/api/download", { method: "DELETE" }), env: { API_ORIGIN: BACKEND } });
+    const response = await onRequest({ request: new Request("https://vidfetch.app/api/download", { method: "DELETE" }), env: { API_ORIGIN: BACKEND } });
     assert.equal(response.status, 405);
     assert.equal(calls.length, 0);
   });
 
   it("preserves the path and query string exactly", async () => {
     stubFetch(new Response("{}", { status: 200 }));
-    const url = "https://vidfetch.io/api/download?url=https%3A%2F%2Fwww.tiktok.com%2F%40a%2Fvideo%2F123&format_id=download&type=video";
+    const url = "https://vidfetch.app/api/download?url=https%3A%2F%2Fwww.tiktok.com%2F%40a%2Fvideo%2F123&format_id=download&type=video";
     await onRequest({ request: new Request(url), env: { API_ORIGIN: `${BACKEND}/` } });
-    assert.equal(calls[0].url, url.replace("https://vidfetch.io", BACKEND));
+    assert.equal(calls[0].url, url.replace("https://vidfetch.app", BACKEND));
   });
 
   it("strips hop-by-hop headers but forwards the browser's Origin", async () => {
     stubFetch(new Response("{}", { status: 200 }));
-    const request = new Request("https://vidfetch.io/api/fetch-info", {
+    const request = new Request("https://vidfetch.app/api/fetch-info", {
       method: "POST",
-      headers: { "Content-Type": "application/json", Origin: "https://vidfetch.io", Connection: "keep-alive" },
+      headers: { "Content-Type": "application/json", Origin: "https://vidfetch.app", Connection: "keep-alive" },
       body: JSON.stringify({ url: "https://youtu.be/aqz-KE-bpKQ" }),
     });
     await onRequest({ request, env: { API_ORIGIN: BACKEND } });
     const headers = calls[0].init.headers as Headers;
     assert.equal(headers.get("connection"), null);
-    assert.equal(headers.get("origin"), "https://vidfetch.io", "the backend CORS allowlist needs the real site origin");
+    assert.equal(headers.get("origin"), "https://vidfetch.app", "the backend CORS allowlist needs the real site origin");
     assert.equal(headers.get("content-type"), "application/json");
-    assert.equal(headers.get("x-forwarded-host"), "vidfetch.io");
+    assert.equal(headers.get("x-forwarded-host"), "vidfetch.app");
     assert.equal(new TextDecoder().decode(calls[0].init.body as ArrayBuffer), JSON.stringify({ url: "https://youtu.be/aqz-KE-bpKQ" }));
   });
 
   it("passes the optional shared secret to the backend", async () => {
     stubFetch(new Response("{}", { status: 200 }));
-    await onRequest({ request: new Request("https://vidfetch.io/api/health"), env: { API_ORIGIN: BACKEND, API_TOKEN: "s3cret" } });
+    await onRequest({ request: new Request("https://vidfetch.app/api/health"), env: { API_ORIGIN: BACKEND, API_TOKEN: "s3cret" } });
     assert.equal((calls[0].init.headers as Headers).get("x-vidfetch-proxy-token"), "s3cret");
   });
 
@@ -90,7 +90,7 @@ describe("Cloudflare Pages API proxy", () => {
       status: 200,
       headers: { "Content-Type": "video/mp4", "Content-Disposition": 'attachment; filename="VidFetch_clip.mp4"' },
     }));
-    const response = await onRequest({ request: new Request("https://vidfetch.io/api/download?ticket=abc"), env: { API_ORIGIN: BACKEND } });
+    const response = await onRequest({ request: new Request("https://vidfetch.app/api/download?ticket=abc"), env: { API_ORIGIN: BACKEND } });
     assert.equal(response.status, 200);
     assert.equal(response.headers.get("content-disposition"), 'attachment; filename="VidFetch_clip.mp4"');
     assert.equal(response.headers.get("content-type"), "video/mp4");
@@ -102,14 +102,14 @@ describe("Cloudflare Pages API proxy", () => {
     stubFetch(new Response(JSON.stringify({ ok: false, code: "PRIVATE", error: "This video is private." }), {
       status: 404, headers: { "Content-Type": "application/json" },
     }));
-    const response = await onRequest({ request: new Request("https://vidfetch.io/api/fetch-info", { method: "POST", body: "{}" }), env: { API_ORIGIN: BACKEND } });
+    const response = await onRequest({ request: new Request("https://vidfetch.app/api/fetch-info", { method: "POST", body: "{}" }), env: { API_ORIGIN: BACKEND } });
     assert.equal(response.status, 404);
     assert.equal((await response.json() as { code: string }).code, "PRIVATE");
   });
 
   it("reports an unreachable backend as a gateway error", async () => {
     stubFetch(() => { throw new Error("connection refused"); });
-    const response = await onRequest({ request: new Request("https://vidfetch.io/api/health"), env: { API_ORIGIN: BACKEND } });
+    const response = await onRequest({ request: new Request("https://vidfetch.app/api/health"), env: { API_ORIGIN: BACKEND } });
     assert.equal(response.status, 502);
     assert.equal((await response.json() as { code: string }).code, "BACKEND_UNREACHABLE");
   });

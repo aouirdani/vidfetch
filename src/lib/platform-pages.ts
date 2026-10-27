@@ -7,6 +7,8 @@ export type PlatformCopy = {
   faqs: { question: string; answer: string }[]; relatedGuides: string[];
   /** Optional page-specific section headings; the shared dictionary headings are used otherwise. */
   sections?: { steps?: string; formats?: string; faq?: string };
+  /** Optional practical sections (H2 and paragraphs) shown after the supported links and limits. */
+  details?: { heading: string; paragraphs: string[] }[];
   updated: string; publishedAt: string;
 };
 export type PlatformCandidate = {
@@ -23,6 +25,7 @@ export function approvedPlatformCopy(entry: PlatformCandidate, locale: Locale): 
   if (!/^[\p{L}\p{N}]+(?:-[\p{L}\p{N}]+)*$/u.test(slug) || LOCALES.some(l => LANGUAGES[l].prefix === slug) || ["api", "auth", LANGUAGES[locale].blog, LANGUAGES[locale].legal].includes(slug)) return undefined;
   const sentences = (value: unknown, minimum: number) => Array.isArray(value) && value.length >= minimum && value.every(text => typeof text === "string" && text.trim());
   if (!copy.title?.trim() || !copy.description?.trim() || !copy.heading?.trim() || !copy.intro?.trim() || !sentences(copy.instructions, 3) || !sentences(copy.supported, 1) || !sentences(copy.limits, 1) || !Array.isArray(copy.faqs) || copy.faqs.length < 3 || copy.faqs.some(faq => !faq.question?.trim() || !faq.answer?.trim()) || !Array.isArray(copy.relatedGuides)) return undefined;
+  if (copy.details !== undefined && (!Array.isArray(copy.details) || copy.details.some(section => !section.heading?.trim() || !sentences(section.paragraphs, 1)))) return undefined;
   if (!/^\d{4}-\d{2}-\d{2}$/.test(copy.publishedAt) || !/^\d{4}-\d{2}-\d{2}$/.test(copy.updated) || copy.publishedAt > today || copy.updated > today) return undefined;
   return copy;
 }
@@ -56,6 +59,22 @@ export function englishPlatformLinks(locale: Locale) {
   const own = availablePlatformPages(locale).map(entry => entry.id), labels = ENGLISH_PAGE_LABELS[locale];
   return availablePlatformPages("en").filter(entry => !own.includes(entry.id) && labels.pages[entry.id])
     .map(entry => ({ id: entry.id, href: platformPagePath(entry, "en"), label: labels.pages[entry.id], note: labels.inEnglish }));
+}
+/** Short navigation labels of the approved platform pages in the languages that have them (kept out of the shared
+ * dictionaries). */
+const NAVIGATION_LABELS: Partial<Record<Locale, Record<string, string>>> = {
+  en: { "tiktok-video-downloader": "TikTok to MP4", "tiktok-mp3": "TikTok to MP3" },
+  fr: { "tiktok-video-downloader": "TikTok en MP4", "tiktok-mp3": "TikTok en MP3" },
+};
+/** Site navigation (header and footer): the language's own approved platform pages, otherwise the English ones, with
+ * the labels already published on that language's home (ENGLISH_PAGE_LABELS) and marked as English. A page without a
+ * label in that language is not linked. */
+export function navigationPlatformLinks(locale: Locale): { id: string; href: string; label: string; hrefLang?: "en"; note?: string }[] {
+  const own = availablePlatformPages(locale), labels = NAVIGATION_LABELS[locale] ?? {};
+  if (own.length) return own.filter(entry => labels[entry.id]).map(entry => ({ id: entry.id, href: platformPagePath(entry, locale), label: labels[entry.id] }));
+  const english = ENGLISH_PAGE_LABELS[locale];
+  return availablePlatformPages("en").filter(entry => english.pages[entry.id])
+    .map(entry => ({ id: entry.id, href: platformPagePath(entry, "en"), label: english.pages[entry.id], hrefLang: "en" as const, note: english.inEnglish }));
 }
 /** Contextual internal links: the approved platform pages of a language, optionally without the current one. */
 export function platformLinks(locale: Locale, except?: string) {
