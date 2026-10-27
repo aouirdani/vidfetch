@@ -11,6 +11,7 @@ import { localizedMetadata, platformPageSchemas } from "../src/lib/localized-seo
 import { PLATFORM_META, detectPlatform } from "../src/lib/platforms";
 import { guides } from "../src/lib/guides";
 import { HOME_FAQS, OG_IMAGE, applicationSchema, howToSchema, organisationSchema } from "../src/lib/seo";
+import { HOME_COPY } from "../src/lib/home-copy";
 import manifest from "../src/app/manifest";
 
 const PRIORITY: Array<[string, Locale]> = [
@@ -20,7 +21,7 @@ const PRIORITY: Array<[string, Locale]> = [
 const written = platformCandidates.flatMap(entry =>
   Object.entries(entry.copy ?? {}).map(([locale, copy]) => ({ entry, locale: locale as Locale, copy: copy as PlatformCopy })));
 const text = (copy: PlatformCopy) => [copy.title, copy.description, copy.heading, copy.intro, ...copy.instructions, ...copy.supported, ...copy.limits,
-  ...copy.faqs.flatMap(faq => [faq.question, faq.answer])].join("\n");
+  ...copy.faqs.flatMap(faq => [faq.question, faq.answer]), ...(copy.details ?? []).flatMap(section => [section.heading, ...section.paragraphs])].join("\n");
 const source = (file: string) => readFileSync(file, "utf8");
 /** Approve entries in memory for one test, then put the catalogue back exactly as it was. */
 function approved<T>(ids: string[], run: () => T): T {
@@ -60,7 +61,7 @@ describe("priority platform pages: copy", () => {
 
   it("uses unique titles and descriptions that fit search results, distinct from every home page", () => {
     const titles = written.map(w => `${w.copy.title} | VidFetch`), descriptions = written.map(w => w.copy.description);
-    const homes = LOCALES.flatMap(locale => [dictionary(locale).metaTitle, dictionary(locale).metaDescription]);
+    const homes = LOCALES.flatMap(locale => [HOME_COPY[locale].title, HOME_COPY[locale].description]);
     assert.equal(new Set([...titles, ...homes.filter((_, i) => i % 2 === 0)]).size, titles.length + LOCALES.length);
     assert.equal(new Set([...descriptions, ...homes.filter((_, i) => i % 2 === 1)]).size, descriptions.length + LOCALES.length);
     for (const title of titles) assert.ok(title.length <= 60, `title too long: ${title}`);
@@ -82,6 +83,7 @@ describe("priority platform pages: copy", () => {
       const all = text(copy);
       if (/256\s?(MB|Mo)/.test(all)) { assert.match(engine, /maxBytes: 256 \* 1024 \* 1024/); assert.match(gateway, /VIDFETCH_PUBLIC_MAX_MIB",onPi\?16:256,1,256/); }
       if (/30 minut/.test(all)) assert.match(engine, /maxDuration: 30 \* 60/);
+      if (/10 minut/.test(all)) assert.match(engine, /operationMs: 10 \* 60 \* 1000/);
       if (/192 kbps/.test(all)) assert.match(engine, /"-b:a", "192k"/);
       if (/\b8 (downloads|téléchargements|descargas)\b/.test(all)) assert.match(ledger, /index === 2 \? 100 : 8/);
       assert.ok(!/\d+\s?(GB|Go)\b/.test(all) || /1 Gio|1 GB/.test(all), `${entry.id}/${locale}: undocumented size`);
@@ -125,7 +127,8 @@ describe("priority platform pages: publication", () => {
     const published = LOCALES.flatMap(locale => availablePlatformPages(locale).map(entry => `${locale}:${entry.id}`));
     assert.deepEqual(published, ["en:tiktok-video-downloader", "en:tiktok-mp3", "fr:tiktok-video-downloader", "fr:tiktok-mp3"]);
     for (const segments of [["tiktok-video-downloader"], ["tiktok-to-mp3"], ["fr", "telecharger-video-tiktok"], ["fr", "tiktok-en-mp3"]]) assert.equal(resolvePage(segments)?.indexable, true, segments.join("/"));
-    for (const segments of [["instagram-reels-downloader"], ["twitter-video-downloader"], ["youtube-video-downloader"]]) assert.equal(resolvePage(segments)?.indexable, false, segments.join("/"));
+    // an unverified platform has no page at all (404), not even a noindex one that names it
+    for (const segments of [["instagram-reels-downloader"], ["twitter-video-downloader"], ["youtube-video-downloader"]]) assert.equal(resolvePage(segments), undefined, segments.join("/"));
     for (const segments of [["es", "descargar-video-instagram"], ["fr", "telecharger-reels-instagram"], ["fr", "telecharger-video-x"], ["tiktok-mp3"]]) assert.equal(resolvePage(segments), undefined, segments.join("/"));
     assert.equal(sitePages().filter(p => p.indexable).length, 20);
   });
@@ -225,8 +228,8 @@ describe("site-wide claims", () => {
       assert.match(notice.text, /TikTok|تيك توك/, locale);
     }
     const form = source("src/components/FetchForm.tsx");
-    // no YouTube example button, no YouTube fallback example
-    assert.match(form, /PLATFORMS\.filter\(\(id\) => id !== "youtube"/);
+    // no example button at all (none could start a download of someone else's video), no YouTube fallback example
+    assert.doesNotMatch(form, /EXAMPLES|d\.examples|submit\(example/);
     assert.doesNotMatch(form, /PLATFORM_META\.youtube\.examples/);
     // the early return comes before the verification and before any request
     const submit = form.slice(form.indexOf("const submit = useCallback"), form.indexOf("useEffect(() => {\n    if (authorized && pending.current)"));
@@ -238,9 +241,10 @@ describe("site-wide claims", () => {
 
   it("dates each page by its last substantial change in the sitemap and its structured data", () => {
     const lastmod = Object.fromEntries(sitemap().map(e => [decodeURIComponent(new URL(e.url).pathname), new Date(e.lastModified!).toISOString().slice(0, 10)]));
-    for (const path of ["/tiktok-video-downloader", "/tiktok-to-mp3", "/fr/telecharger-video-tiktok", "/fr/tiktok-en-mp3"]) assert.equal(lastmod[path], "2026-10-22", path);
-    // homes and legal pages did not change substantially: their shared content date stays
-    for (const path of ["/", "/legal", "/fr/", "/fr/mentions-legales", "/es/", "/ar/"]) assert.equal(lastmod[path], "2026-10-12", path);
+    for (const path of ["/tiktok-video-downloader", "/tiktok-to-mp3", "/fr/telecharger-video-tiktok", "/fr/tiktok-en-mp3"]) assert.equal(lastmod[path], "2026-10-27", path);
+    // the homes' search copy changed on 27/10; the legal pages did not change substantially: their shared date stays
+    for (const path of ["/", "/fr/", "/es/", "/ar/"]) assert.equal(lastmod[path], "2026-10-27", path);
+    for (const path of ["/legal", "/fr/mentions-legales"]) assert.equal(lastmod[path], "2026-10-12", path);
     assert.equal(Object.keys(lastmod).length, 20);
   });
 

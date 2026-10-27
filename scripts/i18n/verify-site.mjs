@@ -8,7 +8,9 @@ import { build } from 'esbuild';
 import { chromium } from 'playwright';
 const locales = ['en', 'fr', 'es', 'pt-BR', 'id', 'de', 'it', 'ar'];
 const roots = ['', 'fr/', 'es/', 'pt/', 'id/', 'de/', 'it/', 'ar/'];
-const blogs = ['blog', 'fr/guides', 'es/guias', 'pt/guias', 'id/panduan', 'de/ratgeber', 'it/guide', 'ar/أدلة'];
+// Only English has guides to show: the other guide indexes are not pages (404), never an empty "being reviewed" page.
+const blogs = ['blog'];
+const removedPages = ['/fr/guides', '/es/guias', '/pt/guias', '/id/panduan', '/de/ratgeber', '/it/guide', '/ar/أدلة', '/youtube-video-downloader', '/instagram-reels-downloader', '/twitter-video-downloader'];
 const dictionaries = Object.fromEntries(locales.map(l => [l, JSON.parse(readFileSync(`src/i18n/messages/${l}.json`, 'utf8'))]));
 const reserve = createServer();
 await new Promise((resolve, reject) => { reserve.once('error', reject); reserve.listen(0, '127.0.0.1', resolve); });
@@ -29,6 +31,9 @@ try {
   const noticeModule = resolve(`../notice-fixture-${process.pid}.mjs`);
   writeFileSync(noticeModule, (await build({ entryPoints: ['src/lib/youtube-notice.ts'], bundle: true, platform: 'node', format: 'esm', write: false })).outputFiles[0].text, { flag: 'wx' });
   const { YOUTUBE_NOTICE: youtubeNotice } = await import(pathToFileURL(noticeModule).href);
+  const homeModule = resolve(`../home-copy-fixture-${process.pid}.mjs`);
+  writeFileSync(homeModule, (await build({ entryPoints: ['src/lib/home-copy.ts'], bundle: true, platform: 'node', format: 'esm', write: false })).outputFiles[0].text, { flag: 'wx' });
+  const { HOME_COPY: homeCopy, HOME_UPDATED: homeUpdated } = await import(pathToFileURL(homeModule).href);
   for (let n = 0; ; n++) { try { const r = await fetch(base + '/api/health'); if (r.ok) break; } catch {} if (n > 100) throw Error('Local server did not start'); await new Promise(r => setTimeout(r, 100)); }
   browser = await chromium.launch({ headless: true, ...(process.platform === 'darwin' ? { channel: 'chrome' } : {}) });
   const noJS = await browser.newContext({ javaScriptEnabled: false });
@@ -42,13 +47,13 @@ try {
   // lastmod: each page's own last substantial change
   const lastmod = Object.fromEntries([...sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)].map(m => [new URL(m[1].match(/<loc>([^<]+)<\/loc>/)[1]).pathname, m[1].match(/<lastmod>([^<]+)<\/lastmod>/)[1].slice(0, 10)]));
   assert.equal(Object.keys(lastmod).length, 20);
-  for (const path of ['/tiktok-video-downloader', '/tiktok-to-mp3', '/fr/telecharger-video-tiktok', '/fr/tiktok-en-mp3']) assert.equal(lastmod[path], '2026-10-22', path);
-  for (const [path, date] of Object.entries(lastmod)) if (!(path in platformAlternates)) assert.equal(date, '2026-10-12', path);
+  for (const path of ['/tiktok-video-downloader', '/tiktok-to-mp3', '/fr/telecharger-video-tiktok', '/fr/tiktok-en-mp3']) assert.equal(lastmod[path], '2026-10-27', path);
+  for (const [path, date] of Object.entries(lastmod)) if (!(path in platformAlternates)) assert.equal(date, roots.includes(path.slice(1)) ? homeUpdated : '2026-10-12', path);
   const alternatesOf = new Map();
   assert.doesNotMatch(sitemap, /youtube|\/api\/|mp4-vs-webm/);
   const englishGuides = (await import('node:fs/promises')).readdir('content/guides');
   const guidePaths = (await englishGuides).filter(name => name.endsWith('.md')).map(name => '/blog/' + name.slice(0, -3));
-  const paths = [...canonicalPaths, ...blogs.map(path => '/' + path), ...guidePaths, '/youtube-video-downloader', '/tiktok-video-downloader', '/instagram-reels-downloader', '/twitter-video-downloader'];
+  const paths = [...canonicalPaths, ...blogs.map(path => '/' + path), ...guidePaths];
   const allPaths = new Set(paths.map(path => decodeURI(path)));
   for (const path of paths) {
     const response = await fetch(base + path); assert.equal(response.status, 200, path);
@@ -81,9 +86,14 @@ try {
     for (const href of want) assert.ok(links.some(l => l.href === href), `home ${locales[i]} -> ${href}`);
     if (!['en', 'fr'].includes(locales[i])) for (const href of want) assert.ok(links.some(l => l.href === href && l.lang === 'en'), `home ${locales[i]} -> ${href} marked hreflang=en`);
     const legal = legalPages[i]; assert.ok(canonicalPaths.map(decodeURI).includes(legal), legal);
-    await dom.setContent(await (await fetch(base + encodeURI(legal))).text());
-    const legalLinks = await dom.evaluate(() => [...document.querySelectorAll('a[href]')].map(e => decodeURI(e.getAttribute('href'))));
-    assert.equal(legalLinks.some(href => tiktokPages.includes(href)), false, `legal page ${legal} stays free of SEO links`);
+    const legalHtml = await (await fetch(base + encodeURI(legal))).text(); await dom.setContent(legalHtml);
+    // the legal text itself carries no TikTok link; the site navigation (footer) does, on every page
+    const legalLinks = await dom.evaluate(() => ({ main: [...document.querySelectorAll('main a[href]')].map(e => decodeURI(e.getAttribute('href'))), footer: [...document.querySelectorAll('footer a[href]')].map(e => ({ href: decodeURI(e.getAttribute('href')), lang: e.getAttribute('hreflang') })) }));
+    assert.equal(legalLinks.main.some(href => tiktokPages.includes(href)), false, `legal text of ${legal} stays free of SEO links`);
+    for (const href of want) assert.ok(legalLinks.footer.some(l => l.href === href && l.lang === (['en', 'fr'].includes(locales[i]) ? null : 'en')), `footer of ${legal} -> ${href}`);
+    // the AdSense tag: on the home, never on the legal page
+    assert.match(await (await fetch(base + '/' + root)).text(), /adsbygoogle\.js\?client=ca-pub-/, `home ${locales[i]} loads the AdSense tag`);
+    assert.doesNotMatch(legalHtml, /adsbygoogle/, `legal ${legal} has no AdSense tag`);
   }
   for (const [url, alternates] of alternatesOf) {
     assert.ok(Object.values(alternates).includes(url), `${url} is not in its own hreflang set`);
@@ -92,7 +102,8 @@ try {
   for (const [i, locale] of locales.entries()) {
     const path = '/' + roots[i], d = dictionaries[locale];
     const response = await fetch(base + path); await dom.setContent(await response.text());
-    assert.equal(await dom.locator('h1').textContent(), d.heroTitle + d.heroAccent);
+    assert.equal(await dom.locator('h1').textContent(), homeCopy[locale].heroTitle + homeCopy[locale].heroAccent);
+    assert.equal(await dom.title(), homeCopy[locale].title);
     for (const target of locales) {
       const href = await dom.locator(`link[hreflang="${target}"]`).getAttribute('href');
       const other = await fetch(base + new URL(href).pathname); await dom.setContent(await other.text());
@@ -146,7 +157,9 @@ try {
     await page.keyboard.press('Enter'); await page.waitForTimeout(300);
     assert.deepEqual(sent, [], `${locale}: a YouTube link sends nothing`);
     assert.equal(await page.getByRole('button', { name: 'YouTube', exact: true }).count(), 0, `${locale}: no YouTube example`);
+    for (const name of ['TikTok', 'Instagram']) assert.equal(await page.getByRole('button', { name, exact: true }).count(), 0, `${locale}: no example button that starts a download`);
     const missing = await page.goto(base + '/' + roots[i] + 'missing-page'); assert.equal(missing.status(), 404, locale);
+    assert.doesNotMatch(await missing.text(), /adsbygoogle/, `${locale}: no AdSense tag on a 404`);
     assert.equal(await page.locator('html').getAttribute('lang'), locale);
     await page.getByRole('heading', { name: d.notFoundTitle }).waitFor();
     const robotsTags = await page.locator('meta[name=robots]').evaluateAll(nodes => nodes.map(node => node.getAttribute('content')));
@@ -176,9 +189,10 @@ try {
   assert.equal((await fetch(base + '/api/fetch-info')).status, 405);
   assert.equal((await fetch(base + '/fr/api/download')).status, 404);
   assert.equal((await fetch(base + '/fr/guides/mp4-ou-webm')).status, 404);
-  for (const gated of ['/es/descargar-video-instagram', '/fr/telecharger-reels-instagram', '/fr/telecharger-video-x', '/tiktok-mp3']) assert.equal((await fetch(base + gated)).status, 404, gated);
+  for (const gated of ['/es/descargar-video-instagram', '/fr/telecharger-reels-instagram', '/fr/telecharger-video-x', '/tiktok-mp3', ...removedPages]) assert.equal((await fetch(base + encodeURI(gated))).status, 404, gated);
+  const favicon = await fetch(base + '/favicon.ico'); assert.equal(favicon.status, 200); assert.deepEqual([...new Uint8Array(await favicon.arrayBuffer()).subarray(0, 4)], [0, 0, 1, 0]);
   const robots = await (await fetch(base + '/robots.txt')).text(); assert.match(robots, /Disallow: \/api\//);
-  evidence.checks.push(`${evidence.serverPages} server-rendered pages; eight locales, selectors, localized 404 and degraded UI`, 'reciprocal hreflang and self canonicals', '20 sitemap entries (4 approved TikTok pages) with per-page lastmod; no drafts or empty guide indexes; Instagram and X pages gated (404 or noindex)', 'homes link the TikTok pages (own language, else English marked hreflang=en); legal pages carry no such link', 'a YouTube link: immediate notice, Extract disabled, no request, no YouTube example; /fr/tiktok-en-mp3 form works', 'RTL mobile navigation, LTR URL field and radio keyboard controls', 'eight synthetic native transfers with real helper and byte integrity; mocked engines, no media conversion claim', 'API paths, methods and BACKEND_UNAVAILABLE unchanged');
+  evidence.checks.push(`${evidence.serverPages} server-rendered pages; eight locales, selectors, localized 404 and degraded UI`, 'reciprocal hreflang and self canonicals', '20 sitemap entries (4 approved TikTok pages) with per-page lastmod; no drafts; empty guide indexes and the YouTube, Instagram and X pages answer 404', 'TikTok home titles and H1 (outside the gateway dictionaries); homes and the footer of every legal page link the TikTok pages (own language, else English marked hreflang=en); the legal text itself carries no such link', 'AdSense tag on the homes only among homes, legal pages and 404s; no example button; favicon.ico', 'a YouTube link: immediate notice, Extract disabled, no request, no YouTube example; /fr/tiktok-en-mp3 form works', 'RTL mobile navigation, LTR URL field and radio keyboard controls', 'eight synthetic native transfers with real helper and byte integrity; mocked engines, no media conversion claim', 'API paths, methods and BACKEND_UNAVAILABLE unchanged');
   writeFileSync('../http-browser-verification.json', JSON.stringify(evidence, null, 2));
   console.log(JSON.stringify(evidence, null, 2));
 } finally {

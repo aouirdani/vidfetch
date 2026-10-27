@@ -24,9 +24,11 @@ for (const locale of LOCALES) {
       assert.deepEqual([...d[key].matchAll(/\{\w+\}/g)].map(m => m[0]).sort(), [...dictionaries.en[key].matchAll(/\{\w+\}/g)].map(m => m[0]).sort(), key);
     }
     if (locale !== "en") for (const key of ["heroTitle", "metaTitle", "placeholder", "legalIntro", "faq2a", "networkError"] as const) assert.notEqual(d[key], dictionaries.en[key], key);
-    for (const path of [homePath(locale), sectionPath(locale, "blog"), sectionPath(locale, "legal")]) {
+    for (const path of [homePath(locale), sectionPath(locale, "legal")]) {
       assert.equal(resolvePage(path.split("/").filter(Boolean))?.locale, locale);
     }
+    // a guide index exists only in a language with guides to show (English today), never as an empty page
+    assert.equal(resolvePage(sectionPath(locale, "blog").split("/").filter(Boolean))?.identity.kind, locale === "en" ? "blog" : undefined);
     assert.equal(resolvePage([LANGUAGES[locale].prefix, "api", "download"]), undefined);
     assert.equal(resolvePage([LANGUAGES[locale].prefix, "does-not-exist"]), undefined);
     assert.doesNotMatch(interpolate(d.waiting, { position: 2, seconds: 90 }), /\{\w+\}/);
@@ -89,7 +91,7 @@ test("article publication rejects review, missing dates and future dates; Unicod
   assert.notEqual(headingId("اختيار الصيغة"), headingId("حفظ النسخة"));
 });
 test("Arabic route lookup accepts encoded slugs and rejects encoded separators", () => {
-  assert.equal(resolvePage(["ar", encodeURIComponent(LANGUAGES.ar.blog)])?.identity.kind, "blog");
+  assert.equal(resolvePage(["ar", encodeURIComponent(LANGUAGES.ar.legal)])?.identity.kind, "legal");
   assert.equal(resolvePage(["ar", "%2fapi%2fdownload"]), undefined);
   assert.equal(resolvePage(["ar", "%ZZ"]), undefined);
 });

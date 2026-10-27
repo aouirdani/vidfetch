@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { dictionary } from "../i18n/dictionaries";
 import { LANGUAGES, homePath, type Locale } from "../i18n/config";
 import { guides } from "./guides";
-import { CONTENT_UPDATED, OG_IMAGE, SITE, landingPageFor } from "./seo";
-import { PLATFORM_META } from "./platforms";
+import { CONTENT_UPDATED, OG_IMAGE, SITE } from "./seo";
+import { HOME_COPY } from "./home-copy";
 import { availablePlatformPages, approvedPlatformCopy } from "./platform-pages";
 import { languageAlternates, type SitePage } from "./site-pages";
 export function localizedMetadata(page: SitePage): Metadata {
@@ -11,9 +11,9 @@ export function localizedMetadata(page: SitePage): Metadata {
   const guide = identity.kind === "guide" ? guides(page.locale).find(g => g.id === identity.id) : undefined;
   const approved = identity.kind === "platform" ? availablePlatformPages(page.locale).find(entry => entry.id === identity.id) : undefined;
   const platformCopy = approved && approvedPlatformCopy(approved, page.locale);
-  const platformName = identity.kind === "platform" ? PLATFORM_META[approved?.platform ?? landingPageFor(identity.id)!.platform].name : "";
-  const title = guide ? `${guide.title} | VidFetch` : platformCopy ? `${platformCopy.title} | VidFetch` : kind === "home" ? d.metaTitle : kind === "blog" ? d.blogMetaTitle : kind === "legal" ? `${d.legalTitle} | VidFetch` : `${platformName} — ${d.unverifiedTitle} | VidFetch`;
-  const description = guide?.description ?? platformCopy?.description ?? (kind === "home" ? d.metaDescription : kind === "blog" ? d.blogMetaDescription : kind === "legal" ? d.legalDescription : d.unverifiedDescription);
+  // Only approved platform pages resolve (site-pages), so a platform page always has its own copy.
+  const title = guide ? `${guide.title} | VidFetch` : platformCopy ? `${platformCopy.title} | VidFetch` : kind === "home" ? HOME_COPY[page.locale].title : kind === "blog" ? d.blogMetaTitle : `${d.legalTitle} | VidFetch`;
+  const description = guide?.description ?? platformCopy?.description ?? (kind === "home" ? HOME_COPY[page.locale].description : kind === "blog" ? d.blogMetaDescription : d.legalDescription);
   const url = new URL(page.path, SITE.url).href;
   return { title: { absolute: title }, description,
     alternates: { canonical: url, ...(page.indexable ? { languages: languageAlternates(page) } : {}) },

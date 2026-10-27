@@ -1,4 +1,5 @@
 import type { Locale } from "@/i18n/config";
+import type { SitePage } from "@/lib/site-pages";
 
 /** Google AdSense publisher. The site layout loads the tag; /ads.txt declares the same publisher. */
 export const ADSENSE_CLIENT = "ca-pub-7903460199253248";
@@ -19,3 +20,12 @@ export const ADVERTISING_PRIVACY: Record<Locale, string> = {
   it: "Non serve un account VidFetch. Il sito mostra annunci forniti da Google AdSense. Google e i suoi partner possono usare cookie per mostrare annunci basati sulle tue visite a questo e ad altri siti. Puoi gestire la pubblicità personalizzata nelle Impostazioni annunci di Google (adssettings.google.com).",
   ar: "لا يلزم حساب VidFetch. يعرض الموقع إعلانات تقدّمها Google AdSense. قد تستخدم Google وشركاؤها ملفات تعريف الارتباط لعرض إعلانات استنادًا إلى زياراتك لهذا الموقع ولمواقع أخرى. يمكنك إدارة الإعلانات المخصّصة من إعدادات الإعلانات في Google (adssettings.google.com).",
 };
+
+/**
+ * Pages that load the AdSense tag: indexable pages with publisher content (the homes, the approved platform pages and
+ * published guides). Never a 404, a noindex draft or the legal page: Google Publisher Policies exclude ads on screens
+ * without publisher content, under construction, or used for navigation or alerts.
+ */
+export function showsAds(page: Pick<SitePage, "indexable" | "identity"> | undefined): boolean {
+  return !!page?.indexable && page.identity.kind !== "legal";
+}

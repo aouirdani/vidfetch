@@ -86,7 +86,7 @@ export default function configuration(phase: string): NextConfig {
             { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           ] },
           { source: "/_next/:path*", headers: [{ key: "X-Robots-Tag", value: "noindex" }] },
-          { source: "/:file(icon.svg|og-image.jpg|og-image-v2.jpg|og-image-v3.jpg)", headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }] },
+          { source: "/:file(favicon.ico|icon.svg|og-image.jpg|og-image-v2.jpg|og-image-v3.jpg)", headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }] },
           { source: "/:path(sitemap.xml|robots.txt|manifest.webmanifest)", headers: [{ key: "Cache-Control", value: "public, max-age=3600, stale-while-revalidate=86400" }] },
         ];
       },
