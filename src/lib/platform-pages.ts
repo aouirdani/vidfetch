@@ -60,24 +60,21 @@ export function englishPlatformLinks(locale: Locale) {
   return availablePlatformPages("en").filter(entry => !own.includes(entry.id) && labels.pages[entry.id])
     .map(entry => ({ id: entry.id, href: platformPagePath(entry, "en"), label: labels.pages[entry.id], note: labels.inEnglish }));
 }
-/** Short navigation labels of the approved platform pages, in each language (kept out of the shared dictionaries). */
-const NAVIGATION_LABELS: Record<Locale, Record<string, string>> = {
+/** Short navigation labels of the approved platform pages in the languages that have them (kept out of the shared
+ * dictionaries). */
+const NAVIGATION_LABELS: Partial<Record<Locale, Record<string, string>>> = {
   en: { "tiktok-video-downloader": "TikTok to MP4", "tiktok-mp3": "TikTok to MP3" },
   fr: { "tiktok-video-downloader": "TikTok en MP4", "tiktok-mp3": "TikTok en MP3" },
-  es: { "tiktok-video-downloader": "TikTok a MP4", "tiktok-mp3": "TikTok a MP3" },
-  "pt-BR": { "tiktok-video-downloader": "TikTok para MP4", "tiktok-mp3": "TikTok para MP3" },
-  id: { "tiktok-video-downloader": "TikTok ke MP4", "tiktok-mp3": "TikTok ke MP3" },
-  de: { "tiktok-video-downloader": "TikTok als MP4", "tiktok-mp3": "TikTok als MP3" },
-  it: { "tiktok-video-downloader": "TikTok in MP4", "tiktok-mp3": "TikTok in MP3" },
-  ar: { "tiktok-video-downloader": "تيك توك إلى MP4", "tiktok-mp3": "تيك توك إلى MP3" },
 };
-/** Site navigation (header and footer): the language's own approved platform pages, otherwise the English ones,
- * marked as English. A page without a label in that language is not linked. */
+/** Site navigation (header and footer): the language's own approved platform pages, otherwise the English ones, with
+ * the labels already published on that language's home (ENGLISH_PAGE_LABELS) and marked as English. A page without a
+ * label in that language is not linked. */
 export function navigationPlatformLinks(locale: Locale): { id: string; href: string; label: string; hrefLang?: "en"; note?: string }[] {
-  const labels = NAVIGATION_LABELS[locale], own = availablePlatformPages(locale);
+  const own = availablePlatformPages(locale), labels = NAVIGATION_LABELS[locale] ?? {};
   if (own.length) return own.filter(entry => labels[entry.id]).map(entry => ({ id: entry.id, href: platformPagePath(entry, locale), label: labels[entry.id] }));
-  return availablePlatformPages("en").filter(entry => labels[entry.id])
-    .map(entry => ({ id: entry.id, href: platformPagePath(entry, "en"), label: labels[entry.id], hrefLang: "en" as const, note: ENGLISH_PAGE_LABELS[locale].inEnglish }));
+  const english = ENGLISH_PAGE_LABELS[locale];
+  return availablePlatformPages("en").filter(entry => english.pages[entry.id])
+    .map(entry => ({ id: entry.id, href: platformPagePath(entry, "en"), label: english.pages[entry.id], hrefLang: "en" as const, note: english.inEnglish }));
 }
 /** Contextual internal links: the approved platform pages of a language, optionally without the current one. */
 export function platformLinks(locale: Locale, except?: string) {

@@ -24,7 +24,8 @@ test("the privacy notice discloses Google ads in every language; the old no-adve
     assert.notEqual(ADVERTISING_PRIVACY[locale], dictionaries[locale].privacy1, locale);
   }
   // the dictionary sent to the browser carries the same notice, not the old claim
-  assert.match(readFileSync("src/app/(site)/[[...segments]]/layout.tsx", "utf8"), /messages=\{\{ \.\.\.d, privacy1: ADVERTISING_PRIVACY\[locale\] \}\}/);
+  // (the contact addresses of the same dictionary are moved to vidfetch.app first: tests/home-navigation.test.ts)
+  assert.match(readFileSync("src/app/(site)/[[...segments]]/layout.tsx", "utf8"), /messages=\{\{ \.\.\.withOfficialContacts\(d\), privacy1: ADVERTISING_PRIVACY\[locale\] \}\}/);
   const legal = readFileSync("src/views/SiteViews.tsx", "utf8");
   assert.match(legal, /items: \[ADVERTISING_PRIVACY\[page\.locale\], d\.privacy2,/);
   assert.doesNotMatch(legal, /d\.privacy1\b/);

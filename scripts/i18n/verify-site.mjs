@@ -33,7 +33,7 @@ try {
   const { YOUTUBE_NOTICE: youtubeNotice } = await import(pathToFileURL(noticeModule).href);
   const homeModule = resolve(`../home-copy-fixture-${process.pid}.mjs`);
   writeFileSync(homeModule, (await build({ entryPoints: ['src/lib/home-copy.ts'], bundle: true, platform: 'node', format: 'esm', write: false })).outputFiles[0].text, { flag: 'wx' });
-  const { HOME_COPY: homeCopy, HOME_UPDATED: homeUpdated } = await import(pathToFileURL(homeModule).href);
+  const { homeCopy } = await import(pathToFileURL(homeModule).href);
   for (let n = 0; ; n++) { try { const r = await fetch(base + '/api/health'); if (r.ok) break; } catch {} if (n > 100) throw Error('Local server did not start'); await new Promise(r => setTimeout(r, 100)); }
   browser = await chromium.launch({ headless: true, ...(process.platform === 'darwin' ? { channel: 'chrome' } : {}) });
   const noJS = await browser.newContext({ javaScriptEnabled: false });
@@ -48,7 +48,8 @@ try {
   const lastmod = Object.fromEntries([...sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)].map(m => [new URL(m[1].match(/<loc>([^<]+)<\/loc>/)[1]).pathname, m[1].match(/<lastmod>([^<]+)<\/lastmod>/)[1].slice(0, 10)]));
   assert.equal(Object.keys(lastmod).length, 20);
   for (const path of ['/tiktok-video-downloader', '/tiktok-to-mp3', '/fr/telecharger-video-tiktok', '/fr/tiktok-en-mp3']) assert.equal(lastmod[path], '2026-10-27', path);
-  for (const [path, date] of Object.entries(lastmod)) if (!(path in platformAlternates)) assert.equal(date, roots.includes(path.slice(1)) ? homeUpdated : '2026-10-12', path);
+  // homes: their copy's date (new English and French copy 2026-10-27, other homes unchanged); legal pages 2026-10-12
+  for (const [path, date] of Object.entries(lastmod)) if (!(path in platformAlternates)) assert.equal(date, roots.includes(path.slice(1)) ? homeCopy(locales[roots.indexOf(path.slice(1))]).updated : '2026-10-12', path);
   const alternatesOf = new Map();
   assert.doesNotMatch(sitemap, /youtube|\/api\/|mp4-vs-webm/);
   const englishGuides = (await import('node:fs/promises')).readdir('content/guides');
@@ -57,7 +58,8 @@ try {
   const allPaths = new Set(paths.map(path => decodeURI(path)));
   for (const path of paths) {
     const response = await fetch(base + path); assert.equal(response.status, 200, path);
-    await dom.setContent(await response.text());
+    const html = await response.text(); assert.doesNotMatch(html, /vidfetch\.io/, `${path}: vidfetch.app is the only domain`);
+    await dom.setContent(html);
     const data = await dom.evaluate(() => ({ lang: document.documentElement.lang, dir: document.documentElement.dir, h1: [...document.querySelectorAll('h1')].map(e => e.textContent), canonical: document.querySelector('link[rel=canonical]')?.href,
       title: document.title, description: document.querySelector('meta[name=description]')?.content, robots: document.querySelector('meta[name=robots]')?.content,
       alternates: Object.fromEntries([...document.querySelectorAll('link[rel=alternate][hreflang]')].map(e => [e.hreflang, e.href])),
@@ -94,6 +96,8 @@ try {
     // the AdSense tag: on the home, never on the legal page
     assert.match(await (await fetch(base + '/' + root)).text(), /adsbygoogle\.js\?client=ca-pub-/, `home ${locales[i]} loads the AdSense tag`);
     assert.doesNotMatch(legalHtml, /adsbygoogle/, `legal ${legal} has no AdSense tag`);
+    for (const address of ['legal@vidfetch.app', 'privacy@vidfetch.app', 'abuse@vidfetch.app']) assert.ok(legalHtml.includes(address), `${legal} shows ${address}`);
+    assert.ok(legalHtml.includes('href="mailto:abuse@vidfetch.app"'), `${legal}: footer abuse link`);
   }
   for (const [url, alternates] of alternatesOf) {
     assert.ok(Object.values(alternates).includes(url), `${url} is not in its own hreflang set`);
@@ -102,8 +106,8 @@ try {
   for (const [i, locale] of locales.entries()) {
     const path = '/' + roots[i], d = dictionaries[locale];
     const response = await fetch(base + path); await dom.setContent(await response.text());
-    assert.equal(await dom.locator('h1').textContent(), homeCopy[locale].heroTitle + homeCopy[locale].heroAccent);
-    assert.equal(await dom.title(), homeCopy[locale].title);
+    assert.equal(await dom.locator('h1').textContent(), homeCopy(locale).heroTitle + homeCopy(locale).heroAccent);
+    assert.equal(await dom.title(), homeCopy(locale).title);
     for (const target of locales) {
       const href = await dom.locator(`link[hreflang="${target}"]`).getAttribute('href');
       const other = await fetch(base + new URL(href).pathname); await dom.setContent(await other.text());
@@ -167,21 +171,35 @@ try {
     assert.equal(await page.locator('link[rel=canonical]').count(), 0);
     await context.close(); evidence.locales.push(locale);
   }
-  {
-    // /fr/tiktok-en-mp3: its own form works (mocked admission and engine, as above)
-    const context = await browser.newContext({ viewport: { width: 390, height: 844 } }), page = await context.newPage(), d = dictionaries.fr, errors = [];
+  // The four TikTok pages: each form completes a transfer (MP4 on the video pages, MP3 on the MP3 pages), with mocked
+  // admission and engines as above. The bytes are synthetic: this proves the UI path, not media conversion.
+  for (const [path, locale, kind] of [['/tiktok-video-downloader', 'en', 'video'], ['/fr/telecharger-video-tiktok', 'fr', 'video'], ['/tiktok-to-mp3', 'en', 'audio'], ['/fr/tiktok-en-mp3', 'fr', 'audio']]) {
+    const context = await browser.newContext({ viewport: { width: 390, height: 844 } }), page = await context.newPage(), d = dictionaries[locale], errors = [], posted = [];
     page.on('pageerror', error => errors.push(error.message));
     await page.route('https://**/*', route => new URL(route.request().url()).hostname === 'challenges.cloudflare.com' ? route.fulfill({ contentType: 'text/javascript', body: '' }) : route.abort());
     await page.addInitScript(() => { window.turnstile = { render(element, options) { setTimeout(() => options.callback('fixture-challenge'), 0); return 'fixture'; }, remove() {}, reset() {} }; });
-    await context.route('**/api/download-access', route => route.fulfill({ json: route.request().method() === 'GET' ? { available: true, siteKey: 'fixture-public-key' } : { ok: true, grant: 'fixture-grant', expiresAt: Date.now() + 120000 } }));
+    const attachment = Buffer.from(`VidFetch synthetic ${kind} transfer\n`.repeat(24));   // under 1 kB: the UI shows it in bytes
     const audio = { id: 'mp3', label: 'MP3 · 192 kbps', kind: 'audio', ext: 'mp3', width: null, height: null, fps: null, vcodec: null, acodec: 'mp3', hasAudio: true, progressive: true, filesize: null, filesizeLabel: null, bitrateKbps: 192, note: null, recommended: true };
     const video = { ...audio, id: 'v1', label: '720p', kind: 'video', ext: 'mp4', width: 720, height: 1280, fps: 30, vcodec: 'h264', acodec: 'aac', bitrateKbps: null };
+    await context.route('**/api/download-access', route => route.fulfill({ json: route.request().method() === 'GET' ? { available: true, siteKey: 'fixture-public-key' } : { ok: true, grant: 'fixture-grant', expiresAt: Date.now() + 120000 } }));
     await context.route('**/api/fetch-info', route => route.fulfill({ json: { ok: true, engine: { ffmpeg: true, ytDlp: 'fixture' }, info: { platform: 'tiktok', platformVideoId: 'fixture', url: 'https://www.tiktok.com/@pokemonlife22/video/7059698374567611694', title: 'VidFetch', thumbnail: null, durationLabel: '00:33', viewCount: 12, uploader: 'VidFetch', formats: [video, audio], videoFormats: [video], audioFormats: [audio] } } }));
-    await page.goto(base + '/fr/tiktok-en-mp3');
-    assert.equal(await page.locator('h1').textContent(), 'Convertir une vidéo TikTok en MP3');
+    await context.route(/\/download-helper\?lang=/, route => { const helper = downloadHelper([base], locale); return route.fulfill({ contentType: 'text/html', headers: { 'Content-Security-Policy': helper.csp }, body: helper.html }); });
+    await context.route('**/auth/transfer', route => route.fulfill({ json: { ok: true } }));
+    await context.route(/\/api\/download(?:\?|$)/, route => {
+      const request = route.request(), url = new URL(request.url());
+      if (request.method() === 'POST') { const body = request.postDataJSON(); posted.push(body); return route.fulfill({ json: { ok: true, token: 'fixture-ticket', filename: 'fixture.bin', downloadUrl: '/api/download?ticket=fixture-ticket' } }); }
+      if (url.searchParams.has('ticket')) return route.fulfill({ contentType: 'application/octet-stream', headers: { 'Content-Disposition': 'attachment; filename="fixture.bin"' }, body: attachment });
+      return route.fulfill({ json: { ok: true, status: 'completed', bytes: attachment.length, error: null } });
+    });
+    await page.goto(base + encodeURI(path));
     await page.getByRole('textbox', { name: d.videoLink }).fill('https://www.tiktok.com/@pokemonlife22/video/7059698374567611694'); await page.getByRole('button', { name: d.extract, exact: true }).click();
-    await page.getByRole('tab', { name: new RegExp(d.audio) }).waitFor();
-    assert.deepEqual(errors, []); await context.close();
+    await page.getByRole('tab', { name: new RegExp(d.video) }).waitFor(); await page.getByRole('tab', { name: new RegExp(d.audio) }).waitFor();
+    if (kind === 'audio') await page.getByRole('tab', { name: new RegExp(d.audio) }).click();
+    const popupPromise = page.waitForEvent('popup'); await page.getByRole('button', { name: new RegExp('^' + d.download + ' ') }).click(); const popup = await popupPromise;
+    const file = await popup.waitForEvent('download'); const saved = resolve(`../ui-transfer-${kind}-${locale}-${process.pid}.bin`); await file.saveAs(saved); assert.deepEqual(readFileSync(saved), attachment, path);
+    await page.locator('p:not(.sr-only)').filter({ hasText: d.saved.replace('{size}', `${attachment.length} B`) }).waitFor();
+    assert.deepEqual(posted.map(body => [Object.keys(body).sort().join(','), body.type, body.format_id]), [['format_id,type,url', kind, kind === 'audio' ? 'mp3' : 'v1']], path);
+    assert.deepEqual(errors, [], path); await popup.close(); await context.close();
   }
   assert.equal((await fetch(base + '/fr', { redirect: 'manual' })).status, 308);
   const status = await fetch(base + '/api/download', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
@@ -192,7 +210,7 @@ try {
   for (const gated of ['/es/descargar-video-instagram', '/fr/telecharger-reels-instagram', '/fr/telecharger-video-x', '/tiktok-mp3', ...removedPages]) assert.equal((await fetch(base + encodeURI(gated))).status, 404, gated);
   const favicon = await fetch(base + '/favicon.ico'); assert.equal(favicon.status, 200); assert.deepEqual([...new Uint8Array(await favicon.arrayBuffer()).subarray(0, 4)], [0, 0, 1, 0]);
   const robots = await (await fetch(base + '/robots.txt')).text(); assert.match(robots, /Disallow: \/api\//);
-  evidence.checks.push(`${evidence.serverPages} server-rendered pages; eight locales, selectors, localized 404 and degraded UI`, 'reciprocal hreflang and self canonicals', '20 sitemap entries (4 approved TikTok pages) with per-page lastmod; no drafts; empty guide indexes and the YouTube, Instagram and X pages answer 404', 'TikTok home titles and H1 (outside the gateway dictionaries); homes and the footer of every legal page link the TikTok pages (own language, else English marked hreflang=en); the legal text itself carries no such link', 'AdSense tag on the homes only among homes, legal pages and 404s; no example button; favicon.ico', 'a YouTube link: immediate notice, Extract disabled, no request, no YouTube example; /fr/tiktok-en-mp3 form works', 'RTL mobile navigation, LTR URL field and radio keyboard controls', 'eight synthetic native transfers with real helper and byte integrity; mocked engines, no media conversion claim', 'API paths, methods and BACKEND_UNAVAILABLE unchanged');
+  evidence.checks.push(`${evidence.serverPages} server-rendered pages; eight locales, selectors, localized 404 and degraded UI`, 'reciprocal hreflang and self canonicals', '20 sitemap entries (4 approved TikTok pages) with per-page lastmod; no drafts; empty guide indexes and the YouTube, Instagram and X pages answer 404', 'no vidfetch.io anywhere: legal pages and footer show the vidfetch.app contact addresses', 'TikTok home titles and H1 in English and French (outside the gateway dictionaries; the other homes keep their published wording); homes and the footer of every legal page link the TikTok pages (own language, else English marked hreflang=en); the legal text itself carries no such link', 'AdSense tag on the homes only among homes, legal pages and 404s; no example button; favicon.ico', 'a YouTube link: immediate notice, Extract disabled, no request, no YouTube example; the four TikTok pages each complete a synthetic transfer (MP4 on the video pages, MP3 on the MP3 pages)', 'RTL mobile navigation, LTR URL field and radio keyboard controls', 'eight synthetic native transfers with real helper and byte integrity; mocked engines, no media conversion claim', 'API paths, methods and BACKEND_UNAVAILABLE unchanged');
   writeFileSync('../http-browser-verification.json', JSON.stringify(evidence, null, 2));
   console.log(JSON.stringify(evidence, null, 2));
 } finally {

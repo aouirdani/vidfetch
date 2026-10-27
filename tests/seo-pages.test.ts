@@ -11,7 +11,7 @@ import { localizedMetadata, platformPageSchemas } from "../src/lib/localized-seo
 import { PLATFORM_META, detectPlatform } from "../src/lib/platforms";
 import { guides } from "../src/lib/guides";
 import { HOME_FAQS, OG_IMAGE, applicationSchema, howToSchema, organisationSchema } from "../src/lib/seo";
-import { HOME_COPY } from "../src/lib/home-copy";
+import { homeCopy } from "../src/lib/home-copy";
 import manifest from "../src/app/manifest";
 
 const PRIORITY: Array<[string, Locale]> = [
@@ -61,7 +61,7 @@ describe("priority platform pages: copy", () => {
 
   it("uses unique titles and descriptions that fit search results, distinct from every home page", () => {
     const titles = written.map(w => `${w.copy.title} | VidFetch`), descriptions = written.map(w => w.copy.description);
-    const homes = LOCALES.flatMap(locale => [HOME_COPY[locale].title, HOME_COPY[locale].description]);
+    const homes = LOCALES.flatMap(locale => [homeCopy(locale).title, homeCopy(locale).description]);
     assert.equal(new Set([...titles, ...homes.filter((_, i) => i % 2 === 0)]).size, titles.length + LOCALES.length);
     assert.equal(new Set([...descriptions, ...homes.filter((_, i) => i % 2 === 1)]).size, descriptions.length + LOCALES.length);
     for (const title of titles) assert.ok(title.length <= 60, `title too long: ${title}`);
@@ -242,8 +242,10 @@ describe("site-wide claims", () => {
   it("dates each page by its last substantial change in the sitemap and its structured data", () => {
     const lastmod = Object.fromEntries(sitemap().map(e => [decodeURIComponent(new URL(e.url).pathname), new Date(e.lastModified!).toISOString().slice(0, 10)]));
     for (const path of ["/tiktok-video-downloader", "/tiktok-to-mp3", "/fr/telecharger-video-tiktok", "/fr/tiktok-en-mp3"]) assert.equal(lastmod[path], "2026-10-27", path);
-    // the homes' search copy changed on 27/10; the legal pages did not change substantially: their shared date stays
-    for (const path of ["/", "/fr/", "/es/", "/ar/"]) assert.equal(lastmod[path], "2026-10-27", path);
+    // the English and French homes' search copy changed on 27/10; the other homes (wording unchanged) and the legal
+    // pages did not change substantially: their shared date stays
+    for (const path of ["/", "/fr/"]) assert.equal(lastmod[path], "2026-10-27", path);
+    for (const path of ["/es/", "/ar/"]) assert.equal(lastmod[path], "2026-10-12", path);
     for (const path of ["/legal", "/fr/mentions-legales"]) assert.equal(lastmod[path], "2026-10-12", path);
     assert.equal(Object.keys(lastmod).length, 20);
   });

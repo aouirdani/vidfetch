@@ -276,7 +276,7 @@
           {
             "heading": "Quand un téléchargement TikTok s'arrête ou ne démarre pas",
             "paragraphs": [
-              "Avant le premier téléchargement, VidFetch peut afficher une courte vérification automatique qui protège le service contre les abus automatisés ; le téléchargement reprend une fois celle-ci terminée. Quand le service est chargé, votre demande attend dans une file courte et la page indique votre position.",
+              "Avant le premier téléchargement, VidFetch peut afficher une courte vérification automatique qui protège le service contre les abus automatisés ; le téléchargement se poursuit une fois celle-ci terminée. Quand le service est chargé, votre demande attend dans une file courte et la page indique votre position.",
               "Chaque préparation est limitée à 10 minutes et chaque connexion à 8 téléchargements par jour. Un lien de téléchargement n'est valable que peu de temps et une seule fois : s'il a expiré, relancez l'analyse au lieu de réutiliser un ancien lien, et gardez la page ouverte jusqu'à ce que le navigateur indique que le fichier est complet."
             ]
           },
@@ -477,7 +477,7 @@
           {
             "heading": "Où se trouve le MP3 sur un téléphone",
             "paragraphs": [
-              "Sur iPhone, Safari range le MP3 dans le dossier Téléchargements de l'app Fichiers, où vous pouvez l'écouter ou le partager vers une autre app. Sur Android, Chrome l'affiche dans Téléchargements, depuis son menu, et le fichier rejoint l'emplacement de téléchargement du téléphone avec vos autres fichiers.",
+              "Sur iPhone, Safari range le MP3 dans le dossier Téléchargements de l'app Fichiers, où vous pouvez l'écouter ou le partager vers une autre app. Sur Android, le MP3 apparaît dans Téléchargements, depuis le menu de Chrome, et se trouve dans l'emplacement de téléchargement du téléphone, avec vos autres fichiers téléchargés.",
               "Le MP3 est un fichier sur votre appareil : il n'apparaît pas dans la bibliothèque d'une application de streaming musical."
             ]
           },
@@ -492,7 +492,7 @@
             "heading": "La musique des vidéos TikTok et vos droits",
             "paragraphs": [
               "Beaucoup de vidéos TikTok utilisent des chansons du commerce que le créateur ou TikTok peuvent utiliser sur la plateforme. Enregistrer la bande-son en MP3 ne vous donne aucun droit de publier, de vendre ou de réutiliser cette musique ailleurs.",
-              "Les sons les plus sûrs à conserver sont les vôtres : une voix off que vous avez enregistrée, une intervention que vous avez donnée, ou un son dont le créateur autorise la réutilisation."
+              "Les sons les plus sûrs à conserver sont les vôtres : une voix off que vous avez enregistrée, une intervention que vous avez faite, ou un son dont le créateur autorise la réutilisation."
             ]
           }
         ],

@@ -58,8 +58,9 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
   const canSubmit = detection.ok && !youtube && !loading;
   // On a platform page, show that platform's link shape rather than a generic one.
   const hint = PLATFORM_META[platform ?? "tiktok"].examples[0] ?? PLATFORM_META.tiktok.examples[0];
-  // TikTok is the platform validated on our hosting: the TikTok pages speak only of TikTok links.
-  const form = FORM_COPY[locale], supported = platform === "tiktok" ? form.tiktokHint : form.supportedHint;
+  // TikTok is the platform validated on our hosting: the TikTok pages speak only of TikTok links. A language without
+  // reviewed form copy keeps the published dictionary line.
+  const form = FORM_COPY[locale], supported = (platform === "tiktok" ? form?.tiktokHint : form?.supportedHint) ?? d.supportedHint;
 
   useEffect(() => () => requestRef.current?.abort(), []);
   useEffect(() => {
@@ -188,7 +189,7 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
         {/* Link shapes as plain text: no example button, so the page never starts a download of someone else's video. */}
         {!result && !loading && (
           <p className="mt-4 flex flex-wrap items-center justify-center gap-2 text-[11px] text-slate-400">
-            <span>{form.linkFormats}</span>
+            <span>{d.linkExample}</span>
             {TIKTOK_LINK_SHAPES.map((shape) => <code key={shape} dir="ltr" className="rounded bg-white/5 px-1.5 py-0.5 font-mono text-slate-300">{shape}</code>)}
           </p>
         )}

@@ -4,7 +4,7 @@ Préparation commencée le 11 octobre et finalisée le 12 octobre 2026 (Europe/P
 
 ## État et limites de cette version
 
-Next.js **16.4.0**, ESLint Next **16.4.0**, PostCSS **8.5.23**. Les pages, métadonnées, sitemap, robots, manifest et image sociale sont disponibles. Le domaine attendu dans le code est `vidfetch.io` ; son association au projet Vercel doit être vérifiée dans votre interface, sans changer le DNS si cette association existe déjà.
+Next.js **16.4.0**, ESLint Next **16.4.0**, PostCSS **8.5.23**. Les pages, métadonnées, sitemap, robots, manifest et image sociale sont disponibles. Le domaine attendu dans le code est `vidfetch.app` ; son association au projet Vercel doit être vérifiée dans votre interface, sans changer le DNS si cette association existe déjà.
 
 Le backend Pi reste un service indépendant sur loopback. Le frontend Vercel n'y a aucun accès. Le mode dégradé est désormais le **mode par défaut**, même sans `VERCEL`, `VERCEL_ENV` ou `VIDFETCH_TARGET`. Un simple `npm run build` ne nécessite aucune `DATABASE_URL`. Il affiche l'indisponibilité des extractions et des téléchargements vidéo/MP3 et désactive leurs contrôles. Les fonctions Next n'importent ni la base ni les moteurs : santé frontend HTTP 200 avec `downloads.available=false`, autres appels média HTTP 503 JSON `BACKEND_UNAVAILABLE`. Cette réponse précède la lecture et la validation du corps. Les méthodes non prévues renvoient HTTP 405. Aucun fichier vidéo ne traverse Vercel.
 

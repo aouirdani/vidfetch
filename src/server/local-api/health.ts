@@ -10,7 +10,7 @@ export async function GET() {
     await getDb().execute(sql`select 1`);
     return Response.json({
       ok: true,
-      service: "vidfetch.io",
+      service: "VidFetch",
       engine: engineStatus(),
       timestamp: new Date().toISOString(),
     });

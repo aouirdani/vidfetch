@@ -16,7 +16,7 @@ async function main() {
   const port = Number(process.env.PORT || 5000);
   const dev = process.env.NODE_ENV !== "production";
   if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error("PORT must be a valid TCP port.");
-  const origins = new Set((process.env.CORS_ORIGIN || "https://vidfetch.io").split(",").map((origin) => origin.trim().replace(/\/$/, "")).filter(Boolean));
+  const origins = new Set((process.env.CORS_ORIGIN || "https://vidfetch.app").split(",").map((origin) => origin.trim().replace(/\/$/, "")).filter(Boolean));
   if (dev) ["http://localhost:3000", "http://localhost:5000", "http://localhost:5173", "http://127.0.0.1:3000"].forEach((origin) => origins.add(origin));
   const frontend = next({ dev, hostname: "0.0.0.0", port });
   await frontend.prepare();

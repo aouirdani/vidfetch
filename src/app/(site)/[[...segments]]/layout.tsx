@@ -9,6 +9,7 @@ import { resolvePage } from "@/lib/site-pages";
 import { localizedIdentity } from "@/lib/localized-seo";
 import { SITE, jsonLdGraph } from "@/lib/seo";
 import { ADSENSE_SCRIPT, ADVERTISING_PRIVACY, showsAds } from "@/lib/adsense";
+import { withOfficialContacts } from "@/lib/contact";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url), applicationName: SITE.name, creator: SITE.name, publisher: SITE.name,
   icons: { icon: [{ url: "/favicon.ico", sizes: "48x48" }, { url: "/icon.svg", type: "image/svg+xml" }] }, manifest: "/manifest.webmanifest",
@@ -22,7 +23,7 @@ export default async function SiteLayout({ children, params }: { children: React
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdGraph(localizedIdentity(locale)) }} />
     {showsAds(page) && <script async src={ADSENSE_SCRIPT} crossOrigin="anonymous" />}
   </head><body className="min-h-dvh bg-ink-950 font-sans text-slate-100 antialiased">
-    <I18nProvider locale={locale} messages={{ ...d, privacy1: ADVERTISING_PRIVACY[locale] }}>
+    <I18nProvider locale={locale} messages={{ ...withOfficialContacts(d), privacy1: ADVERTISING_PRIVACY[locale] }}>
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-[100] focus:rounded-xl focus:bg-cyan-600 focus:px-4 focus:py-2 focus:text-sm focus:text-white">{d.skip}</a>
       <div className="pointer-events-none fixed inset-0 -z-10 aurora" aria-hidden /><div className="pointer-events-none fixed inset-0 -z-10 grid-lines" aria-hidden />
       <div className="flex min-h-dvh flex-col"><Header locale={locale} identity={identity} /><main id="main" className="flex-1">{children}</main><Footer locale={locale} /></div>
