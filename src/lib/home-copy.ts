@@ -31,9 +31,9 @@ export const HOME_COPY: Partial<Record<Locale, HomeCopy>> = {
   },
   fr: {
     title: "Téléchargeur de vidéos en ligne – MP4 et MP3 | VidFetch",
-    description: "Téléchargez des vidéos et extrayez leur audio depuis les plateformes compatibles. Collez votre lien, choisissez le format disponible et récupérez votre fichier.",
+    description: "Téléchargez des vidéos et extrayez leur audio depuis les plateformes compatibles. Collez votre lien, choisissez un format disponible et récupérez votre fichier.",
     heroTitle: "Téléchargez des vidéos en ligne",
-    heroAccent: "en MP4 ou MP3",
+    heroAccent: "au format MP4 ou MP3",
     heroDescription: "Collez le lien d'une vidéo publique que vous avez le droit de conserver. VidFetch affiche les formats proposés par la plateforme et enregistre celui que vous choisissez sur votre téléphone ou votre ordinateur.",
     platformsAnswer: "Les liens de vidéos TikTok publiques sont vérifiés sur notre hébergement, y compris les liens de partage de l'application. Les liens Instagram et X sont reconnus mais pas encore vérifiés : ils peuvent échouer. YouTube n'est pas disponible : il exige une connexion de la part des serveurs d'hébergement comme le nôtre, et VidFetch ne contourne pas cette vérification.",
   },
