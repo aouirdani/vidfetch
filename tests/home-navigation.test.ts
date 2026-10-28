@@ -21,7 +21,7 @@ const banned = /\b(best|fastest|unlimited|guaranteed|100\s?%)\b|illimit|garanti|
 // New wording is published only where it was reviewed (English, French); the other languages keep the dictionaries.
 const REVIEWED = ["en", "fr"] as const;
 
-describe("home pages: TikTok search copy kept out of the gateway dictionaries", () => {
+describe("home pages: generic search copy kept out of the gateway dictionaries", () => {
   it("has its own copy in English and French only; the other languages keep their published wording", () => {
     assert.deepEqual(Object.keys(HOME_COPY).sort(), [...REVIEWED].sort());
     assert.deepEqual(Object.keys(FORM_COPY).sort(), [...REVIEWED].sort());
@@ -31,18 +31,20 @@ describe("home pages: TikTok search copy kept out of the gateway dictionaries", 
     }
   });
 
-  it("gives the English and French homes a title, description and H1 that name TikTok, MP4 and MP3", () => {
+  it("presents the English and French homes as a generic video downloader: MP4 and MP3, no platform named", () => {
     for (const locale of REVIEWED) {
       const copy = HOME_COPY[locale]!;
       assert.ok(copy.title.length <= 60 && copy.title.endsWith("| VidFetch"), `${locale}: ${copy.title}`);
       assert.ok(copy.description.length >= 110 && copy.description.length <= 160, `${locale} description ${copy.description.length}`);
-      for (const text of [copy.title, copy.description, `${copy.heroTitle} ${copy.heroAccent}`]) {
-        assert.match(text, /TikTok|تيك توك/, locale); assert.match(text, /MP4/, locale); assert.match(text, /MP3/, locale);
+      for (const text of [copy.title, `${copy.heroTitle} ${copy.heroAccent}`]) {
+        assert.match(text, /vid[eé]o/i, locale); assert.match(text, /MP4/, locale); assert.match(text, /MP3/, locale);
       }
       assert.doesNotMatch(Object.values(copy).join("\n"), banned, locale);
-      assert.doesNotMatch([copy.title, copy.description, copy.heroTitle, copy.heroAccent, copy.heroDescription].join(" "), /youtube|يوتيوب|instagram|إنستغرام/i, locale);
-      // the FAQ answer is the one place that names the other platforms, honestly
-      assert.match(copy.platformsAnswer, /YouTube|يوتيوب/, locale); assert.match(copy.platformsAnswer, /Instagram|إنستغرام/, locale);
+      // no platform in the search copy: no unverified promise, and the TikTok queries stay with the TikTok pages
+      assert.doesNotMatch([copy.title, copy.description, copy.heroTitle, copy.heroAccent, copy.heroDescription].join(" "), /tiktok|youtube|instagram|twitter|\bX\b/i, locale);
+      // the FAQ answer is the one place that says which platforms are verified, accepted or unavailable
+      assert.match(copy.platformsAnswer, /TikTok/, locale); assert.match(copy.platformsAnswer, /Instagram/, locale); assert.match(copy.platformsAnswer, /YouTube/, locale);
+      assert.match(FORM_COPY[locale]!.supportedHint, /TikTok[\s\S]*Instagram[\s\S]*YouTube/, locale);
     }
   });
 
