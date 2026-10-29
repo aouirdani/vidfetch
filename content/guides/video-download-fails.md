@@ -4,7 +4,7 @@
   "description": "Distinguish a restricted source, a busy service, an expired download link and a broken connection, then retry without bypassing platform protections.",
   "category": "Troubleshooting",
   "created": "2026-10-12",
-  "updated": "2026-10-12",
+  "updated": "2026-10-29",
   "published": "2026-10-29",
   "status": "ready",
   "related": [

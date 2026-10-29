@@ -4,7 +4,7 @@
   "description": "Make smaller copies of your own videos by choosing sensible resolution, bitrate and encoder settings, then checking the result before replacing anything.",
   "category": "Video quality",
   "created": "2026-10-12",
-  "updated": "2026-10-12",
+  "updated": "2026-10-29",
   "published": "2026-10-29",
   "status": "ready",
   "related": [
@@ -21,7 +21,8 @@
       "title": "FFmpeg: video filters",
       "url": "https://www.ffmpeg.org/ffmpeg-filters.html"
     }
-  ]
+  ],
+  "seoTitle": "Reduce video size without needless quality loss"
 }
 ---
 To make a video smaller, reduce the amount of data it carries. Shortening a clip, choosing a lower bitrate or reducing resolution can help, but each choice serves a different purpose. Work on a copy and check a representative scene before converting a whole collection. There is no setting that guarantees the same quality at a much smaller size for every source.

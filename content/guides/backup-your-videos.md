@@ -4,7 +4,7 @@
   "description": "Keep original recordings, organize independent copies and test restoration so a backup means more than a folder you have never checked.",
   "category": "Personal archives",
   "created": "2026-10-12",
-  "updated": "2026-10-12",
+  "updated": "2026-10-29",
   "published": "2026-10-29",
   "status": "ready",
   "related": [
@@ -21,7 +21,8 @@
       "title": "GNU Coreutils: checksum utilities",
       "url": "https://www.gnu.org/software/coreutils/manual/html_node/cksum-common-options.html"
     }
-  ]
+  ],
+  "seoTitle": "Back up your videos and verify the copies"
 }
 ---
 A useful video backup preserves your original files and gives you a working copy when the primary storage fails. Start with material you own or are authorized to retain. Keep more than one independent copy, record where it is stored and test that you can restore and play it. A synchronized folder alone is not proof of a recoverable archive.

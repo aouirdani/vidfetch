@@ -12,7 +12,7 @@ export function localizedMetadata(page: SitePage): Metadata {
   const approved = identity.kind === "platform" ? availablePlatformPages(page.locale).find(entry => entry.id === identity.id) : undefined;
   const platformCopy = approved && approvedPlatformCopy(approved, page.locale);
   // Only approved platform pages resolve (site-pages), so a platform page always has its own copy.
-  const title = guide ? `${guide.title} | VidFetch` : platformCopy ? `${platformCopy.title} | VidFetch` : kind === "home" ? homeCopy(page.locale).title : kind === "blog" ? d.blogMetaTitle : `${d.legalTitle} | VidFetch`;
+  const title = guide ? `${guide.seoTitle ?? guide.title} | VidFetch` : platformCopy ? `${platformCopy.title} | VidFetch` : kind === "home" ? homeCopy(page.locale).title : kind === "blog" ? (page.locale === "en" ? "TikTok, Video & Audio Guides | VidFetch" : d.blogMetaTitle) : `${d.legalTitle} | VidFetch`;
   const description = guide?.description ?? platformCopy?.description ?? (kind === "home" ? homeCopy(page.locale).description : kind === "blog" ? d.blogMetaDescription : d.legalDescription);
   const url = new URL(page.path, SITE.url).href;
   return { title: { absolute: title }, description,

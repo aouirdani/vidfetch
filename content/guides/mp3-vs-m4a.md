@@ -4,7 +4,7 @@
   "description": "Learn what MP3 and M4A actually contain, when conversion makes sense, and how to balance playback compatibility with audio size.",
   "category": "Audio formats",
   "created": "2026-10-12",
-  "updated": "2026-10-12",
+  "updated": "2026-10-29",
   "published": "2026-10-29",
   "status": "ready",
   "related": [

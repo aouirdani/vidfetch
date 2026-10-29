@@ -4,7 +4,7 @@
   "description": "Extract an existing soundtrack or make an MP3 copy of a video you are allowed to use, while preserving the original and checking audio quality.",
   "category": "Audio conversion",
   "created": "2026-10-12",
-  "updated": "2026-10-12",
+  "updated": "2026-10-29",
   "published": "2026-10-29",
   "status": "ready",
   "related": [

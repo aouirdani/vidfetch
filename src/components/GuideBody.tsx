@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { type Locale, articlePath } from "@/i18n/config";
 import { availableGuides } from "@/lib/guides";
+import { resolvePage } from "@/lib/site-pages";
 import { headingId } from "@/lib/guides";
 
 /** A small, deliberately restricted Markdown dialect. HTML is rendered as text. */
@@ -13,7 +14,7 @@ function inline(text: string, locale: Locale): ReactNode[] {
       if (href.startsWith("/") && !href.startsWith("//")) {
         const id = /^\/blog\/([a-z0-9-]+)$/.exec(href)?.[1];
         const guide = id ? availableGuides(locale).find(g => g.id === id) : undefined;
-        if (!guide) return label;
+        if (!guide) return resolvePage(href.split("/").filter(Boolean)) ? <Link key={i} href={href} prefetch={false}>{label}</Link> : label;
         return <Link key={i} href={articlePath(locale, guide.slug)} prefetch={false}>{label}</Link>;
       }
       if (href.startsWith("https://")) return <a key={i} href={href} rel="noopener noreferrer">{label}</a>;

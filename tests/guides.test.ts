@@ -4,9 +4,9 @@ import { guides, guideFor, guideSchema, headingId } from "../src/lib/guides";
 import { SITE, jsonLdGraph } from "../src/lib/seo";
 
 test("ten complete guides have unique metadata, real dates and resolvable internal links", () => {
-  const all = guides(); assert.equal(all.length, 10);
-  assert.equal(new Set(all.map(a => a.title)).size, 10);
-  assert.equal(new Set(all.map(a => a.description)).size, 10);
+  const all = guides(); assert.equal(all.length, 13);
+  assert.equal(new Set(all.map(a => a.title)).size, 13);
+  assert.equal(new Set(all.map(a => a.description)).size, 13);
   for (const a of all) {
     assert.ok(a.body.split(/\s+/).length >= 380, a.slug);
     const today = new Date().toISOString().slice(0, 10);

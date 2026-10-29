@@ -63,7 +63,7 @@ describe("navigation", () => {
   it("never links an empty guide index: Guides appears only in a language with guides to show", () => {
     for (const locale of LOCALES) {
       const has = availableGuides(locale).length > 0;
-      assert.equal(has, locale === "en", locale);
+      assert.equal(has, ["en", "fr"].includes(locale), locale);
       assert.equal(sitePages().some(p => p.locale === locale && p.identity.kind === "blog"), has, locale);
     }
     for (const file of ["src/components/Header.tsx", "src/components/Footer.tsx"]) {
