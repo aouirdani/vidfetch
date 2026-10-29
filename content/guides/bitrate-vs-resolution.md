@@ -5,7 +5,7 @@
   "category": "Video quality",
   "created": "2026-10-12",
   "updated": "2026-10-12",
-  "published": null,
+  "published": "2026-10-29",
   "status": "ready",
   "related": [
     "720p-1080p-4k",

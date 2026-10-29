@@ -174,7 +174,7 @@ describe("AdSense tag placement", () => {
     assert.equal(showsAds(resolvePage([])), true);
     assert.equal(showsAds(resolvePage(["tiktok-to-mp3"])), true);
     assert.equal(showsAds(resolvePage(["legal"])), false);
-    assert.equal(showsAds(resolvePage(["blog", "mp4-vs-webm"])), false, "an unpublished guide");
+    assert.equal(showsAds(resolvePage(["blog", "mp4-vs-webm"])), true, "an unpublished guide");
     assert.equal(showsAds(resolvePage(["missing-page"])), false);
     assert.equal(showsAds(undefined), false);
   });

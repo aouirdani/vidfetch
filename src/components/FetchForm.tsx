@@ -189,7 +189,7 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
         {/* Link shapes as plain text: no example button, so the page never starts a download of someone else's video. */}
         {!result && !loading && (
           <p className="mt-4 flex flex-wrap items-center justify-center gap-2 text-[11px] text-slate-400">
-            <span>{d.linkExample}</span>
+            <span>{d.linkExample}{" "}</span>
             {TIKTOK_LINK_SHAPES.map((shape) => <code key={shape} dir="ltr" className="rounded bg-white/5 px-1.5 py-0.5 font-mono text-slate-300">{shape}</code>)}
           </p>
         )}

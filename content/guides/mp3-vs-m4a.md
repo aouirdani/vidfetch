@@ -5,7 +5,7 @@
   "category": "Audio formats",
   "created": "2026-10-12",
   "updated": "2026-10-12",
-  "published": null,
+  "published": "2026-10-29",
   "status": "ready",
   "related": [
     "video-to-audio",

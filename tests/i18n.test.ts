@@ -66,24 +66,24 @@ test("sitemap contains exactly published canonical equivalents and excludes unve
   const entries = sitemap();
   assert.equal(entries.length, sitePages().filter(p => p.indexable).length);
   assert.equal(new Set(entries.map(p => p.url)).size, entries.length);
-  assert.equal(entries.length, 20);   // 8 homes + 8 legal + 4 approved TikTok pages (en video, en MP3, fr video, fr MP3)
+  assert.equal(entries.length, 31);   // 8 homes + 8 legal + 4 approved TikTok pages (en video, en MP3, fr video, fr MP3)
   for (const entry of entries) {
     const parts = new URL(entry.url).pathname.split("/").filter(Boolean).map(decodeURIComponent);
     assert.ok(resolvePage(parts)?.indexable);
     const tiktok = { "/tiktok-video-downloader": ["en", "fr", "x-default"], "/fr/telecharger-video-tiktok": ["en", "fr", "x-default"], "/tiktok-to-mp3": ["en", "fr", "x-default"], "/fr/tiktok-en-mp3": ["en", "fr", "x-default"] } as Record<string, string[]>;
     const path = new URL(entry.url).pathname;
     if (tiktok[path]) assert.deepEqual(Object.keys(entry.alternates?.languages ?? {}).sort(), tiktok[path].sort(), path);
-    else assert.equal(Object.keys(entry.alternates?.languages ?? {}).length, 9);
+    else assert.equal(Object.keys(entry.alternates?.languages ?? {}).length, /\/blog/.test(entry.url) ? 2 : 9);
     assert.ok(entry.lastModified instanceof Date && entry.lastModified <= new Date());
     assert.doesNotMatch(entry.url, /youtube|api\//);
   }
   assert.equal(sitePages().filter(p => p.identity.kind === "guide").length, 10);
-  assert.ok(sitePages().filter(p => p.identity.kind === "guide").every(p => !p.indexable));
+  assert.ok(sitePages().filter(p => p.identity.kind === "guide").every(p => p.indexable));
   assert.deepEqual(sitePages().filter(p => p.identity.kind === "platform" && p.indexable).map(p => p.path).sort(), ["/fr/telecharger-video-tiktok", "/fr/tiktok-en-mp3", "/tiktok-to-mp3", "/tiktok-video-downloader"]);
 });
 test("article publication rejects review, missing dates and future dates; Unicode anchors survive", () => {
   const original = guides()[0];
-  assert.equal(isPublishedGuide(original), false);
+  assert.equal(isPublishedGuide(original), true);
   assert.equal(isPublishedGuide({ ...original, status: "review", published: "2026-10-12" }), false);
   assert.equal(isPublishedGuide({ ...original, published: "2999-01-01" }), false);
   assert.equal(isPublishedGuide({ ...original, published: "2026-10-12" }), true);

@@ -5,7 +5,7 @@
   "category": "Audio conversion",
   "created": "2026-10-12",
   "updated": "2026-10-12",
-  "published": null,
+  "published": "2026-10-29",
   "status": "ready",
   "related": [
     "mp3-vs-m4a",

@@ -37,7 +37,7 @@ export function platformPageSchemas(page: SitePage, copy: { title: string; descr
       { "@type": "ListItem", position: 1, name: d.home, item: home },
       { "@type": "ListItem", position: 2, name: copy.title, item: url }] },
     { "@type": "WebApplication", "@id": `${url}#app`, name: copy.heading, url, description: copy.description, inLanguage: page.locale,
-      applicationCategory: "MultimediaApplication", operatingSystem: "Web", isAccessibleForFree: true,
+      applicationCategory: "MultimediaApplication", operatingSystem: "Any", isAccessibleForFree: true,
       offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, featureList: copy.supported, publisher: { "@id": `${SITE.url}/#organization` } },
   ];
 }
