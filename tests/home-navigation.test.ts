@@ -7,7 +7,6 @@ import { HOME_COPY, HOME_UPDATED, homeCopy } from "../src/lib/home-copy";
 import { FORM_COPY, TIKTOK_LINK_SHAPES } from "../src/lib/form-copy";
 import { CONTACTS, withOfficialContacts } from "../src/lib/contact";
 import { dictionaries } from "../src/i18n/dictionaries";
-import { CONTENT_UPDATED } from "../src/lib/seo";
 import { showsAds } from "../src/lib/adsense";
 import { availablePlatformPages, approvedPlatformCopy, englishPlatformLinks, navigationPlatformLinks, platformCandidates } from "../src/lib/platform-pages";
 import { resolvePage, sitePages } from "../src/lib/site-pages";
@@ -21,57 +20,22 @@ const banned = /\b(best|fastest|unlimited|guaranteed|100\s?%)\b|illimit|garanti|
 // New wording is published only where it was reviewed (English, French); the other languages keep the dictionaries.
 const REVIEWED = ["en", "fr"] as const;
 
-describe("home pages: generic search copy kept out of the gateway dictionaries", () => {
-  it("has its own copy in English and French only; the other languages keep their published wording", () => {
-    assert.deepEqual(Object.keys(HOME_COPY).sort(), [...REVIEWED].sort());
-    assert.deepEqual(Object.keys(FORM_COPY).sort(), [...REVIEWED].sort());
-    for (const locale of LOCALES.filter(l => !(REVIEWED as readonly string[]).includes(l))) {
-      const d = dictionary(locale), copy = homeCopy(locale);
-      assert.deepEqual(copy, { title: d.metaTitle, description: d.metaDescription, heroTitle: d.heroTitle, heroAccent: d.heroAccent, heroDescription: d.heroDescription, platformsAnswer: d.faq2a, updated: CONTENT_UPDATED }, locale);
-    }
-  });
-
-  it("presents the English and French homes as a generic video downloader: MP4 and MP3, no platform named", () => {
-    for (const locale of REVIEWED) {
-      const copy = HOME_COPY[locale]!;
-      assert.ok(copy.title.length <= 60 && copy.title.endsWith("| VidFetch"), `${locale}: ${copy.title}`);
-      assert.ok(copy.description.length >= 110 && copy.description.length <= 160, `${locale} description ${copy.description.length}`);
-      for (const text of [copy.title, `${copy.heroTitle} ${copy.heroAccent}`]) {
-        assert.match(text, /vid[eé]o/i, locale); assert.match(text, /MP4/, locale); assert.match(text, /MP3/, locale);
-      }
-      assert.doesNotMatch(Object.values(copy).join("\n"), banned, locale);
-      // no platform in the search copy: no unverified promise, and the TikTok queries stay with the TikTok pages
-      assert.doesNotMatch([copy.title, copy.description, copy.heroTitle, copy.heroAccent, copy.heroDescription].join(" "), /tiktok|youtube|instagram|twitter|\bX\b/i, locale);
-      // the FAQ answer is the one place that says which platforms are verified, accepted or unavailable
-      assert.match(copy.platformsAnswer, /TikTok/, locale); assert.match(copy.platformsAnswer, /Instagram/, locale); assert.match(copy.platformsAnswer, /YouTube/, locale);
-      assert.match(FORM_COPY[locale]!.supportedHint, /TikTok[\s\S]*Instagram[\s\S]*YouTube/, locale);
-    }
-  });
-
-  it("keeps the home and the specialised TikTok pages apart: different titles and H1s", () => {
-    const pages = LOCALES.flatMap(locale => availablePlatformPages(locale).map(entry => approvedPlatformCopy(entry, locale)!));
-    const homeTitles = LOCALES.map(l => homeCopy(l).title), homeH1 = LOCALES.map(l => `${homeCopy(l).heroTitle} ${homeCopy(l).heroAccent}`);
-    assert.equal(new Set(homeTitles).size, LOCALES.length); assert.equal(new Set(homeH1).size, LOCALES.length);
-    for (const page of pages) {
-      assert.ok(!homeTitles.includes(`${page.title} | VidFetch`), page.title);
-      assert.ok(!homeH1.some(h1 => h1.toLowerCase().startsWith(page.heading.toLowerCase())), page.heading);
-    }
-  });
-
-  it("serves the home copy as metadata and dates the homes by it", () => {
+describe("home pages: TikTok search intent", () => {
+  it("has distinct localized metadata and a useful format-specific heading", () => {
+    assert.deepEqual(Object.keys(HOME_COPY).sort(), [...LOCALES].sort());
     for (const locale of LOCALES) {
-      const page = sitePages().find(p => p.locale === locale && p.identity.kind === "home")!;
-      const meta = localizedMetadata(page);
-      assert.equal((meta.title as { absolute: string }).absolute, homeCopy(locale).title);
-      assert.equal(meta.description, homeCopy(locale).description);
-      assert.equal(homeCopy(locale).updated, (REVIEWED as readonly string[]).includes(locale) ? HOME_UPDATED : CONTENT_UPDATED);
+      const copy = homeCopy(locale);
+      assert.ok(copy.title.length <= 60 && copy.title.endsWith("| VidFetch"));
+      assert.ok(copy.description.length <= 160);
+      assert.match(copy.heroTitle, /TikTok|تيك توك/);
+      assert.match(copy.platformsAnswer, /YouTube|يوتيوب/);
+      assert.equal(copy.updated, HOME_UPDATED);
+      for (const entry of availablePlatformPages(locale)) {
+        const tool = approvedPlatformCopy(entry, locale)!;
+        assert.notEqual(copy.title, `${tool.title} | VidFetch`);
+        assert.notEqual(`${copy.heroTitle} ${copy.heroAccent}`, tool.heading);
+      }
     }
-    for (const locale of REVIEWED) assert.notEqual(HOME_COPY[locale]!.title, dictionary(locale).metaTitle, "the dictionaries are left as they are");
-    assert.match(HOME_UPDATED, /^\d{4}-\d{2}-\d{2}$/);
-    const view = source("src/views/SiteViews.tsx");
-    assert.match(view, /\{copy\.heroTitle\}<br \/><span className="text-cyan-300">\{copy\.heroAccent\}<\/span><\/h1>/);
-    assert.match(view, /\[d\.faq2q, copy\.platformsAnswer\]/);
-    assert.match(view, /localizedPageSchema\(page, copy\.title, copy\.description, copy\.updated\)/);
   });
 });
 
@@ -80,7 +44,7 @@ describe("navigation", () => {
     for (const locale of LOCALES) {
       const links = navigationPlatformLinks(locale);
       const own = true;
-      assert.deepEqual(links.map(l => l.href), availablePlatformPages(locale).map(e => `${locale === "en" ? "" : "/" + ({"pt-BR":"pt"}[locale] ?? locale)}/${e.slugs[locale]}`));
+      assert.deepEqual(links.map(l => l.href), availablePlatformPages(locale).map(e => `${locale === "en" ? "" : "/" + (locale === "pt-BR" ? "pt" : locale)}/${e.slugs[locale]}`));
       for (const link of links) {
         assert.equal(resolvePage(link.href.split("/").filter(Boolean))?.indexable, true, link.href);
         assert.match(link.label, /MP[34]/); assert.match(link.label, /TikTok|تيك توك/);

@@ -237,8 +237,8 @@ describe("site-wide claims", () => {
     for (const path of ["/tiktok-video-downloader", "/tiktok-to-mp3", "/fr/telecharger-video-tiktok", "/fr/tiktok-en-mp3"]) assert.equal(lastmod[path], "2026-10-27", path);
     // the English and French homes' search copy changed on 27/10, then became generic again on 28/10; the other homes
     // (wording unchanged) and the legal pages did not change substantially: their shared date stays
-    for (const path of ["/", "/fr"]) assert.equal(lastmod[path], "2026-10-28", path);
-    for (const path of ["/es", "/ar"]) assert.equal(lastmod[path], "2026-10-12", path);
+    for (const path of ["/", "/fr"]) assert.equal(lastmod[path], "2026-10-29", path);
+    for (const path of ["/es", "/ar"]) assert.equal(lastmod[path], "2026-10-29", path);
     for (const path of ["/legal", "/fr/mentions-legales"]) assert.equal(lastmod[path], "2026-10-12", path);
     assert.equal(Object.keys(lastmod).length, 43);
   });

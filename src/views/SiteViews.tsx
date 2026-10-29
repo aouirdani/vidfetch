@@ -6,7 +6,7 @@ import { FetchForm } from "@/components/FetchForm";
 import { GuideBody } from "@/components/GuideBody";
 import { availableGuides, guideSchema, headingId } from "@/lib/guides";
 import { CONTENT_UPDATED, SITE, breadcrumbSchema, faqSchema, jsonLdGraph } from "@/lib/seo";
-import { homeCopy } from "@/lib/home-copy";
+import { homeCopy, homeSections } from "@/lib/home-copy";
 import { localizedPageSchema, platformPageSchemas } from "@/lib/localized-seo";
 import { ADVERTISING_PRIVACY } from "@/lib/adsense";
 import { withOfficialContacts } from "@/lib/contact";
@@ -29,6 +29,8 @@ export function HomeView({ page }: { page: SitePage }) {
     <section className="defer-paint mt-16 rounded-2xl border border-white/10 bg-white/[0.025] p-6 sm:p-9"><p className="eyebrow">{d.formatsEyebrow}</p><h2 className="mt-3 text-3xl font-semibold">{d.formatsTitle}</h2><div className="mt-7 grid gap-7 sm:grid-cols-2">{[[d.videoTitle, d.videoText], [d.audioTitle, d.audioText]].map(([title, text]) => <div key={title}><h3 className="text-lg font-semibold">{title}</h3><p className="mt-2 leading-relaxed text-slate-400">{text}</p></div>)}</div></section>
     {(tools.length > 0 || english.length > 0) && <section className="defer-paint mt-16"><h2 className="text-3xl font-semibold">{PLATFORM_TOOLS_TITLE[page.locale]}</h2><ul className="mt-6 grid gap-5 sm:grid-cols-2">{tools.map(tool => <li key={tool.id}><Link href={tool.href} className="font-medium text-cyan-300">{tool.label}</Link><p className="mt-1 text-sm text-slate-400">{tool.description}</p></li>)}{english.map(tool => <li key={tool.id}><Link href={tool.href} hrefLang="en" className="font-medium text-cyan-300">{tool.label}</Link> <span className="text-sm text-slate-400">({tool.note})</span></li>)}</ul></section>}
     {recent.length > 0 && <section className="defer-paint mt-16"><div className="flex flex-wrap items-end justify-between gap-4"><h2 className="text-3xl font-semibold">{d.guidesTitle}</h2><Link href={blog} className="flex items-center gap-2 text-sm text-cyan-300">{d.allGuides}<ArrowRight className="directional h-4 w-4" aria-hidden /></Link></div><p className="mt-5 max-w-2xl text-slate-400">{d.guidesDescription}</p><ul className="mt-7">{recent.map(g => <li key={g.id} className="border-t border-white/10 py-6"><Link href={articlePath(page.locale, g.slug)} prefetch={false}><h3 className="text-lg font-semibold text-cyan-200">{g.title}</h3><p className="mt-2 text-sm text-slate-400">{g.description}</p></Link></li>)}</ul></section>}
+    {homeSections(page.locale).map(section => <section key={section.heading} className="mt-16"><h2 className="text-3xl font-semibold">{section.heading}</h2>{section.paragraphs.map(text => <p key={text} className="mt-4 max-w-3xl leading-relaxed text-slate-300">{text}</p>)}</section>)}
+    <p className="mt-10"><Link href="/blog" className="text-cyan-300">{d.guidesTitle}</Link></p>
     <section id="faq" className="defer-paint mt-16 scroll-mt-24"><h2 className="mb-7 text-3xl font-semibold">{d.faqTitle}</h2>{faqs.map(f => <details key={f.question} className="border-t border-white/10 py-4"><summary className="cursor-pointer py-1 font-medium"><h3 className="inline">{f.question}</h3></summary><p className="mt-3 leading-relaxed text-slate-400">{f.answer}</p></details>)}</section></div>
   </>;
 }
