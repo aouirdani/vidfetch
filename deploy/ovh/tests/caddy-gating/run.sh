@@ -54,6 +54,13 @@ stop
 
 # ---- public apex (Caddyfile.public): pages and robots/sitemap reach the frontend, indexable; downloads stay closed
 start /tmp/public.caddy
+# HTTP apex and www preserve the full URI and use the requested permanent status.
+for host in vidfetch.app www.vidfetch.app; do
+  h=$(curl -s -m 5 -D - -o /dev/null -H "Host: $host" 'http://127.0.0.1:8081/blog?seo=1' | tr -d '\r')
+  expect "$(echo "$h" | head -1 | cut -d' ' -f2)" 301 "HTTP $host redirects permanently"
+  location=$(echo "$h" | awk 'tolower($1)=="location:" {print $2}')
+  expect "$location" 'https://vidfetch.app/blog?seo=1' "HTTP $host keeps path and query on the canonical HTTPS host"
+done
 hdr() { curl -s -m 5 -D - -o /dev/null -X "$1" -H "Host: vidfetch.app" "http://127.0.0.1:8080$2" | tr -d '\r'; }
 body() { curl -s -m 5 -X "$1" -H "Host: vidfetch.app" "http://127.0.0.1:8080$2"; }
 for path in / /fr/ /legal /fr/mentions-legales /robots.txt /sitemap.xml; do

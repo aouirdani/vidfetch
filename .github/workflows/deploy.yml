@@ -1,5 +1,7 @@
 name: Validate and deploy VidFetch
 on:
+  pull_request:
+    branches: [main]
   push:
     branches: [main]
   workflow_dispatch:
@@ -16,12 +18,12 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: vidfetch-ovh-frontend-test
+  group: vidfetch-ovh-frontend-${{ github.event_name == 'pull_request' && github.event.pull_request.number || 'main' }}
   cancel-in-progress: false
 jobs:
   build:
     # Build once. Manual verify/deploy reuse the exact archive, never a rebuild.
-    if: github.event_name == 'push' || inputs.operation == 'validate'
+    if: github.event_name == 'push' || github.event_name == 'pull_request' || inputs.operation == 'validate'
     runs-on: ubuntu-24.04
     timeout-minutes: 40
     outputs:
@@ -54,6 +56,8 @@ jobs:
           echo "sha256=$(sha256sum release-${{ github.sha }}.tgz | cut -d ' ' -f1)" >> "$GITHUB_OUTPUT"
       - name: Install isolated browser for local multilingual checks
         run: npx playwright install --with-deps chromium
+      - name: SEO invariants for every sitemap URL
+        run: npm run seo-check
       - name: Server HTML, eight languages, RTL and unchanged API paths
         run: npm run test:i18n
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2

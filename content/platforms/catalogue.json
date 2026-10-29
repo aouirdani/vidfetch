@@ -348,59 +348,19 @@
             ]
           },
           {
-            "heading": "Periksa lebih dari ekstensi",
+            "heading": "Kualitas dan kompatibilitas MP4",
             "paragraphs": [
               "MP4 adalah kontainer yang dapat memuat H.264, HEVC, atau trek lain. Video dan audio sama-sama harus didukung. Berkas yang lancar di browser dapat diproses berbeda di galeri maupun aplikasi lain.",
-              "Jika suara ada tetapi gambar tidak, atau sebaliknya, periksa masing-masing trek. Panduan kontainer menjelaskan isi pembungkusnya."
-            ]
-          },
-          {
-            "heading": "Sesuaikan resolusi dengan kebutuhan",
-            "paragraphs": [
+              "Jika suara ada tetapi gambar tidak, atau sebaliknya, periksa masing-masing trek. Panduan kontainer menjelaskan isi pembungkusnya.",
               "Referensi singkat di layar kecil dapat cukup pada 720p atau 1080p. Tulisan rinci, pemotongan, atau penyuntingan berikutnya mungkin memerlukan sumber lebih besar. Jangan selalu mengambil label terbesar.",
-              "Resolusi dan laju bingkai tinggi membutuhkan lebih banyak dekode. Dukungan perangkat keras berbeda-beda; ponsel lama dapat kesulitan memutar berkas yang lancar di perangkat baru."
-            ]
-          },
-          {
-            "heading": "Sisakan ruang dan gunakan koneksi stabil",
-            "paragraphs": [
-              "Ukuran yang ditampilkan dapat berupa perkiraan. Bitrate variabel, trek terpisah, serta kontainer akhir mengubah jumlahnya. Jangan memenuhi seluruh penyimpanan. Unduhan terputus bukan berkas lengkap: pastikan transfer berakhir dan periksa durasi sebelum mengarsipkan."
-            ]
-          },
-          {
-            "heading": "Temukan berkas yang tersimpan",
-            "paragraphs": [
-              "Browser biasanya memakai bagian unduhan atau pengelola berkas sistem. Menyimpan video tidak selalu menambahkannya ke galeri. Lokasi dan impor bergantung pada browser serta sistem operasi."
-            ]
-          },
-          {
-            "heading": "Menggunakan VidFetch di ponsel",
-            "paragraphs": [
-              "Tempel tautan berizin, pilih Analisis, lalu format tersedia. Pilihan mengikuti sumber. Pembatasan platform, kuota, dan antrean sibuk dapat menggagalkan persiapan tanpa berkaitan dengan ponsel. Panduan codec membantu memilih."
-            ]
-          },
-          {
-            "heading": "Pertanyaan umum",
-            "paragraphs": [
-              "Cari berkas lengkap di Unduhan terlebih dahulu, kemudian gunakan fungsi impor atau berbagi yang didukung perangkat."
-            ]
-          },
-          {
-            "heading": "Kontainer berbeda dari codec",
-            "paragraphs": [
-              "Kontainer menyatukan trek dan informasi waktu. Codec memampatkan gambar atau suara di dalamnya. MP4 sering berisi H.264 dan AAC, tetapi dapat memakai kombinasi lain. WebM menggunakan profil Matroska terbatas, termasuk video VP8, VP9 atau AV1 serta audio Vorbis atau Opus."
-            ]
-          },
-          {
-            "heading": "Pilih sesuai perangkat tujuan",
-            "paragraphs": [
+              "Resolusi dan laju bingkai tinggi membutuhkan lebih banyak dekode. Dukungan perangkat keras berbeda-beda; ponsel lama dapat kesulitan memutar berkas yang lancar di perangkat baru.",
+              "Ukuran yang ditampilkan dapat berupa perkiraan. Bitrate variabel, trek terpisah, serta kontainer akhir mengubah jumlahnya. Jangan memenuhi seluruh penyimpanan. Unduhan terputus bukan berkas lengkap: pastikan transfer berakhir dan periksa durasi sebelum mengarsipkan.",
+              "Browser biasanya memakai bagian unduhan atau pengelola berkas sistem. Menyimpan video tidak selalu menambahkannya ke galeri. Lokasi dan impor bergantung pada browser serta sistem operasi.",
+              "Tempel tautan berizin, pilih Analisis, lalu format tersedia. Pilihan mengikuti sumber. Pembatasan platform, kuota, dan antrean sibuk dapat menggagalkan persiapan tanpa berkaitan dengan ponsel. Panduan codec membantu memilih.",
+              "Cari berkas lengkap di Unduhan terlebih dahulu, kemudian gunakan fungsi impor atau berbagi yang didukung perangkat.",
+              "Kontainer menyatukan trek dan informasi waktu. Codec memampatkan gambar atau suara di dalamnya. MP4 sering berisi H.264 dan AAC, tetapi dapat memakai kombinasi lain. WebM menggunakan profil Matroska terbatas, termasuk video VP8, VP9 atau AV1 serta audio Vorbis atau Opus.",
               "Untuk video keluarga yang dibagikan ke ponsel dan komputer, MP4 dengan H.264 dan AAC sering praktis. Namun, perangkat lama atau profil pengodean tertentu tetap dapat gagal. Uji potongan pendek pada perangkat paling lama yang perlu Anda dukung sebelum membagikan seluruh koleksi.",
-              "Situs dapat menawarkan beberapa sumber untuk browser berbeda. Berkas yang lancar di komputer Anda belum tentu diterima aplikasi lain."
-            ]
-          },
-          {
-            "heading": "Ekstensi tidak menentukan ukuran",
-            "paragraphs": [
+              "Situs dapat menawarkan beberapa sumber untuk browser berbeda. Berkas yang lancar di komputer Anda belum tentu diterima aplikasi lain.",
               "Durasi, bitrate, resolusi, laju bingkai, dan pengaturan encoder memengaruhi ukuran. WebM tidak selalu lebih kecil, dan MP4 bukan ukuran kualitas. Bandingkan adegan yang sama pada tampilan yang sama. Perhatikan gerakan, tekstur, serta area gelap. Gunakan bitrate dan resolusi bersama."
             ]
           }
@@ -477,40 +437,15 @@
             ]
           },
           {
-            "heading": "Olhe além da extensão",
+            "heading": "Qualidade e compatibilidade do MP4",
             "paragraphs": [
               "MP4 é um contêiner: pode guardar H.264, HEVC ou outra faixa. Áudio e vídeo precisam ser compatíveis. Um arquivo que toca no navegador pode ser tratado de outra maneira pela galeria ou por outro aplicativo.",
-              "Se houver som sem imagem, ou o contrário, examine as faixas separadamente. O guia de contêineres explica o conteúdo do arquivo."
-            ]
-          },
-          {
-            "heading": "Ajuste resolução ao uso",
-            "paragraphs": [
+              "Se houver som sem imagem, ou o contrário, examine as faixas separadamente. O guia de contêineres explica o conteúdo do arquivo.",
               "Uma referência em tela pequena pode funcionar em 720p ou 1080p. Texto detalhado, corte ou edição posterior podem exigir mais resolução. Não escolha automaticamente o maior rótulo.",
-              "Resoluções e taxas de quadros elevadas exigem mais decodificação. O suporte por hardware varia; um aparelho antigo pode ter dificuldade onde um recente reproduz sem problemas."
-            ]
-          },
-          {
-            "heading": "Planeje armazenamento e conexão",
-            "paragraphs": [
-              "O tamanho mostrado pode ser estimado. Bitrate variável, faixas separadas e contêiner final alteram o total. Deixe espaço livre. Uma transferência interrompida não produz um arquivo completo: use conexão estável e confira o final antes de arquivar a cópia."
-            ]
-          },
-          {
-            "heading": "Encontre o arquivo salvo",
-            "paragraphs": [
-              "Navegadores costumam usar uma área de downloads ou o gerenciador de arquivos do sistema. Salvar não significa incluir automaticamente na galeria. O comportamento depende do navegador e do sistema."
-            ]
-          },
-          {
-            "heading": "Usando VidFetch no celular",
-            "paragraphs": [
-              "Cole um link autorizado, analise e escolha um formato disponível. As opções dependem da origem. Bloqueios, cotas e uma fila cheia podem impedir a preparação sem relação com o aparelho. O guia de codecs ajuda na seleção."
-            ]
-          },
-          {
-            "heading": "Pergunta frequente",
-            "paragraphs": [
+              "Resoluções e taxas de quadros elevadas exigem mais decodificação. O suporte por hardware varia; um aparelho antigo pode ter dificuldade onde um recente reproduz sem problemas.",
+              "O tamanho mostrado pode ser estimado. Bitrate variável, faixas separadas e contêiner final alteram o total. Deixe espaço livre. Uma transferência interrompida não produz um arquivo completo: use conexão estável e confira o final antes de arquivar a cópia.",
+              "Navegadores costumam usar uma área de downloads ou o gerenciador de arquivos do sistema. Salvar não significa incluir automaticamente na galeria. O comportamento depende do navegador e do sistema.",
+              "Cole um link autorizado, analise e escolha um formato disponível. As opções dependem da origem. Bloqueios, cotas e uma fila cheia podem impedir a preparação sem relação com o aparelho. O guia de codecs ajuda na seleção.",
               "Procure primeiro o arquivo completo em Downloads e depois use a opção de importar ou compartilhar oferecida pelo dispositivo."
             ]
           }
@@ -587,40 +522,15 @@
             ]
           },
           {
-            "heading": "Comprueba más que la extensión",
+            "heading": "Calidad y compatibilidad del MP4",
             "paragraphs": [
               "MP4 es un contenedor que puede incluir H.264, HEVC u otros códecs. Tanto vídeo como audio deben ser compatibles. Un archivo reproducible en el navegador puede funcionar de otra manera en la galería o en otra aplicación.",
-              "Si se escucha sin imagen, o al revés, inspecciona cada pista. La guía de contenedores explica qué hay dentro."
-            ]
-          },
-          {
-            "heading": "Ajusta la resolución al uso",
-            "paragraphs": [
+              "Si se escucha sin imagen, o al revés, inspecciona cada pista. La guía de contenedores explica qué hay dentro.",
               "Una referencia en pantalla pequeña puede bastar en 720p o 1080p. Texto detallado, recorte o edición pueden justificar más resolución. No elijas siempre la etiqueta mayor.",
-              "Resolución y fotogramas altos exigen más decodificación. El soporte por hardware varía según equipo y códec; un móvil antiguo puede fallar donde otro reciente funciona bien."
-            ]
-          },
-          {
-            "heading": "Reserva almacenamiento",
-            "paragraphs": [
-              "El tamaño mostrado puede ser estimado. Bitrate variable, pistas separadas y contenedor final cambian el resultado. Deja espacio libre y usa una conexión estable para archivos grandes. Una descarga interrumpida no es un archivo completo. Comprueba la duración y el final antes de añadirlo a una colección."
-            ]
-          },
-          {
-            "heading": "Localiza lo que has guardado",
-            "paragraphs": [
-              "Los navegadores suelen usar una zona de descargas o el gestor de archivos del sistema. Guardar no implica añadir el vídeo a Fotos. La ubicación exacta depende del navegador y el sistema."
-            ]
-          },
-          {
-            "heading": "VidFetch desde el teléfono",
-            "paragraphs": [
-              "Pega un enlace autorizado, analiza y selecciona un formato disponible. Los formatos dependen de la fuente. Restricciones, cuotas y una cola ocupada pueden impedir la preparación sin relación con tu teléfono. La guía de códecs ayuda a comparar opciones."
-            ]
-          },
-          {
-            "heading": "Pregunta frecuente",
-            "paragraphs": [
+              "Resolución y fotogramas altos exigen más decodificación. El soporte por hardware varía según equipo y códec; un móvil antiguo puede fallar donde otro reciente funciona bien.",
+              "El tamaño mostrado puede ser estimado. Bitrate variable, pistas separadas y contenedor final cambian el resultado. Deja espacio libre y usa una conexión estable para archivos grandes. Una descarga interrumpida no es un archivo completo. Comprueba la duración y el final antes de añadirlo a una colección.",
+              "Los navegadores suelen usar una zona de descargas o el gestor de archivos del sistema. Guardar no implica añadir el vídeo a Fotos. La ubicación exacta depende del navegador y el sistema.",
+              "Pega un enlace autorizado, analiza y selecciona un formato disponible. Los formatos dependen de la fuente. Restricciones, cuotas y una cola ocupada pueden impedir la preparación sin relación con tu teléfono. La guía de códecs ayuda a comparar opciones.",
               "Busca primero el archivo terminado en Descargas y utiliza después la función de importación o compartir del dispositivo."
             ]
           }
@@ -697,52 +607,17 @@
             ]
           },
           {
-            "heading": "Mehr als die Endung prüfen",
+            "heading": "MP4-Qualität und Wiedergabe prüfen",
             "paragraphs": [
               "MP4 bezeichnet den Container; darin können H.264, HEVC oder andere Spuren liegen. Video und Audio müssen beide unterstützt werden. Eine Datei, die im Browser läuft, kann in Galerie oder anderer App anders behandelt werden.",
-              "Bei Ton ohne Bild oder umgekehrt untersuche die Spuren einzeln. Der Container-Ratgeber erklärt den Inhalt."
-            ]
-          },
-          {
-            "heading": "Auflösung dem Zweck anpassen",
-            "paragraphs": [
+              "Bei Ton ohne Bild oder umgekehrt untersuche die Spuren einzeln. Der Container-Ratgeber erklärt den Inhalt.",
               "Für einen Referenzclip auf kleinem Bildschirm können 720p oder 1080p reichen. Kleine Schrift, Zuschnitt und spätere Bearbeitung können größere Quellen rechtfertigen. Wähle nicht automatisch die höchste Bezeichnung.",
-              "Hohe Auflösung und Bildrate verlangen mehr Decodierung. Hardwareunterstützung unterscheidet sich zwischen Geräten. Ein altes Handy kann bei einer Datei stocken, die ein neueres problemlos abspielt."
-            ]
-          },
-          {
-            "heading": "Speicher und Übertragung planen",
-            "paragraphs": [
-              "Die angegebene Größe kann geschätzt sein. Variable Bitrate, getrennte Spuren und der endgültige Container verändern das Ergebnis. Lass freien Speicher. Ein abgebrochener Download ist keine vollständige Datei: Nutze eine stabile Verbindung und kontrolliere das Ende vor der Archivierung."
-            ]
-          },
-          {
-            "heading": "Die gespeicherte Datei finden",
-            "paragraphs": [
-              "Browser verwenden meist einen Downloadbereich oder den Dateimanager des Systems. Speichern fügt die Datei nicht zwingend zur Fotobibliothek hinzu. Ort und Import hängen von Browser und Betriebssystem ab."
-            ]
-          },
-          {
-            "heading": "VidFetch unterwegs verwenden",
-            "paragraphs": [
-              "Füge einen erlaubten Link ein, analysiere ihn und wähle ein verfügbares Format. Die Formate stammen aus der Quelle. Beschränkungen, Quoten und eine volle Warteschlange können unabhängig vom Handy stören. Der Codec-Ratgeber hilft bei der Auswahl."
-            ]
-          },
-          {
-            "heading": "Häufige Frage",
-            "paragraphs": [
-              "Suche zuerst die fertige Datei im Downloadbereich und nutze dann die vom Gerät unterstützte Import- oder Teilen-Funktion."
-            ]
-          },
-          {
-            "heading": "Container und Codec erfüllen unterschiedliche Aufgaben",
-            "paragraphs": [
-              "Der Container hält Spuren und Zeitinformationen zusammen. Ein Codec komprimiert Bild oder Ton. MP4 enthält oft H.264 und AAC, kann aber andere Kombinationen aufnehmen. WebM verwendet ein eingeschränktes Matroska-Profil, etwa mit VP8, VP9 oder AV1 sowie Vorbis oder Opus."
-            ]
-          },
-          {
-            "heading": "Wähle für das Zielgerät",
-            "paragraphs": [
+              "Hohe Auflösung und Bildrate verlangen mehr Decodierung. Hardwareunterstützung unterscheidet sich zwischen Geräten. Ein altes Handy kann bei einer Datei stocken, die ein neueres problemlos abspielt.",
+              "Die angegebene Größe kann geschätzt sein. Variable Bitrate, getrennte Spuren und der endgültige Container verändern das Ergebnis. Lass freien Speicher. Ein abgebrochener Download ist keine vollständige Datei: Nutze eine stabile Verbindung und kontrolliere das Ende vor der Archivierung.",
+              "Browser verwenden meist einen Downloadbereich oder den Dateimanager des Systems. Speichern fügt die Datei nicht zwingend zur Fotobibliothek hinzu. Ort und Import hängen von Browser und Betriebssystem ab.",
+              "Füge einen erlaubten Link ein, analysiere ihn und wähle ein verfügbares Format. Die Formate stammen aus der Quelle. Beschränkungen, Quoten und eine volle Warteschlange können unabhängig vom Handy stören. Der Codec-Ratgeber hilft bei der Auswahl.",
+              "Suche zuerst die fertige Datei im Downloadbereich und nutze dann die vom Gerät unterstützte Import- oder Teilen-Funktion.",
+              "Der Container hält Spuren und Zeitinformationen zusammen. Ein Codec komprimiert Bild oder Ton. MP4 enthält oft H.264 und AAC, kann aber andere Kombinationen aufnehmen. WebM verwendet ein eingeschränktes Matroska-Profil, etwa mit VP8, VP9 oder AV1 sowie Vorbis oder Opus.",
               "Für Familienvideos auf Handys und Computern ist MP4 mit H.264 und AAC oft praktisch. Das garantiert keine Unterstützung ungewöhnlicher Profile oder alter Geräte. Teste einen kurzen Ausschnitt auf dem ältesten benötigten Gerät, bevor du eine ganze Sammlung verschickst.",
               "Eine Website kann mehrere Quellen für unterschiedliche Browser anbieten. Eine Datei, die auf deinem Computer funktioniert, muss nicht in jeder anderen Anwendung laufen."
             ]
@@ -820,46 +695,16 @@
             ]
           },
           {
-            "heading": "Controlla oltre l’estensione",
+            "heading": "Qualità e compatibilità del video MP4",
             "paragraphs": [
               "MP4 è un contenitore e può contenere H.264, HEVC o altre tracce. Audio e video devono essere entrambi compatibili. Un file riproducibile nel browser può essere gestito diversamente nella galleria o in un’altra applicazione.",
-              "Se senti audio senza immagine, o viceversa, ispeziona le tracce individuali. La guida ai contenitori spiega il contenuto."
-            ]
-          },
-          {
-            "heading": "Adatta la risoluzione all’uso",
-            "paragraphs": [
+              "Se senti audio senza immagine, o viceversa, ispeziona le tracce individuali. La guida ai contenitori spiega il contenuto.",
               "Un riferimento su piccolo schermo può bastare a 720p o 1080p. Testo dettagliato, ritaglio o montaggio possono richiedere una fonte maggiore. Non scegliere automaticamente il valore più alto.",
-              "Risoluzione e frequenza elevate richiedono più decodifica. Il supporto hardware varia; un vecchio telefono può faticare con un file fluido su uno recente."
-            ]
-          },
-          {
-            "heading": "Pianifica spazio e connessione",
-            "paragraphs": [
-              "La dimensione indicata può essere stimata. Bitrate variabile, tracce separate e contenitore finale modificano il totale. Lascia spazio libero. Un download interrotto non è un file completo: usa una connessione stabile e verifica durata e fine prima di archiviare."
-            ]
-          },
-          {
-            "heading": "Trova il file salvato",
-            "paragraphs": [
-              "I browser usano spesso un’area download o il gestore file del sistema. Salvare non aggiunge necessariamente il video alla raccolta fotografica. Posizione e importazione dipendono da browser e sistema operativo."
-            ]
-          },
-          {
-            "heading": "VidFetch sul telefono",
-            "paragraphs": [
-              "Incolla un link autorizzato, analizza e scegli un formato disponibile. Le opzioni dipendono dalla fonte. Restrizioni, quote e coda occupata possono bloccare la preparazione indipendentemente dal telefono. La guida ai codec aiuta nella scelta."
-            ]
-          },
-          {
-            "heading": "Domanda frequente",
-            "paragraphs": [
-              "Cerca prima il file completato in Download, poi usa la funzione di importazione o condivisione prevista dal dispositivo."
-            ]
-          },
-          {
-            "heading": "Contenitore e codec hanno ruoli diversi",
-            "paragraphs": [
+              "Risoluzione e frequenza elevate richiedono più decodifica. Il supporto hardware varia; un vecchio telefono può faticare con un file fluido su uno recente.",
+              "La dimensione indicata può essere stimata. Bitrate variabile, tracce separate e contenitore finale modificano il totale. Lascia spazio libero. Un download interrotto non è un file completo: usa una connessione stabile e verifica durata e fine prima di archiviare.",
+              "I browser usano spesso un’area download o il gestore file del sistema. Salvare non aggiunge necessariamente il video alla raccolta fotografica. Posizione e importazione dipendono da browser e sistema operativo.",
+              "Incolla un link autorizzato, analizza e scegli un formato disponibile. Le opzioni dipendono dalla fonte. Restrizioni, quote e coda occupata possono bloccare la preparazione indipendentemente dal telefono. La guida ai codec aiuta nella scelta.",
+              "Cerca prima il file completato in Download, poi usa la funzione di importazione o condivisione prevista dal dispositivo.",
               "Il contenitore riunisce tracce e informazioni temporali. Il codec comprime immagini o suono. MP4 contiene spesso H.264 e AAC, ma ammette altre combinazioni. WebM usa un profilo limitato di Matroska, con video VP8, VP9 o AV1 e audio Vorbis oppure Opus."
             ]
           }
@@ -936,52 +781,17 @@
             ]
           },
           {
-            "heading": "افحص أكثر من الامتداد",
+            "heading": "جودة MP4 وتوافق التشغيل",
             "paragraphs": [
               "MP4 حاوية يمكن أن تحمل H.264 أو HEVC أو غيرهما. يجب أن يكون الصوت والفيديو كلاهما مدعومين. وقد يعامل معرض الصور أو تطبيق آخر الملف بطريقة تختلف عن المتصفح.",
-              "إذا سمعت الصوت دون الصورة، أو رأيت الصورة دون الصوت، افحص كل مسار على حدة. يشرح دليل الحاويات ما يوجد داخل الملف ولماذا لا تكفي نهايته لتحديد التوافق."
-            ]
-          },
-          {
-            "heading": "اجعل الدقة مناسبة للاستخدام",
-            "paragraphs": [
+              "إذا سمعت الصوت دون الصورة، أو رأيت الصورة دون الصوت، افحص كل مسار على حدة. يشرح دليل الحاويات ما يوجد داخل الملف ولماذا لا تكفي نهايته لتحديد التوافق.",
               "قد يكفي 720p أو 1080p لمرجع على شاشة صغيرة. النص الدقيق أو القص أو التحرير لاحقًا قد يبرر مصدرًا أكبر. لا تختَر أعلى رقم تلقائيًا قبل معرفة ما تحتاج إليه.",
-              "تحتاج الدقات ومعدّلات الإطارات المرتفعة إلى عمل أكثر لفك الترميز. يختلف الدعم العتادي بين الأجهزة؛ قد يتعثر هاتف قديم في ملف يعمل بسلاسة على هاتف حديث، رغم أن كليهما يفتح الحاوية نفسها."
-            ]
-          },
-          {
-            "heading": "خطّط للمساحة والاتصال",
-            "paragraphs": [
-              "قد يكون الحجم المعروض تقديرًا. يغيّر معدّل البت المتغير والمسارات المنفصلة والحاوية النهائية النتيجة. اترك مساحة حرة بدل ملء الهاتف تمامًا. التنزيل المنقطع ليس ملفًا كاملًا؛ استخدم اتصالًا ثابتًا وافحص المدة والنهاية قبل إضافة الملف إلى أرشيفك."
-            ]
-          },
-          {
-            "heading": "اعثر على الملف المحفوظ",
-            "paragraphs": [
-              "تضع المتصفحات الملفات عادة في قسم التنزيلات أو مدير ملفات النظام. الحفظ لا يضيف الفيديو تلقائيًا دائمًا إلى مكتبة الصور. يختلف المكان والاستيراد بحسب المتصفح والنظام."
-            ]
-          },
-          {
-            "heading": "VidFetch على الهاتف",
-            "paragraphs": [
-              "الصق رابطًا مسموحًا، وحلّله، ثم اختر صيغة متاحة. الخيارات تتبع المصدر. قد تمنع القيود أو الحصص أو ازدحام قائمة الانتظار التجهيز، بصرف النظر عن هاتفك. يساعد دليل الترميزات في الاختيار."
-            ]
-          },
-          {
-            "heading": "سؤال شائع",
-            "paragraphs": [
-              "ابحث عن الملف المكتمل في التنزيلات أولًا، ثم استخدم وظيفة الاستيراد أو المشاركة التي يدعمها الجهاز لإضافته إلى مكتبة الوسائط."
-            ]
-          },
-          {
-            "heading": "الحاوية ليست هي الترميز",
-            "paragraphs": [
-              "تجمع الحاوية المسارات ومعلومات التوقيت، بينما يضغط الترميز الصور أو الصوت. يحتوي MP4 كثيرًا على H.264 وAAC، لكنه يقبل مجموعات أخرى. ويستند WebM إلى ملف تعريف محدود من Matroska، مع فيديو VP8 أو VP9 أو AV1 وصوت Vorbis أو Opus."
-            ]
-          },
-          {
-            "heading": "اختر وفق جهاز الاستقبال",
-            "paragraphs": [
+              "تحتاج الدقات ومعدّلات الإطارات المرتفعة إلى عمل أكثر لفك الترميز. يختلف الدعم العتادي بين الأجهزة؛ قد يتعثر هاتف قديم في ملف يعمل بسلاسة على هاتف حديث، رغم أن كليهما يفتح الحاوية نفسها.",
+              "قد يكون الحجم المعروض تقديرًا. يغيّر معدّل البت المتغير والمسارات المنفصلة والحاوية النهائية النتيجة. اترك مساحة حرة بدل ملء الهاتف تمامًا. التنزيل المنقطع ليس ملفًا كاملًا؛ استخدم اتصالًا ثابتًا وافحص المدة والنهاية قبل إضافة الملف إلى أرشيفك.",
+              "تضع المتصفحات الملفات عادة في قسم التنزيلات أو مدير ملفات النظام. الحفظ لا يضيف الفيديو تلقائيًا دائمًا إلى مكتبة الصور. يختلف المكان والاستيراد بحسب المتصفح والنظام.",
+              "الصق رابطًا مسموحًا، وحلّله، ثم اختر صيغة متاحة. الخيارات تتبع المصدر. قد تمنع القيود أو الحصص أو ازدحام قائمة الانتظار التجهيز، بصرف النظر عن هاتفك. يساعد دليل الترميزات في الاختيار.",
+              "ابحث عن الملف المكتمل في التنزيلات أولًا، ثم استخدم وظيفة الاستيراد أو المشاركة التي يدعمها الجهاز لإضافته إلى مكتبة الوسائط.",
+              "تجمع الحاوية المسارات ومعلومات التوقيت، بينما يضغط الترميز الصور أو الصوت. يحتوي MP4 كثيرًا على H.264 وAAC، لكنه يقبل مجموعات أخرى. ويستند WebM إلى ملف تعريف محدود من Matroska، مع فيديو VP8 أو VP9 أو AV1 وصوت Vorbis أو Opus.",
               "لمقطع عائلي يُرسل إلى هواتف وكمبيوترات، قد يكون MP4 مع H.264 وAAC خيارًا عمليًا. لكنه ليس ضمانًا لكل جهاز قديم أو إعداد غير معتاد. اختبر عينة قصيرة على أقدم جهاز تحتاج إلى دعمه قبل إرسال المجموعة كاملة.",
               "يمكن للموقع تقديم أكثر من مصدر لتلبية اختلاف دعم المتصفحات. نجاح الملف على جهازك لا يعني قبوله في كل تطبيق آخر، حتى إن كان امتداده شائعًا."
             ]
@@ -1260,65 +1070,19 @@
             ]
           },
           {
-            "heading": "Periksa trek yang sebenarnya",
+            "heading": "Memahami hasil audio MP3",
             "paragraphs": [
-              "Codec lossy membuang informasi agar ukuran berkurang. Codec lossless mempertahankan sinyal yang didekodekan, tetapi tidak memulihkan detail yang sebelumnya sudah hilang. Mengubah AAC menjadi MP3 berbitrate tinggi tidak membuat sumber menjadi master yang lebih baik. Simpan sumber terbaik untuk cadangan."
-            ]
-          },
-          {
-            "heading": "Pahami bitrate dan ukuran",
-            "paragraphs": [
-              "Perhitungan ini memperkirakan ukuran, bukan kualitas yang didengar. Codec berbeda pada bitrate sama dapat memberi hasil berbeda. Bandingkan bagian dan volume yang sama; percakapan dan musik rumit memiliki kebutuhan berlainan."
-            ]
-          },
-          {
-            "heading": "Kapan M4A sebaiknya dipertahankan",
-            "paragraphs": [
-              "Jika pemutar mendukungnya, identifikasi apakah treknya AAC atau ALAC. Trek AAC yang cocok dapat disalin ke M4A tanpa pengodean ulang. Ini bukan konversi universal: kontainer tujuan harus mendukung codec yang disalin."
-            ]
-          },
-          {
-            "heading": "Kapan membuat MP3",
-            "paragraphs": [
-              "MP3 dapat dibutuhkan pemutar lama atau alur kerja tertentu. Buat salinan, simpan sumber, lalu uji awal, tengah, dan akhir. Hindari konversi berulang antarformat lossy karena perubahan dapat menumpuk tanpa memperbaiki rekaman."
-            ]
-          },
-          {
-            "heading": "Audio pada VidFetch",
-            "paragraphs": [
-              "Jika sumber berizin dapat diakses, pilihan MP3 mengodekan audio pada 192 kbps. Ini tidak menciptakan rekonstruksi lossless atau meningkatkan suara asli. Format audio sumber juga mungkin tersedia sesuai pilihan platform."
-            ]
-          },
-          {
-            "heading": "Pertanyaan umum",
-            "paragraphs": [
-              "Tidak. Durasi, codec, dan bitrate juga menentukan ukuran. Periksa trek serta dengarkan cuplikan yang sama. Video ke audio membedakan penyalinan trek dan konversi."
-            ]
-          },
-          {
-            "heading": "Pastikan ada suara",
-            "paragraphs": [
-              "Sebagian video tidak bersuara. Yang lain memiliki beberapa bahasa atau komentar. Dengarkan dan periksa daftar trek sebelum memilih. Ekstraksi biasa tidak memisahkan instrumen atau menghapus vokal: suara yang sudah dicampur tetap tercampur."
-            ]
-          },
-          {
-            "heading": "Buat MP3 secara lokal",
-            "paragraphs": [
-              "FFmpeg dengan libmp3lame dapat mengambil trek audio pertama dan membuat berkas terpisah pada 192 kbps:",
-              "Jika tidak ada audio, perintah harus melaporkannya, bukan membuat suara. Simpan masukan dan uji hasil. Trek pertama mungkin bukan bahasa yang Anda inginkan; sesuaikan pemilihan jika perlu."
-            ]
-          },
-          {
-            "heading": "Salin AAC yang kompatibel",
-            "paragraphs": [
-              "Jika pemeriksaan memastikan trek pilihan memakai AAC, menyalinnya ke M4A dapat menghindari pengodean lossy baru:",
-              "Perintah ini bergantung pada masukan. Bukan konversi universal: kontainer harus mendukung codec. Pilih keluaran yang cocok atau kodekan ulang jika tidak kompatibel. Baca MP3 dan M4A."
-            ]
-          },
-          {
-            "heading": "Periksa keluaran",
-            "paragraphs": [
-              "Gunakan format yang diterima pemutar atau penyunting. Bandingkan bagian sama pada volume sama, periksa durasi, dan dengarkan sampai akhir. Bitrate tinggi tidak mengembalikan informasi yang telah hilang. Hindari konversi lossy berulang dan simpan sumber terbaik."
+              "Codec lossy membuang informasi agar ukuran berkurang. Codec lossless mempertahankan sinyal yang didekodekan, tetapi tidak memulihkan detail yang sebelumnya sudah hilang. Mengubah AAC menjadi MP3 berbitrate tinggi tidak membuat sumber menjadi master yang lebih baik. Simpan sumber terbaik untuk cadangan.",
+              "Perhitungan ini memperkirakan ukuran, bukan kualitas yang didengar. Codec berbeda pada bitrate sama dapat memberi hasil berbeda. Bandingkan bagian dan volume yang sama; percakapan dan musik rumit memiliki kebutuhan berlainan.",
+              "Jika pemutar mendukungnya, identifikasi apakah treknya AAC atau ALAC. Trek AAC yang cocok dapat disalin ke M4A tanpa pengodean ulang. Ini bukan konversi universal: kontainer tujuan harus mendukung codec yang disalin.",
+              "MP3 dapat dibutuhkan pemutar lama atau alur kerja tertentu. Buat salinan, simpan sumber, lalu uji awal, tengah, dan akhir. Hindari konversi berulang antarformat lossy karena perubahan dapat menumpuk tanpa memperbaiki rekaman.",
+              "Jika sumber berizin dapat diakses, pilihan MP3 mengodekan audio pada 192 kbps. Ini tidak menciptakan rekonstruksi lossless atau meningkatkan suara asli. Format audio sumber juga mungkin tersedia sesuai pilihan platform.",
+              "Tidak. Durasi, codec, dan bitrate juga menentukan ukuran. Periksa trek serta dengarkan cuplikan yang sama. Video ke audio membedakan penyalinan trek dan konversi.",
+              "Sebagian video tidak bersuara. Yang lain memiliki beberapa bahasa atau komentar. Dengarkan dan periksa daftar trek sebelum memilih. Ekstraksi biasa tidak memisahkan instrumen atau menghapus vokal: suara yang sudah dicampur tetap tercampur.",
+              "Gunakan format yang diterima pemutar atau penyunting. Bandingkan bagian sama pada volume sama, periksa durasi, dan dengarkan sampai akhir. Bitrate tinggi tidak mengembalikan informasi yang telah hilang. Hindari konversi lossy berulang dan simpan sumber terbaik.",
+              "Gunakan nama file yang menunjukkan isi rekaman, bukan sekadar nomor unduhan. Untuk catatan belajar, tuliskan topik dan tautan sumber di catatan terpisah. Dengan begitu Anda masih dapat menemukan kreatornya jika perlu meminta izin penggunaan lain. Jangan menganggap judul file sebagai bukti izin atau sebagai informasi lengkap mengenai musik di dalamnya. Simpan juga video sumber bila Anda memerlukannya untuk memahami konteks penjelasan.",
+              "Uji hasil dengan pemutar yang akan benar-benar Anda gunakan. Mulai dari volume yang nyaman, dengarkan suara pembicara, lalu periksa bagian akhir. Jika musik terdengar terlalu keras dalam sumber, MP3 akan mempertahankan campuran itu. Konversi tidak mengatur ulang keseimbangan musik dan ucapan. Untuk transkrip atau tugas yang membutuhkan suara bersih, mintalah rekaman asli yang diizinkan kepada pemiliknya, bukan mengulang konversi dengan harapan suara berubah.",
+              "Saat memindahkan MP3 ke penyimpanan lain, tunggu penyalinan selesai dan coba buka salinan baru sebelum menghapus yang pertama. Hindari mengirim file ke diri sendiri lewat aplikasi yang mungkin memproses ulang audio jika tujuan Anda mempertahankan hasil. Pilih cara pemindahan berkas yang Anda kenal. Jika ada masalah, catat apakah terjadi ketika menyiapkan, mengunduh, memindahkan, atau memutar; empat tahap itu membutuhkan pemeriksaan yang berbeda."
             ]
           }
         ],
@@ -1394,44 +1158,14 @@
             ]
           },
           {
-            "heading": "Examine o áudio real",
+            "heading": "Entender o resultado em MP3",
             "paragraphs": [
-              "Codecs com perdas descartam informações para reduzir tamanho. Codecs sem perdas preservam o sinal decodificado, mas não recuperam detalhes removidos anteriormente. Criar um ALAC a partir de uma fonte comprimida não reconstrói o original. Guarde a melhor fonte disponível para seus backups."
-            ]
-          },
-          {
-            "heading": "Entenda bitrate e tamanho",
-            "paragraphs": [
-              "A conta estima tamanho, não qualidade percebida. Codecs diferentes não soam necessariamente iguais no mesmo bitrate. Compare o mesmo trecho e volume; voz e música complexa têm necessidades distintas."
-            ]
-          },
-          {
-            "heading": "Quando manter M4A",
-            "paragraphs": [
-              "Se o reprodutor aceita o arquivo, confira se ele contém AAC ou ALAC. Uma faixa AAC compatível pode ser copiada para M4A sem nova codificação. Isso não equivale a converter qualquer áudio para AAC: o contêiner precisa aceitar a faixa copiada."
-            ]
-          },
-          {
-            "heading": "Quando criar um MP3",
-            "paragraphs": [
-              "Pode ser necessário em um dispositivo antigo ou em um fluxo específico. Converta uma cópia, preserve a entrada e confira início, meio e fim. Evite alternar repetidamente entre formatos com perdas, pois mudanças podem se acumular sem melhorar a fonte."
-            ]
-          },
-          {
-            "heading": "A opção de áudio do VidFetch",
-            "paragraphs": [
-              "Quando a origem autorizada está acessível, o MP3 é codificado a 192 kbps. Isso não cria uma reconstrução sem perdas nem melhora a qualidade original. Um formato de áudio original também pode estar disponível, conforme a plataforma."
-            ]
-          },
-          {
-            "heading": "Pergunta frequente",
-            "paragraphs": [
-              "Não. Duração, codec e bitrate também explicam o tamanho. Identifique a faixa e escute o mesmo trecho. Veja vídeo para áudio para distinguir cópia e conversão."
-            ]
-          },
-          {
-            "heading": "Confira se existe áudio",
-            "paragraphs": [
+              "Codecs com perdas descartam informações para reduzir tamanho. Codecs sem perdas preservam o sinal decodificado, mas não recuperam detalhes removidos anteriormente. Criar um ALAC a partir de uma fonte comprimida não reconstrói o original. Guarde a melhor fonte disponível para seus backups.",
+              "A conta estima tamanho, não qualidade percebida. Codecs diferentes não soam necessariamente iguais no mesmo bitrate. Compare o mesmo trecho e volume; voz e música complexa têm necessidades distintas.",
+              "Se o reprodutor aceita o arquivo, confira se ele contém AAC ou ALAC. Uma faixa AAC compatível pode ser copiada para M4A sem nova codificação. Isso não equivale a converter qualquer áudio para AAC: o contêiner precisa aceitar a faixa copiada.",
+              "Pode ser necessário em um dispositivo antigo ou em um fluxo específico. Converta uma cópia, preserve a entrada e confira início, meio e fim. Evite alternar repetidamente entre formatos com perdas, pois mudanças podem se acumular sem melhorar a fonte.",
+              "Quando a origem autorizada está acessível, o MP3 é codificado a 192 kbps. Isso não cria uma reconstrução sem perdas nem melhora a qualidade original. Um formato de áudio original também pode estar disponível, conforme a plataforma.",
+              "Não. Duração, codec e bitrate também explicam o tamanho. Identifique a faixa e escute o mesmo trecho. Veja vídeo para áudio para distinguir cópia e conversão.",
               "Algumas gravações são silenciosas. Outras têm vários idiomas ou comentários. Escute e inspecione as faixas antes de escolher. Extrair som não remove vocais nem separa instrumentos: uma mistura continua misturada na saída."
             ]
           }
@@ -1508,44 +1242,14 @@
             ]
           },
           {
-            "heading": "Examina la pista real",
+            "heading": "Entender el audio convertido a MP3",
             "paragraphs": [
-              "Un códec con pérdida descarta información para reducir el tamaño. Uno sin pérdida conserva la señal decodificada, pero no recupera detalles que una compresión anterior eliminó. Convertir AAC a MP3 con un bitrate mayor no crea un máster mejor. Conserva la mejor fuente para tus copias de seguridad."
-            ]
-          },
-          {
-            "heading": "Relaciona bitrate y tamaño",
-            "paragraphs": [
-              "Esta estimación no mide calidad percibida. Distintos códecs no suenan igual al mismo bitrate. Compara el mismo pasaje y volumen; la voz y la música compleja exigen cosas diferentes."
-            ]
-          },
-          {
-            "heading": "Cuándo mantener M4A",
-            "paragraphs": [
-              "Si lo acepta tu reproductor, identifica primero si contiene AAC o ALAC. Una pista AAC compatible puede copiarse a M4A sin recodificar. Eso es distinto de convertir cualquier audio a AAC: el contenedor debe admitir el códec que copias."
-            ]
-          },
-          {
-            "heading": "Cuándo hacer una copia MP3",
-            "paragraphs": [
-              "Puede ayudar con un dispositivo antiguo o un flujo de trabajo concreto. Conserva el original y comprueba principio, parte central y final de la copia. Evita convertir repetidamente entre formatos con pérdida, porque los cambios pueden acumularse."
-            ]
-          },
-          {
-            "heading": "Audio en VidFetch",
-            "paragraphs": [
-              "Desde una fuente accesible y autorizada, la opción MP3 codifica a 192 kbps. No reconstruye una grabación sin pérdida ni mejora su sonido original. También puede haber un formato de audio original, según la plataforma."
-            ]
-          },
-          {
-            "heading": "Pregunta frecuente",
-            "paragraphs": [
-              "No. También cuentan duración, códec y bitrate. Inspecciona las pistas y escucha el mismo fragmento. La guía vídeo a audio distingue copiar una pista de recodificarla."
-            ]
-          },
-          {
-            "heading": "Comprueba qué sonido contiene",
-            "paragraphs": [
+              "Un códec con pérdida descarta información para reducir el tamaño. Uno sin pérdida conserva la señal decodificada, pero no recupera detalles que una compresión anterior eliminó. Convertir AAC a MP3 con un bitrate mayor no crea un máster mejor. Conserva la mejor fuente para tus copias de seguridad.",
+              "Esta estimación no mide calidad percibida. Distintos códecs no suenan igual al mismo bitrate. Compara el mismo pasaje y volumen; la voz y la música compleja exigen cosas diferentes.",
+              "Si lo acepta tu reproductor, identifica primero si contiene AAC o ALAC. Una pista AAC compatible puede copiarse a M4A sin recodificar. Eso es distinto de convertir cualquier audio a AAC: el contenedor debe admitir el códec que copias.",
+              "Puede ayudar con un dispositivo antiguo o un flujo de trabajo concreto. Conserva el original y comprueba principio, parte central y final de la copia. Evita convertir repetidamente entre formatos con pérdida, porque los cambios pueden acumularse.",
+              "Desde una fuente accesible y autorizada, la opción MP3 codifica a 192 kbps. No reconstruye una grabación sin pérdida ni mejora su sonido original. También puede haber un formato de audio original, según la plataforma.",
+              "No. También cuentan duración, códec y bitrate. Inspecciona las pistas y escucha el mismo fragmento. La guía vídeo a audio distingue copiar una pista de recodificarla.",
               "Hay grabaciones mudas y otras con varias pistas, idiomas o comentarios. Escucha e inspecciona la lista antes de escoger. Extraer audio no separa instrumentos ni elimina voces: una mezcla sigue siendo una mezcla en la salida."
             ]
           }
@@ -1622,59 +1326,18 @@
             ]
           },
           {
-            "heading": "Prüfe die tatsächliche Tonspur",
+            "heading": "Die Qualität der MP3-Ausgabe verstehen",
             "paragraphs": [
-              "Verlustbehaftete Codecs verwerfen Informationen, um Platz zu sparen. Verlustfreie Codierung bewahrt das decodierte Signal, stellt aber früher entfernte Details nicht wieder her. Eine AAC-Quelle wird durch MP3 mit höherer Bitrate kein besseres Master. Bewahre die beste Quelle für deine Sicherung auf."
-            ]
-          },
-          {
-            "heading": "Bitrate und Größe verstehen",
-            "paragraphs": [
-              "Diese Rechnung schätzt Größe, nicht hörbare Qualität. Verschiedene Codecs liefern bei gleicher Bitrate nicht zwingend denselben Klang. Vergleiche dieselbe Passage bei gleicher Lautstärke; Sprache und komplexe Musik stellen unterschiedliche Anforderungen."
-            ]
-          },
-          {
-            "heading": "Wann M4A sinnvoll bleibt",
-            "paragraphs": [
-              "Wenn dein Player die Datei unterstützt, prüfe zunächst AAC oder ALAC. Eine kompatible AAC-Spur kann ohne Neucodierung in M4A kopiert werden. Das ist keine universelle Umwandlung beliebiger Audiodaten: Der Zielcontainer muss den kopierten Codec unterstützen."
-            ]
-          },
-          {
-            "heading": "Wann du eine MP3-Kopie brauchst",
-            "paragraphs": [
-              "MP3 kann für ältere Player oder bestimmte Programme hilfreich sein. Konvertiere eine Kopie und prüfe Anfang, Mitte und Ende. Behalte das Original. Wiederholte Wechsel zwischen verlustbehafteten Formaten können Änderungen anhäufen, ohne die Aufnahme zu verbessern."
-            ]
-          },
-          {
-            "heading": "Audio über VidFetch",
-            "paragraphs": [
-              "Bei einer zugänglichen, erlaubten Quelle codiert die MP3-Option mit 192 kbps. Sie erzeugt keine verlustfreie Rekonstruktion und verbessert nicht die Originalaufnahme. Je nach Quelle kann auch ein ursprüngliches Audioformat verfügbar sein."
-            ]
-          },
-          {
-            "heading": "Häufige Frage",
-            "paragraphs": [
-              "Nein. Auch Dauer, Codec und Bitrate bestimmen die Größe. Untersuche die Spur und höre dieselbe Stelle. Video zu Audio unterscheidet Kopieren und Konvertieren."
-            ]
-          },
-          {
-            "heading": "Prüfe die vorhandenen Spuren",
-            "paragraphs": [
-              "Manche Aufnahmen sind stumm, andere haben mehrere Sprachen oder Kommentare. Höre hinein und untersuche die Spurenliste. Einfaches Extrahieren trennt keine Instrumente und entfernt keine Stimme: Bereits gemischte Elemente bleiben gemischt."
-            ]
-          },
-          {
-            "heading": "Eine lokale MP3-Kopie erstellen",
-            "paragraphs": [
-              "FFmpeg mit libmp3lame kann die erste Audiospur wählen und eine separate Datei mit 192 kbps erstellen:",
-              "Ohne Audiospur sollte der Befehl das melden, nicht Ton erfinden. Bewahre die Eingabe auf und prüfe das Ergebnis. Die erste Spur muss nicht die gewünschte Sprache sein; passe gegebenenfalls die Auswahl an."
-            ]
-          },
-          {
-            "heading": "Kompatibles AAC ohne Neucodierung kopieren",
-            "paragraphs": [
-              "Wenn die gewünschte Spur nachweislich AAC ist, kann Kopieren in M4A weitere Verluste vermeiden:",
-              "Das hängt vom Eingangscodec ab. Der Container muss ihn unterstützen; es ist kein universeller Konvertierungsbefehl. Wähle sonst einen passenden Container oder eine neue Codierung. Siehe MP3 und M4A."
+              "Verlustbehaftete Codecs verwerfen Informationen, um Platz zu sparen. Verlustfreie Codierung bewahrt das decodierte Signal, stellt aber früher entfernte Details nicht wieder her. Eine AAC-Quelle wird durch MP3 mit höherer Bitrate kein besseres Master. Bewahre die beste Quelle für deine Sicherung auf.",
+              "Diese Rechnung schätzt Größe, nicht hörbare Qualität. Verschiedene Codecs liefern bei gleicher Bitrate nicht zwingend denselben Klang. Vergleiche dieselbe Passage bei gleicher Lautstärke; Sprache und komplexe Musik stellen unterschiedliche Anforderungen.",
+              "Wenn dein Player die Datei unterstützt, prüfe zunächst AAC oder ALAC. Eine kompatible AAC-Spur kann ohne Neucodierung in M4A kopiert werden. Das ist keine universelle Umwandlung beliebiger Audiodaten: Der Zielcontainer muss den kopierten Codec unterstützen.",
+              "MP3 kann für ältere Player oder bestimmte Programme hilfreich sein. Konvertiere eine Kopie und prüfe Anfang, Mitte und Ende. Behalte das Original. Wiederholte Wechsel zwischen verlustbehafteten Formaten können Änderungen anhäufen, ohne die Aufnahme zu verbessern.",
+              "Bei einer zugänglichen, erlaubten Quelle codiert die MP3-Option mit 192 kbps. Sie erzeugt keine verlustfreie Rekonstruktion und verbessert nicht die Originalaufnahme. Je nach Quelle kann auch ein ursprüngliches Audioformat verfügbar sein.",
+              "Nein. Auch Dauer, Codec und Bitrate bestimmen die Größe. Untersuche die Spur und höre dieselbe Stelle. Video zu Audio unterscheidet Kopieren und Konvertieren.",
+              "Manche Aufnahmen sind stumm, andere haben mehrere Sprachen oder Kommentare. Höre hinein und untersuche die Spurenliste. Einfaches Extrahieren trennt keine Instrumente und entfernt keine Stimme: Bereits gemischte Elemente bleiben gemischt.",
+              "Verwende einen Dateinamen, der den Inhalt erkennen lässt. Für Lernmaterial kannst du Thema und ursprünglichen Beitragslink in einer getrennten Notiz festhalten. So findest du den Urheber wieder, falls du später eine weitere Nutzung anfragen möchtest. Ein Dateiname ist weder ein Nachweis der Erlaubnis noch eine vollständige Angabe der beteiligten Musikrechte. Bewahre bei Bedarf auch das Video auf, wenn sein Bild zum Verständnis der Erklärung gehört.",
+              "Prüfe die Ausgabe mit dem Player, den du später tatsächlich verwenden möchtest. Höre bei angenehmer Lautstärke die Sprache an und teste das Ende. Ist die Musik bereits in der Quelle zu laut, bleibt diese Mischung auch in MP3 bestehen. Die Umwandlung gleicht die Lautstärken der einzelnen Bestandteile nicht neu ab. Für eine saubere Sprachaufnahme oder ein anderes Musikverhältnis benötigst du eine passende autorisierte Quelle statt wiederholter Konvertierungen.",
+              "Beim Kopieren auf einen anderen Speicher solltest du die neue Datei öffnen, bevor du die erste entfernst. Verwende einen vertrauten Weg zur Dateiübertragung. Manche Weitergabe über andere Anwendungen kann eine zusätzliche Verarbeitung auslösen; prüfe deshalb die neue Kopie. Notiere bei Problemen, ob sie während Vorbereitung, Download, Übertragung auf ein anderes Gerät oder Wiedergabe auftreten. Diese Schritte sind verschieden, und ein neuer Download ist nicht für alle die passende Lösung."
             ]
           }
         ],
@@ -1750,52 +1413,18 @@
             ]
           },
           {
-            "heading": "Esamina la traccia effettiva",
+            "heading": "Capire la qualità dell’audio MP3",
             "paragraphs": [
-              "Un codec con perdita scarta informazioni per ridurre le dimensioni. Uno senza perdita conserva il segnale decodificato, ma non recupera dettagli eliminati in precedenza. Convertire AAC in MP3 a bitrate maggiore non crea un master migliore. Conserva la fonte migliore per il backup."
-            ]
-          },
-          {
-            "heading": "Comprendi bitrate e dimensione",
-            "paragraphs": [
-              "La formula stima il peso, non la qualità percepita. Codec diversi non producono necessariamente lo stesso suono a uguale bitrate. Confronta lo stesso passaggio allo stesso volume; parlato e musica complessa pongono esigenze diverse."
-            ]
-          },
-          {
-            "heading": "Quando mantenere M4A",
-            "paragraphs": [
-              "Se il lettore lo supporta, identifica prima AAC o ALAC. Una traccia AAC compatibile può essere copiata in M4A senza ricodifica. Non è una conversione universale: il contenitore di destinazione deve ammettere il codec copiato."
-            ]
-          },
-          {
-            "heading": "Quando creare MP3",
-            "paragraphs": [
-              "Può servire a un lettore vecchio o a un flusso specifico. Converti una copia, preserva l’ingresso e controlla inizio, parte centrale e fine. Evita passaggi ripetuti tra formati con perdita: possono accumulare modifiche senza migliorare la registrazione."
-            ]
-          },
-          {
-            "heading": "Audio con VidFetch",
-            "paragraphs": [
-              "Da una fonte autorizzata e accessibile, l’opzione MP3 codifica a 192 kbps. Non ricostruisce un originale senza perdita e non migliora la qualità iniziale. Un formato audio originale può essere disponibile secondo la piattaforma."
-            ]
-          },
-          {
-            "heading": "Domanda frequente",
-            "paragraphs": [
-              "No. Anche durata, codec e bitrate determinano il peso. Ispeziona la traccia e ascolta lo stesso frammento. Video in audio distingue copia e conversione."
-            ]
-          },
-          {
-            "heading": "Verifica il suono disponibile",
-            "paragraphs": [
-              "Alcuni video sono muti; altri hanno più lingue o commenti. Ascolta e controlla l’elenco delle tracce. Un’estrazione semplice non rimuove voci né separa strumenti: una miscela rimane tale nel risultato."
-            ]
-          },
-          {
-            "heading": "Crea MP3 localmente",
-            "paragraphs": [
-              "Con FFmpeg e libmp3lame, il comando seleziona la prima traccia audio e crea un file separato a 192 kbps:",
-              "Se manca l’audio, deve essere segnalato. Mantieni l’ingresso e verifica l’uscita. La prima traccia potrebbe non essere la lingua desiderata: adatta la selezione quando serve."
+              "Un codec con perdita scarta informazioni per ridurre le dimensioni. Uno senza perdita conserva il segnale decodificato, ma non recupera dettagli eliminati in precedenza. Convertire AAC in MP3 a bitrate maggiore non crea un master migliore. Conserva la fonte migliore per il backup.",
+              "La formula stima il peso, non la qualità percepita. Codec diversi non producono necessariamente lo stesso suono a uguale bitrate. Confronta lo stesso passaggio allo stesso volume; parlato e musica complessa pongono esigenze diverse.",
+              "Se il lettore lo supporta, identifica prima AAC o ALAC. Una traccia AAC compatibile può essere copiata in M4A senza ricodifica. Non è una conversione universale: il contenitore di destinazione deve ammettere il codec copiato.",
+              "Può servire a un lettore vecchio o a un flusso specifico. Converti una copia, preserva l’ingresso e controlla inizio, parte centrale e fine. Evita passaggi ripetuti tra formati con perdita: possono accumulare modifiche senza migliorare la registrazione.",
+              "Da una fonte autorizzata e accessibile, l’opzione MP3 codifica a 192 kbps. Non ricostruisce un originale senza perdita e non migliora la qualità iniziale. Un formato audio originale può essere disponibile secondo la piattaforma.",
+              "No. Anche durata, codec e bitrate determinano il peso. Ispeziona la traccia e ascolta lo stesso frammento. Video in audio distingue copia e conversione.",
+              "Alcuni video sono muti; altri hanno più lingue o commenti. Ascolta e controlla l’elenco delle tracce. Un’estrazione semplice non rimuove voci né separa strumenti: una miscela rimane tale nel risultato.",
+              "Scegli un nome che permetta di riconoscere il contenuto. Per materiale di studio, puoi annotare argomento e collegamento originale in una nota separata. Ritroverai così il creatore se vorrai chiedere un’autorizzazione diversa. Il nome del file non dimostra un permesso e non descrive necessariamente tutti i diritti sulla musica presente. Conserva anche il video quando le sue immagini servono a capire la spiegazione.",
+              "Prova il risultato con il lettore che userai davvero. Ascolta la voce a volume confortevole e controlla la parte finale. Se nella fonte la musica copre il parlato, l’MP3 manterrà quel rapporto. La conversione non regola nuovamente i livelli delle singole componenti. Per ottenere una voce pulita o una traccia musicale distinta, chiedi una fonte autorizzata adatta allo scopo anziché ripetere la stessa conversione sperando in un risultato diverso.",
+              "Quando copi l’audio in un altro archivio, aspetta la fine del trasferimento e apri la nuova copia prima di eliminare la prima. Usa un metodo di trasferimento file che conosci e verifica eventuali elaborazioni aggiuntive dell’applicazione utilizzata. Se qualcosa non funziona, annota se accade durante preparazione, download, spostamento o riproduzione. Sono passaggi distinti: richiedere nuovamente il file non corregge necessariamente un problema nato nel lettore o nella destinazione."
             ]
           }
         ],
@@ -1871,59 +1500,17 @@
             ]
           },
           {
-            "heading": "افحص الصوت الموجود فعلًا",
+            "heading": "فهم جودة ملف MP3 الناتج",
             "paragraphs": [
-              "يحذف الترميز ذو الفقدان بعض المعلومات لتقليل الحجم. أما الترميز دون فقدان فيحافظ على الإشارة بعد فكها، لكنه لا يستعيد تفاصيل حُذفت سابقًا. تحويل AAC إلى MP3 بمعدّل بت أعلى لا يصنع تسجيلًا أصليًا أفضل. احتفظ بأفضل مصدر متاح من أجل النسخ الاحتياطي."
-            ]
-          },
-          {
-            "heading": "افهم علاقة معدّل البت بالحجم",
-            "paragraphs": [
-              "هذه الحسابات تقدّر الحجم ولا تقيس الجودة المسموعة. قد يعطي ترميزان مختلفان نتائج مختلفة عند المعدّل نفسه. قارن المقطع ذاته وبمستوى صوت متساوٍ؛ فالكلام والموسيقى المعقدة لا يفرضان الاحتياجات نفسها."
-            ]
-          },
-          {
-            "heading": "متى تُبقي ملف M4A؟",
-            "paragraphs": [
-              "إذا كان المشغّل يدعمه، حدّد أولًا ما إذا كان يحتوي على AAC أو ALAC. يمكن أحيانًا نسخ مسار AAC متوافق إلى M4A دون إعادة ترميز. هذا ليس تحويلًا عامًا لكل صوت؛ يجب أن تقبل الحاوية الترميز الذي ستنسخه."
-            ]
-          },
-          {
-            "heading": "متى تنشئ نسخة MP3؟",
-            "paragraphs": [
-              "قد تحتاجها لمشغّل قديم أو سير عمل معيّن. حوّل نسخة منفصلة، واحتفظ بالأصل، واختبر البداية والوسط والنهاية. تجنب التنقل المتكرر بين صيغ ذات فقدان، لأن التغييرات قد تتراكم دون تحسين التسجيل."
-            ]
-          },
-          {
-            "heading": "خيار الصوت في VidFetch",
-            "paragraphs": [
-              "عندما يكون المصدر المسموح متاحًا، يُرمّز خيار MP3 بمعدّل 192 kbps. لا يعيد بناء تسجيل دون فقدان ولا يحسّن الصوت الأصلي. وقد تتوفر صيغة صوت أصلية أيضًا بحسب خيارات المنصة، وليس لكل فيديو بالضرورة."
-            ]
-          },
-          {
-            "heading": "سؤال شائع",
-            "paragraphs": [
-              "لا. المدة والترميز ومعدّل البت تؤثر جميعها في الحجم. افحص المسار واستمع إلى الجزء نفسه. يشرح تحويل الفيديو إلى صوت الفرق بين النسخ وإعادة الترميز."
-            ]
-          },
-          {
-            "heading": "تأكد من وجود الصوت المطلوب",
-            "paragraphs": [
-              "بعض التسجيلات صامتة، وبعضها يحتوي على لغات متعددة أو تعليق إضافي. استمع وافحص قائمة المسارات قبل الاختيار. استخراج الصوت العادي لا يفصل الآلات ولا يحذف الغناء؛ العناصر التي خُلِطت بالفعل تبقى مختلطة في الملف الناتج."
-            ]
-          },
-          {
-            "heading": "أنشئ MP3 محليًا",
-            "paragraphs": [
-              "مع FFmpeg وlibmp3lame، يختار هذا الأمر أول مسار صوت ويصنع ملفًا منفصلًا بمعدّل 192 kbps:",
-              "إذا لم يوجد مسار صوت، يجب أن يُبلَّغ عن ذلك بدل اختراع صوت. احتفظ بالمدخل واختبر المخرج. قد لا يكون المسار الأول باللغة المطلوبة، لذلك عدّل الاختيار بعد فحصه عند الحاجة."
-            ]
-          },
-          {
-            "heading": "انسخ AAC المتوافق دون ترميز جديد",
-            "paragraphs": [
-              "إذا تأكدت أن المسار المختار هو AAC، فقد يجنّبك نسخه إلى M4A ضغطًا آخر بفقدان:",
-              "هذا يعتمد على المدخل. الأمر ليس تحويلًا عامًا؛ يجب أن تدعم الحاوية الترميز. اختر حاوية متوافقة أو ترميزًا جديدًا إذا لم يصلح النسخ. راجع MP3 وM4A."
+              "يحذف الترميز ذو الفقدان بعض المعلومات لتقليل الحجم. أما الترميز دون فقدان فيحافظ على الإشارة بعد فكها، لكنه لا يستعيد تفاصيل حُذفت سابقًا. تحويل AAC إلى MP3 بمعدّل بت أعلى لا يصنع تسجيلًا أصليًا أفضل. احتفظ بأفضل مصدر متاح من أجل النسخ الاحتياطي.",
+              "هذه الحسابات تقدّر الحجم ولا تقيس الجودة المسموعة. قد يعطي ترميزان مختلفان نتائج مختلفة عند المعدّل نفسه. قارن المقطع ذاته وبمستوى صوت متساوٍ؛ فالكلام والموسيقى المعقدة لا يفرضان الاحتياجات نفسها.",
+              "إذا كان المشغّل يدعمه، حدّد أولًا ما إذا كان يحتوي على AAC أو ALAC. يمكن أحيانًا نسخ مسار AAC متوافق إلى M4A دون إعادة ترميز. هذا ليس تحويلًا عامًا لكل صوت؛ يجب أن تقبل الحاوية الترميز الذي ستنسخه.",
+              "عندما يكون المصدر المسموح متاحًا، يُرمّز خيار MP3 بمعدّل 192 kbps. لا يعيد بناء تسجيل دون فقدان ولا يحسّن الصوت الأصلي. وقد تتوفر صيغة صوت أصلية أيضًا بحسب خيارات المنصة، وليس لكل فيديو بالضرورة.",
+              "لا. المدة والترميز ومعدّل البت تؤثر جميعها في الحجم. افحص المسار واستمع إلى الجزء نفسه. يشرح تحويل الفيديو إلى صوت الفرق بين النسخ وإعادة الترميز.",
+              "بعض التسجيلات صامتة، وبعضها يحتوي على لغات متعددة أو تعليق إضافي. استمع وافحص قائمة المسارات قبل الاختيار. استخراج الصوت العادي لا يفصل الآلات ولا يحذف الغناء؛ العناصر التي خُلِطت بالفعل تبقى مختلطة في الملف الناتج.",
+              "اختر اسمًا يوضح محتوى التسجيل بدل الاكتفاء برقم التنزيل. وللمواد التعليمية يمكنك كتابة الموضوع ورابط المنشور في ملاحظة منفصلة، حتى تعثر على صاحبه إذا احتجت إلى إذن لاستخدام آخر. اسم الملف ليس دليلًا على الإذن ولا يصف بالضرورة جميع الحقوق المتعلقة بالموسيقى الموجودة. واحتفظ بالفيديو أيضًا إذا كانت صوره ضرورية لفهم الشرح المسموع، لأن الملف الصوتي لا يعيد عرض ما ظهر على الشاشة.",
+              "جرب الناتج في المشغل الذي ستستخدمه فعلًا. استمع إلى الكلام بمستوى صوت مريح ثم اختبر نهاية التسجيل. إذا كانت الموسيقى تغطي صوت المتحدث في الأصل، فسيحتفظ MP3 بهذا المزيج. لا تعيد عملية التحويل موازنة مستوى كل عنصر على حدة. وللحصول على كلام واضح مستقل أو مسار موسيقي منفصل، اطلب مصدرًا مناسبًا ومصرحًا به من صاحب المحتوى بدل تكرار التحويل انتظارًا لنتيجة لا يوفرها تغيير الصيغة.",
+              "عند نقل الصوت إلى مساحة أخرى، انتظر انتهاء النسخ وافتح النسخة الجديدة قبل حذف الأولى. استخدم طريقة نقل ملفات تعرفها وتحقق من عدم حدوث معالجة إضافية في التطبيق المستخدم. وإذا واجهت مشكلة، حدد هل ظهرت أثناء التجهيز أم التنزيل أم النقل أم التشغيل. هذه مراحل مختلفة، ولا تعالج إعادة الطلب بالضرورة مشكلة بدأت في المشغل أو في مجلد الوجهة. احتفظ بالنسخة العاملة إلى أن تنتهي من فحص البديل."
             ]
           }
         ],

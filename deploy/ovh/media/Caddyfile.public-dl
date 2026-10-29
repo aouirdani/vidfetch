@@ -59,6 +59,11 @@
         }
     }
 }
+# Explicit 301 rather than the automatic HTTPS redirect status.
+http://vidfetch.app, http://www.vidfetch.app {
+    redir https://vidfetch.app{uri} 301
+}
+
 vidfetch.app {
     import http01
     import public_headers
