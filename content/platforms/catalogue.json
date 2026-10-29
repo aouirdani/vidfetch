@@ -79,10 +79,10 @@
       "fr": "telecharger-video-tiktok",
       "es": "descargar-video-tiktok",
       "pt-BR": "baixar-video-tiktok",
-      "id": "unduh-video-tiktok",
+      "id": "download-video-tiktok",
       "de": "tiktok-video-herunterladen",
       "it": "scaricare-video-tiktok",
-      "ar": "تنزيل-فيديو-تيك-توك"
+      "ar": "tahmil-video-tiktok"
     },
     "editorialBrief": "Individual TikTok post and short-link redirects subject to SSRF policy; source-format selection and creator permission.",
     "gate": {
@@ -290,6 +290,710 @@
         ],
         "updated": "2026-10-27",
         "publishedAt": "2026-10-21"
+      },
+      "id": {
+        "status": "ready",
+        "title": "Download video TikTok ke MP4",
+        "description": "Download video TikTok gratis tanpa akun. Tempel link berbagi dari aplikasi, simpan MP4 dari video publik. Batas 256 MB dan 30 menit; kuota berlaku.",
+        "heading": "Download video TikTok ke MP4 di HP",
+        "intro": "Mau menyimpan tutorial TikTok supaya bisa ditonton lagi saat koneksi kurang stabil? Salin link video publik yang boleh Anda simpan, lalu tempel di VidFetch. Anda tidak perlu membuat akun VidFetch atau memasang aplikasi tambahan. Pilih keluaran MP4 yang tersedia setelah analisis selesai. File berisi gambar dan suara yang diberikan sumber; kualitasnya mengikuti video tersebut, bukan angka resolusi yang dijanjikan untuk semua tautan.",
+        "instructions": [
+          "Buka video TikTok yang pemiliknya mengizinkan Anda simpan. Pilih Bagikan lalu Salin tautan; jangan salin alamat profil atau hasil pencarian.",
+          "Tempel tautan di kolom VidFetch. Teks berbagi dari aplikasi juga boleh ditempel utuh selama memuat link video. Tunggu analisis selesai.",
+          "Pilih MP4 yang tersedia lalu unduh. Biarkan tab terbuka selama persiapan dan transfer, kemudian periksa file di Unduhan."
+        ],
+        "supported": [
+          "Link lengkap tiktok.com/@nama/video/…, link pendek vm.tiktok.com atau vt.tiktok.com, serta tiktok.com/t/… diterima. VidFetch membaca URL dari pesan berbagi yang ditempel.",
+          "Gunakan satu tautan publik untuk setiap permintaan. Halaman profil, hashtag, unggahan foto, dan siaran LIVE bukan video biasa yang didukung alat ini."
+        ],
+        "limits": [
+          "Maksimal 256 MB dan 30 menit per media. Kuota serta jumlah pekerjaan bersamaan tetap dibatasi; menekan unduh berkali-kali tidak mempercepat antrean.",
+          "Video privat, video yang telah dihapus, dan sumber yang meminta login tidak bisa dijamin tersedia. VidFetch tidak meminta kata sandi TikTok dan tidak membuka akses privat."
+        ],
+        "faqs": [
+          {
+            "question": "Apakah bisa download tanpa watermark?",
+            "answer": "VidFetch menyimpan video sebagaimana diberikan platform dan tidak menghapus watermark yang sudah tertanam pada gambar. Tidak ada jaminan hasil tanpa watermark."
+          },
+          {
+            "question": "Mengapa MP3 masih berisi suara orang?",
+            "answer": "MP3 berisi campuran audio video asal. Konversi format tidak memisahkan musik, ucapan, atau efek suara."
+          },
+          {
+            "question": "Apakah perlu akun atau membayar?",
+            "answer": "Tidak perlu akun VidFetch dan alat ini gratis. Batas 256 MB, 30 menit, kuota, serta ketersediaan sumber tetap berlaku."
+          }
+        ],
+        "relatedGuides": [],
+        "details": [
+          {
+            "heading": "Menemukan file di iPhone dan Android",
+            "paragraphs": [
+              "Di iPhone, unduhan browser biasanya masuk ke app File, bukan langsung ke Foto. Buka daftar unduhan Safari untuk menemukan folder tujuan. Untuk video yang kompatibel, gunakan menu berbagi file dan pilih penyimpanan ke Foto jika opsi itu tersedia. Periksa hasilnya sebelum menghapus salinan dalam File. Nama menu bisa berbeda menurut versi iOS dan bahasa perangkat.",
+              "Di Android, buka Unduhan melalui File Manager atau Files. Video belum tentu langsung terlihat di galeri. Tunggu file selesai, buka untuk menguji pemutaran, lalu gunakan fungsi pemindahan atau impor yang disediakan perangkat. MP3 memang lebih tepat ditemukan di aplikasi pengelola berkas atau pemutar musik. Jangan mengunduh ulang hanya karena hasil belum muncul di galeri."
+            ]
+          },
+          {
+            "heading": "Jika link tidak bisa diproses",
+            "paragraphs": [
+              "Buka link di browser terlebih dahulu dan pastikan video yang benar masih terlihat. Jika tautan pendek sudah tidak mengarah ke unggahan, salin ulang dari aplikasi. Satu link baru lebih berguna daripada mengirim permintaan yang sama terus-menerus. Jika videonya hanya terlihat setelah login, itu tidak berarti server VidFetch bisa membacanya.",
+              "Jika muncul pesan kuota atau layanan sibuk, ikuti waktu tunggu yang ditampilkan. Untuk transfer terputus, periksa koneksi dan ruang kosong sebelum mencoba lagi. Jangan membagikan URL unduhan sementara sebagai tautan permanen: kembali ke link publik unggahan untuk memulai permintaan baru."
+            ]
+          },
+          {
+            "heading": "Apa yang dilakukan VidFetch dengan tautan",
+            "paragraphs": [
+              "VidFetch memakai tautan untuk meminta informasi media publik dan menyiapkan format yang Anda pilih. Tautan TikTok dan file hasil unduhan adalah dua hal berbeda: link unggahan menunjuk ke halaman sumber, sedangkan hasilnya adalah salinan untuk perangkat Anda. Menyimpan file tidak menjamin unggahan sumber akan tetap tersedia.",
+              "Simpan nama kreator dan konteks sumber bila diperlukan. Hak cipta tidak hilang setelah format berubah. Gunakan hanya materi milik sendiri atau yang telah diizinkan, dan minta izin terpisah untuk mengunggah ulang atau memakai musik dalam karya lain."
+            ]
+          },
+          {
+            "heading": "Periksa lebih dari ekstensi",
+            "paragraphs": [
+              "MP4 adalah kontainer yang dapat memuat H.264, HEVC, atau trek lain. Video dan audio sama-sama harus didukung. Berkas yang lancar di browser dapat diproses berbeda di galeri maupun aplikasi lain.",
+              "Jika suara ada tetapi gambar tidak, atau sebaliknya, periksa masing-masing trek. Panduan kontainer menjelaskan isi pembungkusnya."
+            ]
+          },
+          {
+            "heading": "Sesuaikan resolusi dengan kebutuhan",
+            "paragraphs": [
+              "Referensi singkat di layar kecil dapat cukup pada 720p atau 1080p. Tulisan rinci, pemotongan, atau penyuntingan berikutnya mungkin memerlukan sumber lebih besar. Jangan selalu mengambil label terbesar.",
+              "Resolusi dan laju bingkai tinggi membutuhkan lebih banyak dekode. Dukungan perangkat keras berbeda-beda; ponsel lama dapat kesulitan memutar berkas yang lancar di perangkat baru."
+            ]
+          },
+          {
+            "heading": "Sisakan ruang dan gunakan koneksi stabil",
+            "paragraphs": [
+              "Ukuran yang ditampilkan dapat berupa perkiraan. Bitrate variabel, trek terpisah, serta kontainer akhir mengubah jumlahnya. Jangan memenuhi seluruh penyimpanan. Unduhan terputus bukan berkas lengkap: pastikan transfer berakhir dan periksa durasi sebelum mengarsipkan."
+            ]
+          },
+          {
+            "heading": "Temukan berkas yang tersimpan",
+            "paragraphs": [
+              "Browser biasanya memakai bagian unduhan atau pengelola berkas sistem. Menyimpan video tidak selalu menambahkannya ke galeri. Lokasi dan impor bergantung pada browser serta sistem operasi."
+            ]
+          },
+          {
+            "heading": "Menggunakan VidFetch di ponsel",
+            "paragraphs": [
+              "Tempel tautan berizin, pilih Analisis, lalu format tersedia. Pilihan mengikuti sumber. Pembatasan platform, kuota, dan antrean sibuk dapat menggagalkan persiapan tanpa berkaitan dengan ponsel. Panduan codec membantu memilih."
+            ]
+          },
+          {
+            "heading": "Pertanyaan umum",
+            "paragraphs": [
+              "Cari berkas lengkap di Unduhan terlebih dahulu, kemudian gunakan fungsi impor atau berbagi yang didukung perangkat."
+            ]
+          },
+          {
+            "heading": "Kontainer berbeda dari codec",
+            "paragraphs": [
+              "Kontainer menyatukan trek dan informasi waktu. Codec memampatkan gambar atau suara di dalamnya. MP4 sering berisi H.264 dan AAC, tetapi dapat memakai kombinasi lain. WebM menggunakan profil Matroska terbatas, termasuk video VP8, VP9 atau AV1 serta audio Vorbis atau Opus."
+            ]
+          },
+          {
+            "heading": "Pilih sesuai perangkat tujuan",
+            "paragraphs": [
+              "Untuk video keluarga yang dibagikan ke ponsel dan komputer, MP4 dengan H.264 dan AAC sering praktis. Namun, perangkat lama atau profil pengodean tertentu tetap dapat gagal. Uji potongan pendek pada perangkat paling lama yang perlu Anda dukung sebelum membagikan seluruh koleksi.",
+              "Situs dapat menawarkan beberapa sumber untuk browser berbeda. Berkas yang lancar di komputer Anda belum tentu diterima aplikasi lain."
+            ]
+          },
+          {
+            "heading": "Ekstensi tidak menentukan ukuran",
+            "paragraphs": [
+              "Durasi, bitrate, resolusi, laju bingkai, dan pengaturan encoder memengaruhi ukuran. WebM tidak selalu lebih kecil, dan MP4 bukan ukuran kualitas. Bandingkan adegan yang sama pada tampilan yang sama. Perhatikan gerakan, tekstur, serta area gelap. Gunakan bitrate dan resolusi bersama."
+            ]
+          }
+        ],
+        "sections": {
+          "steps": "Langkah menyimpan",
+          "formats": "Tautan yang diterima dan batasnya",
+          "faq": "Pertanyaan yang sering ditanyakan"
+        },
+        "updated": "2026-10-29",
+        "publishedAt": "2026-10-29"
+      },
+      "pt-BR": {
+        "status": "ready",
+        "title": "Baixar vídeo do TikTok em MP4",
+        "description": "Baixar vídeo do TikTok grátis, sem conta, com link de compartilhamento do app. Salve em MP4: limite de 256 MB e 30 minutos; sujeito a cotas.",
+        "heading": "Baixar vídeo do TikTok em MP4 no celular",
+        "intro": "Quer guardar uma receita ou uma explicação publicada no TikTok? Copie o link do vídeo público que você tem autorização para salvar e cole no VidFetch. A ferramenta mostra os formatos disponíveis na origem e prepara a opção escolhida. O MP4 mantém imagem e som juntos. Não é preciso criar uma conta no VidFetch nem instalar outro aplicativo. A resolução depende do material recebido: escolher um número maior não recria detalhes que nunca existiram.",
+        "instructions": [
+          "Abra o vídeo no TikTok, toque em Compartilhar e copie o link da publicação. Um endereço de perfil não substitui o link do vídeo.",
+          "Cole o link ou a mensagem de compartilhamento no campo acima. Inicie a análise e aguarde os formatos disponíveis.",
+          "Escolha MP4 e inicie o download. Mantenha a aba aberta até concluir e confira o arquivo na pasta de downloads."
+        ],
+        "supported": [
+          "Aceita tiktok.com/@criador/video/…, links vm.tiktok.com e vt.tiktok.com, além de tiktok.com/t/…. Você pode colar a mensagem inteira de compartilhamento que contenha o endereço.",
+          "A ferramenta trabalha com uma publicação pública por vez. Perfis, hashtags, publicações de fotos e transmissões ao vivo não são entradas compatíveis."
+        ],
+        "limits": [
+          "O limite é de 256 MB e 30 minutos por mídia. Há cotas e limites de tarefas simultâneas; repetir o clique não aumenta a capacidade do serviço.",
+          "Publicações privadas, removidas ou que exigem login podem falhar. Nunca informe sua senha do TikTok no campo de links."
+        ],
+        "faqs": [
+          {
+            "question": "Dá para baixar sem marca d’água?",
+            "answer": "O VidFetch salva o vídeo como a plataforma o fornece e não remove uma marca d’água gravada na imagem. Não há promessa de resultado sem marca."
+          },
+          {
+            "question": "O MP3 separa a música da voz?",
+            "answer": "Não. Ele mantém a mistura sonora do vídeo original. Converter para MP3 não separa voz, instrumentos ou efeitos."
+          },
+          {
+            "question": "É grátis e sem cadastro?",
+            "answer": "Sim, sem conta no VidFetch. Continuam valendo os limites de 256 MB e 30 minutos, as cotas e as restrições da fonte."
+          }
+        ],
+        "relatedGuides": [],
+        "details": [
+          {
+            "heading": "Onde o arquivo fica no iPhone",
+            "paragraphs": [
+              "O download pelo navegador pode ir para Arquivos, sem aparecer no Rolo da câmera. No Safari, abra a lista de downloads para localizar o arquivo. Se o vídeo for compatível, use o menu de compartilhamento e a opção de salvar em Fotos quando disponível. Confira a cópia em Fotos antes de apagar o download original.",
+              "Um MP3 continua sendo um arquivo de áudio. Procure em Arquivos ou abra com um aplicativo compatível; ele não precisa aparecer na galeria. Os nomes dos menus variam conforme a versão do iOS e a configuração do aparelho."
+            ]
+          },
+          {
+            "heading": "Android: Downloads e galeria são lugares diferentes",
+            "paragraphs": [
+              "No Android, consulte a pasta Downloads no gerenciador de arquivos. Aguarde o término da transferência antes de abrir ou mover o resultado. A galeria pode levar um tempo para reconhecer um vídeo, e alguns aplicativos não mostram todos os formatos de imediato.",
+              "Se o arquivo completo abre no gerenciador, mas não aparece na galeria, use as opções de importação ou movimentação do próprio aparelho. Para MP3, teste um reprodutor de áudio. Mudar a extensão do nome não converte o arquivo e pode dificultar sua identificação."
+            ]
+          },
+          {
+            "heading": "Quando a análise ou o download falham",
+            "paragraphs": [
+              "Primeiro abra o link no navegador e confira se ainda aponta para a publicação esperada. Links curtos podem deixar de resolver corretamente. Copie outro endereço a partir do vídeo, evitando links de perfil, de busca ou de uma página de som.",
+              "Se houver aviso de cota ou fila, respeite o intervalo informado. Em uma transferência interrompida, verifique conexão e espaço livre. O link temporário do arquivo não serve como endereço permanente: faça uma nova análise a partir da publicação pública quando precisar novamente."
+            ]
+          },
+          {
+            "heading": "O que acontece com o link enviado",
+            "paragraphs": [
+              "O VidFetch usa o endereço para consultar a mídia pública e preparar o formato escolhido. Não transforma uma publicação privada em pública e não cria uma licença de uso. Mantenha a referência do criador e a autorização junto da sua cópia quando isso for necessário.",
+              "Baixar para consultar depois é diferente de republicar. Música licenciada dentro de um aplicativo pode não estar liberada para outro uso. Peça autorização antes de editar, distribuir ou usar o resultado em um projeto comercial."
+            ]
+          },
+          {
+            "heading": "Olhe além da extensão",
+            "paragraphs": [
+              "MP4 é um contêiner: pode guardar H.264, HEVC ou outra faixa. Áudio e vídeo precisam ser compatíveis. Um arquivo que toca no navegador pode ser tratado de outra maneira pela galeria ou por outro aplicativo.",
+              "Se houver som sem imagem, ou o contrário, examine as faixas separadamente. O guia de contêineres explica o conteúdo do arquivo."
+            ]
+          },
+          {
+            "heading": "Ajuste resolução ao uso",
+            "paragraphs": [
+              "Uma referência em tela pequena pode funcionar em 720p ou 1080p. Texto detalhado, corte ou edição posterior podem exigir mais resolução. Não escolha automaticamente o maior rótulo.",
+              "Resoluções e taxas de quadros elevadas exigem mais decodificação. O suporte por hardware varia; um aparelho antigo pode ter dificuldade onde um recente reproduz sem problemas."
+            ]
+          },
+          {
+            "heading": "Planeje armazenamento e conexão",
+            "paragraphs": [
+              "O tamanho mostrado pode ser estimado. Bitrate variável, faixas separadas e contêiner final alteram o total. Deixe espaço livre. Uma transferência interrompida não produz um arquivo completo: use conexão estável e confira o final antes de arquivar a cópia."
+            ]
+          },
+          {
+            "heading": "Encontre o arquivo salvo",
+            "paragraphs": [
+              "Navegadores costumam usar uma área de downloads ou o gerenciador de arquivos do sistema. Salvar não significa incluir automaticamente na galeria. O comportamento depende do navegador e do sistema."
+            ]
+          },
+          {
+            "heading": "Usando VidFetch no celular",
+            "paragraphs": [
+              "Cole um link autorizado, analise e escolha um formato disponível. As opções dependem da origem. Bloqueios, cotas e uma fila cheia podem impedir a preparação sem relação com o aparelho. O guia de codecs ajuda na seleção."
+            ]
+          },
+          {
+            "heading": "Pergunta frequente",
+            "paragraphs": [
+              "Procure primeiro o arquivo completo em Downloads e depois use a opção de importar ou compartilhar oferecida pelo dispositivo."
+            ]
+          }
+        ],
+        "sections": {
+          "steps": "Como salvar",
+          "formats": "Links aceitos e limites",
+          "faq": "Dúvidas frequentes"
+        },
+        "updated": "2026-10-29",
+        "publishedAt": "2026-10-29"
+      },
+      "es": {
+        "status": "ready",
+        "title": "Descargar vídeos de TikTok en MP4",
+        "description": "Descargar vídeos de TikTok gratis y sin cuenta con el enlace de compartir de la app. Guarda en MP4: hasta 256 MB y 30 minutos; hay cuotas.",
+        "heading": "Descargar vídeos de TikTok en MP4",
+        "intro": "Para guardar una receta o una explicación de TikTok, necesitas el enlace de esa publicación, no la dirección del perfil. VidFetch analiza vídeos públicos y prepara los formatos que la plataforma proporciona. Elige MP4 para conservar imagen y sonido juntos. No necesitas registrarte en VidFetch ni instalar una aplicación adicional. Antes de descargar, comprueba que tienes permiso para guardar el contenido: que un vídeo se pueda ver públicamente no concede derechos de reutilización.",
+        "instructions": [
+          "Abre la publicación en TikTok, pulsa Compartir y copia su enlace. Comprueba que es un vídeo individual.",
+          "Pega el enlace o el mensaje completo de compartir en VidFetch. Inicia el análisis y espera a que aparezcan los formatos.",
+          "Selecciona MP4 y descarga. Mantén abierta la pestaña mientras se prepara y transfiere el archivo; después comprueba el resultado."
+        ],
+        "supported": [
+          "Se admiten tiktok.com/@creador/video/…, vm.tiktok.com, vt.tiktok.com y tiktok.com/t/…. También puedes pegar un mensaje de compartir que incluya uno de esos enlaces.",
+          "Procesa una publicación pública por petición. Los perfiles, hashtags, directos y publicaciones de fotos no equivalen a un vídeo compatible."
+        ],
+        "limits": [
+          "El máximo por archivo multimedia es de 256 MB y 30 minutos. Hay cuotas y límites de trabajos simultáneos; insistir con varias pestañas no elimina esos límites.",
+          "Las publicaciones privadas, eliminadas o sujetas a inicio de sesión pueden no estar disponibles. No introduzcas contraseñas ni datos de tu cuenta en el campo del enlace."
+        ],
+        "faqs": [
+          {
+            "question": "¿Se puede descargar sin marca de agua?",
+            "answer": "VidFetch guarda el vídeo tal como lo proporciona la plataforma y no elimina marcas de agua incrustadas en la imagen. No garantiza un resultado sin marca."
+          },
+          {
+            "question": "¿El MP3 contiene solo la canción?",
+            "answer": "Contiene la mezcla de audio del vídeo, incluida cualquier voz o efecto. La conversión no aísla la música ni recupera una canción completa."
+          },
+          {
+            "question": "¿Hace falta una cuenta o pagar?",
+            "answer": "VidFetch es gratis y no requiere cuenta. Se mantienen los límites de 256 MB y 30 minutos, las cuotas y las restricciones del origen."
+          }
+        ],
+        "relatedGuides": [],
+        "details": [
+          {
+            "heading": "Guardar en un iPhone",
+            "paragraphs": [
+              "Un archivo descargado con Safari suele encontrarse en Archivos. Abre la lista de descargas del navegador y localiza la carpeta elegida. Para un vídeo compatible, el menú de compartir puede ofrecer la opción de guardarlo en Fotos. Comprueba esa copia antes de borrar el archivo descargado.",
+              "Un MP3 no necesita aparecer en Fotos: ábrelo desde Archivos o desde un reproductor compatible. Las opciones y sus nombres cambian según la versión de iOS. No repitas la descarga solo porque el resultado no esté en el carrete."
+            ]
+          },
+          {
+            "heading": "Encontrar la descarga en Android",
+            "paragraphs": [
+              "En Android, busca en Descargas con Files o el gestor de archivos. Espera a que termine la transferencia antes de mover el resultado. La galería no siempre muestra inmediatamente los vídeos descargados y no sirve como lista completa de todos los archivos del teléfono.",
+              "Abre el archivo desde su carpeta y prueba la reproducción. Si funciona, utiliza las opciones de importar o mover que ofrezca tu dispositivo. Para un MP3, abre un reproductor de audio. Cambiar el nombre de .mp4 a .mp3 no convierte el contenido."
+            ]
+          },
+          {
+            "heading": "Resolver un enlace que falla",
+            "paragraphs": [
+              "Abre primero la dirección en el navegador y verifica que la publicación sigue disponible. Si el enlace corto ya no llega al vídeo correcto, vuelve a copiarlo desde TikTok. Una publicación que solo aparece después de iniciar sesión puede no ser accesible desde el servidor.",
+              "Ante un aviso de cuota o de servicio ocupado, espera el tiempo indicado. Si se corta una transferencia, revisa la conexión y el espacio libre. Los enlaces temporales de descarga no son una copia permanente del enlace público: vuelve a analizar la publicación cuando necesites otro archivo."
+            ]
+          },
+          {
+            "heading": "Qué hace VidFetch con la dirección",
+            "paragraphs": [
+              "La dirección permite solicitar información del contenido público y preparar el formato elegido. No abre cuentas privadas ni recupera vídeos borrados. Guarda por separado el enlace de origen y el nombre del creador si necesitas documentar de dónde viene tu copia.",
+              "El permiso para ver o guardar una publicación no equivale a una licencia para redistribuirla. Antes de reutilizar imágenes, voces o música en otro proyecto, confirma los derechos correspondientes. La conversión de formato no cambia la titularidad del contenido."
+            ]
+          },
+          {
+            "heading": "Comprueba más que la extensión",
+            "paragraphs": [
+              "MP4 es un contenedor que puede incluir H.264, HEVC u otros códecs. Tanto vídeo como audio deben ser compatibles. Un archivo reproducible en el navegador puede funcionar de otra manera en la galería o en otra aplicación.",
+              "Si se escucha sin imagen, o al revés, inspecciona cada pista. La guía de contenedores explica qué hay dentro."
+            ]
+          },
+          {
+            "heading": "Ajusta la resolución al uso",
+            "paragraphs": [
+              "Una referencia en pantalla pequeña puede bastar en 720p o 1080p. Texto detallado, recorte o edición pueden justificar más resolución. No elijas siempre la etiqueta mayor.",
+              "Resolución y fotogramas altos exigen más decodificación. El soporte por hardware varía según equipo y códec; un móvil antiguo puede fallar donde otro reciente funciona bien."
+            ]
+          },
+          {
+            "heading": "Reserva almacenamiento",
+            "paragraphs": [
+              "El tamaño mostrado puede ser estimado. Bitrate variable, pistas separadas y contenedor final cambian el resultado. Deja espacio libre y usa una conexión estable para archivos grandes. Una descarga interrumpida no es un archivo completo. Comprueba la duración y el final antes de añadirlo a una colección."
+            ]
+          },
+          {
+            "heading": "Localiza lo que has guardado",
+            "paragraphs": [
+              "Los navegadores suelen usar una zona de descargas o el gestor de archivos del sistema. Guardar no implica añadir el vídeo a Fotos. La ubicación exacta depende del navegador y el sistema."
+            ]
+          },
+          {
+            "heading": "VidFetch desde el teléfono",
+            "paragraphs": [
+              "Pega un enlace autorizado, analiza y selecciona un formato disponible. Los formatos dependen de la fuente. Restricciones, cuotas y una cola ocupada pueden impedir la preparación sin relación con tu teléfono. La guía de códecs ayuda a comparar opciones."
+            ]
+          },
+          {
+            "heading": "Pregunta frecuente",
+            "paragraphs": [
+              "Busca primero el archivo terminado en Descargas y utiliza después la función de importación o compartir del dispositivo."
+            ]
+          }
+        ],
+        "sections": {
+          "steps": "Pasos para guardar el archivo",
+          "formats": "Enlaces admitidos y límites",
+          "faq": "Preguntas frecuentes"
+        },
+        "updated": "2026-10-29",
+        "publishedAt": "2026-10-29"
+      },
+      "de": {
+        "status": "ready",
+        "title": "TikTok-Video herunterladen als MP4",
+        "description": "TikTok-Video herunterladen: kostenlos, ohne Konto, mit Teilen-Link aus der App. MP4 für öffentliche Videos. Bis 256 MB und 30 Minuten; Kontingente.",
+        "heading": "TikTok-Video herunterladen als MP4",
+        "intro": "Du möchtest eine Anleitung aus TikTok später noch einmal ansehen? Kopiere den Link zum öffentlichen Video, das du speichern darfst, und füge ihn bei VidFetch ein. Nach der Analyse wählst du ein verfügbares MP4-Format. Bild und Ton bleiben zusammen. Ein VidFetch-Konto und eine zusätzliche App sind dafür nicht nötig. Die Auswahl richtet sich nach der Quelle. Eine höhere Auflösungsangabe erzeugt keine Bilddetails, die im Ausgangsmaterial fehlen.",
+        "instructions": [
+          "Öffne das einzelne Video in TikTok und kopiere über Teilen den Link. Eine Profiladresse reicht nicht.",
+          "Füge den Link oder die vollständige Teilen-Nachricht in VidFetch ein. Starte die Analyse und warte auf die verfügbaren Formate.",
+          "Wähle MP4 und lade die Datei herunter. Lass den Tab während Vorbereitung und Übertragung geöffnet und prüfe anschließend die Wiedergabe."
+        ],
+        "supported": [
+          "Unterstützt werden tiktok.com/@name/video/…, vm.tiktok.com, vt.tiktok.com und tiktok.com/t/…. Auch eine Teilen-Nachricht mit eingebettetem Video-Link lässt sich einfügen.",
+          "Pro Anfrage wird ein öffentliches Video verarbeitet. Profile, Hashtags, Fotobeiträge und laufende LIVE-Sendungen sind keine unterstützten Video-Eingaben."
+        ],
+        "limits": [
+          "Die Grenze liegt bei 256 MB und 30 Minuten je Medium. Kontingente und Begrenzungen für gleichzeitige Aufträge gelten weiterhin; wiederholtes Klicken beschleunigt keine Warteschlange.",
+          "Private, gelöschte oder nur nach Anmeldung erreichbare Beiträge können nicht zuverlässig abgerufen werden. Gib niemals dein TikTok-Passwort in das Linkfeld ein."
+        ],
+        "faqs": [
+          {
+            "question": "Kann ich ohne Wasserzeichen herunterladen?",
+            "answer": "VidFetch speichert das Video so, wie die Plattform es liefert, und entfernt kein eingebranntes Wasserzeichen. Ein Ergebnis ohne Wasserzeichen wird nicht zugesichert."
+          },
+          {
+            "question": "Enthält MP3 nur die Musik?",
+            "answer": "Nein. Die Tonspur enthält den vorhandenen Mix aus Sprache, Musik und Effekten. Die Umwandlung isoliert keine Instrumente."
+          },
+          {
+            "question": "Ist ein Konto oder eine Zahlung nötig?",
+            "answer": "VidFetch ist kostenlos und benötigt kein Konto. Die Grenzen von 256 MB und 30 Minuten sowie Kontingente und Quellenbeschränkungen bleiben bestehen."
+          }
+        ],
+        "relatedGuides": [],
+        "details": [
+          {
+            "heading": "Auf dem iPhone die richtige Ablage finden",
+            "paragraphs": [
+              "Ein Download aus Safari landet häufig in Dateien und erscheint nicht automatisch in Fotos. Öffne die Downloadliste des Browsers und prüfe den Zielordner. Bei einem kompatiblen Video kann das Teilen-Menü eine Option zum Sichern in Fotos anbieten. Kontrolliere die gespeicherte Kopie, bevor du die Download-Datei löschst.",
+              "MP3 ist eine Audiodatei und muss nicht in der Fotomediathek auftauchen. Öffne sie über Dateien oder einen passenden Player. Bezeichnungen und verfügbare Optionen hängen von iOS-Version und Geräteeinstellungen ab."
+            ]
+          },
+          {
+            "heading": "Android: Downloads statt nur Galerie prüfen",
+            "paragraphs": [
+              "Sieh unter Downloads in Files oder im Dateimanager nach. Warte das Ende der Übertragung ab, bevor du die Datei öffnest oder verschiebst. Die Galerie ist keine vollständige Liste aller gespeicherten Dateien und zeigt neue Videos möglicherweise erst später an.",
+              "Teste die Datei direkt aus ihrem Ordner. Funktioniert die Wiedergabe, verwende die Import- oder Verschiebeoptionen deines Geräts. Für MP3 ist ein Audioplayer geeignet. Das Umbenennen einer Dateiendung ändert weder den Container noch den Codec."
+            ]
+          },
+          {
+            "heading": "Fehler sinnvoll eingrenzen",
+            "paragraphs": [
+              "Öffne die Adresse zunächst im Browser und prüfe, ob sie noch zum richtigen Video führt. Ein abgelaufener Kurzlink lässt sich nicht durch weitere Klicks reparieren; kopiere einen neuen Link aus der Veröffentlichung. Nur nach Anmeldung sichtbare Inhalte sind für den Server möglicherweise nicht erreichbar.",
+              "Beachte bei einer Kontingentmeldung die angezeigte Wartezeit. Bricht eine Übertragung ab, prüfe freien Speicher und Verbindung. Temporäre Download-Adressen eignen sich nicht als dauerhafter Verweis. Nutze bei Bedarf erneut den öffentlichen Beitragslink für eine frische Analyse."
+            ]
+          },
+          {
+            "heading": "Was mit dem eingegebenen Link passiert",
+            "paragraphs": [
+              "VidFetch fragt Informationen zum öffentlichen Medium ab und bereitet das gewählte Format vor. Das macht private Beiträge nicht öffentlich und stellt gelöschte Videos nicht wieder her. Bewahre den ursprünglichen Link und den Namen des Urhebers getrennt von der Datei auf, wenn du die Herkunft dokumentieren möchtest.",
+              "Das Speichern einer Datei überträgt keine Nutzungsrechte. Gerade Musik kann innerhalb einer Plattform anders lizenziert sein als für eigene Projekte. Hole vor einer Veröffentlichung, Bearbeitung oder kommerziellen Nutzung die erforderliche Erlaubnis ein."
+            ]
+          },
+          {
+            "heading": "Mehr als die Endung prüfen",
+            "paragraphs": [
+              "MP4 bezeichnet den Container; darin können H.264, HEVC oder andere Spuren liegen. Video und Audio müssen beide unterstützt werden. Eine Datei, die im Browser läuft, kann in Galerie oder anderer App anders behandelt werden.",
+              "Bei Ton ohne Bild oder umgekehrt untersuche die Spuren einzeln. Der Container-Ratgeber erklärt den Inhalt."
+            ]
+          },
+          {
+            "heading": "Auflösung dem Zweck anpassen",
+            "paragraphs": [
+              "Für einen Referenzclip auf kleinem Bildschirm können 720p oder 1080p reichen. Kleine Schrift, Zuschnitt und spätere Bearbeitung können größere Quellen rechtfertigen. Wähle nicht automatisch die höchste Bezeichnung.",
+              "Hohe Auflösung und Bildrate verlangen mehr Decodierung. Hardwareunterstützung unterscheidet sich zwischen Geräten. Ein altes Handy kann bei einer Datei stocken, die ein neueres problemlos abspielt."
+            ]
+          },
+          {
+            "heading": "Speicher und Übertragung planen",
+            "paragraphs": [
+              "Die angegebene Größe kann geschätzt sein. Variable Bitrate, getrennte Spuren und der endgültige Container verändern das Ergebnis. Lass freien Speicher. Ein abgebrochener Download ist keine vollständige Datei: Nutze eine stabile Verbindung und kontrolliere das Ende vor der Archivierung."
+            ]
+          },
+          {
+            "heading": "Die gespeicherte Datei finden",
+            "paragraphs": [
+              "Browser verwenden meist einen Downloadbereich oder den Dateimanager des Systems. Speichern fügt die Datei nicht zwingend zur Fotobibliothek hinzu. Ort und Import hängen von Browser und Betriebssystem ab."
+            ]
+          },
+          {
+            "heading": "VidFetch unterwegs verwenden",
+            "paragraphs": [
+              "Füge einen erlaubten Link ein, analysiere ihn und wähle ein verfügbares Format. Die Formate stammen aus der Quelle. Beschränkungen, Quoten und eine volle Warteschlange können unabhängig vom Handy stören. Der Codec-Ratgeber hilft bei der Auswahl."
+            ]
+          },
+          {
+            "heading": "Häufige Frage",
+            "paragraphs": [
+              "Suche zuerst die fertige Datei im Downloadbereich und nutze dann die vom Gerät unterstützte Import- oder Teilen-Funktion."
+            ]
+          },
+          {
+            "heading": "Container und Codec erfüllen unterschiedliche Aufgaben",
+            "paragraphs": [
+              "Der Container hält Spuren und Zeitinformationen zusammen. Ein Codec komprimiert Bild oder Ton. MP4 enthält oft H.264 und AAC, kann aber andere Kombinationen aufnehmen. WebM verwendet ein eingeschränktes Matroska-Profil, etwa mit VP8, VP9 oder AV1 sowie Vorbis oder Opus."
+            ]
+          },
+          {
+            "heading": "Wähle für das Zielgerät",
+            "paragraphs": [
+              "Für Familienvideos auf Handys und Computern ist MP4 mit H.264 und AAC oft praktisch. Das garantiert keine Unterstützung ungewöhnlicher Profile oder alter Geräte. Teste einen kurzen Ausschnitt auf dem ältesten benötigten Gerät, bevor du eine ganze Sammlung verschickst.",
+              "Eine Website kann mehrere Quellen für unterschiedliche Browser anbieten. Eine Datei, die auf deinem Computer funktioniert, muss nicht in jeder anderen Anwendung laufen."
+            ]
+          }
+        ],
+        "sections": {
+          "steps": "So speicherst du die Datei",
+          "formats": "Unterstützte Links und Grenzen",
+          "faq": "Häufige Fragen"
+        },
+        "updated": "2026-10-29",
+        "publishedAt": "2026-10-29"
+      },
+      "it": {
+        "status": "ready",
+        "title": "Scaricare video TikTok in MP4",
+        "description": "Scaricare video TikTok gratis e senza account con il link di condivisione dell’app. Salva in MP4: massimo 256 MB e 30 minuti; si applicano quote.",
+        "heading": "Scaricare video TikTok in MP4 sul telefono",
+        "intro": "Vuoi tenere una ricetta o una spiegazione vista su TikTok? Copia il link del singolo video pubblico che hai il permesso di salvare e incollalo in VidFetch. Dopo l’analisi scegli un formato MP4 disponibile per conservare immagini e suono insieme. Non serve creare un account VidFetch né installare un’altra app. La qualità dipende dal materiale fornito dalla piattaforma: una risoluzione più alta non ricostruisce dettagli assenti nella registrazione.",
+        "instructions": [
+          "Apri il video in TikTok e copia il link dal menu Condividi. Non usare l’indirizzo del profilo o di una ricerca.",
+          "Incolla il link oppure il messaggio di condivisione completo. Avvia l’analisi e attendi i formati disponibili.",
+          "Scegli MP4 e scarica. Lascia aperta la scheda fino al termine della preparazione e del trasferimento, poi controlla il file."
+        ],
+        "supported": [
+          "Sono accettati tiktok.com/@nome/video/…, vm.tiktok.com, vt.tiktok.com e tiktok.com/t/…. Puoi incollare anche il messaggio di condivisione che contiene il link.",
+          "Ogni richiesta riguarda una pubblicazione pubblica. Profili, hashtag, post fotografici e dirette LIVE non sono video compatibili con questo strumento."
+        ],
+        "limits": [
+          "Il massimo è di 256 MB e 30 minuti per contenuto multimediale. Restano quote e limiti alle operazioni simultanee; ripetere il clic non rende più veloce la coda.",
+          "I post privati, rimossi o accessibili solo dopo l’accesso possono non essere disponibili. Non inserire mai la password TikTok nel campo del link."
+        ],
+        "faqs": [
+          {
+            "question": "Si può scaricare senza filigrana?",
+            "answer": "VidFetch salva il video come viene fornito dalla piattaforma e non rimuove una filigrana incorporata nell’immagine. Non garantisce un risultato senza filigrana."
+          },
+          {
+            "question": "L’MP3 contiene solo la canzone?",
+            "answer": "Contiene la traccia completa del video, comprese voci ed effetti. La conversione non isola la musica e non recupera automaticamente il brano originale."
+          },
+          {
+            "question": "È gratuito e senza registrazione?",
+            "answer": "Sì, non serve un account VidFetch. Restano i limiti di 256 MB e 30 minuti, le quote e le restrizioni della fonte."
+          }
+        ],
+        "relatedGuides": [],
+        "details": [
+          {
+            "heading": "Trovare il risultato su iPhone",
+            "paragraphs": [
+              "Un download da Safari può finire in File senza apparire subito in Foto. Apri l’elenco dei download del browser e controlla la cartella scelta. Per un video compatibile, il menu di condivisione può offrire l’opzione per salvarlo in Foto. Verifica la copia prima di cancellare il file originale scaricato.",
+              "Un MP3 non deve comparire nel rullino: puoi aprirlo da File o con un’app audio compatibile. Le voci dei menu cambiano con la versione di iOS e le impostazioni del dispositivo. Non avviare un altro download solo perché non trovi il risultato in Foto."
+            ]
+          },
+          {
+            "heading": "Android: controllare Download e Galleria",
+            "paragraphs": [
+              "Apri la cartella Download in Files o nel gestore file del telefono. Attendi il completamento del trasferimento prima di spostare o aprire il risultato. La Galleria non è un elenco di tutti i file del dispositivo e può non mostrare immediatamente un nuovo video.",
+              "Prova la riproduzione direttamente dalla cartella. Se funziona, utilizza le opzioni di importazione o spostamento disponibili sul telefono. Per un MP3 scegli un lettore audio. Rinominare .mp4 in .mp3 non converte i dati e può confondere le applicazioni."
+            ]
+          },
+          {
+            "heading": "Quando un link non funziona",
+            "paragraphs": [
+              "Apri prima l’indirizzo nel browser e controlla che porti ancora al video desiderato. Se un link breve non si risolve più, copiane uno nuovo dalla pubblicazione. Un video visibile solo dopo l’accesso potrebbe non essere raggiungibile dal server VidFetch.",
+              "Se compare un avviso di quota o servizio occupato, rispetta l’attesa indicata. Per un trasferimento interrotto, verifica connessione e spazio libero. L’indirizzo temporaneo del file non è un collegamento permanente: usa nuovamente il link pubblico per una nuova analisi."
+            ]
+          },
+          {
+            "heading": "Come viene usato il link",
+            "paragraphs": [
+              "VidFetch consulta le informazioni del contenuto pubblico e prepara il formato selezionato. Non rende pubblici i profili privati e non recupera video eliminati. Conserva a parte il collegamento originale e il nome del creatore se devi documentare la provenienza della copia.",
+              "Scaricare un file non trasferisce i diritti d’autore. Una musica autorizzata all’interno di TikTok potrebbe non esserlo per un altro progetto. Prima di modificare, pubblicare o usare il materiale per lavoro, verifica le autorizzazioni necessarie."
+            ]
+          },
+          {
+            "heading": "Controlla oltre l’estensione",
+            "paragraphs": [
+              "MP4 è un contenitore e può contenere H.264, HEVC o altre tracce. Audio e video devono essere entrambi compatibili. Un file riproducibile nel browser può essere gestito diversamente nella galleria o in un’altra applicazione.",
+              "Se senti audio senza immagine, o viceversa, ispeziona le tracce individuali. La guida ai contenitori spiega il contenuto."
+            ]
+          },
+          {
+            "heading": "Adatta la risoluzione all’uso",
+            "paragraphs": [
+              "Un riferimento su piccolo schermo può bastare a 720p o 1080p. Testo dettagliato, ritaglio o montaggio possono richiedere una fonte maggiore. Non scegliere automaticamente il valore più alto.",
+              "Risoluzione e frequenza elevate richiedono più decodifica. Il supporto hardware varia; un vecchio telefono può faticare con un file fluido su uno recente."
+            ]
+          },
+          {
+            "heading": "Pianifica spazio e connessione",
+            "paragraphs": [
+              "La dimensione indicata può essere stimata. Bitrate variabile, tracce separate e contenitore finale modificano il totale. Lascia spazio libero. Un download interrotto non è un file completo: usa una connessione stabile e verifica durata e fine prima di archiviare."
+            ]
+          },
+          {
+            "heading": "Trova il file salvato",
+            "paragraphs": [
+              "I browser usano spesso un’area download o il gestore file del sistema. Salvare non aggiunge necessariamente il video alla raccolta fotografica. Posizione e importazione dipendono da browser e sistema operativo."
+            ]
+          },
+          {
+            "heading": "VidFetch sul telefono",
+            "paragraphs": [
+              "Incolla un link autorizzato, analizza e scegli un formato disponibile. Le opzioni dipendono dalla fonte. Restrizioni, quote e coda occupata possono bloccare la preparazione indipendentemente dal telefono. La guida ai codec aiuta nella scelta."
+            ]
+          },
+          {
+            "heading": "Domanda frequente",
+            "paragraphs": [
+              "Cerca prima il file completato in Download, poi usa la funzione di importazione o condivisione prevista dal dispositivo."
+            ]
+          },
+          {
+            "heading": "Contenitore e codec hanno ruoli diversi",
+            "paragraphs": [
+              "Il contenitore riunisce tracce e informazioni temporali. Il codec comprime immagini o suono. MP4 contiene spesso H.264 e AAC, ma ammette altre combinazioni. WebM usa un profilo limitato di Matroska, con video VP8, VP9 o AV1 e audio Vorbis oppure Opus."
+            ]
+          }
+        ],
+        "sections": {
+          "steps": "Come salvare il file",
+          "formats": "Link accettati e limiti",
+          "faq": "Domande frequenti"
+        },
+        "updated": "2026-10-29",
+        "publishedAt": "2026-10-29"
+      },
+      "ar": {
+        "status": "ready",
+        "title": "تحميل فيديو تيك توك بصيغة MP4",
+        "description": "تحميل فيديو تيك توك مجانًا دون حساب عبر رابط المشاركة من التطبيق. احفظ فيديو عامًا بصيغة MP4. الحد 256 ميغابايت و30 دقيقة مع حصص استخدام.",
+        "heading": "تحميل فيديو تيك توك بصيغة MP4 على الهاتف",
+        "intro": "هل تريد الاحتفاظ بشرح أو وصفة شاهدتها على تيك توك؟ انسخ رابط الفيديو العام الذي تملك إذنًا بحفظه، ثم الصقه في VidFetch. بعد التحليل يمكنك اختيار صيغة MP4 المتاحة للاحتفاظ بالصورة والصوت معًا. لا تحتاج إلى إنشاء حساب في VidFetch أو تثبيت تطبيق إضافي. تعتمد الجودة على الملف الذي توفره المنصة، ولا تؤدي زيادة رقم الدقة إلى استعادة تفاصيل غير موجودة في التسجيل الأصلي.",
+        "instructions": [
+          "افتح الفيديو نفسه في تطبيق تيك توك، ثم اختر المشاركة وانسخ الرابط. رابط الحساب أو نتائج البحث لا يكفي.",
+          "الصق الرابط أو رسالة المشاركة كاملة في VidFetch. ابدأ التحليل وانتظر حتى تظهر الصيغ المتاحة لهذا الفيديو.",
+          "اختر MP4 وابدأ التنزيل. أبقِ الصفحة مفتوحة حتى ينتهي الإعداد ونقل الملف، ثم تحقق من تشغيله."
+        ],
+        "supported": [
+          "تُقبل روابط tiktok.com/@name/video/… وروابط vm.tiktok.com وvt.tiktok.com وtiktok.com/t/…. ويمكن لصق رسالة المشاركة التي تتضمن رابط الفيديو.",
+          "تتعامل كل محاولة مع فيديو عام واحد. الحسابات والوسوم ومنشورات الصور والبث المباشر ليست مدخلات فيديو تدعمها هذه الأداة."
+        ],
+        "limits": [
+          "الحد الأقصى هو 256 ميغابايت و30 دقيقة لكل وسيط. تطبق حصص للاستخدام وحدود للمهام المتزامنة، ولا يؤدي تكرار الضغط إلى تجاوزها أو تسريع الانتظار.",
+          "قد يتعذر الوصول إلى الفيديو الخاص أو المحذوف أو الذي يتطلب تسجيل الدخول. لا تكتب كلمة مرور حساب تيك توك في حقل الرابط."
+        ],
+        "faqs": [
+          {
+            "question": "هل يمكن تحميل الفيديو بدون علامة مائية؟",
+            "answer": "يحفظ VidFetch الفيديو كما توفره المنصة ولا يزيل العلامة المائية المدمجة في الصورة. لا يوجد ضمان للحصول على فيديو بدون علامة."
+          },
+          {
+            "question": "هل يحتوي MP3 على الأغنية وحدها؟",
+            "answer": "يحتوي على المزيج الصوتي الموجود في الفيديو، بما في ذلك الكلام والمؤثرات. لا يفصل التحويل الموسيقى ولا يسترجع الأغنية الكاملة تلقائيًا."
+          },
+          {
+            "question": "هل أحتاج إلى حساب أو اشتراك؟",
+            "answer": "الأداة مجانية ولا تتطلب حساب VidFetch. تبقى حدود 256 ميغابايت و30 دقيقة وحصص الاستخدام وقيود المصدر سارية."
+          }
+        ],
+        "relatedGuides": [],
+        "details": [
+          {
+            "heading": "العثور على الملف في آيفون",
+            "paragraphs": [
+              "قد ينزل Safari الملف إلى تطبيق الملفات دون إضافته إلى الصور تلقائيًا. افتح قائمة التنزيلات في المتصفح وتحقق من المجلد المحدد. إذا كان الفيديو متوافقًا، فقد تجد في قائمة المشاركة خيارًا لحفظه في الصور. تأكد من وجود النسخة وتشغيلها قبل حذف الملف الذي نزلته.",
+              "أما ملف MP3 فلا يلزم أن يظهر في الصور. يمكنك فتحه من الملفات أو بواسطة مشغل صوت متوافق. تختلف أسماء الخيارات بحسب إصدار النظام ولغة الهاتف، ولذلك فإن عدم ظهور الملف في ألبوم الصور لا يعني أن التنزيل فشل."
+            ]
+          },
+          {
+            "heading": "العثور على التنزيل في أندرويد",
+            "paragraphs": [
+              "افتح مجلد التنزيلات باستخدام تطبيق الملفات أو مدير الملفات في هاتفك. انتظر اكتمال النقل قبل فتح الملف أو نقله إلى مجلد آخر. معرض الصور ليس قائمة شاملة لكل ملفات الجهاز، وقد لا يعرض الفيديو الجديد فورًا.",
+              "جرب تشغيل الملف من مجلده أولًا. إذا كان يعمل، استخدم خيارات النقل أو الاستيراد التي يتيحها الهاتف. ولملف MP3 استخدم مشغل صوت. تغيير امتداد الاسم من MP4 إلى MP3 لا يغير البيانات ولا يحول الفيديو إلى صوت."
+            ]
+          },
+          {
+            "heading": "ماذا تفعل عندما لا يعمل الرابط؟",
+            "paragraphs": [
+              "افتح العنوان في المتصفح وتحقق من أن المنشور ما زال موجودًا وأنه الفيديو المطلوب. إذا توقف الرابط المختصر عن الوصول إلى الفيديو، انسخ رابطًا جديدًا من التطبيق. ظهور المحتوى بعد تسجيل الدخول في هاتفك لا يعني أن خادم VidFetch يستطيع الوصول إليه.",
+              "إذا ظهرت رسالة عن الحصة أو انشغال الخدمة، التزم بمدة الانتظار المعروضة. وعند انقطاع النقل، تحقق من الاتصال والمساحة الحرة. رابط الملف المؤقت ليس عنوانًا دائمًا للمشاركة؛ استخدم رابط المنشور العام لإجراء تحليل جديد عند الحاجة."
+            ]
+          },
+          {
+            "heading": "كيف يستخدم VidFetch الرابط؟",
+            "paragraphs": [
+              "يُستخدم العنوان لطلب معلومات الوسيط العام وتجهيز الصيغة التي تختارها. لا تجعل هذه العملية الحساب الخاص عامًا، ولا تستعيد منشورًا محذوفًا. احتفظ برابط المصدر واسم صاحب المحتوى مع نسختك إذا كنت تحتاج إلى توثيق مصدر الملف.",
+              "حفظ الفيديو أو تحويل الصوت لا ينقل حقوق النشر إليك. وقد تكون الموسيقى مرخصة داخل المنصة فقط دون أن تكون متاحة لاستخدام آخر. اطلب الإذن المناسب قبل إعادة النشر أو التعديل أو استعمال المادة في مشروع تجاري."
+            ]
+          },
+          {
+            "heading": "افحص أكثر من الامتداد",
+            "paragraphs": [
+              "MP4 حاوية يمكن أن تحمل H.264 أو HEVC أو غيرهما. يجب أن يكون الصوت والفيديو كلاهما مدعومين. وقد يعامل معرض الصور أو تطبيق آخر الملف بطريقة تختلف عن المتصفح.",
+              "إذا سمعت الصوت دون الصورة، أو رأيت الصورة دون الصوت، افحص كل مسار على حدة. يشرح دليل الحاويات ما يوجد داخل الملف ولماذا لا تكفي نهايته لتحديد التوافق."
+            ]
+          },
+          {
+            "heading": "اجعل الدقة مناسبة للاستخدام",
+            "paragraphs": [
+              "قد يكفي 720p أو 1080p لمرجع على شاشة صغيرة. النص الدقيق أو القص أو التحرير لاحقًا قد يبرر مصدرًا أكبر. لا تختَر أعلى رقم تلقائيًا قبل معرفة ما تحتاج إليه.",
+              "تحتاج الدقات ومعدّلات الإطارات المرتفعة إلى عمل أكثر لفك الترميز. يختلف الدعم العتادي بين الأجهزة؛ قد يتعثر هاتف قديم في ملف يعمل بسلاسة على هاتف حديث، رغم أن كليهما يفتح الحاوية نفسها."
+            ]
+          },
+          {
+            "heading": "خطّط للمساحة والاتصال",
+            "paragraphs": [
+              "قد يكون الحجم المعروض تقديرًا. يغيّر معدّل البت المتغير والمسارات المنفصلة والحاوية النهائية النتيجة. اترك مساحة حرة بدل ملء الهاتف تمامًا. التنزيل المنقطع ليس ملفًا كاملًا؛ استخدم اتصالًا ثابتًا وافحص المدة والنهاية قبل إضافة الملف إلى أرشيفك."
+            ]
+          },
+          {
+            "heading": "اعثر على الملف المحفوظ",
+            "paragraphs": [
+              "تضع المتصفحات الملفات عادة في قسم التنزيلات أو مدير ملفات النظام. الحفظ لا يضيف الفيديو تلقائيًا دائمًا إلى مكتبة الصور. يختلف المكان والاستيراد بحسب المتصفح والنظام."
+            ]
+          },
+          {
+            "heading": "VidFetch على الهاتف",
+            "paragraphs": [
+              "الصق رابطًا مسموحًا، وحلّله، ثم اختر صيغة متاحة. الخيارات تتبع المصدر. قد تمنع القيود أو الحصص أو ازدحام قائمة الانتظار التجهيز، بصرف النظر عن هاتفك. يساعد دليل الترميزات في الاختيار."
+            ]
+          },
+          {
+            "heading": "سؤال شائع",
+            "paragraphs": [
+              "ابحث عن الملف المكتمل في التنزيلات أولًا، ثم استخدم وظيفة الاستيراد أو المشاركة التي يدعمها الجهاز لإضافته إلى مكتبة الوسائط."
+            ]
+          },
+          {
+            "heading": "الحاوية ليست هي الترميز",
+            "paragraphs": [
+              "تجمع الحاوية المسارات ومعلومات التوقيت، بينما يضغط الترميز الصور أو الصوت. يحتوي MP4 كثيرًا على H.264 وAAC، لكنه يقبل مجموعات أخرى. ويستند WebM إلى ملف تعريف محدود من Matroska، مع فيديو VP8 أو VP9 أو AV1 وصوت Vorbis أو Opus."
+            ]
+          },
+          {
+            "heading": "اختر وفق جهاز الاستقبال",
+            "paragraphs": [
+              "لمقطع عائلي يُرسل إلى هواتف وكمبيوترات، قد يكون MP4 مع H.264 وAAC خيارًا عمليًا. لكنه ليس ضمانًا لكل جهاز قديم أو إعداد غير معتاد. اختبر عينة قصيرة على أقدم جهاز تحتاج إلى دعمه قبل إرسال المجموعة كاملة.",
+              "يمكن للموقع تقديم أكثر من مصدر لتلبية اختلاف دعم المتصفحات. نجاح الملف على جهازك لا يعني قبوله في كل تطبيق آخر، حتى إن كان امتداده شائعًا."
+            ]
+          }
+        ],
+        "sections": {
+          "steps": "خطوات حفظ الملف",
+          "formats": "الروابط المقبولة والحدود",
+          "faq": "أسئلة شائعة"
+        },
+        "updated": "2026-10-29",
+        "publishedAt": "2026-10-29"
       }
     }
   },
@@ -328,9 +1032,9 @@
       "es": "tiktok-a-mp3",
       "pt-BR": "tiktok-para-mp3",
       "id": "tiktok-ke-mp3",
-      "de": "tiktok-in-mp3",
+      "de": "tiktok-zu-mp3",
       "it": "tiktok-in-mp3",
-      "ar": "تيك-توك-إلى-mp3"
+      "ar": "tiktok-mp3"
     },
     "editorialBrief": "Only audio from an accessible authorized post; no claim to retrieve a separate music catalogue.",
     "gate": {
@@ -498,6 +1202,738 @@
         ],
         "updated": "2026-10-27",
         "publishedAt": "2026-10-22"
+      },
+      "id": {
+        "status": "ready",
+        "title": "Download TikTok MP3 dari tautan video",
+        "description": "Download TikTok MP3 gratis tanpa akun dari link berbagi aplikasi. Ambil audio video publik, bukan lagu terpisah. Batas 256 MB, 30 menit; ada kuota.",
+        "heading": "Download TikTok MP3 untuk didengarkan offline",
+        "intro": "Kalau yang dibutuhkan hanya penjelasan suara dari video TikTok, menyimpan seluruh gambar akan menghabiskan ruang tanpa banyak manfaat. VidFetch bisa mengubah trek audio video publik menjadi MP3 pada 192 kbps. Tempel link berbagi dari aplikasi, analisis videonya, lalu buka pilihan Audio. Ini mengambil suara yang sudah ada dalam video, termasuk ucapan dan musik yang bercampur. Ini bukan pencarian katalog lagu dan bukan alat pemisah vokal.",
+        "instructions": [
+          "Salin link video TikTok publik yang memiliki suara dan yang boleh Anda gunakan. Dengarkan dahulu supaya tidak salah memilih video.",
+          "Tempel link, jalankan analisis, kemudian buka Audio. Pilih MP3; mengganti nama file video menjadi .mp3 tidak mengubah formatnya.",
+          "Tunggu persiapan dan unduhan selesai. Buka MP3 dari File Manager, cek durasi, lalu coba putar bagian awal dan akhir."
+        ],
+        "supported": [
+          "Link lengkap tiktok.com/@nama/video/…, link pendek vm.tiktok.com atau vt.tiktok.com, serta tiktok.com/t/… diterima. VidFetch membaca URL dari pesan berbagi yang ditempel.",
+          "Gunakan satu tautan publik untuk setiap permintaan. Halaman profil, hashtag, unggahan foto, dan siaran LIVE bukan video biasa yang didukung alat ini."
+        ],
+        "limits": [
+          "Maksimal 256 MB dan 30 menit per media. Kuota serta jumlah pekerjaan bersamaan tetap dibatasi; menekan unduh berkali-kali tidak mempercepat antrean.",
+          "Video privat, video yang telah dihapus, dan sumber yang meminta login tidak bisa dijamin tersedia. VidFetch tidak meminta kata sandi TikTok dan tidak membuka akses privat."
+        ],
+        "faqs": [
+          {
+            "question": "Apakah bisa download tanpa watermark?",
+            "answer": "VidFetch menyimpan video sebagaimana diberikan platform dan tidak menghapus watermark yang sudah tertanam pada gambar. Tidak ada jaminan hasil tanpa watermark."
+          },
+          {
+            "question": "Mengapa MP3 masih berisi suara orang?",
+            "answer": "MP3 berisi campuran audio video asal. Konversi format tidak memisahkan musik, ucapan, atau efek suara."
+          },
+          {
+            "question": "Apakah perlu akun atau membayar?",
+            "answer": "Tidak perlu akun VidFetch dan alat ini gratis. Batas 256 MB, 30 menit, kuota, serta ketersediaan sumber tetap berlaku."
+          }
+        ],
+        "relatedGuides": [],
+        "details": [
+          {
+            "heading": "Menemukan file di iPhone dan Android",
+            "paragraphs": [
+              "Di iPhone, unduhan browser biasanya masuk ke app File, bukan langsung ke Foto. Buka daftar unduhan Safari untuk menemukan folder tujuan. Untuk video yang kompatibel, gunakan menu berbagi file dan pilih penyimpanan ke Foto jika opsi itu tersedia. Periksa hasilnya sebelum menghapus salinan dalam File. Nama menu bisa berbeda menurut versi iOS dan bahasa perangkat.",
+              "Di Android, buka Unduhan melalui File Manager atau Files. Video belum tentu langsung terlihat di galeri. Tunggu file selesai, buka untuk menguji pemutaran, lalu gunakan fungsi pemindahan atau impor yang disediakan perangkat. MP3 memang lebih tepat ditemukan di aplikasi pengelola berkas atau pemutar musik. Jangan mengunduh ulang hanya karena hasil belum muncul di galeri."
+            ]
+          },
+          {
+            "heading": "Jika link tidak bisa diproses",
+            "paragraphs": [
+              "Buka link di browser terlebih dahulu dan pastikan video yang benar masih terlihat. Jika tautan pendek sudah tidak mengarah ke unggahan, salin ulang dari aplikasi. Satu link baru lebih berguna daripada mengirim permintaan yang sama terus-menerus. Jika videonya hanya terlihat setelah login, itu tidak berarti server VidFetch bisa membacanya.",
+              "Jika muncul pesan kuota atau layanan sibuk, ikuti waktu tunggu yang ditampilkan. Untuk transfer terputus, periksa koneksi dan ruang kosong sebelum mencoba lagi. Jangan membagikan URL unduhan sementara sebagai tautan permanen: kembali ke link publik unggahan untuk memulai permintaan baru."
+            ]
+          },
+          {
+            "heading": "Apa yang dilakukan VidFetch dengan tautan",
+            "paragraphs": [
+              "VidFetch memakai tautan untuk meminta informasi media publik dan menyiapkan format yang Anda pilih. Tautan TikTok dan file hasil unduhan adalah dua hal berbeda: link unggahan menunjuk ke halaman sumber, sedangkan hasilnya adalah salinan untuk perangkat Anda. Menyimpan file tidak menjamin unggahan sumber akan tetap tersedia.",
+              "Simpan nama kreator dan konteks sumber bila diperlukan. Hak cipta tidak hilang setelah format berubah. Gunakan hanya materi milik sendiri atau yang telah diizinkan, dan minta izin terpisah untuk mengunggah ulang atau memakai musik dalam karya lain."
+            ]
+          },
+          {
+            "heading": "Periksa trek yang sebenarnya",
+            "paragraphs": [
+              "Codec lossy membuang informasi agar ukuran berkurang. Codec lossless mempertahankan sinyal yang didekodekan, tetapi tidak memulihkan detail yang sebelumnya sudah hilang. Mengubah AAC menjadi MP3 berbitrate tinggi tidak membuat sumber menjadi master yang lebih baik. Simpan sumber terbaik untuk cadangan."
+            ]
+          },
+          {
+            "heading": "Pahami bitrate dan ukuran",
+            "paragraphs": [
+              "Perhitungan ini memperkirakan ukuran, bukan kualitas yang didengar. Codec berbeda pada bitrate sama dapat memberi hasil berbeda. Bandingkan bagian dan volume yang sama; percakapan dan musik rumit memiliki kebutuhan berlainan."
+            ]
+          },
+          {
+            "heading": "Kapan M4A sebaiknya dipertahankan",
+            "paragraphs": [
+              "Jika pemutar mendukungnya, identifikasi apakah treknya AAC atau ALAC. Trek AAC yang cocok dapat disalin ke M4A tanpa pengodean ulang. Ini bukan konversi universal: kontainer tujuan harus mendukung codec yang disalin."
+            ]
+          },
+          {
+            "heading": "Kapan membuat MP3",
+            "paragraphs": [
+              "MP3 dapat dibutuhkan pemutar lama atau alur kerja tertentu. Buat salinan, simpan sumber, lalu uji awal, tengah, dan akhir. Hindari konversi berulang antarformat lossy karena perubahan dapat menumpuk tanpa memperbaiki rekaman."
+            ]
+          },
+          {
+            "heading": "Audio pada VidFetch",
+            "paragraphs": [
+              "Jika sumber berizin dapat diakses, pilihan MP3 mengodekan audio pada 192 kbps. Ini tidak menciptakan rekonstruksi lossless atau meningkatkan suara asli. Format audio sumber juga mungkin tersedia sesuai pilihan platform."
+            ]
+          },
+          {
+            "heading": "Pertanyaan umum",
+            "paragraphs": [
+              "Tidak. Durasi, codec, dan bitrate juga menentukan ukuran. Periksa trek serta dengarkan cuplikan yang sama. Video ke audio membedakan penyalinan trek dan konversi."
+            ]
+          },
+          {
+            "heading": "Pastikan ada suara",
+            "paragraphs": [
+              "Sebagian video tidak bersuara. Yang lain memiliki beberapa bahasa atau komentar. Dengarkan dan periksa daftar trek sebelum memilih. Ekstraksi biasa tidak memisahkan instrumen atau menghapus vokal: suara yang sudah dicampur tetap tercampur."
+            ]
+          },
+          {
+            "heading": "Buat MP3 secara lokal",
+            "paragraphs": [
+              "FFmpeg dengan libmp3lame dapat mengambil trek audio pertama dan membuat berkas terpisah pada 192 kbps:",
+              "Jika tidak ada audio, perintah harus melaporkannya, bukan membuat suara. Simpan masukan dan uji hasil. Trek pertama mungkin bukan bahasa yang Anda inginkan; sesuaikan pemilihan jika perlu."
+            ]
+          },
+          {
+            "heading": "Salin AAC yang kompatibel",
+            "paragraphs": [
+              "Jika pemeriksaan memastikan trek pilihan memakai AAC, menyalinnya ke M4A dapat menghindari pengodean lossy baru:",
+              "Perintah ini bergantung pada masukan. Bukan konversi universal: kontainer harus mendukung codec. Pilih keluaran yang cocok atau kodekan ulang jika tidak kompatibel. Baca MP3 dan M4A."
+            ]
+          },
+          {
+            "heading": "Periksa keluaran",
+            "paragraphs": [
+              "Gunakan format yang diterima pemutar atau penyunting. Bandingkan bagian sama pada volume sama, periksa durasi, dan dengarkan sampai akhir. Bitrate tinggi tidak mengembalikan informasi yang telah hilang. Hindari konversi lossy berulang dan simpan sumber terbaik."
+            ]
+          }
+        ],
+        "sections": {
+          "steps": "Langkah menyimpan",
+          "formats": "Tautan yang diterima dan batasnya",
+          "faq": "Pertanyaan yang sering ditanyakan"
+        },
+        "updated": "2026-10-29",
+        "publishedAt": "2026-10-29"
+      },
+      "pt-BR": {
+        "status": "ready",
+        "title": "TikTok para MP3: baixar o áudio do vídeo",
+        "description": "TikTok para MP3 grátis e sem conta. Aceita link de compartilhamento do app para extrair o áudio. Até 256 MB e 30 minutos; sujeito a cotas.",
+        "heading": "TikTok para MP3: salvar o som do vídeo",
+        "intro": "Para ouvir uma explicação sem manter o vídeo inteiro no celular, use a opção TikTok para MP3. O VidFetch converte a faixa sonora de um vídeo público em um arquivo MP3 a 192 kbps. O resultado traz o áudio completo daquela publicação, incluindo fala, música e efeitos misturados. Não é um catálogo de músicas, nem recupera automaticamente a faixa original usada pelo criador. Antes de começar, confirme que você tem permissão para guardar esse conteúdo.",
+        "instructions": [
+          "Escolha um vídeo público com áudio que você pode guardar. Copie o link pelo botão Compartilhar do aplicativo.",
+          "Cole no VidFetch, analise e abra a opção Áudio. Selecione MP3 para converter a faixa sonora, sem baixar a imagem.",
+          "Aguarde o preparo e o download. Abra o arquivo em um reprodutor de áudio e confira se a duração corresponde ao vídeo."
+        ],
+        "supported": [
+          "Aceita tiktok.com/@criador/video/…, links vm.tiktok.com e vt.tiktok.com, além de tiktok.com/t/…. Você pode colar a mensagem inteira de compartilhamento que contenha o endereço.",
+          "A ferramenta trabalha com uma publicação pública por vez. Perfis, hashtags, publicações de fotos e transmissões ao vivo não são entradas compatíveis."
+        ],
+        "limits": [
+          "O limite é de 256 MB e 30 minutos por mídia. Há cotas e limites de tarefas simultâneas; repetir o clique não aumenta a capacidade do serviço.",
+          "Publicações privadas, removidas ou que exigem login podem falhar. Nunca informe sua senha do TikTok no campo de links."
+        ],
+        "faqs": [
+          {
+            "question": "Dá para baixar sem marca d’água?",
+            "answer": "O VidFetch salva o vídeo como a plataforma o fornece e não remove uma marca d’água gravada na imagem. Não há promessa de resultado sem marca."
+          },
+          {
+            "question": "O MP3 separa a música da voz?",
+            "answer": "Não. Ele mantém a mistura sonora do vídeo original. Converter para MP3 não separa voz, instrumentos ou efeitos."
+          },
+          {
+            "question": "É grátis e sem cadastro?",
+            "answer": "Sim, sem conta no VidFetch. Continuam valendo os limites de 256 MB e 30 minutos, as cotas e as restrições da fonte."
+          }
+        ],
+        "relatedGuides": [],
+        "details": [
+          {
+            "heading": "Onde o arquivo fica no iPhone",
+            "paragraphs": [
+              "O download pelo navegador pode ir para Arquivos, sem aparecer no Rolo da câmera. No Safari, abra a lista de downloads para localizar o arquivo. Se o vídeo for compatível, use o menu de compartilhamento e a opção de salvar em Fotos quando disponível. Confira a cópia em Fotos antes de apagar o download original.",
+              "Um MP3 continua sendo um arquivo de áudio. Procure em Arquivos ou abra com um aplicativo compatível; ele não precisa aparecer na galeria. Os nomes dos menus variam conforme a versão do iOS e a configuração do aparelho."
+            ]
+          },
+          {
+            "heading": "Android: Downloads e galeria são lugares diferentes",
+            "paragraphs": [
+              "No Android, consulte a pasta Downloads no gerenciador de arquivos. Aguarde o término da transferência antes de abrir ou mover o resultado. A galeria pode levar um tempo para reconhecer um vídeo, e alguns aplicativos não mostram todos os formatos de imediato.",
+              "Se o arquivo completo abre no gerenciador, mas não aparece na galeria, use as opções de importação ou movimentação do próprio aparelho. Para MP3, teste um reprodutor de áudio. Mudar a extensão do nome não converte o arquivo e pode dificultar sua identificação."
+            ]
+          },
+          {
+            "heading": "Quando a análise ou o download falham",
+            "paragraphs": [
+              "Primeiro abra o link no navegador e confira se ainda aponta para a publicação esperada. Links curtos podem deixar de resolver corretamente. Copie outro endereço a partir do vídeo, evitando links de perfil, de busca ou de uma página de som.",
+              "Se houver aviso de cota ou fila, respeite o intervalo informado. Em uma transferência interrompida, verifique conexão e espaço livre. O link temporário do arquivo não serve como endereço permanente: faça uma nova análise a partir da publicação pública quando precisar novamente."
+            ]
+          },
+          {
+            "heading": "O que acontece com o link enviado",
+            "paragraphs": [
+              "O VidFetch usa o endereço para consultar a mídia pública e preparar o formato escolhido. Não transforma uma publicação privada em pública e não cria uma licença de uso. Mantenha a referência do criador e a autorização junto da sua cópia quando isso for necessário.",
+              "Baixar para consultar depois é diferente de republicar. Música licenciada dentro de um aplicativo pode não estar liberada para outro uso. Peça autorização antes de editar, distribuir ou usar o resultado em um projeto comercial."
+            ]
+          },
+          {
+            "heading": "Examine o áudio real",
+            "paragraphs": [
+              "Codecs com perdas descartam informações para reduzir tamanho. Codecs sem perdas preservam o sinal decodificado, mas não recuperam detalhes removidos anteriormente. Criar um ALAC a partir de uma fonte comprimida não reconstrói o original. Guarde a melhor fonte disponível para seus backups."
+            ]
+          },
+          {
+            "heading": "Entenda bitrate e tamanho",
+            "paragraphs": [
+              "A conta estima tamanho, não qualidade percebida. Codecs diferentes não soam necessariamente iguais no mesmo bitrate. Compare o mesmo trecho e volume; voz e música complexa têm necessidades distintas."
+            ]
+          },
+          {
+            "heading": "Quando manter M4A",
+            "paragraphs": [
+              "Se o reprodutor aceita o arquivo, confira se ele contém AAC ou ALAC. Uma faixa AAC compatível pode ser copiada para M4A sem nova codificação. Isso não equivale a converter qualquer áudio para AAC: o contêiner precisa aceitar a faixa copiada."
+            ]
+          },
+          {
+            "heading": "Quando criar um MP3",
+            "paragraphs": [
+              "Pode ser necessário em um dispositivo antigo ou em um fluxo específico. Converta uma cópia, preserve a entrada e confira início, meio e fim. Evite alternar repetidamente entre formatos com perdas, pois mudanças podem se acumular sem melhorar a fonte."
+            ]
+          },
+          {
+            "heading": "A opção de áudio do VidFetch",
+            "paragraphs": [
+              "Quando a origem autorizada está acessível, o MP3 é codificado a 192 kbps. Isso não cria uma reconstrução sem perdas nem melhora a qualidade original. Um formato de áudio original também pode estar disponível, conforme a plataforma."
+            ]
+          },
+          {
+            "heading": "Pergunta frequente",
+            "paragraphs": [
+              "Não. Duração, codec e bitrate também explicam o tamanho. Identifique a faixa e escute o mesmo trecho. Veja vídeo para áudio para distinguir cópia e conversão."
+            ]
+          },
+          {
+            "heading": "Confira se existe áudio",
+            "paragraphs": [
+              "Algumas gravações são silenciosas. Outras têm vários idiomas ou comentários. Escute e inspecione as faixas antes de escolher. Extrair som não remove vocais nem separa instrumentos: uma mistura continua misturada na saída."
+            ]
+          }
+        ],
+        "sections": {
+          "steps": "Como salvar",
+          "formats": "Links aceitos e limites",
+          "faq": "Dúvidas frequentes"
+        },
+        "updated": "2026-10-29",
+        "publishedAt": "2026-10-29"
+      },
+      "es": {
+        "status": "ready",
+        "title": "TikTok a MP3: descargar el audio del vídeo",
+        "description": "TikTok a MP3 gratis y sin cuenta. Pega el enlace de compartir de la app para guardar el audio. Límite de 256 MB y 30 minutos; se aplican cuotas.",
+        "heading": "TikTok a MP3 para escuchar el audio sin conexión",
+        "intro": "Si solo necesitas escuchar una explicación, convertir TikTok a MP3 evita guardar también las imágenes. VidFetch toma la pista sonora de un vídeo público y la convierte en un archivo MP3 a 192 kbps. El resultado conserva las voces, la música y los efectos que ya estaban mezclados. No busca la canción original en un catálogo ni separa instrumentos. Escucha primero la publicación para confirmar que contiene el audio que quieres y que puedes guardarlo.",
+        "instructions": [
+          "Copia el enlace de un vídeo público con sonido que tengas permiso para conservar. No utilices la página general de una canción.",
+          "Pega el enlace, analiza la publicación y abre Audio. Selecciona MP3 para obtener una conversión real de la pista sonora.",
+          "Espera hasta terminar y abre el archivo con un reproductor de audio. Revisa su duración y escucha también el final."
+        ],
+        "supported": [
+          "Se admiten tiktok.com/@creador/video/…, vm.tiktok.com, vt.tiktok.com y tiktok.com/t/…. También puedes pegar un mensaje de compartir que incluya uno de esos enlaces.",
+          "Procesa una publicación pública por petición. Los perfiles, hashtags, directos y publicaciones de fotos no equivalen a un vídeo compatible."
+        ],
+        "limits": [
+          "El máximo por archivo multimedia es de 256 MB y 30 minutos. Hay cuotas y límites de trabajos simultáneos; insistir con varias pestañas no elimina esos límites.",
+          "Las publicaciones privadas, eliminadas o sujetas a inicio de sesión pueden no estar disponibles. No introduzcas contraseñas ni datos de tu cuenta en el campo del enlace."
+        ],
+        "faqs": [
+          {
+            "question": "¿Se puede descargar sin marca de agua?",
+            "answer": "VidFetch guarda el vídeo tal como lo proporciona la plataforma y no elimina marcas de agua incrustadas en la imagen. No garantiza un resultado sin marca."
+          },
+          {
+            "question": "¿El MP3 contiene solo la canción?",
+            "answer": "Contiene la mezcla de audio del vídeo, incluida cualquier voz o efecto. La conversión no aísla la música ni recupera una canción completa."
+          },
+          {
+            "question": "¿Hace falta una cuenta o pagar?",
+            "answer": "VidFetch es gratis y no requiere cuenta. Se mantienen los límites de 256 MB y 30 minutos, las cuotas y las restricciones del origen."
+          }
+        ],
+        "relatedGuides": [],
+        "details": [
+          {
+            "heading": "Guardar en un iPhone",
+            "paragraphs": [
+              "Un archivo descargado con Safari suele encontrarse en Archivos. Abre la lista de descargas del navegador y localiza la carpeta elegida. Para un vídeo compatible, el menú de compartir puede ofrecer la opción de guardarlo en Fotos. Comprueba esa copia antes de borrar el archivo descargado.",
+              "Un MP3 no necesita aparecer en Fotos: ábrelo desde Archivos o desde un reproductor compatible. Las opciones y sus nombres cambian según la versión de iOS. No repitas la descarga solo porque el resultado no esté en el carrete."
+            ]
+          },
+          {
+            "heading": "Encontrar la descarga en Android",
+            "paragraphs": [
+              "En Android, busca en Descargas con Files o el gestor de archivos. Espera a que termine la transferencia antes de mover el resultado. La galería no siempre muestra inmediatamente los vídeos descargados y no sirve como lista completa de todos los archivos del teléfono.",
+              "Abre el archivo desde su carpeta y prueba la reproducción. Si funciona, utiliza las opciones de importar o mover que ofrezca tu dispositivo. Para un MP3, abre un reproductor de audio. Cambiar el nombre de .mp4 a .mp3 no convierte el contenido."
+            ]
+          },
+          {
+            "heading": "Resolver un enlace que falla",
+            "paragraphs": [
+              "Abre primero la dirección en el navegador y verifica que la publicación sigue disponible. Si el enlace corto ya no llega al vídeo correcto, vuelve a copiarlo desde TikTok. Una publicación que solo aparece después de iniciar sesión puede no ser accesible desde el servidor.",
+              "Ante un aviso de cuota o de servicio ocupado, espera el tiempo indicado. Si se corta una transferencia, revisa la conexión y el espacio libre. Los enlaces temporales de descarga no son una copia permanente del enlace público: vuelve a analizar la publicación cuando necesites otro archivo."
+            ]
+          },
+          {
+            "heading": "Qué hace VidFetch con la dirección",
+            "paragraphs": [
+              "La dirección permite solicitar información del contenido público y preparar el formato elegido. No abre cuentas privadas ni recupera vídeos borrados. Guarda por separado el enlace de origen y el nombre del creador si necesitas documentar de dónde viene tu copia.",
+              "El permiso para ver o guardar una publicación no equivale a una licencia para redistribuirla. Antes de reutilizar imágenes, voces o música en otro proyecto, confirma los derechos correspondientes. La conversión de formato no cambia la titularidad del contenido."
+            ]
+          },
+          {
+            "heading": "Examina la pista real",
+            "paragraphs": [
+              "Un códec con pérdida descarta información para reducir el tamaño. Uno sin pérdida conserva la señal decodificada, pero no recupera detalles que una compresión anterior eliminó. Convertir AAC a MP3 con un bitrate mayor no crea un máster mejor. Conserva la mejor fuente para tus copias de seguridad."
+            ]
+          },
+          {
+            "heading": "Relaciona bitrate y tamaño",
+            "paragraphs": [
+              "Esta estimación no mide calidad percibida. Distintos códecs no suenan igual al mismo bitrate. Compara el mismo pasaje y volumen; la voz y la música compleja exigen cosas diferentes."
+            ]
+          },
+          {
+            "heading": "Cuándo mantener M4A",
+            "paragraphs": [
+              "Si lo acepta tu reproductor, identifica primero si contiene AAC o ALAC. Una pista AAC compatible puede copiarse a M4A sin recodificar. Eso es distinto de convertir cualquier audio a AAC: el contenedor debe admitir el códec que copias."
+            ]
+          },
+          {
+            "heading": "Cuándo hacer una copia MP3",
+            "paragraphs": [
+              "Puede ayudar con un dispositivo antiguo o un flujo de trabajo concreto. Conserva el original y comprueba principio, parte central y final de la copia. Evita convertir repetidamente entre formatos con pérdida, porque los cambios pueden acumularse."
+            ]
+          },
+          {
+            "heading": "Audio en VidFetch",
+            "paragraphs": [
+              "Desde una fuente accesible y autorizada, la opción MP3 codifica a 192 kbps. No reconstruye una grabación sin pérdida ni mejora su sonido original. También puede haber un formato de audio original, según la plataforma."
+            ]
+          },
+          {
+            "heading": "Pregunta frecuente",
+            "paragraphs": [
+              "No. También cuentan duración, códec y bitrate. Inspecciona las pistas y escucha el mismo fragmento. La guía vídeo a audio distingue copiar una pista de recodificarla."
+            ]
+          },
+          {
+            "heading": "Comprueba qué sonido contiene",
+            "paragraphs": [
+              "Hay grabaciones mudas y otras con varias pistas, idiomas o comentarios. Escucha e inspecciona la lista antes de escoger. Extraer audio no separa instrumentos ni elimina voces: una mezcla sigue siendo una mezcla en la salida."
+            ]
+          }
+        ],
+        "sections": {
+          "steps": "Pasos para guardar el archivo",
+          "formats": "Enlaces admitidos y límites",
+          "faq": "Preguntas frecuentes"
+        },
+        "updated": "2026-10-29",
+        "publishedAt": "2026-10-29"
+      },
+      "de": {
+        "status": "ready",
+        "title": "TikTok zu MP3: Ton aus einem Video speichern",
+        "description": "TikTok zu MP3: kostenlos und ohne Konto mit Teilen-Link aus der App. Ton öffentlicher Videos speichern. Bis 256 MB, 30 Minuten; Kontingente gelten.",
+        "heading": "TikTok zu MP3 umwandeln und den Ton speichern",
+        "intro": "Wenn du nur einer Erklärung zuhören möchtest, brauchst du die Bilder nicht unbedingt. VidFetch wandelt die Tonspur eines öffentlichen TikTok-Videos in MP3 mit 192 kbps um. Du erhältst den vorhandenen Mix aus Sprache, Musik und Geräuschen. Das Werkzeug sucht keinen vollständigen Song und trennt keine Stimme von der Musik. Prüfe deshalb vorher das Video und speichere nur Inhalte, für die du die nötige Erlaubnis hast.",
+        "instructions": [
+          "Kopiere den Link zu einem öffentlichen Video mit Ton, das du speichern darfst. Die allgemeine Sound-Seite ist keine Video-Adresse.",
+          "Füge den Link ein, starte die Analyse und öffne Audio. Wähle MP3 für eine tatsächliche Umwandlung der Tonspur.",
+          "Warte auf die vollständige Datei. Öffne sie in einem Audioplayer und prüfe Dauer, Anfang und Ende der Aufnahme."
+        ],
+        "supported": [
+          "Unterstützt werden tiktok.com/@name/video/…, vm.tiktok.com, vt.tiktok.com und tiktok.com/t/…. Auch eine Teilen-Nachricht mit eingebettetem Video-Link lässt sich einfügen.",
+          "Pro Anfrage wird ein öffentliches Video verarbeitet. Profile, Hashtags, Fotobeiträge und laufende LIVE-Sendungen sind keine unterstützten Video-Eingaben."
+        ],
+        "limits": [
+          "Die Grenze liegt bei 256 MB und 30 Minuten je Medium. Kontingente und Begrenzungen für gleichzeitige Aufträge gelten weiterhin; wiederholtes Klicken beschleunigt keine Warteschlange.",
+          "Private, gelöschte oder nur nach Anmeldung erreichbare Beiträge können nicht zuverlässig abgerufen werden. Gib niemals dein TikTok-Passwort in das Linkfeld ein."
+        ],
+        "faqs": [
+          {
+            "question": "Kann ich ohne Wasserzeichen herunterladen?",
+            "answer": "VidFetch speichert das Video so, wie die Plattform es liefert, und entfernt kein eingebranntes Wasserzeichen. Ein Ergebnis ohne Wasserzeichen wird nicht zugesichert."
+          },
+          {
+            "question": "Enthält MP3 nur die Musik?",
+            "answer": "Nein. Die Tonspur enthält den vorhandenen Mix aus Sprache, Musik und Effekten. Die Umwandlung isoliert keine Instrumente."
+          },
+          {
+            "question": "Ist ein Konto oder eine Zahlung nötig?",
+            "answer": "VidFetch ist kostenlos und benötigt kein Konto. Die Grenzen von 256 MB und 30 Minuten sowie Kontingente und Quellenbeschränkungen bleiben bestehen."
+          }
+        ],
+        "relatedGuides": [],
+        "details": [
+          {
+            "heading": "Auf dem iPhone die richtige Ablage finden",
+            "paragraphs": [
+              "Ein Download aus Safari landet häufig in Dateien und erscheint nicht automatisch in Fotos. Öffne die Downloadliste des Browsers und prüfe den Zielordner. Bei einem kompatiblen Video kann das Teilen-Menü eine Option zum Sichern in Fotos anbieten. Kontrolliere die gespeicherte Kopie, bevor du die Download-Datei löschst.",
+              "MP3 ist eine Audiodatei und muss nicht in der Fotomediathek auftauchen. Öffne sie über Dateien oder einen passenden Player. Bezeichnungen und verfügbare Optionen hängen von iOS-Version und Geräteeinstellungen ab."
+            ]
+          },
+          {
+            "heading": "Android: Downloads statt nur Galerie prüfen",
+            "paragraphs": [
+              "Sieh unter Downloads in Files oder im Dateimanager nach. Warte das Ende der Übertragung ab, bevor du die Datei öffnest oder verschiebst. Die Galerie ist keine vollständige Liste aller gespeicherten Dateien und zeigt neue Videos möglicherweise erst später an.",
+              "Teste die Datei direkt aus ihrem Ordner. Funktioniert die Wiedergabe, verwende die Import- oder Verschiebeoptionen deines Geräts. Für MP3 ist ein Audioplayer geeignet. Das Umbenennen einer Dateiendung ändert weder den Container noch den Codec."
+            ]
+          },
+          {
+            "heading": "Fehler sinnvoll eingrenzen",
+            "paragraphs": [
+              "Öffne die Adresse zunächst im Browser und prüfe, ob sie noch zum richtigen Video führt. Ein abgelaufener Kurzlink lässt sich nicht durch weitere Klicks reparieren; kopiere einen neuen Link aus der Veröffentlichung. Nur nach Anmeldung sichtbare Inhalte sind für den Server möglicherweise nicht erreichbar.",
+              "Beachte bei einer Kontingentmeldung die angezeigte Wartezeit. Bricht eine Übertragung ab, prüfe freien Speicher und Verbindung. Temporäre Download-Adressen eignen sich nicht als dauerhafter Verweis. Nutze bei Bedarf erneut den öffentlichen Beitragslink für eine frische Analyse."
+            ]
+          },
+          {
+            "heading": "Was mit dem eingegebenen Link passiert",
+            "paragraphs": [
+              "VidFetch fragt Informationen zum öffentlichen Medium ab und bereitet das gewählte Format vor. Das macht private Beiträge nicht öffentlich und stellt gelöschte Videos nicht wieder her. Bewahre den ursprünglichen Link und den Namen des Urhebers getrennt von der Datei auf, wenn du die Herkunft dokumentieren möchtest.",
+              "Das Speichern einer Datei überträgt keine Nutzungsrechte. Gerade Musik kann innerhalb einer Plattform anders lizenziert sein als für eigene Projekte. Hole vor einer Veröffentlichung, Bearbeitung oder kommerziellen Nutzung die erforderliche Erlaubnis ein."
+            ]
+          },
+          {
+            "heading": "Prüfe die tatsächliche Tonspur",
+            "paragraphs": [
+              "Verlustbehaftete Codecs verwerfen Informationen, um Platz zu sparen. Verlustfreie Codierung bewahrt das decodierte Signal, stellt aber früher entfernte Details nicht wieder her. Eine AAC-Quelle wird durch MP3 mit höherer Bitrate kein besseres Master. Bewahre die beste Quelle für deine Sicherung auf."
+            ]
+          },
+          {
+            "heading": "Bitrate und Größe verstehen",
+            "paragraphs": [
+              "Diese Rechnung schätzt Größe, nicht hörbare Qualität. Verschiedene Codecs liefern bei gleicher Bitrate nicht zwingend denselben Klang. Vergleiche dieselbe Passage bei gleicher Lautstärke; Sprache und komplexe Musik stellen unterschiedliche Anforderungen."
+            ]
+          },
+          {
+            "heading": "Wann M4A sinnvoll bleibt",
+            "paragraphs": [
+              "Wenn dein Player die Datei unterstützt, prüfe zunächst AAC oder ALAC. Eine kompatible AAC-Spur kann ohne Neucodierung in M4A kopiert werden. Das ist keine universelle Umwandlung beliebiger Audiodaten: Der Zielcontainer muss den kopierten Codec unterstützen."
+            ]
+          },
+          {
+            "heading": "Wann du eine MP3-Kopie brauchst",
+            "paragraphs": [
+              "MP3 kann für ältere Player oder bestimmte Programme hilfreich sein. Konvertiere eine Kopie und prüfe Anfang, Mitte und Ende. Behalte das Original. Wiederholte Wechsel zwischen verlustbehafteten Formaten können Änderungen anhäufen, ohne die Aufnahme zu verbessern."
+            ]
+          },
+          {
+            "heading": "Audio über VidFetch",
+            "paragraphs": [
+              "Bei einer zugänglichen, erlaubten Quelle codiert die MP3-Option mit 192 kbps. Sie erzeugt keine verlustfreie Rekonstruktion und verbessert nicht die Originalaufnahme. Je nach Quelle kann auch ein ursprüngliches Audioformat verfügbar sein."
+            ]
+          },
+          {
+            "heading": "Häufige Frage",
+            "paragraphs": [
+              "Nein. Auch Dauer, Codec und Bitrate bestimmen die Größe. Untersuche die Spur und höre dieselbe Stelle. Video zu Audio unterscheidet Kopieren und Konvertieren."
+            ]
+          },
+          {
+            "heading": "Prüfe die vorhandenen Spuren",
+            "paragraphs": [
+              "Manche Aufnahmen sind stumm, andere haben mehrere Sprachen oder Kommentare. Höre hinein und untersuche die Spurenliste. Einfaches Extrahieren trennt keine Instrumente und entfernt keine Stimme: Bereits gemischte Elemente bleiben gemischt."
+            ]
+          },
+          {
+            "heading": "Eine lokale MP3-Kopie erstellen",
+            "paragraphs": [
+              "FFmpeg mit libmp3lame kann die erste Audiospur wählen und eine separate Datei mit 192 kbps erstellen:",
+              "Ohne Audiospur sollte der Befehl das melden, nicht Ton erfinden. Bewahre die Eingabe auf und prüfe das Ergebnis. Die erste Spur muss nicht die gewünschte Sprache sein; passe gegebenenfalls die Auswahl an."
+            ]
+          },
+          {
+            "heading": "Kompatibles AAC ohne Neucodierung kopieren",
+            "paragraphs": [
+              "Wenn die gewünschte Spur nachweislich AAC ist, kann Kopieren in M4A weitere Verluste vermeiden:",
+              "Das hängt vom Eingangscodec ab. Der Container muss ihn unterstützen; es ist kein universeller Konvertierungsbefehl. Wähle sonst einen passenden Container oder eine neue Codierung. Siehe MP3 und M4A."
+            ]
+          }
+        ],
+        "sections": {
+          "steps": "So speicherst du die Datei",
+          "formats": "Unterstützte Links und Grenzen",
+          "faq": "Häufige Fragen"
+        },
+        "updated": "2026-10-29",
+        "publishedAt": "2026-10-29"
+      },
+      "it": {
+        "status": "ready",
+        "title": "TikTok in MP3: scaricare l’audio del video",
+        "description": "TikTok in MP3 gratis e senza account. Incolla il link di condivisione dell’app per salvare l’audio. Massimo 256 MB e 30 minuti; si applicano quote.",
+        "heading": "TikTok in MP3: salvare la traccia audio",
+        "intro": "Per ascoltare una spiegazione senza conservare anche le immagini, puoi convertire TikTok in MP3. VidFetch prepara un file MP3 a 192 kbps partendo dalla traccia sonora di un video pubblico. Rimangono le voci, la musica e gli effetti già mescolati nel video. Non è un catalogo musicale e non separa il parlato dagli strumenti. Controlla prima di aver scelto la pubblicazione giusta e di avere il permesso di conservarne l’audio.",
+        "instructions": [
+          "Copia il link di un video pubblico con audio che puoi conservare. La pagina generale di un suono non è un video.",
+          "Incolla il link in VidFetch, analizza e apri Audio. Scegli MP3 per convertire davvero la traccia, senza cambiare soltanto il nome.",
+          "Aspetta la fine del download e apri il risultato in un lettore audio. Verifica durata e riproduzione anche verso la fine."
+        ],
+        "supported": [
+          "Sono accettati tiktok.com/@nome/video/…, vm.tiktok.com, vt.tiktok.com e tiktok.com/t/…. Puoi incollare anche il messaggio di condivisione che contiene il link.",
+          "Ogni richiesta riguarda una pubblicazione pubblica. Profili, hashtag, post fotografici e dirette LIVE non sono video compatibili con questo strumento."
+        ],
+        "limits": [
+          "Il massimo è di 256 MB e 30 minuti per contenuto multimediale. Restano quote e limiti alle operazioni simultanee; ripetere il clic non rende più veloce la coda.",
+          "I post privati, rimossi o accessibili solo dopo l’accesso possono non essere disponibili. Non inserire mai la password TikTok nel campo del link."
+        ],
+        "faqs": [
+          {
+            "question": "Si può scaricare senza filigrana?",
+            "answer": "VidFetch salva il video come viene fornito dalla piattaforma e non rimuove una filigrana incorporata nell’immagine. Non garantisce un risultato senza filigrana."
+          },
+          {
+            "question": "L’MP3 contiene solo la canzone?",
+            "answer": "Contiene la traccia completa del video, comprese voci ed effetti. La conversione non isola la musica e non recupera automaticamente il brano originale."
+          },
+          {
+            "question": "È gratuito e senza registrazione?",
+            "answer": "Sì, non serve un account VidFetch. Restano i limiti di 256 MB e 30 minuti, le quote e le restrizioni della fonte."
+          }
+        ],
+        "relatedGuides": [],
+        "details": [
+          {
+            "heading": "Trovare il risultato su iPhone",
+            "paragraphs": [
+              "Un download da Safari può finire in File senza apparire subito in Foto. Apri l’elenco dei download del browser e controlla la cartella scelta. Per un video compatibile, il menu di condivisione può offrire l’opzione per salvarlo in Foto. Verifica la copia prima di cancellare il file originale scaricato.",
+              "Un MP3 non deve comparire nel rullino: puoi aprirlo da File o con un’app audio compatibile. Le voci dei menu cambiano con la versione di iOS e le impostazioni del dispositivo. Non avviare un altro download solo perché non trovi il risultato in Foto."
+            ]
+          },
+          {
+            "heading": "Android: controllare Download e Galleria",
+            "paragraphs": [
+              "Apri la cartella Download in Files o nel gestore file del telefono. Attendi il completamento del trasferimento prima di spostare o aprire il risultato. La Galleria non è un elenco di tutti i file del dispositivo e può non mostrare immediatamente un nuovo video.",
+              "Prova la riproduzione direttamente dalla cartella. Se funziona, utilizza le opzioni di importazione o spostamento disponibili sul telefono. Per un MP3 scegli un lettore audio. Rinominare .mp4 in .mp3 non converte i dati e può confondere le applicazioni."
+            ]
+          },
+          {
+            "heading": "Quando un link non funziona",
+            "paragraphs": [
+              "Apri prima l’indirizzo nel browser e controlla che porti ancora al video desiderato. Se un link breve non si risolve più, copiane uno nuovo dalla pubblicazione. Un video visibile solo dopo l’accesso potrebbe non essere raggiungibile dal server VidFetch.",
+              "Se compare un avviso di quota o servizio occupato, rispetta l’attesa indicata. Per un trasferimento interrotto, verifica connessione e spazio libero. L’indirizzo temporaneo del file non è un collegamento permanente: usa nuovamente il link pubblico per una nuova analisi."
+            ]
+          },
+          {
+            "heading": "Come viene usato il link",
+            "paragraphs": [
+              "VidFetch consulta le informazioni del contenuto pubblico e prepara il formato selezionato. Non rende pubblici i profili privati e non recupera video eliminati. Conserva a parte il collegamento originale e il nome del creatore se devi documentare la provenienza della copia.",
+              "Scaricare un file non trasferisce i diritti d’autore. Una musica autorizzata all’interno di TikTok potrebbe non esserlo per un altro progetto. Prima di modificare, pubblicare o usare il materiale per lavoro, verifica le autorizzazioni necessarie."
+            ]
+          },
+          {
+            "heading": "Esamina la traccia effettiva",
+            "paragraphs": [
+              "Un codec con perdita scarta informazioni per ridurre le dimensioni. Uno senza perdita conserva il segnale decodificato, ma non recupera dettagli eliminati in precedenza. Convertire AAC in MP3 a bitrate maggiore non crea un master migliore. Conserva la fonte migliore per il backup."
+            ]
+          },
+          {
+            "heading": "Comprendi bitrate e dimensione",
+            "paragraphs": [
+              "La formula stima il peso, non la qualità percepita. Codec diversi non producono necessariamente lo stesso suono a uguale bitrate. Confronta lo stesso passaggio allo stesso volume; parlato e musica complessa pongono esigenze diverse."
+            ]
+          },
+          {
+            "heading": "Quando mantenere M4A",
+            "paragraphs": [
+              "Se il lettore lo supporta, identifica prima AAC o ALAC. Una traccia AAC compatibile può essere copiata in M4A senza ricodifica. Non è una conversione universale: il contenitore di destinazione deve ammettere il codec copiato."
+            ]
+          },
+          {
+            "heading": "Quando creare MP3",
+            "paragraphs": [
+              "Può servire a un lettore vecchio o a un flusso specifico. Converti una copia, preserva l’ingresso e controlla inizio, parte centrale e fine. Evita passaggi ripetuti tra formati con perdita: possono accumulare modifiche senza migliorare la registrazione."
+            ]
+          },
+          {
+            "heading": "Audio con VidFetch",
+            "paragraphs": [
+              "Da una fonte autorizzata e accessibile, l’opzione MP3 codifica a 192 kbps. Non ricostruisce un originale senza perdita e non migliora la qualità iniziale. Un formato audio originale può essere disponibile secondo la piattaforma."
+            ]
+          },
+          {
+            "heading": "Domanda frequente",
+            "paragraphs": [
+              "No. Anche durata, codec e bitrate determinano il peso. Ispeziona la traccia e ascolta lo stesso frammento. Video in audio distingue copia e conversione."
+            ]
+          },
+          {
+            "heading": "Verifica il suono disponibile",
+            "paragraphs": [
+              "Alcuni video sono muti; altri hanno più lingue o commenti. Ascolta e controlla l’elenco delle tracce. Un’estrazione semplice non rimuove voci né separa strumenti: una miscela rimane tale nel risultato."
+            ]
+          },
+          {
+            "heading": "Crea MP3 localmente",
+            "paragraphs": [
+              "Con FFmpeg e libmp3lame, il comando seleziona la prima traccia audio e crea un file separato a 192 kbps:",
+              "Se manca l’audio, deve essere segnalato. Mantieni l’ingresso e verifica l’uscita. La prima traccia potrebbe non essere la lingua desiderata: adatta la selezione quando serve."
+            ]
+          }
+        ],
+        "sections": {
+          "steps": "Come salvare il file",
+          "formats": "Link accettati e limiti",
+          "faq": "Domande frequenti"
+        },
+        "updated": "2026-10-29",
+        "publishedAt": "2026-10-29"
+      },
+      "ar": {
+        "status": "ready",
+        "title": "تيك توك MP3: تحميل صوت الفيديو",
+        "description": "تيك توك MP3 مجانًا دون حساب. الصق رابط المشاركة من التطبيق لحفظ صوت فيديو عام. الحد 256 ميغابايت و30 دقيقة مع حصص استخدام.",
+        "heading": "تيك توك MP3: حفظ صوت الفيديو للاستماع لاحقًا",
+        "intro": "إذا كنت تحتاج إلى الاستماع إلى شرح دون مشاهدة الصورة، يمكنك حفظ صوت فيديو تيك توك بصيغة MP3. يحول VidFetch المسار الصوتي للفيديو العام إلى ملف بمعدل 192 كيلوبت في الثانية. يشمل الناتج الكلام والموسيقى والمؤثرات الموجودة معًا في التسجيل. هذه الأداة ليست مكتبة أغنيات ولا تفصل صوت المتحدث عن الموسيقى. استمع إلى الفيديو أولًا وتأكد من أنه المحتوى المقصود ومن أن لديك إذنًا بحفظه.",
+        "instructions": [
+          "انسخ رابط فيديو عام يحتوي على صوت ويحق لك الاحتفاظ به. صفحة الصوت العامة لا تعادل رابط فيديو.",
+          "الصق الرابط وابدأ التحليل ثم افتح خيارات الصوت. اختر MP3 لتحويل المسار الصوتي فعلًا، وليس لتغيير اسم الملف فقط.",
+          "انتظر اكتمال التنزيل وافتح الملف بمشغل صوت مناسب. تحقق من المدة واستمع إلى البداية والنهاية."
+        ],
+        "supported": [
+          "تُقبل روابط tiktok.com/@name/video/… وروابط vm.tiktok.com وvt.tiktok.com وtiktok.com/t/…. ويمكن لصق رسالة المشاركة التي تتضمن رابط الفيديو.",
+          "تتعامل كل محاولة مع فيديو عام واحد. الحسابات والوسوم ومنشورات الصور والبث المباشر ليست مدخلات فيديو تدعمها هذه الأداة."
+        ],
+        "limits": [
+          "الحد الأقصى هو 256 ميغابايت و30 دقيقة لكل وسيط. تطبق حصص للاستخدام وحدود للمهام المتزامنة، ولا يؤدي تكرار الضغط إلى تجاوزها أو تسريع الانتظار.",
+          "قد يتعذر الوصول إلى الفيديو الخاص أو المحذوف أو الذي يتطلب تسجيل الدخول. لا تكتب كلمة مرور حساب تيك توك في حقل الرابط."
+        ],
+        "faqs": [
+          {
+            "question": "هل يمكن تحميل الفيديو بدون علامة مائية؟",
+            "answer": "يحفظ VidFetch الفيديو كما توفره المنصة ولا يزيل العلامة المائية المدمجة في الصورة. لا يوجد ضمان للحصول على فيديو بدون علامة."
+          },
+          {
+            "question": "هل يحتوي MP3 على الأغنية وحدها؟",
+            "answer": "يحتوي على المزيج الصوتي الموجود في الفيديو، بما في ذلك الكلام والمؤثرات. لا يفصل التحويل الموسيقى ولا يسترجع الأغنية الكاملة تلقائيًا."
+          },
+          {
+            "question": "هل أحتاج إلى حساب أو اشتراك؟",
+            "answer": "الأداة مجانية ولا تتطلب حساب VidFetch. تبقى حدود 256 ميغابايت و30 دقيقة وحصص الاستخدام وقيود المصدر سارية."
+          }
+        ],
+        "relatedGuides": [],
+        "details": [
+          {
+            "heading": "العثور على الملف في آيفون",
+            "paragraphs": [
+              "قد ينزل Safari الملف إلى تطبيق الملفات دون إضافته إلى الصور تلقائيًا. افتح قائمة التنزيلات في المتصفح وتحقق من المجلد المحدد. إذا كان الفيديو متوافقًا، فقد تجد في قائمة المشاركة خيارًا لحفظه في الصور. تأكد من وجود النسخة وتشغيلها قبل حذف الملف الذي نزلته.",
+              "أما ملف MP3 فلا يلزم أن يظهر في الصور. يمكنك فتحه من الملفات أو بواسطة مشغل صوت متوافق. تختلف أسماء الخيارات بحسب إصدار النظام ولغة الهاتف، ولذلك فإن عدم ظهور الملف في ألبوم الصور لا يعني أن التنزيل فشل."
+            ]
+          },
+          {
+            "heading": "العثور على التنزيل في أندرويد",
+            "paragraphs": [
+              "افتح مجلد التنزيلات باستخدام تطبيق الملفات أو مدير الملفات في هاتفك. انتظر اكتمال النقل قبل فتح الملف أو نقله إلى مجلد آخر. معرض الصور ليس قائمة شاملة لكل ملفات الجهاز، وقد لا يعرض الفيديو الجديد فورًا.",
+              "جرب تشغيل الملف من مجلده أولًا. إذا كان يعمل، استخدم خيارات النقل أو الاستيراد التي يتيحها الهاتف. ولملف MP3 استخدم مشغل صوت. تغيير امتداد الاسم من MP4 إلى MP3 لا يغير البيانات ولا يحول الفيديو إلى صوت."
+            ]
+          },
+          {
+            "heading": "ماذا تفعل عندما لا يعمل الرابط؟",
+            "paragraphs": [
+              "افتح العنوان في المتصفح وتحقق من أن المنشور ما زال موجودًا وأنه الفيديو المطلوب. إذا توقف الرابط المختصر عن الوصول إلى الفيديو، انسخ رابطًا جديدًا من التطبيق. ظهور المحتوى بعد تسجيل الدخول في هاتفك لا يعني أن خادم VidFetch يستطيع الوصول إليه.",
+              "إذا ظهرت رسالة عن الحصة أو انشغال الخدمة، التزم بمدة الانتظار المعروضة. وعند انقطاع النقل، تحقق من الاتصال والمساحة الحرة. رابط الملف المؤقت ليس عنوانًا دائمًا للمشاركة؛ استخدم رابط المنشور العام لإجراء تحليل جديد عند الحاجة."
+            ]
+          },
+          {
+            "heading": "كيف يستخدم VidFetch الرابط؟",
+            "paragraphs": [
+              "يُستخدم العنوان لطلب معلومات الوسيط العام وتجهيز الصيغة التي تختارها. لا تجعل هذه العملية الحساب الخاص عامًا، ولا تستعيد منشورًا محذوفًا. احتفظ برابط المصدر واسم صاحب المحتوى مع نسختك إذا كنت تحتاج إلى توثيق مصدر الملف.",
+              "حفظ الفيديو أو تحويل الصوت لا ينقل حقوق النشر إليك. وقد تكون الموسيقى مرخصة داخل المنصة فقط دون أن تكون متاحة لاستخدام آخر. اطلب الإذن المناسب قبل إعادة النشر أو التعديل أو استعمال المادة في مشروع تجاري."
+            ]
+          },
+          {
+            "heading": "افحص الصوت الموجود فعلًا",
+            "paragraphs": [
+              "يحذف الترميز ذو الفقدان بعض المعلومات لتقليل الحجم. أما الترميز دون فقدان فيحافظ على الإشارة بعد فكها، لكنه لا يستعيد تفاصيل حُذفت سابقًا. تحويل AAC إلى MP3 بمعدّل بت أعلى لا يصنع تسجيلًا أصليًا أفضل. احتفظ بأفضل مصدر متاح من أجل النسخ الاحتياطي."
+            ]
+          },
+          {
+            "heading": "افهم علاقة معدّل البت بالحجم",
+            "paragraphs": [
+              "هذه الحسابات تقدّر الحجم ولا تقيس الجودة المسموعة. قد يعطي ترميزان مختلفان نتائج مختلفة عند المعدّل نفسه. قارن المقطع ذاته وبمستوى صوت متساوٍ؛ فالكلام والموسيقى المعقدة لا يفرضان الاحتياجات نفسها."
+            ]
+          },
+          {
+            "heading": "متى تُبقي ملف M4A؟",
+            "paragraphs": [
+              "إذا كان المشغّل يدعمه، حدّد أولًا ما إذا كان يحتوي على AAC أو ALAC. يمكن أحيانًا نسخ مسار AAC متوافق إلى M4A دون إعادة ترميز. هذا ليس تحويلًا عامًا لكل صوت؛ يجب أن تقبل الحاوية الترميز الذي ستنسخه."
+            ]
+          },
+          {
+            "heading": "متى تنشئ نسخة MP3؟",
+            "paragraphs": [
+              "قد تحتاجها لمشغّل قديم أو سير عمل معيّن. حوّل نسخة منفصلة، واحتفظ بالأصل، واختبر البداية والوسط والنهاية. تجنب التنقل المتكرر بين صيغ ذات فقدان، لأن التغييرات قد تتراكم دون تحسين التسجيل."
+            ]
+          },
+          {
+            "heading": "خيار الصوت في VidFetch",
+            "paragraphs": [
+              "عندما يكون المصدر المسموح متاحًا، يُرمّز خيار MP3 بمعدّل 192 kbps. لا يعيد بناء تسجيل دون فقدان ولا يحسّن الصوت الأصلي. وقد تتوفر صيغة صوت أصلية أيضًا بحسب خيارات المنصة، وليس لكل فيديو بالضرورة."
+            ]
+          },
+          {
+            "heading": "سؤال شائع",
+            "paragraphs": [
+              "لا. المدة والترميز ومعدّل البت تؤثر جميعها في الحجم. افحص المسار واستمع إلى الجزء نفسه. يشرح تحويل الفيديو إلى صوت الفرق بين النسخ وإعادة الترميز."
+            ]
+          },
+          {
+            "heading": "تأكد من وجود الصوت المطلوب",
+            "paragraphs": [
+              "بعض التسجيلات صامتة، وبعضها يحتوي على لغات متعددة أو تعليق إضافي. استمع وافحص قائمة المسارات قبل الاختيار. استخراج الصوت العادي لا يفصل الآلات ولا يحذف الغناء؛ العناصر التي خُلِطت بالفعل تبقى مختلطة في الملف الناتج."
+            ]
+          },
+          {
+            "heading": "أنشئ MP3 محليًا",
+            "paragraphs": [
+              "مع FFmpeg وlibmp3lame، يختار هذا الأمر أول مسار صوت ويصنع ملفًا منفصلًا بمعدّل 192 kbps:",
+              "إذا لم يوجد مسار صوت، يجب أن يُبلَّغ عن ذلك بدل اختراع صوت. احتفظ بالمدخل واختبر المخرج. قد لا يكون المسار الأول باللغة المطلوبة، لذلك عدّل الاختيار بعد فحصه عند الحاجة."
+            ]
+          },
+          {
+            "heading": "انسخ AAC المتوافق دون ترميز جديد",
+            "paragraphs": [
+              "إذا تأكدت أن المسار المختار هو AAC، فقد يجنّبك نسخه إلى M4A ضغطًا آخر بفقدان:",
+              "هذا يعتمد على المدخل. الأمر ليس تحويلًا عامًا؛ يجب أن تدعم الحاوية الترميز. اختر حاوية متوافقة أو ترميزًا جديدًا إذا لم يصلح النسخ. راجع MP3 وM4A."
+            ]
+          }
+        ],
+        "sections": {
+          "steps": "خطوات حفظ الملف",
+          "formats": "الروابط المقبولة والحدود",
+          "faq": "أسئلة شائعة"
+        },
+        "updated": "2026-10-29",
+        "publishedAt": "2026-10-29"
       }
     }
   },

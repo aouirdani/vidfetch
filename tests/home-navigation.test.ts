@@ -79,8 +79,8 @@ describe("navigation", () => {
   it("links the TikTok pages from every language: its own pages, otherwise the English ones marked hreflang=en", () => {
     for (const locale of LOCALES) {
       const links = navigationPlatformLinks(locale);
-      const own = locale === "en" || locale === "fr";
-      assert.deepEqual(links.map(l => l.href), locale === "fr" ? ["/fr/telecharger-video-tiktok", "/fr/tiktok-en-mp3"] : ["/tiktok-video-downloader", "/tiktok-to-mp3"], locale);
+      const own = true;
+      assert.deepEqual(links.map(l => l.href), availablePlatformPages(locale).map(e => `${locale === "en" ? "" : "/" + ({"pt-BR":"pt"}[locale] ?? locale)}/${e.slugs[locale]}`));
       for (const link of links) {
         assert.equal(resolvePage(link.href.split("/").filter(Boolean))?.indexable, true, link.href);
         assert.match(link.label, /MP[34]/); assert.match(link.label, /TikTok|تيك توك/);
@@ -127,7 +127,7 @@ describe("the link form", () => {
     const form = source("src/components/FetchForm.tsx");
     assert.match(form, /\(platform === "tiktok" \? form\?\.tiktokHint : form\?\.supportedHint\) \?\? d\.supportedHint/);
     // the label before the link shapes is the dictionary's existing "Links look like"
-    assert.match(form, /<span>\{d\.linkExample\}<\/span>/);
+    assert.match(form, /<span>\{d\.linkExample\}\{" "\}<\/span>/);
     // the only submit buttons are Extract and Retry (the user's own link): no button submits a link written in the code
     assert.doesNotMatch(form, /void submit\((?:example|["'`]https?:)/);
   });

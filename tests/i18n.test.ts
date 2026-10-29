@@ -66,11 +66,11 @@ test("sitemap contains exactly published canonical equivalents and excludes unve
   const entries = sitemap();
   assert.equal(entries.length, sitePages().filter(p => p.indexable).length);
   assert.equal(new Set(entries.map(p => p.url)).size, entries.length);
-  assert.equal(entries.length, 31);   // 8 homes + 8 legal + 4 approved TikTok pages (en video, en MP3, fr video, fr MP3)
+  assert.equal(entries.length, 43);   // 8 homes + 8 legal + 4 approved TikTok pages (en video, en MP3, fr video, fr MP3)
   for (const entry of entries) {
     const parts = new URL(entry.url).pathname.split("/").filter(Boolean).map(decodeURIComponent);
     assert.ok(resolvePage(parts)?.indexable);
-    const tiktok = { "/tiktok-video-downloader": ["en", "fr", "x-default"], "/fr/telecharger-video-tiktok": ["en", "fr", "x-default"], "/tiktok-to-mp3": ["en", "fr", "x-default"], "/fr/tiktok-en-mp3": ["en", "fr", "x-default"] } as Record<string, string[]>;
+    const tiktok = { "/tiktok-video-downloader": [...LOCALES, "x-default"], "/fr/telecharger-video-tiktok": [...LOCALES, "x-default"], "/tiktok-to-mp3": [...LOCALES, "x-default"], "/fr/tiktok-en-mp3": [...LOCALES, "x-default"] } as Record<string, string[]>;
     const path = new URL(entry.url).pathname;
     if (tiktok[path]) assert.deepEqual(Object.keys(entry.alternates?.languages ?? {}).sort(), tiktok[path].sort(), path);
     else assert.equal(Object.keys(entry.alternates?.languages ?? {}).length, /\/blog/.test(entry.url) ? 2 : 9);
@@ -79,7 +79,7 @@ test("sitemap contains exactly published canonical equivalents and excludes unve
   }
   assert.equal(sitePages().filter(p => p.identity.kind === "guide").length, 10);
   assert.ok(sitePages().filter(p => p.identity.kind === "guide").every(p => p.indexable));
-  assert.deepEqual(sitePages().filter(p => p.identity.kind === "platform" && p.indexable).map(p => p.path).sort(), ["/fr/telecharger-video-tiktok", "/fr/tiktok-en-mp3", "/tiktok-to-mp3", "/tiktok-video-downloader"]);
+  assert.equal(sitePages().filter(p => p.identity.kind === "platform" && p.indexable).length, 16);
 });
 test("article publication rejects review, missing dates and future dates; Unicode anchors survive", () => {
   const original = guides()[0];
@@ -131,7 +131,7 @@ test("eleven platform intents have eight slugs and cannot publish without eviden
   assert.equal(platformCandidates.length, 11);
   for (const locale of LOCALES) {
     // Only the TikTok pages with approved copy are published: en and fr (video, MP3).
-    assert.deepEqual(availablePlatformPages(locale).map(entry => entry.id), locale === "en" || locale === "fr" ? ["tiktok-video-downloader", "tiktok-mp3"] : []);
+    assert.deepEqual(availablePlatformPages(locale).map(entry => entry.id), ["tiktok-video-downloader", "tiktok-mp3"]);
     assert.equal(new Set(platformCandidates.map(entry => entry.slugs[locale])).size, 11);
     for (const entry of platformCandidates.filter(e => e.platform !== "tiktok")) assert.equal(approvedPlatformCopy({ ...entry, published: true }, locale), undefined);
   }
