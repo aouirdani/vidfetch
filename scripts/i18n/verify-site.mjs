@@ -164,9 +164,10 @@ try {
     assert.equal(await page.locator('link[rel=canonical]').count(), 0);
     await context.close(); evidence.locales.push(locale);
   }
-  // The four TikTok pages: each form completes a transfer (MP4 on the video pages, MP3 on the MP3 pages), with mocked
-  // admission and engines as above. The bytes are synthetic: this proves the UI path, not media conversion.
-  for (const [path, locale, kind] of [['/tiktok-video-downloader', 'en', 'video'], ['/fr/telecharger-video-tiktok', 'fr', 'video'], ['/tiktok-to-mp3', 'en', 'audio'], ['/fr/tiktok-en-mp3', 'fr', 'audio']]) {
+  // Every published localized TikTok tool must preserve the form contract, not only EN/FR.
+  const catalogue = JSON.parse(readFileSync('content/platforms/catalogue.json','utf8'));
+  const toolCases = locales.flatMap((locale,i) => catalogue.filter(e => e.published && e.platform === 'tiktok' && e.copy?.[locale]?.status === 'ready').map(e => [(roots[i] ? '/' + roots[i] : '') + '/' + e.slugs[locale],locale,e.id === 'tiktok-mp3' ? 'audio' : 'video']));
+  for (const [path, locale, kind] of toolCases) {
     const context = await browser.newContext({ viewport: { width: 390, height: 844 } }), page = await context.newPage(), d = dictionaries[locale], errors = [], posted = [];
     page.on('pageerror', error => errors.push(error.message));
     await page.route('https://**/*', route => new URL(route.request().url()).hostname === 'challenges.cloudflare.com' ? route.fulfill({ contentType: 'text/javascript', body: '' }) : route.abort());
@@ -192,7 +193,13 @@ try {
     const file = await popup.waitForEvent('download'); const saved = resolve(`../ui-transfer-${kind}-${locale}-${process.pid}.bin`); await file.saveAs(saved); assert.deepEqual(readFileSync(saved), attachment, path);
     await page.locator('p:not(.sr-only)').filter({ hasText: d.saved.replace('{size}', `${attachment.length} B`) }).waitFor();
     assert.deepEqual(posted.map(body => [Object.keys(body).sort().join(','), body.type, body.format_id]), [['format_id,type,url', kind, kind === 'audio' ? 'mp3' : 'v1']], path);
-    assert.deepEqual(errors, [], path); await popup.close(); await context.close();
+    assert.deepEqual(errors, [], path); await popup.close();
+    await context.route('**/api/fetch-info',route => route.fulfill({status:429,json:{ok:false,code:'QUOTA_EXCEEDED'}}));
+    await page.goto(base + encodeURI(path));
+    await page.getByRole('textbox',{name:d.videoLink}).fill('https://www.tiktok.com/@pokemonlife22/video/7059698374567611694');
+    await page.getByRole('button',{name:d.extract,exact:true}).click();
+    await page.getByRole('alert').filter({hasText:d.rateLimited}).waitFor();
+    await context.close();
   }
   assert.equal((await fetch(base + '/fr/', { redirect: 'manual' })).status, 301);
   const status = await fetch(base + '/api/download', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
@@ -203,7 +210,7 @@ try {
   for (const gated of ['/es/descargar-video-instagram', '/fr/telecharger-reels-instagram', '/fr/telecharger-video-x', '/tiktok-mp3', ...removedPages]) assert.equal((await fetch(base + encodeURI(gated))).status, 404, gated);
   const favicon = await fetch(base + '/favicon.ico'); assert.equal(favicon.status, 200); assert.deepEqual([...new Uint8Array(await favicon.arrayBuffer()).subarray(0, 4)], [0, 0, 1, 0]);
   const robots = await (await fetch(base + '/robots.txt')).text(); assert.match(robots, /Disallow: \/api\//);
-  evidence.checks.push('SSR content, reciprocal hreflang, eight language selectors and localized 404', 'Local TikTok tool links in each language; no unverified platform routes', 'RTL mobile navigation, disabled YouTube input, synthetic transfers and unchanged API boundaries');
+  evidence.checks.push('SSR content, reciprocal hreflang, eight language selectors and localized 404', 'Local TikTok tool links in each language; no unverified platform routes', `${toolCases.length} localized tool transfers and quota errors, eight home transfers, RTL, disabled YouTube input and unchanged API boundaries`);
   writeFileSync('../http-browser-verification.json', JSON.stringify(evidence, null, 2));
   console.log(JSON.stringify(evidence, null, 2));
 } finally {

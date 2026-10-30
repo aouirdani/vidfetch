@@ -2,24 +2,50 @@ import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { createServer } from 'node:net';
 import { chromium } from 'playwright';
+import { readFileSync } from 'node:fs';
+import { request as httpsRequest } from 'node:https';
+import { request as httpRequest } from 'node:http';
 
 const origin = 'https://vidfetch.app';
 const localeOg = { en:'en_US',fr:'fr_FR',es:'es_ES','pt-BR':'pt_BR',id:'id_ID',de:'de_DE',it:'it_IT',ar:'ar_AR' };
-const reserve = createServer();
-await new Promise((resolve,reject) => { reserve.once('error',reject); reserve.listen(0,'127.0.0.1',resolve); });
-const port = reserve.address().port;
-await new Promise(resolve => reserve.close(resolve));
-const base = `http://127.0.0.1:${port}`;
-const server = spawn(process.execPath,['node_modules/next/dist/bin/next','start','--hostname','127.0.0.1','--port',String(port)],{
-  stdio:['ignore','pipe','pipe'],env:{...process.env,VIDFETCH_TARGET:'ovh',VIDFETCH_CONNECTION_READY:'0',NEXT_TELEMETRY_DISABLED:'1'},
-});
-let log=''; for (const stream of [server.stdout,server.stderr]) stream.on('data',chunk => { log+=chunk; });
-const request = path => fetch(base+path,{redirect:'manual',signal:AbortSignal.timeout(10000)});
+// An external origin lets release/edge checks use the same assertions as local Next.
+let base = process.env.SEO_CHECK_BASE_URL, server, log = '';
+if (!base) {
+  const reserve = createServer();
+  await new Promise((resolve,reject) => { reserve.once('error',reject); reserve.listen(0,'127.0.0.1',resolve); });
+  const port = reserve.address().port;
+  await new Promise(resolve => reserve.close(resolve));
+  base = `http://127.0.0.1:${port}`;
+  server = spawn(process.execPath,['node_modules/next/dist/bin/next','start','--hostname','127.0.0.1','--port',String(port)],{
+    stdio:['ignore','pipe','pipe'],env:{...process.env,VIDFETCH_TARGET:'ovh',VIDFETCH_CONNECTION_READY:'0',NEXT_TELEMETRY_DISABLED:'1'},
+  });
+  for (const stream of [server.stdout,server.stderr]) stream.on('data',chunk => { log+=chunk; });
+}
+base = base.replace(/\/$/, '');
+const endpoint = new URL(base);
+assert.ok(['http:','https:'].includes(endpoint.protocol) && !endpoint.username && !endpoint.password && endpoint.pathname === '/' && !endpoint.search && !endpoint.hash, 'SEO_CHECK_BASE_URL must be an origin');
+const host = process.env.SEO_CHECK_HOST;
+if (host) assert.match(host, /^[a-z0-9.-]+$/i);
+const ca = process.env.SEO_CHECK_CA_FILE ? readFileSync(process.env.SEO_CHECK_CA_FILE) : undefined;
+const request = path => {
+  if (!process.env.SEO_CHECK_BASE_URL) return fetch(base+path,{redirect:'manual',signal:AbortSignal.timeout(10000)});
+  const url = new URL(path, base);
+  return new Promise((resolve,reject) => {
+    const send = url.protocol === 'https:' ? httpsRequest : httpRequest;
+    const req = send(url,{headers:host ? {Host:host} : {}, ...(url.protocol === 'https:' ? {servername:host ?? url.hostname, ...(ca ? {ca} : {})} : {}),signal:AbortSignal.timeout(10000)},res => {
+      const chunks=[]; let bytes=0;
+      res.on('data',chunk=>{ bytes+=chunk.length; if(bytes>10*1024*1024) res.destroy(Error('HTML response too large')); else chunks.push(chunk); });
+      res.on('error',reject);
+      res.on('end',()=>resolve({status:res.statusCode,headers:new Headers(Object.entries(res.headers).filter(([,v])=>v!==undefined).map(([k,v])=>[k,Array.isArray(v)?v.join(', '):v])),text:async()=>Buffer.concat(chunks).toString('utf8')}));
+    });
+    req.on('error',reject); req.end();
+  });
+};
 let browser;
 try {
   for(let n=0;;n++) {
     try { if ((await request('/robots.txt')).status===200) break; } catch {}
-    if(n>100 || server.exitCode!==null) throw Error(`Server failed: ${log}`);
+    if(n>100 || (server && server.exitCode!==null)) throw Error(`Server failed: ${log}`);
     await new Promise(resolve=>setTimeout(resolve,100));
   }
   const sitemapResponse=await request('/sitemap.xml'); assert.equal(sitemapResponse.status,200);
@@ -50,7 +76,7 @@ try {
     assert.ok(path==='/' || !path.endsWith('/'),`${url}: slash policy`);
     assert.ok(allowed(path),`${url}: blocked by robots`);
     const response=await request(path); assert.equal(response.status,200,url);
-    assert.doesNotMatch(response.headers.get('x-robots-tag')??'',/noindex/i,url);
+    assert.doesNotMatch(response.headers.get('x-robots-tag')??'',/noindex|nofollow|none|nosnippet|noarchive|unavailable_after|max-snippet:\s*0/i,url);
     const html=await response.text(); await dom.setContent(html,{waitUntil:'domcontentloaded'});
     const data=await dom.evaluate(()=>({
       title:document.title, description:document.querySelector('meta[name=description]')?.content,
@@ -106,5 +132,5 @@ try {
   assert.equal((await request('/seo-check-missing-6d18c7')).status,404,'missing URL must return 404');
   console.log(`SEO CHECK PASS: ${pages.size} URLs; HTTP 200, robots, title/description, H1, canonicals, reciprocal hreflang, lang/RTL, OG, JSON-LD/FAQ, sitemap dates, SSR text, internal links, 301 and 404.`);
 } finally {
-  await browser?.close(); server.kill('SIGTERM');
+  await browser?.close(); server?.kill('SIGTERM');
 }
