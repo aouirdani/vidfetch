@@ -145,7 +145,7 @@ MEDIA_CHECKS = [('POST', '/api/download-access', 401), ('GET', '/api/download-ac
 
 # public: these pages must answer 200 without credentials and without any noindex (header or meta); everything
 # else listed must stay closed and carry X-Robots-Tag noindex.
-PUBLIC_PAGES = ['/', '/fr/', '/robots.txt', '/sitemap.xml']
+PUBLIC_PAGES = ['/', '/fr/telecharger-video-tiktok', '/robots.txt', '/sitemap.xml']
 PUBLIC_CHECKS = [('GET', page, 200) for page in PUBLIC_PAGES] + [
     ('GET', '/api/download', 503), ('GET', '/api/fetch-info', 503), ('GET', '/api/queue', 503),
     ('GET', '/auth/transfer', 503), ('GET', '/download-helper', 503), ('POST', '/api/download-access', 503),
