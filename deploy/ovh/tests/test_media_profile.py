@@ -128,7 +128,7 @@ class Profile(unittest.TestCase):
         self.write(p.PUBLIC_PROFILE)
         with self.trust():
             checks = {(m, x): c for m, x, c in p.origin_checks()}
-        for page in ('/', '/fr/', '/robots.txt', '/sitemap.xml'):
+        for page in ('/', '/fr/telecharger-video-tiktok', '/robots.txt', '/sitemap.xml'):
             self.assertEqual(checks[('GET', page)], 200)
         for path in ('/api/download', '/api/fetch-info', '/api/queue', '/auth/transfer', '/download-helper'):
             self.assertEqual(checks[('GET', path)], 503)
@@ -164,7 +164,7 @@ class Profile(unittest.TestCase):
         robots = b'User-Agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: https://vidfetch.app/sitemap.xml\n'
         sitemap = b'<urlset><url><loc>https://vidfetch.app/</loc></url></urlset>'
         closed = {'X-Robots-Tag': 'noindex, nofollow'}
-        answers = {('GET', '/'): (200, {}, page), ('GET', '/fr/'): (200, {}, page),
+        answers = {('GET', '/'): (200, {}, page), ('GET', '/fr/telecharger-video-tiktok'): (200, {}, page),
                    ('GET', '/robots.txt'): (200, {}, robots), ('GET', '/sitemap.xml'): (200, {}, sitemap)}
         for m, x, c in p.PUBLIC_CHECKS[len(p.PUBLIC_PAGES):]:
             answers[(m, x)] = (c, closed, b'')
@@ -179,7 +179,7 @@ class Profile(unittest.TestCase):
         self.write(p.PUBLIC_PROFILE)
         cases = {
             'Basic Auth still on': (('GET', '/'), (401, {'WWW-Authenticate': 'Basic realm="x"', 'X-Robots-Tag': 'noindex'}, b'')),
-            'noindex header': (('GET', '/fr/'), (200, {'X-Robots-Tag': 'noindex, nofollow'}, b'<html></html>')),
+            'noindex header': (('GET', '/fr/telecharger-video-tiktok'), (200, {'X-Robots-Tag': 'noindex, nofollow'}, b'<html></html>')),
             'noindex meta': (('GET', '/'), (200, {}, b'<meta name="robots" content="noindex, follow"/>')),
             'robots disallows all': (('GET', '/robots.txt'), (200, {}, b'User-agent: *\nDisallow: /\nSitemap: https://vidfetch.app/sitemap.xml\n')),
             'robots without sitemap': (('GET', '/robots.txt'), (200, {}, b'User-agent: *\nAllow: /\n')),
@@ -264,7 +264,7 @@ class Profile(unittest.TestCase):
             'grant issued without the site origin': (('POST', '/api/download-access'), (200, dl, b'{}')),
             'apex page noindex': (('GET', '/'), (200, {'X-Robots-Tag': 'noindex'}, b'')),
             'apex media route open': (('GET', '/api/download'), (200, dl, b'')),
-            'apex Basic Auth back': (('GET', '/fr/'), (401, {'WWW-Authenticate': 'Basic realm="x"'}, b'')),
+            'apex Basic Auth back': (('GET', '/fr/telecharger-video-tiktok'), (401, {'WWW-Authenticate': 'Basic realm="x"'}, b'')),
         }
         for label, (key, answer) in cases.items():
             answers = self.public_dl_answers(); answers[key] = answer
