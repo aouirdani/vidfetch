@@ -72,9 +72,15 @@ vidfetch.app {
 	header Strict-Transport-Security "max-age=31536000"
 }
 www.vidfetch.app {
-	redir https://vidfetch.app{uri} 301
+	route {
+        uri path_regexp /+$ ""
+        redir https://vidfetch.app{uri} 301
+    }
 }
 
 http://vidfetch.app, http://www.vidfetch.app {
-	redir https://vidfetch.app{uri} 301
+	route {
+        uri path_regexp /+$ ""
+        redir https://vidfetch.app{uri} 301
+    }
 }

@@ -60,6 +60,10 @@ for host in vidfetch.app www.vidfetch.app; do
   expect "$(echo "$h" | head -1 | cut -d' ' -f2)" 301 "HTTP $host redirects permanently"
   location=$(echo "$h" | awk 'tolower($1)=="location:" {print $2}')
   expect "$location" 'https://vidfetch.app/blog?seo=1' "HTTP $host keeps path and query on the canonical HTTPS host"
+  h=$(curl -s -m 5 -D - -o /dev/null -H "Host: $host" 'http://127.0.0.1:8081/id/?seo=1' | tr -d '\r')
+  expect "$(echo "$h" | head -1 | cut -d' ' -f2)" 301 "HTTP $host canonicalizes the trailing slash in the same hop"
+  location=$(echo "$h" | awk 'tolower($1)=="location:" {print $2}')
+  expect "$location" 'https://vidfetch.app/id?seo=1' "HTTP $host avoids a second slash redirect"
 done
 hdr() { curl -s -m 5 -D - -o /dev/null -X "$1" -H "Host: vidfetch.app" "http://127.0.0.1:8080$2" | tr -d '\r'; }
 body() { curl -s -m 5 -X "$1" -H "Host: vidfetch.app" "http://127.0.0.1:8080$2"; }
