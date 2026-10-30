@@ -1,0 +1,283 @@
+# Directives — origin/main (4fc94dd7)
+
+Inventaire de code et de texte : les commentaires et tests ne sont pas des directives servies. Interprétation des chemins publics dans REVIEW-PRE-MERGE.md.
+
+- `DEPLOY-CLOUDFLARE.md:176` — - **Previews are noindex.** Builds on a non-production branch get an
+- `DEPLOY-CLOUDFLARE.md:177` —   ’X-Robots-Tag: noindex’ header, so ’*.pages.dev’ previews never compete with
+- `README.md:132` — - ’app/sitemap.ts’ and ’app/robots.ts’ generate ’/sitemap.xml’ and ’/robots.txt’; ’/api/’ is disallowed and the 404 page is ’noindex, follow’.
+- `backend/gateway/load.test.ts:42` —   const transport=(async(url,init={})=>{const headers=new Headers(init.headers);headers.set("X-Fixture-IP",’1.2.3.${index+10}’);headers.set("X-Forwarded-For","192.168.1.1");return baseTransport(url,{...init,headers});})as typeof fetch;
+- `backend/gateway/queue-expiry.test.ts:31` —  const actor=async(ip:string)=>{const client=new SecureDownloadClient(origin,(async(_u,init)=>issuer(new Request(site,{...init,headers:{Origin:site}})))as typeof fetch,(async(u,init={})=>{const h=new Headers(init.headers);h.set("X-Fixture-IP",ip);return transport(u,{...init,headers:h});})as typeof fetch);await client.authorize("fixture");return client;};
+- `backend/gateway/tests.test.ts:20` —     const url=new URL(String(input));const req=httpsRequest(url,{method:init.method??"GET",ca,headers:Object.fromEntries(new Headers(init.headers).entries()),signal:init.signal??undefined},res=>{
+- `backend/gateway/tests.test.ts:21` —       const headers=new Headers();for(const [k,v]of Object.entries(res.headers))if(v)headers.set(k,Array.isArray(v)?v.join(", "):v);
+- `backend/ovh/media-validation.ts:33` —     res.setHeader("X-Robots-Tag", "noindex, nofollow");
+- `backend/ovh/media-validation.ts:43` —       headers: Object.fromEntries(new Headers(init.headers).entries()) }, res => {
+- `backend/ovh/media-validation.ts:44` —       const headers = new Headers(); for (const [k, v] of Object.entries(res.headers)) if (v) headers.set(k, Array.isArray(v) ? v.join(", ") : v);
+- `backend/preproduction/ovh/live-tests.mjs:16` —    const headers=new Headers();for(const [name,value]of Object.entries(res.headers))if(value!==undefined)headers.set(name,Array.isArray(value)?value.join(', '):value);
+- `backend/validation/ovh-launch-20261013.json:143` —       "Arabic frontend via local TLS with staging noindex",
+- `backend/validation/ovh-launch-20261013.json:297` —     "Quoted Caddy staging X-Robots-Tag to set the header instead of regex replacement; actual local HTTPS regression check passed",
+- `backend/validation/public-https-20261013.json:108` —         "noindex": true,
+- `backend/validation/public-https-20261013.json:123` —         "noindex": true,
+- `backend/validation/public-https-20261013.json:138` —         "noindex": true,
+- `backend/validation/public-https-20261013.json:153` —         "noindex": true,
+- `backend/validation/public-https-20261013.json:168` —         "noindex": true,
+- `backend/validation/public-https-20261013.json:183` —         "noindex": true,
+- `backend/validation/public-https-20261013.json:198` —         "noindex": true,
+- `backend/validation/public-https-20261013.json:213` —         "noindex": true,
+- `deploy/ovh/Caddyfile:29` — 		X-Robots-Tag {$VIDFETCH_ROBOTS_HEADER:noindex, nofollow}
+- `deploy/ovh/Caddyfile:42` — 		header X-Robots-Tag "noindex, nofollow"
+- `deploy/ovh/ci/audit.py:45` —           'gateClosed': True, 'originStrictTLSAuthNoindexMediaClosed': True,
+- `deploy/ovh/ci/promote.py:28` — MEDIA_PROFILE = {'profile': 'media-test', 'apex': 'basic-auth-noindex', 'dl': 'testers-only'}
+- `deploy/ovh/ci/promote.py:54` —     API and auth route closed and noindex.
+- `deploy/ovh/ci/promote.py:146` — # public: these pages must answer 200 without credentials and without any noindex (header or meta); everything
+- `deploy/ovh/ci/promote.py:147` — # else listed must stay closed and carry X-Robots-Tag noindex.
+- `deploy/ovh/ci/promote.py:176` —     if 'noindex' in headers.get('X-Robots-Tag', '') or headers.get('WWW-Authenticate'):
+- `deploy/ovh/ci/promote.py:177` —         return 'noindex header or credentials requested'
+- `deploy/ovh/ci/promote.py:178` —     if re.search(rb'<meta name="robots" content="[^"]*noindex', body):
+- `deploy/ovh/ci/promote.py:179` —         return 'robots meta noindex'
+- `deploy/ovh/ci/promote.py:207` —             if result.status != expected or 'noindex' not in result.headers.get('X-Robots-Tag', ''):
+- `deploy/ovh/ci/promote.py:262` —     fd = os.open(source, os.O_RDONLY | os.O_NOFOLLOW)
+- `deploy/ovh/launch/Caddyfile.downloads-approved.example:42` —         X-Robots-Tag "{$VIDFETCH_ROBOTS_HEADER:noindex, nofollow}"
+- `deploy/ovh/launch/Caddyfile.downloads-approved.example:86` —             X-Robots-Tag "noindex, nofollow"
+- `deploy/ovh/launch/Caddyfile.downloads-approved.example:108` —             X-Robots-Tag "noindex, nofollow"
+- `deploy/ovh/launch/Caddyfile.proxied:42` —         X-Robots-Tag "{$VIDFETCH_ROBOTS_HEADER:noindex, nofollow}"
+- `deploy/ovh/launch/Caddyfile.proxied:84` —             X-Robots-Tag "noindex, nofollow"
+- `deploy/ovh/launch/Caddyfile.proxied:95` —             X-Robots-Tag "noindex, nofollow"
+- `deploy/ovh/launch/render-config.py:60` —         X-Robots-Tag "{$VIDFETCH_ROBOTS_HEADER:noindex, nofollow}"
+- `deploy/ovh/launch/render-config.py:109` —             X-Robots-Tag "noindex, nofollow"
+- `deploy/ovh/launch/render-config.py:132` —             X-Robots-Tag "noindex, nofollow"
+- `deploy/ovh/launch/render-config.py:140` —             X-Robots-Tag "noindex, nofollow"
+- `deploy/ovh/launch/verify-frontend-only.py:60` —     assert 'noindex' in headers['x-robots-tag']
+- `deploy/ovh/launch/verify-frontend-only.py:61` —     checks.append('Arabic frontend via local TLS with staging noindex')
+- `deploy/ovh/media/Caddyfile.public:2` — #   * no Basic Auth on the site and no site-wide noindex header (pages carry their own robots meta);
+- `deploy/ovh/media/Caddyfile.public:4` — #   * API, auth and helper paths keep X-Robots-Tag noindex.
+- `deploy/ovh/media/Caddyfile.public:68` —     @noindex path /api/* /auth/* /download-helper /internal/* /server-status
+- `deploy/ovh/media/Caddyfile.public:69` —     header @noindex {
+- `deploy/ovh/media/Caddyfile.public:70` —         X-Robots-Tag "noindex, nofollow"
+- `deploy/ovh/media/Caddyfile.public:126` —         X-Robots-Tag "noindex, nofollow"
+- `deploy/ovh/media/Caddyfile.public-dl:4` — #   * no Basic Auth on the site and no site-wide noindex header (pages carry their own robots meta);
+- `deploy/ovh/media/Caddyfile.public-dl:6` — #   * API, auth and helper paths keep X-Robots-Tag noindex.
+- `deploy/ovh/media/Caddyfile.public-dl:70` —     @noindex path /api/* /auth/* /download-helper /internal/* /server-status
+- `deploy/ovh/media/Caddyfile.public-dl:71` —     header @noindex {
+- `deploy/ovh/media/Caddyfile.public-dl:72` —         X-Robots-Tag "noindex, nofollow"
+- `deploy/ovh/media/Caddyfile.public-dl:127` —         X-Robots-Tag "noindex, nofollow"
+- `deploy/ovh/media/Caddyfile.test-only:1` — # Phase 8 candidate ONLY. Not installed. Frontend Basic Auth and test noindex retained.
+- `deploy/ovh/media/Caddyfile.test-only:42` —         X-Robots-Tag "noindex, nofollow"
+- `deploy/ovh/media/Caddyfile.test-only:124` —         X-Robots-Tag "noindex, nofollow"
+- `deploy/ovh/media/admin/02-stage.sh:17` — # The candidate must not weaken the live apex: same Basic Auth import, same media 503s, noindex.
+- `deploy/ovh/media/admin/02-stage.sh:19` — grep -q 'X-Robots-Tag "noindex, nofollow"' "$BASE/Caddyfile.media-test" || die "noindex missing"
+- `deploy/ovh/media/admin/05-caddy.sh:5` — #   default   staged Caddyfile.media-test (02-stage.sh): apex keeps Basic Auth and noindex
+- `deploy/ovh/media/admin/05-caddy.sh:39` —   grep -q 'X-Robots-Tag "noindex, nofollow"' "$BASE/Caddyfile.media-test" || die "noindex missing from the staged config"
+- `deploy/ovh/media/admin/05-confirm.sh:6` — #     gateway routes included, with noindex / no-referrer;
+- `deploy/ovh/media/admin/05-confirm.sh:7` — #   * the apex keeps Basic Auth (401 + Basic challenge), noindex, closed media routes (503) and no sitemap (404);
+- `deploy/ovh/media/admin/05-confirm.sh:34` — if out=$(dl_gated); then echo "dl: trusted certificate, non-tester refused (403) on every route, noindex + no-referrer"; else printf '%s\n' "$out" >&2; fails=1; fi
+- `deploy/ovh/media/admin/05-confirm.sh:36` —   if out=$(apex_protected media); then echo "apex: Basic Auth, noindex, media routes closed, sitemap 404"; else printf '%s\n' "$out" >&2; fails=1; fi
+- `deploy/ovh/media/admin/06-profile.sh:13` —     printf '%s\n' '{"profile":"media-test","apex":"basic-auth-noindex","dl":"testers-only"}' > "$P.new"; chown root:root "$P.new"; chmod 0644 "$P.new"; mv "$P.new" "$P"; log "installed $P" ;;
+- `deploy/ovh/media/admin/09-ci-helper.sh:27` —     media-test) line="MEDIA_PROFILE = {'profile': 'media-test', 'apex': 'basic-auth-noindex', 'dl': 'testers-only'}" ;;
+- `deploy/ovh/media/admin/common.sh:125` — # apex_protected base|media: every listed route answers as expected with noindex (and a Basic challenge on 401).
+- `deploy/ovh/media/admin/common.sh:133` —     grep -qi '^x-robots-tag:.*noindex' <<< "$out" || { echo "  apex $method $path: no noindex header"; fails=1; }
+- `deploy/ovh/media/admin/common.sh:139` — # tester) on every route, gateway routes included, with its own noindex / no-referrer headers.
+- `deploy/ovh/media/admin/common.sh:147` —     grep -qi '^x-robots-tag:.*noindex' <<< "$out" && grep -qi '^referrer-policy: *no-referrer' <<< "$out" || { echo "  dl $method $path: noindex / no-referrer headers missing"; fails=1; }
+- `deploy/ovh/media/admin/common.sh:156` — MEDIA_PROFILE_JSON='{"profile":"media-test","apex":"basic-auth-noindex","dl":"testers-only"}'
+- `deploy/ovh/media/admin/common.sh:205` —     if grep -qi '^x-robots-tag:.*noindex' <<< "$out"; then echo "  $path: X-Robots-Tag noindex"; fails=1; fi
+- `deploy/ovh/media/admin/common.sh:207` —     if grep -qiE '<meta name="robots" content="[^"]*noindex' <<< "$out"; then echo "  $path: robots meta noindex"; fails=1; fi
+- `deploy/ovh/media/admin/common.sh:211` —   echo "sitemap: $n URL(s) checked: 200, no credentials, no noindex, self-canonical"
+- `deploy/ovh/media/admin/common.sh:213` —   if [ "$code" = 200 ] && grep -q '^Sitemap: https://vidfetch.app/sitemap.xml' <<< "$out" && ! grep -qiE '^Disallow: */[[:space:]]*$' <<< "$out" && ! grep -qi '^x-robots-tag:.*noindex' <<< "$out"; then
+- `deploy/ovh/media/admin/common.sh:215` —   else echo "  robots.txt: HTTP $code or wrong content (Sitemap line missing, Disallow: / or noindex)"; fails=1; fi
+- `deploy/ovh/media/admin/common.sh:223` —     grep -qi '^x-robots-tag:.*noindex' <<< "$out" || { echo "  $method $path: no noindex header"; fails=1; }
+- `deploy/ovh/media/admin/common.sh:261` —     grep -qi '^x-robots-tag:.*noindex' <<< "$out" && grep -qi '^referrer-policy: *no-referrer' <<< "$out" || { echo "  dl $method $path: noindex / no-referrer headers missing"; fails=1; }
+- `deploy/ovh/media/admin/verify-outsider.sh:40` —   echo "$h" | grep -qi '^referrer-policy: no-referrer' && echo "$h" | grep -qi '^x-robots-tag: noindex' && ok "public dl: no-referrer and noindex headers" || bad "public dl: headers"
+- `deploy/ovh/media/admin/verify-outsider.sh:53` —     echo "$page" | grep -qi '^x-robots-tag:.*noindex' && bad "public: $path sends X-Robots-Tag noindex" || ok "public: $path has no noindex header"
+- `deploy/ovh/media/admin/verify-outsider.sh:54` —     echo "$page" | grep -qiE '<meta name="robots" content="[^"]*noindex' && bad "public: $path has a noindex meta" || ok "public: $path robots meta allows indexing"
+- `deploy/ovh/media/admin/verify-tester.sh:24` — echo "$h" | grep -qi '^x-robots-tag: noindex' && ok "dl: noindex" || bad "dl noindex"
+- `deploy/ovh/media/admin/verify-tester.sh:28` —   chk "$(curl -s -m 10 -D - -o /dev/null https://vidfetch.app/ | grep -ci '^x-robots-tag:.*noindex')" 0 "apex: no noindex header"
+- `deploy/ovh/media/admin/verify-tester.sh:33` —   chk "$(curl -s -m 10 -D - -o /dev/null https://vidfetch.app/ | grep -ci '^x-robots-tag:.*noindex')" 1 "apex: noindex header"
+- `deploy/ovh/public-test/Caddyfile:42` —         X-Robots-Tag "noindex, nofollow"
+- `deploy/ovh/public-test/Caddyfile.bootstrap:7` —         X-Robots-Tag "noindex, nofollow"
+- `deploy/ovh/tests/admin-hardening.test.sh:64` —   printf 'import /etc/vidfetch/public-https-test/auth.caddy\nX-Robots-Tag "noindex, nofollow"\n' > $BASE/Caddyfile.media-test; }
+- `deploy/ovh/tests/admin-scripts.test.sh:85` — printf 'import /etc/vidfetch/public-https-test/auth.caddy\nX-Robots-Tag "noindex, nofollow"\n' > "$W/base/Caddyfile.media-test"
+- `deploy/ovh/tests/admin-scripts.test.sh:97` — python3 -c "import json;assert json.load(open('/etc/vidfetch/ci-media-test-profile.json'))=={'profile':'media-test','apex':'basic-auth-noindex','dl':'testers-only'}" && ok "profile content exactly what the promoter accepts" || bad "profile content"
+- `deploy/ovh/tests/admin-scripts.test.sh:125` — printf 'import /etc/vidfetch/public-https-test/auth.caddy\nX-Robots-Tag "noindex, nofollow"\n' > "$W/render/Caddyfile.test-only"
+- `deploy/ovh/tests/caddy-gating/run.sh:13` —         s.send_response(200); s.end_headers(); s.wfile.write(b"BACKEND-REACHED")
+- `deploy/ovh/tests/caddy-gating/run.sh:43` — echo "$hdr" | grep -qi '^X-Robots-Tag: noindex' && echo "ok - dl noindex" || { echo "not ok - dl noindex"; fail=1; }
+- `deploy/ovh/tests/caddy-gating/run.sh:63` —   echo "$h" | grep -qi '^x-robots-tag' && { echo "not ok - public: $path carries an X-Robots-Tag header"; fail=1; } || echo "ok - public: $path has no X-Robots-Tag header (indexable)"
+- `deploy/ovh/tests/caddy-gating/run.sh:70` —     echo "$h" | grep -qi '^x-robots-tag: noindex' && echo "ok - public: $method $path noindex" || { echo "not ok - public: $method $path without noindex"; fail=1; }
+- `deploy/ovh/tests/caddy-gating/run.sh:75` — echo "$h" | grep -qi '^x-robots-tag: noindex' && echo "ok - public: /api/download-access noindex (the frontend decides availability)" || { echo "not ok - public: /api/download-access without noindex"; fail=1; }
+- `deploy/ovh/tests/caddy-gating/run.sh:95` —   echo "$h" | grep -qi '^referrer-policy: no-referrer' && echo "$h" | grep -qi '^x-robots-tag: noindex' && echo "$h" | grep -qi '^cache-control: .*no-store' && echo "ok - public dl: no-referrer, noindex, no-store for $peer" || { echo "not ok - public dl headers for $peer"; fail=1; }
+- `deploy/ovh/tests/caddy-window-systemd.test.sh:185` — echo "$h" | head -1 | grep -q ' 200' && ! echo "$h" | grep -qi '^x-robots-tag' && ! echo "$h" | grep -qi '^www-authenticate' && ok "apex public: 200, no credentials, no X-Robots-Tag (strict TLS through loopback)" || bad "apex public headers: $(echo "$h" | head -6 | tr '\n' ' ')"
+- `deploy/ovh/tests/caddy-window-systemd.test.sh:186` — [ "$(code --resolve vidfetch.app:443:127.0.0.1 https://vidfetch.app/api/download)" = 503 ] && [ "$(code -X POST -H 'Content-Type: application/json' -d '{}' --resolve vidfetch.app:443:127.0.0.1 https://vidfetch.app/api/download-access)" = 503 ] && hdr --resolve vidfetch.app:443:127.0.0.1 https://vidfetch.app/api/download | grep -qi '^x-robots-tag: noindex' && ok "downloads stay closed: media route 503, no grant (503), noindex on the APIs" || bad "closed downloads"
+- `deploy/ovh/tests/caddy-window-systemd.test.sh:213` — echo "$h" | head -1 | grep -q ' 200' && ! echo "$h" | grep -qi '^x-robots-tag' && [ "$(code --resolve vidfetch.app:443:127.0.0.1 https://vidfetch.app/api/download)" = 503 ] && ok "the apex is unchanged: public, indexable, media routes closed" || bad "apex during public dl"
+- `deploy/ovh/tests/caddy-window.test.sh:76` —   printf 'import /etc/vidfetch/public-https-test/auth.caddy\nX-Robots-Tag "noindex, nofollow"\n' > $BASE/Caddyfile.media-test; }
+- `deploy/ovh/tests/caddy-window.test.sh:134` — network_confirmed; sed -i '/X-Robots-Tag/d' $BASE/Caddyfile.media-test; refuse05 "staged config without noindex"
+- `deploy/ovh/tests/caddy-window.test.sh:138` — network_confirmed; sed -i 's#^vidfetch.app GET / 401 .*#vidfetch.app GET / 200 x-robots-tag: noindex#' "$W/origin/Caddyfile"; refuse05 "apex already unprotected BEFORE the change (GET / 200)"
+- `deploy/ovh/tests/caddy-window.test.sh:190` — switched; sed -i 's#^vidfetch.app GET / 401 .*#vidfetch.app GET / 200 x-robots-tag: noindex#' "$W/origin/Caddyfile.media-test"; refuse_confirm "apex without Basic Auth"
+- `deploy/ovh/tests/caddy-window.test.sh:191` — switched; sed -i 's#^\(vidfetch.app GET /fr/ 401\) .*#\1 x-robots-tag: noindex#' "$W/origin/Caddyfile.media-test"; refuse_confirm "apex 401 without a Basic challenge"
+- `deploy/ovh/tests/caddy-window.test.sh:192` — switched; sed -i 's#^\(vidfetch.app GET /api/download 503\) .*#\1 x-other: 1#' "$W/origin/Caddyfile.media-test"; refuse_confirm "apex media route without noindex"
+- `deploy/ovh/tests/fixtures/crawl-public.py:3` — prerendered page must be exactly the expected noindex ones, downloads must stay closed.
+- `deploy/ovh/tests/fixtures/crawl-public.py:16` — expected_noindex = set(expected['noindex'])
+- `deploy/ovh/tests/fixtures/crawl-public.py:59` — (ok if status == 200 and 'noindex' not in headers.get('X-Robots-Tag', '') else bad)(f'sitemap.xml served by the frontend through Caddy ({status})')
+- `deploy/ovh/tests/fixtures/crawl-public.py:77` —     if 'noindex' in headers.get('X-Robots-Tag', '') or headers.get('WWW-Authenticate'):
+- `deploy/ovh/tests/fixtures/crawl-public.py:78` —         problems.append('noindex header or credentials')
+- `deploy/ovh/tests/fixtures/crawl-public.py:80` —     if robots is None or 'noindex' in robots:
+- `deploy/ovh/tests/fixtures/crawl-public.py:103` —     (ok if status == 200 and robots and 'noindex' in robots else bad)(f'not indexable on purpose {path}: {status}, robots {robots!r}')
+- `deploy/ovh/tests/fixtures/crawl-public.py:104` — missing, unexpected = sorted(expected_noindex - set(others)), sorted(set(others) - expected_noindex)
+- `deploy/ovh/tests/fixtures/crawl-public.py:106` —     f'exactly the {len(expected_noindex)} expected prerendered pages outside the sitemap, all noindex ({len(others)} found'
+- `deploy/ovh/tests/fixtures/crawl-public.py:111` —  and 'noindex' not in headers.get('X-Robots-Tag', '') else bad)('robots.txt from the frontend: sitemap published, only private paths disallowed')
+- `deploy/ovh/tests/fixtures/crawl-public.py:119` —     (ok if status == 503 and 'noindex' in headers.get('X-Robots-Tag', '') and 'BACKEND_UNAVAILABLE' in body else bad)(f'{method} {path} closed by Caddy (503, noindex)')
+- `deploy/ovh/tests/fixtures/crawl-public.py:121` — (ok if status == 503 and 'noindex' in headers.get('X-Robots-Tag', '') else bad)(f'POST /api/download-access: the real frontend issues no grant with ready=0 ({status})')
+- `deploy/ovh/tests/fixtures/crawl-public.py:123` — (ok if status == 200 and '"available":false' in body and 'noindex' in headers.get('X-Robots-Tag', '') else bad)('GET /api/download-access reports downloads unavailable, noindex')
+- `deploy/ovh/tests/fixtures/crawl-public.py:128` —     (ok if status == 404 and 'noindex' in headers.get('X-Robots-Tag', '') else bad)(f'{path} stays 404 (noindex)')
+- `deploy/ovh/tests/fixtures/crawl-public.py:130` — (ok if status == 404 and 'noindex' in (meta(body, r'<meta name="robots" content="([^"]*)"') or '') else bad)('unknown page: 404 with a noindex robots meta')
+- `deploy/ovh/tests/fixtures/fake-frontend.py:31` —         self.end_headers()
+- `deploy/ovh/tests/fixtures/fake-frontend.py:51` —         return self.answer(404, page(SITE + path, 'noindex'))
+- `deploy/ovh/tests/fixtures/fake-gateway.py:15` —         self.end_headers()
+- `deploy/ovh/tests/fixtures/origin-tables.sh:6` —   local dir=${1:?} auth='x-robots-tag: noindex, nofollow|www-authenticate: Basic realm="restricted"' robots='x-robots-tag: noindex, nofollow'
+- `deploy/ovh/tests/fixtures/origin-tables.sh:7` —   local dl='x-robots-tag: noindex, nofollow|referrer-policy: no-referrer|cache-control: private, no-store, max-age=0'
+- `deploy/ovh/tests/fixtures/public-indexing-expected.json:29` —   "noindex": [
+- `deploy/ovh/tests/public-downloads.test.sh:129` — sed -i 's#^vidfetch.app GET / 200 BODY=home#vidfetch.app GET / 200 x-robots-tag: noindex|BODY=home#' "$W/origin/Caddyfile.public"; refuse10 "public apex not as expected before the change (noindex)"
+- `deploy/ovh/tests/public-downloads.test.sh:175` — opened; login_after "$S/armed-at" 9; sed -i 's#content="index, follow"#content="noindex, follow"#' "$W/origin/bodies/fr"; refuse_confirm "a sitemap page lost its indexability"
+- `deploy/ovh/tests/public-launch.test.sh:16` — PUBLIC_JSON='{"profile":"public","apex":"public-indexable","dl":"testers-only"}'; MEDIA_JSON='{"profile":"media-test","apex":"basic-auth-noindex","dl":"testers-only"}'
+- `deploy/ovh/tests/public-launch.test.sh:133` — sed -i 's#^vidfetch.app GET / 200 BODY=home#vidfetch.app GET / 200 x-robots-tag: noindex|BODY=home#' "$W/origin/Caddyfile.public"; refuse_confirm "a sitemap page sends X-Robots-Tag noindex"
+- `deploy/ovh/tests/public-launch.test.sh:134` — switched; sed -i 's#content="index, follow"#content="noindex, follow"#' "$W/origin/bodies/fr"; refuse_confirm "a sitemap page has a noindex robots meta"
+- `deploy/ovh/tests/public-launch.test.sh:144` — switched; sed -i 's#^\(vidfetch.app GET /api/fetch-info 503\) .*#\1 x-other: 1#' "$W/origin/Caddyfile.public"; refuse_confirm "an API route lost its noindex header"
+- `deploy/ovh/tests/test_media_profile.py:109` —         for bad in ({**p.PUBLIC_PROFILE, 'dl': 'public'}, {**p.PUBLIC_PROFILE, 'apex': 'basic-auth-noindex'},
+- `deploy/ovh/tests/test_media_profile.py:166` —         closed = {'X-Robots-Tag': 'noindex, nofollow'}
+- `deploy/ovh/tests/test_media_profile.py:181` —             'Basic Auth still on': (('GET', '/'), (401, {'WWW-Authenticate': 'Basic realm="x"', 'X-Robots-Tag': 'noindex'}, b'')),
+- `deploy/ovh/tests/test_media_profile.py:182` —             'noindex header': (('GET', '/fr/'), (200, {'X-Robots-Tag': 'noindex, nofollow'}, b'<html></html>')),
+- `deploy/ovh/tests/test_media_profile.py:183` —             'noindex meta': (('GET', '/'), (200, {}, b'<meta name="robots" content="noindex, follow"/>')),
+- `deploy/ovh/tests/test_media_profile.py:188` —             'media route open': (('GET', '/api/download'), (200, {'X-Robots-Tag': 'noindex'}, b'')),
+- `deploy/ovh/tests/test_media_profile.py:189` —             'grant issued': (('POST', '/api/download-access'), (200, {'X-Robots-Tag': 'noindex'}, b'{}')),
+- `deploy/ovh/tests/test_media_profile.py:190` —             'api without noindex': (('GET', '/api/fetch-info'), (503, {}, b'')),
+- `deploy/ovh/tests/test_media_profile.py:191` —             'auth endpoint exposed': (('GET', '/auth/admission'), (200, {'X-Robots-Tag': 'noindex'}, b'')),
+- `deploy/ovh/tests/test_media_profile.py:214` —         for bad in ({**p.PUBLIC_DL_PROFILE, 'dl': 'testers-only', 'extra': 1}, {**p.PUBLIC_DL_PROFILE, 'apex': 'basic-auth-noindex'},
+- `deploy/ovh/tests/test_media_profile.py:245` —         answers[('POST', '/api/download-access')] = (403, {'X-Robots-Tag': 'noindex, nofollow'}, b'{}')
+- `deploy/ovh/tests/test_media_profile.py:246` —         dl = {'X-Robots-Tag': 'noindex, nofollow', 'Referrer-Policy': 'no-referrer'}
+- `deploy/ovh/tests/test_media_profile.py:259` —         dl = {'X-Robots-Tag': 'noindex, nofollow'}
+- `deploy/ovh/tests/test_media_profile.py:263` —             'dl without noindex': (('dl.vidfetch.app', 'POST', '/api/fetch-info'), (401, {}, b'')),
+- `deploy/ovh/tests/test_media_profile.py:265` —             'apex page noindex': (('GET', '/'), (200, {'X-Robots-Tag': 'noindex'}, b'')),
+- `deploy/ovh/tests/test_public_indexing.py:3` — set; every other prerendered page is exactly one of its noindex pages; downloads closed, one-hop redirects.
+- `deploy/ovh/tests/test_public_indexing.py:20` —         indexable, noindex = expected['indexable'], expected['noindex']
+- `deploy/ovh/tests/test_public_indexing.py:22` —         self.assertEqual(len(noindex), len(set(noindex)))
+- `deploy/ovh/tests/test_public_indexing.py:23` —         self.assertFalse(set(indexable) & set(noindex), 'a page cannot be both indexable and noindex')
+- `deploy/ovh/tests/test_public_indexing.py:24` —         self.assertTrue(all(path.startswith('/') for path in [*indexable, *noindex]))
+- `deploy/ovh/tests/test_public_indexing.py:35` —         indexable, noindex = len(expected['indexable']), len(expected['noindex'])
+- `deploy/ovh/tests/test_public_indexing.py:39` —         self.assertEqual(sum(line.startswith('ok ') and ' - not indexable on purpose ' in line for line in lines), noindex)
+- `deploy/ovh/tests/test_public_indexing.py:40` —         self.assertIn(f'exactly the {noindex} expected prerendered pages outside the sitemap, all noindex ({noindex} found)', result.stdout)
+- `deploy/ovh/tests/verify-outsider.test.sh:68` — apex_noindex|public: / sends X-Robots-Tag noindex
+- `deploy/ovh/tests/verify-outsider/world.py:18` —           'dl_root_200', 'dl_headers', 'cert', 'apex_direct_200', 'internal_port_open', 'ssh_closed', 'apex_noindex',
+- `deploy/ovh/tests/verify-outsider/world.py:23` —               'x-robots-tag': 'noindex, nofollow, noarchive', 'x-content-type-options': 'nosniff'}
+- `deploy/ovh/tests/verify-outsider/world.py:49` —             headers.pop('x-robots-tag')
+- `deploy/ovh/tests/verify-outsider/world.py:60` —         if FAULT == 'apex_noindex' and path == '/':
+- `deploy/ovh/tests/verify-outsider/world.py:61` —             headers['x-robots-tag'] = 'noindex'
+- `deploy/ovh/tests/verify-outsider/world.py:72` —         return (200, {}, '{}') if FAULT == 'apex_download_open' and path == '/api/download' else (503, {'x-robots-tag': 'noindex'}, '')
+- `deploy/ovh/vidfetch-ci-dispatch.py:26` — fd = os.open(file, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+- `deploy/ovh/vidfetch-promote.py:191` —     lock_fd = os.open(DRAIN.parent / 'lock', os.O_WRONLY | os.O_CREAT | os.O_NOFOLLOW, 0o600)
+- `deploy/ovh/vidfetch-promote.py:197` —         fd = os.open(source, os.O_RDONLY | os.O_NOFOLLOW)
+- `deploy/ovh/vidfetch-promote.py:229` —                 fd = os.open(DRAIN, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o644)
+- `docs/OVH-FULL-MIGRATION.md:93` — | 404 | Risque de canonical global hérité | Vraie 404 noindex, pas de canonical racine ajouté globalement |
+- `docs/OVH-FULL-MIGRATION.md:95` — | Staging | Risque d'indexation si public | Proxy préparé avec X-Robots-Tag noindex/nofollow par défaut |
+- `docs/OVH-FULL-MIGRATION.md:136` — | Robots/sitemap/404 | VALIDÉ | Routes techniques exclues, sitemap cohérent, vraies 404 noindex |
+- `docs/OVH-FULL-MIGRATION.md:226` — 5. Activer Caddy seulement après accord d'exposition. L'ACME ne sera validé qu'une fois le domaine dirigé correctement. Vérifier le certificat public et le 301 www. Garder noindex pendant la recette.
+- `docs/OVH-FULL-MIGRATION.md:228` — 7. Après validation, retirer le header staging X-Robots-Tag en réglant ’VIDFETCH_ROBOTS_HEADER’ à une valeur autorisant l'indexation, puis reload Caddy. Contrôler canonical, sitemap, robots et 404 par HTTPS. Renseigner les dates de publication réellement effectives dans les guides et faire tester le commit suivant.
+- `docs/OVH-LAUNCH-PREPARATION.md:62` — Les **70 traductions de guides** restent en ’review’, non routables (404) et hors sitemap. Les dix guides anglais sont préservés, accessibles mais **noindex**, avec ’published: null’. Les huit index éditoriaux restent noindex ; les quatre anciennes pages plateformes sont des notices noindex. Les nouvelles pages spécialisées restent indisponibles. Les pages YouTube restent bloquées par le contrôle anti-bot OVH signalé précédemment ; aucune extraction YouTube nouvelle n'a été tentée.
+- `docs/OVH-LAUNCH-PREPARATION.md:64` — Ces résultats ne valent pas relecture linguistique native, publication éditoriale ou indexation réelle. Le proxy de recette publique préparé impose en plus ’X-Robots-Tag: noindex, nofollow’ tant que la publication n'est pas approuvée.
+- `docs/OVH-LAUNCH-PREPARATION.md:110` — **Correction réelle apportée pendant la recette** : le défaut d'en-tête staging sans guillemets était interprété comme un remplacement regex par Caddy. La valeur est désormais citée et le header reçu en HTTPS est testé. Les quatre fichiers de préparation initiaux sont conservés dans ’proxy-noindex-original-20261013/’, et les premières copies distantes ne sont pas écrasées (copies corrigées suffixées ’-v2’). Le générateur refuse maintenant d'écraser une configuration existante.
+- `docs/OVH-LAUNCH-PREPARATION.md:116` — **VALIDÉ** : adaptation Caddy des deux variantes, nft ’--check’, HTTPS local du mode fermé avec arabe/noindex, cinq chemins média 503, endpoints privés 404 et www 301. **NON TESTÉ** : application effective de la nouvelle table, trafic depuis les plages Cloudflare et pare-feu OVH. Les règles sont préparées, **jamais appliquées**. Ne pas lancer ’nft flush ruleset’ ni recharger aveuglément ’/etc/nftables.conf’.
+- `docs/OVH-LAUNCH-PREPARATION.md:155` — Obtenir un accord explicite pour une **recette publique du frontend seul, téléchargements fermés, noindex**, ou une nouvelle décision résolvant aussi les obstacles média. Ne pas confondre ces deux périmètres.
+- `docs/OVH-LAUNCH-PREPARATION.md:194` — 8. Vérifier depuis l'extérieur : certificat pour les deux noms, chaîne HTTPS complète, www 301, huit langues/RTL, canonical/hreflang/sitemap/404, noindex de recette, API média 503 et endpoints privés 404. Vérifier l'absence d'accès Internet direct à 3000/3001/8788/8789 et le maintien d'une seconde session SSH. Les médias restent fermés.
+- `docs/OVH-LAUNCH-PREPARATION.md:195` — 9. Une fois la recette publique approuvée, retirer uniquement l'en-tête global de staging ; conserver les noindex des pages non publiées et des endpoints techniques. Ne pas remplacer cet en-tête global par ’index, follow’ qui pourrait écraser d'autres headers techniques. Publier les guides uniquement après relecture et publication réellement constatée selon le rapport international.
+- `docs/OVH-LAUNCH-PREPARATION.md:231` — | Caddy noindex, fermeture médias et www | VALIDÉ après correction | ’vps-frontend-only-v2.json’ ; anciennes copies conservées |
+- `docs/VIDFETCH-ADSENSE-SEO-LOT2-20261027.md:42` — | 2 | 7 index de guides vides (« Les guides dans cette langue sont en cours de relecture ») liés depuis l'en-tête, le pied de page et l'accueil en fr, es, pt, id, de, it, ar | Production : ’/fr/guides’, ’/es/guias’… répondent 200, noindex, avec le message ’blogEmpty’. Les 7 accueils affichent une section « guides » sans aucun guide | AdSense 10015918 (pages manquantes ou non pertinentes) ; Publisher Policies (écrans « en construction » ou « de navigation ») | **Élevée, confirmée** | Lot 2 : 404, plus aucun lien, section masquée | Tests unitaires et verify-site (404 + liens) |
+- `docs/VIDFETCH-ADSENSE-SEO-LOT2-20261027.md:43` — | 3 | Pages « YouTube Video Downloader », « Instagram Reels Downloader », « Twitter / X Video Downloader » accessibles (200, noindex) avec la balise AdSense | ’/youtube-video-downloader’ etc. : H1 au nom de la plateforme, avertissement « disponibilité en cours de vérification » | AdSense 10015918 (« fausses allégations concernant du contenu téléchargeable ») ; règle n° 1 pour YouTube | **Élevée, confirmée** | Lot 2 : 404 | Tests unitaires, verify-site, fixture d'indexation |
+- `docs/VIDFETCH-ADSENSE-SEO-LOT2-20261027.md:44` — | 4 | Balise AdSense sur toutes les pages : 404, pages légales, brouillons noindex | ’layout.tsx’ charge le script sans condition | Publisher Policies 11112688 (pas d'annonces sur les pages d'erreur ni sur les écrans sans contenu) | **Moyenne, confirmée** | Lot 2 : balise seulement sur les pages indexables de contenu (accueils, pages TikTok, guides publiés) | ’showsAds’ testée sur toutes les pages ; verify-site vérifie accueil oui, page légale et 404 non |
+- `docs/VIDFETCH-ADSENSE-SEO-LOT2-20261027.md:132` —    Pages retirées (404, absentes du sitemap, déjà noindex) : 7 index de guides vides, plus les pages YouTube, Instagram et X.
+- `docs/VIDFETCH-ADSENSE-SEO-LOT2-20261027.md:236` —   - exactement 11 pages pré-rendues hors sitemap, toutes en noindex ;
+- `docs/VIDFETCH-CICD-ACTIVATION.md:11` — La release publique reste **’689c592141287a1ca1e45569a89e5d76f18133ed’**, sur **127.0.0.1:3001**. Authentification Basic, noindex, sitemap fermé et médias 503 sont conservés. Full (strict) est **confirmé par l'utilisateur dans la mission** ; aucun tableau de bord Cloudflare n'a été consulté ou modifié ici. Les certificats restent vérifiés par des clients TLS stricts.
+- `docs/VIDFETCH-CICD-ACTIVATION.md:26` —   → santé HTTP locale + TLS Caddy/auth/noindex/médias fermés
+- `docs/VIDFETCH-CICD-ACTIVATION.md:107` — Promotion : journal d'intention persistant → symlink atomique → redémarrage du seul frontend → contrôle ’/api/health’ du commit exact, accueil 200 et download 503 → contrôle TLS de Caddy, Basic 401, noindex, médias 503, sitemap 404 → pointeur précédent conservé. Échec : restauration atomique et nouvelle vérification de l'ancienne release. Une restauration elle-même défaillante laisse le journal pour récupération manuelle. Une coupure électrique/SIGKILL n'est pas assimilée à un rollback automatique garanti.
+- `docs/VIDFETCH-CICD-ACTIVATION.md:148` —    fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+- `docs/VIDFETCH-CICD-ACTIVATION.md:155` — 6. Contrôler le résumé, le commit annoncé sur ’/api/health’ local/authentifié, les huit langues, 401 anonyme, noindex, sitemap 404 et médias 503. Examiner ’journalctl -u vidfetch-web-preproduction-20261013.service’ sans publier les journaux bruts. Confirmer les PID moteur/passerelle inchangés.
+- `docs/VIDFETCH-CICD-ACTIVATION.md:158` — Ces étapes ne retirent **jamais** Basic, noindex ou le blocage des médias. La sortie du mode test constitue une mission séparée avec nouvelle autorisation.
+- `docs/VIDFETCH-CICD-ACTIVATION.md:178` — | Site public | **VALIDÉ**, huit parcours authentifiés, canonical/hreflang/RTL/404, **12 médias 503**, authentification/noindex/robots/redirects ; aucune erreur 521 |
+- `docs/VIDFETCH-CICD-ACTIVATION.md:209` — 3. Vérifier les pages protégées, noindex, médias 503, logs du frontend et santé locale. En cas d'échec de rollback, conserver le journal et examiner les releases avant toute intervention supplémentaire.
+- `docs/VIDFETCH-CICD-ARTIFACT-REUSE.md:64` — - HTTPS public : accueil **401 Basic**, **noindex, nofollow**, cache privé ; ’/api/download’ **503**. Certificats, Caddy, fichiers d'authentification, passerelle et moteur non modifiés.
+- `docs/VIDFETCH-CICD-ARTIFACT-REUSE.md:86` — 6. Contrôler activated=true, santé au nouveau SHA, Basic Auth/noindex/médias fermés, huit langues et PID moteur/passerelle/Caddy inchangés. Un résultat de test local ne remplace pas cette validation réelle.
+- `docs/VIDFETCH-DL-CERTIFICATE-OPTIONS.md:9` — - L'apex garde Basic Auth et noindex ; le proxy Cloudflare ne doit pas être activé sur ’dl’ (médias volumineux).
+- `docs/VIDFETCH-INTERNATIONAL-SEO.md:48` — Les huit index de guides restent noindex tant qu’aucun article n’est réellement publié dans leur langue. Les dix articles anglais restent accessibles, intégralement conservés, mais noindex tant que ’published’ est null. Les quatre anciennes URL plateformes restent informatives et noindex, sans promesse de téléchargement.
+- `docs/VIDFETCH-INTERNATIONAL-SEO.md:50` — Le sitemap ne contient que les 16 canonicals indexables et leurs annotations linguistiques. Il utilise les dates éditoriales enregistrées, pas la date du build. Les anciennes URL anglaises sont préservées ; les entrées d’articles jamais publiés et de fonctionnalités non validées sont retirées de l’indexation. Robots.txt et les exclusions techniques sont conservés. Les 404 ont un vrai statut 404, une interface localisée, noindex et aucune canonical racine héritée.
+- `docs/VIDFETCH-INTERNATIONAL-SEO.md:81` — Le script sauvegarde le fichier précédent, contrôle la provenance et enregistre la relecture du jour UTC. Il laisse la date de publication à null. Une version approuvée peut alors être servie pour recette, toujours noindex sans publication. Aucun script de build ou CI n’approuve les contenus.
+- `docs/VIDFETCH-LANCEMENT-PUBLIC.md:15` — - plus de Basic Auth ni de ’noindex’ global ;
+- `docs/VIDFETCH-LANCEMENT-PUBLIC.md:17` — - ’noindex’ est conservé sur ’/api/*’, ’/auth/*’ et ’/download-helper’.
+- `docs/VIDFETCH-LANCEMENT-PUBLIC.md:28` — **Promoteur CI** : profil ’public’. Il exige l'apex indexable sans identifiants, des téléchargements annoncés fermés, et toutes les routes médias, API et auth fermées et en ’noindex’. Sans ce profil, aucun déploiement CI ni ’rollback.py’ ne passerait une fois l'apex public. Les profils ’closed’ et ’media-test’ restent inchangés.
+- `docs/VIDFETCH-LANCEMENT-PUBLIC.md:42` — Les 22 autres pages sont volontairement en ’noindex, follow’ et hors du sitemap :
+- `docs/VIDFETCH-LANCEMENT-PUBLIC.md:121` —   - ’sitemap: 16 URL(s) checked: 200, no credentials, no noindex, self-canonical’ ;
+- `docs/VIDFETCH-LANCEMENT-PUBLIC.md:130` — - **Retour arrière** : ’sudo bash 05-cancel.sh’, avant ou après confirmation. Basic Auth et ’noindex’ reviennent aussitôt, le profil CI repasse à ’closed’, le réseau reste inchangé et le certificat de ’dl’ est conservé.
+- `docs/VIDFETCH-LANCEMENT-PUBLIC.md:174` — Ne soumettez ni les pages en ’noindex’, ni ’/api/’, ni ’dl.vidfetch.app’.
+- `docs/VIDFETCH-LANCEMENT-PUBLIC.md:205` — | ’caddy-gating/’ (CI, Caddy 2.11.7 réel) | apex public sans en-tête ’noindex’, ’robots.txt’ et sitemap transmis au frontend, routes médias fermées, ’dl’ inchangé |
+- `docs/VIDFETCH-LANCEMENT-PUBLIC.md:209` — | ’public-indexing.test.sh’ (sur demande, Next réel derrière Caddy réel) | exactement les URL indexables et ’noindex’ de ’fixtures/public-indexing-expected.json’, hreflang attendus, téléchargements fermés |
+- `docs/VIDFETCH-MEDIA-GO-LIVE.md:5` — **La release publique demeure ’f23ca65b0865ed771bf80a95de8e2a0de1ba45f1’. Aucun déploiement public, changement DNS, secret ou service permanent. Basic Auth, noindex et médias 503 conservés.** Les fixtures temporaires sont arrêtées ; leurs fichiers sont conservés. Les modifications frontend ci-dessous sont locales.
+- `docs/VIDFETCH-MEDIA-GO-LIVE.md:35` — | Caddy | actif, PID 39987 ; Basic Auth + noindex |
+- `docs/VIDFETCH-MEDIA-GO-LIVE.md:61` — - Apex : Basic Auth et noindex conservés ; autorise uniquement le passage de ’/api/download-access’ à Next.js. Autres routes médias du site toujours 503 ; administration/sitemap toujours fermés.
+- `docs/VIDFETCH-MEDIA-GO-LIVE.md:66` — - ’noindex’, cache privé et Referrer-Policy sans référent sur les médias ; pas de journal d'accès contenant tickets/URL. Autorisation, Cookie et preuves filtrés dans les erreurs.
+- `docs/VIDFETCH-MEDIA-GO-LIVE.md:206` — Avant toute recette média active : prévoir une révision administrative du profil de santé et du garde, tests associés, empreintes actualisées après revue. Conserver Basic/noindex, le refus anonyme et le blocage des médias sur l'apex. Faire les opérations backend/Caddy via l'administrateur, séparément de l'artefact frontend. **Ne jamais contourner le garde en le supprimant.**
+- `docs/VIDFETCH-MEDIA-GO-LIVE.md:218` — 9. Activer ready=1 pour la **recette protégée** seulement après cohérence site/gateway/clé/Turnstile/domaine. Redémarrer uniquement le frontend. Vérifier que l'apex reste Basic/noindex et que les non-testeurs sont refusés sur ’dl’.
+- `docs/VIDFETCH-MEDIA-GO-LIVE.md:220` — 11. Vérifier le rollback avant de rouvrir le garde CI et la variable. La levée de Basic Auth, du noindex ou de la liste des testeurs exige une mission et une autorisation distinctes.
+- `docs/VIDFETCH-MEDIA-GO-LIVE.md:226` — Après une future activation : fermer immédiatement l'accès média par le blocage Caddy préalablement sauvegardé, conserver Basic/noindex, puis remettre ready=0. Préserver SSH. Restaurer la configuration de passerelle et son audience précédente, sans effacer SQLite ; redémarrer uniquement les composants modifiés et après arrêt contrôlé des transferts. Restaurer Caddy/ingress depuis les sauvegardes exactes validées ; ne pas supprimer les certificats ou anciennes releases.
+- `docs/VIDFETCH-MEDIA-TEST-ROLLBACK.md:32` — | 3 | **Caddy.** Restaurer le Caddyfile sauvegardé, ’caddy validate’, puis reload de ’vidfetch-caddy.service’ | retour à Basic Auth + noindex + médias 503, sans bloc ’dl’ actif | apex : ’/’ 401, ’/api/download’ 503, ’/api/fetch-info’ 503, sitemap 404 |
+- `docs/VIDFETCH-OUVERTURE-TELECHARGEMENTS.md:34` — - les en-têtes ’no-referrer’, ’noindex’ et ’no-store’ ;
+- `docs/VIDFETCH-PHASE10-ADMIN-RUNBOOK.md:94` — Crée uniquement ’ingress.nft.media-test’, ’media-test-ips.env’, ’Caddyfile.media-test’ ; fait ’nft --check’, ’caddy validate’ (compte ’vidfetch-proxy’), vérifie que Basic Auth et noindex sont présents ; refuse la liste factice, tout ce qui n'est pas /32, une somme SHA incorrecte. Rien ne les référence : aucune règle ni service modifié. Retour arrière : ’sudo rm /etc/vidfetch/public-https-test/{ingress.nft.media-test,media-test-ips.env,Caddyfile.media-test}’.
+- `docs/VIDFETCH-PHASE10-ADMIN-RUNBOOK.md:109` — 4. Apex inchangé : ’curl -sI https://vidfetch.app/’ → ’401’ + ’x-robots-tag: noindex’.
+- `docs/VIDFETCH-PHASE10-ADMIN-RUNBOOK.md:124` — Attendu : chaîne TLS vérifiée strictement, ’dl’ : routes non listées 404, POST anonyme refusé, en-têtes ’no-referrer’ / ’noindex’ / ’no-store’, apex 401 + routes médias 503, accès **direct** à l'apex (hors Cloudflare) 403. Sur le VPS : ’curl -s --resolve vidfetch.app:443:127.0.0.1 -o /dev/null -w '%{http_code}\n' https://vidfetch.app/’ → ’401’ (les contrôles locaux de la CI passent par le loopback, autorisé exprès).
+- `docs/VIDFETCH-PHASE9-ACTIVATION.md:5` — **Aucun push, fusion, déploiement, changement DNS/Cloudflare/VPS n'a été réalisé. Basic Auth, noindex et médias publics 503 inchangés.**
+- `docs/VIDFETCH-PHASE9-ACTIVATION.md:84` — ’deploy/ovh/ci/promote.py’ : le profil est **désactivé par défaut**. Il n'existe que si root crée ’/etc/vidfetch/ci-media-test-profile.json’ avec exactement ’{"profile":"media-test","apex":"basic-auth-noindex","dl":"testers-only"}’ (fichier root, non inscriptible par groupe/autres ; tout autre contenu refuse le déploiement).
+- `docs/VIDFETCH-PHASE9-ACTIVATION.md:90` — | Apex | 401 Basic + noindex, ’/api/download’, ’/api/fetch-info’ 503, sitemap 404 | tout cela **plus** ’POST/GET /api/download-access’ = 401, ’/api/queue’, ’/auth/transfer’, ’/download-helper’ = 503 |
+- `docs/VIDFETCH-PUBLIC-HTTPS-TEST.md:30` — Les réponses portent ’X-Robots-Tag: noindex, nofollow’, ’Cache-Control: private, no-store, max-age=0’, ’nosniff’ et la politique Referrer adaptée. Cela inclut les erreurs d'authentification. Les pages Next ne peuvent pas remplacer ces headers par leur cache de prerender. Les réponses authentifiées contrôlées ne sont pas servies depuis un cache Cloudflare HIT ; un nouvel appel anonyme après consultation authentifiée reste 401.
+- `docs/VIDFETCH-PUBLIC-HTTPS-TEST.md:90` — | Langue | Route | HTML serveur / mobile / sélecteur / canonical / hreflang / noindex / 404 |
+- `docs/VIDFETCH-PUBLIC-HTTPS-TEST.md:106` — - Authentification absente/incorrecte : **401** ; headers noindex et no-store sur les refus.
+- `docs/VIDFETCH-PUBLIC-HTTPS-TEST.md:177` — 4. Décider séparément de la fin de la protection de test et de l'indexation. Ne pas enlever l'authentification/noindex ni publier les articles en relecture pendant cette phase.
+- `docs/VIDFETCH-PUBLIC-HTTPS-TEST.md:194` — | Authentification, noindex, cache privé, sitemap fermé | **VALIDÉ** | 401 anonyme/incorrect, huit HTML 200 protégés, sitemap 404 |
+- `docs/VIDFETCH-RECETTE-PRIVEE.md:8` — - Basic Auth, noindex et routes médias de l'apex restent en place du début à la fin. ’VIDFETCH_DEPLOY_ENABLED’ vaut ’false’, sauf pendant la commande ’deploy’ de l'étape 1.
+- `docs/VIDFETCH-RECETTE-PRIVEE.md:54` — - **Contrôle** : le run se termine par ’"validated": true, "activated": true’ ; ’curl -sI https://vidfetch.app/’ répond 401 avec ’x-robots-tag: noindex’.
+- `docs/VIDFETCH-RECETTE-PRIVEE.md:141` — Uniquement après ’04-confirm.sh’. Le script refuse tant que la minuterie réseau est armée, si les règles réseau ne sont plus celles qui ont été confirmées, si Caddy ne pointe plus sur sa configuration d'origine, ou si l'apex n'est pas déjà protégé (401, noindex, routes médias 503, sitemap 404, vérifiés sur le VPS en TLS strict).
+- `docs/VIDFETCH-RECETTE-PRIVEE.md:152` — - **Quand tout est vert** : ’sudo bash 05-confirm.sh --external-checks-passed’. Depuis le VPS, en TLS strict par le loopback, il vérifie que ’dl’ présente un certificat de confiance et refuse un non-testeur (403) sur toutes ses routes, avec noindex et no-referrer. Il vérifie aussi que l'apex garde Basic Auth, noindex, ses routes médias fermées et son sitemap en 404, que Caddy tourne sur la bonne configuration avec le bon drop-in, et que les règles réseau confirmées sont intactes. Il ne désarme la minuterie que si tout est conforme.
+- `docs/VIDFETCH-SEO-GEO-AUDIT-20261021.md:25` — | Historical English landings (’/tiktok-video-downloader’, ’/instagram-reels-downloader’, ’/twitter-video-downloader’, ’/youtube-video-downloader’) | 200 | **noindex** | title "… — Platform availability is being verified", 138–169 words |
+- `docs/VIDFETCH-SEO-GEO-AUDIT-20261021.md:26` — | ’/blog’ and 10 English guides | 200 | **noindex** | the guides are ’ready’ but have no ’published’ date |
+- `docs/VIDFETCH-SEO-GEO-AUDIT-20261021.md:29` — | ’/fr/blog’, unknown paths, ’/en’ | 404 | ’noindex’ | correct |
+- `docs/VIDFETCH-SEO-GEO-AUDIT-20261021.md:57` — | OK | Lighthouse SEO, accessibility and best practices: 100. No ’noindex’ on indexable pages; no blocked resources. | Lighthouse | — |
+- `docs/VIDFETCH-SEO-GEO-AUDIT-20261021.md:169` — - unapproved pages stay ’noindex’ or 404;
+- `functions/api/[[path]].js:61` —   const headers = new Headers();
+- `functions/api/[[path]].js:88` —   const responseHeaders = new Headers(upstream.headers);
+- `next.config.ts:79` —     // Static exports have no server to run headers(); Pages reads ’out/_headers’ instead,
+- `next.config.ts:82` —       async headers() {
+- `next.config.ts:88` —           { source: "/_next/:path*", headers: [{ key: "X-Robots-Tag", value: "noindex" }] },
+- `scripts/build-pages.mjs:20` — const HEADERS = ’# Written by scripts/build-pages.mjs — mirrors headers() from next.config.ts.
+- `scripts/build-pages.mjs:45` —  * declare canonicals on the production domain. Marking them noindex keeps them
+- `scripts/build-pages.mjs:48` — const NOINDEX = ’
+- `scripts/build-pages.mjs:51` —   X-Robots-Tag: noindex, nofollow
+- `scripts/build-pages.mjs:117` — await writeFile(join(OUT_DIR, "_headers"), isPreview ? HEADERS + NOINDEX : HEADERS);
+- `scripts/build-pages.mjs:118` — if (isPreview) console.log(’[vidfetch] Preview branch "${branch}": the export is marked noindex.’);
+- `scripts/i18n/verify-site.mjs:64` —       title: document.title, description: document.querySelector('meta[name=description]')?.content, robots: document.querySelector('meta[name=robots]')?.content,
+- `scripts/i18n/verify-site.mjs:71` —     assert.equal(/noindex/.test(data.robots ?? ''), !indexable, path);
+- `scripts/i18n/verify-site.mjs:170` —     assert.ok(robotsTags.length && robotsTags.every(value => /noindex/.test(value)));
+- `scripts/measure-performance.mjs:24` —       const length = Number(response.headers()["content-length"] ?? 0) || (await response.body().catch(() => Buffer.alloc(0))).length;
+- `scripts/ovh/verify-preproduction.mjs:30` —     const noindex=await dom.locator('meta[name=robots]').evaluate(element=>/noindex/.test(element.content));
+- `scripts/ovh/verify-preproduction.mjs:31` —     assert.equal(noindex,!indexed.includes(path),path);
+- `scripts/ovh/verify-preproduction.mjs:34` —     report.pages.push({path,status:200,indexable:!noindex});
+- `scripts/ovh/verify-preproduction.mjs:61` —     const tags=await page.locator('meta[name=robots]').evaluateAll(nodes=>nodes.map(node=>node.content));assert.ok(tags.every(value=>/noindex/.test(value)));
+- `scripts/ovh/verify-public-test.mjs:42` —     assert.match(response.headers.get('x-robots-tag') ?? '', /noindex/);
+- `scripts/ovh/verify-public-test.mjs:80` —     assert.match(response.headers.get('x-robots-tag') ?? '', /noindex/);
+- `scripts/ovh/verify-public-test.mjs:112` —     report.locales.push({ locale, path, status: 200, SSR: true, canonical: true, reciprocalHreflang: true, mobile: true, selector: true, localizedUnavailable: true, localized404: true, rtl: locale === 'ar', noindex: true, privateNoStore: true });
+- `scripts/ovh/verify-site.mjs:33` — const missing = await (await fetch(base + '/blog/nonexistent')).text(); assert.match(missing, /noindex/);
+- `scripts/ovh/verify-site.mjs:43` — checked('404/noindex, sitemap/robots, degraded APIs 503, unsupported method 405');
+- `scripts/preview-pages.mjs:54` —   const headers = new Headers();
+- `src/app/(site)/[[...segments]]/page.tsx:8` — export async function generateMetadata({ params }: { params: Promise<{ segments?: string[] }> }) {
+- `src/app/(site)/[[...segments]]/page.tsx:12` —   return { title: { absolute: ’${d.notFoundTitle} | VidFetch’ }, description: d.notFoundDescription, robots: { index: false, follow: true } };
+- `src/app/manifest.ts:32` —     // still a draft or noindex, and never YouTube, which is blocked on our hosting.
+- `src/components/FetchForm.tsx:217` —                   <a href={detection.url} target="_blank" rel="noopener noreferrer nofollow" className="text-red-200 underline-offset-4 hover:text-white hover:underline">{d.original}</a>
+- `src/components/VideoCard.tsx:224` —           <a href={info.url} target="_blank" rel="noopener noreferrer nofollow"
+- `src/lib/adsense.ts:26` —  * published guides). Never a 404, a noindex draft or the legal page: Google Publisher Policies exclude ads on screens
+- `src/lib/localized-seo.ts:20` —     robots: { index: page.indexable, follow: true },
+- `src/lib/secure-client.ts:48` —     const headers = new Headers(init.headers); headers.set("Authorization", ’Bearer ${grant}’); headers.set("X-VidFetch-Proof", await this.proof(method, path, body, grant));
+- `src/lib/site-pages.ts:21` —   // Only approved platform pages exist: an unverified platform (YouTube, Instagram, X) has no page, not even noindex.
+- `tests/adsense.test.ts:11` —   // in the head of the content pages only (showsAds: never a 404, a noindex draft or the legal page)
+- `tests/home-navigation.test.ts:167` —   it("loads the tag on content pages only: never on a 404, a noindex draft or the legal page", () => {
+- `tests/seo-pages.test.ts:130` —     // an unverified platform has no page at all (404), not even a noindex one that names it

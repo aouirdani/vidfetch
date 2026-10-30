@@ -1,0 +1,286 @@
+{
+  "bundles": [
+    {
+      "page": "/",
+      "branch": "main",
+      "jsRaw": 609168,
+      "jsGzip": 190967,
+      "files": 10
+    },
+    {
+      "page": "/",
+      "branch": "pr",
+      "jsRaw": 609182,
+      "jsGzip": 191146,
+      "files": 10
+    },
+    {
+      "page": "/fr/tiktok-en-mp3",
+      "branch": "main",
+      "jsRaw": 609168,
+      "jsGzip": 190967,
+      "files": 10
+    },
+    {
+      "page": "/fr/tiktok-en-mp3",
+      "branch": "pr",
+      "jsRaw": 609182,
+      "jsGzip": 191146,
+      "files": 10
+    },
+    {
+      "page": "/blog/mp4-vs-webm",
+      "branch": "main",
+      "jsRaw": 609168,
+      "jsGzip": 190967,
+      "files": 10
+    },
+    {
+      "page": "/blog/mp4-vs-webm",
+      "branch": "pr",
+      "jsRaw": 609182,
+      "jsGzip": 191146,
+      "files": 10
+    },
+    {
+      "page": "/id/download-video-tiktok",
+      "branch": "pr",
+      "jsRaw": 609182,
+      "jsGzip": 191146,
+      "files": 10
+    }
+  ],
+  "runs": [
+    {
+      "page": "/",
+      "branch": "main",
+      "run": 0,
+      "lcp": 2806.9275,
+      "cls": 0,
+      "tbt": 44,
+      "score": 0.9,
+      "lighthouse": "13.6.0",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+    },
+    {
+      "page": "/",
+      "branch": "pr",
+      "run": 0,
+      "lcp": 822.359,
+      "cls": 0,
+      "tbt": 51.50000000000023,
+      "score": 1,
+      "lighthouse": "13.6.0",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+    },
+    {
+      "page": "/",
+      "branch": "main",
+      "run": 1,
+      "lcp": 814.54365,
+      "cls": 0,
+      "tbt": 67.5,
+      "score": 1,
+      "lighthouse": "13.6.0",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+    },
+    {
+      "page": "/",
+      "branch": "pr",
+      "run": 1,
+      "lcp": 825.8303,
+      "cls": 0,
+      "tbt": 52,
+      "score": 1,
+      "lighthouse": "13.6.0",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+    },
+    {
+      "page": "/",
+      "branch": "main",
+      "run": 2,
+      "lcp": 818.1093,
+      "cls": 0,
+      "tbt": 46,
+      "score": 1,
+      "lighthouse": "13.6.0",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+    },
+    {
+      "page": "/",
+      "branch": "pr",
+      "run": 2,
+      "lcp": 815.0884,
+      "cls": 0,
+      "tbt": 37,
+      "score": 1,
+      "lighthouse": "13.6.0",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+    },
+    {
+      "page": "/fr/tiktok-en-mp3",
+      "branch": "main",
+      "run": 0,
+      "lcp": 819.63265,
+      "cls": 0,
+      "tbt": 41,
+      "score": 1,
+      "lighthouse": "13.6.0",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+    },
+    {
+      "page": "/fr/tiktok-en-mp3",
+      "branch": "pr",
+      "run": 0,
+      "lcp": 814.63335,
+      "cls": 0,
+      "tbt": 39.5,
+      "score": 1,
+      "lighthouse": "13.6.0",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+    },
+    {
+      "page": "/fr/tiktok-en-mp3",
+      "branch": "main",
+      "run": 1,
+      "lcp": 819.85095,
+      "cls": 0,
+      "tbt": 41,
+      "score": 1,
+      "lighthouse": "13.6.0",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+    },
+    {
+      "page": "/fr/tiktok-en-mp3",
+      "branch": "pr",
+      "run": 1,
+      "lcp": 813.95465,
+      "cls": 0,
+      "tbt": 39,
+      "score": 1,
+      "lighthouse": "13.6.0",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+    },
+    {
+      "page": "/fr/tiktok-en-mp3",
+      "branch": "main",
+      "run": 2,
+      "lcp": 809.9068,
+      "cls": 0,
+      "tbt": 39,
+      "score": 1,
+      "lighthouse": "13.6.0",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+    },
+    {
+      "page": "/fr/tiktok-en-mp3",
+      "branch": "pr",
+      "run": 2,
+      "lcp": 820.6139,
+      "cls": 0,
+      "tbt": 38,
+      "score": 1,
+      "lighthouse": "13.6.0",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+    },
+    {
+      "page": "/blog/mp4-vs-webm",
+      "branch": "main",
+      "run": 0,
+      "lcp": 821.83125,
+      "cls": 0,
+      "tbt": 39,
+      "score": 1,
+      "lighthouse": "13.6.0",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+    },
+    {
+      "page": "/blog/mp4-vs-webm",
+      "branch": "pr",
+      "run": 0,
+      "lcp": 814.31465,
+      "cls": 0,
+      "tbt": 44,
+      "score": 1,
+      "lighthouse": "13.6.0",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+    },
+    {
+      "page": "/blog/mp4-vs-webm",
+      "branch": "main",
+      "run": 1,
+      "lcp": 816.88825,
+      "cls": 0,
+      "tbt": 40,
+      "score": 1,
+      "lighthouse": "13.6.0",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+    },
+    {
+      "page": "/blog/mp4-vs-webm",
+      "branch": "pr",
+      "run": 1,
+      "lcp": 812.79685,
+      "cls": 0,
+      "tbt": 37.5,
+      "score": 1,
+      "lighthouse": "13.6.0",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+    },
+    {
+      "page": "/blog/mp4-vs-webm",
+      "branch": "main",
+      "run": 2,
+      "lcp": 812.19355,
+      "cls": 0,
+      "tbt": 37,
+      "score": 1,
+      "lighthouse": "13.6.0",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+    },
+    {
+      "page": "/blog/mp4-vs-webm",
+      "branch": "pr",
+      "run": 2,
+      "lcp": 819.612,
+      "cls": 0,
+      "tbt": 46.5,
+      "score": 1,
+      "lighthouse": "13.6.0",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+    },
+    {
+      "page": "/id/download-video-tiktok",
+      "branch": "pr",
+      "run": 0,
+      "lcp": 823.38625,
+      "cls": 0,
+      "tbt": 44,
+      "score": 1,
+      "lighthouse": "13.6.0",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+    },
+    {
+      "page": "/id/download-video-tiktok",
+      "branch": "pr",
+      "run": 1,
+      "lcp": 814.72015,
+      "cls": 0,
+      "tbt": 40.5,
+      "score": 1,
+      "lighthouse": "13.6.0",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+    },
+    {
+      "page": "/id/download-video-tiktok",
+      "branch": "pr",
+      "run": 2,
+      "lcp": 820.85755,
+      "cls": 0,
+      "tbt": 41,
+      "score": 1,
+      "lighthouse": "13.6.0",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+    }
+  ]
+}

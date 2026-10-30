@@ -1,0 +1,559 @@
+[
+  {
+    "path": "/",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/blog",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/legal",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/blog/720p-1080p-4k",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/blog/backup-your-videos",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/blog/bitrate-vs-resolution",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/blog/h264-h265-av1",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/blog/mp3-vs-m4a",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/blog/mp4-vs-webm",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/blog/reduce-video-size",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/blog/save-tiktok-phone-gallery",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/blog/save-tiktok-sound-mp3",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/blog/video-download-fails",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/blog/video-format-smartphone",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/blog/video-to-audio",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/blog/why-cant-i-save-tiktok",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/tiktok-video-downloader",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/tiktok-to-mp3",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/fr",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/fr/guides",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/fr/mentions-legales",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/fr/guides/enregistrer-tiktok-galerie-iphone-android",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/fr/guides/recuperer-son-tiktok-mp3",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/fr/guides/pourquoi-impossible-enregistrer-tiktok",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/fr/telecharger-video-tiktok",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/fr/tiktok-en-mp3",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/es",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/es/aviso-legal",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/es/descargar-video-tiktok",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/es/tiktok-a-mp3",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/pt",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/pt/termos-e-privacidade",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/pt/baixar-video-tiktok",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/pt/tiktok-para-mp3",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/id",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/id/ketentuan-dan-privasi",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/id/download-video-tiktok",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/id/tiktok-ke-mp3",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/de",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/de/rechtliches",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/de/tiktok-video-herunterladen",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/de/tiktok-zu-mp3",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/it",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/it/note-legali",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/it/scaricare-video-tiktok",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/it/tiktok-in-mp3",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/ar",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/ar/الشروط-والخصوصية",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/ar/tahmil-video-tiktok",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/ar/tiktok-mp3",
+    "status": 200,
+    "xRobots": [],
+    "robots": [
+      "index, follow"
+    ],
+    "h1": 1
+  },
+  {
+    "path": "/fr/",
+    "status": 301,
+    "xRobots": [],
+    "robots": [],
+    "h1": 0
+  },
+  {
+    "path": "/es/",
+    "status": 301,
+    "xRobots": [],
+    "robots": [],
+    "h1": 0
+  },
+  {
+    "path": "/pt/",
+    "status": 301,
+    "xRobots": [],
+    "robots": [],
+    "h1": 0
+  },
+  {
+    "path": "/id/",
+    "status": 301,
+    "xRobots": [],
+    "robots": [],
+    "h1": 0
+  },
+  {
+    "path": "/de/",
+    "status": 301,
+    "xRobots": [],
+    "robots": [],
+    "h1": 0
+  },
+  {
+    "path": "/it/",
+    "status": 301,
+    "xRobots": [],
+    "robots": [],
+    "h1": 0
+  },
+  {
+    "path": "/ar/",
+    "status": 301,
+    "xRobots": [],
+    "robots": [],
+    "h1": 0
+  },
+  {
+    "path": "/robots.txt",
+    "status": 200,
+    "xRobots": [],
+    "robots": [],
+    "h1": 0
+  },
+  {
+    "path": "/sitemap.xml",
+    "status": 200,
+    "xRobots": [],
+    "robots": [],
+    "h1": 0
+  },
+  {
+    "path": "/seo-review-missing-73a6",
+    "status": 404,
+    "xRobots": [],
+    "robots": [
+      "noindex"
+    ],
+    "h1": 0
+  },
+  {
+    "variant": "https://www.vidfetch.app/id/",
+    "statuses": [
+      "301",
+      "200"
+    ]
+  },
+  {
+    "variant": "http://vidfetch.app/id/",
+    "statuses": [
+      "301",
+      "200"
+    ]
+  },
+  {
+    "variant": "http://www.vidfetch.app/fr/tiktok-en-mp3/",
+    "statuses": [
+      "301",
+      "200"
+    ]
+  },
+  {
+    "variant": "https://vidfetch.app/id/",
+    "statuses": [
+      "301",
+      "200"
+    ]
+  },
+  {
+    "variant": "https://www.vidfetch.app/",
+    "statuses": [
+      "301",
+      "200"
+    ]
+  }
+]

@@ -1,0 +1,101 @@
+{
+  "conclusion": "success",
+  "jobs": [
+    {
+      "conclusion": "success",
+      "name": "build",
+      "steps": [
+        {
+          "conclusion": "success",
+          "name": "Set up job"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run npm ci --ignore-scripts"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run npm run lint"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run npm run typecheck"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run npm test"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run npm run test:backend"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run node backend/gateway/run-tests.mjs"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run node backend/gateway/run-load.mjs"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run python3 -m unittest discover -s deploy/ovh/tests -v"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run npm run check:release"
+        },
+        {
+          "conclusion": "success",
+          "name": "Linux standalone frontend and checked engines (no production secrets)"
+        },
+        {
+          "conclusion": "success",
+          "name": "Public indexing through real Caddy and the actual release artifact"
+        },
+        {
+          "conclusion": "success",
+          "name": "Install isolated browser for local multilingual checks"
+        },
+        {
+          "conclusion": "success",
+          "name": "SEO invariants for every sitemap URL"
+        },
+        {
+          "conclusion": "success",
+          "name": "Server HTML, eight languages, RTL and unchanged API paths"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683"
+        },
+        {
+          "conclusion": "success",
+          "name": "Complete job"
+        }
+      ]
+    },
+    {
+      "conclusion": "skipped",
+      "name": "deploy",
+      "steps": []
+    }
+  ],
+  "status": "completed"
+}
