@@ -4,8 +4,8 @@
   "description": "Compare MP4 and WebM containers, playback compatibility and file size, with practical advice for keeping or sharing your own videos.",
   "category": "Video formats",
   "created": "2026-10-12",
-  "updated": "2026-10-12",
-  "published": null,
+  "updated": "2026-10-29",
+  "published": "2026-10-29",
   "status": "ready",
   "related": [
     "h264-h265-av1",
@@ -21,7 +21,8 @@
       "title": "WebM container guidelines",
       "url": "https://www.webmproject.org/docs/container/"
     }
-  ]
+  ],
+  "seoTitle": "MP4 vs WebM: choosing a video format"
 }
 ---
 MP4 is a sensible starting point when you need a file to play across many devices. WebM can suit web delivery when you know the receiving browser supports its contents. Neither extension, by itself, tells you the image quality. Check the video codec, audio codec and the device that will play the file.

@@ -4,8 +4,8 @@
   "description": "Understand how pixels, data rate, duration and codecs work together, with a simple size calculation and examples for choosing a video.",
   "category": "Video quality",
   "created": "2026-10-12",
-  "updated": "2026-10-12",
-  "published": null,
+  "updated": "2026-10-29",
+  "published": "2026-10-29",
   "status": "ready",
   "related": [
     "720p-1080p-4k",
@@ -21,7 +21,8 @@
       "title": "FFmpeg: bitrate options",
       "url": "https://www.ffmpeg.org/ffmpeg.html"
     }
-  ]
+  ],
+  "seoTitle": "Bitrate vs resolution: video quality and size"
 }
 ---
 Resolution describes how many pixels a frame contains. Bitrate describes how much data is used per second. Both affect a video, but they are not interchangeable. A high-resolution file with too little data for its scene can look worse than a lower-resolution file with a more suitable encoding. Duration is the other essential number when estimating size.

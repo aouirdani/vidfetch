@@ -4,8 +4,7 @@ export function proxy(request: NextRequest) {
   // A plain URL, not request.nextUrl: NextURL re-applies the request's own trailing-slash state when it is
   // serialised, which turned both redirects below into a redirect to the very same URL (an endless loop).
   const url = new URL(request.url), path = url.pathname;
-  if (/^\/(?:fr|es|pt|id|de|it|ar)$/.test(path)) { url.pathname = path + "/"; return NextResponse.redirect(url, 308); }
-  if (path !== "/" && path.endsWith("/") && !/^\/(?:fr|es|pt|id|de|it|ar)\/$/.test(path)) { url.pathname = path.replace(/\/+$/, ""); return NextResponse.redirect(url, 308); }
+  if (path !== "/" && path.endsWith("/")) { url.pathname = path.replace(/\/+$/, ""); return NextResponse.redirect(url, 301); }
   return NextResponse.next();
 }
 export const config = { matcher: ["/((?!api|auth|download-helper|_next|sitemap.xml|robots.txt|manifest.webmanifest).*)"] };

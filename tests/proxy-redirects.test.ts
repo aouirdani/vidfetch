@@ -13,18 +13,18 @@ function target(path: string) {
 describe("canonical URL redirects", () => {
   for (const home of ["fr", "es", "pt", "id", "de", "it", "ar"]) {
     it(`/${home} redirects once to /${home}/`, () => {
-      assert.deepEqual(target(`/${home}`), { status: 308, location: `https://vidfetch.app/${home}/` });
+      assert.deepEqual(target(`/${home}/`), { status: 301, location: `https://vidfetch.app/${home}` });
     });
   }
   for (const [from, to] of [["/legal/", "/legal"], ["/fr/mentions-legales/", "/fr/mentions-legales"], ["/blog//", "/blog"]]) {
     it(`${from} redirects once to ${to}`, () => {
-      assert.deepEqual(target(from), { status: 308, location: `https://vidfetch.app${to}` });
+      assert.deepEqual(target(from), { status: 301, location: `https://vidfetch.app${to}` });
     });
   }
   it("keeps the query string", () => {
-    assert.deepEqual(target("/de?x=1"), { status: 308, location: "https://vidfetch.app/de/?x=1" });
+    assert.deepEqual(target("/de/?x=1"), { status: 301, location: "https://vidfetch.app/de?x=1" });
   });
-  for (const canonical of ["/", "/fr/", "/legal", "/fr/mentions-legales", "/ar/"]) {
+  for (const canonical of ["/", "/fr", "/legal", "/fr/mentions-legales", "/ar"]) {
     it(`${canonical} is served without a redirect`, () => {
       assert.equal(target(canonical).location, null);
     });

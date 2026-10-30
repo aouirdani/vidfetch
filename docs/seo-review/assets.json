@@ -1,0 +1,37 @@
+[
+  {
+    "path": "/ads.txt",
+    "status": 200,
+    "sameGitBlob": true
+  },
+  {
+    "path": "/favicon.ico",
+    "status": 200,
+    "sameGitBlob": true
+  },
+  {
+    "path": "/icon.svg",
+    "status": 200,
+    "sameGitBlob": true
+  },
+  {
+    "path": "/og-image-v2.jpg",
+    "status": 200,
+    "sameGitBlob": true
+  },
+  {
+    "path": "/og-image-v3.jpg",
+    "status": 200,
+    "sameGitBlob": true
+  },
+  {
+    "path": "/og-image.jpg",
+    "status": 200,
+    "sameGitBlob": true
+  },
+  {
+    "path": "/og-image.svg",
+    "status": 200,
+    "sameGitBlob": true
+  }
+]

@@ -59,6 +59,14 @@
         }
     }
 }
+# Explicit 301 rather than the automatic HTTPS redirect status.
+http://vidfetch.app, http://www.vidfetch.app {
+    route {
+        uri path_regexp /+$ ""
+        redir https://vidfetch.app{uri} 301
+    }
+}
+
 vidfetch.app {
     import http01
     import public_headers
@@ -114,7 +122,10 @@ vidfetch.app {
 www.vidfetch.app {
     import http01
     import public_headers
-    redir https://vidfetch.app{uri} 301
+    route {
+        uri path_regexp /+$ ""
+        redir https://vidfetch.app{uri} 301
+    }
 }
 
 # Public: DNS-only record, public certificate, public ingress with per-address connection limits (public-dl-ingress.py).

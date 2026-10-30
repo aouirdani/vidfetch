@@ -1,0 +1,182 @@
+{
+  "en": {
+    "title": "TikTok Downloader – Save MP4 or MP3 | VidFetch",
+    "description": "TikTok downloader for public videos: save MP4 or MP3 free, without an account. App share links accepted. Up to 256 MB and 30 minutes; quotas apply.",
+    "heroTitle": "TikTok downloader",
+    "heroAccent": "for MP4 video and MP3 audio",
+    "sections": [
+      {
+        "heading": "Choose what you need before downloading",
+        "paragraphs": [
+          "A saved tutorial is easier to use when you know whether you need its pictures. MP4 keeps the image and soundtrack together: choose it for demonstrations, captions that are part of the picture, or a sequence of movements. MP3 keeps audio only. It suits a spoken explanation, but cannot preserve text shown silently on screen. Listen to the original before choosing audio; conversion keeps the existing mix of music, speech and effects rather than separating them.",
+          "Paste the Share link of one authorised public video. Use the tool pages below for the separate MP4 and MP3 instructions."
+        ]
+      },
+      {
+        "heading": "Prepare your phone and check the result",
+        "paragraphs": [
+          "Keep enough free storage and leave the tab open while the file is prepared and transferred. Browser downloads normally appear in a downloads folder; saving a video does not always add it to Photos or the gallery. Open the completed file from your file manager before starting another request. Check that it plays to the end. A partially downloaded file is not a usable backup.",
+          "The maximum is 256 MB and 30 minutes per media item. Usage quotas and limits on simultaneous tasks also apply. If a limit or busy-service message appears, follow its instructions instead of opening more tabs. A fresh public link may help with an expired share address, but it cannot make private or deleted content available. Keep the original link and the creator’s name with your copy. Permission to download does not automatically allow reposting or using the soundtrack elsewhere."
+        ]
+      }
+    ]
+  },
+  "fr": {
+    "title": "Téléchargeur TikTok – MP4 et MP3 | VidFetch",
+    "description": "Téléchargeur TikTok gratuit sans compte : MP4 ou MP3 depuis un lien de partage de l’appli. Vidéos publiques, 256 Mo et 30 min maximum ; quotas.",
+    "heroTitle": "Téléchargeur TikTok",
+    "heroAccent": "pour vos vidéos MP4 et sons MP3",
+    "sections": [
+      {
+        "heading": "Choisir entre une vidéo et un fichier audio",
+        "paragraphs": [
+          "Pour suivre un geste de cuisine, un mouvement ou des indications écrites dans l’image, gardez la vidéo en MP4. Ce format conserve ensemble l’image et le son. Pour réécouter une explication parlée, le MP3 évite de stocker aussi les images. Écoutez toutefois la publication avant de choisir : une consigne uniquement affichée à l’écran disparaît dans un fichier audio. La conversion conserve le mélange des voix, de la musique et des effets ; elle ne les sépare pas.",
+          "Collez le lien de partage d’une vidéo publique autorisée. Les deux outils ci-dessous détaillent les parcours MP4 et MP3."
+        ]
+      },
+      {
+        "heading": "Préparer le téléphone et vérifier le résultat",
+        "paragraphs": [
+          "Prévoyez de la place libre et laissez la page ouverte pendant la préparation et le transfert. Un téléchargement effectué dans le navigateur arrive généralement dans un dossier de fichiers. Il ne rejoint pas nécessairement Photos ou la galerie. Ouvrez le fichier terminé depuis son dossier avant de relancer une demande et vérifiez sa lecture jusqu’à la fin. Un fichier incomplet ne constitue pas une sauvegarde.",
+          "La limite est de 256 Mo et 30 minutes par média. Des quotas et des limites de tâches simultanées s’appliquent également. Respectez le délai indiqué si le service est occupé. Recopier un lien public peut aider lorsqu’un ancien lien de partage ne fonctionne plus ; cela ne rend pas accessible une vidéo privée ou supprimée. Gardez le lien original et le nom du créateur. Le droit de conserver une copie ne donne pas automatiquement celui de la republier ou de réutiliser sa musique."
+        ]
+      }
+    ]
+  },
+  "es": {
+    "title": "TikTok downloader – Vídeo MP4 y audio MP3 | VidFetch",
+    "description": "TikTok downloader gratis y sin cuenta. Guarda vídeos públicos en MP4 o MP3 desde el enlace de compartir de la app. Hasta 256 MB y 30 min; cuotas.",
+    "heroTitle": "TikTok downloader",
+    "heroAccent": "para guardar vídeos y audio",
+    "sections": [
+      {
+        "heading": "Elegir qué quieres conservar",
+        "paragraphs": [
+          "Un tutorial con movimientos o texto en pantalla necesita imágenes: guarda MP4 para mantenerlas junto al sonido. Si solo quieres escuchar una explicación, el MP3 ocupa espacio sin incluir el vídeo. Revisa primero la publicación; las instrucciones que aparecen escritas no pasan al archivo de audio. La conversión mantiene la mezcla sonora existente y no separa la voz de la música.",
+          "Utiliza el enlace de una publicación pública que puedas guardar con permiso. Desde TikTok, abre Compartir y copia la dirección. Puedes pegar el mensaje completo si contiene ese enlace. No uses la página de un perfil, un carrusel de fotos ni un directo. Las páginas de herramientas explican los pasos propios de cada formato y cómo localizar el resultado en el teléfono."
+        ]
+      },
+      {
+        "heading": "Preparar espacio y comprobar la descarga",
+        "paragraphs": [
+          "Mantén abierta la pestaña durante la preparación y la transferencia. Deja espacio libre y busca el archivo terminado en Descargas antes de volver a empezar. La galería puede no mostrarlo automáticamente. Ábrelo desde el gestor de archivos y comprueba que llega hasta el final. Un archivo interrumpido no es una copia completa.",
+          "Se aplican límites de 256 MB y 30 minutos por contenido, además de cuotas y tareas simultáneas. Si el servicio pide esperar, sigue el aviso. Copiar un enlace nuevo puede resolver una dirección caducada, pero no recupera una publicación eliminada ni abre una cuenta privada. Conserva el enlace de origen y el nombre del creador. Descargar no concede permiso para republicar, editar ni utilizar música en otro proyecto."
+        ]
+      }
+    ]
+  },
+  "pt-BR": {
+    "title": "TikTok downloader – Vídeo MP4 e áudio MP3 | VidFetch",
+    "description": "TikTok downloader grátis, sem conta. Salve vídeos públicos em MP4 ou MP3 com link de compartilhamento do app. Até 256 MB e 30 minutos; há cotas.",
+    "heroTitle": "TikTok downloader",
+    "heroAccent": "para salvar vídeos e áudios",
+    "sections": [
+      {
+        "heading": "Escolha o formato conforme o que quer guardar",
+        "paragraphs": [
+          "Uma receita com gestos ou instruções escritas na tela precisa da imagem. Nesse caso, MP4 mantém vídeo e som juntos. Para ouvir uma explicação, o MP3 dispensa as imagens. Confira a publicação antes: informações apenas visuais não aparecem no áudio. A conversão também não separa fala, música e efeitos que já estejam misturados.",
+          "Comece por uma publicação pública que você tem permissão para salvar. No TikTok, abra Compartilhar e copie o link. Pode colar a mensagem inteira, desde que ela contenha o endereço do vídeo. Perfil, carrossel de fotos e transmissão ao vivo não substituem esse link. As páginas de ferramentas abaixo detalham cada formato e ajudam a localizar o arquivo no celular."
+        ]
+      },
+      {
+        "heading": "Antes de repetir, confira o arquivo",
+        "paragraphs": [
+          "Deixe espaço livre e mantenha a aba aberta durante o preparo e o envio do arquivo. O navegador costuma salvar em Downloads ou Arquivos; isso não significa que o vídeo aparecerá imediatamente no Rolo da câmera ou na galeria. Abra o resultado pelo gerenciador de arquivos e verifique a reprodução até o fim. Uma transferência incompleta não é uma cópia de segurança.",
+          "O máximo é de 256 MB e 30 minutos por mídia. Há também cotas de uso e limites de tarefas simultâneas. Respeite o tempo de espera indicado quando o serviço estiver ocupado. Copiar outro link pode ajudar com um endereço vencido, mas não recupera publicações apagadas nem acessa contas privadas. Guarde a referência do criador com a sua cópia. A autorização para baixar não é automaticamente uma licença para republicar ou usar uma música em outro trabalho."
+        ]
+      }
+    ]
+  },
+  "id": {
+    "title": "TikTok downloader – Simpan MP4 atau MP3 | VidFetch",
+    "description": "TikTok downloader gratis tanpa akun. Simpan MP4 atau MP3 dari video publik dengan link berbagi aplikasi. Batas 256 MB dan 30 menit; kuota berlaku.",
+    "heroTitle": "TikTok downloader",
+    "heroAccent": "untuk video MP4 dan audio MP3",
+    "sections": [
+      {
+        "heading": "Pilih format sesuai kebutuhan",
+        "paragraphs": [
+          "Kalau Anda ingin mengikuti gerakan memasak atau membaca petunjuk di layar, simpan MP4 agar gambar dan suara tetap bersama. MP3 lebih cocok untuk mendengarkan penjelasan tanpa membawa gambar. Putar video asal dahulu: tulisan yang hanya muncul di layar tidak ikut menjadi suara. Konversi juga tidak memisahkan ucapan, musik, dan efek yang sudah tercampur.",
+          "Mulai dari satu video publik yang boleh Anda simpan. Di aplikasi TikTok, pilih Bagikan dan salin tautannya. Pesan berbagi boleh ditempel lengkap selama berisi link video. Alamat profil, unggahan foto, dan siaran langsung berbeda dari tautan video individual. Dua halaman alat di bawah menjelaskan langkah sesuai format dan membantu menemukan file di HP."
+        ]
+      },
+      {
+        "heading": "Siapkan penyimpanan dan periksa hasilnya",
+        "paragraphs": [
+          "Sisakan ruang kosong dan biarkan tab terbuka saat file disiapkan serta dikirim. Browser biasanya menyimpan hasil ke Unduhan. Video belum tentu langsung tampil di galeri. Coba buka file yang sudah lengkap lewat File Manager sebelum mengirim permintaan baru. Periksa durasi dan putar sampai akhir; hasil transfer yang terputus bukan salinan cadangan yang utuh.",
+          "Batas setiap media adalah 256 MB dan 30 menit. Kuota penggunaan dan jumlah tugas bersamaan juga berlaku. Bila layanan meminta menunggu, ikuti pesannya. Menyalin link baru bisa membantu jika tautan lama kedaluwarsa, tetapi tidak memulihkan unggahan yang dihapus atau membuka akun privat. Simpan juga tautan asal dan nama kreator. Izin mengunduh tidak otomatis menjadi izin untuk mengunggah ulang atau memakai musiknya pada karya lain.",
+          "Untuk menyimpan beberapa materi belajar, beri nama file setelah hasilnya diuji, misalnya topik dan tanggal. Catat juga alamat unggahan di tempat terpisah agar konteks kreatornya tidak hilang. Jangan menaruh tautan unduhan sementara dalam catatan sebagai pengganti sumber. Jika memori ponsel hampir penuh, pindahkan salinan yang sudah diperiksa ke penyimpanan cadangan sebelum melanjutkan. Selalu uji bahwa salinan baru bisa dibuka sebelum menghapus file pertama. Pilihan resolusi bergantung pada sumber: video kecil yang jelas sering lebih berguna untuk membaca ulang instruksi daripada file besar yang sulit diputar. Periksa juga apakah penjelasan membutuhkan gambar sebelum memilih audio saja."
+        ]
+      }
+    ]
+  },
+  "de": {
+    "title": "TikTok Downloader – MP4 und MP3 speichern | VidFetch",
+    "description": "TikTok Downloader kostenlos ohne Konto. Öffentliche Videos als MP4 oder MP3 mit Teilen-Link aus der App speichern. Bis 256 MB, 30 Minuten; Kontingente.",
+    "heroTitle": "TikTok Downloader",
+    "heroAccent": "für Videos und Ton",
+    "sections": [
+      {
+        "heading": "Das passende Format auswählen",
+        "paragraphs": [
+          "Für eine Anleitung mit Bewegungen oder eingeblendeten Hinweisen brauchst du das Bild. MP4 hält Video und Ton zusammen. Zum Anhören einer gesprochenen Erklärung reicht möglicherweise MP3. Sieh dir den Beitrag vorher an: Rein visuelle Informationen fehlen in einer Audiodatei. Die Umwandlung trennt außerdem keine Stimmen, Musik oder Effekte, die bereits zusammengemischt sind.",
+          "Beginne mit einem einzelnen öffentlichen Video, das du speichern darfst. Kopiere in der TikTok-App über Teilen den Beitragslink. Auch die vollständige Teilen-Nachricht mit dieser Adresse lässt sich einfügen. Ein Profil, Fotobeitrag oder Livestream ersetzt keinen Video-Link. Die verlinkten Werkzeugseiten erklären die einzelnen Formate und zeigen, wo du die Datei auf deinem Telefon findest."
+        ]
+      },
+      {
+        "heading": "Speicher vorbereiten und Ergebnis prüfen",
+        "paragraphs": [
+          "Lass ausreichend Platz frei und halte den Tab während Vorbereitung und Übertragung geöffnet. Browser speichern üblicherweise in einem Downloadordner. Ein Video erscheint deshalb nicht automatisch in Fotos oder der Galerie. Öffne die fertige Datei zuerst im Dateimanager und prüfe die Wiedergabe bis zum Ende. Eine abgebrochene Übertragung ist keine vollständige Sicherung.",
+          "Es gelten 256 MB und 30 Minuten je Medium sowie Kontingente und Grenzen für gleichzeitige Aufgaben. Beachte die angezeigte Wartezeit, wenn der Dienst ausgelastet ist. Ein neuer Link hilft möglicherweise bei einer abgelaufenen Adresse, macht aber private oder gelöschte Beiträge nicht zugänglich. Bewahre die Quellenadresse und den Namen des Urhebers auf. Eine Erlaubnis zum Speichern umfasst nicht automatisch die erneute Veröffentlichung oder die Verwendung der Musik in einem eigenen Projekt.",
+          "Für mehrere Lernvideos helfen verständliche Dateinamen mit Thema und Datum. Bewahre den ursprünglichen Beitragslink getrennt auf, damit der Zusammenhang und der Urheber später nachvollziehbar bleiben. Eine temporäre Download-Adresse eignet sich dafür nicht. Überprüfe vor dem Löschen einer Datei, ob eine angelegte Sicherung tatsächlich geöffnet werden kann. Besonders auf älteren Telefonen kann eine kleinere verfügbare Auflösung praktischer sein als ein großes Video, das nicht flüssig läuft. Nutze die Auswahl, die die Quelle tatsächlich bereitstellt. Falls eine Anleitung wichtige Hinweise nur im Bild zeigt, bewahre die Videoversion auf; eine reine Audiodatei enthält diese Informationen nicht."
+        ]
+      }
+    ]
+  },
+  "it": {
+    "title": "TikTok downloader – Video MP4 e audio MP3 | VidFetch",
+    "description": "TikTok downloader gratis e senza account. Salva video pubblici in MP4 o MP3 dal link di condivisione dell’app. Fino a 256 MB e 30 minuti; quote.",
+    "heroTitle": "TikTok downloader",
+    "heroAccent": "per video e audio",
+    "sections": [
+      {
+        "heading": "Scegliere il formato in base al contenuto",
+        "paragraphs": [
+          "Se vuoi seguire un gesto o leggere indicazioni presenti nell’immagine, scegli MP4 per mantenere insieme video e suono. Per ascoltare una spiegazione può bastare MP3. Guarda prima la pubblicazione: le istruzioni mostrate soltanto sullo schermo non saranno presenti nell’audio. La conversione non separa voci, musica ed effetti già mescolati.",
+          "Parti da un singolo video pubblico che hai il permesso di salvare. Nell’app TikTok apri Condividi e copia il collegamento. Puoi incollare il messaggio completo se contiene quel link. Una pagina di profilo, un post fotografico o una diretta non sostituiscono il video. Le pagine degli strumenti spiegano i passaggi specifici e aiutano a trovare il risultato sul telefono."
+        ]
+      },
+      {
+        "heading": "Preparare il telefono e verificare il risultato",
+        "paragraphs": [
+          "Lascia spazio libero e tieni aperta la scheda durante preparazione e trasferimento. Il browser salva normalmente in una cartella di download: il video non viene necessariamente aggiunto a Foto o alla Galleria. Apri il file completo dal gestore file prima di riprovare. Controlla la durata e la riproduzione fino alla fine; un trasferimento interrotto non è una copia di sicurezza completa.",
+          "Il limite è di 256 MB e 30 minuti per contenuto, oltre alle quote e ai limiti delle attività simultanee. Rispetta l’attesa indicata se il servizio è occupato. Copiare un link nuovo può aiutare con un indirizzo scaduto, ma non recupera post cancellati né apre account privati. Conserva il link originale e il nome del creatore. L’autorizzazione a scaricare non concede automaticamente il diritto di ripubblicare o utilizzare la musica in un altro lavoro.",
+          "Per organizzare più spiegazioni, dai ai file nomi riconoscibili con argomento e data. Conserva separatamente il collegamento della pubblicazione e il riferimento al creatore: un indirizzo temporaneo di download non sostituisce la fonte. Se copi il risultato in un archivio, controlla che la nuova copia si apra prima di cancellare la prima. Su un telefono meno recente può essere più utile una risoluzione disponibile più piccola, purché le indicazioni restino leggibili. Scegli soltanto tra i formati offerti dalla fonte. Se il tutorial mostra passaggi senza descriverli a voce, mantieni anche il video anziché affidarti soltanto all’audio."
+        ]
+      }
+    ]
+  },
+  "ar": {
+    "title": "تحميل تيك توك – فيديو MP4 وصوت MP3 | VidFetch",
+    "description": "تحميل تيك توك مجانًا دون حساب من رابط المشاركة بالتطبيق. احفظ الفيديو العام بصيغة MP4 أو الصوت MP3. الحد 256 ميغابايت و30 دقيقة مع حصص استخدام.",
+    "heroTitle": "تحميل تيك توك",
+    "heroAccent": "للفيديو MP4 والصوت MP3",
+    "sections": [
+      {
+        "heading": "اختيار الصيغة المناسبة للمحتوى",
+        "paragraphs": [
+          "إذا كنت تريد متابعة حركة أو قراءة تعليمات ظاهرة على الشاشة، فاختر MP4 للاحتفاظ بالصورة والصوت معًا. أما للاستماع إلى شرح منطوق فقد يكفي MP3. شاهد المنشور أولًا، لأن المعلومات المكتوبة فقط لا تتحول إلى كلام في الملف الصوتي. ولا تفصل عملية التحويل الأصوات والموسيقى والمؤثرات التي جرى مزجها سابقًا.",
+          "ابدأ بفيديو عام واحد لديك إذن بحفظه. افتح المشاركة في تطبيق تيك توك وانسخ رابط المنشور. يمكنك لصق رسالة المشاركة كاملة إذا احتوت على ذلك الرابط. صفحة الحساب ومنشور الصور والبث المباشر لا تعادل رابط فيديو مستقل. توضح صفحتا الأدوات خطوات كل صيغة وكيفية العثور على الناتج في الهاتف."
+        ]
+      },
+      {
+        "heading": "تجهيز الهاتف وفحص الملف",
+        "paragraphs": [
+          "اترك مساحة خالية وأبقِ الصفحة مفتوحة أثناء تجهيز الملف ونقله. يحفظ المتصفح الملفات عادة في مجلد التنزيلات، ولذلك قد لا يظهر الفيديو في الصور أو المعرض تلقائيًا. افتح الملف المكتمل من مدير الملفات قبل إعادة الطلب. تحقق من المدة والتشغيل حتى النهاية؛ فالملف الذي انقطع نقله ليس نسخة احتياطية كاملة.",
+          "يطبق حد 256 ميغابايت و30 دقيقة لكل وسيط، إلى جانب حصص الاستخدام وحدود المهام المتزامنة. التزم بمدة الانتظار المعروضة إذا كانت الخدمة مشغولة. قد يساعد نسخ رابط جديد عندما تنتهي صلاحية العنوان القديم، لكنه لا يستعيد منشورًا محذوفًا ولا يتيح حسابًا خاصًا. احتفظ برابط المصدر واسم صاحب المحتوى مع نسختك. الإذن بالتنزيل لا يمنح تلقائيًا حق إعادة النشر أو استخدام الموسيقى في مشروع آخر.",
+          "عند جمع عدة شروحات، سمّ الملفات بأسماء واضحة تتضمن الموضوع والتاريخ. احفظ رابط المنشور واسم صاحبه في ملاحظة منفصلة حتى يبقى سياق المحتوى معروفًا. لا تستخدم عنوان التنزيل المؤقت بدلًا من رابط المصدر. إذا نقلت نسخة إلى مكان احتياطي، افتحها وتأكد من عملها قبل حذف الملف الأول. وقد تكون دقة أقل متاحة من المصدر أنسب لهاتف قديم، ما دامت التعليمات مقروءة والتشغيل واضحًا. اختر من الصيغ المعروضة فعلًا ولا تفترض أن حجمًا أكبر يعني فائدة أكبر. وإذا كانت الخطوات مشروحة بالصورة دون كلام، فاحتفظ بالفيديو بدل الاعتماد على الملف الصوتي وحده."
+        ]
+      }
+    ]
+  }
+}

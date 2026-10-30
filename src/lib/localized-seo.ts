@@ -12,7 +12,7 @@ export function localizedMetadata(page: SitePage): Metadata {
   const approved = identity.kind === "platform" ? availablePlatformPages(page.locale).find(entry => entry.id === identity.id) : undefined;
   const platformCopy = approved && approvedPlatformCopy(approved, page.locale);
   // Only approved platform pages resolve (site-pages), so a platform page always has its own copy.
-  const title = guide ? `${guide.title} | VidFetch` : platformCopy ? `${platformCopy.title} | VidFetch` : kind === "home" ? homeCopy(page.locale).title : kind === "blog" ? d.blogMetaTitle : `${d.legalTitle} | VidFetch`;
+  const title = guide ? `${guide.seoTitle ?? guide.title} | VidFetch` : platformCopy ? `${platformCopy.title} | VidFetch` : kind === "home" ? homeCopy(page.locale).title : kind === "blog" ? (page.locale === "en" ? "TikTok, Video & Audio Guides | VidFetch" : "Guides TikTok, vidéo et audio | VidFetch") : `${page.locale === "de" ? "Impressum, Datenschutz und Nutzungsregeln" : d.legalTitle} | VidFetch`;
   const description = guide?.description ?? platformCopy?.description ?? (kind === "home" ? homeCopy(page.locale).description : kind === "blog" ? d.blogMetaDescription : d.legalDescription);
   const url = new URL(page.path, SITE.url).href;
   return { title: { absolute: title }, description,
@@ -26,7 +26,7 @@ export function localizedMetadata(page: SitePage): Metadata {
 export function localizedIdentity(locale: Locale) {
   const d = dictionary(locale), url = new URL(homePath(locale), SITE.url).href;
   return [{ "@type": "Organization", "@id": `${SITE.url}/#organization`, name: SITE.name, url: SITE.url, description: d.footerAbout,
-    logo: { "@type": "ImageObject", url: `${SITE.url}${OG_IMAGE.url}` } },
+    logo: { "@type": "ImageObject", url: `${SITE.url}/icon.svg` } },
   { "@type": "WebSite", "@id": `${url}#website`, name: SITE.name, url, inLanguage: locale, publisher: { "@id": `${SITE.url}/#organization` } }];
 }
 /** Approved platform page: the visible breadcrumb and the tool the page offers, described only with its visible copy. */
@@ -37,7 +37,7 @@ export function platformPageSchemas(page: SitePage, copy: { title: string; descr
       { "@type": "ListItem", position: 1, name: d.home, item: home },
       { "@type": "ListItem", position: 2, name: copy.title, item: url }] },
     { "@type": "WebApplication", "@id": `${url}#app`, name: copy.heading, url, description: copy.description, inLanguage: page.locale,
-      applicationCategory: "MultimediaApplication", operatingSystem: "Web", isAccessibleForFree: true,
+      applicationCategory: "MultimediaApplication", operatingSystem: "Any", isAccessibleForFree: true,
       offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, featureList: copy.supported, publisher: { "@id": `${SITE.url}/#organization` } },
   ];
 }

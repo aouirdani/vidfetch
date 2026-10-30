@@ -1,16 +1,8 @@
 import type { Locale } from "../i18n/config";
 import { dictionary } from "../i18n/dictionaries";
-import { CONTENT_UPDATED } from "./seo";
 
-/**
- * Home page search copy: a generic, multi-platform video downloader (MP4 video, MP3 audio). It names no platform, so
- * it neither promises an unverified one nor competes with the TikTok pages, which carry the TikTok searches. Which
- * platforms are verified is said under the link field (form-copy.ts) and in the FAQ answer below.
- * Kept out of src/i18n/messages on purpose: the download gateway bundles those dictionaries, and any change there
- * changes the gateway artifact, which the CI promoter refuses to deploy without a separate review.
- * English and French only: es, pt-BR, id, de, it and ar keep the wording of the dictionaries (already published)
- * until a native speaker has reviewed a new version. A language without an entry here falls back to them.
- */
+import seoCopy from "../../content/home-seo.json";
+
 export type HomeCopy = {
   title: string; description: string; heroTitle: string; heroAccent: string; heroDescription: string;
   /** Answer to the home FAQ "Which links can I try?": TikTok verified, Instagram and X not yet, YouTube blocked. */
@@ -18,9 +10,9 @@ export type HomeCopy = {
 };
 
 /** Last substantial change of the homes that have their own copy here (sitemap lastmod, WebPage dateModified). */
-export const HOME_UPDATED = "2026-10-28";
+export const HOME_UPDATED = "2026-10-29";
 
-export const HOME_COPY: Partial<Record<Locale, HomeCopy>> = {
+const BASE_COPY: Partial<Record<Locale, HomeCopy>> = {
   en: {
     title: "Online Video Downloader – MP4 & MP3 | VidFetch",
     description: "Download videos or save audio from supported platforms. Paste a link, choose an available format and save your file.",
@@ -39,10 +31,9 @@ export const HOME_COPY: Partial<Record<Locale, HomeCopy>> = {
   },
 };
 
-/** The home copy of a language: its own entry above, otherwise the published wording of the dictionaries. */
-export function homeCopy(locale: Locale): HomeCopy & { updated: string } {
-  const own = HOME_COPY[locale];
-  if (own) return { ...own, updated: HOME_UPDATED };
-  const d = dictionary(locale);
-  return { title: d.metaTitle, description: d.metaDescription, heroTitle: d.heroTitle, heroAccent: d.heroAccent, heroDescription: d.heroDescription, platformsAnswer: d.faq2a, updated: CONTENT_UPDATED };
-}
+export const HOME_COPY = Object.fromEntries(Object.keys(seoCopy).map(key => {
+  const locale = key as Locale, d = dictionary(locale);
+  return [locale, { heroDescription: d.heroDescription, platformsAnswer: d.faq2a, ...BASE_COPY[locale], ...seoCopy[locale] }];
+})) as unknown as Record<Locale, HomeCopy>;
+export function homeCopy(locale: Locale): HomeCopy & { updated: string } { return { ...HOME_COPY[locale], updated: HOME_UPDATED }; }
+export function homeSections(locale: Locale) { return seoCopy[locale].sections; }

@@ -204,8 +204,8 @@ export function VideoCard({ info, engine, onReset }: Props) {
         <div className="relative aspect-video overflow-hidden bg-ink-800 lg:aspect-auto">
           {info.thumbnail && !thumbnailFailed ? (
             /* eslint-disable-next-line @next/next/no-img-element */
-            <img src={info.thumbnail} alt="" width={1280} height={720} className="absolute inset-0 h-full w-full object-cover"
-              referrerPolicy="no-referrer" decoding="async" fetchPriority="high" onError={() => setThumbnailFailed(true)} />
+            <img src={info.thumbnail} alt={info.title} width={1280} height={720} className="absolute inset-0 h-full w-full object-cover"
+              referrerPolicy="no-referrer" decoding="async" loading="lazy" onError={() => setThumbnailFailed(true)} />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-cyan-600/25 to-sky-600/20">
               <Film className="h-10 w-10 text-cyan-200/70" aria-hidden />

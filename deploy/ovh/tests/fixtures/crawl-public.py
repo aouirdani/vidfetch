@@ -109,10 +109,10 @@ missing, unexpected = sorted(expected_noindex - set(others)), sorted(set(others)
 status, headers, robots_txt = get('/robots.txt')
 (ok if status == 200 and 'Sitemap: https://vidfetch.app/sitemap.xml' in robots_txt and not re.search(r'(?m)^Disallow: */\s*$', robots_txt)
  and 'noindex' not in headers.get('X-Robots-Tag', '') else bad)('robots.txt from the frontend: sitemap published, only private paths disallowed')
-for path, expected in (('/fr', '/fr/'), ('/de', '/de/'), ('/legal/', '/legal'), ('/fr/mentions-legales/', '/fr/mentions-legales')):
+for path, expected in (('/fr/', '/fr'), ('/de/', '/de'), ('/legal/', '/legal'), ('/fr/mentions-legales/', '/fr/mentions-legales')):
     status, headers, _ = get(path)
     location = headers.get('Location', '')
-    (ok if status == 308 and location in (expected, 'https://vidfetch.app' + expected) else bad)(f'{path} redirects once to {expected} ({status} {location})')
+    (ok if status == 301 and location in (expected, 'https://vidfetch.app' + expected) else bad)(f'{path} redirects once to {expected} ({status} {location})')
 for method, path in (('GET', '/api/download'), ('POST', '/api/download'), ('GET', '/api/fetch-info'), ('POST', '/api/fetch-info'),
                      ('GET', '/api/queue'), ('GET', '/auth/transfer'), ('GET', '/download-helper')):
     status, headers, body = get(path, method)

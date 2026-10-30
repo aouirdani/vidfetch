@@ -1,0 +1,402 @@
+[
+  {
+    "path": "/",
+    "lang": "en",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": true,
+    "paragraphs": 41
+  },
+  {
+    "path": "/blog",
+    "lang": "en",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": false,
+    "paragraphs": 40
+  },
+  {
+    "path": "/legal",
+    "lang": "en",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": false,
+    "paragraphs": 19
+  },
+  {
+    "path": "/blog/720p-1080p-4k",
+    "lang": "en",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": false,
+    "paragraphs": 27
+  },
+  {
+    "path": "/blog/backup-your-videos",
+    "lang": "en",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": false,
+    "paragraphs": 27
+  },
+  {
+    "path": "/blog/bitrate-vs-resolution",
+    "lang": "en",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": false,
+    "paragraphs": 27
+  },
+  {
+    "path": "/blog/h264-h265-av1",
+    "lang": "en",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": false,
+    "paragraphs": 28
+  },
+  {
+    "path": "/blog/mp3-vs-m4a",
+    "lang": "en",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": false,
+    "paragraphs": 25
+  },
+  {
+    "path": "/blog/mp4-vs-webm",
+    "lang": "en",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": false,
+    "paragraphs": 29
+  },
+  {
+    "path": "/blog/reduce-video-size",
+    "lang": "en",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": false,
+    "paragraphs": 30
+  },
+  {
+    "path": "/blog/save-tiktok-phone-gallery",
+    "lang": "en",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": false,
+    "paragraphs": 32
+  },
+  {
+    "path": "/blog/save-tiktok-sound-mp3",
+    "lang": "en",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": false,
+    "paragraphs": 32
+  },
+  {
+    "path": "/blog/video-download-fails",
+    "lang": "en",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": false,
+    "paragraphs": 28
+  },
+  {
+    "path": "/blog/video-format-smartphone",
+    "lang": "en",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": false,
+    "paragraphs": 27
+  },
+  {
+    "path": "/blog/video-to-audio",
+    "lang": "en",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": false,
+    "paragraphs": 27
+  },
+  {
+    "path": "/blog/why-cant-i-save-tiktok",
+    "lang": "en",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": false,
+    "paragraphs": 32
+  },
+  {
+    "path": "/tiktok-video-downloader",
+    "lang": "en",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": true,
+    "paragraphs": 34
+  },
+  {
+    "path": "/tiktok-to-mp3",
+    "lang": "en",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": true,
+    "paragraphs": 28
+  },
+  {
+    "path": "/fr",
+    "lang": "fr",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": true,
+    "paragraphs": 41
+  },
+  {
+    "path": "/fr/guides",
+    "lang": "fr",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": false,
+    "paragraphs": 10
+  },
+  {
+    "path": "/fr/mentions-legales",
+    "lang": "fr",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": false,
+    "paragraphs": 19
+  },
+  {
+    "path": "/fr/guides/enregistrer-tiktok-galerie-iphone-android",
+    "lang": "fr",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": false,
+    "paragraphs": 31
+  },
+  {
+    "path": "/fr/guides/recuperer-son-tiktok-mp3",
+    "lang": "fr",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": false,
+    "paragraphs": 31
+  },
+  {
+    "path": "/fr/guides/pourquoi-impossible-enregistrer-tiktok",
+    "lang": "fr",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": false,
+    "paragraphs": 31
+  },
+  {
+    "path": "/fr/telecharger-video-tiktok",
+    "lang": "fr",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": true,
+    "paragraphs": 31
+  },
+  {
+    "path": "/fr/tiktok-en-mp3",
+    "lang": "fr",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": true,
+    "paragraphs": 26
+  },
+  {
+    "path": "/es",
+    "lang": "es",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": true,
+    "paragraphs": 34
+  },
+  {
+    "path": "/es/aviso-legal",
+    "lang": "es",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": false,
+    "paragraphs": 19
+  },
+  {
+    "path": "/es/descargar-video-tiktok",
+    "lang": "es",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": true,
+    "paragraphs": 30
+  },
+  {
+    "path": "/es/tiktok-a-mp3",
+    "lang": "es",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": true,
+    "paragraphs": 29
+  },
+  {
+    "path": "/pt",
+    "lang": "pt-BR",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": true,
+    "paragraphs": 34
+  },
+  {
+    "path": "/pt/termos-e-privacidade",
+    "lang": "pt-BR",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": false,
+    "paragraphs": 19
+  },
+  {
+    "path": "/pt/baixar-video-tiktok",
+    "lang": "pt-BR",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": true,
+    "paragraphs": 30
+  },
+  {
+    "path": "/pt/tiktok-para-mp3",
+    "lang": "pt-BR",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": true,
+    "paragraphs": 29
+  },
+  {
+    "path": "/id",
+    "lang": "id",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": true,
+    "paragraphs": 35
+  },
+  {
+    "path": "/id/ketentuan-dan-privasi",
+    "lang": "id",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": false,
+    "paragraphs": 19
+  },
+  {
+    "path": "/id/download-video-tiktok",
+    "lang": "id",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": true,
+    "paragraphs": 32
+  },
+  {
+    "path": "/id/tiktok-ke-mp3",
+    "lang": "id",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": true,
+    "paragraphs": 31
+  },
+  {
+    "path": "/de",
+    "lang": "de",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": true,
+    "paragraphs": 35
+  },
+  {
+    "path": "/de/rechtliches",
+    "lang": "de",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": false,
+    "paragraphs": 19
+  },
+  {
+    "path": "/de/tiktok-video-herunterladen",
+    "lang": "de",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": true,
+    "paragraphs": 33
+  },
+  {
+    "path": "/de/tiktok-zu-mp3",
+    "lang": "de",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": true,
+    "paragraphs": 32
+  },
+  {
+    "path": "/it",
+    "lang": "it",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": true,
+    "paragraphs": 35
+  },
+  {
+    "path": "/it/note-legali",
+    "lang": "it",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": false,
+    "paragraphs": 19
+  },
+  {
+    "path": "/it/scaricare-video-tiktok",
+    "lang": "it",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": true,
+    "paragraphs": 31
+  },
+  {
+    "path": "/it/tiktok-in-mp3",
+    "lang": "it",
+    "dir": "ltr",
+    "overflow": false,
+    "ltrInput": true,
+    "paragraphs": 32
+  },
+  {
+    "path": "/ar",
+    "lang": "ar",
+    "dir": "rtl",
+    "overflow": false,
+    "ltrInput": true,
+    "paragraphs": 35
+  },
+  {
+    "path": "/ar/الشروط-والخصوصية",
+    "lang": "ar",
+    "dir": "rtl",
+    "overflow": false,
+    "ltrInput": false,
+    "paragraphs": 19
+  },
+  {
+    "path": "/ar/tahmil-video-tiktok",
+    "lang": "ar",
+    "dir": "rtl",
+    "overflow": false,
+    "ltrInput": true,
+    "paragraphs": 33
+  },
+  {
+    "path": "/ar/tiktok-mp3",
+    "lang": "ar",
+    "dir": "rtl",
+    "overflow": false,
+    "ltrInput": true,
+    "paragraphs": 31
+  }
+]

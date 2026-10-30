@@ -4,8 +4,8 @@
   "description": "Pick a playable video for a phone by checking container, codecs, resolution and available storage instead of relying on a filename alone.",
   "category": "Playback",
   "created": "2026-10-12",
-  "updated": "2026-10-12",
-  "published": null,
+  "updated": "2026-10-29",
+  "published": "2026-10-29",
   "status": "ready",
   "related": [
     "mp4-vs-webm",

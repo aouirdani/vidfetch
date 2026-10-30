@@ -1,0 +1,272 @@
+{
+  "pages": [
+    {
+      "path": "/",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/blog",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/legal",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/blog/720p-1080p-4k",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/blog/backup-your-videos",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/blog/bitrate-vs-resolution",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/blog/h264-h265-av1",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/blog/mp3-vs-m4a",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/blog/mp4-vs-webm",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/blog/reduce-video-size",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/blog/save-tiktok-phone-gallery",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/blog/save-tiktok-sound-mp3",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/blog/video-download-fails",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/blog/video-format-smartphone",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/blog/video-to-audio",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/blog/why-cant-i-save-tiktok",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/tiktok-video-downloader",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/tiktok-to-mp3",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/fr",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/fr/guides",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/fr/mentions-legales",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/fr/guides/enregistrer-tiktok-galerie-iphone-android",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/fr/guides/recuperer-son-tiktok-mp3",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/fr/guides/pourquoi-impossible-enregistrer-tiktok",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/fr/telecharger-video-tiktok",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/fr/tiktok-en-mp3",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/es",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/es/aviso-legal",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/es/descargar-video-tiktok",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/es/tiktok-a-mp3",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/pt",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/pt/termos-e-privacidade",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/pt/baixar-video-tiktok",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/pt/tiktok-para-mp3",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/id",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/id/ketentuan-dan-privasi",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/id/download-video-tiktok",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/id/tiktok-ke-mp3",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/de",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/de/rechtliches",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/de/tiktok-video-herunterladen",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/de/tiktok-zu-mp3",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/it",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/it/note-legali",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/it/scaricare-video-tiktok",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/it/tiktok-in-mp3",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/ar",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/ar/الشروط-والخصوصية",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/ar/tahmil-video-tiktok",
+      "blocks": 2,
+      "valid": true
+    },
+    {
+      "path": "/ar/tiktok-mp3",
+      "blocks": 2,
+      "valid": true
+    }
+  ],
+  "types": {
+    "Organization": 66,
+    "ImageObject": 50,
+    "WebSite": 50,
+    "WebPage": 34,
+    "FAQPage": 24,
+    "Question": 119,
+    "Answer": 119,
+    "WebApplication": 24,
+    "Offer": 24,
+    "HowTo": 8,
+    "HowToStep": 24,
+    "BreadcrumbList": 42,
+    "ListItem": 100,
+    "BlogPosting": 16
+  },
+  "officialVocabulary": 981,
+  "allValid": true
+}

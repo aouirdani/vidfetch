@@ -13,7 +13,7 @@ export const LANGUAGES: Record<Locale, { prefix: string; name: string; og: strin
 export function localeForSegments(segments: readonly string[] = []): Locale {
   return LOCALES.find(locale => LANGUAGES[locale].prefix && LANGUAGES[locale].prefix === segments[0]) ?? "en";
 }
-export function homePath(locale: Locale) { return locale === "en" ? "/" : `/${LANGUAGES[locale].prefix}/`; }
+export function homePath(locale: Locale) { return locale === "en" ? "/" : `/${LANGUAGES[locale].prefix}`; }
 export function sectionPath(locale: Locale, section: "blog" | "legal") { return `${locale === "en" ? "" : `/${LANGUAGES[locale].prefix}`}/${LANGUAGES[locale][section]}`; }
 export function articlePath(locale: Locale, slug: string) { return `${sectionPath(locale, "blog")}/${slug}`; }
 export function interpolate(text: string, values: Record<string, string | number>) {
