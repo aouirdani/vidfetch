@@ -54,6 +54,11 @@ jobs:
           node scripts/ovh/build-release.mjs
           tar -czf release-${{ github.sha }}.tgz -C build/releases/${{ github.sha }} .
           echo "sha256=$(sha256sum release-${{ github.sha }}.tgz | cut -d ' ' -f1)" >> "$GITHUB_OUTPUT"
+      - name: Public indexing through real Caddy and the actual release artifact
+        env:
+          VIDFETCH_REQUIRE_INDEXING_TEST: '1'
+          VIDFETCH_INDEXING_APP: build/releases/${{ github.sha }}/app
+        run: python3 -m unittest discover -s deploy/ovh/tests -p test_public_indexing.py -v
       - name: Install isolated browser for local multilingual checks
         run: npx playwright install --with-deps chromium
       - name: SEO invariants for every sitemap URL
