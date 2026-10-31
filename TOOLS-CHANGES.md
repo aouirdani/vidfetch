@@ -74,7 +74,7 @@ Chaque page a son contenu serveur de 700–1000 mots, trois étapes visibles pro
 
 ## Performances
 
-Builds OVH de main (`3eea9bd1`) et de cette branche  même Chrome  trois répétitions. JS initial : **609 083 → 619 174 octets bruts (+1.66 %)**  gzip **191 176 → 194 741 (+1.86 %)** sur les quatre pages communes. /video-to-mp3 a le même budget initial. L’engine de 655 134 octets  le worker MP3 de 9 064 et LAME de 216 438 sont chargés seulement après sélection  jamais au premier affichage.
+Builds OVH de main (`3eea9bd1`) et de cette branche, même Chrome, trois répétitions. JS initial : **609 083 → 619 174 octets bruts (+1,66 %)**, gzip **191 176 → 194 741 (+1,86 %)** sur les quatre pages communes. /video-to-mp3 a le même budget initial. L’engine de 655 134 octets, le worker MP3 de 9 064 et LAME de 216 438 sont chargés seulement après sélection, jamais au premier affichage.
 
 Lighthouse mobile standard : trois essais par branche et page en alternant l’ordre ; requêtes tierces bloquées de façon identique. Médianes :
 
@@ -85,7 +85,7 @@ Lighthouse mobile standard : trois essais par branche et page en alternant l’o
 | /fr/tiktok-en-mp3 | 814.1 → 813.8 | -0.04 % | 0 → 0 | 36 → 37 | +2.78 % |
 | /blog/mp4-vs-webm | 814.4 → 813.2 | -0.15 % | 0 → 0 | 34 → 36 | +5.88 % |
 
-Score Lighthouse 100 sur les 24 essais. **Aucune régression supérieure à 10 % sur LCP  CLS  TBT ou JS initial** dans cette série. Les budgets demandés de LCP et JS initial sont respectés. Un relevé complémentaire avec Chrome mobile simulé 390×844  CPU ×4  réseau 1 6 Mbit/s / latence 40 ms est également conservé. Il s’agit de laboratoire  pas de Core Web Vitals terrain ou de mémoire de téléphone. Données brutes : `docs/LOCAL-TOOLS-VALIDATION.json` ; mémoire dans `docs/LOCAL-TOOLS-MEMORY.json`.
+Score Lighthouse 100 sur les 24 essais. **Aucune régression supérieure à 10 % sur LCP, CLS, TBT ou JS initial** dans cette série. Les budgets demandés de LCP et JS initial sont respectés. Un relevé complémentaire avec Chrome mobile simulé 390×844, CPU ×4, réseau 1,6 Mbit/s / latence 40 ms est également conservé. Il s’agit de laboratoire, pas de Core Web Vitals terrain ou de mémoire de téléphone. Données brutes : `docs/LOCAL-TOOLS-VALIDATION.json` ; mémoire dans `docs/LOCAL-TOOLS-MEMORY.json`.
 
 
 CI : [workflow de la PR A](https://github.com/aouirdani/vidfetch/actions?query=branch%3Afeat%2Flocal-tools), avec fixtures FFmpeg, confidentialité et conversions. La validation définitive est celle des checks du dernier commit ; aucun push main n’est effectué.
