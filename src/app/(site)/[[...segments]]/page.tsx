@@ -1,3 +1,4 @@
+import {LocalToolView} from "@/views/LocalToolView";
 import { notFound } from "next/navigation";
 import { dictionary } from "@/i18n/dictionaries";
 import { localeForSegments } from "@/i18n/config";
@@ -14,6 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<{ segments?
 export default async function Page({ params }: { params: Promise<{ segments?: string[] }> }) {
   const page = resolvePage((await params).segments ?? []); if (!page) notFound();
   switch (page.identity.kind) {
+    case "local-tool": return <LocalToolView page={page}/>;
     case "home": return <HomeView page={page} />;
     case "blog": return <BlogView page={page} />;
     case "guide": return <ArticleView page={page} />;

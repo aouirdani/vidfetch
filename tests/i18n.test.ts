@@ -66,7 +66,7 @@ test("sitemap contains exactly published canonical equivalents and excludes unve
   const entries = sitemap();
   assert.equal(entries.length, sitePages().filter(p => p.indexable).length);
   assert.equal(new Set(entries.map(p => p.url)).size, entries.length);
-  assert.equal(entries.length, 50);   // 8 homes + 8 legal + 4 approved TikTok pages (en video, en MP3, fr video, fr MP3)
+  assert.equal(entries.length, 82);   // 8 homes + 8 legal + 4 approved TikTok pages (en video, en MP3, fr video, fr MP3)
   for (const entry of entries) {
     const parts = new URL(entry.url).pathname.split("/").filter(Boolean).map(decodeURIComponent);
     assert.ok(resolvePage(parts)?.indexable);

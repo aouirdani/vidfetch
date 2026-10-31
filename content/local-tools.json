@@ -1,0 +1,1605 @@
+{
+  "en": {
+    "audio": {
+      "title": "Video to MP3 or M4A",
+      "description": "Convert video to MP3 free, without an account or upload. Extract AAC as M4A locally. Files up to 8 MiB on mobile or 32 MiB on desktop.",
+      "heading": "Video to MP3 or M4A",
+      "intro": "Extract the soundtrack from a video you own, without sending it away. Choose a broadly compatible MP3 or keep an existing AAC track in M4A. The original recording stays untouched.",
+      "sections": [
+        {
+          "heading": "Choose the right audio output",
+          "paragraphs": [
+            "For MP3, choose 128, 192 or 320 kbps. A higher setting uses more space; it cannot restore detail missing from the original soundtrack. For a voice note, test 128 first. For a music rehearsal you recorded, compare a short section at 192 and 320 before choosing. Only the primary audio track is extracted, with no video track in the result.",
+            "M4A uses direct copying only when the selected track is AAC. There is no AAC encoder hidden behind this option: if the source is Opus or another codec, the tool refuses M4A and you can try MP3 instead. Copying AAC avoids another lossy audio generation. If the video has no audio track, there is no sound to extract."
+          ]
+        },
+        {
+          "heading": "Files, privacy and device limits",
+          "paragraphs": [
+            "Choose an MP4, MOV or WebM file already saved on your device. These extensions describe containers, not the codecs inside them. H.264 video with AAC audio and WebM with VP8 and Opus are useful test cases. A MOV recording may use a different codec, including HEVC, so its extension alone does not establish compatibility. The browser checks the actual tracks before starting.",
+            "The file picker limits input to 8 MiB on touch devices and low memory devices, or 32 MiB on other desktops. A MiB is 1,048,576 bytes. Recordings must be no longer than 120 seconds and contain at most 2,073,600 pixels per frame, including portrait layouts. The output may not exceed twice the applicable input cap. These conservative limits also apply when plenty of storage is free.",
+            "The work runs inside a browser worker. Processing can still consume battery and memory, so keep the tab open and avoid starting several jobs in separate tabs. An operation stops after 180 seconds. Progress reflects the media processed and does not predict a finishing time. Cancel terminates the worker; selecting another file starts with a fresh engine.",
+            "The file never leaves your device. No media upload, account or third party request is used on these tool pages. The site serves its own worker and codec files after you select an accepted file. The result is a local download link, not a public hosting address. Closing or resetting the tool releases its temporary browser URLs; a copy you already downloaded stays in your Downloads folder.",
+            "Use material you created or have permission to edit. Local processing does not transfer copyright or remove anyone's rights. Keep your source separately: the downloaded result is a new file, and compression or reencoding can lose detail. Test playback, duration and sound in the app where you intend to use the copy before deleting anything.",
+            "Current desktop browsers, Android Chrome and iOS Safari differ in their WebCodecs support. A native video preview may fail even when a track can be copied. If the tool reports an unsupported format or codec, try a supported recording or a desktop editor. It does not install codecs, send the file to a fallback server or retry against another service."
+          ]
+        },
+        {
+          "heading": "Media choices explained",
+          "paragraphs": [
+            "A video can contain a separate audio track. Turning it into an audio file means either copying that track into a suitable container or encoding it into another format, such as MP3. Copying can preserve the encoded audio exactly; transcoding can improve compatibility but does not improve the original sound. Start with a video you own or have permission to use.",
+            "Some recordings are silent or contain no audio stream at all. Others contain several tracks, such as different languages or a commentary. Listen to the video and inspect its track list before choosing an output."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Does the file get uploaded?",
+          "answer": "No. The selected video is read and processed locally. The tool downloads its engine from VidFetch, then offers a local output file; it does not upload the recording."
+        },
+        {
+          "question": "Why is a small file refused?",
+          "answer": "Size is only one check. Duration, pixel count and the codecs available in your browser also matter. A recording can fit the size cap and still need an unsupported decoder or encoder."
+        },
+        {
+          "question": "Where is the finished file?",
+          "answer": "Use the download link when processing finishes. Your browser chooses the download location. On a phone, check Files or Downloads before trying to import a compatible video into Photos or the gallery."
+        }
+      ]
+    },
+    "compress": {
+      "title": "Compress video locally",
+      "description": "Compress video free on your device, without an account or upload. Choose a bitrate and size cap. Up to 8 MiB on mobile or 32 MiB on desktop.",
+      "heading": "Compress video locally",
+      "intro": "Make a smaller sharing copy of your own recording. This compressor runs on your device and shows an estimate before processing; compare the finished copy with the original before keeping it.",
+      "sections": [
+        {
+          "heading": "Set a realistic compression target",
+          "paragraphs": [
+            "Light, balanced and strong target video bitrates of 2,000,000, 1,000,000 and 500,000 bits per second respectively. Audio, when present, is reencoded at 128 kbps. The displayed size estimate multiplies these targets by duration; container overhead and encoder behavior mean the actual size can differ, and may even exceed the source.",
+            "Choose an optional maximum height of 360, 480, 720 or 1080 pixels, or retain the original dimensions. The tool never enlarges the source. It prefers WebM with VP8 video and Opus audio when the browser can encode them; MP4 with H.264 and AAC is a fallback only when those encoders are available. Check whether the receiving app accepts the resulting container."
+          ]
+        },
+        {
+          "heading": "Files, privacy and device limits",
+          "paragraphs": [
+            "Choose an MP4, MOV or WebM file already saved on your device. These extensions describe containers, not the codecs inside them. H.264 video with AAC audio and WebM with VP8 and Opus are useful test cases. A MOV recording may use a different codec, including HEVC, so its extension alone does not establish compatibility. The browser checks the actual tracks before starting.",
+            "The file picker limits input to 8 MiB on touch devices and low memory devices, or 32 MiB on other desktops. A MiB is 1,048,576 bytes. Recordings must be no longer than 120 seconds and contain at most 2,073,600 pixels per frame, including portrait layouts. The output may not exceed twice the applicable input cap. These conservative limits also apply when plenty of storage is free.",
+            "The work runs inside a browser worker. Processing can still consume battery and memory, so keep the tab open and avoid starting several jobs in separate tabs. An operation stops after 180 seconds. Progress reflects the media processed and does not predict a finishing time. Cancel terminates the worker; selecting another file starts with a fresh engine.",
+            "The file never leaves your device. No media upload, account or third party request is used on these tool pages. The site serves its own worker and codec files after you select an accepted file. The result is a local download link, not a public hosting address. Closing or resetting the tool releases its temporary browser URLs; a copy you already downloaded stays in your Downloads folder.",
+            "Use material you created or have permission to edit. Local processing does not transfer copyright or remove anyone's rights. Keep your source separately: the downloaded result is a new file, and compression or reencoding can lose detail. Test playback, duration and sound in the app where you intend to use the copy before deleting anything.",
+            "Current desktop browsers, Android Chrome and iOS Safari differ in their WebCodecs support. A native video preview may fail even when a track can be copied. If the tool reports an unsupported format or codec, try a supported recording or a desktop editor. It does not install codecs, send the file to a fallback server or retry against another service."
+          ]
+        },
+        {
+          "heading": "Media choices explained",
+          "paragraphs": [
+            "To make a video smaller, reduce the amount of data it carries. Shortening a clip, choosing a lower bitrate or reducing resolution can help, but each choice serves a different purpose. Work on a copy and check a representative scene before converting a whole collection. There is no setting that guarantees the same quality at a much smaller size for every source.",
+            "A clip for a messaging conversation does not need the same delivery settings as footage you plan to edit. Decide where the copy will be watched, how long it must be, and whether it must meet a file-size limit. Preserve the original for editing or backup."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Does the file get uploaded?",
+          "answer": "No. The selected video is read and processed locally. The tool downloads its engine from VidFetch, then offers a local output file; it does not upload the recording."
+        },
+        {
+          "question": "Why is a small file refused?",
+          "answer": "Size is only one check. Duration, pixel count and the codecs available in your browser also matter. A recording can fit the size cap and still need an unsupported decoder or encoder."
+        },
+        {
+          "question": "Where is the finished file?",
+          "answer": "Use the download link when processing finishes. Your browser chooses the download location. On a phone, check Files or Downloads before trying to import a compatible video into Photos or the gallery."
+        }
+      ]
+    },
+    "trim": {
+      "title": "Trim video in your browser",
+      "description": "Trim video free in your browser, without uploading. Choose a keyframe cut or precise reencoding. Up to 8 MiB on mobile or 32 MiB on desktop.",
+      "heading": "Trim video in your browser",
+      "intro": "Keep the part of a recording that matters. Set the start and end in seconds, preview the source, and choose between a fast copy and a precise new encoding.",
+      "sections": [
+        {
+          "heading": "Choose where the cut should land",
+          "paragraphs": [
+            "Enter the start and end in seconds, with the end after the start and within the source duration. Changing the start moves the preview. The preview is the original video; it helps locate a moment but does not certify the exact first frame of the exported copy.",
+            "Fast copying avoids a new video encoding, but a compressed video needs a keyframe to start decoding. The selected interval may expand to a nearby keyframe and include extra material. Read the actual exported duration. Choose precise reencoding when a particular moment matters: the tool decodes the selected range and creates WebM or MP4 depending on available encoders. That takes more work and may change quality."
+          ]
+        },
+        {
+          "heading": "Files, privacy and device limits",
+          "paragraphs": [
+            "Choose an MP4, MOV or WebM file already saved on your device. These extensions describe containers, not the codecs inside them. H.264 video with AAC audio and WebM with VP8 and Opus are useful test cases. A MOV recording may use a different codec, including HEVC, so its extension alone does not establish compatibility. The browser checks the actual tracks before starting.",
+            "The file picker limits input to 8 MiB on touch devices and low memory devices, or 32 MiB on other desktops. A MiB is 1,048,576 bytes. Recordings must be no longer than 120 seconds and contain at most 2,073,600 pixels per frame, including portrait layouts. The output may not exceed twice the applicable input cap. These conservative limits also apply when plenty of storage is free.",
+            "The work runs inside a browser worker. Processing can still consume battery and memory, so keep the tab open and avoid starting several jobs in separate tabs. An operation stops after 180 seconds. Progress reflects the media processed and does not predict a finishing time. Cancel terminates the worker; selecting another file starts with a fresh engine.",
+            "The file never leaves your device. No media upload, account or third party request is used on these tool pages. The site serves its own worker and codec files after you select an accepted file. The result is a local download link, not a public hosting address. Closing or resetting the tool releases its temporary browser URLs; a copy you already downloaded stays in your Downloads folder.",
+            "Use material you created or have permission to edit. Local processing does not transfer copyright or remove anyone's rights. Keep your source separately: the downloaded result is a new file, and compression or reencoding can lose detail. Test playback, duration and sound in the app where you intend to use the copy before deleting anything.",
+            "Current desktop browsers, Android Chrome and iOS Safari differ in their WebCodecs support. A native video preview may fail even when a track can be copied. If the tool reports an unsupported format or codec, try a supported recording or a desktop editor. It does not install codecs, send the file to a fallback server or retry against another service."
+          ]
+        },
+        {
+          "heading": "Media choices explained",
+          "paragraphs": [
+            "A useful video backup preserves your original files and gives you a working copy when the primary storage fails. Start with material you own or are authorized to retain. Keep more than one independent copy, record where it is stored and test that you can restore and play it. A synchronized folder alone is not proof of a recoverable archive.",
+            "Retain the original camera or export file when possible. A smaller delivery copy can be convenient, but it may discard detail or metadata you want later. Repeatedly converting between lossy formats is not an archival strategy.",
+            "Copies on the same physical drive share the risk of that drive failing. Consider an independent storage location and, when appropriate, a copy kept away from the primary location. Choose arrangements you can actually maintain."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Does the file get uploaded?",
+          "answer": "No. The selected video is read and processed locally. The tool downloads its engine from VidFetch, then offers a local output file; it does not upload the recording."
+        },
+        {
+          "question": "Why is a small file refused?",
+          "answer": "Size is only one check. Duration, pixel count and the codecs available in your browser also matter. A recording can fit the size cap and still need an unsupported decoder or encoder."
+        },
+        {
+          "question": "Where is the finished file?",
+          "answer": "Use the download link when processing finishes. Your browser chooses the download location. On a phone, check Files or Downloads before trying to import a compatible video into Photos or the gallery."
+        }
+      ]
+    },
+    "gif": {
+      "title": "Video to GIF converter",
+      "description": "Convert video to GIF free on your device, without uploading or an account. Adjust width and frame rate. Clips up to 15 seconds.",
+      "heading": "Video to GIF converter",
+      "intro": "Turn a short section of your own video into a looping image. A GIF has no sound; choose a clear movement or demonstration that makes sense without the soundtrack.",
+      "sections": [
+        {
+          "heading": "Build a readable short loop",
+          "paragraphs": [
+            "Choose a range of at most 15 seconds. Set the width to 160, 320, 480 or 640 pixels and the rate to 5, 10 or 15 frames per second. The tool limits width to the source instead of enlarging it. A short, steady view usually explains a gesture more clearly than a long clip with several camera movements.",
+            "Each frame is reduced to an optimized palette of up to 256 colors. Gradients, dark scenes and fast motion may show banding or visible artifacts. Increasing width and frame rate increases processing and file size; a GIF is not automatically smaller than the video. There is no audio track in the result. For longer material or a soundtrack, keep a video file instead."
+          ]
+        },
+        {
+          "heading": "Files, privacy and device limits",
+          "paragraphs": [
+            "Choose an MP4, MOV or WebM file already saved on your device. These extensions describe containers, not the codecs inside them. H.264 video with AAC audio and WebM with VP8 and Opus are useful test cases. A MOV recording may use a different codec, including HEVC, so its extension alone does not establish compatibility. The browser checks the actual tracks before starting.",
+            "The file picker limits input to 8 MiB on touch devices and low memory devices, or 32 MiB on other desktops. A MiB is 1,048,576 bytes. Recordings must be no longer than 120 seconds and contain at most 2,073,600 pixels per frame, including portrait layouts. The output may not exceed twice the applicable input cap. These conservative limits also apply when plenty of storage is free.",
+            "The work runs inside a browser worker. Processing can still consume battery and memory, so keep the tab open and avoid starting several jobs in separate tabs. An operation stops after 180 seconds. Progress reflects the media processed and does not predict a finishing time. Cancel terminates the worker; selecting another file starts with a fresh engine.",
+            "The file never leaves your device. No media upload, account or third party request is used on these tool pages. The site serves its own worker and codec files after you select an accepted file. The result is a local download link, not a public hosting address. Closing or resetting the tool releases its temporary browser URLs; a copy you already downloaded stays in your Downloads folder.",
+            "Use material you created or have permission to edit. Local processing does not transfer copyright or remove anyone's rights. Keep your source separately: the downloaded result is a new file, and compression or reencoding can lose detail. Test playback, duration and sound in the app where you intend to use the copy before deleting anything.",
+            "Current desktop browsers, Android Chrome and iOS Safari differ in their WebCodecs support. A native video preview may fail even when a track can be copied. If the tool reports an unsupported format or codec, try a supported recording or a desktop editor. It does not install codecs, send the file to a fallback server or retry against another service."
+          ]
+        },
+        {
+          "heading": "Media choices explained",
+          "paragraphs": [
+            "Resolution describes how many pixels a frame contains. Bitrate describes how much data is used per second. Both affect a video, but they are not interchangeable. A high-resolution file with too little data for its scene can look worse than a lower-resolution file with a more suitable encoding. Duration is the other essential number when estimating size.",
+            "A 1920 × 1080 frame contains more pixels than a 1280 × 720 frame. That offers space for more detail if the capture and encoding preserve it. It does not prove that the video is sharp, in focus or free of compression artifacts."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Does the file get uploaded?",
+          "answer": "No. The selected video is read and processed locally. The tool downloads its engine from VidFetch, then offers a local output file; it does not upload the recording."
+        },
+        {
+          "question": "Why is a small file refused?",
+          "answer": "Size is only one check. Duration, pixel count and the codecs available in your browser also matter. A recording can fit the size cap and still need an unsupported decoder or encoder."
+        },
+        {
+          "question": "Where is the finished file?",
+          "answer": "Use the download link when processing finishes. Your browser chooses the download location. On a phone, check Files or Downloads before trying to import a compatible video into Photos or the gallery."
+        }
+      ]
+    }
+  },
+  "fr": {
+    "audio": {
+      "title": "Convertir une vidéo en MP3 ou M4A",
+      "description": "Convertir une vidéo en MP3 gratuitement, sans compte ni envoi. M4A en copie AAC. Limite : 8 Mio sur mobile ou 32 Mio sur ordinateur.",
+      "heading": "Convertir une vidéo en MP3 ou M4A",
+      "intro": "Récupérez le son d’une vidéo qui vous appartient. Choisissez un MP3 compatible avec de nombreux lecteurs, ou conservez une piste AAC existante dans un fichier M4A. Votre vidéo source reste intacte.",
+      "sections": [
+        {
+          "heading": "Choisir le format sonore adapté",
+          "paragraphs": [
+            "Le MP3 propose 128, 192 ou 320 kbps. Un débit supérieur occupe plus de place sans recréer les détails perdus dans la bande sonore source. Pour une note vocale, commencez à 128. Pour une répétition musicale que vous avez enregistrée, comparez un court passage à 192 puis 320. Seule la piste audio principale est extraite ; aucune image vidéo n’accompagne le résultat.",
+            "Le M4A copie directement une piste AAC existante. Ce choix n’effectue pas de conversion vers AAC : si le son est en Opus ou dans un autre codec, il est refusé et vous pouvez essayer le MP3. Copier l’AAC évite une nouvelle génération avec pertes. Une vidéo silencieuse, sans piste sonore, ne fournit évidemment aucun son à extraire."
+          ]
+        },
+        {
+          "heading": "Fichiers, confidentialité et limites",
+          "paragraphs": [
+            "Sélectionnez un fichier MP4, MOV ou WebM déjà présent sur votre appareil. Ces extensions désignent un conteneur, pas les codecs qu’il contient. Une vidéo H.264 avec du son AAC et un WebM VP8 avec Opus constituent des cas utiles pour les essais. Un MOV d’iPhone peut employer un autre codec, notamment HEVC. Le navigateur examine donc les pistes réelles avant de lancer le travail.",
+            "La taille autorisée est de 8 Mio sur les appareils tactiles ou à faible mémoire, et de 32 Mio sur les autres ordinateurs. Un Mio représente 1 048 576 octets. La durée maximale est de 120 secondes, avec au plus 2 073 600 pixels par image, y compris en orientation portrait. Le résultat ne doit pas dépasser le double de la limite d’entrée applicable, même si votre disque dispose de plus de place.",
+            "Le traitement se déroule dans un worker du navigateur. Il utilise néanmoins de la mémoire et de la batterie : gardez l’onglet ouvert et évitez les conversions simultanées dans plusieurs fenêtres. Une opération est arrêtée après 180 secondes. La progression décrit le média traité ; elle ne prédit pas l’heure de fin. Annuler termine le worker, et un nouveau fichier repart avec une nouvelle instance du moteur.",
+            "Le fichier ne quitte pas votre appareil. Ces pages n’envoient aucun média et ne contactent aucune plateforme tierce. VidFetch fournit ses propres fichiers de moteur après la sélection d’un fichier accepté, puis crée un lien de téléchargement local. Ce lien ne sert pas à héberger publiquement le résultat. Réinitialiser ou quitter la page libère les adresses temporaires ; une copie déjà téléchargée reste dans vos téléchargements.",
+            "Travaillez sur vos créations ou sur des contenus dont la modification est autorisée. Le traitement local ne vous accorde aucun droit supplémentaire. Gardez l’original à part : la sortie est une nouvelle copie et le réencodage peut perdre des détails. Avant de supprimer quoi que ce soit, vérifiez la durée, le son et la lecture dans l’application destinataire.",
+            "Les versions récentes de Chrome sur Android, Safari sur iOS et les navigateurs de bureau ne disposent pas tous des mêmes codecs WebCodecs. Un aperçu peut échouer alors qu’une copie de piste est possible. Si le format est refusé, essayez un enregistrement compatible ou un logiciel de bureau. Aucun serveur de secours ne reçoit le fichier."
+          ]
+        },
+        {
+          "heading": "Comprendre les choix de média",
+          "paragraphs": [
+            "Une vidéo peut contenir une piste audio séparée. La transformer en fichier audio signifie soit copier cette piste dans un conteneur compatible, soit l’encoder dans un autre format. Une copie peut préserver les données encodées ; une conversion améliore parfois la compatibilité, jamais la qualité initiale. Utilisez uniquement un contenu qui vous appartient ou dont l’usage est autorisé.",
+            "Certaines vidéos sont muettes ; d’autres comportent plusieurs langues ou un commentaire. Écoutez le fichier et inspectez les pistes avant de choisir. Une extraction simple ne sépare pas une voix de la musique : les éléments déjà mélangés restent mélangés."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "La vidéo est-elle envoyée sur un serveur ?",
+          "answer": "Non. Le fichier choisi est lu et traité sur votre appareil. Le navigateur télécharge le moteur depuis VidFetch, puis propose le résultat en téléchargement local, sans envoyer l’enregistrement."
+        },
+        {
+          "question": "Pourquoi un petit fichier est-il refusé ?",
+          "answer": "La taille n’est qu’un contrôle parmi plusieurs. La durée, le nombre de pixels et les codecs disponibles comptent aussi. Un fichier léger peut demander un décodeur ou un encodeur absent du navigateur."
+        },
+        {
+          "question": "Où retrouver le résultat sur téléphone ?",
+          "answer": "Utilisez le lien de téléchargement une fois le traitement terminé. Regardez dans Fichiers ou Téléchargements. Vous pourrez ensuite importer une vidéo compatible dans Photos ou dans la galerie selon votre téléphone."
+        }
+      ]
+    },
+    "compress": {
+      "title": "Compresser une vidéo en local",
+      "description": "Compresser une vidéo gratuitement sur votre appareil, sans envoi ni compte. Taille estimée avant traitement. Limite : 8 Mio mobile, 32 Mio ordinateur.",
+      "heading": "Compresser une vidéo en local",
+      "intro": "Préparez une copie plus légère de votre propre enregistrement. La compression se déroule sur votre appareil et l’estimation sert à comparer les réglages, sans promettre une taille finale exacte.",
+      "sections": [
+        {
+          "heading": "Comprendre les réglages de compression",
+          "paragraphs": [
+            "Les réglages léger, équilibré et fort visent respectivement 2 000 000, 1 000 000 et 500 000 bits par seconde pour la vidéo. Le son, lorsqu’il existe, est réencodé à 128 kbps. L’estimation multiplie ces débits par la durée. Le conteneur et les choix de l’encodeur peuvent faire varier la taille réelle, parfois au-dessus de celle du fichier d’origine.",
+            "Vous pouvez fixer une hauteur maximale de 360, 480, 720 ou 1080 pixels, ou conserver les dimensions d’origine. L’outil n’agrandit pas la source. Il privilégie WebM avec VP8 et Opus, puis MP4 avec H.264 et AAC uniquement si le navigateur peut encoder ces pistes. Vérifiez que l’application destinataire accepte le fichier obtenu."
+          ]
+        },
+        {
+          "heading": "Fichiers, confidentialité et limites",
+          "paragraphs": [
+            "Sélectionnez un fichier MP4, MOV ou WebM déjà présent sur votre appareil. Ces extensions désignent un conteneur, pas les codecs qu’il contient. Une vidéo H.264 avec du son AAC et un WebM VP8 avec Opus constituent des cas utiles pour les essais. Un MOV d’iPhone peut employer un autre codec, notamment HEVC. Le navigateur examine donc les pistes réelles avant de lancer le travail.",
+            "La taille autorisée est de 8 Mio sur les appareils tactiles ou à faible mémoire, et de 32 Mio sur les autres ordinateurs. Un Mio représente 1 048 576 octets. La durée maximale est de 120 secondes, avec au plus 2 073 600 pixels par image, y compris en orientation portrait. Le résultat ne doit pas dépasser le double de la limite d’entrée applicable, même si votre disque dispose de plus de place.",
+            "Le traitement se déroule dans un worker du navigateur. Il utilise néanmoins de la mémoire et de la batterie : gardez l’onglet ouvert et évitez les conversions simultanées dans plusieurs fenêtres. Une opération est arrêtée après 180 secondes. La progression décrit le média traité ; elle ne prédit pas l’heure de fin. Annuler termine le worker, et un nouveau fichier repart avec une nouvelle instance du moteur.",
+            "Le fichier ne quitte pas votre appareil. Ces pages n’envoient aucun média et ne contactent aucune plateforme tierce. VidFetch fournit ses propres fichiers de moteur après la sélection d’un fichier accepté, puis crée un lien de téléchargement local. Ce lien ne sert pas à héberger publiquement le résultat. Réinitialiser ou quitter la page libère les adresses temporaires ; une copie déjà téléchargée reste dans vos téléchargements.",
+            "Travaillez sur vos créations ou sur des contenus dont la modification est autorisée. Le traitement local ne vous accorde aucun droit supplémentaire. Gardez l’original à part : la sortie est une nouvelle copie et le réencodage peut perdre des détails. Avant de supprimer quoi que ce soit, vérifiez la durée, le son et la lecture dans l’application destinataire.",
+            "Les versions récentes de Chrome sur Android, Safari sur iOS et les navigateurs de bureau ne disposent pas tous des mêmes codecs WebCodecs. Un aperçu peut échouer alors qu’une copie de piste est possible. Si le format est refusé, essayez un enregistrement compatible ou un logiciel de bureau. Aucun serveur de secours ne reçoit le fichier."
+          ]
+        },
+        {
+          "heading": "Comprendre les choix de média",
+          "paragraphs": [
+            "Réduire une vidéo consiste à diminuer les données qu’elle contient. Couper une partie inutile, diminuer le débit ou choisir une résolution adaptée sont trois décisions différentes. Travaillez sur une copie et testez une scène représentative. Aucun réglage ne garantit une réduction importante avec une qualité identique pour toutes les sources.",
+            "Un extrait envoyé par messagerie n’a pas les mêmes besoins qu’un original destiné au montage. Déterminez l’appareil de lecture, la durée utile et la taille maximale. Conservez le fichier original. Retirer une introduction inutile peut être préférable à une compression très agressive de chaque image."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "La vidéo est-elle envoyée sur un serveur ?",
+          "answer": "Non. Le fichier choisi est lu et traité sur votre appareil. Le navigateur télécharge le moteur depuis VidFetch, puis propose le résultat en téléchargement local, sans envoyer l’enregistrement."
+        },
+        {
+          "question": "Pourquoi un petit fichier est-il refusé ?",
+          "answer": "La taille n’est qu’un contrôle parmi plusieurs. La durée, le nombre de pixels et les codecs disponibles comptent aussi. Un fichier léger peut demander un décodeur ou un encodeur absent du navigateur."
+        },
+        {
+          "question": "Où retrouver le résultat sur téléphone ?",
+          "answer": "Utilisez le lien de téléchargement une fois le traitement terminé. Regardez dans Fichiers ou Téléchargements. Vous pourrez ensuite importer une vidéo compatible dans Photos ou dans la galerie selon votre téléphone."
+        }
+      ]
+    },
+    "trim": {
+      "title": "Couper une vidéo dans le navigateur",
+      "description": "Couper une vidéo gratuitement sans l’envoyer. Copie sur image clé ou réencodage précis. Limite : 8 Mio sur mobile, 32 Mio sur ordinateur.",
+      "heading": "Couper une vidéo dans le navigateur",
+      "intro": "Gardez un passage de votre enregistrement. Indiquez le début et la fin en secondes, repérez le moment avec l’aperçu, puis choisissez une copie rapide ou un réencodage précis.",
+      "sections": [
+        {
+          "heading": "Placer les limites de l’extrait",
+          "paragraphs": [
+            "Saisissez le début et la fin en secondes, dans les limites de la durée source. La fin doit se situer après le début. Modifier le début déplace l’aperçu. Celui-ci lit la vidéo originale : il aide à retrouver un passage, sans garantir la première image du fichier exporté.",
+            "La copie rapide évite un nouvel encodage, mais une vidéo compressée a besoin d’une image clé pour commencer sa lecture. L’intervalle choisi peut être élargi jusqu’à une image clé voisine et conserver quelques instants supplémentaires. Consultez la durée du résultat. Le mode précis décode puis réencode le passage en WebM ou MP4 selon les encodeurs disponibles. Il demande plus de calcul et peut modifier la qualité."
+          ]
+        },
+        {
+          "heading": "Fichiers, confidentialité et limites",
+          "paragraphs": [
+            "Sélectionnez un fichier MP4, MOV ou WebM déjà présent sur votre appareil. Ces extensions désignent un conteneur, pas les codecs qu’il contient. Une vidéo H.264 avec du son AAC et un WebM VP8 avec Opus constituent des cas utiles pour les essais. Un MOV d’iPhone peut employer un autre codec, notamment HEVC. Le navigateur examine donc les pistes réelles avant de lancer le travail.",
+            "La taille autorisée est de 8 Mio sur les appareils tactiles ou à faible mémoire, et de 32 Mio sur les autres ordinateurs. Un Mio représente 1 048 576 octets. La durée maximale est de 120 secondes, avec au plus 2 073 600 pixels par image, y compris en orientation portrait. Le résultat ne doit pas dépasser le double de la limite d’entrée applicable, même si votre disque dispose de plus de place.",
+            "Le traitement se déroule dans un worker du navigateur. Il utilise néanmoins de la mémoire et de la batterie : gardez l’onglet ouvert et évitez les conversions simultanées dans plusieurs fenêtres. Une opération est arrêtée après 180 secondes. La progression décrit le média traité ; elle ne prédit pas l’heure de fin. Annuler termine le worker, et un nouveau fichier repart avec une nouvelle instance du moteur.",
+            "Le fichier ne quitte pas votre appareil. Ces pages n’envoient aucun média et ne contactent aucune plateforme tierce. VidFetch fournit ses propres fichiers de moteur après la sélection d’un fichier accepté, puis crée un lien de téléchargement local. Ce lien ne sert pas à héberger publiquement le résultat. Réinitialiser ou quitter la page libère les adresses temporaires ; une copie déjà téléchargée reste dans vos téléchargements.",
+            "Travaillez sur vos créations ou sur des contenus dont la modification est autorisée. Le traitement local ne vous accorde aucun droit supplémentaire. Gardez l’original à part : la sortie est une nouvelle copie et le réencodage peut perdre des détails. Avant de supprimer quoi que ce soit, vérifiez la durée, le son et la lecture dans l’application destinataire.",
+            "Les versions récentes de Chrome sur Android, Safari sur iOS et les navigateurs de bureau ne disposent pas tous des mêmes codecs WebCodecs. Un aperçu peut échouer alors qu’une copie de piste est possible. Si le format est refusé, essayez un enregistrement compatible ou un logiciel de bureau. Aucun serveur de secours ne reçoit le fichier."
+          ]
+        },
+        {
+          "heading": "Comprendre les choix de média",
+          "paragraphs": [
+            "Une sauvegarde utile conserve les originaux et permet de les récupérer si le stockage principal tombe en panne. Commencez avec vos vidéos ou des contenus que vous êtes autorisé à conserver. Faites plusieurs copies indépendantes et testez leur restauration. Un dossier synchronisé ne prouve pas, à lui seul, qu’une archive est récupérable.",
+            "Deux copies sur le même disque partagent le risque de panne. Prévoyez un autre support et, si possible, une copie dans un lieu distinct. Choisissez une organisation que vous pourrez entretenir. La synchronisation peut répliquer une suppression accidentelle ; vérifiez l’historique des versions ou une autre récupération, puis testez-la."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "La vidéo est-elle envoyée sur un serveur ?",
+          "answer": "Non. Le fichier choisi est lu et traité sur votre appareil. Le navigateur télécharge le moteur depuis VidFetch, puis propose le résultat en téléchargement local, sans envoyer l’enregistrement."
+        },
+        {
+          "question": "Pourquoi un petit fichier est-il refusé ?",
+          "answer": "La taille n’est qu’un contrôle parmi plusieurs. La durée, le nombre de pixels et les codecs disponibles comptent aussi. Un fichier léger peut demander un décodeur ou un encodeur absent du navigateur."
+        },
+        {
+          "question": "Où retrouver le résultat sur téléphone ?",
+          "answer": "Utilisez le lien de téléchargement une fois le traitement terminé. Regardez dans Fichiers ou Téléchargements. Vous pourrez ensuite importer une vidéo compatible dans Photos ou dans la galerie selon votre téléphone."
+        }
+      ]
+    },
+    "gif": {
+      "title": "Convertir une vidéo en GIF",
+      "description": "Convertir une vidéo en GIF gratuitement, sans compte ni envoi. Largeur et cadence réglables ; extrait limité à 15 secondes.",
+      "heading": "Convertir une vidéo en GIF",
+      "intro": "Créez une courte animation à partir de votre vidéo. Le GIF ne contient pas de son : privilégiez un geste ou une démonstration compréhensible sans écouter la bande originale.",
+      "sections": [
+        {
+          "heading": "Préparer une boucle lisible",
+          "paragraphs": [
+            "Choisissez un passage de 15 secondes au maximum. Réglez la largeur à 160, 320, 480 ou 640 pixels, et la cadence à 5, 10 ou 15 images par seconde. La largeur reste limitée à celle de la source, sans agrandissement. Une vue stable et courte explique généralement mieux un geste qu’une longue séquence avec plusieurs mouvements de caméra.",
+            "Chaque image utilise une palette optimisée de 256 couleurs au maximum. Les dégradés, les zones sombres et les mouvements rapides peuvent présenter des bandes ou des défauts visibles. Augmenter largeur et cadence augmente les calculs et la taille ; un GIF n’est pas forcément plus léger que la vidéo. Il ne contient pas de son. Gardez une vidéo pour un passage long ou une bande sonore."
+          ]
+        },
+        {
+          "heading": "Fichiers, confidentialité et limites",
+          "paragraphs": [
+            "Sélectionnez un fichier MP4, MOV ou WebM déjà présent sur votre appareil. Ces extensions désignent un conteneur, pas les codecs qu’il contient. Une vidéo H.264 avec du son AAC et un WebM VP8 avec Opus constituent des cas utiles pour les essais. Un MOV d’iPhone peut employer un autre codec, notamment HEVC. Le navigateur examine donc les pistes réelles avant de lancer le travail.",
+            "La taille autorisée est de 8 Mio sur les appareils tactiles ou à faible mémoire, et de 32 Mio sur les autres ordinateurs. Un Mio représente 1 048 576 octets. La durée maximale est de 120 secondes, avec au plus 2 073 600 pixels par image, y compris en orientation portrait. Le résultat ne doit pas dépasser le double de la limite d’entrée applicable, même si votre disque dispose de plus de place.",
+            "Le traitement se déroule dans un worker du navigateur. Il utilise néanmoins de la mémoire et de la batterie : gardez l’onglet ouvert et évitez les conversions simultanées dans plusieurs fenêtres. Une opération est arrêtée après 180 secondes. La progression décrit le média traité ; elle ne prédit pas l’heure de fin. Annuler termine le worker, et un nouveau fichier repart avec une nouvelle instance du moteur.",
+            "Le fichier ne quitte pas votre appareil. Ces pages n’envoient aucun média et ne contactent aucune plateforme tierce. VidFetch fournit ses propres fichiers de moteur après la sélection d’un fichier accepté, puis crée un lien de téléchargement local. Ce lien ne sert pas à héberger publiquement le résultat. Réinitialiser ou quitter la page libère les adresses temporaires ; une copie déjà téléchargée reste dans vos téléchargements.",
+            "Travaillez sur vos créations ou sur des contenus dont la modification est autorisée. Le traitement local ne vous accorde aucun droit supplémentaire. Gardez l’original à part : la sortie est une nouvelle copie et le réencodage peut perdre des détails. Avant de supprimer quoi que ce soit, vérifiez la durée, le son et la lecture dans l’application destinataire.",
+            "Les versions récentes de Chrome sur Android, Safari sur iOS et les navigateurs de bureau ne disposent pas tous des mêmes codecs WebCodecs. Un aperçu peut échouer alors qu’une copie de piste est possible. Si le format est refusé, essayez un enregistrement compatible ou un logiciel de bureau. Aucun serveur de secours ne reçoit le fichier."
+          ]
+        },
+        {
+          "heading": "Comprendre les choix de média",
+          "paragraphs": [
+            "La résolution indique le nombre de pixels d’une image. Le débit décrit les données utilisées chaque seconde. Ces critères ne sont pas interchangeables : une grande image trop compressée peut sembler moins propre qu’une image plus petite bien encodée. La durée est indispensable pour estimer la taille finale.",
+            "1920 × 1080 contient davantage de pixels que 1280 × 720. Cela permet du détail seulement si la capture et l’encodage le conservent. La fréquence décrit séparément le nombre d’images par seconde. Une diapositive immobile et une caméra en mouvement sollicitent différemment l’encodeur."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "La vidéo est-elle envoyée sur un serveur ?",
+          "answer": "Non. Le fichier choisi est lu et traité sur votre appareil. Le navigateur télécharge le moteur depuis VidFetch, puis propose le résultat en téléchargement local, sans envoyer l’enregistrement."
+        },
+        {
+          "question": "Pourquoi un petit fichier est-il refusé ?",
+          "answer": "La taille n’est qu’un contrôle parmi plusieurs. La durée, le nombre de pixels et les codecs disponibles comptent aussi. Un fichier léger peut demander un décodeur ou un encodeur absent du navigateur."
+        },
+        {
+          "question": "Où retrouver le résultat sur téléphone ?",
+          "answer": "Utilisez le lien de téléchargement une fois le traitement terminé. Regardez dans Fichiers ou Téléchargements. Vous pourrez ensuite importer une vidéo compatible dans Photos ou dans la galerie selon votre téléphone."
+        }
+      ]
+    }
+  },
+  "es": {
+    "audio": {
+      "title": "Convertir vídeo a MP3 o M4A",
+      "description": "Convertir vídeo a MP3 gratis, sin cuenta ni subir archivos. M4A mediante copia AAC. Hasta 8 MiB en móvil o 32 MiB en ordenador.",
+      "heading": "Convertir vídeo a MP3 o M4A",
+      "intro": "Extrae el sonido de una grabación tuya sin enviarla a otro sitio. Puedes crear un MP3 o conservar una pista AAC existente dentro de un archivo M4A.",
+      "sections": [
+        {
+          "heading": "Elegir la salida de audio",
+          "paragraphs": [
+            "Para MP3 puedes elegir 128, 192 o 320 kbps. Un valor mayor ocupa más espacio; no recupera detalles que ya faltan en el sonido. Prueba 128 para una nota de voz y compara 192 y 320 para una interpretación musical que hayas grabado. Solo se extrae la pista principal de audio, sin imágenes.",
+            "M4A copia una pista AAC existente sin recodificar. No convierte Opus ni otros códecs a AAC: en esos casos se rechaza la opción y puedes probar MP3. Si el vídeo no contiene una pista de sonido, no hay audio que extraer."
+          ]
+        },
+        {
+          "heading": "Archivos, privacidad y límites",
+          "paragraphs": [
+            "Selecciona un MP4, MOV o WebM guardado en tu dispositivo. La extensión indica el contenedor, pero no basta para conocer los códecs. Un MP4 H.264 con AAC y un WebM VP8 con Opus son casos de prueba útiles. Un MOV del iPhone puede llevar HEVC. El navegador examina las pistas reales; no cambia de servicio si no puede procesarlas.",
+            "El límite es de 8 MiB en dispositivos táctiles o con poca memoria y de 32 MiB en los demás ordenadores. Un MiB equivale a 1 048 576 bytes. La duración máxima es de 120 segundos y cada fotograma admite hasta 2 073 600 píxeles, también en vertical. La salida no puede superar el doble del límite de entrada aplicable. El espacio libre del disco no amplía estos límites.",
+            "El trabajo se ejecuta en un worker del navegador. Aun así consume batería y memoria. Mantén abierta la pestaña y evita varias conversiones a la vez. Una operación se detiene a los 180 segundos. La barra mide el contenido procesado, no el tiempo que falta. Cancelar termina el worker; elegir otro archivo inicia un motor nuevo.",
+            "El archivo no sale de tu dispositivo. Estas páginas no suben medios ni contactan con plataformas ajenas. VidFetch sirve sus propios archivos del motor después de que elijas un archivo aceptado. El resultado es un enlace de descarga local, no una dirección pública para compartir. Reiniciar o abandonar la página libera las direcciones temporales; una copia descargada permanece en Descargas.",
+            "Utiliza grabaciones propias o material que tengas permiso para modificar. El procesamiento local no concede derechos de autor. Conserva el original por separado: la salida es una copia nueva y recodificar puede perder detalles. Antes de borrar nada, comprueba la duración, la sincronización y la reproducción en la aplicación de destino.",
+            "Los navegadores de escritorio, Chrome en Android y Safari en iOS no ofrecen exactamente los mismos códecs WebCodecs. La vista previa puede fallar aunque sea posible copiar una pista. Si aparece un error de compatibilidad, prueba otra grabación compatible o un editor de escritorio. El archivo nunca se envía a un servidor de respaldo."
+          ]
+        },
+        {
+          "heading": "Entender los formatos",
+          "paragraphs": [
+            "Un vídeo puede contener una pista de sonido independiente. Crear un archivo de audio consiste en copiarla a un contenedor compatible o codificarla a otro formato, como MP3. La copia puede conservar los datos exactos; recodificar puede mejorar compatibilidad, no la calidad original. Usa solo material propio o autorizado.",
+            "Hay grabaciones mudas y otras con varias pistas, idiomas o comentarios. Escucha e inspecciona la lista antes de escoger. Extraer audio no separa instrumentos ni elimina voces: una mezcla sigue siendo una mezcla en la salida.",
+            "Si no existe audio, la orden debe indicar la ausencia. Conserva la entrada y comprueba la salida. La primera pista podría no ser el idioma deseado: ajusta la selección si es necesario.",
+            "Si confirmas que la pista elegida es AAC, esta copia a M4A puede evitar una nueva compresión con pérdida:",
+            "No es una conversión universal. El contenedor debe admitir el códec de entrada. Si no encaja, elige otro contenedor o codifica otra pista. MP3 y M4A tienen funciones distintas."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "¿Se sube la grabación?",
+          "answer": "No. El navegador lee y procesa el archivo en tu dispositivo. Descarga el motor desde VidFetch y ofrece un archivo de salida local, sin enviar la grabación."
+        },
+        {
+          "question": "¿Por qué se rechaza un archivo pequeño?",
+          "answer": "También se comprueban la duración, los píxeles y los códecs disponibles. Un archivo ligero puede requerir un decodificador o codificador que tu navegador no tenga."
+        },
+        {
+          "question": "¿Dónde está el resultado en el móvil?",
+          "answer": "Pulsa el enlace de descarga al terminar. Busca el archivo en Archivos o Descargas. Después podrás importar un vídeo compatible a Fotos o a la galería, según tu dispositivo."
+        }
+      ]
+    },
+    "compress": {
+      "title": "Comprimir vídeo en tu dispositivo",
+      "description": "Comprimir vídeo gratis y sin subirlo: elige un ajuste y consulta una estimación. Límite de 8 MiB en móvil o 32 MiB en ordenador.",
+      "heading": "Comprimir vídeo en tu dispositivo",
+      "intro": "Prepara una copia más ligera para compartir tu grabación. Compara los ajustes y revisa el archivo terminado: la estimación no asegura un tamaño exacto.",
+      "sections": [
+        {
+          "heading": "Entender los ajustes de compresión",
+          "paragraphs": [
+            "Los ajustes suave, equilibrado y fuerte apuntan a 2 000 000, 1 000 000 y 500 000 bits por segundo de vídeo. El audio se recodifica a 128 kbps cuando existe. La estimación multiplica los objetivos por la duración; el contenedor y el codificador pueden variar el tamaño, incluso dejarlo por encima del original.",
+            "Puedes fijar una altura máxima de 360, 480, 720 o 1080 píxeles sin ampliar la fuente. Se prefiere WebM VP8 con Opus; MP4 H.264 con AAC solo se usa si esos codificadores están disponibles. Comprueba la compatibilidad de la aplicación receptora."
+          ]
+        },
+        {
+          "heading": "Archivos, privacidad y límites",
+          "paragraphs": [
+            "Selecciona un MP4, MOV o WebM guardado en tu dispositivo. La extensión indica el contenedor, pero no basta para conocer los códecs. Un MP4 H.264 con AAC y un WebM VP8 con Opus son casos de prueba útiles. Un MOV del iPhone puede llevar HEVC. El navegador examina las pistas reales; no cambia de servicio si no puede procesarlas.",
+            "El límite es de 8 MiB en dispositivos táctiles o con poca memoria y de 32 MiB en los demás ordenadores. Un MiB equivale a 1 048 576 bytes. La duración máxima es de 120 segundos y cada fotograma admite hasta 2 073 600 píxeles, también en vertical. La salida no puede superar el doble del límite de entrada aplicable. El espacio libre del disco no amplía estos límites.",
+            "El trabajo se ejecuta en un worker del navegador. Aun así consume batería y memoria. Mantén abierta la pestaña y evita varias conversiones a la vez. Una operación se detiene a los 180 segundos. La barra mide el contenido procesado, no el tiempo que falta. Cancelar termina el worker; elegir otro archivo inicia un motor nuevo.",
+            "El archivo no sale de tu dispositivo. Estas páginas no suben medios ni contactan con plataformas ajenas. VidFetch sirve sus propios archivos del motor después de que elijas un archivo aceptado. El resultado es un enlace de descarga local, no una dirección pública para compartir. Reiniciar o abandonar la página libera las direcciones temporales; una copia descargada permanece en Descargas.",
+            "Utiliza grabaciones propias o material que tengas permiso para modificar. El procesamiento local no concede derechos de autor. Conserva el original por separado: la salida es una copia nueva y recodificar puede perder detalles. Antes de borrar nada, comprueba la duración, la sincronización y la reproducción en la aplicación de destino.",
+            "Los navegadores de escritorio, Chrome en Android y Safari en iOS no ofrecen exactamente los mismos códecs WebCodecs. La vista previa puede fallar aunque sea posible copiar una pista. Si aparece un error de compatibilidad, prueba otra grabación compatible o un editor de escritorio. El archivo nunca se envía a un servidor de respaldo."
+          ]
+        },
+        {
+          "heading": "Entender los formatos",
+          "paragraphs": [
+            "Reducir un vídeo significa disminuir los datos que contiene. Recortar una parte innecesaria, bajar el bitrate o cambiar la resolución son decisiones distintas. Trabaja sobre una copia y prueba una escena representativa. No existe un ajuste que garantice la misma calidad y mucho menos tamaño para cualquier fuente.",
+            "Un clip para mensajería no necesita lo mismo que material para editar. Decide destino, duración útil y límite de tamaño. Guarda el original. Quitar una introducción puede ser más útil que comprimir con demasiada fuerza todas las imágenes.",
+            "Pasar de 4K a 1080p reduce los píxeles que hay que codificar, pero pierde detalle fino. Ampliar 720p no recupera información. Bajar los fotogramas por segundo cambia el movimiento, especialmente en deporte. Consulta las resoluciones y prueba antes de aceptar el resultado.",
+            "Lista formatos de la fuente y puede convertir audio a MP3. No es un compresor de vídeos subidos ni ofrece un control CRF personalizado. Elegir una versión disponible más pequeña puede bastar. El cálculo del bitrate ayuda a estimar límites, sin garantizar un peso exacto."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "¿Se sube la grabación?",
+          "answer": "No. El navegador lee y procesa el archivo en tu dispositivo. Descarga el motor desde VidFetch y ofrece un archivo de salida local, sin enviar la grabación."
+        },
+        {
+          "question": "¿Por qué se rechaza un archivo pequeño?",
+          "answer": "También se comprueban la duración, los píxeles y los códecs disponibles. Un archivo ligero puede requerir un decodificador o codificador que tu navegador no tenga."
+        },
+        {
+          "question": "¿Dónde está el resultado en el móvil?",
+          "answer": "Pulsa el enlace de descarga al terminar. Busca el archivo en Archivos o Descargas. Después podrás importar un vídeo compatible a Fotos o a la galería, según tu dispositivo."
+        }
+      ]
+    },
+    "trim": {
+      "title": "Cortar vídeo en el navegador",
+      "description": "Cortar vídeo gratis sin subir archivos. Copia en fotograma clave o recodificación precisa. Hasta 8 MiB en móvil o 32 MiB en ordenador.",
+      "heading": "Cortar vídeo en el navegador",
+      "intro": "Conserva el fragmento que necesitas de tu grabación. Indica el inicio y el final en segundos y utiliza la vista previa para encontrar el momento.",
+      "sections": [
+        {
+          "heading": "Situar el inicio y el final",
+          "paragraphs": [
+            "Introduce el inicio y el final en segundos. El final debe ir después del inicio y dentro de la duración original. Cambiar el inicio desplaza la vista previa, que reproduce la fuente y no garantiza el primer fotograma exportado.",
+            "La copia rápida necesita un fotograma clave para comenzar. El intervalo puede ampliarse y conservar momentos adicionales; consulta la duración del resultado. La opción precisa decodifica y recodifica el fragmento en WebM o MP4, según los codificadores disponibles. Requiere más cálculo y puede cambiar la calidad."
+          ]
+        },
+        {
+          "heading": "Archivos, privacidad y límites",
+          "paragraphs": [
+            "Selecciona un MP4, MOV o WebM guardado en tu dispositivo. La extensión indica el contenedor, pero no basta para conocer los códecs. Un MP4 H.264 con AAC y un WebM VP8 con Opus son casos de prueba útiles. Un MOV del iPhone puede llevar HEVC. El navegador examina las pistas reales; no cambia de servicio si no puede procesarlas.",
+            "El límite es de 8 MiB en dispositivos táctiles o con poca memoria y de 32 MiB en los demás ordenadores. Un MiB equivale a 1 048 576 bytes. La duración máxima es de 120 segundos y cada fotograma admite hasta 2 073 600 píxeles, también en vertical. La salida no puede superar el doble del límite de entrada aplicable. El espacio libre del disco no amplía estos límites.",
+            "El trabajo se ejecuta en un worker del navegador. Aun así consume batería y memoria. Mantén abierta la pestaña y evita varias conversiones a la vez. Una operación se detiene a los 180 segundos. La barra mide el contenido procesado, no el tiempo que falta. Cancelar termina el worker; elegir otro archivo inicia un motor nuevo.",
+            "El archivo no sale de tu dispositivo. Estas páginas no suben medios ni contactan con plataformas ajenas. VidFetch sirve sus propios archivos del motor después de que elijas un archivo aceptado. El resultado es un enlace de descarga local, no una dirección pública para compartir. Reiniciar o abandonar la página libera las direcciones temporales; una copia descargada permanece en Descargas.",
+            "Utiliza grabaciones propias o material que tengas permiso para modificar. El procesamiento local no concede derechos de autor. Conserva el original por separado: la salida es una copia nueva y recodificar puede perder detalles. Antes de borrar nada, comprueba la duración, la sincronización y la reproducción en la aplicación de destino.",
+            "Los navegadores de escritorio, Chrome en Android y Safari en iOS no ofrecen exactamente los mismos códecs WebCodecs. La vista previa puede fallar aunque sea posible copiar una pista. Si aparece un error de compatibilidad, prueba otra grabación compatible o un editor de escritorio. El archivo nunca se envía a un servidor de respaldo."
+          ]
+        },
+        {
+          "heading": "Entender los formatos",
+          "paragraphs": [
+            "Una copia de seguridad útil conserva originales y permite recuperarlos si falla el almacenamiento principal. Empieza con material propio o autorizado. Mantén copias independientes y prueba que puedes restaurarlas y reproducirlas. Una carpeta sincronizada no demuestra por sí sola que exista un archivo recuperable.",
+            "Dos archivos en el mismo disco comparten su riesgo de fallo. Considera otro soporte y, cuando sea apropiado, otra ubicación. Elige una organización que puedas mantener. La sincronización puede propagar borrados accidentales: revisa historial de versiones o mecanismos de recuperación y pruébalos, sin depender de una marca concreta.",
+            "Recupera muestras a una carpeta separada. Comprueba checksum, inicio, final, duración y sonido. Si hay varios formatos, prueba más de uno. Repite después de cambiar disco, programa o estructura de carpetas. Conserva instrucciones de recuperación junto al archivo.",
+            "Guarda primero los originales. Una copia compatible puede ayudar a reproducir, pero reemplazar todos los originales por compresión con pérdida descarta información.",
+            "Para ver un vídeo en un móvil, busca una combinación compatible con el aparato y la aplicación. MP4 con H.264 habitual y AAC suele ser una base práctica. También importan perfil, resolución y versión del sistema. Prueba un archivo antes de descargar muchos vídeos grandes."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "¿Se sube la grabación?",
+          "answer": "No. El navegador lee y procesa el archivo en tu dispositivo. Descarga el motor desde VidFetch y ofrece un archivo de salida local, sin enviar la grabación."
+        },
+        {
+          "question": "¿Por qué se rechaza un archivo pequeño?",
+          "answer": "También se comprueban la duración, los píxeles y los códecs disponibles. Un archivo ligero puede requerir un decodificador o codificador que tu navegador no tenga."
+        },
+        {
+          "question": "¿Dónde está el resultado en el móvil?",
+          "answer": "Pulsa el enlace de descarga al terminar. Busca el archivo en Archivos o Descargas. Después podrás importar un vídeo compatible a Fotos o a la galería, según tu dispositivo."
+        }
+      ]
+    },
+    "gif": {
+      "title": "Convertir vídeo a GIF",
+      "description": "Convertir vídeo a GIF gratis y sin cuenta. El archivo se queda en tu dispositivo. Ancho y fotogramas ajustables; fragmentos de hasta 15 segundos.",
+      "heading": "Convertir vídeo a GIF",
+      "intro": "Convierte un gesto o una demostración breve en una imagen animada. El GIF no tiene sonido: elige un fragmento que se entienda sin escuchar la grabación.",
+      "sections": [
+        {
+          "heading": "Preparar una animación clara",
+          "paragraphs": [
+            "Elige un fragmento de hasta 15 segundos, un ancho de 160, 320, 480 o 640 píxeles y una cadencia de 5, 10 o 15 fotogramas por segundo. El ancho nunca supera el de la fuente. Un plano corto y estable suele explicar mejor un movimiento.",
+            "Cada fotograma recibe una paleta optimizada de hasta 256 colores. Los degradados y las escenas oscuras pueden mostrar bandas. Más ancho o más fotogramas aumentan el trabajo y el tamaño. Un GIF no es necesariamente más pequeño que el vídeo y no conserva audio."
+          ]
+        },
+        {
+          "heading": "Archivos, privacidad y límites",
+          "paragraphs": [
+            "Selecciona un MP4, MOV o WebM guardado en tu dispositivo. La extensión indica el contenedor, pero no basta para conocer los códecs. Un MP4 H.264 con AAC y un WebM VP8 con Opus son casos de prueba útiles. Un MOV del iPhone puede llevar HEVC. El navegador examina las pistas reales; no cambia de servicio si no puede procesarlas.",
+            "El límite es de 8 MiB en dispositivos táctiles o con poca memoria y de 32 MiB en los demás ordenadores. Un MiB equivale a 1 048 576 bytes. La duración máxima es de 120 segundos y cada fotograma admite hasta 2 073 600 píxeles, también en vertical. La salida no puede superar el doble del límite de entrada aplicable. El espacio libre del disco no amplía estos límites.",
+            "El trabajo se ejecuta en un worker del navegador. Aun así consume batería y memoria. Mantén abierta la pestaña y evita varias conversiones a la vez. Una operación se detiene a los 180 segundos. La barra mide el contenido procesado, no el tiempo que falta. Cancelar termina el worker; elegir otro archivo inicia un motor nuevo.",
+            "El archivo no sale de tu dispositivo. Estas páginas no suben medios ni contactan con plataformas ajenas. VidFetch sirve sus propios archivos del motor después de que elijas un archivo aceptado. El resultado es un enlace de descarga local, no una dirección pública para compartir. Reiniciar o abandonar la página libera las direcciones temporales; una copia descargada permanece en Descargas.",
+            "Utiliza grabaciones propias o material que tengas permiso para modificar. El procesamiento local no concede derechos de autor. Conserva el original por separado: la salida es una copia nueva y recodificar puede perder detalles. Antes de borrar nada, comprueba la duración, la sincronización y la reproducción en la aplicación de destino.",
+            "Los navegadores de escritorio, Chrome en Android y Safari en iOS no ofrecen exactamente los mismos códecs WebCodecs. La vista previa puede fallar aunque sea posible copiar una pista. Si aparece un error de compatibilidad, prueba otra grabación compatible o un editor de escritorio. El archivo nunca se envía a un servidor de respaldo."
+          ]
+        },
+        {
+          "heading": "Entender los formatos",
+          "paragraphs": [
+            "La resolución describe los píxeles de cada imagen. El bitrate indica datos por segundo. No son intercambiables: una resolución alta con pocos datos puede verse peor que otra menor bien codificada. La duración completa es necesaria para estimar cuánto ocupará el archivo.",
+            "1920 × 1080 tiene más píxeles que 1280 × 720, pero solo conserva detalle si la captura y el procesamiento lo mantienen. Los fotogramas por segundo describen el movimiento. Una diapositiva quieta y una cámara rápida exigen presupuestos de datos diferentes.",
+            "Se expresa en kilobits o megabits por segundo. Ocho bits forman un byte. El bitrate variable asigna más datos a las partes complejas. La cifra de vídeo puede no incluir audio, y el contenedor añade metadatos. Por eso una estimación puede diferir del archivo terminado.",
+            "Duplicar duración al mismo bitrate medio duplica aproximadamente el peso. Duplicar resolución no impone ese resultado. Consulta 720p, 1080p y 4K para las dimensiones.",
+            "Usa la misma escena, tamaño de reproducción y volumen. Mira movimiento, texturas, letras pequeñas y sombras. El ruido y el enfoque de la fuente influyen antes de codificar. Dos códecs a igual bitrate no garantizan igual aspecto; más datos no recuperan detalles que nunca existieron."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "¿Se sube la grabación?",
+          "answer": "No. El navegador lee y procesa el archivo en tu dispositivo. Descarga el motor desde VidFetch y ofrece un archivo de salida local, sin enviar la grabación."
+        },
+        {
+          "question": "¿Por qué se rechaza un archivo pequeño?",
+          "answer": "También se comprueban la duración, los píxeles y los códecs disponibles. Un archivo ligero puede requerir un decodificador o codificador que tu navegador no tenga."
+        },
+        {
+          "question": "¿Dónde está el resultado en el móvil?",
+          "answer": "Pulsa el enlace de descarga al terminar. Busca el archivo en Archivos o Descargas. Después podrás importar un vídeo compatible a Fotos o a la galería, según tu dispositivo."
+        }
+      ]
+    }
+  },
+  "pt-BR": {
+    "audio": {
+      "title": "Converter vídeo para MP3 ou M4A",
+      "description": "Converter vídeo para MP3 grátis, sem conta nem envio. Copie AAC para M4A no aparelho. Até 8 MiB no celular ou 32 MiB no computador.",
+      "heading": "Converter vídeo para MP3 ou M4A",
+      "intro": "Extraia o som de um vídeo seu sem mandar a gravação para outro lugar. Escolha MP3 ou preserve uma faixa AAC existente em um arquivo M4A.",
+      "sections": [
+        {
+          "heading": "Escolher o formato de áudio",
+          "paragraphs": [
+            "No MP3, escolha 128, 192 ou 320 kbps. Um número maior aumenta o arquivo e não recupera detalhes ausentes no som original. Experimente 128 para uma anotação falada; para um ensaio musical seu, compare 192 e 320 ouvindo o mesmo trecho. Apenas a faixa principal de áudio é extraída, sem imagens.",
+            "M4A faz cópia direta somente quando a faixa já está em AAC. Não há conversão de Opus ou outros codecs para AAC nessa opção. Se ela for recusada, tente MP3. Copiar AAC evita uma nova geração com perdas; um vídeo sem faixa sonora não tem áudio para extrair."
+          ]
+        },
+        {
+          "heading": "Arquivos, privacidade e limites",
+          "paragraphs": [
+            "Escolha um arquivo MP4, MOV ou WebM que já esteja salvo no aparelho. A extensão indica o contêiner, não os codecs das faixas. MP4 com H.264 e AAC e WebM com VP8 e Opus são exemplos úteis para testar. Um MOV do iPhone pode usar HEVC. Por isso, o navegador examina as faixas reais antes do processamento, em vez de confiar apenas no nome.",
+            "O limite de entrada é de 8 MiB em aparelhos com tela de toque ou pouca memória e de 32 MiB nos demais computadores. Um MiB corresponde a 1.048.576 bytes. O vídeo pode ter até 120 segundos e 2.073.600 pixels por quadro, inclusive na vertical. A saída não pode passar do dobro do limite de entrada aplicável. Ter espaço sobrando no armazenamento não aumenta esses limites.",
+            "O trabalho roda em um worker do navegador. Ainda assim, ele usa memória e bateria. Mantenha a aba aberta e evite várias conversões em abas diferentes. A operação é interrompida após 180 segundos. A barra representa a mídia processada, sem prever o horário de conclusão. Cancelar encerra o worker; selecionar outro arquivo cria uma nova instância do motor.",
+            "O arquivo não sai do seu aparelho. Estas páginas não enviam mídia nem entram em contato com plataformas de terceiros. O VidFetch fornece seus próprios arquivos do motor depois que você escolhe um arquivo aceito. O resultado fica em um link de download local, sem hospedagem pública. Reiniciar ou fechar a página libera os endereços temporários; uma cópia já baixada continua em Downloads.",
+            "Use gravações próprias ou material que você tem autorização para editar. Processar localmente não concede direitos autorais. Guarde o original separado: o resultado é uma nova cópia e a recodificação pode perder detalhes. Confira a duração, o áudio e a reprodução no aplicativo de destino antes de apagar qualquer arquivo.",
+            "Chrome no Android, Safari no iOS e navegadores de computador têm diferenças no suporte a WebCodecs. A prévia pode falhar mesmo quando uma faixa pode ser copiada. Se o codec não for aceito, tente uma gravação compatível ou um editor no computador. Não há envio para um servidor alternativo quando o navegador encontra uma limitação."
+          ]
+        },
+        {
+          "heading": "Entender as escolhas de mídia",
+          "paragraphs": [
+            "Um vídeo pode conter uma faixa de áudio independente. Criar um arquivo de som significa copiá-la para um contêiner compatível ou codificá-la em outro formato, como MP3. A cópia pode preservar os dados; a conversão pode ajudar a compatibilidade, mas não melhora a fonte. Use apenas conteúdo próprio ou autorizado.",
+            "Algumas gravações são silenciosas. Outras têm vários idiomas ou comentários. Escute e inspecione as faixas antes de escolher. Extrair som não remove vocais nem separa instrumentos: uma mistura continua misturada na saída.",
+            "Se não existir áudio, o comando deve informar a ausência, não inventar som. Preserve a entrada e teste a saída. A primeira faixa pode não ser o idioma desejado; ajuste a seleção quando necessário.",
+            "Depois de confirmar que a faixa escolhida é AAC, uma cópia para M4A pode evitar perdas adicionais:"
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "O vídeo é enviado para algum servidor?",
+          "answer": "Não. O arquivo é lido e processado no próprio aparelho. O navegador baixa o motor do VidFetch e oferece o resultado em um download local, sem enviar a gravação."
+        },
+        {
+          "question": "Por que um arquivo pequeno é recusado?",
+          "answer": "Além do tamanho, são verificados duração, quantidade de pixels e codecs disponíveis. Um arquivo leve pode exigir um decodificador ou codificador ausente no navegador."
+        },
+        {
+          "question": "Onde encontro o resultado no celular?",
+          "answer": "Use o link de download ao terminar. Confira Arquivos ou Downloads. Depois, importe um vídeo compatível para Fotos ou para o Rolo da Câmera conforme as opções do aparelho."
+        }
+      ]
+    },
+    "compress": {
+      "title": "Comprimir vídeo no navegador",
+      "description": "Comprimir vídeo grátis no seu aparelho, sem enviar arquivos. Escolha um perfil e veja uma estimativa. Até 8 MiB no celular, 32 MiB no computador.",
+      "heading": "Comprimir vídeo no navegador",
+      "intro": "Faça uma cópia mais leve da sua gravação para compartilhar. O processamento acontece no aparelho; a estimativa ajuda a comparar opções, mas não garante o tamanho final.",
+      "sections": [
+        {
+          "heading": "Ajustar a compressão com cuidado",
+          "paragraphs": [
+            "Os perfis leve, equilibrado e forte miram 2.000.000, 1.000.000 e 500.000 bits por segundo de vídeo. O áudio, quando presente, é recodificado a 128 kbps. A estimativa multiplica esses valores pela duração; o contêiner e o comportamento do codificador podem mudar o tamanho, às vezes deixando o resultado maior que a fonte.",
+            "Defina uma altura máxima de 360, 480, 720 ou 1080 pixels ou mantenha as dimensões originais. A fonte não é ampliada. O formato preferido é WebM VP8 com Opus; MP4 H.264 com AAC depende dos codificadores disponíveis. Confira se o aplicativo de destino aceita a saída."
+          ]
+        },
+        {
+          "heading": "Arquivos, privacidade e limites",
+          "paragraphs": [
+            "Escolha um arquivo MP4, MOV ou WebM que já esteja salvo no aparelho. A extensão indica o contêiner, não os codecs das faixas. MP4 com H.264 e AAC e WebM com VP8 e Opus são exemplos úteis para testar. Um MOV do iPhone pode usar HEVC. Por isso, o navegador examina as faixas reais antes do processamento, em vez de confiar apenas no nome.",
+            "O limite de entrada é de 8 MiB em aparelhos com tela de toque ou pouca memória e de 32 MiB nos demais computadores. Um MiB corresponde a 1.048.576 bytes. O vídeo pode ter até 120 segundos e 2.073.600 pixels por quadro, inclusive na vertical. A saída não pode passar do dobro do limite de entrada aplicável. Ter espaço sobrando no armazenamento não aumenta esses limites.",
+            "O trabalho roda em um worker do navegador. Ainda assim, ele usa memória e bateria. Mantenha a aba aberta e evite várias conversões em abas diferentes. A operação é interrompida após 180 segundos. A barra representa a mídia processada, sem prever o horário de conclusão. Cancelar encerra o worker; selecionar outro arquivo cria uma nova instância do motor.",
+            "O arquivo não sai do seu aparelho. Estas páginas não enviam mídia nem entram em contato com plataformas de terceiros. O VidFetch fornece seus próprios arquivos do motor depois que você escolhe um arquivo aceito. O resultado fica em um link de download local, sem hospedagem pública. Reiniciar ou fechar a página libera os endereços temporários; uma cópia já baixada continua em Downloads.",
+            "Use gravações próprias ou material que você tem autorização para editar. Processar localmente não concede direitos autorais. Guarde o original separado: o resultado é uma nova cópia e a recodificação pode perder detalhes. Confira a duração, o áudio e a reprodução no aplicativo de destino antes de apagar qualquer arquivo.",
+            "Chrome no Android, Safari no iOS e navegadores de computador têm diferenças no suporte a WebCodecs. A prévia pode falhar mesmo quando uma faixa pode ser copiada. Se o codec não for aceito, tente uma gravação compatível ou um editor no computador. Não há envio para um servidor alternativo quando o navegador encontra uma limitação."
+          ]
+        },
+        {
+          "heading": "Entender as escolhas de mídia",
+          "paragraphs": [
+            "Reduzir um vídeo significa diminuir seus dados. Cortar um trecho desnecessário, baixar o bitrate ou escolher uma resolução menor são decisões diferentes. Trabalhe em uma cópia e teste uma cena representativa. Não existe um ajuste que garanta a mesma qualidade com muito menos tamanho em todas as fontes.",
+            "Um vídeo para mensagem não precisa das mesmas configurações de um arquivo para edição. Escolha destino, duração útil e limite de tamanho. Preserve o original. Remover uma introdução pode ajudar mais que comprimir agressivamente todos os quadros.",
+            "Converter 4K para 1080p reduz os pixels a codificar e perde detalhes finos. Ampliar 720p não recria informações. Diminuir a taxa de quadros muda o movimento, especialmente em esportes. Consulte as resoluções e avalie uma amostra no aparelho de destino.",
+            "O serviço lista formatos da origem e pode converter áudio para MP3. Não recebe vídeos para compressão nem oferece controle CRF personalizado. Uma versão disponível menor pode resolver. A conta do bitrate ajuda a planejar, sem garantir um limite exato."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "O vídeo é enviado para algum servidor?",
+          "answer": "Não. O arquivo é lido e processado no próprio aparelho. O navegador baixa o motor do VidFetch e oferece o resultado em um download local, sem enviar a gravação."
+        },
+        {
+          "question": "Por que um arquivo pequeno é recusado?",
+          "answer": "Além do tamanho, são verificados duração, quantidade de pixels e codecs disponíveis. Um arquivo leve pode exigir um decodificador ou codificador ausente no navegador."
+        },
+        {
+          "question": "Onde encontro o resultado no celular?",
+          "answer": "Use o link de download ao terminar. Confira Arquivos ou Downloads. Depois, importe um vídeo compatível para Fotos ou para o Rolo da Câmera conforme as opções do aparelho."
+        }
+      ]
+    },
+    "trim": {
+      "title": "Cortar vídeo no navegador",
+      "description": "Cortar vídeo grátis sem enviar o arquivo. Corte por quadro-chave ou recodificação precisa. Até 8 MiB no celular ou 32 MiB no computador.",
+      "heading": "Cortar vídeo no navegador",
+      "intro": "Guarde só o trecho necessário de uma gravação sua. Informe o início e o fim em segundos e confira a cena na prévia antes de escolher como cortar.",
+      "sections": [
+        {
+          "heading": "Definir os limites do corte",
+          "paragraphs": [
+            "Informe início e fim em segundos, sem ultrapassar a duração da fonte. O fim deve ficar depois do início. Ao mudar o início, a prévia procura esse momento no original; ela não garante qual será o primeiro quadro exportado.",
+            "A cópia rápida precisa começar em um quadro-chave. O intervalo pode ser ampliado e incluir instantes extras: confira a duração real do resultado. Para um corte preciso, a ferramenta decodifica e recodifica o trecho em WebM ou MP4 conforme o navegador. Isso exige mais processamento e pode alterar a qualidade."
+          ]
+        },
+        {
+          "heading": "Arquivos, privacidade e limites",
+          "paragraphs": [
+            "Escolha um arquivo MP4, MOV ou WebM que já esteja salvo no aparelho. A extensão indica o contêiner, não os codecs das faixas. MP4 com H.264 e AAC e WebM com VP8 e Opus são exemplos úteis para testar. Um MOV do iPhone pode usar HEVC. Por isso, o navegador examina as faixas reais antes do processamento, em vez de confiar apenas no nome.",
+            "O limite de entrada é de 8 MiB em aparelhos com tela de toque ou pouca memória e de 32 MiB nos demais computadores. Um MiB corresponde a 1.048.576 bytes. O vídeo pode ter até 120 segundos e 2.073.600 pixels por quadro, inclusive na vertical. A saída não pode passar do dobro do limite de entrada aplicável. Ter espaço sobrando no armazenamento não aumenta esses limites.",
+            "O trabalho roda em um worker do navegador. Ainda assim, ele usa memória e bateria. Mantenha a aba aberta e evite várias conversões em abas diferentes. A operação é interrompida após 180 segundos. A barra representa a mídia processada, sem prever o horário de conclusão. Cancelar encerra o worker; selecionar outro arquivo cria uma nova instância do motor.",
+            "O arquivo não sai do seu aparelho. Estas páginas não enviam mídia nem entram em contato com plataformas de terceiros. O VidFetch fornece seus próprios arquivos do motor depois que você escolhe um arquivo aceito. O resultado fica em um link de download local, sem hospedagem pública. Reiniciar ou fechar a página libera os endereços temporários; uma cópia já baixada continua em Downloads.",
+            "Use gravações próprias ou material que você tem autorização para editar. Processar localmente não concede direitos autorais. Guarde o original separado: o resultado é uma nova cópia e a recodificação pode perder detalhes. Confira a duração, o áudio e a reprodução no aplicativo de destino antes de apagar qualquer arquivo.",
+            "Chrome no Android, Safari no iOS e navegadores de computador têm diferenças no suporte a WebCodecs. A prévia pode falhar mesmo quando uma faixa pode ser copiada. Se o codec não for aceito, tente uma gravação compatível ou um editor no computador. Não há envio para um servidor alternativo quando o navegador encontra uma limitação."
+          ]
+        },
+        {
+          "heading": "Entender as escolhas de mídia",
+          "paragraphs": [
+            "Um backup útil mantém seus originais e permite recuperar uma cópia se o armazenamento principal falhar. Comece com material seu ou autorizado. Tenha cópias independentes e teste se consegue restaurar e reproduzir os arquivos. Uma pasta sincronizada não comprova, sozinha, a recuperação de um acervo.",
+            "Arquivos no mesmo disco compartilham o risco de falha. Considere outro suporte e, quando adequado, outro local. Escolha um arranjo que consiga manter. Sincronização pode propagar exclusões acidentais: confira histórico de versões ou recuperação e teste o mecanismo.",
+            "Recupere amostras para outra pasta. Verifique checksum, início, final, duração e som. Teste mais de um formato se o acervo for variado. Repita depois de trocar discos, programas ou estrutura de pastas. Mantenha instruções de recuperação junto ao acervo.",
+            "Guarde os originais primeiro. Uma cópia compatível ajuda na reprodução, mas trocar todas as fontes por conversões com perdas descarta informação que pode ser útil depois."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "O vídeo é enviado para algum servidor?",
+          "answer": "Não. O arquivo é lido e processado no próprio aparelho. O navegador baixa o motor do VidFetch e oferece o resultado em um download local, sem enviar a gravação."
+        },
+        {
+          "question": "Por que um arquivo pequeno é recusado?",
+          "answer": "Além do tamanho, são verificados duração, quantidade de pixels e codecs disponíveis. Um arquivo leve pode exigir um decodificador ou codificador ausente no navegador."
+        },
+        {
+          "question": "Onde encontro o resultado no celular?",
+          "answer": "Use o link de download ao terminar. Confira Arquivos ou Downloads. Depois, importe um vídeo compatível para Fotos ou para o Rolo da Câmera conforme as opções do aparelho."
+        }
+      ]
+    },
+    "gif": {
+      "title": "Converter vídeo para GIF",
+      "description": "Converter vídeo para GIF grátis, sem conta nem envio. Ajuste a largura e os quadros por segundo. Trecho limitado a 15 segundos.",
+      "heading": "Converter vídeo para GIF",
+      "intro": "Transforme um movimento curto em uma imagem animada. GIF não tem som: escolha uma demonstração que faça sentido sem ouvir a gravação original.",
+      "sections": [
+        {
+          "heading": "Montar uma animação legível",
+          "paragraphs": [
+            "Escolha até 15 segundos, com largura de 160, 320, 480 ou 640 pixels e taxa de 5, 10 ou 15 quadros por segundo. A largura fica limitada à fonte, sem ampliação. Um plano estável e curto costuma explicar um gesto melhor que vários movimentos de câmera.",
+            "Cada quadro recebe uma paleta otimizada de até 256 cores. Degradês, áreas escuras e movimento rápido podem mostrar faixas ou falhas visíveis. Aumentar largura e taxa de quadros aumenta o processamento e o tamanho. GIF nem sempre é menor que vídeo e não contém áudio."
+          ]
+        },
+        {
+          "heading": "Arquivos, privacidade e limites",
+          "paragraphs": [
+            "Escolha um arquivo MP4, MOV ou WebM que já esteja salvo no aparelho. A extensão indica o contêiner, não os codecs das faixas. MP4 com H.264 e AAC e WebM com VP8 e Opus são exemplos úteis para testar. Um MOV do iPhone pode usar HEVC. Por isso, o navegador examina as faixas reais antes do processamento, em vez de confiar apenas no nome.",
+            "O limite de entrada é de 8 MiB em aparelhos com tela de toque ou pouca memória e de 32 MiB nos demais computadores. Um MiB corresponde a 1.048.576 bytes. O vídeo pode ter até 120 segundos e 2.073.600 pixels por quadro, inclusive na vertical. A saída não pode passar do dobro do limite de entrada aplicável. Ter espaço sobrando no armazenamento não aumenta esses limites.",
+            "O trabalho roda em um worker do navegador. Ainda assim, ele usa memória e bateria. Mantenha a aba aberta e evite várias conversões em abas diferentes. A operação é interrompida após 180 segundos. A barra representa a mídia processada, sem prever o horário de conclusão. Cancelar encerra o worker; selecionar outro arquivo cria uma nova instância do motor.",
+            "O arquivo não sai do seu aparelho. Estas páginas não enviam mídia nem entram em contato com plataformas de terceiros. O VidFetch fornece seus próprios arquivos do motor depois que você escolhe um arquivo aceito. O resultado fica em um link de download local, sem hospedagem pública. Reiniciar ou fechar a página libera os endereços temporários; uma cópia já baixada continua em Downloads.",
+            "Use gravações próprias ou material que você tem autorização para editar. Processar localmente não concede direitos autorais. Guarde o original separado: o resultado é uma nova cópia e a recodificação pode perder detalhes. Confira a duração, o áudio e a reprodução no aplicativo de destino antes de apagar qualquer arquivo.",
+            "Chrome no Android, Safari no iOS e navegadores de computador têm diferenças no suporte a WebCodecs. A prévia pode falhar mesmo quando uma faixa pode ser copiada. Se o codec não for aceito, tente uma gravação compatível ou um editor no computador. Não há envio para um servidor alternativo quando o navegador encontra uma limitação."
+          ]
+        },
+        {
+          "heading": "Entender as escolhas de mídia",
+          "paragraphs": [
+            "Resolução descreve os pixels de uma imagem. Bitrate indica dados por segundo. Eles não são intercambiáveis: uma imagem grande com poucos dados pode parecer pior que outra menor bem codificada. A duração é essencial para estimar o tamanho completo do arquivo.",
+            "1920 × 1080 tem mais pixels que 1280 × 720, mas só permite mais detalhe se a captura e a codificação o preservarem. Taxa de quadros descreve o movimento. Um slide estático e uma câmera rápida não exigem o mesmo orçamento de dados.",
+            "É normalmente indicado em kilobits ou megabits por segundo. Oito bits formam um byte. Bitrate variável reserva mais dados para trechos difíceis. O valor de vídeo pode excluir áudio, e o contêiner adiciona metadados. Por isso a estimativa anterior à preparação pode diferir da saída completa.",
+            "Dobrar duração no mesmo bitrate médio dobra aproximadamente o tamanho. Dobrar resolução não impõe a mesma regra. Veja 720p, 1080p e 4K para entender dimensões."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "O vídeo é enviado para algum servidor?",
+          "answer": "Não. O arquivo é lido e processado no próprio aparelho. O navegador baixa o motor do VidFetch e oferece o resultado em um download local, sem enviar a gravação."
+        },
+        {
+          "question": "Por que um arquivo pequeno é recusado?",
+          "answer": "Além do tamanho, são verificados duração, quantidade de pixels e codecs disponíveis. Um arquivo leve pode exigir um decodificador ou codificador ausente no navegador."
+        },
+        {
+          "question": "Onde encontro o resultado no celular?",
+          "answer": "Use o link de download ao terminar. Confira Arquivos ou Downloads. Depois, importe um vídeo compatível para Fotos ou para o Rolo da Câmera conforme as opções do aparelho."
+        }
+      ]
+    }
+  },
+  "id": {
+    "audio": {
+      "title": "Konversi video ke MP3 atau M4A",
+      "description": "Konversi video ke MP3 gratis tanpa akun atau unggahan. Salin AAC menjadi M4A secara lokal. Batas 8 MiB di ponsel atau 32 MiB di komputer.",
+      "heading": "Konversi video ke MP3 atau M4A",
+      "intro": "Ambil suara dari rekaman video milik Anda tanpa mengirimkannya ke tempat lain. Pilih MP3 atau simpan trek AAC yang sudah ada dalam berkas M4A.",
+      "sections": [
+        {
+          "heading": "Pilih keluaran suara yang sesuai",
+          "paragraphs": [
+            "Untuk MP3, tersedia 128, 192, atau 320 kbps. Angka lebih tinggi memakai lebih banyak ruang, tetapi tidak mengembalikan detail yang hilang dari suara asli. Coba 128 untuk catatan suara; untuk latihan musik yang Anda rekam, bandingkan bagian sama pada 192 dan 320. Hanya trek audio utama yang diambil, tanpa gambar video.",
+            "M4A menyalin langsung hanya jika trek sudah memakai AAC. Pilihan ini tidak mengubah Opus atau codec lain menjadi AAC. Jika ditolak, Anda dapat mencoba MP3. Menyalin AAC menghindari satu putaran pengodean dengan kehilangan data. Video tanpa trek suara tidak memiliki audio untuk diambil."
+          ]
+        },
+        {
+          "heading": "Berkas, privasi, dan batas perangkat",
+          "paragraphs": [
+            "Pilih berkas MP4, MOV, atau WebM yang sudah tersimpan di perangkat. Ekstensi menunjukkan wadah media, bukan codec di dalamnya. MP4 dengan H.264 dan AAC serta WebM dengan VP8 dan Opus merupakan contoh yang berguna untuk pengujian. MOV dari iPhone bisa memakai HEVC. Karena itu, browser memeriksa trek sebenarnya sebelum mulai, bukan hanya mempercayai nama berkas.",
+            "Batas masukan adalah 8 MiB untuk perangkat layar sentuh atau dengan memori kecil, dan 32 MiB untuk komputer lainnya. Satu MiB sama dengan 1.048.576 byte. Durasi maksimal 120 detik dan setiap bingkai maksimal 2.073.600 piksel, termasuk video tegak. Hasil tidak boleh melebihi dua kali batas masukan yang berlaku. Ruang penyimpanan yang masih luas tidak mengubah batas ini.",
+            "Pekerjaan berlangsung di worker browser. Meski antarmuka tetap bisa digunakan, proses masih memakai memori dan baterai. Biarkan tab terbuka dan hindari menjalankan banyak konversi sekaligus. Operasi dihentikan setelah 180 detik. Bilah kemajuan menunjukkan bagian media yang sudah diproses, bukan perkiraan waktu selesai. Membatalkan akan menghentikan worker; memilih berkas lain membuat mesin baru.",
+            "Berkas tidak meninggalkan perangkat Anda. Halaman alat ini tidak mengunggah media atau menghubungi platform pihak ketiga. VidFetch menyediakan berkas mesinnya sendiri setelah Anda memilih berkas yang diterima. Hasil tersedia sebagai tautan unduhan lokal, bukan alamat publik untuk berbagi. Mengatur ulang atau menutup halaman membebaskan alamat sementara. Salinan yang sudah diunduh tetap tersimpan di folder unduhan.",
+            "Gunakan rekaman sendiri atau materi yang boleh Anda sunting. Pemrosesan lokal tidak memberikan hak cipta tambahan. Simpan berkas asli secara terpisah: hasil adalah salinan baru dan pengodean ulang bisa mengurangi detail. Periksa durasi, suara, dan pemutaran di aplikasi tujuan sebelum menghapus apa pun. Pada ponsel, periksa File Manager sebelum mengimpor video yang sesuai ke galeri.",
+            "Dukungan WebCodecs pada Chrome Android, Safari iOS, dan browser komputer tidak selalu sama. Pratinjau dapat gagal meskipun suatu trek masih bisa disalin. Jika codec tidak didukung, coba rekaman yang sesuai atau editor komputer. Berkas tidak dikirim ke server cadangan saat browser menemui keterbatasan. Tidak perlu membuat akun untuk menggunakan alat lokal ini."
+          ]
+        },
+        {
+          "heading": "Memahami pilihan media",
+          "paragraphs": [
+            "Video dapat mempunyai trek audio tersendiri. Membuat berkas audio berarti menyalin trek itu ke kontainer yang cocok atau mengodekannya ke format lain, misalnya MP3. Penyalinan dapat menjaga data tepat; konversi membantu kompatibilitas, bukan meningkatkan suara asli. Gunakan hanya konten milik Anda atau dengan izin.",
+            "Sebagian video tidak bersuara. Yang lain memiliki beberapa bahasa atau komentar. Dengarkan dan periksa daftar trek sebelum memilih. Ekstraksi biasa tidak memisahkan instrumen atau menghapus vokal: suara yang sudah dicampur tetap tercampur.",
+            "Jika tidak ada audio, perintah harus melaporkannya, bukan membuat suara. Simpan masukan dan uji hasil. Trek pertama mungkin bukan bahasa yang Anda inginkan; sesuaikan pemilihan jika perlu.",
+            "Jika pemeriksaan memastikan trek pilihan memakai AAC, menyalinnya ke M4A dapat menghindari pengodean lossy baru:",
+            "Perintah ini bergantung pada masukan. Bukan konversi universal: kontainer harus mendukung codec. Pilih keluaran yang cocok atau kodekan ulang jika tidak kompatibel. Baca MP3 dan M4A.",
+            "Gunakan format yang diterima pemutar atau penyunting. Bandingkan bagian sama pada volume sama, periksa durasi, dan dengarkan sampai akhir. Bitrate tinggi tidak mengembalikan informasi yang telah hilang. Hindari konversi lossy berulang dan simpan sumber terbaik."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Apakah video diunggah ke server?",
+          "answer": "Tidak. Berkas dibaca dan diproses di perangkat Anda. Browser mengunduh mesin dari VidFetch lalu menyediakan hasil sebagai unduhan lokal, tanpa mengirim rekaman."
+        },
+        {
+          "question": "Mengapa berkas kecil tetap ditolak?",
+          "answer": "Ukuran bukan satu-satunya pemeriksaan. Durasi, jumlah piksel, dan codec yang tersedia juga menentukan. Berkas kecil mungkin memerlukan decoder atau encoder yang tidak dimiliki browser Anda."
+        },
+        {
+          "question": "Di mana hasilnya tersimpan di ponsel?",
+          "answer": "Gunakan tautan unduhan setelah proses selesai. Cari berkas melalui File Manager atau folder Downloads. Setelah itu, impor video yang sesuai ke galeri menggunakan pilihan yang tersedia di ponsel."
+        }
+      ]
+    },
+    "compress": {
+      "title": "Kompres video di perangkat sendiri",
+      "description": "Kompres video gratis tanpa mengunggah berkas. Pilih setelan dan lihat perkiraan ukuran. Batas 8 MiB di ponsel atau 32 MiB di komputer.",
+      "heading": "Kompres video di perangkat sendiri",
+      "intro": "Buat salinan rekaman Anda yang lebih ringan untuk dibagikan. Proses berjalan di perangkat sendiri; perkiraan ukuran membantu memilih setelan, bukan menjamin hasil akhir.",
+      "sections": [
+        {
+          "heading": "Pahami setelan kompresi",
+          "paragraphs": [
+            "Setelan ringan, seimbang, dan kuat menargetkan bitrate video 2.000.000, 1.000.000, dan 500.000 bit per detik. Audio, bila ada, dikodekan ulang pada 128 kbps. Perkiraan ukuran mengalikan target tersebut dengan durasi. Wadah media dan perilaku encoder dapat membuat ukuran berbeda, bahkan lebih besar daripada sumbernya.",
+            "Pilih tinggi maksimal 360, 480, 720, atau 1080 piksel, atau pertahankan ukuran asli. Alat tidak memperbesar sumber. WebM VP8 dengan Opus diprioritaskan; MP4 H.264 dengan AAC hanya digunakan jika encoder tersedia. Periksa apakah aplikasi penerima menerima format hasil tersebut."
+          ]
+        },
+        {
+          "heading": "Berkas, privasi, dan batas perangkat",
+          "paragraphs": [
+            "Pilih berkas MP4, MOV, atau WebM yang sudah tersimpan di perangkat. Ekstensi menunjukkan wadah media, bukan codec di dalamnya. MP4 dengan H.264 dan AAC serta WebM dengan VP8 dan Opus merupakan contoh yang berguna untuk pengujian. MOV dari iPhone bisa memakai HEVC. Karena itu, browser memeriksa trek sebenarnya sebelum mulai, bukan hanya mempercayai nama berkas.",
+            "Batas masukan adalah 8 MiB untuk perangkat layar sentuh atau dengan memori kecil, dan 32 MiB untuk komputer lainnya. Satu MiB sama dengan 1.048.576 byte. Durasi maksimal 120 detik dan setiap bingkai maksimal 2.073.600 piksel, termasuk video tegak. Hasil tidak boleh melebihi dua kali batas masukan yang berlaku. Ruang penyimpanan yang masih luas tidak mengubah batas ini.",
+            "Pekerjaan berlangsung di worker browser. Meski antarmuka tetap bisa digunakan, proses masih memakai memori dan baterai. Biarkan tab terbuka dan hindari menjalankan banyak konversi sekaligus. Operasi dihentikan setelah 180 detik. Bilah kemajuan menunjukkan bagian media yang sudah diproses, bukan perkiraan waktu selesai. Membatalkan akan menghentikan worker; memilih berkas lain membuat mesin baru.",
+            "Berkas tidak meninggalkan perangkat Anda. Halaman alat ini tidak mengunggah media atau menghubungi platform pihak ketiga. VidFetch menyediakan berkas mesinnya sendiri setelah Anda memilih berkas yang diterima. Hasil tersedia sebagai tautan unduhan lokal, bukan alamat publik untuk berbagi. Mengatur ulang atau menutup halaman membebaskan alamat sementara. Salinan yang sudah diunduh tetap tersimpan di folder unduhan.",
+            "Gunakan rekaman sendiri atau materi yang boleh Anda sunting. Pemrosesan lokal tidak memberikan hak cipta tambahan. Simpan berkas asli secara terpisah: hasil adalah salinan baru dan pengodean ulang bisa mengurangi detail. Periksa durasi, suara, dan pemutaran di aplikasi tujuan sebelum menghapus apa pun. Pada ponsel, periksa File Manager sebelum mengimpor video yang sesuai ke galeri.",
+            "Dukungan WebCodecs pada Chrome Android, Safari iOS, dan browser komputer tidak selalu sama. Pratinjau dapat gagal meskipun suatu trek masih bisa disalin. Jika codec tidak didukung, coba rekaman yang sesuai atau editor komputer. Berkas tidak dikirim ke server cadangan saat browser menemui keterbatasan. Tidak perlu membuat akun untuk menggunakan alat lokal ini."
+          ]
+        },
+        {
+          "heading": "Memahami pilihan media",
+          "paragraphs": [
+            "Mengecilkan video berarti mengurangi data yang dikandungnya. Memotong bagian tidak diperlukan, menurunkan bitrate, dan mengubah resolusi adalah keputusan berbeda. Kerjakan salinan dan uji adegan representatif. Tidak ada pengaturan yang menjamin kualitas identik dengan ukuran jauh lebih kecil untuk semua sumber.",
+            "Klip untuk pesan tidak memerlukan pengaturan yang sama dengan bahan penyuntingan. Tentukan perangkat tujuan, durasi yang dibutuhkan, dan batas ukuran. Pertahankan sumber asli. Memotong pembukaan yang tidak diperlukan kadang lebih bermanfaat daripada memampatkan setiap bingkai secara agresif.",
+            "Menurunkan 4K ke 1080p mengurangi piksel yang harus dikodekan, tetapi menghilangkan detail halus. Memperbesar 720p tidak memulihkan informasi. Mengurangi laju bingkai mengubah gerakan, terutama olahraga. Pelajari resolusi dan uji pada perangkat tujuan sebelum menerima hasil.",
+            "Untuk rekaman Anda yang mungkin dipakai lagi, simpan sumber asli. Salinan distribusi dibuat untuk kebutuhan tertentu, bukan setiap penyuntingan di masa depan.",
+            "Resolusi menunjukkan jumlah piksel bingkai. Bitrate menunjukkan banyaknya data per detik. Keduanya tidak saling menggantikan: resolusi tinggi dengan data terlalu sedikit dapat terlihat lebih buruk daripada resolusi rendah yang dikodekan baik. Durasi juga diperlukan untuk menghitung ukuran seluruh berkas.",
+            "1920 × 1080 memuat lebih banyak piksel daripada 1280 × 720. Detail tambahan hanya terlihat jika sumber serta pengodean mempertahankannya. Laju bingkai menjelaskan gerakan. Slide diam dan kamera bergerak cepat tidak menantang encoder dengan cara sama."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Apakah video diunggah ke server?",
+          "answer": "Tidak. Berkas dibaca dan diproses di perangkat Anda. Browser mengunduh mesin dari VidFetch lalu menyediakan hasil sebagai unduhan lokal, tanpa mengirim rekaman."
+        },
+        {
+          "question": "Mengapa berkas kecil tetap ditolak?",
+          "answer": "Ukuran bukan satu-satunya pemeriksaan. Durasi, jumlah piksel, dan codec yang tersedia juga menentukan. Berkas kecil mungkin memerlukan decoder atau encoder yang tidak dimiliki browser Anda."
+        },
+        {
+          "question": "Di mana hasilnya tersimpan di ponsel?",
+          "answer": "Gunakan tautan unduhan setelah proses selesai. Cari berkas melalui File Manager atau folder Downloads. Setelah itu, impor video yang sesuai ke galeri menggunakan pilihan yang tersedia di ponsel."
+        }
+      ]
+    },
+    "trim": {
+      "title": "Potong video lewat browser",
+      "description": "Potong video gratis lewat browser tanpa unggahan. Pilih salinan pada keyframe atau potongan presisi. Batas 8 MiB ponsel, 32 MiB komputer.",
+      "heading": "Potong video lewat browser",
+      "intro": "Simpan bagian rekaman yang dibutuhkan saja. Masukkan waktu mulai dan selesai dalam detik, lalu gunakan pratinjau untuk menemukan momen yang tepat.",
+      "sections": [
+        {
+          "heading": "Tentukan batas cuplikan",
+          "paragraphs": [
+            "Masukkan waktu mulai dan selesai dalam detik. Waktu selesai harus setelah waktu mulai dan tidak melewati durasi sumber. Mengubah waktu mulai menggeser pratinjau. Pratinjau memutar sumber asli, bukan menjamin bingkai pertama hasil ekspor.",
+            "Salinan cepat perlu dimulai pada keyframe agar video dapat didekode. Rentang dapat diperluas dan menyertakan bagian tambahan; periksa durasi hasil sebenarnya. Pilih pengodean ulang presisi jika titik potong tertentu penting. Alat membuat WebM atau MP4 sesuai encoder browser, dengan kebutuhan pemrosesan lebih besar dan kemungkinan perubahan kualitas."
+          ]
+        },
+        {
+          "heading": "Berkas, privasi, dan batas perangkat",
+          "paragraphs": [
+            "Pilih berkas MP4, MOV, atau WebM yang sudah tersimpan di perangkat. Ekstensi menunjukkan wadah media, bukan codec di dalamnya. MP4 dengan H.264 dan AAC serta WebM dengan VP8 dan Opus merupakan contoh yang berguna untuk pengujian. MOV dari iPhone bisa memakai HEVC. Karena itu, browser memeriksa trek sebenarnya sebelum mulai, bukan hanya mempercayai nama berkas.",
+            "Batas masukan adalah 8 MiB untuk perangkat layar sentuh atau dengan memori kecil, dan 32 MiB untuk komputer lainnya. Satu MiB sama dengan 1.048.576 byte. Durasi maksimal 120 detik dan setiap bingkai maksimal 2.073.600 piksel, termasuk video tegak. Hasil tidak boleh melebihi dua kali batas masukan yang berlaku. Ruang penyimpanan yang masih luas tidak mengubah batas ini.",
+            "Pekerjaan berlangsung di worker browser. Meski antarmuka tetap bisa digunakan, proses masih memakai memori dan baterai. Biarkan tab terbuka dan hindari menjalankan banyak konversi sekaligus. Operasi dihentikan setelah 180 detik. Bilah kemajuan menunjukkan bagian media yang sudah diproses, bukan perkiraan waktu selesai. Membatalkan akan menghentikan worker; memilih berkas lain membuat mesin baru.",
+            "Berkas tidak meninggalkan perangkat Anda. Halaman alat ini tidak mengunggah media atau menghubungi platform pihak ketiga. VidFetch menyediakan berkas mesinnya sendiri setelah Anda memilih berkas yang diterima. Hasil tersedia sebagai tautan unduhan lokal, bukan alamat publik untuk berbagi. Mengatur ulang atau menutup halaman membebaskan alamat sementara. Salinan yang sudah diunduh tetap tersimpan di folder unduhan.",
+            "Gunakan rekaman sendiri atau materi yang boleh Anda sunting. Pemrosesan lokal tidak memberikan hak cipta tambahan. Simpan berkas asli secara terpisah: hasil adalah salinan baru dan pengodean ulang bisa mengurangi detail. Periksa durasi, suara, dan pemutaran di aplikasi tujuan sebelum menghapus apa pun. Pada ponsel, periksa File Manager sebelum mengimpor video yang sesuai ke galeri.",
+            "Dukungan WebCodecs pada Chrome Android, Safari iOS, dan browser komputer tidak selalu sama. Pratinjau dapat gagal meskipun suatu trek masih bisa disalin. Jika codec tidak didukung, coba rekaman yang sesuai atau editor komputer. Berkas tidak dikirim ke server cadangan saat browser menemui keterbatasan. Tidak perlu membuat akun untuk menggunakan alat lokal ini."
+          ]
+        },
+        {
+          "heading": "Memahami pilihan media",
+          "paragraphs": [
+            "Cadangan yang berguna mempertahankan berkas asli dan memberi salinan ketika penyimpanan utama gagal. Mulailah dengan video sendiri atau materi yang boleh Anda simpan. Buat salinan independen dan uji pemulihan serta pemutarannya. Folder tersinkron saja tidak membuktikan bahwa arsip dapat dipulihkan.",
+            "Dua salinan pada drive yang sama berbagi risiko kegagalan. Pertimbangkan media lain dan, jika sesuai, lokasi berbeda. Pilih sistem yang dapat Anda rawat. Sinkronisasi dapat menyebarkan penghapusan tidak sengaja; periksa riwayat versi atau mekanisme pemulihan lalu ujilah.",
+            "Kembalikan sampel ke folder terpisah. Periksa checksum, awal, akhir, durasi, dan audio. Uji beberapa jenis berkas bila koleksi beragam. Ulangi setelah mengganti drive, perangkat lunak, atau struktur folder. Simpan petunjuk pemulihan bersama arsip.",
+            "Pertahankan sumber terlebih dahulu. Salinan kompatibel membantu pemutaran, tetapi mengganti seluruh sumber dengan konversi lossy membuang informasi yang mungkin diperlukan kelak.",
+            "Untuk menonton di ponsel, pilih kombinasi yang diterima perangkat dan aplikasinya. MP4 dengan H.264 umum serta AAC sering praktis. Profil codec, resolusi, dan versi sistem tetap penting. Uji satu berkas sebelum mengunduh banyak video berukuran besar.",
+            "MP4 adalah kontainer yang dapat memuat H.264, HEVC, atau trek lain. Video dan audio sama-sama harus didukung. Berkas yang lancar di browser dapat diproses berbeda di galeri maupun aplikasi lain.",
+            "Jika suara ada tetapi gambar tidak, atau sebaliknya, periksa masing-masing trek. Panduan kontainer menjelaskan isi pembungkusnya."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Apakah video diunggah ke server?",
+          "answer": "Tidak. Berkas dibaca dan diproses di perangkat Anda. Browser mengunduh mesin dari VidFetch lalu menyediakan hasil sebagai unduhan lokal, tanpa mengirim rekaman."
+        },
+        {
+          "question": "Mengapa berkas kecil tetap ditolak?",
+          "answer": "Ukuran bukan satu-satunya pemeriksaan. Durasi, jumlah piksel, dan codec yang tersedia juga menentukan. Berkas kecil mungkin memerlukan decoder atau encoder yang tidak dimiliki browser Anda."
+        },
+        {
+          "question": "Di mana hasilnya tersimpan di ponsel?",
+          "answer": "Gunakan tautan unduhan setelah proses selesai. Cari berkas melalui File Manager atau folder Downloads. Setelah itu, impor video yang sesuai ke galeri menggunakan pilihan yang tersedia di ponsel."
+        }
+      ]
+    },
+    "gif": {
+      "title": "Ubah video ke GIF",
+      "description": "Ubah video ke GIF gratis tanpa akun atau unggahan. Atur lebar dan jumlah bingkai per detik. Cuplikan dibatasi hingga 15 detik.",
+      "heading": "Ubah video ke GIF",
+      "intro": "Jadikan gerakan singkat dalam video Anda sebagai gambar animasi. GIF tidak memiliki suara, jadi pilih cuplikan yang tetap dapat dipahami tanpa mendengarkan rekaman.",
+      "sections": [
+        {
+          "heading": "Buat animasi yang mudah dilihat",
+          "paragraphs": [
+            "Pilih cuplikan maksimal 15 detik, lebar 160, 320, 480, atau 640 piksel, serta 5, 10, atau 15 bingkai per detik. Lebar tidak melebihi sumber. Bidikan singkat dan stabil biasanya lebih jelas untuk menjelaskan gerakan daripada beberapa gerakan kamera sekaligus.",
+            "Setiap bingkai memakai palet yang dioptimalkan hingga 256 warna. Gradasi, bagian gelap, dan gerakan cepat bisa memperlihatkan pita warna atau cacat. Lebar dan laju bingkai lebih tinggi menambah pekerjaan serta ukuran. GIF tidak selalu lebih kecil daripada video dan tidak mempertahankan suara."
+          ]
+        },
+        {
+          "heading": "Berkas, privasi, dan batas perangkat",
+          "paragraphs": [
+            "Pilih berkas MP4, MOV, atau WebM yang sudah tersimpan di perangkat. Ekstensi menunjukkan wadah media, bukan codec di dalamnya. MP4 dengan H.264 dan AAC serta WebM dengan VP8 dan Opus merupakan contoh yang berguna untuk pengujian. MOV dari iPhone bisa memakai HEVC. Karena itu, browser memeriksa trek sebenarnya sebelum mulai, bukan hanya mempercayai nama berkas.",
+            "Batas masukan adalah 8 MiB untuk perangkat layar sentuh atau dengan memori kecil, dan 32 MiB untuk komputer lainnya. Satu MiB sama dengan 1.048.576 byte. Durasi maksimal 120 detik dan setiap bingkai maksimal 2.073.600 piksel, termasuk video tegak. Hasil tidak boleh melebihi dua kali batas masukan yang berlaku. Ruang penyimpanan yang masih luas tidak mengubah batas ini.",
+            "Pekerjaan berlangsung di worker browser. Meski antarmuka tetap bisa digunakan, proses masih memakai memori dan baterai. Biarkan tab terbuka dan hindari menjalankan banyak konversi sekaligus. Operasi dihentikan setelah 180 detik. Bilah kemajuan menunjukkan bagian media yang sudah diproses, bukan perkiraan waktu selesai. Membatalkan akan menghentikan worker; memilih berkas lain membuat mesin baru.",
+            "Berkas tidak meninggalkan perangkat Anda. Halaman alat ini tidak mengunggah media atau menghubungi platform pihak ketiga. VidFetch menyediakan berkas mesinnya sendiri setelah Anda memilih berkas yang diterima. Hasil tersedia sebagai tautan unduhan lokal, bukan alamat publik untuk berbagi. Mengatur ulang atau menutup halaman membebaskan alamat sementara. Salinan yang sudah diunduh tetap tersimpan di folder unduhan.",
+            "Gunakan rekaman sendiri atau materi yang boleh Anda sunting. Pemrosesan lokal tidak memberikan hak cipta tambahan. Simpan berkas asli secara terpisah: hasil adalah salinan baru dan pengodean ulang bisa mengurangi detail. Periksa durasi, suara, dan pemutaran di aplikasi tujuan sebelum menghapus apa pun. Pada ponsel, periksa File Manager sebelum mengimpor video yang sesuai ke galeri.",
+            "Dukungan WebCodecs pada Chrome Android, Safari iOS, dan browser komputer tidak selalu sama. Pratinjau dapat gagal meskipun suatu trek masih bisa disalin. Jika codec tidak didukung, coba rekaman yang sesuai atau editor komputer. Berkas tidak dikirim ke server cadangan saat browser menemui keterbatasan. Tidak perlu membuat akun untuk menggunakan alat lokal ini."
+          ]
+        },
+        {
+          "heading": "Memahami pilihan media",
+          "paragraphs": [
+            "Resolusi menunjukkan jumlah piksel bingkai. Bitrate menunjukkan banyaknya data per detik. Keduanya tidak saling menggantikan: resolusi tinggi dengan data terlalu sedikit dapat terlihat lebih buruk daripada resolusi rendah yang dikodekan baik. Durasi juga diperlukan untuk menghitung ukuran seluruh berkas.",
+            "1920 × 1080 memuat lebih banyak piksel daripada 1280 × 720. Detail tambahan hanya terlihat jika sumber serta pengodean mempertahankannya. Laju bingkai menjelaskan gerakan. Slide diam dan kamera bergerak cepat tidak menantang encoder dengan cara sama.",
+            "Satuannya biasanya kilobit atau megabit per detik. Delapan bit menjadi satu byte. Bitrate variabel memberi data lebih banyak pada bagian rumit. Angka video dapat belum memasukkan audio, sedangkan kontainer menambahkan metadata. Karena itu, perkiraan sebelum persiapan dapat berbeda dari ukuran akhir.",
+            "Menggandakan durasi pada bitrate rata-rata sama kira-kira menggandakan ukuran. Menggandakan resolusi tidak mengikuti aturan tersebut. Baca 720p, 1080p, dan 4K untuk dimensi pikselnya.",
+            "Gunakan adegan, ukuran tampilan, dan volume yang sama. Perhatikan gerakan, tekstur, teks kecil, serta gradasi gelap. Derau dan fokus sumber ikut menentukan hasil. Codec berbeda pada bitrate sama tidak menjamin tampilan identik. Data lebih banyak tidak menciptakan detail yang hilang sejak perekaman.",
+            "Tidak. Label bitrate tidak memulihkan informasi yang sudah hilang. MP3 dan M4A menjelaskan perbedaan anggaran data dan kualitas sumber audio."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Apakah video diunggah ke server?",
+          "answer": "Tidak. Berkas dibaca dan diproses di perangkat Anda. Browser mengunduh mesin dari VidFetch lalu menyediakan hasil sebagai unduhan lokal, tanpa mengirim rekaman."
+        },
+        {
+          "question": "Mengapa berkas kecil tetap ditolak?",
+          "answer": "Ukuran bukan satu-satunya pemeriksaan. Durasi, jumlah piksel, dan codec yang tersedia juga menentukan. Berkas kecil mungkin memerlukan decoder atau encoder yang tidak dimiliki browser Anda."
+        },
+        {
+          "question": "Di mana hasilnya tersimpan di ponsel?",
+          "answer": "Gunakan tautan unduhan setelah proses selesai. Cari berkas melalui File Manager atau folder Downloads. Setelah itu, impor video yang sesuai ke galeri menggunakan pilihan yang tersedia di ponsel."
+        }
+      ]
+    }
+  },
+  "de": {
+    "audio": {
+      "title": "Video in MP3 oder M4A umwandeln",
+      "description": "Video kostenlos in MP3 umwandeln, ohne Konto oder Upload. AAC direkt als M4A kopieren. Bis 8 MiB mobil oder 32 MiB am Computer.",
+      "heading": "Video in MP3 oder M4A umwandeln",
+      "intro": "Löse die Tonspur aus einer eigenen Aufnahme, ohne sie hochzuladen. Erstelle eine MP3-Datei oder übernimm eine vorhandene AAC-Spur direkt in einen M4A-Container.",
+      "sections": [
+        {
+          "heading": "Das passende Audioformat wählen",
+          "paragraphs": [
+            "Für MP3 stehen 128, 192 und 320 kbps zur Wahl. Ein höherer Wert benötigt mehr Platz und stellt keine verlorenen Quelldetails wieder her. Für Sprachnotizen kannst du mit 128 beginnen; vergleiche bei einer eigenen Musikprobe denselben Abschnitt mit 192 und 320. Nur die primäre Audiospur wird ausgegeben, ohne Videobilder.",
+            "M4A kopiert ausschließlich eine vorhandene AAC-Spur. Opus und andere Codecs werden dabei nicht in AAC umgewandelt. Wird diese Option abgelehnt, kannst du MP3 versuchen. Das Kopieren vermeidet eine zusätzliche verlustbehaftete Audiokodierung. Eine stumme Datei ohne Tonspur bietet nichts zum Extrahieren."
+          ]
+        },
+        {
+          "heading": "Dateien, Datenschutz und Gerätegrenzen",
+          "paragraphs": [
+            "Wähle eine MP4-, MOV- oder WebM-Datei, die bereits auf deinem Gerät liegt. Die Endung bezeichnet den Container und sagt nicht sicher, welche Codecs enthalten sind. MP4 mit H.264 und AAC sowie WebM mit VP8 und Opus sind hilfreiche Testfälle. Ein MOV vom iPhone kann HEVC enthalten. Der Browser prüft deshalb die tatsächlichen Spuren vor dem Start.",
+            "Die Eingabegrenze beträgt 8 MiB auf Geräten mit Touchscreen oder wenig Speicher und 32 MiB auf anderen Computern. Ein MiB entspricht 1.048.576 Bytes. Die Aufnahme darf höchstens 120 Sekunden dauern und 2.073.600 Pixel pro Bild enthalten, auch im Hochformat. Die Ausgabe darf die doppelte geltende Eingabegrenze nicht überschreiten. Freier Festplattenplatz erhöht diese Grenzen nicht.",
+            "Die Verarbeitung läuft in einem Browser-Worker. Trotzdem benötigt sie Arbeitsspeicher und Energie. Lass den Tab geöffnet und starte möglichst keine parallelen Umwandlungen. Nach 180 Sekunden wird ein Vorgang beendet. Der Fortschritt beschreibt bereits verarbeitete Medien und keine verbleibende Zeit. Abbrechen beendet den Worker; mit einer neuen Datei wird eine frische Instanz gestartet.",
+            "Die Datei bleibt auf deinem Gerät. Diese Werkzeugseiten laden keine Medien hoch und kontaktieren keine fremden Plattformen. VidFetch liefert die eigenen Engine-Dateien erst nach Auswahl einer angenommenen Datei. Das Ergebnis ist ein lokaler Downloadlink, keine öffentliche Adresse zum Teilen. Zurücksetzen oder Verlassen der Seite gibt temporäre Browseradressen frei. Bereits heruntergeladene Kopien bleiben im Downloadordner.",
+            "Verwende eigene Aufnahmen oder Material, das du bearbeiten darfst. Lokale Verarbeitung verschafft keine zusätzlichen Urheberrechte. Bewahre das Original getrennt auf: Das Ergebnis ist eine neue Kopie, und erneutes Kodieren kann Details verlieren. Prüfe Dauer, Ton und Wiedergabe im vorgesehenen Zielprogramm, bevor du Dateien löschst. Ein funktionierender Browserdownload ersetzt keine Sicherung deiner Quelle.",
+            "Desktopbrowser, Chrome auf Android und Safari auf iOS unterscheiden sich bei WebCodecs und verfügbaren Codecs. Die Vorschau kann scheitern, obwohl eine Spur kopiert werden kann. Bei einer entsprechenden Fehlermeldung helfen eine kompatible Aufnahme oder ein Desktopeditor. Die Datei wird weder an einen Ersatzserver gesendet noch bei einem anderen Dienst erneut verarbeitet."
+          ]
+        },
+        {
+          "heading": "Medienformate verstehen",
+          "paragraphs": [
+            "Ein Video kann eine separate Tonspur enthalten. Für eine Audiodatei kopierst du diese in einen passenden Container oder codierst sie etwa als MP3 neu. Kopieren kann die codierten Daten erhalten; Konvertieren verbessert unter Umständen Kompatibilität, nicht den ursprünglichen Klang. Verwende nur eigenes oder erlaubtes Material.",
+            "Manche Aufnahmen sind stumm, andere haben mehrere Sprachen oder Kommentare. Höre hinein und untersuche die Spurenliste. Einfaches Extrahieren trennt keine Instrumente und entfernt keine Stimme: Bereits gemischte Elemente bleiben gemischt.",
+            "Ohne Audiospur sollte der Befehl das melden, nicht Ton erfinden. Bewahre die Eingabe auf und prüfe das Ergebnis. Die erste Spur muss nicht die gewünschte Sprache sein; passe gegebenenfalls die Auswahl an.",
+            "Das hängt vom Eingangscodec ab. Der Container muss ihn unterstützen; es ist kein universeller Konvertierungsbefehl. Wähle sonst einen passenden Container oder eine neue Codierung. Siehe MP3 und M4A.",
+            "Wähle ein Format, das Player oder Schnittprogramm akzeptiert. Vergleiche denselben Abschnitt bei gleicher Lautstärke, prüfe Dauer und vollständiges Ende. Eine hohe Bitrate stellt fehlende Informationen nicht wieder her. Vermeide wiederholte verlustbehaftete Konvertierungen.",
+            "Analysiere einen zugänglichen, erlaubten Link und wähle Audio sowie ein verfügbares Format. Die MP3-Option verwendet 192 kbps; Originalformate hängen von der Quelle ab. Audio umgeht weder Anmeldung noch Plattformblockaden. Größen-, Zeit- und Parallelitätslimits gelten weiterhin."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Wird die Aufnahme hochgeladen?",
+          "answer": "Nein. Der Browser liest und verarbeitet die Datei auf deinem Gerät. Er lädt die Engine von VidFetch und bietet anschließend eine lokale Ergebnisdatei an, ohne die Aufnahme zu senden."
+        },
+        {
+          "question": "Warum wird eine kleine Datei abgelehnt?",
+          "answer": "Neben der Größe zählen Dauer, Pixelzahl und verfügbare Codecs. Eine kleine Datei kann einen Decoder oder Encoder benötigen, den dein Browser nicht unterstützt."
+        },
+        {
+          "question": "Wo finde ich das Ergebnis auf dem Handy?",
+          "answer": "Nutze nach der Verarbeitung den Downloadlink. Suche unter Dateien oder Downloads. Anschließend kannst du ein kompatibles Video mit den Funktionen deines Geräts in Fotos oder die Galerie übernehmen."
+        }
+      ]
+    },
+    "compress": {
+      "title": "Video im Browser komprimieren",
+      "description": "Video kostenlos auf dem Gerät komprimieren, ohne Upload. Profil wählen und Größe schätzen. Bis 8 MiB mobil oder 32 MiB am Computer.",
+      "heading": "Video im Browser komprimieren",
+      "intro": "Erstelle eine kleinere Kopie deiner Aufnahme zum Weitergeben. Die Verarbeitung erfolgt auf deinem Gerät. Die Schätzung hilft beim Vergleich der Einstellungen und garantiert keine bestimmte Dateigröße.",
+      "sections": [
+        {
+          "heading": "Kompression sinnvoll einstellen",
+          "paragraphs": [
+            "Die Profile leicht, ausgewogen und stark zielen auf 2.000.000, 1.000.000 beziehungsweise 500.000 Videobits pro Sekunde. Vorhandener Ton wird mit 128 kbps neu kodiert. Die Schätzung multipliziert diese Ziele mit der Dauer. Container und Encoder beeinflussen die tatsächliche Größe; sie kann sogar über der Quelle liegen.",
+            "Wähle optional eine maximale Höhe von 360, 480, 720 oder 1080 Pixeln oder behalte die Originalmaße. Die Quelle wird nicht vergrößert. Bevorzugt wird WebM mit VP8 und Opus, ersatzweise MP4 mit H.264 und AAC, sofern die Encoder verfügbar sind. Prüfe das Zielprogramm auf Kompatibilität."
+          ]
+        },
+        {
+          "heading": "Dateien, Datenschutz und Gerätegrenzen",
+          "paragraphs": [
+            "Wähle eine MP4-, MOV- oder WebM-Datei, die bereits auf deinem Gerät liegt. Die Endung bezeichnet den Container und sagt nicht sicher, welche Codecs enthalten sind. MP4 mit H.264 und AAC sowie WebM mit VP8 und Opus sind hilfreiche Testfälle. Ein MOV vom iPhone kann HEVC enthalten. Der Browser prüft deshalb die tatsächlichen Spuren vor dem Start.",
+            "Die Eingabegrenze beträgt 8 MiB auf Geräten mit Touchscreen oder wenig Speicher und 32 MiB auf anderen Computern. Ein MiB entspricht 1.048.576 Bytes. Die Aufnahme darf höchstens 120 Sekunden dauern und 2.073.600 Pixel pro Bild enthalten, auch im Hochformat. Die Ausgabe darf die doppelte geltende Eingabegrenze nicht überschreiten. Freier Festplattenplatz erhöht diese Grenzen nicht.",
+            "Die Verarbeitung läuft in einem Browser-Worker. Trotzdem benötigt sie Arbeitsspeicher und Energie. Lass den Tab geöffnet und starte möglichst keine parallelen Umwandlungen. Nach 180 Sekunden wird ein Vorgang beendet. Der Fortschritt beschreibt bereits verarbeitete Medien und keine verbleibende Zeit. Abbrechen beendet den Worker; mit einer neuen Datei wird eine frische Instanz gestartet.",
+            "Die Datei bleibt auf deinem Gerät. Diese Werkzeugseiten laden keine Medien hoch und kontaktieren keine fremden Plattformen. VidFetch liefert die eigenen Engine-Dateien erst nach Auswahl einer angenommenen Datei. Das Ergebnis ist ein lokaler Downloadlink, keine öffentliche Adresse zum Teilen. Zurücksetzen oder Verlassen der Seite gibt temporäre Browseradressen frei. Bereits heruntergeladene Kopien bleiben im Downloadordner.",
+            "Verwende eigene Aufnahmen oder Material, das du bearbeiten darfst. Lokale Verarbeitung verschafft keine zusätzlichen Urheberrechte. Bewahre das Original getrennt auf: Das Ergebnis ist eine neue Kopie, und erneutes Kodieren kann Details verlieren. Prüfe Dauer, Ton und Wiedergabe im vorgesehenen Zielprogramm, bevor du Dateien löschst. Ein funktionierender Browserdownload ersetzt keine Sicherung deiner Quelle.",
+            "Desktopbrowser, Chrome auf Android und Safari auf iOS unterscheiden sich bei WebCodecs und verfügbaren Codecs. Die Vorschau kann scheitern, obwohl eine Spur kopiert werden kann. Bei einer entsprechenden Fehlermeldung helfen eine kompatible Aufnahme oder ein Desktopeditor. Die Datei wird weder an einen Ersatzserver gesendet noch bei einem anderen Dienst erneut verarbeitet."
+          ]
+        },
+        {
+          "heading": "Medienformate verstehen",
+          "paragraphs": [
+            "Eine kleinere Videodatei enthält weniger Daten. Kürzen, Bitrate senken und Auflösung ändern sind unterschiedliche Entscheidungen. Arbeite an einer Kopie und teste eine typische Szene. Es gibt keine Einstellung, die für jede Quelle gleiche Qualität bei erheblich weniger Speicher garantiert.",
+            "Ein Clip für Nachrichten braucht andere Einstellungen als Material zum Schneiden. Lege Zielgerät, benötigte Dauer und Größenlimit fest. Behalte das Original. Ein unnötiger Vorspann lässt sich manchmal sinnvoller entfernen, als jedes Bild stark zu komprimieren.",
+            "4K auf 1080p zu reduzieren spart zu codierende Pixel, verliert aber feine Details. 720p zu vergrößern erzeugt keine fehlenden Informationen. Weniger Bilder pro Sekunde ändern die Bewegung, besonders bei Sport. Lies den Auflösungsratgeber und teste auf dem Zielgerät.",
+            "Für eigene wiederverwendbare Aufnahmen behalte das Original. Eine Auslieferungskopie ist für einen Zweck optimiert, nicht für jeden späteren Schnitt.",
+            "Auflösung beschreibt Pixel pro Bild. Bitrate beschreibt Daten pro Sekunde. Beide wirken auf ein Video, sind aber nicht austauschbar. Ein hochauflösendes Bild mit zu wenig Daten kann schlechter aussehen als eine kleinere, gut codierte Fassung. Zur Größenberechnung gehört außerdem die Dauer.",
+            "1920 × 1080 enthält mehr Pixel als 1280 × 720. Zusätzliche Details entstehen nur, wenn Aufnahme und Codierung sie erhalten. Die Bildrate beschreibt Bewegung. Eine ruhige Folie stellt andere Anforderungen als eine schnell bewegte Kamera."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Wird die Aufnahme hochgeladen?",
+          "answer": "Nein. Der Browser liest und verarbeitet die Datei auf deinem Gerät. Er lädt die Engine von VidFetch und bietet anschließend eine lokale Ergebnisdatei an, ohne die Aufnahme zu senden."
+        },
+        {
+          "question": "Warum wird eine kleine Datei abgelehnt?",
+          "answer": "Neben der Größe zählen Dauer, Pixelzahl und verfügbare Codecs. Eine kleine Datei kann einen Decoder oder Encoder benötigen, den dein Browser nicht unterstützt."
+        },
+        {
+          "question": "Wo finde ich das Ergebnis auf dem Handy?",
+          "answer": "Nutze nach der Verarbeitung den Downloadlink. Suche unter Dateien oder Downloads. Anschließend kannst du ein kompatibles Video mit den Funktionen deines Geräts in Fotos oder die Galerie übernehmen."
+        }
+      ]
+    },
+    "trim": {
+      "title": "Video im Browser schneiden",
+      "description": "Video kostenlos im Browser schneiden, ohne Upload. Kopie am Schlüsselbild oder genau neu kodieren. Bis 8 MiB mobil oder 32 MiB am Computer.",
+      "heading": "Video im Browser schneiden",
+      "intro": "Behalte den benötigten Teil einer eigenen Aufnahme. Gib Anfang und Ende in Sekunden an und suche die Szene mit der Vorschau, bevor du die Schnittmethode wählst.",
+      "sections": [
+        {
+          "heading": "Anfang und Ende des Ausschnitts",
+          "paragraphs": [
+            "Gib Anfang und Ende in Sekunden innerhalb der Quelldauer ein. Das Ende muss nach dem Anfang liegen. Eine Änderung des Anfangs versetzt die Vorschau an die gewählte Stelle. Sie spielt die Quelle und bestätigt nicht das erste exportierte Bild.",
+            "Schnelles Kopieren benötigt zum Dekodieren ein Schlüsselbild. Der Bereich kann deshalb erweitert werden und zusätzliche Momente enthalten; prüfe die tatsächliche Ergebnisdauer. Für genaue Schnittpunkte wird der Ausschnitt dekodiert und abhängig von den Browserencodern als WebM oder MP4 neu kodiert. Das erfordert mehr Rechenarbeit und kann die Qualität verändern."
+          ]
+        },
+        {
+          "heading": "Dateien, Datenschutz und Gerätegrenzen",
+          "paragraphs": [
+            "Wähle eine MP4-, MOV- oder WebM-Datei, die bereits auf deinem Gerät liegt. Die Endung bezeichnet den Container und sagt nicht sicher, welche Codecs enthalten sind. MP4 mit H.264 und AAC sowie WebM mit VP8 und Opus sind hilfreiche Testfälle. Ein MOV vom iPhone kann HEVC enthalten. Der Browser prüft deshalb die tatsächlichen Spuren vor dem Start.",
+            "Die Eingabegrenze beträgt 8 MiB auf Geräten mit Touchscreen oder wenig Speicher und 32 MiB auf anderen Computern. Ein MiB entspricht 1.048.576 Bytes. Die Aufnahme darf höchstens 120 Sekunden dauern und 2.073.600 Pixel pro Bild enthalten, auch im Hochformat. Die Ausgabe darf die doppelte geltende Eingabegrenze nicht überschreiten. Freier Festplattenplatz erhöht diese Grenzen nicht.",
+            "Die Verarbeitung läuft in einem Browser-Worker. Trotzdem benötigt sie Arbeitsspeicher und Energie. Lass den Tab geöffnet und starte möglichst keine parallelen Umwandlungen. Nach 180 Sekunden wird ein Vorgang beendet. Der Fortschritt beschreibt bereits verarbeitete Medien und keine verbleibende Zeit. Abbrechen beendet den Worker; mit einer neuen Datei wird eine frische Instanz gestartet.",
+            "Die Datei bleibt auf deinem Gerät. Diese Werkzeugseiten laden keine Medien hoch und kontaktieren keine fremden Plattformen. VidFetch liefert die eigenen Engine-Dateien erst nach Auswahl einer angenommenen Datei. Das Ergebnis ist ein lokaler Downloadlink, keine öffentliche Adresse zum Teilen. Zurücksetzen oder Verlassen der Seite gibt temporäre Browseradressen frei. Bereits heruntergeladene Kopien bleiben im Downloadordner.",
+            "Verwende eigene Aufnahmen oder Material, das du bearbeiten darfst. Lokale Verarbeitung verschafft keine zusätzlichen Urheberrechte. Bewahre das Original getrennt auf: Das Ergebnis ist eine neue Kopie, und erneutes Kodieren kann Details verlieren. Prüfe Dauer, Ton und Wiedergabe im vorgesehenen Zielprogramm, bevor du Dateien löschst. Ein funktionierender Browserdownload ersetzt keine Sicherung deiner Quelle.",
+            "Desktopbrowser, Chrome auf Android und Safari auf iOS unterscheiden sich bei WebCodecs und verfügbaren Codecs. Die Vorschau kann scheitern, obwohl eine Spur kopiert werden kann. Bei einer entsprechenden Fehlermeldung helfen eine kompatible Aufnahme oder ein Desktopeditor. Die Datei wird weder an einen Ersatzserver gesendet noch bei einem anderen Dienst erneut verarbeitet."
+          ]
+        },
+        {
+          "heading": "Medienformate verstehen",
+          "paragraphs": [
+            "Eine brauchbare Videosicherung erhält Originaldateien und liefert eine funktionierende Kopie, wenn der Hauptspeicher ausfällt. Beginne mit eigenen oder erlaubten Inhalten. Halte unabhängige Kopien vor und teste Wiederherstellung und Wiedergabe. Ein synchronisierter Ordner allein beweist kein wiederherstellbares Archiv.",
+            "Zwei Dateien auf demselben Laufwerk teilen dessen Ausfallrisiko. Erwäge ein weiteres Medium und gegebenenfalls einen anderen Standort. Wähle eine Lösung, die du pflegen kannst. Synchronisierung kann versehentliche Löschungen verbreiten: Prüfe Versionsverlauf oder Wiederherstellung und teste sie.",
+            "Kopiere Proben zurück in einen getrennten Ordner. Prüfe Summe, Anfang, Ende, Dauer und Ton. Teste mehrere Dateitypen, wenn das Archiv vielfältig ist. Wiederhole dies nach Wechsel von Laufwerk, Software oder Ordnerstruktur. Bewahre Wiederherstellungsanweisungen beim Archiv auf.",
+            "Behalte zuerst die Originale. Eine Kompatibilitätskopie kann helfen, aber alle Quellen durch verlustbehaftete Ausgaben zu ersetzen verwirft möglicherweise künftig benötigte Informationen.",
+            "Wähle für ein Handyvideo eine Kombination, die Gerät und Wiedergabe-App unterstützen. MP4 mit üblichem H.264 und AAC ist oft eine praktische Basis. Codec-Profil, Auflösung und Betriebssystemversion bleiben wichtig. Teste eine Datei, bevor du viele große Videos herunterlädst.",
+            "MP4 bezeichnet den Container; darin können H.264, HEVC oder andere Spuren liegen. Video und Audio müssen beide unterstützt werden. Eine Datei, die im Browser läuft, kann in Galerie oder anderer App anders behandelt werden."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Wird die Aufnahme hochgeladen?",
+          "answer": "Nein. Der Browser liest und verarbeitet die Datei auf deinem Gerät. Er lädt die Engine von VidFetch und bietet anschließend eine lokale Ergebnisdatei an, ohne die Aufnahme zu senden."
+        },
+        {
+          "question": "Warum wird eine kleine Datei abgelehnt?",
+          "answer": "Neben der Größe zählen Dauer, Pixelzahl und verfügbare Codecs. Eine kleine Datei kann einen Decoder oder Encoder benötigen, den dein Browser nicht unterstützt."
+        },
+        {
+          "question": "Wo finde ich das Ergebnis auf dem Handy?",
+          "answer": "Nutze nach der Verarbeitung den Downloadlink. Suche unter Dateien oder Downloads. Anschließend kannst du ein kompatibles Video mit den Funktionen deines Geräts in Fotos oder die Galerie übernehmen."
+        }
+      ]
+    },
+    "gif": {
+      "title": "Video in GIF umwandeln",
+      "description": "Video kostenlos in GIF umwandeln, ohne Konto oder Upload. Breite und Bildrate einstellen. Ausschnitte bis zu 15 Sekunden.",
+      "heading": "Video in GIF umwandeln",
+      "intro": "Mache aus einer kurzen Bewegung eine animierte Bilddatei. Ein GIF enthält keinen Ton; wähle deshalb eine Szene, die auch ohne die ursprüngliche Tonspur verständlich ist.",
+      "sections": [
+        {
+          "heading": "Eine verständliche Animation erstellen",
+          "paragraphs": [
+            "Wähle höchstens 15 Sekunden sowie 160, 320, 480 oder 640 Pixel Breite und 5, 10 oder 15 Bilder pro Sekunde. Die Breite bleibt auf die Quelle begrenzt. Eine kurze, ruhige Einstellung zeigt eine Bewegung meist klarer als mehrere Kameraschwenks.",
+            "Jedes Bild erhält eine optimierte Palette mit bis zu 256 Farben. Verläufe, dunkle Bereiche und schnelle Bewegungen können sichtbare Stufen oder Fehler aufweisen. Mehr Breite und Bilder erhöhen Rechenaufwand und Dateigröße. Ein GIF ist nicht zwangsläufig kleiner als ein Video und enthält keine Audiospur."
+          ]
+        },
+        {
+          "heading": "Dateien, Datenschutz und Gerätegrenzen",
+          "paragraphs": [
+            "Wähle eine MP4-, MOV- oder WebM-Datei, die bereits auf deinem Gerät liegt. Die Endung bezeichnet den Container und sagt nicht sicher, welche Codecs enthalten sind. MP4 mit H.264 und AAC sowie WebM mit VP8 und Opus sind hilfreiche Testfälle. Ein MOV vom iPhone kann HEVC enthalten. Der Browser prüft deshalb die tatsächlichen Spuren vor dem Start.",
+            "Die Eingabegrenze beträgt 8 MiB auf Geräten mit Touchscreen oder wenig Speicher und 32 MiB auf anderen Computern. Ein MiB entspricht 1.048.576 Bytes. Die Aufnahme darf höchstens 120 Sekunden dauern und 2.073.600 Pixel pro Bild enthalten, auch im Hochformat. Die Ausgabe darf die doppelte geltende Eingabegrenze nicht überschreiten. Freier Festplattenplatz erhöht diese Grenzen nicht.",
+            "Die Verarbeitung läuft in einem Browser-Worker. Trotzdem benötigt sie Arbeitsspeicher und Energie. Lass den Tab geöffnet und starte möglichst keine parallelen Umwandlungen. Nach 180 Sekunden wird ein Vorgang beendet. Der Fortschritt beschreibt bereits verarbeitete Medien und keine verbleibende Zeit. Abbrechen beendet den Worker; mit einer neuen Datei wird eine frische Instanz gestartet.",
+            "Die Datei bleibt auf deinem Gerät. Diese Werkzeugseiten laden keine Medien hoch und kontaktieren keine fremden Plattformen. VidFetch liefert die eigenen Engine-Dateien erst nach Auswahl einer angenommenen Datei. Das Ergebnis ist ein lokaler Downloadlink, keine öffentliche Adresse zum Teilen. Zurücksetzen oder Verlassen der Seite gibt temporäre Browseradressen frei. Bereits heruntergeladene Kopien bleiben im Downloadordner.",
+            "Verwende eigene Aufnahmen oder Material, das du bearbeiten darfst. Lokale Verarbeitung verschafft keine zusätzlichen Urheberrechte. Bewahre das Original getrennt auf: Das Ergebnis ist eine neue Kopie, und erneutes Kodieren kann Details verlieren. Prüfe Dauer, Ton und Wiedergabe im vorgesehenen Zielprogramm, bevor du Dateien löschst. Ein funktionierender Browserdownload ersetzt keine Sicherung deiner Quelle.",
+            "Desktopbrowser, Chrome auf Android und Safari auf iOS unterscheiden sich bei WebCodecs und verfügbaren Codecs. Die Vorschau kann scheitern, obwohl eine Spur kopiert werden kann. Bei einer entsprechenden Fehlermeldung helfen eine kompatible Aufnahme oder ein Desktopeditor. Die Datei wird weder an einen Ersatzserver gesendet noch bei einem anderen Dienst erneut verarbeitet."
+          ]
+        },
+        {
+          "heading": "Medienformate verstehen",
+          "paragraphs": [
+            "Auflösung beschreibt Pixel pro Bild. Bitrate beschreibt Daten pro Sekunde. Beide wirken auf ein Video, sind aber nicht austauschbar. Ein hochauflösendes Bild mit zu wenig Daten kann schlechter aussehen als eine kleinere, gut codierte Fassung. Zur Größenberechnung gehört außerdem die Dauer.",
+            "1920 × 1080 enthält mehr Pixel als 1280 × 720. Zusätzliche Details entstehen nur, wenn Aufnahme und Codierung sie erhalten. Die Bildrate beschreibt Bewegung. Eine ruhige Folie stellt andere Anforderungen als eine schnell bewegte Kamera.",
+            "Sie wird häufig in Kilobit oder Megabit pro Sekunde angegeben. Acht Bits ergeben ein Byte. Variable Bitrate verteilt mehr Daten auf anspruchsvolle Abschnitte. Eine Videoangabe kann Audio ausschließen; Container-Metadaten kommen hinzu. Deshalb kann eine Schätzung vor der Vorbereitung vom fertigen Ergebnis abweichen.",
+            "Doppelte Dauer bei gleicher mittlerer Bitrate verdoppelt ungefähr die Größe. Doppelte Auflösung folgt keiner solchen direkten Regel. 720p, 1080p und 4K erklären die Bildmaße.",
+            "Verwende dieselbe Szene, Anzeigegröße und Lautstärke. Achte auf Bewegung, Texturen, kleine Schrift und dunkle Verläufe. Rauschen und Fokus zählen schon an der Quelle. Unterschiedliche Codecs liefern bei gleicher Bitrate nicht zwingend dieselbe Qualität. Mehr Daten retten keine bereits fehlenden Details.",
+            "Nein. Eine Bitratenangabe stellt fehlende Informationen nicht wieder her. MP3 und M4A erläutern dieselbe Unterscheidung für Audio."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Wird die Aufnahme hochgeladen?",
+          "answer": "Nein. Der Browser liest und verarbeitet die Datei auf deinem Gerät. Er lädt die Engine von VidFetch und bietet anschließend eine lokale Ergebnisdatei an, ohne die Aufnahme zu senden."
+        },
+        {
+          "question": "Warum wird eine kleine Datei abgelehnt?",
+          "answer": "Neben der Größe zählen Dauer, Pixelzahl und verfügbare Codecs. Eine kleine Datei kann einen Decoder oder Encoder benötigen, den dein Browser nicht unterstützt."
+        },
+        {
+          "question": "Wo finde ich das Ergebnis auf dem Handy?",
+          "answer": "Nutze nach der Verarbeitung den Downloadlink. Suche unter Dateien oder Downloads. Anschließend kannst du ein kompatibles Video mit den Funktionen deines Geräts in Fotos oder die Galerie übernehmen."
+        }
+      ]
+    }
+  },
+  "it": {
+    "audio": {
+      "title": "Convertire video in MP3 o M4A",
+      "description": "Convertire video in MP3 gratis, senza account né caricamento. Copia AAC in M4A sul dispositivo. Fino a 8 MiB su mobile o 32 MiB su computer.",
+      "heading": "Convertire video in MP3 o M4A",
+      "intro": "Estrai il suono da una tua registrazione senza inviarla altrove. Puoi creare un MP3 oppure conservare una traccia AAC esistente in un file M4A.",
+      "sections": [
+        {
+          "heading": "Scegliere il formato audio",
+          "paragraphs": [
+            "Per MP3 puoi scegliere 128, 192 o 320 kbps. Un valore più alto occupa più spazio e non ripristina dettagli assenti nel suono originale. Prova 128 per una nota vocale; per una tua prova musicale confronta lo stesso passaggio a 192 e 320. Viene estratta solo la traccia audio principale, senza immagini.",
+            "M4A copia direttamente soltanto una traccia già in AAC. Questa opzione non converte Opus o altri codec in AAC. Se viene rifiutata, puoi provare MP3. Copiare AAC evita un’ulteriore generazione con perdita di dati. Un video senza traccia sonora non contiene audio da estrarre."
+          ]
+        },
+        {
+          "heading": "File, riservatezza e limiti",
+          "paragraphs": [
+            "Scegli un file MP4, MOV o WebM già salvato sul dispositivo. L’estensione identifica il contenitore, non i codec delle tracce. MP4 con H.264 e AAC e WebM con VP8 e Opus sono esempi utili per le prove. Un MOV dell’iPhone può usare HEVC. Il browser esamina quindi le tracce effettive prima di iniziare, senza fidarsi soltanto del nome del file.",
+            "Il limite è di 8 MiB sui dispositivi touch o con poca memoria e di 32 MiB sugli altri computer. Un MiB corrisponde a 1.048.576 byte. La registrazione può durare al massimo 120 secondi e contenere fino a 2.073.600 pixel per fotogramma, anche in verticale. L’uscita non può superare il doppio del limite d’ingresso applicabile. Lo spazio libero sul disco non aumenta questi limiti.",
+            "Il lavoro avviene in un worker del browser. Utilizza comunque memoria e batteria: lascia aperta la scheda ed evita più conversioni contemporanee. Un’operazione si interrompe dopo 180 secondi. L’avanzamento misura la parte di media elaborata, non il tempo rimanente. Annullare termina il worker; scegliendo un altro file viene avviata una nuova istanza del motore.",
+            "Il file non lascia il dispositivo. Queste pagine non caricano media e non contattano piattaforme di terzi. VidFetch fornisce i propri file del motore solo dopo la scelta di un file accettato. Il risultato è un collegamento di download locale, non un indirizzo pubblico per condividere la registrazione. Ripristinare o lasciare la pagina libera gli indirizzi temporanei; le copie già scaricate restano in Download.",
+            "Usa registrazioni tue o materiale che hai il permesso di modificare. L’elaborazione locale non concede diritti d’autore aggiuntivi. Conserva l’originale separatamente: il risultato è una nuova copia e la ricodifica può perdere dettagli. Controlla durata, audio e riproduzione nell’applicazione destinataria prima di eliminare qualsiasi file. Una conversione riuscita non sostituisce una copia di sicurezza della fonte.",
+            "Chrome su Android, Safari su iOS e i browser desktop non offrono sempre gli stessi codec WebCodecs. L’anteprima può non funzionare anche se una traccia può essere copiata. Se il formato non è supportato, prova una registrazione compatibile o un editor per computer. Il file non viene inviato a un server alternativo quando il browser incontra un limite."
+          ]
+        },
+        {
+          "heading": "Capire le scelte multimediali",
+          "paragraphs": [
+            "Un video può contenere una traccia audio separata. Creare un file sonoro significa copiarla in un contenitore compatibile o ricodificarla, per esempio in MP3. La copia può preservare i dati; la conversione aiuta la compatibilità, non migliora la registrazione. Usa solo contenuti tuoi o autorizzati.",
+            "Alcuni video sono muti; altri hanno più lingue o commenti. Ascolta e controlla l’elenco delle tracce. Un’estrazione semplice non rimuove voci né separa strumenti: una miscela rimane tale nel risultato.",
+            "Se manca l’audio, deve essere segnalato. Mantieni l’ingresso e verifica l’uscita. La prima traccia potrebbe non essere la lingua desiderata: adatta la selezione quando serve.",
+            "Il comando dipende dalla fonte. Non è una conversione universale: il contenitore deve supportare il codec. In caso contrario scegli un contenitore adatto o una nuova codifica. Vedi MP3 e M4A.",
+            "Scegli ciò che accetta il lettore o editor. Confronta lo stesso passaggio allo stesso volume, controlla durata e fine completa. Un bitrate alto non recupera informazioni perse. Evita conversioni ripetute con perdita e mantieni la fonte migliore."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Il video viene caricato su un server?",
+          "answer": "No. Il browser legge ed elabora il file sul dispositivo. Scarica il motore da VidFetch e offre poi il risultato come download locale, senza inviare la registrazione."
+        },
+        {
+          "question": "Perché viene rifiutato un file piccolo?",
+          "answer": "Oltre alle dimensioni contano durata, pixel e codec disponibili. Un file leggero può richiedere un decoder o un encoder non presente nel browser."
+        },
+        {
+          "question": "Dove trovo il risultato sul telefono?",
+          "answer": "Usa il collegamento di download alla fine del lavoro. Controlla File o Download, quindi importa un video compatibile in Foto o nella galleria con le opzioni del dispositivo."
+        }
+      ]
+    },
+    "compress": {
+      "title": "Comprimere video nel browser",
+      "description": "Comprimere video gratis sul dispositivo, senza caricarli. Scegli un profilo e consulta la stima. Fino a 8 MiB su mobile o 32 MiB su computer.",
+      "heading": "Comprimere video nel browser",
+      "intro": "Prepara una copia più leggera della tua registrazione da condividere. Il lavoro avviene sul dispositivo: la stima aiuta a confrontare le opzioni, senza garantire una dimensione esatta.",
+      "sections": [
+        {
+          "heading": "Impostare una compressione ragionevole",
+          "paragraphs": [
+            "I profili leggero, bilanciato e forte puntano rispettivamente a 2.000.000, 1.000.000 e 500.000 bit al secondo per il video. L’audio presente viene ricodificato a 128 kbps. La stima moltiplica questi obiettivi per la durata; contenitore ed encoder possono variare la dimensione finale, anche oltre quella della fonte.",
+            "Puoi scegliere un’altezza massima di 360, 480, 720 o 1080 pixel oppure mantenere le dimensioni originali. La fonte non viene ingrandita. Si preferisce WebM VP8 con Opus; MP4 H.264 con AAC viene usato solo con gli encoder disponibili. Verifica che l’applicazione destinataria accetti il risultato."
+          ]
+        },
+        {
+          "heading": "File, riservatezza e limiti",
+          "paragraphs": [
+            "Scegli un file MP4, MOV o WebM già salvato sul dispositivo. L’estensione identifica il contenitore, non i codec delle tracce. MP4 con H.264 e AAC e WebM con VP8 e Opus sono esempi utili per le prove. Un MOV dell’iPhone può usare HEVC. Il browser esamina quindi le tracce effettive prima di iniziare, senza fidarsi soltanto del nome del file.",
+            "Il limite è di 8 MiB sui dispositivi touch o con poca memoria e di 32 MiB sugli altri computer. Un MiB corrisponde a 1.048.576 byte. La registrazione può durare al massimo 120 secondi e contenere fino a 2.073.600 pixel per fotogramma, anche in verticale. L’uscita non può superare il doppio del limite d’ingresso applicabile. Lo spazio libero sul disco non aumenta questi limiti.",
+            "Il lavoro avviene in un worker del browser. Utilizza comunque memoria e batteria: lascia aperta la scheda ed evita più conversioni contemporanee. Un’operazione si interrompe dopo 180 secondi. L’avanzamento misura la parte di media elaborata, non il tempo rimanente. Annullare termina il worker; scegliendo un altro file viene avviata una nuova istanza del motore.",
+            "Il file non lascia il dispositivo. Queste pagine non caricano media e non contattano piattaforme di terzi. VidFetch fornisce i propri file del motore solo dopo la scelta di un file accettato. Il risultato è un collegamento di download locale, non un indirizzo pubblico per condividere la registrazione. Ripristinare o lasciare la pagina libera gli indirizzi temporanei; le copie già scaricate restano in Download.",
+            "Usa registrazioni tue o materiale che hai il permesso di modificare. L’elaborazione locale non concede diritti d’autore aggiuntivi. Conserva l’originale separatamente: il risultato è una nuova copia e la ricodifica può perdere dettagli. Controlla durata, audio e riproduzione nell’applicazione destinataria prima di eliminare qualsiasi file. Una conversione riuscita non sostituisce una copia di sicurezza della fonte.",
+            "Chrome su Android, Safari su iOS e i browser desktop non offrono sempre gli stessi codec WebCodecs. L’anteprima può non funzionare anche se una traccia può essere copiata. Se il formato non è supportato, prova una registrazione compatibile o un editor per computer. Il file non viene inviato a un server alternativo quando il browser incontra un limite."
+          ]
+        },
+        {
+          "heading": "Capire le scelte multimediali",
+          "paragraphs": [
+            "Ridurre un video significa diminuire i dati che contiene. Tagliare una parte inutile, abbassare il bitrate e ridurre la risoluzione sono decisioni diverse. Lavora su una copia e prova una scena rappresentativa. Nessuna impostazione garantisce identica qualità e molto meno spazio per ogni fonte.",
+            "Un clip per messaggi non ha le esigenze di materiale da montare. Decidi dispositivo, durata utile e limite di dimensione. Conserva l’originale. Eliminare un’introduzione può essere più sensato che comprimere troppo ogni fotogramma.",
+            "Passare da 4K a 1080p riduce i pixel da codificare, perdendo dettaglio fine. Ingrandire 720p non ricrea informazioni. Abbassare la frequenza dei fotogrammi modifica il movimento, soprattutto nello sport. Leggi la guida alle risoluzioni e prova sul dispositivo destinatario.",
+            "Per riprese tue da riutilizzare, mantieni l’originale. Una copia di distribuzione è adatta a uno scopo, non a ogni futuro montaggio.",
+            "La risoluzione indica i pixel di ogni immagine. Il bitrate indica dati al secondo. Non sono intercambiabili: un’immagine grande con troppo pochi dati può apparire peggiore di una piccola ben codificata. La durata è essenziale per stimare la dimensione dell’intero file."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Il video viene caricato su un server?",
+          "answer": "No. Il browser legge ed elabora il file sul dispositivo. Scarica il motore da VidFetch e offre poi il risultato come download locale, senza inviare la registrazione."
+        },
+        {
+          "question": "Perché viene rifiutato un file piccolo?",
+          "answer": "Oltre alle dimensioni contano durata, pixel e codec disponibili. Un file leggero può richiedere un decoder o un encoder non presente nel browser."
+        },
+        {
+          "question": "Dove trovo il risultato sul telefono?",
+          "answer": "Usa il collegamento di download alla fine del lavoro. Controlla File o Download, quindi importa un video compatibile in Foto o nella galleria con le opzioni del dispositivo."
+        }
+      ]
+    },
+    "trim": {
+      "title": "Tagliare video nel browser",
+      "description": "Tagliare video gratis senza caricarli. Copia sul fotogramma chiave o ricodifica precisa. Fino a 8 MiB su mobile o 32 MiB su computer.",
+      "heading": "Tagliare video nel browser",
+      "intro": "Conserva il passaggio che ti serve di una tua registrazione. Indica inizio e fine in secondi e cerca il momento con l’anteprima prima di scegliere il tipo di taglio.",
+      "sections": [
+        {
+          "heading": "Definire inizio e fine del taglio",
+          "paragraphs": [
+            "Inserisci inizio e fine in secondi, entro la durata originale. La fine deve essere successiva all’inizio. Modificare l’inizio sposta l’anteprima, che riproduce la fonte e non garantisce il primo fotogramma esportato.",
+            "La copia rapida deve partire da un fotogramma chiave. L’intervallo può allargarsi e includere istanti aggiuntivi: controlla la durata effettiva del risultato. La modalità precisa decodifica e ricodifica il passaggio in WebM o MP4 secondo gli encoder del browser. Richiede più calcolo e può cambiare la qualità."
+          ]
+        },
+        {
+          "heading": "File, riservatezza e limiti",
+          "paragraphs": [
+            "Scegli un file MP4, MOV o WebM già salvato sul dispositivo. L’estensione identifica il contenitore, non i codec delle tracce. MP4 con H.264 e AAC e WebM con VP8 e Opus sono esempi utili per le prove. Un MOV dell’iPhone può usare HEVC. Il browser esamina quindi le tracce effettive prima di iniziare, senza fidarsi soltanto del nome del file.",
+            "Il limite è di 8 MiB sui dispositivi touch o con poca memoria e di 32 MiB sugli altri computer. Un MiB corrisponde a 1.048.576 byte. La registrazione può durare al massimo 120 secondi e contenere fino a 2.073.600 pixel per fotogramma, anche in verticale. L’uscita non può superare il doppio del limite d’ingresso applicabile. Lo spazio libero sul disco non aumenta questi limiti.",
+            "Il lavoro avviene in un worker del browser. Utilizza comunque memoria e batteria: lascia aperta la scheda ed evita più conversioni contemporanee. Un’operazione si interrompe dopo 180 secondi. L’avanzamento misura la parte di media elaborata, non il tempo rimanente. Annullare termina il worker; scegliendo un altro file viene avviata una nuova istanza del motore.",
+            "Il file non lascia il dispositivo. Queste pagine non caricano media e non contattano piattaforme di terzi. VidFetch fornisce i propri file del motore solo dopo la scelta di un file accettato. Il risultato è un collegamento di download locale, non un indirizzo pubblico per condividere la registrazione. Ripristinare o lasciare la pagina libera gli indirizzi temporanei; le copie già scaricate restano in Download.",
+            "Usa registrazioni tue o materiale che hai il permesso di modificare. L’elaborazione locale non concede diritti d’autore aggiuntivi. Conserva l’originale separatamente: il risultato è una nuova copia e la ricodifica può perdere dettagli. Controlla durata, audio e riproduzione nell’applicazione destinataria prima di eliminare qualsiasi file. Una conversione riuscita non sostituisce una copia di sicurezza della fonte.",
+            "Chrome su Android, Safari su iOS e i browser desktop non offrono sempre gli stessi codec WebCodecs. L’anteprima può non funzionare anche se una traccia può essere copiata. Se il formato non è supportato, prova una registrazione compatibile o un editor per computer. Il file non viene inviato a un server alternativo quando il browser incontra un limite."
+          ]
+        },
+        {
+          "heading": "Capire le scelte multimediali",
+          "paragraphs": [
+            "Un backup utile conserva i file originali e permette di recuperarli quando lo spazio principale si guasta. Parti da contenuti tuoi o autorizzati. Mantieni copie indipendenti e prova ripristino e riproduzione. Una cartella sincronizzata, da sola, non dimostra che un archivio sia recuperabile.",
+            "Due file sullo stesso disco condividono il rischio di guasto. Considera un altro supporto e, se opportuno, un altro luogo. Scegli un’organizzazione che puoi mantenere. La sincronizzazione può propagare cancellazioni accidentali: controlla cronologia o recupero e provali.",
+            "Recupera campioni in una cartella distinta. Controlla checksum, inizio, fine, durata e audio. Prova più tipi se la raccolta è varia. Ripeti dopo cambiamenti di disco, software o cartelle. Conserva istruzioni di recupero insieme all’archivio.",
+            "Conserva prima gli originali. Una copia compatibile può aiutare la lettura, ma sostituire tutte le fonti con conversioni con perdita elimina informazioni potenzialmente utili.",
+            "Per guardare un video sul telefono, scegli una combinazione supportata dal dispositivo e dall’applicazione. MP4 con H.264 comune e AAC è spesso pratico. Profilo, risoluzione e versione del sistema restano importanti. Prova un file prima di scaricare molti video grandi."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Il video viene caricato su un server?",
+          "answer": "No. Il browser legge ed elabora il file sul dispositivo. Scarica il motore da VidFetch e offre poi il risultato come download locale, senza inviare la registrazione."
+        },
+        {
+          "question": "Perché viene rifiutato un file piccolo?",
+          "answer": "Oltre alle dimensioni contano durata, pixel e codec disponibili. Un file leggero può richiedere un decoder o un encoder non presente nel browser."
+        },
+        {
+          "question": "Dove trovo il risultato sul telefono?",
+          "answer": "Usa il collegamento di download alla fine del lavoro. Controlla File o Download, quindi importa un video compatibile in Foto o nella galleria con le opzioni del dispositivo."
+        }
+      ]
+    },
+    "gif": {
+      "title": "Convertire video in GIF",
+      "description": "Convertire video in GIF gratis, senza account né caricamento. Regola larghezza e fotogrammi al secondo. Spezzoni fino a 15 secondi.",
+      "heading": "Convertire video in GIF",
+      "intro": "Trasforma un movimento breve in un’immagine animata. Il GIF non contiene suono: scegli una dimostrazione che si capisca anche senza ascoltare la registrazione originale.",
+      "sections": [
+        {
+          "heading": "Creare un’animazione leggibile",
+          "paragraphs": [
+            "Scegli fino a 15 secondi, con larghezza di 160, 320, 480 o 640 pixel e cadenza di 5, 10 o 15 fotogrammi al secondo. La larghezza non supera la fonte. Un’inquadratura breve e stabile mostra un gesto più chiaramente di vari movimenti di camera.",
+            "Ogni fotogramma usa una tavolozza ottimizzata di massimo 256 colori. Sfumature, zone scure e movimenti rapidi possono presentare bande o difetti. Aumentare larghezza e cadenza aumenta elaborazione e dimensioni. Un GIF non è necessariamente più piccolo del video e non conserva l’audio."
+          ]
+        },
+        {
+          "heading": "File, riservatezza e limiti",
+          "paragraphs": [
+            "Scegli un file MP4, MOV o WebM già salvato sul dispositivo. L’estensione identifica il contenitore, non i codec delle tracce. MP4 con H.264 e AAC e WebM con VP8 e Opus sono esempi utili per le prove. Un MOV dell’iPhone può usare HEVC. Il browser esamina quindi le tracce effettive prima di iniziare, senza fidarsi soltanto del nome del file.",
+            "Il limite è di 8 MiB sui dispositivi touch o con poca memoria e di 32 MiB sugli altri computer. Un MiB corrisponde a 1.048.576 byte. La registrazione può durare al massimo 120 secondi e contenere fino a 2.073.600 pixel per fotogramma, anche in verticale. L’uscita non può superare il doppio del limite d’ingresso applicabile. Lo spazio libero sul disco non aumenta questi limiti.",
+            "Il lavoro avviene in un worker del browser. Utilizza comunque memoria e batteria: lascia aperta la scheda ed evita più conversioni contemporanee. Un’operazione si interrompe dopo 180 secondi. L’avanzamento misura la parte di media elaborata, non il tempo rimanente. Annullare termina il worker; scegliendo un altro file viene avviata una nuova istanza del motore.",
+            "Il file non lascia il dispositivo. Queste pagine non caricano media e non contattano piattaforme di terzi. VidFetch fornisce i propri file del motore solo dopo la scelta di un file accettato. Il risultato è un collegamento di download locale, non un indirizzo pubblico per condividere la registrazione. Ripristinare o lasciare la pagina libera gli indirizzi temporanei; le copie già scaricate restano in Download.",
+            "Usa registrazioni tue o materiale che hai il permesso di modificare. L’elaborazione locale non concede diritti d’autore aggiuntivi. Conserva l’originale separatamente: il risultato è una nuova copia e la ricodifica può perdere dettagli. Controlla durata, audio e riproduzione nell’applicazione destinataria prima di eliminare qualsiasi file. Una conversione riuscita non sostituisce una copia di sicurezza della fonte.",
+            "Chrome su Android, Safari su iOS e i browser desktop non offrono sempre gli stessi codec WebCodecs. L’anteprima può non funzionare anche se una traccia può essere copiata. Se il formato non è supportato, prova una registrazione compatibile o un editor per computer. Il file non viene inviato a un server alternativo quando il browser incontra un limite."
+          ]
+        },
+        {
+          "heading": "Capire le scelte multimediali",
+          "paragraphs": [
+            "La risoluzione indica i pixel di ogni immagine. Il bitrate indica dati al secondo. Non sono intercambiabili: un’immagine grande con troppo pochi dati può apparire peggiore di una piccola ben codificata. La durata è essenziale per stimare la dimensione dell’intero file.",
+            "1920 × 1080 contiene più pixel di 1280 × 720. Offre più dettaglio solo se acquisizione e codifica lo conservano. La frequenza dei fotogrammi descrive il movimento. Una diapositiva ferma e una videocamera rapida richiedono budget diversi.",
+            "È spesso espresso in kilobit o megabit al secondo. Otto bit formano un byte. Il bitrate variabile assegna più dati alle parti complesse. La cifra video può escludere audio, mentre il contenitore aggiunge metadati. Per questo la stima può differire dal file finito.",
+            "Raddoppiare la durata allo stesso bitrate medio raddoppia approssimativamente il peso. Raddoppiare la risoluzione non impone quel risultato. 720p, 1080p e 4K spiegano le dimensioni.",
+            "Usa la stessa scena, dimensione di riproduzione e volume. Guarda movimento, texture, testo fine e ombre. Rumore e fuoco della fonte contano già prima della codifica. Codec diversi a uguale bitrate non garantiscono uguale resa. Più dati non ricreano dettaglio assente."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Il video viene caricato su un server?",
+          "answer": "No. Il browser legge ed elabora il file sul dispositivo. Scarica il motore da VidFetch e offre poi il risultato come download locale, senza inviare la registrazione."
+        },
+        {
+          "question": "Perché viene rifiutato un file piccolo?",
+          "answer": "Oltre alle dimensioni contano durata, pixel e codec disponibili. Un file leggero può richiedere un decoder o un encoder non presente nel browser."
+        },
+        {
+          "question": "Dove trovo il risultato sul telefono?",
+          "answer": "Usa il collegamento di download alla fine del lavoro. Controlla File o Download, quindi importa un video compatibile in Foto o nella galleria con le opzioni del dispositivo."
+        }
+      ]
+    }
+  },
+  "ar": {
+    "audio": {
+      "title": "تحويل فيديو إلى MP3 أو M4A",
+      "description": "تحويل فيديو إلى MP3 مجانًا دون حساب أو رفع الملف. نسخ AAC إلى M4A محليًا. الحد 8 MiB للهاتف أو 32 MiB للكمبيوتر.",
+      "heading": "تحويل فيديو إلى MP3 أو M4A",
+      "intro": "استخرج الصوت من تسجيل تملكه دون إرساله إلى جهة أخرى. اختر ملف MP3 أو احتفظ بمسار AAC الموجود داخل ملف M4A. يبقى الفيديو الأصلي كما هو على جهازك.",
+      "sections": [
+        {
+          "heading": "اختيار صيغة الصوت المناسبة",
+          "paragraphs": [
+            "لملف MP3 يمكنك اختيار 128 أو 192 أو 320 kbps. يزيد المعدل الأعلى حجم الملف ولا يعيد تفاصيل غير موجودة في الصوت الأصلي. جرّب 128 للملاحظات الصوتية، وقارن المقطع نفسه عند 192 و320 لتسجيل موسيقي تملكه. يُستخرج مسار الصوت الأساسي وحده دون صور الفيديو.",
+            "ينسخ خيار M4A المسار مباشرة إذا كان بترميز AAC أصلًا. لا يحوّل هذا الخيار Opus أو أي ترميز آخر إلى AAC. إذا رُفض، يمكنك تجربة MP3. يجنّب نسخ AAC جولة إضافية من الترميز مع فقدان البيانات. لا يمكن استخراج صوت من فيديو لا يحتوي على مسار صوتي."
+          ]
+        },
+        {
+          "heading": "الملفات والخصوصية وحدود الجهاز",
+          "paragraphs": [
+            "اختر ملف MP4 أو MOV أو WebM محفوظًا على جهازك. يشير الامتداد إلى الحاوية ولا يكفي لمعرفة الترميزات داخل المسارات. من الأمثلة المفيدة للاختبار فيديو H.264 مع صوت AAC، وملف WebM بترميز VP8 مع Opus. قد يحتوي MOV المسجل بهاتف آيفون على HEVC. لذلك يفحص المتصفح المسارات الفعلية قبل البدء بدل الاعتماد على اسم الملف وحده.",
+            "الحد الأقصى للإدخال هو 8 MiB للأجهزة ذات الشاشة اللمسية أو الذاكرة المحدودة، و32 MiB لأجهزة الكمبيوتر الأخرى. يساوي MiB عدد 1048576 بايت. يجب ألا تتجاوز المدة 120 ثانية، ولا يزيد عدد البكسلات في الإطار عن 2073600، بما في ذلك التصوير الرأسي. لا يجوز أن يتجاوز الناتج ضعف حد الإدخال المطبق. المساحة المتاحة على القرص لا ترفع هذه الحدود.",
+            "تجري المعالجة في عامل مستقل داخل المتصفح، لكنها تستهلك الذاكرة والبطارية. اترك علامة التبويب مفتوحة وتجنب تشغيل عمليات متعددة في الوقت نفسه. تتوقف العملية بعد 180 ثانية. يوضح شريط التقدم الجزء الذي تمت معالجته، ولا يتنبأ بالوقت المتبقي. يؤدي الإلغاء إلى إنهاء العامل، ويبدأ اختيار ملف آخر نسخة جديدة من المحرك.",
+            "لا يغادر الملف جهازك. لا ترفع صفحات الأدوات هذه الوسائط ولا تتصل بمنصات خارجية. يوفر VidFetch ملفات المحرك من موقعه بعد اختيار ملف مقبول، ثم ينشئ رابط تنزيل محليًا للناتج. هذا الرابط ليس عنوانًا عامًا لاستضافة التسجيل أو مشاركته. تؤدي إعادة الضبط أو مغادرة الصفحة إلى تحرير العناوين المؤقتة، بينما تبقى النسخة التي نزلتها بالفعل في مجلد التنزيلات.",
+            "استخدم تسجيلاتك أو محتوى لديك إذن بتعديله. لا تمنح المعالجة المحلية حقوق نشر إضافية. احتفظ بالأصل منفصلًا، لأن الناتج نسخة جديدة وقد تفقد إعادة الترميز بعض التفاصيل. افحص المدة والصوت والتزامن والتشغيل في التطبيق الذي سيستقبل الملف قبل حذف أي شيء. نجاح العملية لا يغني عن نسخة احتياطية للتسجيل الأصلي.",
+            "تختلف المتصفحات المكتبية وChrome على أندرويد وSafari على آيفون في دعم WebCodecs والترميزات المتاحة. قد تتعذر المعاينة مع إمكان نسخ أحد المسارات. إذا ظهر خطأ في التوافق، جرّب تسجيلًا مدعومًا أو محررًا على الكمبيوتر. لا يرسل المتصفح الملف إلى خادم بديل ولا يحاول معالجته عبر خدمة أخرى عندما يواجه هذا القيد."
+          ]
+        },
+        {
+          "heading": "فهم خيارات الوسائط",
+          "paragraphs": [
+            "قد يحتوي الفيديو على مسار صوتي مستقل. إنشاء ملف صوتي يعني نسخ ذلك المسار إلى حاوية مناسبة أو إعادة ترميزه إلى صيغة مثل MP3. قد يحافظ النسخ على البيانات كما هي؛ التحويل يساعد التوافق ولا يحسّن التسجيل الأصلي. استخدم محتوى تملكه أو لديك إذن باستعماله فقط.",
+            "بعض التسجيلات صامتة، وبعضها يحتوي على لغات متعددة أو تعليق إضافي. استمع وافحص قائمة المسارات قبل الاختيار. استخراج الصوت العادي لا يفصل الآلات ولا يحذف الغناء؛ العناصر التي خُلِطت بالفعل تبقى مختلطة في الملف الناتج.",
+            "إذا لم يوجد مسار صوت، يجب أن يُبلَّغ عن ذلك بدل اختراع صوت. احتفظ بالمدخل واختبر المخرج. قد لا يكون المسار الأول باللغة المطلوبة، لذلك عدّل الاختيار بعد فحصه عند الحاجة.",
+            "إذا تأكدت أن المسار المختار هو AAC، فقد يجنّبك نسخه إلى M4A ضغطًا آخر بفقدان:",
+            "هذا يعتمد على المدخل. الأمر ليس تحويلًا عامًا؛ يجب أن تدعم الحاوية الترميز. اختر حاوية متوافقة أو ترميزًا جديدًا إذا لم يصلح النسخ. راجع MP3 وM4A.",
+            "اختر صيغة يقبلها المشغّل أو برنامج التحرير. قارن المقطع نفسه بصوت متساوٍ، وتحقق من المدة والنهاية كاملة. لا يستعيد معدّل بت مرتفع التفاصيل المحذوفة. تجنّب التحويلات المتكررة بفقدان واحتفظ بأفضل أصل متاح.",
+            "حلّل رابطًا مسموحًا ومتاحًا، ثم اختر الصوت وصيغة متوفرة. يستخدم MP3 معدّل 192 kbps، أما الصيغ الأصلية فتتبع المصدر. اختيار الصوت لا يرفع قيود تسجيل الدخول أو المنصة. تبقى حدود الحجم والمدة والعمليات المتزامنة سارية."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "هل يُرفع الفيديو إلى خادم؟",
+          "answer": "لا. يقرأ المتصفح الملف ويعالجه على جهازك. ينزل المحرك من VidFetch ثم يوفر ملف الناتج للتنزيل المحلي دون إرسال التسجيل."
+        },
+        {
+          "question": "لماذا يُرفض ملف صغير؟",
+          "answer": "الحجم ليس الاختبار الوحيد. تؤثر المدة وعدد البكسلات والترميزات المتاحة أيضًا. قد يحتاج الملف الصغير إلى مفكك ترميز أو مشفر لا يدعمه متصفحك."
+        },
+        {
+          "question": "أين أجد الناتج على الهاتف؟",
+          "answer": "استخدم رابط التنزيل بعد اكتمال المعالجة. ابحث في تطبيق الملفات أو مجلد التنزيلات، ثم أضف الفيديو المتوافق إلى الصور أو المعرض باستخدام الخيارات المتاحة على هاتفك."
+        }
+      ]
+    },
+    "compress": {
+      "title": "ضغط فيديو على جهازك",
+      "description": "ضغط فيديو مجانًا على جهازك دون رفع الملف. اختر الإعداد وراجع تقدير الحجم. الحد 8 MiB للهاتف أو 32 MiB للكمبيوتر.",
+      "heading": "ضغط فيديو على جهازك",
+      "intro": "أنشئ نسخة أخف من تسجيلك لتشاركها بسهولة أكبر. تجري المعالجة على جهازك، ويساعد تقدير الحجم على مقارنة الإعدادات دون ضمان حجم نهائي محدد.",
+      "sections": [
+        {
+          "heading": "ضبط ضغط الفيديو بعناية",
+          "paragraphs": [
+            "تستهدف إعدادات الضغط الخفيف والمتوازن والقوي معدلات فيديو تبلغ 2000000 و1000000 و500000 بت في الثانية على الترتيب. يُعاد ترميز الصوت الموجود بمعدل 128 kbps. يضرب تقدير الحجم هذه المعدلات في المدة، لكن الحاوية وسلوك المشفر قد يغيران الحجم الحقيقي، وقد يصبح أكبر من الأصل.",
+            "يمكن تحديد ارتفاع أقصى قدره 360 أو 480 أو 720 أو 1080 بكسل، أو الاحتفاظ بالأبعاد الأصلية. لا يكبّر المحرك المصدر. يفضّل WebM بترميز VP8 وOpus، ويستخدم MP4 مع H.264 وAAC فقط عند توفر المشفرات. تحقق من قبول التطبيق المستقبِل للصيغة الناتجة."
+          ]
+        },
+        {
+          "heading": "الملفات والخصوصية وحدود الجهاز",
+          "paragraphs": [
+            "اختر ملف MP4 أو MOV أو WebM محفوظًا على جهازك. يشير الامتداد إلى الحاوية ولا يكفي لمعرفة الترميزات داخل المسارات. من الأمثلة المفيدة للاختبار فيديو H.264 مع صوت AAC، وملف WebM بترميز VP8 مع Opus. قد يحتوي MOV المسجل بهاتف آيفون على HEVC. لذلك يفحص المتصفح المسارات الفعلية قبل البدء بدل الاعتماد على اسم الملف وحده.",
+            "الحد الأقصى للإدخال هو 8 MiB للأجهزة ذات الشاشة اللمسية أو الذاكرة المحدودة، و32 MiB لأجهزة الكمبيوتر الأخرى. يساوي MiB عدد 1048576 بايت. يجب ألا تتجاوز المدة 120 ثانية، ولا يزيد عدد البكسلات في الإطار عن 2073600، بما في ذلك التصوير الرأسي. لا يجوز أن يتجاوز الناتج ضعف حد الإدخال المطبق. المساحة المتاحة على القرص لا ترفع هذه الحدود.",
+            "تجري المعالجة في عامل مستقل داخل المتصفح، لكنها تستهلك الذاكرة والبطارية. اترك علامة التبويب مفتوحة وتجنب تشغيل عمليات متعددة في الوقت نفسه. تتوقف العملية بعد 180 ثانية. يوضح شريط التقدم الجزء الذي تمت معالجته، ولا يتنبأ بالوقت المتبقي. يؤدي الإلغاء إلى إنهاء العامل، ويبدأ اختيار ملف آخر نسخة جديدة من المحرك.",
+            "لا يغادر الملف جهازك. لا ترفع صفحات الأدوات هذه الوسائط ولا تتصل بمنصات خارجية. يوفر VidFetch ملفات المحرك من موقعه بعد اختيار ملف مقبول، ثم ينشئ رابط تنزيل محليًا للناتج. هذا الرابط ليس عنوانًا عامًا لاستضافة التسجيل أو مشاركته. تؤدي إعادة الضبط أو مغادرة الصفحة إلى تحرير العناوين المؤقتة، بينما تبقى النسخة التي نزلتها بالفعل في مجلد التنزيلات.",
+            "استخدم تسجيلاتك أو محتوى لديك إذن بتعديله. لا تمنح المعالجة المحلية حقوق نشر إضافية. احتفظ بالأصل منفصلًا، لأن الناتج نسخة جديدة وقد تفقد إعادة الترميز بعض التفاصيل. افحص المدة والصوت والتزامن والتشغيل في التطبيق الذي سيستقبل الملف قبل حذف أي شيء. نجاح العملية لا يغني عن نسخة احتياطية للتسجيل الأصلي.",
+            "تختلف المتصفحات المكتبية وChrome على أندرويد وSafari على آيفون في دعم WebCodecs والترميزات المتاحة. قد تتعذر المعاينة مع إمكان نسخ أحد المسارات. إذا ظهر خطأ في التوافق، جرّب تسجيلًا مدعومًا أو محررًا على الكمبيوتر. لا يرسل المتصفح الملف إلى خادم بديل ولا يحاول معالجته عبر خدمة أخرى عندما يواجه هذا القيد."
+          ]
+        },
+        {
+          "heading": "فهم خيارات الوسائط",
+          "paragraphs": [
+            "تقليل حجم الفيديو يعني تقليل البيانات التي يحملها. حذف جزء غير ضروري، وخفض معدّل البت، وتغيير الدقة قرارات مختلفة. اعمل على نسخة واختبر مشهدًا ممثلًا للمحتوى. لا توجد إعدادات تضمن جودة متطابقة وحجمًا أقل بكثير لكل مصدر وفي جميع الظروف.",
+            "مقطع يُرسل في رسالة يختلف عن مادة ستُستخدم للتحرير. حدّد جهاز المشاهدة والمدة اللازمة وحدّ الحجم المطلوب. احتفظ بالأصل. قد يكون حذف مقدمة غير مهمة أفضل من ضغط كل إطار بعنف، خصوصًا إذا كان الفيديو مناسبًا أصلًا لغرضه.",
+            "خفض 4K إلى 1080p يقلّل البكسلات التي يجب ترميزها، لكنه يفقد تفاصيل دقيقة. تكبير 720p لا يعيد معلومات لم تُلتقط. كما أن خفض معدّل الإطارات يغيّر الحركة، وخصوصًا في الرياضة. اقرأ دليل الدقة واختبر النتيجة على جهاز الاستقبال.",
+            "للتسجيلات التي تملكها وقد تعيد استخدامها، احتفظ بالأصل. نسخة التوزيع مناسبة لغرض معين، وليست بديلًا عن كل احتياجات التحرير المستقبلية.",
+            "تصف الدقة عدد البكسلات في الإطار. ويصف معدّل البت مقدار البيانات في الثانية. ليست الخاصيتان قابلتين للاستبدال: صورة كبيرة ببيانات قليلة قد تبدو أسوأ من صورة أصغر مرمّزة جيدًا. وتحتاج إلى المدة أيضًا لتقدير حجم الملف كاملًا.",
+            "تحتوي 1920 × 1080 على بكسلات أكثر من 1280 × 720. تسمح بتفاصيل أكثر فقط إذا حافظ عليها الالتقاط والترميز. يصف معدّل الإطارات الحركة بشكل منفصل. لا يحتاج عرض شريحة ثابتة إلى الميزانية نفسها التي تحتاجها كاميرا تتحرك بسرعة."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "هل يُرفع الفيديو إلى خادم؟",
+          "answer": "لا. يقرأ المتصفح الملف ويعالجه على جهازك. ينزل المحرك من VidFetch ثم يوفر ملف الناتج للتنزيل المحلي دون إرسال التسجيل."
+        },
+        {
+          "question": "لماذا يُرفض ملف صغير؟",
+          "answer": "الحجم ليس الاختبار الوحيد. تؤثر المدة وعدد البكسلات والترميزات المتاحة أيضًا. قد يحتاج الملف الصغير إلى مفكك ترميز أو مشفر لا يدعمه متصفحك."
+        },
+        {
+          "question": "أين أجد الناتج على الهاتف؟",
+          "answer": "استخدم رابط التنزيل بعد اكتمال المعالجة. ابحث في تطبيق الملفات أو مجلد التنزيلات، ثم أضف الفيديو المتوافق إلى الصور أو المعرض باستخدام الخيارات المتاحة على هاتفك."
+        }
+      ]
+    },
+    "trim": {
+      "title": "قص فيديو في المتصفح",
+      "description": "قص فيديو مجانًا في المتصفح دون رفعه. نسخ عند إطار مفتاحي أو إعادة ترميز دقيقة. الحد 8 MiB للهاتف أو 32 MiB للكمبيوتر.",
+      "heading": "قص فيديو في المتصفح",
+      "intro": "احتفظ بالجزء الذي تحتاجه من تسجيلك. أدخل البداية والنهاية بالثواني، وحدد المشهد باستخدام المعاينة قبل اختيار النسخ السريع أو إعادة الترميز الدقيقة.",
+      "sections": [
+        {
+          "heading": "تحديد بداية المقتطف ونهايته",
+          "paragraphs": [
+            "أدخل البداية والنهاية بالثواني ضمن مدة التسجيل. يجب أن تأتي النهاية بعد البداية. يؤدي تغيير البداية إلى تحريك المعاينة نحو الموضع المختار، لكن المعاينة تعرض المصدر ولا تؤكد أول إطار في الملف المُصدّر.",
+            "يحتاج النسخ السريع إلى إطار مفتاحي ليبدأ فك الترميز. قد يتسع النطاق المختار ويضم لحظات إضافية، لذا راجع مدة الناتج الفعلية. عندما تهمك نقطة قص محددة، اختر إعادة الترميز الدقيقة. يفك المحرك ترميز المقتطف ثم ينشئ WebM أو MP4 بحسب مشفرات المتصفح، مع حسابات أكثر واحتمال تغير الجودة."
+          ]
+        },
+        {
+          "heading": "الملفات والخصوصية وحدود الجهاز",
+          "paragraphs": [
+            "اختر ملف MP4 أو MOV أو WebM محفوظًا على جهازك. يشير الامتداد إلى الحاوية ولا يكفي لمعرفة الترميزات داخل المسارات. من الأمثلة المفيدة للاختبار فيديو H.264 مع صوت AAC، وملف WebM بترميز VP8 مع Opus. قد يحتوي MOV المسجل بهاتف آيفون على HEVC. لذلك يفحص المتصفح المسارات الفعلية قبل البدء بدل الاعتماد على اسم الملف وحده.",
+            "الحد الأقصى للإدخال هو 8 MiB للأجهزة ذات الشاشة اللمسية أو الذاكرة المحدودة، و32 MiB لأجهزة الكمبيوتر الأخرى. يساوي MiB عدد 1048576 بايت. يجب ألا تتجاوز المدة 120 ثانية، ولا يزيد عدد البكسلات في الإطار عن 2073600، بما في ذلك التصوير الرأسي. لا يجوز أن يتجاوز الناتج ضعف حد الإدخال المطبق. المساحة المتاحة على القرص لا ترفع هذه الحدود.",
+            "تجري المعالجة في عامل مستقل داخل المتصفح، لكنها تستهلك الذاكرة والبطارية. اترك علامة التبويب مفتوحة وتجنب تشغيل عمليات متعددة في الوقت نفسه. تتوقف العملية بعد 180 ثانية. يوضح شريط التقدم الجزء الذي تمت معالجته، ولا يتنبأ بالوقت المتبقي. يؤدي الإلغاء إلى إنهاء العامل، ويبدأ اختيار ملف آخر نسخة جديدة من المحرك.",
+            "لا يغادر الملف جهازك. لا ترفع صفحات الأدوات هذه الوسائط ولا تتصل بمنصات خارجية. يوفر VidFetch ملفات المحرك من موقعه بعد اختيار ملف مقبول، ثم ينشئ رابط تنزيل محليًا للناتج. هذا الرابط ليس عنوانًا عامًا لاستضافة التسجيل أو مشاركته. تؤدي إعادة الضبط أو مغادرة الصفحة إلى تحرير العناوين المؤقتة، بينما تبقى النسخة التي نزلتها بالفعل في مجلد التنزيلات.",
+            "استخدم تسجيلاتك أو محتوى لديك إذن بتعديله. لا تمنح المعالجة المحلية حقوق نشر إضافية. احتفظ بالأصل منفصلًا، لأن الناتج نسخة جديدة وقد تفقد إعادة الترميز بعض التفاصيل. افحص المدة والصوت والتزامن والتشغيل في التطبيق الذي سيستقبل الملف قبل حذف أي شيء. نجاح العملية لا يغني عن نسخة احتياطية للتسجيل الأصلي.",
+            "تختلف المتصفحات المكتبية وChrome على أندرويد وSafari على آيفون في دعم WebCodecs والترميزات المتاحة. قد تتعذر المعاينة مع إمكان نسخ أحد المسارات. إذا ظهر خطأ في التوافق، جرّب تسجيلًا مدعومًا أو محررًا على الكمبيوتر. لا يرسل المتصفح الملف إلى خادم بديل ولا يحاول معالجته عبر خدمة أخرى عندما يواجه هذا القيد."
+          ]
+        },
+        {
+          "heading": "فهم خيارات الوسائط",
+          "paragraphs": [
+            "يحافظ النسخ الاحتياطي المفيد على ملفاتك الأصلية ويتيح نسخة تعمل عندما يتعطل التخزين الرئيسي. ابدأ بمحتواك أو بما يُسمح لك بالاحتفاظ به. أنشئ نسخًا مستقلة واختبر استعادتها وتشغيلها. وجود مجلد متزامن وحده لا يثبت أن الأرشيف قابل للاستعادة عند الحاجة.",
+            "تشترك نسختان على القرص نفسه في خطر تعطله. فكّر في وسيط مستقل، وعندما يناسبك في نسخة بمكان آخر. اختر ترتيبًا تستطيع صيانته. قد تنقل المزامنة حذفًا عرضيًا أو تعديلًا غير مرغوب؛ تحقّق من سجل الإصدارات أو آلية الاستعادة، ثم جرّبها فعليًا.",
+            "انسخ عينة من وجهة النسخ الاحتياطي إلى مجلد منفصل. افحص البصمة والبداية والنهاية والمدة والصوت. جرّب أنواعًا متعددة إذا كانت مجموعتك متنوعة. أعد التجربة بعد تغيير الأقراص أو البرامج أو تنظيم المجلدات، واحتفظ بتعليمات الاستعادة مع الأرشيف.",
+            "احتفظ بالأصول أولًا. قد تساعد نسخة متوافقة على التشغيل، لكن استبدال كل المصادر بضغط ذي فقدان يحذف معلومات قد تحتاج إليها لاحقًا.",
+            "لمشاهدة فيديو على الهاتف، اختر مجموعة تدعمها قدرات الجهاز والتطبيق. كثيرًا ما يكون MP4 مع H.264 المعتاد وAAC نقطة عملية. ويظل ملف تعريف الترميز والدقة وإصدار النظام مهمًا. اختبر ملفًا واحدًا قبل تنزيل مجموعة من الفيديوهات الكبيرة.",
+            "MP4 حاوية يمكن أن تحمل H.264 أو HEVC أو غيرهما. يجب أن يكون الصوت والفيديو كلاهما مدعومين. وقد يعامل معرض الصور أو تطبيق آخر الملف بطريقة تختلف عن المتصفح.",
+            "إذا سمعت الصوت دون الصورة، أو رأيت الصورة دون الصوت، افحص كل مسار على حدة. يشرح دليل الحاويات ما يوجد داخل الملف ولماذا لا تكفي نهايته لتحديد التوافق."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "هل يُرفع الفيديو إلى خادم؟",
+          "answer": "لا. يقرأ المتصفح الملف ويعالجه على جهازك. ينزل المحرك من VidFetch ثم يوفر ملف الناتج للتنزيل المحلي دون إرسال التسجيل."
+        },
+        {
+          "question": "لماذا يُرفض ملف صغير؟",
+          "answer": "الحجم ليس الاختبار الوحيد. تؤثر المدة وعدد البكسلات والترميزات المتاحة أيضًا. قد يحتاج الملف الصغير إلى مفكك ترميز أو مشفر لا يدعمه متصفحك."
+        },
+        {
+          "question": "أين أجد الناتج على الهاتف؟",
+          "answer": "استخدم رابط التنزيل بعد اكتمال المعالجة. ابحث في تطبيق الملفات أو مجلد التنزيلات، ثم أضف الفيديو المتوافق إلى الصور أو المعرض باستخدام الخيارات المتاحة على هاتفك."
+        }
+      ]
+    },
+    "gif": {
+      "title": "تحويل فيديو إلى GIF",
+      "description": "تحويل فيديو إلى GIF مجانًا دون حساب أو رفع الملف. اختر العرض وعدد الإطارات. مدة المقتطف لا تتجاوز 15 ثانية.",
+      "heading": "تحويل فيديو إلى GIF",
+      "intro": "حوّل حركة قصيرة إلى صورة متحركة. لا يحتوي GIF على صوت، لذلك اختر شرحًا أو حركة يمكن فهمها دون الاستماع إلى التسجيل الأصلي.",
+      "sections": [
+        {
+          "heading": "إعداد حركة قصيرة واضحة",
+          "paragraphs": [
+            "اختر مقتطفًا مدته 15 ثانية كحد أقصى، وعرضًا قدره 160 أو 320 أو 480 أو 640 بكسل، ومعدل 5 أو 10 أو 15 إطارًا في الثانية. لا يتجاوز العرض أبعاد المصدر. يوضح مشهد قصير وثابت الحركة عادة أفضل من عدة تحركات للكاميرا.",
+            "يحصل كل إطار على لوحة محسنة تضم حتى 256 لونًا. قد تظهر شرائط لونية أو عيوب في التدرجات والمناطق المظلمة والحركة السريعة. تزيد الأبعاد وعدد الإطارات من العمل والحجم. ليس GIF أصغر دائمًا من الفيديو، ولا يحتفظ بأي مسار صوتي. استخدم الفيديو إذا كانت المدة أطول أو كان الصوت ضروريًا."
+          ]
+        },
+        {
+          "heading": "الملفات والخصوصية وحدود الجهاز",
+          "paragraphs": [
+            "اختر ملف MP4 أو MOV أو WebM محفوظًا على جهازك. يشير الامتداد إلى الحاوية ولا يكفي لمعرفة الترميزات داخل المسارات. من الأمثلة المفيدة للاختبار فيديو H.264 مع صوت AAC، وملف WebM بترميز VP8 مع Opus. قد يحتوي MOV المسجل بهاتف آيفون على HEVC. لذلك يفحص المتصفح المسارات الفعلية قبل البدء بدل الاعتماد على اسم الملف وحده.",
+            "الحد الأقصى للإدخال هو 8 MiB للأجهزة ذات الشاشة اللمسية أو الذاكرة المحدودة، و32 MiB لأجهزة الكمبيوتر الأخرى. يساوي MiB عدد 1048576 بايت. يجب ألا تتجاوز المدة 120 ثانية، ولا يزيد عدد البكسلات في الإطار عن 2073600، بما في ذلك التصوير الرأسي. لا يجوز أن يتجاوز الناتج ضعف حد الإدخال المطبق. المساحة المتاحة على القرص لا ترفع هذه الحدود.",
+            "تجري المعالجة في عامل مستقل داخل المتصفح، لكنها تستهلك الذاكرة والبطارية. اترك علامة التبويب مفتوحة وتجنب تشغيل عمليات متعددة في الوقت نفسه. تتوقف العملية بعد 180 ثانية. يوضح شريط التقدم الجزء الذي تمت معالجته، ولا يتنبأ بالوقت المتبقي. يؤدي الإلغاء إلى إنهاء العامل، ويبدأ اختيار ملف آخر نسخة جديدة من المحرك.",
+            "لا يغادر الملف جهازك. لا ترفع صفحات الأدوات هذه الوسائط ولا تتصل بمنصات خارجية. يوفر VidFetch ملفات المحرك من موقعه بعد اختيار ملف مقبول، ثم ينشئ رابط تنزيل محليًا للناتج. هذا الرابط ليس عنوانًا عامًا لاستضافة التسجيل أو مشاركته. تؤدي إعادة الضبط أو مغادرة الصفحة إلى تحرير العناوين المؤقتة، بينما تبقى النسخة التي نزلتها بالفعل في مجلد التنزيلات.",
+            "استخدم تسجيلاتك أو محتوى لديك إذن بتعديله. لا تمنح المعالجة المحلية حقوق نشر إضافية. احتفظ بالأصل منفصلًا، لأن الناتج نسخة جديدة وقد تفقد إعادة الترميز بعض التفاصيل. افحص المدة والصوت والتزامن والتشغيل في التطبيق الذي سيستقبل الملف قبل حذف أي شيء. نجاح العملية لا يغني عن نسخة احتياطية للتسجيل الأصلي.",
+            "تختلف المتصفحات المكتبية وChrome على أندرويد وSafari على آيفون في دعم WebCodecs والترميزات المتاحة. قد تتعذر المعاينة مع إمكان نسخ أحد المسارات. إذا ظهر خطأ في التوافق، جرّب تسجيلًا مدعومًا أو محررًا على الكمبيوتر. لا يرسل المتصفح الملف إلى خادم بديل ولا يحاول معالجته عبر خدمة أخرى عندما يواجه هذا القيد."
+          ]
+        },
+        {
+          "heading": "فهم خيارات الوسائط",
+          "paragraphs": [
+            "تصف الدقة عدد البكسلات في الإطار. ويصف معدّل البت مقدار البيانات في الثانية. ليست الخاصيتان قابلتين للاستبدال: صورة كبيرة ببيانات قليلة قد تبدو أسوأ من صورة أصغر مرمّزة جيدًا. وتحتاج إلى المدة أيضًا لتقدير حجم الملف كاملًا.",
+            "تحتوي 1920 × 1080 على بكسلات أكثر من 1280 × 720. تسمح بتفاصيل أكثر فقط إذا حافظ عليها الالتقاط والترميز. يصف معدّل الإطارات الحركة بشكل منفصل. لا يحتاج عرض شريحة ثابتة إلى الميزانية نفسها التي تحتاجها كاميرا تتحرك بسرعة.",
+            "يُعبّر عنه غالبًا بالكيلوبت أو الميغابت في الثانية. ثمانية بتات تساوي بايتًا. يخصص المعدّل المتغير بيانات أكثر للأجزاء المعقدة. وقد تستثني قيمة الفيديو المسار الصوتي، فيما تضيف الحاوية بيانات وصفية. لذلك قد يختلف التقدير قبل التجهيز عن حجم الملف النهائي.",
+            "مضاعفة المدة عند المتوسط نفسه تضاعف الحجم تقريبًا. مضاعفة الدقة لا تفرض القاعدة نفسها، لأن المُرمِّز يستطيع تخصيص معدّل مختلف. يوضّح 720p و1080p و4K أبعاد الصور الفعلية.",
+            "استخدم المشهد وحجم العرض ومستوى الصوت نفسه. راقب الحركة والملمس والنص الصغير والتدرجات الداكنة. يؤثر الضجيج والتركيز من مرحلة التصوير نفسها. الترميزات المختلفة عند المعدّل نفسه لا تضمن المظهر ذاته، والبيانات الإضافية لا تعيد تفاصيل مفقودة من الأصل.",
+            "لا. لا يستعيد معدّل البت معلومات حُذفت بالفعل. يطبّق دليل MP3 وM4A الفرق نفسه على الصوت وجودة المصدر."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "هل يُرفع الفيديو إلى خادم؟",
+          "answer": "لا. يقرأ المتصفح الملف ويعالجه على جهازك. ينزل المحرك من VidFetch ثم يوفر ملف الناتج للتنزيل المحلي دون إرسال التسجيل."
+        },
+        {
+          "question": "لماذا يُرفض ملف صغير؟",
+          "answer": "الحجم ليس الاختبار الوحيد. تؤثر المدة وعدد البكسلات والترميزات المتاحة أيضًا. قد يحتاج الملف الصغير إلى مفكك ترميز أو مشفر لا يدعمه متصفحك."
+        },
+        {
+          "question": "أين أجد الناتج على الهاتف؟",
+          "answer": "استخدم رابط التنزيل بعد اكتمال المعالجة. ابحث في تطبيق الملفات أو مجلد التنزيلات، ثم أضف الفيديو المتوافق إلى الصور أو المعرض باستخدام الخيارات المتاحة على هاتفك."
+        }
+      ]
+    }
+  }
+}

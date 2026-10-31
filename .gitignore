@@ -27,3 +27,6 @@ test-results/
 
 # Python deployment checks use temporary bytecode only.
 __pycache__/
+
+/public/local-media/generated/
+/public/local-media/runtime/lame-3.100.tar.gz

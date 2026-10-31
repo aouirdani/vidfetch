@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/local-tools/build.mjs && next build",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
@@ -12,7 +12,8 @@
     "test:vercel": "node scripts/test-vercel.mjs",
     "test:i18n": "node scripts/i18n/verify-site.mjs",
     "check:release": "node scripts/check-release.mjs",
-    "seo-check": "node scripts/seo-check"
+    "seo-check": "node scripts/seo-check",
+    "test:local-tools": "node scripts/local-tools/test.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",
@@ -33,6 +34,7 @@
     "yt-dlp-exec": "^1.0.2"
   },
   "devDependencies": {
+    "@mediabunny/mp3-encoder": "1.65.0",
     "@tailwindcss/postcss": "4.1.17",
     "@types/node": "22.19.15",
     "@types/pg": "8.18.0",
@@ -42,6 +44,8 @@
     "esbuild": "0.25.12",
     "eslint": "9.39.4",
     "eslint-config-next": "16.4.0",
+    "gifenc": "1.0.3",
+    "mediabunny": "1.65.0",
     "picomatch": "^4.0.7",
     "postcss": "8.5.23",
     "tailwindcss": "4.1.17",
