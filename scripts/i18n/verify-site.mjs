@@ -10,7 +10,9 @@ const locales = ['en', 'fr', 'es', 'pt-BR', 'id', 'de', 'it', 'ar'];
 const roots = ['', 'fr', 'es', 'pt', 'id', 'de', 'it', 'ar'];
 // Only English has guides to show: the other guide indexes are not pages (404), never an empty "being reviewed" page.
 const blogs = ['blog', 'fr/guides'];
-const removedPages = ['/es/guias', '/pt/guias', '/id/panduan', '/de/ratgeber', '/it/guide', '/ar/أدلة', '/youtube-video-downloader', '/instagram-reels-downloader', '/twitter-video-downloader'];
+const preparedCatalogue=JSON.parse(readFileSync('content/platforms/catalogue.json','utf8'));
+const closedPreparedPaths=preparedCatalogue.filter(e=>['instagram-video','x-video'].includes(e.id)).flatMap(e=>locales.map((l,i)=>'/'+[roots[i],e.slugs[l]].filter(Boolean).join('/')));
+const removedPages = [...closedPreparedPaths,'/es/guias', '/pt/guias', '/id/panduan', '/de/ratgeber', '/it/guide', '/ar/أدلة', '/youtube-video-downloader', '/instagram-reels-downloader', '/twitter-video-downloader'];
 const dictionaries = Object.fromEntries(locales.map(l => [l, JSON.parse(readFileSync(`src/i18n/messages/${l}.json`, 'utf8'))]));
 const reserve = createServer();
 await new Promise((resolve, reject) => { reserve.once('error', reject); reserve.listen(0, '127.0.0.1', resolve); });

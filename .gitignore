@@ -27,3 +27,4 @@ test-results/
 
 # Python deployment checks use temporary bytecode only.
 __pycache__/
+/platform-verification/

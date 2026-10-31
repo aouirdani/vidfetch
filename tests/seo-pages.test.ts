@@ -16,7 +16,7 @@ import manifest from "../src/app/manifest";
 
 const PRIORITY: Array<[string, Locale]> = [
   ["tiktok-video-downloader", "en"], ["tiktok-video-downloader", "fr"], ["tiktok-mp3", "en"],
-  ["instagram-reels-downloader", "en"], ["instagram-video-downloader", "es"], ["twitter-video-downloader", "en"],
+  ["instagram-reels-downloader", "en"], ["instagram-video", "es"], ["x-video", "en"],
 ];
 const written = platformCandidates.flatMap(entry =>
   Object.entries(entry.copy ?? {}).map(([locale, copy]) => ({ entry, locale: locale as Locale, copy: copy as PlatformCopy })));
@@ -184,11 +184,12 @@ describe("priority platform pages: publication", () => {
   });
 
   it("gives a single-language page no foreign alternate", () => {
-    approved(["instagram-video-downloader"], () => {
+    const candidate=platformCandidates.find(e=>e.id==="instagram-video")!, savedCopy=candidate.copy;
+    try { candidate.copy={es:savedCopy!.es}; approved(["instagram-video"], () => {
       const es = resolvePage(["es", "descargar-video-instagram"])!;
       assert.equal(es.indexable, true);
       assert.deepEqual(languageAlternates(es), { es: "https://vidfetch.app/es/descargar-video-instagram" });
-    });
+    }); } finally {candidate.copy=savedCopy;}
   });
 });
 

@@ -1599,79 +1599,6 @@
     }
   },
   {
-    "id": "instagram-video-downloader",
-    "platform": "instagram",
-    "status": "awaiting-capability-validation",
-    "published": false,
-    "legacyEnglishRoute": false,
-    "slugs": {
-      "en": "instagram-video-downloader",
-      "fr": "telecharger-video-instagram",
-      "es": "descargar-video-instagram",
-      "pt-BR": "baixar-video-instagram",
-      "id": "unduh-video-instagram",
-      "de": "instagram-video-herunterladen",
-      "it": "scaricare-video-instagram",
-      "ar": "تنزيل-فيديو-انستغرام"
-    },
-    "editorialBrief": "Native individual video posts only; distinguish photo posts and private accounts.",
-    "gate": {
-      "authorizedMediaVerified": false,
-      "copyReviewed": false,
-      "permissionToPublish": false
-    },
-    "copy": {
-      "es": {
-        "status": "ready",
-        "title": "Descargar vídeos de Instagram en MP4",
-        "description": "Guarda un vídeo o un Reel público de Instagram en MP4 a partir de su enlace. Sin cuenta ni aplicación, con la resolución original. Audio en MP3 opcional.",
-        "heading": "Descargar vídeos de Instagram",
-        "intro": "Pega el enlace de un vídeo o de un Reel público y VidFetch muestra las versiones que Instagram publica para esa publicación. El archivo se guarda en MP4 con su resolución original, sin recomprimirlo, y puedes quedarte solo con el sonido en MP3 cuando la publicación lo tiene.",
-        "instructions": [
-          "Abre la publicación, toca el icono de compartir (el avión de papel) y elige Copiar enlace.",
-          "Pega el enlace en el campo de arriba y selecciona Analizar.",
-          "Elige un formato en la pestaña Vídeo o Audio y selecciona Descargar. Mantén la página abierta hasta que termine la transferencia."
-        ],
-        "supported": [
-          "Publicaciones de vídeo como https://www.instagram.com/p/… y Reels como https://www.instagram.com/reel/Chunk8-jurw/",
-          "Vídeos largos (/tv/…) y enlaces compartidos del tipo instagram.com/share/reel/…",
-          "Vídeo en MP4, o audio en MP3 cuando la publicación tiene sonido"
-        ],
-        "limits": [
-          "Las cuentas privadas, el contenido para mejores amigos y todo lo que exige iniciar sesión no se puede descargar.",
-          "Instagram aplica controles estrictos contra la automatización: a veces rechaza un vídeo público, y VidFetch lo indica en lugar de entregar un archivo dañado.",
-          "Las publicaciones de solo fotos no contienen vídeo. En un carrusel solo se lee el primer elemento: si es una foto, no hay vídeo que guardar."
-        ],
-        "faqs": [
-          {
-            "question": "¿Se mantiene la calidad original?",
-            "answer": "Sí. Los vídeos no se recomprimen: el MP4 conserva la resolución y el códec que Instagram sirve para esa publicación."
-          },
-          {
-            "question": "¿Puedo descargar vídeos de una cuenta privada?",
-            "answer": "No. VidFetch solo abre lo que puede ver un visitante sin sesión iniciada y nunca te pide tu contraseña de Instagram."
-          },
-          {
-            "question": "¿Por qué se ha rechazado un vídeo público?",
-            "answer": "Instagram bloquea a veces las solicitudes automáticas desde servidores o pide iniciar sesión. VidFetch muestra el motivo; volver a intentarlo más tarde puede funcionar, pero nunca se salta la restricción."
-          }
-        ],
-        "relatedGuides": [
-          "video-format-smartphone",
-          "mp4-vs-webm",
-          "video-download-fails"
-        ],
-        "sections": {
-          "steps": "Cómo descargar un vídeo de Instagram",
-          "formats": "Enlaces de Instagram admitidos y límites",
-          "faq": "Preguntas sobre Instagram"
-        },
-        "updated": "2026-10-21",
-        "publishedAt": "2026-10-21"
-      }
-    }
-  },
-  {
     "id": "instagram-story-downloader",
     "platform": "instagram",
     "status": "awaiting-capability-validation",
@@ -1695,79 +1622,6 @@
     }
   },
   {
-    "id": "twitter-video-downloader",
-    "platform": "twitter",
-    "status": "awaiting-capability-validation",
-    "published": false,
-    "legacyEnglishRoute": true,
-    "slugs": {
-      "en": "twitter-video-downloader",
-      "fr": "telecharger-video-x",
-      "es": "descargar-video-x",
-      "pt-BR": "baixar-video-x",
-      "id": "unduh-video-x",
-      "de": "x-video-herunterladen",
-      "it": "scaricare-video-x",
-      "ar": "تنزيل-فيديو-x"
-    },
-    "editorialBrief": "Native video in a status, x.com/twitter.com forms, rendition selection and anonymous rate limits.",
-    "gate": {
-      "authorizedMediaVerified": false,
-      "copyReviewed": false,
-      "permissionToPublish": false
-    },
-    "copy": {
-      "en": {
-        "status": "ready",
-        "title": "Twitter / X Video Downloader – MP4",
-        "description": "Save the video of a public X (Twitter) post as MP4. Paste the post link, choose a bitrate and download. x.com and twitter.com links work. No account.",
-        "heading": "Download a video from X (Twitter)",
-        "intro": "Paste the link of a public post that contains a video. X publishes the same video in several MP4 renditions; VidFetch lists them with their resolution so you can choose between quality and file size, then saves the one you pick.",
-        "instructions": [
-          "On X, open the post, tap Share and choose Copy link.",
-          "Paste the link in the field above and select Extract.",
-          "Choose a rendition in the Video tab, or MP3 in the Audio tab, and select Download. Keep the page open until the file is saved."
-        ],
-        "supported": [
-          "Post links such as https://x.com/user/status/1234567890123456789",
-          "Older twitter.com and mobile.twitter.com links, and links to a specific video of a post (/video/1)",
-          "MP4 video, or MP3 audio when the post has sound"
-        ],
-        "limits": [
-          "Protected accounts, deleted posts and media marked as sensitive that require signing in cannot be downloaded.",
-          "Posts with only images, polls or a link to another site have no video to save.",
-          "X can limit anonymous requests from servers; VidFetch then reports the error instead of returning an empty file."
-        ],
-        "faqs": [
-          {
-            "question": "Which quality can I choose?",
-            "answer": "The renditions X publishes for that video, usually several resolutions and bitrates. VidFetch shows the ones it receives; it does not upscale them."
-          },
-          {
-            "question": "Do I need an X account?",
-            "answer": "No. VidFetch only reaches posts that anyone can see without signing in, and it never asks for your X credentials."
-          },
-          {
-            "question": "Can I keep only the sound of an X video?",
-            "answer": "Yes, when the post has an audio track: open the Audio tab and choose MP3. The soundtrack is encoded with ffmpeg at 192 kbps."
-          }
-        ],
-        "relatedGuides": [
-          "bitrate-vs-resolution",
-          "720p-1080p-4k",
-          "video-download-fails"
-        ],
-        "sections": {
-          "steps": "How to download a video from X",
-          "formats": "Supported X links and limits",
-          "faq": "X (Twitter) video questions"
-        },
-        "updated": "2026-10-21",
-        "publishedAt": "2026-10-21"
-      }
-    }
-  },
-  {
     "id": "x-gif-downloader",
     "platform": "twitter",
     "status": "awaiting-capability-validation",
@@ -1788,6 +1642,1614 @@
       "authorizedMediaVerified": false,
       "copyReviewed": false,
       "permissionToPublish": false
+    }
+  },
+  {
+    "id": "instagram-video",
+    "platform": "instagram",
+    "published": false,
+    "status": "awaiting-human-verification",
+    "slugs": {
+      "en": "instagram-video-downloader",
+      "fr": "telecharger-video-instagram",
+      "es": "descargar-video-instagram",
+      "pt-BR": "baixar-video-instagram",
+      "id": "download-video-instagram",
+      "de": "instagram-video-herunterladen",
+      "it": "scaricare-video-instagram",
+      "ar": "tahmil-video-instagram"
+    },
+    "gate": {
+      "authorizedMediaVerified": false,
+      "copyReviewed": false,
+      "permissionToPublish": false
+    },
+    "editorialBrief": "Not verified. Human must confirm link types, formats, active gateway cap and copy before opening all gates. No account access or bypass.",
+    "copy": {
+      "en": {
+        "status": "ready",
+        "title": "Instagram video downloader",
+        "description": "Instagram video downloads: public Reels and video posts to check with permission. MP4 and MP3 availability depends on real server verification.",
+        "heading": "Save an authorized Instagram video",
+        "intro": "Use a link to a public Reel or individual video post you own or have explicit permission to download. Access to a public page does not grant permission to reuse its recording. Only formats returned for the selected post can be offered.",
+        "instructions": [
+          "Open your own or authorized public publication and copy its individual share link. Do not supply a profile, feed, search page or account credentials.",
+          "Paste the link into the form and complete VidFetch’s normal human verification if requested. Analysis reads metadata; it does not guarantee that a transfer will succeed.",
+          "Select an actual MP4 video or an MP3 option when a sound track is available, then start the download. Keep the page open while the normal queue prepares the file."
+        ],
+        "supported": [
+          "Only authorized public video publications that the server can read without a platform account are candidates. A successful sample does not establish support for every public post.",
+          "MP4 must be checked as a real video container, and MP3 must contain an MP3 audio track. A changed file extension does not demonstrate successful conversion."
+        ],
+        "limits": [
+          "Private content, stories, protected accounts and deleted publications are not supported. Do not send account cookies, passwords or authentication tokens.",
+          "The engine caps a file at 256 MiB and duration at 30 minutes, with a 10 minute operation timeout. The public gateway may impose a smaller configured cap; the displayed response is authoritative.",
+          "The anonymous allowance is up to 8 download preparations per UTC day and 1 GiB reserved per identity; both limits apply. MP3 encoding uses 192 kbps. A failed preparation may still consume a reservation."
+        ],
+        "faqs": [
+          {
+            "question": "Can I save private or protected content?",
+            "answer": "No. Private content, stories, protected accounts and deleted posts are not supported. Never provide a password or account cookie to this tool."
+          },
+          {
+            "question": "Does VidFetch remove a watermark?",
+            "answer": "No. The recording is saved as the platform supplies it. VidFetch does not remove a watermark already embedded in the image."
+          },
+          {
+            "question": "Why can analysis succeed but download fail?",
+            "answer": "Access can change and a media transfer can be rejected after metadata is read. Login requirements, rate limits, queue capacity and daily allowances can prevent the operation. Do not work around a platform block."
+          },
+          {
+            "question": "Do I have permission just because a post is public?",
+            "answer": "No. Use your own publications or get explicit authorization. Public visibility does not transfer copyright, music rights or permission to republish."
+          }
+        ],
+        "relatedGuides": [
+          "mp4-vs-webm",
+          "video-download-fails",
+          "video-format-smartphone"
+        ],
+        "sections": {
+          "steps": "Use an authorized publication link",
+          "formats": "Formats to verify and enforced limits",
+          "faq": "Questions about authorized downloads"
+        },
+        "details": [
+          {
+            "heading": "Instagram Reels and video posts",
+            "paragraphs": [
+              "Check Reels and /p/ video publications separately. Photo posts, photo-first carousels, live broadcasts and stories are outside the claim prepared here. One successful Reel does not prove that every item in a carousel can be extracted. The operator must record the type tested, the returned tracks and any access restriction before approving this page."
+            ]
+          },
+          {
+            "heading": "When a public link cannot be read",
+            "paragraphs": [
+              "A public link can still require login, be limited by country or age, or be rejected from a datacenter address. A creator may delete or restrict a recording between analysis and download. None of these cases is solved by changing the URL spelling. When access is blocked, stop and treat that case as unsupported.",
+              "Do not add browser account cookies, residential proxies or an altered browser fingerprint. The verification procedure uses the normal public site and its existing access checks. If it requires a platform login, the test fails; the operator should record the limitation and narrow or withhold the published claim."
+            ]
+          },
+          {
+            "heading": "Choosing MP4 or MP3",
+            "paragraphs": [
+              "MP4 is a video container. Check that the file actually contains a video track, has a plausible duration and plays with the expected sound. A silent recording may be a valid video but does not supply a sound track to extract. Do not advertise MP3 for that case.",
+              "MP3 is a new audio output when the engine offers conversion. The configured 192 kbps is an encoding target, not a measure of original sound quality. It cannot restore detail lost upstream. Keep the source and listen to the completed file rather than relying on its filename or download size."
+            ]
+          },
+          {
+            "heading": "Saving on a phone",
+            "paragraphs": [
+              "A browser download usually appears in Files or Downloads first. On iPhone, a compatible video may then be shared to Photos. On Android, the file manager may offer an import or sharing action. The exact menu depends on the browser and operating system version. Audio files normally remain in the file manager or a music player.",
+              "Allow storage permission if your browser asks for it, but do not grant platform account access. If you cannot find a completed download, inspect the browser’s download list before submitting another preparation. Repeated requests use the same allowance and may not resolve a playback compatibility problem."
+            ]
+          },
+          {
+            "heading": "What happens to the link",
+            "paragraphs": [
+              "The normal frontend sends the canonical publication link to VidFetch for analysis. The gateway checks human verification, browser access proof, quotas and capacity before contacting the engine. Media can be prepared in a queue and then transferred through a temporary download ticket; it is not published as a permanent VidFetch hosting link.",
+              "Use the output only within your authorization. A public recording may include other people’s images, music or confidential information. Saving a copy does not remove those rights. If the creator restricts access, ask them for an authorized file rather than trying to bypass the restriction."
+            ]
+          },
+          {
+            "heading": "Choosing MP4 or MP3 · MP4 / MP3",
+            "paragraphs": [
+              "For a video you want to watch on a phone, start with a format the device and playback application support. MP4 with common H.264 video and AAC audio is often a useful compatibility baseline. The exact codec profile, resolution and operating-system version still matter. Test one file before downloading many large videos.",
+              "MP4 names a container, not one fixed video encoding. A downloaded MP4 may contain H.264, HEVC or another track. Both video and audio must be supported for a complete playback experience."
+            ]
+          }
+        ],
+        "updated": "2026-10-30",
+        "publishedAt": "2026-10-30"
+      },
+      "fr": {
+        "status": "ready",
+        "title": "Télécharger une vidéo Instagram",
+        "description": "Télécharger une vidéo Instagram : Reels et publications publiques à vérifier avec autorisation. MP4 et MP3 dépendent des formats réellement accessibles.",
+        "heading": "Enregistrer une vidéo Instagram autorisée",
+        "intro": "Utilisez le lien d’un Reel public ou d’une publication vidéo qui vous appartient, ou pour laquelle vous avez une autorisation explicite. Pouvoir consulter une page publique ne donne pas le droit de réutiliser son enregistrement. Seuls les formats effectivement retournés peuvent être proposés.",
+        "instructions": [
+          "Ouvrez votre publication publique ou celle dont le téléchargement est autorisé, puis copiez son lien individuel. Ne fournissez ni profil, ni fil, ni identifiants de compte.",
+          "Collez le lien et effectuez la vérification humaine habituelle de VidFetch si elle est demandée. L’analyse des métadonnées ne garantit pas la réussite du transfert.",
+          "Choisissez un véritable format MP4, ou MP3 si une piste sonore est disponible. Lancez le téléchargement et gardez la page ouverte pendant la préparation et la file habituelle."
+        ],
+        "supported": [
+          "Seules les publications vidéo publiques autorisées, lisibles par le serveur sans compte sur la plateforme, peuvent être retenues. Un échantillon réussi ne démontre pas le fonctionnement pour tous les liens.",
+          "Le MP4 doit être vérifié comme un vrai conteneur vidéo, et le MP3 doit posséder une piste audio MP3. Changer une extension ne prouve pas une conversion réussie."
+        ],
+        "limits": [
+          "Les contenus privés, stories, comptes protégés et publications supprimées ne sont pas pris en charge. Ne fournissez ni cookie de compte, ni mot de passe, ni jeton d’authentification.",
+          "Le moteur limite un fichier à 256 Mio et sa durée à 30 minutes ; une opération expire après 10 minutes. La passerelle publique peut appliquer une taille configurée plus basse. La réponse affichée fait foi.",
+          "Le quota anonyme est de 8 préparations au plus par jour UTC et de 1 Gio réservé par identité ; les deux limites s’appliquent. Le MP3 utilise 192 kbps. Une préparation échouée peut consommer une réservation."
+        ],
+        "faqs": [
+          {
+            "question": "Puis-je enregistrer un contenu privé ou protégé ?",
+            "answer": "Non. Les contenus privés, stories, comptes protégés et publications supprimées ne sont pas pris en charge. Ne transmettez jamais de mot de passe ou de cookie de compte à cet outil."
+          },
+          {
+            "question": "VidFetch retire-t-il un filigrane ?",
+            "answer": "Non. La vidéo est enregistrée telle que la plateforme la fournit. VidFetch ne retire pas un filigrane déjà incrusté dans l’image."
+          },
+          {
+            "question": "Pourquoi le transfert échoue-t-il après une analyse réussie ?",
+            "answer": "L’accès peut changer et le transfert être refusé après lecture des métadonnées. Connexion requise, limitation de débit, capacité de la file et quotas peuvent empêcher l’opération. Ne contournez pas un blocage de plateforme."
+          },
+          {
+            "question": "Une publication publique est-elle librement réutilisable ?",
+            "answer": "Non. Utilisez vos publications ou obtenez une autorisation explicite. La visibilité publique ne transfère ni droits d’auteur, ni droits musicaux, ni permission de republier."
+          }
+        ],
+        "relatedGuides": [
+          "mp4-vs-webm",
+          "video-download-fails",
+          "video-format-smartphone"
+        ],
+        "sections": {
+          "steps": "Utiliser un lien autorisé",
+          "formats": "Formats à vérifier et limites appliquées",
+          "faq": "Questions sur les téléchargements autorisés"
+        },
+        "details": [
+          {
+            "heading": "Reels et publications vidéo Instagram",
+            "paragraphs": [
+              "Vérifiez séparément les Reels et les publications vidéo /p/. Les publications photo, carrousels commençant par une photo, directs et stories restent hors de la promesse préparée ici. Un Reel réussi ne prouve pas que chaque élément d’un carrousel est extractible. L’opérateur doit relever le type testé, les pistes retournées et les restrictions avant validation."
+            ]
+          },
+          {
+            "heading": "Pourquoi un lien public peut échouer",
+            "paragraphs": [
+              "Une page publique peut encore demander une connexion, être limitée selon le pays ou l’âge, ou refuser une adresse de centre de données. Le créateur peut supprimer ou restreindre la vidéo entre l’analyse et le transfert. Modifier l’écriture du lien ne résout pas ces situations. Si l’accès est bloqué, ce cas doit rester non pris en charge.",
+              "N’ajoutez ni cookie de compte, ni proxy résidentiel, ni modification d’empreinte du navigateur. La procédure emploie le site public et ses contrôles habituels. Si la plateforme exige une connexion, le test échoue : l’opérateur doit noter cette limite et réduire la promesse ou renoncer à publier la page."
+            ]
+          },
+          {
+            "heading": "Choisir entre MP4 et MP3",
+            "paragraphs": [
+              "MP4 est un conteneur. Vérifiez que le fichier possède une piste vidéo, une durée plausible et le son attendu. Un enregistrement silencieux peut être une vidéo valable, mais ne fournit pas de piste sonore à extraire. Il ne faut pas proposer du MP3 pour ce cas.",
+              "Lorsque le moteur propose une conversion, le MP3 est une nouvelle sortie audio. Le réglage de 192 kbps vise un débit d’encodage ; il ne mesure pas la qualité originale. Il ne restaure pas les détails perdus. Gardez la source et écoutez le résultat au lieu de vous fier au nom ou à la taille du fichier."
+            ]
+          },
+          {
+            "heading": "Retrouver le fichier sur téléphone",
+            "paragraphs": [
+              "Le téléchargement arrive généralement dans Fichiers ou Téléchargements. Sur iPhone, une vidéo compatible peut ensuite être partagée vers Photos. Sur Android, le gestionnaire de fichiers peut proposer une importation ou un partage. Les menus dépendent du navigateur et du système. Le son reste souvent dans le gestionnaire de fichiers ou un lecteur audio.",
+              "Autorisez l’enregistrement local si votre navigateur le demande, sans donner accès à un compte de plateforme. Si le résultat est introuvable, consultez d’abord la liste des téléchargements du navigateur. Relancer une préparation consomme le même quota et ne résout pas forcément un problème de lecture."
+            ]
+          },
+          {
+            "heading": "Ce que devient le lien",
+            "paragraphs": [
+              "Le formulaire envoie le lien canonique à VidFetch pour analyse. La passerelle contrôle la vérification humaine, la preuve d’accès du navigateur, les quotas et la capacité avant de joindre le moteur. La préparation peut passer par une file et le transfert par un ticket temporaire. VidFetch ne publie pas un hébergement permanent du fichier.",
+              "Utilisez le résultat dans les limites de votre autorisation. Une vidéo publique peut contenir l’image d’autres personnes, de la musique ou des informations confidentielles. Enregistrer une copie ne supprime pas leurs droits. Si le créateur restreint l’accès, demandez-lui un fichier autorisé au lieu de chercher à contourner la restriction."
+            ]
+          },
+          {
+            "heading": "Choisir entre MP4 et MP3 · MP4 / MP3",
+            "paragraphs": [
+              "Pour lire une vidéo sur un téléphone, choisissez une combinaison acceptée par l’appareil et l’application. MP4 avec H.264 et AAC est souvent une base pratique, mais le profil, la résolution et la version du système comptent aussi. Testez un fichier avant de télécharger plusieurs grandes vidéos."
+            ]
+          }
+        ],
+        "updated": "2026-10-30",
+        "publishedAt": "2026-10-30"
+      },
+      "es": {
+        "status": "ready",
+        "title": "Descargar vídeos de Instagram",
+        "description": "Descargar vídeos de Instagram: Reels y publicaciones públicas autorizadas por verificar. MP4 y MP3 dependen de los formatos accesibles desde el servidor.",
+        "heading": "Guardar un vídeo autorizado de Instagram",
+        "intro": "Parte del enlace de un Reel o una publicación de vídeo propia o autorizada. Que una página sea pública no concede permiso para reutilizar la grabación. Solo pueden ofrecerse los formatos accesibles para esa publicación.",
+        "instructions": [
+          "Abre tu publicación pública o una que tengas permiso para descargar y copia su enlace individual. No envíes perfiles, búsquedas ni datos de acceso.",
+          "Pega el enlace y completa la verificación humana habitual de VidFetch si se solicita. Leer los metadatos no garantiza que se pueda transferir el archivo.",
+          "Elige un MP4 real, o MP3 cuando exista sonido y se ofrezca esa opción. Mantén la página abierta durante la preparación y la cola normal."
+        ],
+        "supported": [
+          "Solo son candidatos los vídeos públicos autorizados accesibles desde el servidor sin cuenta de la plataforma.",
+          "El MP4 debe contener una pista de vídeo; el MP3 debe incluir audio MP3 y una duración válida. Cambiar una extensión no convierte el contenido."
+        ],
+        "limits": [
+          "No se admiten contenido privado, historias, cuentas protegidas ni publicaciones eliminadas. Nunca proporciones contraseñas ni cookies de cuenta.",
+          "El motor aplica hasta 256 MiB, 30 minutos y 10 minutos por operación. La pasarela puede tener un límite de tamaño configurado más bajo; prevalece la respuesta mostrada.",
+          "Hasta 8 preparaciones por día UTC y 1 GiB reservado por identidad anónima; ambas condiciones se aplican. MP3 a 192 kbps. La reserva puede consumirse aunque la preparación falle."
+        ],
+        "faqs": [
+          {
+            "question": "¿Puedo guardar contenido privado?",
+            "answer": "No. El contenido privado, las historias, las cuentas protegidas y las publicaciones eliminadas no están admitidos. Nunca facilites una contraseña o cookie de cuenta."
+          },
+          {
+            "question": "¿VidFetch elimina una marca de agua?",
+            "answer": "No. Guarda el vídeo tal como lo sirve la plataforma y no elimina una marca de agua incrustada en la imagen."
+          },
+          {
+            "question": "¿Por qué falla después del análisis?",
+            "answer": "El acceso puede cambiar o rechazarse la transferencia tras leer los metadatos. La conexión obligatoria, los límites de frecuencia, la cola y las cuotas pueden impedir la operación. No eludas un bloqueo."
+          },
+          {
+            "question": "¿Una publicación pública permite reutilizarla?",
+            "answer": "No. Usa tus publicaciones o consigue autorización explícita. La visibilidad pública no transfiere derechos de autor, musicales ni permiso para volver a publicar."
+          }
+        ],
+        "relatedGuides": [
+          "mp4-vs-webm",
+          "video-download-fails",
+          "video-format-smartphone"
+        ],
+        "sections": {
+          "steps": "Usar un enlace autorizado",
+          "formats": "Formatos por verificar y límites",
+          "faq": "Preguntas sobre descargas autorizadas"
+        },
+        "details": [
+          {
+            "heading": "Reels y publicaciones de Instagram",
+            "paragraphs": [
+              "Comprueba por separado Reels y publicaciones /p/ con vídeo. Fotografías, carruseles que empiezan por foto, directos e historias quedan fuera. Un Reel correcto no demuestra que se puedan obtener todos los elementos de un carrusel."
+            ]
+          },
+          {
+            "heading": "Un enlace público puede fallar",
+            "paragraphs": [
+              "Una página pública todavía puede exigir iniciar sesión, restringirse por país o edad o rechazar una dirección de un centro de datos. El autor puede limitar o eliminar el vídeo entre el análisis y la descarga. No se soluciona cambiando la escritura del enlace. Si se bloquea el acceso, ese caso no está admitido. No añadas cookies de cuenta, proxies residenciales ni cambios de huella del navegador para intentar evitarlo."
+            ]
+          },
+          {
+            "heading": "Elegir vídeo o sonido",
+            "paragraphs": [
+              "MP4 es un contenedor: comprueba pistas, duración y reproducción, no solo el nombre. Un vídeo silencioso puede ser válido, pero no permite extraer una pista que no existe. El objetivo de 192 kbps del MP3 es un ajuste de codificación, no la calidad original. No restaura detalles perdidos. Conserva la fuente y escucha el resultado antes de dar por terminada la operación."
+            ]
+          },
+          {
+            "heading": "Guardar en el teléfono",
+            "paragraphs": [
+              "La descarga suele aparecer primero en Archivos o Descargas. En iPhone puedes compartir después un vídeo compatible hacia Fotos. En Android, el gestor de archivos puede ofrecer una importación a la galería. Los menús cambian según el sistema y el navegador. Si no encuentras el archivo, revisa la lista de descargas antes de preparar otro: repetir consume cuota y no arregla necesariamente un códec incompatible."
+            ]
+          },
+          {
+            "heading": "Qué ocurre con el enlace",
+            "paragraphs": [
+              "El formulario envía a VidFetch el enlace canónico para analizarlo. La pasarela comprueba la verificación humana, la prueba de acceso del navegador, las cuotas y la capacidad antes de consultar el motor. La preparación puede pasar por una cola y la transferencia usa un permiso temporal. El resultado no se publica como alojamiento permanente. Guarda solo material autorizado y respeta los derechos de imagen, música y autoría de otras personas."
+            ]
+          },
+          {
+            "heading": "Elegir vídeo o sonido · MP4 / MP3",
+            "paragraphs": [
+              "Para ver un vídeo en un móvil, busca una combinación compatible con el aparato y la aplicación. MP4 con H.264 habitual y AAC suele ser una base práctica. También importan perfil, resolución y versión del sistema. Prueba un archivo antes de descargar muchos vídeos grandes.",
+              "MP4 es un contenedor que puede incluir H.264, HEVC u otros códecs. Tanto vídeo como audio deben ser compatibles. Un archivo reproducible en el navegador puede funcionar de otra manera en la galería o en otra aplicación.",
+              "Si se escucha sin imagen, o al revés, inspecciona cada pista. La guía de contenedores explica qué hay dentro.",
+              "Una referencia en pantalla pequeña puede bastar en 720p o 1080p. Texto detallado, recorte o edición pueden justificar más resolución. No elijas siempre la etiqueta mayor.",
+              "Resolución y fotogramas altos exigen más decodificación. El soporte por hardware varía según equipo y códec; un móvil antiguo puede fallar donde otro reciente funciona bien.",
+              "El tamaño mostrado puede ser estimado. Bitrate variable, pistas separadas y contenedor final cambian el resultado. Deja espacio libre y usa una conexión estable para archivos grandes. Una descarga interrumpida no es un archivo completo. Comprueba la duración y el final antes de añadirlo a una colección.",
+              "Los navegadores suelen usar una zona de descargas o el gestor de archivos del sistema. Guardar no implica añadir el vídeo a Fotos. La ubicación exacta depende del navegador y el sistema.",
+              "Pega un enlace autorizado, analiza y selecciona un formato disponible. Los formatos dependen de la fuente. Restricciones, cuotas y una cola ocupada pueden impedir la preparación sin relación con tu teléfono. La guía de códecs ayuda a comparar opciones."
+            ]
+          }
+        ],
+        "updated": "2026-10-30",
+        "publishedAt": "2026-10-30"
+      },
+      "pt-BR": {
+        "status": "ready",
+        "title": "Baixar vídeo do Instagram",
+        "description": "Baixar vídeo do Instagram: Reels e publicações públicas autorizadas para verificar. MP4 e MP3 dependem dos formatos acessíveis a partir do servidor.",
+        "heading": "Salvar um vídeo autorizado do Instagram",
+        "intro": "Use o link de um Reel ou de uma publicação de vídeo sua ou autorizada. Uma página pública não concede permissão para reutilizar a gravação. Só podem ser oferecidos os formatos acessíveis para aquela publicação.",
+        "instructions": [
+          "Abra sua publicação pública ou uma autorizada e copie o link individual. Não envie perfis, buscas nem dados de acesso.",
+          "Cole o link e faça a verificação humana normal do VidFetch, se solicitada. A análise dos metadados não garante que a transferência funcionará.",
+          "Escolha um MP4 real ou MP3 quando houver uma faixa sonora e a opção for oferecida. Mantenha a página aberta durante a preparação e a fila normal."
+        ],
+        "supported": [
+          "Somente vídeos públicos autorizados que o servidor consiga ler sem conta na plataforma são candidatos.",
+          "MP4 precisa ter faixa de vídeo; MP3 precisa ter áudio MP3 e duração válida. Trocar a extensão não converte o conteúdo."
+        ],
+        "limits": [
+          "Conteúdo privado, stories, contas protegidas e publicações apagadas não são aceitos. Nunca forneça senha nem cookie de conta.",
+          "O motor limita a 256 MiB, 30 minutos e 10 minutos por operação. A configuração da camada pública pode reduzir o tamanho; vale a resposta exibida.",
+          "Até 8 preparações por dia UTC e 1 GiB reservado por identidade anônima; os dois critérios se aplicam. MP3 a 192 kbps. Uma preparação com falha pode consumir a reserva."
+        ],
+        "faqs": [
+          {
+            "question": "Posso salvar conteúdo privado?",
+            "answer": "Não. Conteúdo privado, stories, contas protegidas e publicações apagadas não são aceitos. Nunca informe senha nem cookie de conta."
+          },
+          {
+            "question": "O VidFetch remove marca d’água?",
+            "answer": "Não. O vídeo é salvo como a plataforma o fornece. O VidFetch não remove marca d’água já incorporada à imagem."
+          },
+          {
+            "question": "Por que falha depois da análise?",
+            "answer": "O acesso pode mudar ou a transferência ser recusada após os metadados. Login obrigatório, limites de frequência, fila e cotas podem impedir a operação. Não contorne bloqueios."
+          },
+          {
+            "question": "Uma publicação pública pode ser reutilizada?",
+            "answer": "Não automaticamente. Use publicações suas ou obtenha autorização explícita. A visibilidade pública não transfere direitos autorais, musicais nem permissão para republicar."
+          }
+        ],
+        "relatedGuides": [
+          "mp4-vs-webm",
+          "video-download-fails",
+          "video-format-smartphone"
+        ],
+        "sections": {
+          "steps": "Usar um link autorizado",
+          "formats": "Formatos a verificar e limites",
+          "faq": "Dúvidas sobre downloads autorizados"
+        },
+        "details": [
+          {
+            "heading": "Reels e publicações do Instagram",
+            "paragraphs": [
+              "Teste Reels e publicações /p/ com vídeo separadamente. Fotos, carrosséis que começam com foto, transmissões ao vivo e stories ficam fora. Um Reel bem-sucedido não prova que todos os itens de um carrossel possam ser extraídos."
+            ]
+          },
+          {
+            "heading": "Por que um link público pode falhar",
+            "paragraphs": [
+              "Uma página pública ainda pode exigir login, aplicar restrições por país ou idade ou recusar um endereço de datacenter. O autor pode limitar ou apagar a gravação entre análise e download. Mudar a escrita do link não resolve esses casos. Se o acesso for bloqueado, trate o caso como não aceito. Não adicione cookies de conta, proxies residenciais nem alterações de identificação do navegador para contornar proteções."
+            ]
+          },
+          {
+            "heading": "Escolher vídeo ou áudio",
+            "paragraphs": [
+              "MP4 é um contêiner. Confira as faixas, a duração e a reprodução, não apenas o nome. Um vídeo sem som pode ser válido, mas não fornece uma faixa para extrair. A meta de 192 kbps do MP3 é uma configuração de codificação, não a qualidade original. Ela não recupera detalhes perdidos. Guarde a fonte e ouça o resultado antes de considerar o trabalho concluído."
+            ]
+          },
+          {
+            "heading": "Encontrar o arquivo no celular",
+            "paragraphs": [
+              "O download costuma aparecer primeiro em Arquivos ou Downloads. No iPhone, depois você pode compartilhar um vídeo compatível para Fotos ou Rolo da Câmera. No Android, o gerenciador pode oferecer uma importação para a galeria. Os menus variam conforme o navegador e o sistema. Confira a lista de downloads antes de preparar outra cópia: repetir usa a cota e nem sempre resolve um codec incompatível."
+            ]
+          },
+          {
+            "heading": "O caminho do link",
+            "paragraphs": [
+              "O formulário envia o link canônico ao VidFetch para análise. A camada pública verifica a confirmação humana, a prova de acesso do navegador, as cotas e a capacidade antes de consultar o motor. A preparação pode passar por uma fila e a transferência usa uma autorização temporária. O resultado não vira hospedagem permanente. Use somente o material autorizado, respeitando imagem, música e direitos autorais de outras pessoas."
+            ]
+          },
+          {
+            "heading": "Escolher vídeo ou áudio · MP4 / MP3",
+            "paragraphs": [
+              "Para assistir no celular, escolha uma combinação aceita pelo aparelho e pelo aplicativo. MP4 com H.264 comum e AAC costuma ser uma referência prática. Perfil, resolução e versão do sistema também importam. Teste um arquivo antes de baixar vários vídeos grandes.",
+              "MP4 é um contêiner: pode guardar H.264, HEVC ou outra faixa. Áudio e vídeo precisam ser compatíveis. Um arquivo que toca no navegador pode ser tratado de outra maneira pela galeria ou por outro aplicativo.",
+              "Se houver som sem imagem, ou o contrário, examine as faixas separadamente. O guia de contêineres explica o conteúdo do arquivo.",
+              "Uma referência em tela pequena pode funcionar em 720p ou 1080p. Texto detalhado, corte ou edição posterior podem exigir mais resolução. Não escolha automaticamente o maior rótulo.",
+              "Resoluções e taxas de quadros elevadas exigem mais decodificação. O suporte por hardware varia; um aparelho antigo pode ter dificuldade onde um recente reproduz sem problemas.",
+              "O tamanho mostrado pode ser estimado. Bitrate variável, faixas separadas e contêiner final alteram o total. Deixe espaço livre. Uma transferência interrompida não produz um arquivo completo: use conexão estável e confira o final antes de arquivar a cópia.",
+              "Navegadores costumam usar uma área de downloads ou o gerenciador de arquivos do sistema. Salvar não significa incluir automaticamente na galeria. O comportamento depende do navegador e do sistema.",
+              "Cole um link autorizado, analise e escolha um formato disponível. As opções dependem da origem. Bloqueios, cotas e uma fila cheia podem impedir a preparação sem relação com o aparelho. O guia de codecs ajuda na seleção.",
+              "Procure primeiro o arquivo completo em Downloads e depois use a opção de importar ou compartilhar oferecida pelo dispositivo.",
+              "MP4 costuma ser um ponto de partida prático para compartilhar vídeos entre dispositivos. WebM pode atender a projetos na web quando os navegadores de destino aceitam seu conteúdo. Nenhuma extensão garante qualidade ou reprodução. Confira o codec de vídeo, o de áudio e o aplicativo que abrirá o arquivo."
+            ]
+          }
+        ],
+        "updated": "2026-10-30",
+        "publishedAt": "2026-10-30"
+      },
+      "id": {
+        "status": "ready",
+        "title": "Download video Instagram",
+        "description": "Download video Instagram: Reel dan postingan publik berizin untuk diperiksa. Pilihan MP4 dan MP3 bergantung pada format yang dapat diakses server.",
+        "heading": "Simpan video Instagram dengan izin",
+        "intro": "Gunakan tautan Reel atau postingan video milik Anda, atau konten yang pemiliknya secara jelas mengizinkan pengunduhan. Halaman publik tidak otomatis memberi hak untuk memakai ulang rekaman. Format harus tersedia untuk postingan tersebut.",
+        "instructions": [
+          "Buka postingan publik milik sendiri atau yang diizinkan, lalu salin tautan individualnya. Jangan kirim profil, pencarian, atau data masuk akun.",
+          "Tempel tautan dan selesaikan verifikasi manusia biasa di VidFetch bila diminta. Analisis metadata tidak menjamin transfer akan berhasil.",
+          "Pilih MP4 yang benar-benar tersedia, atau MP3 bila ada trek suara dan pilihan itu ditawarkan. Biarkan halaman terbuka selama persiapan serta antrean normal."
+        ],
+        "supported": [
+          "Hanya postingan video publik berizin yang dapat dibaca server tanpa akun platform menjadi calon dukungan.",
+          "MP4 harus memiliki trek video; MP3 harus memiliki audio MP3 dan durasi yang masuk akal. Mengganti ekstensi bukan konversi."
+        ],
+        "limits": [
+          "Konten pribadi, story, akun terkunci, dan postingan dihapus tidak didukung. Jangan memberikan kata sandi atau kuki akun.",
+          "Mesin membatasi hingga 256 MiB, 30 menit, dan 10 menit per operasi. Pengaturan gerbang publik dapat membatasi ukuran lebih rendah; ikuti respons yang ditampilkan.",
+          "Maksimal 8 persiapan per hari UTC dan cadangan 1 GiB per identitas anonim; kedua syarat berlaku. MP3 memakai 192 kbps. Persiapan gagal dapat tetap memakai cadangan."
+        ],
+        "faqs": [
+          {
+            "question": "Apakah konten pribadi bisa disimpan?",
+            "answer": "Tidak. Konten pribadi, story, akun terkunci, dan postingan dihapus tidak didukung. Jangan pernah memberikan kata sandi atau kuki akun."
+          },
+          {
+            "question": "Apakah bisa download tanpa watermark?",
+            "answer": "VidFetch menyimpan video sebagaimana disediakan platform. Alat ini tidak menghapus watermark yang sudah menyatu dengan gambar."
+          },
+          {
+            "question": "Mengapa gagal setelah analisis?",
+            "answer": "Akses dapat berubah atau transfer ditolak setelah metadata dibaca. Permintaan masuk akun, batas frekuensi, antrean, dan kuota bisa menghentikan operasi. Jangan melewati pemblokiran platform."
+          },
+          {
+            "question": "Apakah postingan publik bebas digunakan ulang?",
+            "answer": "Tidak otomatis. Gunakan postingan sendiri atau dapatkan izin jelas. Visibilitas publik tidak memindahkan hak cipta, hak musik, atau izin menerbitkan ulang."
+          }
+        ],
+        "relatedGuides": [
+          "mp4-vs-webm",
+          "video-download-fails",
+          "video-format-smartphone"
+        ],
+        "sections": {
+          "steps": "Gunakan tautan yang diizinkan",
+          "formats": "Format yang perlu diuji dan batas",
+          "faq": "Pertanyaan unduhan berizin"
+        },
+        "details": [
+          {
+            "heading": "Reel dan postingan video Instagram",
+            "paragraphs": [
+              "Uji Reel dan postingan /p/ berisi video secara terpisah. Foto, karusel yang diawali foto, siaran langsung, dan story berada di luar cakupan ini. Satu Reel yang berhasil tidak membuktikan semua isi karusel dapat diambil."
+            ]
+          },
+          {
+            "heading": "Mengapa tautan publik masih gagal",
+            "paragraphs": [
+              "Halaman publik bisa meminta masuk akun, dibatasi menurut negara atau usia, atau menolak alamat pusat data. Pembuat dapat membatasi atau menghapus rekaman antara analisis dan transfer. Mengubah penulisan tautan tidak menyelesaikannya. Jika akses diblokir, perlakukan sebagai tidak didukung. Jangan menambahkan kuki akun, proxy perumahan, atau perubahan sidik peramban untuk melewati perlindungan."
+            ]
+          },
+          {
+            "heading": "Memilih video atau suara",
+            "paragraphs": [
+              "MP4 adalah wadah media. Periksa trek, durasi, dan pemutarannya, bukan nama berkas saja. Video tanpa suara bisa tetap sah, tetapi tidak menyediakan audio untuk diambil. Target MP3 192 kbps merupakan setelan pengodean dan bukan kualitas sumber. Nilai itu tidak memulihkan detail yang sudah hilang. Simpan sumber dan dengarkan hasil sebelum menyatakan proses selesai."
+            ]
+          },
+          {
+            "heading": "Menemukan hasil di ponsel",
+            "paragraphs": [
+              "Unduhan biasanya muncul di File Manager atau Downloads lebih dahulu. Pada iPhone, video yang sesuai kemudian dapat dibagikan ke Photos. Pada Android, pengelola berkas dapat menyediakan impor ke galeri. Menu bergantung pada browser dan sistem. Periksa daftar unduhan sebelum membuat salinan lain. Mengulang memakai kuota yang sama dan belum tentu menyelesaikan masalah codec."
+            ]
+          },
+          {
+            "heading": "Apa yang dilakukan terhadap tautan",
+            "paragraphs": [
+              "Formulir mengirim tautan kanonis ke VidFetch untuk dianalisis. Gerbang memeriksa verifikasi manusia, bukti akses browser, kuota, dan kapasitas sebelum menghubungi mesin. Persiapan dapat masuk antrean dan transfer memakai izin sementara. Hasil bukan layanan penyimpanan publik permanen. Gunakan materi sesuai izin dan hormati hak atas gambar orang lain, musik, serta hak cipta."
+            ]
+          },
+          {
+            "heading": "Memilih video atau suara · MP4 / MP3",
+            "paragraphs": [
+              "Untuk menonton di ponsel, pilih kombinasi yang diterima perangkat dan aplikasinya. MP4 dengan H.264 umum serta AAC sering praktis. Profil codec, resolusi, dan versi sistem tetap penting. Uji satu berkas sebelum mengunduh banyak video berukuran besar.",
+              "MP4 adalah kontainer yang dapat memuat H.264, HEVC, atau trek lain. Video dan audio sama-sama harus didukung. Berkas yang lancar di browser dapat diproses berbeda di galeri maupun aplikasi lain.",
+              "Jika suara ada tetapi gambar tidak, atau sebaliknya, periksa masing-masing trek. Panduan kontainer menjelaskan isi pembungkusnya.",
+              "Referensi singkat di layar kecil dapat cukup pada 720p atau 1080p. Tulisan rinci, pemotongan, atau penyuntingan berikutnya mungkin memerlukan sumber lebih besar. Jangan selalu mengambil label terbesar.",
+              "Resolusi dan laju bingkai tinggi membutuhkan lebih banyak dekode. Dukungan perangkat keras berbeda-beda; ponsel lama dapat kesulitan memutar berkas yang lancar di perangkat baru.",
+              "Ukuran yang ditampilkan dapat berupa perkiraan. Bitrate variabel, trek terpisah, serta kontainer akhir mengubah jumlahnya. Jangan memenuhi seluruh penyimpanan. Unduhan terputus bukan berkas lengkap: pastikan transfer berakhir dan periksa durasi sebelum mengarsipkan.",
+              "Browser biasanya memakai bagian unduhan atau pengelola berkas sistem. Menyimpan video tidak selalu menambahkannya ke galeri. Lokasi dan impor bergantung pada browser serta sistem operasi.",
+              "Tempel tautan berizin, pilih Analisis, lalu format tersedia. Pilihan mengikuti sumber. Pembatasan platform, kuota, dan antrean sibuk dapat menggagalkan persiapan tanpa berkaitan dengan ponsel. Panduan codec membantu memilih.",
+              "Cari berkas lengkap di Unduhan terlebih dahulu, kemudian gunakan fungsi impor atau berbagi yang didukung perangkat.",
+              "MP4 sering menjadi pilihan awal yang praktis untuk memutar video di beragam perangkat. WebM dapat cocok untuk situs jika browser tujuan mendukung isinya. Ekstensi saja tidak menjamin kualitas gambar maupun keberhasilan pemutaran. Periksa codec video, codec audio, dan aplikasi yang akan membuka berkas tersebut.",
+              "Kontainer menyatukan trek dan informasi waktu. Codec memampatkan gambar atau suara di dalamnya. MP4 sering berisi H.264 dan AAC, tetapi dapat memakai kombinasi lain. WebM menggunakan profil Matroska terbatas, termasuk video VP8, VP9 atau AV1 serta audio Vorbis atau Opus.",
+              "Untuk video keluarga yang dibagikan ke ponsel dan komputer, MP4 dengan H.264 dan AAC sering praktis. Namun, perangkat lama atau profil pengodean tertentu tetap dapat gagal. Uji potongan pendek pada perangkat paling lama yang perlu Anda dukung sebelum membagikan seluruh koleksi.",
+              "Situs dapat menawarkan beberapa sumber untuk browser berbeda. Berkas yang lancar di komputer Anda belum tentu diterima aplikasi lain."
+            ]
+          }
+        ],
+        "updated": "2026-10-30",
+        "publishedAt": "2026-10-30"
+      },
+      "de": {
+        "status": "ready",
+        "title": "Instagram-Video herunterladen",
+        "description": "Instagram-Video herunterladen: öffentliche Reels und autorisierte Videobeiträge prüfen. MP4 und MP3 hängen vom tatsächlich erreichbaren Format ab.",
+        "heading": "Ein erlaubtes Instagram-Video speichern",
+        "intro": "Verwende einen öffentlichen Reel- oder Videolink zu einer eigenen oder ausdrücklich freigegebenen Aufnahme. Eine öffentliche Seite erteilt keine Erlaubnis zur Weiterverwendung. Angeboten werden können nur tatsächlich erreichbare Formate.",
+        "instructions": [
+          "Öffne einen eigenen oder erlaubten öffentlichen Beitrag und kopiere dessen Einzeladresse. Übermittle weder Profile und Suchseiten noch Kontozugangsdaten.",
+          "Füge den Link ein und erledige bei Bedarf die normale menschliche Prüfung von VidFetch. Eine erfolgreiche Metadatenanalyse garantiert noch keine Übertragung.",
+          "Wähle ein wirklich angebotenes MP4 oder bei vorhandener Tonspur eine MP3-Option. Lass die Seite während Vorbereitung und normaler Warteschlange geöffnet."
+        ],
+        "supported": [
+          "Nur erlaubte öffentliche Videobeiträge, die der Server ohne Plattformkonto lesen kann, kommen infrage.",
+          "MP4 muss eine Videospur enthalten; MP3 muss MP3-Audio und eine plausible Dauer haben. Eine andere Dateiendung beweist keine Umwandlung."
+        ],
+        "limits": [
+          "Private Inhalte, Storys, geschützte Konten und gelöschte Beiträge werden nicht unterstützt. Gib niemals Passwörter oder Kontocookies an.",
+          "Die Engine begrenzt auf 256 MiB, 30 Minuten und 10 Minuten je Vorgang. Das öffentliche Gateway kann eine kleinere Größenbegrenzung haben; die angezeigte Antwort ist maßgeblich.",
+          "Höchstens 8 Vorbereitungen pro UTC-Tag und 1 GiB Reservierung je anonymer Identität; beide Grenzen gelten. MP3 verwendet 192 kbps. Eine fehlgeschlagene Vorbereitung kann eine Reservierung verbrauchen."
+        ],
+        "faqs": [
+          {
+            "question": "Kann ich private Inhalte speichern?",
+            "answer": "Nein. Private Inhalte, Storys, geschützte Konten und gelöschte Beiträge werden nicht unterstützt. Gib niemals ein Passwort oder Kontocookie an."
+          },
+          {
+            "question": "Entfernt VidFetch Wasserzeichen?",
+            "answer": "Nein. Das Video wird so gespeichert, wie die Plattform es liefert. VidFetch entfernt kein bereits ins Bild eingebettetes Wasserzeichen."
+          },
+          {
+            "question": "Warum scheitert der Download nach der Analyse?",
+            "answer": "Der Zugriff kann sich ändern oder die Übertragung nach dem Lesen der Metadaten abgelehnt werden. Anmeldung, Anfragelimits, Warteschlange und Kontingente können den Vorgang verhindern. Umgehe keine Plattformsperre."
+          },
+          {
+            "question": "Darf ich einen öffentlichen Beitrag weiterverwenden?",
+            "answer": "Nicht automatisch. Nutze eigene Beiträge oder hole eine ausdrückliche Erlaubnis ein. Öffentliche Sichtbarkeit überträgt weder Urheber- und Musikrechte noch eine Veröffentlichungserlaubnis."
+          }
+        ],
+        "relatedGuides": [
+          "mp4-vs-webm",
+          "video-download-fails",
+          "video-format-smartphone"
+        ],
+        "sections": {
+          "steps": "Einen erlaubten Link verwenden",
+          "formats": "Zu prüfende Formate und Grenzen",
+          "faq": "Fragen zu erlaubten Downloads"
+        },
+        "details": [
+          {
+            "heading": "Instagram-Reels und Videobeiträge",
+            "paragraphs": [
+              "Prüfe Reels und /p/-Videobeiträge getrennt. Fotos, Karussells mit einem Foto am Anfang, Liveübertragungen und Storys sind ausgeschlossen. Ein erfolgreiches Reel belegt nicht, dass alle Elemente eines Karussells extrahiert werden können."
+            ]
+          },
+          {
+            "heading": "Warum öffentliche Links scheitern können",
+            "paragraphs": [
+              "Auch eine öffentliche Seite kann eine Anmeldung verlangen, Länder- oder Altersgrenzen anwenden oder eine Rechenzentrumsadresse ablehnen. Der Urheber kann die Aufnahme zwischen Analyse und Download löschen oder einschränken. Eine andere Schreibweise des Links löst das nicht. Bei blockiertem Zugriff gilt der Fall als nicht unterstützt. Nutze keine Kontocookies, Wohnanschluss-Proxys oder veränderte Browserfingerabdrücke zur Umgehung."
+            ]
+          },
+          {
+            "heading": "Video und Ton richtig prüfen",
+            "paragraphs": [
+              "MP4 ist ein Container. Prüfe Spuren, Dauer und Wiedergabe statt nur den Dateinamen. Ein stummes Video kann gültig sein, bietet aber keine Tonspur zum Extrahieren. Die MP3-Zielrate von 192 kbps ist eine Kodierungseinstellung und keine Angabe zur Quellqualität. Sie stellt verlorene Details nicht wieder her. Bewahre die Quelle auf und höre das Ergebnis an."
+            ]
+          },
+          {
+            "heading": "Die Datei auf dem Handy finden",
+            "paragraphs": [
+              "Downloads erscheinen meist zunächst unter Dateien oder Downloads. Auf dem iPhone lässt sich ein kompatibles Video anschließend nach Fotos teilen. Unter Android bietet der Dateimanager möglicherweise einen Import in die Galerie an. Menüs unterscheiden sich nach Browser und System. Prüfe vor einer erneuten Vorbereitung die Downloadliste. Wiederholungen verbrauchen dasselbe Kontingent und beheben nicht unbedingt ein Codecproblem."
+            ]
+          },
+          {
+            "heading": "Wie der Link verarbeitet wird",
+            "paragraphs": [
+              "Das Formular sendet den kanonischen Link zur Analyse an VidFetch. Das Gateway kontrolliert menschliche Prüfung, Browserzugangsnachweis, Kontingente und Kapazität, bevor die Engine arbeitet. Eine Vorbereitung kann warten; die Übertragung nutzt ein zeitlich begrenztes Ticket. Das Ergebnis wird nicht dauerhaft öffentlich gehostet. Beachte neben dem Urheberrecht auch Musik- und Persönlichkeitsrechte und bleibe innerhalb deiner Erlaubnis."
+            ]
+          },
+          {
+            "heading": "Video und Ton richtig prüfen · MP4 / MP3",
+            "paragraphs": [
+              "Wähle für ein Handyvideo eine Kombination, die Gerät und Wiedergabe-App unterstützen. MP4 mit üblichem H.264 und AAC ist oft eine praktische Basis. Codec-Profil, Auflösung und Betriebssystemversion bleiben wichtig. Teste eine Datei, bevor du viele große Videos herunterlädst.",
+              "MP4 bezeichnet den Container; darin können H.264, HEVC oder andere Spuren liegen. Video und Audio müssen beide unterstützt werden. Eine Datei, die im Browser läuft, kann in Galerie oder anderer App anders behandelt werden.",
+              "Für einen Referenzclip auf kleinem Bildschirm können 720p oder 1080p reichen. Kleine Schrift, Zuschnitt und spätere Bearbeitung können größere Quellen rechtfertigen. Wähle nicht automatisch die höchste Bezeichnung.",
+              "Hohe Auflösung und Bildrate verlangen mehr Decodierung. Hardwareunterstützung unterscheidet sich zwischen Geräten. Ein altes Handy kann bei einer Datei stocken, die ein neueres problemlos abspielt.",
+              "Die angegebene Größe kann geschätzt sein. Variable Bitrate, getrennte Spuren und der endgültige Container verändern das Ergebnis. Lass freien Speicher. Ein abgebrochener Download ist keine vollständige Datei: Nutze eine stabile Verbindung und kontrolliere das Ende vor der Archivierung.",
+              "Browser verwenden meist einen Downloadbereich oder den Dateimanager des Systems. Speichern fügt die Datei nicht zwingend zur Fotobibliothek hinzu. Ort und Import hängen von Browser und Betriebssystem ab.",
+              "Füge einen erlaubten Link ein, analysiere ihn und wähle ein verfügbares Format. Die Formate stammen aus der Quelle. Beschränkungen, Quoten und eine volle Warteschlange können unabhängig vom Handy stören. Der Codec-Ratgeber hilft bei der Auswahl.",
+              "Suche zuerst die fertige Datei im Downloadbereich und nutze dann die vom Gerät unterstützte Import- oder Teilen-Funktion.",
+              "MP4 ist häufig ein sinnvoller Ausgangspunkt für Videos auf verschiedenen Geräten. WebM kann für eine Website passen, wenn die vorgesehenen Browser den Inhalt unterstützen. Die Endung allein garantiert weder Bildqualität noch Wiedergabe. Prüfe Video- und Audiocodec sowie die Anwendung, die die Datei öffnen soll.",
+              "Der Container hält Spuren und Zeitinformationen zusammen. Ein Codec komprimiert Bild oder Ton. MP4 enthält oft H.264 und AAC, kann aber andere Kombinationen aufnehmen. WebM verwendet ein eingeschränktes Matroska-Profil, etwa mit VP8, VP9 oder AV1 sowie Vorbis oder Opus.",
+              "Für Familienvideos auf Handys und Computern ist MP4 mit H.264 und AAC oft praktisch. Das garantiert keine Unterstützung ungewöhnlicher Profile oder alter Geräte. Teste einen kurzen Ausschnitt auf dem ältesten benötigten Gerät, bevor du eine ganze Sammlung verschickst."
+            ]
+          }
+        ],
+        "updated": "2026-10-30",
+        "publishedAt": "2026-10-30"
+      },
+      "it": {
+        "status": "ready",
+        "title": "Scaricare video da Instagram",
+        "description": "Scaricare video da Instagram: Reel e post pubblici autorizzati da verificare. MP4 e MP3 dipendono dai formati realmente accessibili dal server.",
+        "heading": "Salvare un video Instagram autorizzato",
+        "intro": "Usa il link di un Reel o post video tuo o autorizzato esplicitamente. Una pagina pubblica non concede il diritto di riutilizzare la registrazione. Si possono proporre soltanto i formati accessibili per quel post.",
+        "instructions": [
+          "Apri un post pubblico tuo o autorizzato e copia il suo link individuale. Non fornire profili, ricerche o credenziali.",
+          "Incolla il link e completa la normale verifica umana di VidFetch, se richiesta. Leggere i metadati non garantisce il trasferimento.",
+          "Scegli un MP4 realmente disponibile oppure MP3 se esiste una traccia sonora e viene offerta l’opzione. Tieni aperta la pagina durante preparazione e coda."
+        ],
+        "supported": [
+          "Sono candidati soltanto video pubblici autorizzati leggibili dal server senza un account della piattaforma.",
+          "MP4 deve contenere una traccia video; MP3 deve avere audio MP3 e durata plausibile. Cambiare estensione non converte il contenuto."
+        ],
+        "limits": [
+          "Contenuti privati, storie, account protetti e post eliminati non sono supportati. Non fornire password né cookie di account.",
+          "Il motore limita a 256 MiB, 30 minuti e 10 minuti per operazione. La configurazione del gateway pubblico può ridurre le dimensioni; vale la risposta mostrata.",
+          "Fino a 8 preparazioni per giorno UTC e 1 GiB riservato per identità anonima; valgono entrambi i limiti. MP3 a 192 kbps. Una preparazione fallita può consumare la prenotazione."
+        ],
+        "faqs": [
+          {
+            "question": "Posso salvare contenuti privati?",
+            "answer": "No. Contenuti privati, storie, account protetti e post eliminati non sono supportati. Non fornire mai password o cookie di account."
+          },
+          {
+            "question": "VidFetch rimuove la filigrana?",
+            "answer": "No. Salva il video come viene fornito dalla piattaforma. Non rimuove una filigrana già incorporata nell’immagine."
+          },
+          {
+            "question": "Perché fallisce dopo l’analisi?",
+            "answer": "L’accesso può cambiare o il trasferimento essere rifiutato dopo i metadati. Accesso obbligatorio, limiti di frequenza, coda e quote possono impedire l’operazione. Non aggirare un blocco."
+          },
+          {
+            "question": "Un post pubblico si può riutilizzare?",
+            "answer": "Non automaticamente. Usa post tuoi o ottieni un’autorizzazione esplicita. La visibilità pubblica non trasferisce diritti d’autore, musicali o permesso di ripubblicare."
+          }
+        ],
+        "relatedGuides": [
+          "mp4-vs-webm",
+          "video-download-fails",
+          "video-format-smartphone"
+        ],
+        "sections": {
+          "steps": "Usare un link autorizzato",
+          "formats": "Formati da verificare e limiti",
+          "faq": "Domande sui download autorizzati"
+        },
+        "details": [
+          {
+            "heading": "Reel e post video Instagram",
+            "paragraphs": [
+              "Verifica separatamente Reel e post /p/ con video. Fotografie, caroselli che iniziano con una foto, dirette e storie sono esclusi. Un Reel riuscito non dimostra che ogni elemento di un carosello sia estraibile."
+            ]
+          },
+          {
+            "heading": "Perché un link pubblico può fallire",
+            "paragraphs": [
+              "Una pagina pubblica può richiedere accesso, imporre limiti per paese o età oppure rifiutare un indirizzo di datacenter. L’autore può limitare o cancellare la registrazione tra analisi e download. Cambiare la forma del link non risolve questi casi. Se l’accesso è bloccato, considera il caso non supportato. Non aggiungere cookie di account, proxy residenziali o modifiche all’impronta del browser per aggirare le protezioni."
+            ]
+          },
+          {
+            "heading": "Scegliere video o audio",
+            "paragraphs": [
+              "MP4 è un contenitore. Controlla tracce, durata e riproduzione, non soltanto il nome. Un video muto può essere valido, ma non offre una traccia sonora da estrarre. Il valore MP3 di 192 kbps è un obiettivo di codifica, non la qualità originale. Non recupera dettagli persi. Conserva la fonte e ascolta il risultato prima di considerare concluso il lavoro."
+            ]
+          },
+          {
+            "heading": "Trovare il file sul telefono",
+            "paragraphs": [
+              "Il download appare di solito prima in File o Download. Su iPhone puoi poi condividere un video compatibile verso Foto. Su Android il gestore di file può proporre l’importazione nella galleria. I menu dipendono dal sistema e dal browser. Controlla l’elenco dei download prima di preparare un’altra copia: ripetere consuma la stessa quota e non risolve necessariamente un codec incompatibile."
+            ]
+          },
+          {
+            "heading": "Il percorso del link",
+            "paragraphs": [
+              "Il modulo invia il link canonico a VidFetch per l’analisi. Il gateway controlla verifica umana, prova di accesso del browser, quote e capacità prima di contattare il motore. La preparazione può passare per una coda e il trasferimento usa un permesso temporaneo. Il risultato non viene ospitato pubblicamente in modo permanente. Rispetta l’autorizzazione, il diritto d’autore e i diritti su musica e immagini altrui."
+            ]
+          },
+          {
+            "heading": "Scegliere video o audio · MP4 / MP3",
+            "paragraphs": [
+              "Per guardare un video sul telefono, scegli una combinazione supportata dal dispositivo e dall’applicazione. MP4 con H.264 comune e AAC è spesso pratico. Profilo, risoluzione e versione del sistema restano importanti. Prova un file prima di scaricare molti video grandi.",
+              "MP4 è un contenitore e può contenere H.264, HEVC o altre tracce. Audio e video devono essere entrambi compatibili. Un file riproducibile nel browser può essere gestito diversamente nella galleria o in un’altra applicazione.",
+              "Se senti audio senza immagine, o viceversa, ispeziona le tracce individuali. La guida ai contenitori spiega il contenuto.",
+              "Un riferimento su piccolo schermo può bastare a 720p o 1080p. Testo dettagliato, ritaglio o montaggio possono richiedere una fonte maggiore. Non scegliere automaticamente il valore più alto.",
+              "Risoluzione e frequenza elevate richiedono più decodifica. Il supporto hardware varia; un vecchio telefono può faticare con un file fluido su uno recente.",
+              "La dimensione indicata può essere stimata. Bitrate variabile, tracce separate e contenitore finale modificano il totale. Lascia spazio libero. Un download interrotto non è un file completo: usa una connessione stabile e verifica durata e fine prima di archiviare.",
+              "I browser usano spesso un’area download o il gestore file del sistema. Salvare non aggiunge necessariamente il video alla raccolta fotografica. Posizione e importazione dipendono da browser e sistema operativo.",
+              "Incolla un link autorizzato, analizza e scegli un formato disponibile. Le opzioni dipendono dalla fonte. Restrizioni, quote e coda occupata possono bloccare la preparazione indipendentemente dal telefono. La guida ai codec aiuta nella scelta.",
+              "Cerca prima il file completato in Download, poi usa la funzione di importazione o condivisione prevista dal dispositivo.",
+              "MP4 è spesso un punto di partenza pratico per riprodurre un video su dispositivi diversi. WebM può essere adatto a un sito se conosci il supporto dei browser destinatari. L’estensione non garantisce qualità o riproduzione. Controlla codec video, codec audio e applicazione che dovrà aprire il file.",
+              "Il contenitore riunisce tracce e informazioni temporali. Il codec comprime immagini o suono. MP4 contiene spesso H.264 e AAC, ma ammette altre combinazioni. WebM usa un profilo limitato di Matroska, con video VP8, VP9 o AV1 e audio Vorbis oppure Opus."
+            ]
+          }
+        ],
+        "updated": "2026-10-30",
+        "publishedAt": "2026-10-30"
+      },
+      "ar": {
+        "status": "ready",
+        "title": "تنزيل فيديو إنستغرام",
+        "description": "تنزيل فيديو إنستغرام: فحص ريلز ومنشورات عامة بإذن صاحبها. توفر MP4 وMP3 يتوقف على الصيغ التي يستطيع الخادم الوصول إليها دون تسجيل دخول.",
+        "heading": "حفظ فيديو إنستغرام بإذن صاحبه (Instagram)",
+        "intro": "استخدم رابط ريلز عام أو منشور فيديو تملكه أو لديك إذن صريح بتنزيله. ظهور الصفحة للعامة لا يمنح حق إعادة استخدام التسجيل. يمكن عرض الصيغ التي تتوفر فعليًا لذلك المنشور فقط.",
+        "instructions": [
+          "افتح منشورك العام أو منشورًا مأذونًا بتنزيله وانسخ رابطه الفردي. لا ترسل رابط ملف شخصي أو نتائج بحث أو بيانات دخول.",
+          "ألصق الرابط وأكمل التحقق البشري المعتاد في VidFetch عند طلبه. نجاح قراءة البيانات الوصفية لا يضمن نجاح النقل.",
+          "اختر ملف MP4 متاحًا فعليًا أو MP3 عندما يوجد مسار صوتي ويُعرض هذا الخيار. أبق الصفحة مفتوحة خلال التحضير والانتظار في الطابور المعتاد."
+        ],
+        "supported": [
+          "المنشورات المرشحة هي فيديوهات عامة مأذون بها يستطيع الخادم قراءتها دون حساب على المنصة.",
+          "يجب أن يحتوي MP4 على مسار فيديو، وأن يحتوي MP3 على صوت MP3 ومدة معقولة. تغيير امتداد الملف لا يحوّل محتواه."
+        ],
+        "limits": [
+          "المحتوى الخاص والقصص والحسابات المحمية والمنشورات المحذوفة غير مدعومة. لا تقدم كلمة مرور أو ملف ارتباط لحساب.",
+          "يحد المحرك الملف حتى 256 MiB والمدة حتى 30 دقيقة، وتنتهي العملية بعد 10 دقائق. قد تضبط البوابة العامة حدًا أقل للحجم؛ اتبع الاستجابة المعروضة.",
+          "حتى 8 عمليات تحضير في اليوم بتوقيت UTC وحجز 1 GiB لكل هوية مجهولة؛ يطبق الحدان معًا. يستخدم MP3 معدل 192 kbps. قد تستهلك العملية الفاشلة حجزًا."
+        ],
+        "faqs": [
+          {
+            "question": "هل يمكن حفظ محتوى خاص؟",
+            "answer": "لا. المحتوى الخاص والقصص والحسابات المحمية والمنشورات المحذوفة غير مدعومة. لا تقدم أبدًا كلمة مرور أو ملف ارتباط لحساب."
+          },
+          {
+            "question": "هل يزيل VidFetch علامة مائية؟",
+            "answer": "لا. يحفظ الفيديو كما توفره المنصة، ولا يزيل علامة مائية مدمجة أصلًا داخل الصورة."
+          },
+          {
+            "question": "لماذا يفشل النقل بعد التحليل؟",
+            "answer": "قد يتغير الوصول أو يُرفض النقل بعد قراءة البيانات الوصفية. تسجيل الدخول الإلزامي وحدود الطلبات والطابور والحصص قد تمنع العملية. لا تتجاوز حظر المنصة."
+          },
+          {
+            "question": "هل يمكن إعادة استخدام منشور عام؟",
+            "answer": "ليس تلقائيًا. استخدم منشوراتك أو احصل على إذن صريح. الإتاحة العامة لا تنقل حقوق النشر أو الموسيقى أو إذن إعادة النشر."
+          }
+        ],
+        "relatedGuides": [
+          "mp4-vs-webm",
+          "video-download-fails",
+          "video-format-smartphone"
+        ],
+        "sections": {
+          "steps": "استخدام رابط مأذون به",
+          "formats": "الصيغ المطلوب فحصها والحدود",
+          "faq": "أسئلة عن التنزيل بإذن"
+        },
+        "details": [
+          {
+            "heading": "ريلز ومنشورات إنستغرام",
+            "paragraphs": [
+              "اختبر ريلز ومنشورات /p/ التي تحتوي على فيديو كلًا على حدة. الصور والمنشورات المتعددة التي تبدأ بصورة والبث المباشر والقصص خارج النطاق. نجاح ريلز واحد لا يثبت إمكان استخراج جميع عناصر منشور متعدد."
+            ]
+          },
+          {
+            "heading": "لماذا قد يفشل رابط عام",
+            "paragraphs": [
+              "قد تطلب صفحة عامة تسجيل الدخول أو تطبق قيود البلد والعمر أو ترفض عنوان مركز بيانات. يستطيع المنشئ تقييد التسجيل أو حذفه بين التحليل والتنزيل. لا يعالج تغيير كتابة الرابط هذه الحالات. إذا حُجب الوصول، فالحالة غير مدعومة. لا تضف ملفات ارتباط لحساب أو وكلاء سكنيين أو تعديلات على بصمة المتصفح لتجاوز حماية المنصة."
+            ]
+          },
+          {
+            "heading": "اختيار الفيديو أو الصوت",
+            "paragraphs": [
+              "MP4 حاوية وسائط. افحص المسارات والمدة والتشغيل ولا تكتف باسم الملف. قد يكون الفيديو الصامت صالحًا، لكنه لا يوفر مسارًا صوتيًا للاستخراج. معدل MP3 المستهدف، وهو 192 kbps، إعداد للترميز وليس قياسًا لجودة المصدر. لا يعيد التفاصيل المفقودة. احتفظ بالمصدر واستمع إلى الناتج قبل اعتبار المهمة مكتملة."
+            ]
+          },
+          {
+            "heading": "العثور على الملف في الهاتف",
+            "paragraphs": [
+              "يظهر التنزيل عادة أولًا في تطبيق الملفات أو مجلد التنزيلات. على آيفون يمكن بعد ذلك مشاركة فيديو متوافق إلى الصور. وعلى أندرويد قد يوفر مدير الملفات استيرادًا إلى المعرض. تختلف القوائم بحسب النظام والمتصفح. افحص قائمة التنزيلات قبل تحضير نسخة أخرى؛ فالتكرار يستهلك الحصة نفسها وقد لا يحل مشكلة ترميز غير متوافق."
+            ]
+          },
+          {
+            "heading": "ماذا يحدث للرابط",
+            "paragraphs": [
+              "يرسل النموذج الرابط الأساسي إلى VidFetch لتحليله. تتحقق البوابة من التحقق البشري وإثبات وصول المتصفح والحصص والسعة قبل الاتصال بالمحرك. قد يمر التحضير بطابور انتظار، ويستخدم النقل تصريحًا مؤقتًا. لا يصبح الناتج استضافة عامة دائمة. التزم بالإذن الممنوح واحترم حقوق النشر والموسيقى وصور الأشخاص الآخرين."
+            ]
+          },
+          {
+            "heading": "اختيار الفيديو أو الصوت · MP4 / MP3",
+            "paragraphs": [
+              "لمشاهدة فيديو على الهاتف، اختر مجموعة تدعمها قدرات الجهاز والتطبيق. كثيرًا ما يكون MP4 مع H.264 المعتاد وAAC نقطة عملية. ويظل ملف تعريف الترميز والدقة وإصدار النظام مهمًا. اختبر ملفًا واحدًا قبل تنزيل مجموعة من الفيديوهات الكبيرة.",
+              "MP4 حاوية يمكن أن تحمل H.264 أو HEVC أو غيرهما. يجب أن يكون الصوت والفيديو كلاهما مدعومين. وقد يعامل معرض الصور أو تطبيق آخر الملف بطريقة تختلف عن المتصفح.",
+              "إذا سمعت الصوت دون الصورة، أو رأيت الصورة دون الصوت، افحص كل مسار على حدة. يشرح دليل الحاويات ما يوجد داخل الملف ولماذا لا تكفي نهايته لتحديد التوافق.",
+              "قد يكفي 720p أو 1080p لمرجع على شاشة صغيرة. النص الدقيق أو القص أو التحرير لاحقًا قد يبرر مصدرًا أكبر. لا تختَر أعلى رقم تلقائيًا قبل معرفة ما تحتاج إليه.",
+              "تحتاج الدقات ومعدّلات الإطارات المرتفعة إلى عمل أكثر لفك الترميز. يختلف الدعم العتادي بين الأجهزة؛ قد يتعثر هاتف قديم في ملف يعمل بسلاسة على هاتف حديث، رغم أن كليهما يفتح الحاوية نفسها.",
+              "قد يكون الحجم المعروض تقديرًا. يغيّر معدّل البت المتغير والمسارات المنفصلة والحاوية النهائية النتيجة. اترك مساحة حرة بدل ملء الهاتف تمامًا. التنزيل المنقطع ليس ملفًا كاملًا؛ استخدم اتصالًا ثابتًا وافحص المدة والنهاية قبل إضافة الملف إلى أرشيفك.",
+              "تضع المتصفحات الملفات عادة في قسم التنزيلات أو مدير ملفات النظام. الحفظ لا يضيف الفيديو تلقائيًا دائمًا إلى مكتبة الصور. يختلف المكان والاستيراد بحسب المتصفح والنظام.",
+              "الصق رابطًا مسموحًا، وحلّله، ثم اختر صيغة متاحة. الخيارات تتبع المصدر. قد تمنع القيود أو الحصص أو ازدحام قائمة الانتظار التجهيز، بصرف النظر عن هاتفك. يساعد دليل الترميزات في الاختيار.",
+              "ابحث عن الملف المكتمل في التنزيلات أولًا، ثم استخدم وظيفة الاستيراد أو المشاركة التي يدعمها الجهاز لإضافته إلى مكتبة الوسائط.",
+              "غالبًا ما يكون MP4 نقطة بداية مناسبة لمشاركة الفيديو بين أجهزة مختلفة. وقد يناسب WebM موقعًا على الويب إذا كانت المتصفحات المستهدفة تدعم محتواه. لا يضمن امتداد الملف وحده جودة الصورة أو نجاح التشغيل. افحص ترميز الفيديو والصوت، ثم جرّب الملف في التطبيق الذي سيُستخدم لفتحه.",
+              "تجمع الحاوية المسارات ومعلومات التوقيت، بينما يضغط الترميز الصور أو الصوت. يحتوي MP4 كثيرًا على H.264 وAAC، لكنه يقبل مجموعات أخرى. ويستند WebM إلى ملف تعريف محدود من Matroska، مع فيديو VP8 أو VP9 أو AV1 وصوت Vorbis أو Opus.",
+              "لمقطع عائلي يُرسل إلى هواتف وكمبيوترات، قد يكون MP4 مع H.264 وAAC خيارًا عمليًا. لكنه ليس ضمانًا لكل جهاز قديم أو إعداد غير معتاد. اختبر عينة قصيرة على أقدم جهاز تحتاج إلى دعمه قبل إرسال المجموعة كاملة."
+            ]
+          }
+        ],
+        "updated": "2026-10-30",
+        "publishedAt": "2026-10-30"
+      }
+    }
+  },
+  {
+    "id": "x-video",
+    "platform": "twitter",
+    "published": false,
+    "status": "awaiting-human-verification",
+    "slugs": {
+      "en": "x-video-downloader",
+      "fr": "telecharger-video-x",
+      "es": "descargar-video-x",
+      "pt-BR": "baixar-video-x",
+      "id": "download-video-x",
+      "de": "x-video-herunterladen",
+      "it": "scaricare-video-x",
+      "ar": "tahmil-video-x"
+    },
+    "gate": {
+      "authorizedMediaVerified": false,
+      "copyReviewed": false,
+      "permissionToPublish": false
+    },
+    "editorialBrief": "Not verified. Human must confirm link types, formats, active gateway cap and copy before opening all gates. No account access or bypass.",
+    "copy": {
+      "en": {
+        "status": "ready",
+        "title": "X video downloader",
+        "description": "X video downloads: public video posts to check with permission. MP4 and MP3 availability depends on real server verification; no protected accounts.",
+        "heading": "Save an authorized X video",
+        "intro": "Work from the address of an individual X post containing video, with the creator’s authorization. A post may have no playable video even when it displays an image or a link preview. The available media must be established for that exact post.",
+        "instructions": [
+          "Open your own or authorized public publication and copy its individual share link. Do not supply a profile, feed, search page or account credentials.",
+          "Paste the link into the form and complete VidFetch’s normal human verification if requested. Analysis reads metadata; it does not guarantee that a transfer will succeed.",
+          "Select an actual MP4 video or an MP3 option when a sound track is available, then start the download. Keep the page open while the normal queue prepares the file."
+        ],
+        "supported": [
+          "Only authorized public video publications that the server can read without a platform account are candidates. A successful sample does not establish support for every public post.",
+          "MP4 must be checked as a real video container, and MP3 must contain an MP3 audio track. A changed file extension does not demonstrate successful conversion."
+        ],
+        "limits": [
+          "Private content, stories, protected accounts and deleted publications are not supported. Do not send account cookies, passwords or authentication tokens.",
+          "The engine caps a file at 256 MiB and duration at 30 minutes, with a 10 minute operation timeout. The public gateway may impose a smaller configured cap; the displayed response is authoritative.",
+          "The anonymous allowance is up to 8 download preparations per UTC day and 1 GiB reserved per identity; both limits apply. MP3 encoding uses 192 kbps. A failed preparation may still consume a reservation."
+        ],
+        "faqs": [
+          {
+            "question": "Can I save private or protected content?",
+            "answer": "No. Private content, stories, protected accounts and deleted posts are not supported. Never provide a password or account cookie to this tool."
+          },
+          {
+            "question": "Does VidFetch remove a watermark?",
+            "answer": "No. The recording is saved as the platform supplies it. VidFetch does not remove a watermark already embedded in the image."
+          },
+          {
+            "question": "Why can analysis succeed but download fail?",
+            "answer": "Access can change and a media transfer can be rejected after metadata is read. Login requirements, rate limits, queue capacity and daily allowances can prevent the operation. Do not work around a platform block."
+          },
+          {
+            "question": "Do I have permission just because a post is public?",
+            "answer": "No. Use your own publications or get explicit authorization. Public visibility does not transfer copyright, music rights or permission to republish."
+          }
+        ],
+        "relatedGuides": [
+          "mp4-vs-webm",
+          "video-download-fails",
+          "video-format-smartphone"
+        ],
+        "sections": {
+          "steps": "Use an authorized publication link",
+          "formats": "Formats to verify and enforced limits",
+          "faq": "Questions about authorized downloads"
+        },
+        "details": [
+          {
+            "heading": "X posts containing native video",
+            "paragraphs": [
+              "Use the individual /status/ address. A link to another site or an animated preview is not evidence of a downloadable native video. Protected accounts, deleted posts and sign-in requirements remain unsupported. Test both x.com and an ordinary twitter.com link where appropriate, without assuming that a domain alias changes the underlying access rule."
+            ]
+          },
+          {
+            "heading": "When a public link cannot be read",
+            "paragraphs": [
+              "A public link can still require login, be limited by country or age, or be rejected from a datacenter address. A creator may delete or restrict a recording between analysis and download. None of these cases is solved by changing the URL spelling. When access is blocked, stop and treat that case as unsupported.",
+              "Do not add browser account cookies, residential proxies or an altered browser fingerprint. The verification procedure uses the normal public site and its existing access checks. If it requires a platform login, the test fails; the operator should record the limitation and narrow or withhold the published claim."
+            ]
+          },
+          {
+            "heading": "Choosing MP4 or MP3",
+            "paragraphs": [
+              "MP4 is a video container. Check that the file actually contains a video track, has a plausible duration and plays with the expected sound. A silent recording may be a valid video but does not supply a sound track to extract. Do not advertise MP3 for that case.",
+              "MP3 is a new audio output when the engine offers conversion. The configured 192 kbps is an encoding target, not a measure of original sound quality. It cannot restore detail lost upstream. Keep the source and listen to the completed file rather than relying on its filename or download size."
+            ]
+          },
+          {
+            "heading": "Saving on a phone",
+            "paragraphs": [
+              "A browser download usually appears in Files or Downloads first. On iPhone, a compatible video may then be shared to Photos. On Android, the file manager may offer an import or sharing action. The exact menu depends on the browser and operating system version. Audio files normally remain in the file manager or a music player.",
+              "Allow storage permission if your browser asks for it, but do not grant platform account access. If you cannot find a completed download, inspect the browser’s download list before submitting another preparation. Repeated requests use the same allowance and may not resolve a playback compatibility problem."
+            ]
+          },
+          {
+            "heading": "What happens to the link",
+            "paragraphs": [
+              "The normal frontend sends the canonical publication link to VidFetch for analysis. The gateway checks human verification, browser access proof, quotas and capacity before contacting the engine. Media can be prepared in a queue and then transferred through a temporary download ticket; it is not published as a permanent VidFetch hosting link.",
+              "Use the output only within your authorization. A public recording may include other people’s images, music or confidential information. Saving a copy does not remove those rights. If the creator restricts access, ask them for an authorized file rather than trying to bypass the restriction."
+            ]
+          },
+          {
+            "heading": "Choosing MP4 or MP3 · MP4 / MP3",
+            "paragraphs": [
+              "For a video you want to watch on a phone, start with a format the device and playback application support. MP4 with common H.264 video and AAC audio is often a useful compatibility baseline. The exact codec profile, resolution and operating-system version still matter. Test one file before downloading many large videos.",
+              "MP4 names a container, not one fixed video encoding. A downloaded MP4 may contain H.264, HEVC or another track. Both video and audio must be supported for a complete playback experience."
+            ]
+          }
+        ],
+        "updated": "2026-10-30",
+        "publishedAt": "2026-10-30"
+      },
+      "fr": {
+        "status": "ready",
+        "title": "Télécharger une vidéo X",
+        "description": "Télécharger une vidéo X : publications publiques autorisées à vérifier. MP4 et MP3 selon les formats accessibles, hors comptes protégés et contenus privés.",
+        "heading": "Enregistrer une vidéo X autorisée",
+        "intro": "Partez de l’adresse d’une publication X contenant une vidéo, avec l’accord de son créateur. Une image ou un aperçu de lien n’est pas forcément une vidéo lisible. Il faut établir les médias disponibles pour cette publication précise.",
+        "instructions": [
+          "Ouvrez votre publication publique ou celle dont le téléchargement est autorisé, puis copiez son lien individuel. Ne fournissez ni profil, ni fil, ni identifiants de compte.",
+          "Collez le lien et effectuez la vérification humaine habituelle de VidFetch si elle est demandée. L’analyse des métadonnées ne garantit pas la réussite du transfert.",
+          "Choisissez un véritable format MP4, ou MP3 si une piste sonore est disponible. Lancez le téléchargement et gardez la page ouverte pendant la préparation et la file habituelle."
+        ],
+        "supported": [
+          "Seules les publications vidéo publiques autorisées, lisibles par le serveur sans compte sur la plateforme, peuvent être retenues. Un échantillon réussi ne démontre pas le fonctionnement pour tous les liens.",
+          "Le MP4 doit être vérifié comme un vrai conteneur vidéo, et le MP3 doit posséder une piste audio MP3. Changer une extension ne prouve pas une conversion réussie."
+        ],
+        "limits": [
+          "Les contenus privés, stories, comptes protégés et publications supprimées ne sont pas pris en charge. Ne fournissez ni cookie de compte, ni mot de passe, ni jeton d’authentification.",
+          "Le moteur limite un fichier à 256 Mio et sa durée à 30 minutes ; une opération expire après 10 minutes. La passerelle publique peut appliquer une taille configurée plus basse. La réponse affichée fait foi.",
+          "Le quota anonyme est de 8 préparations au plus par jour UTC et de 1 Gio réservé par identité ; les deux limites s’appliquent. Le MP3 utilise 192 kbps. Une préparation échouée peut consommer une réservation."
+        ],
+        "faqs": [
+          {
+            "question": "Puis-je enregistrer un contenu privé ou protégé ?",
+            "answer": "Non. Les contenus privés, stories, comptes protégés et publications supprimées ne sont pas pris en charge. Ne transmettez jamais de mot de passe ou de cookie de compte à cet outil."
+          },
+          {
+            "question": "VidFetch retire-t-il un filigrane ?",
+            "answer": "Non. La vidéo est enregistrée telle que la plateforme la fournit. VidFetch ne retire pas un filigrane déjà incrusté dans l’image."
+          },
+          {
+            "question": "Pourquoi le transfert échoue-t-il après une analyse réussie ?",
+            "answer": "L’accès peut changer et le transfert être refusé après lecture des métadonnées. Connexion requise, limitation de débit, capacité de la file et quotas peuvent empêcher l’opération. Ne contournez pas un blocage de plateforme."
+          },
+          {
+            "question": "Une publication publique est-elle librement réutilisable ?",
+            "answer": "Non. Utilisez vos publications ou obtenez une autorisation explicite. La visibilité publique ne transfère ni droits d’auteur, ni droits musicaux, ni permission de republier."
+          }
+        ],
+        "relatedGuides": [
+          "mp4-vs-webm",
+          "video-download-fails",
+          "video-format-smartphone"
+        ],
+        "sections": {
+          "steps": "Utiliser un lien autorisé",
+          "formats": "Formats à vérifier et limites appliquées",
+          "faq": "Questions sur les téléchargements autorisés"
+        },
+        "details": [
+          {
+            "heading": "Publications X contenant une vidéo native",
+            "paragraphs": [
+              "Utilisez l’adresse individuelle /status/. Un lien externe ou un aperçu animé ne démontre pas la présence d’une vidéo native téléchargeable. Comptes protégés, publications supprimées et demandes de connexion restent non pris en charge. Testez x.com et un lien twitter.com ordinaire si nécessaire, sans supposer que changer de domaine modifie les règles d’accès."
+            ]
+          },
+          {
+            "heading": "Pourquoi un lien public peut échouer",
+            "paragraphs": [
+              "Une page publique peut encore demander une connexion, être limitée selon le pays ou l’âge, ou refuser une adresse de centre de données. Le créateur peut supprimer ou restreindre la vidéo entre l’analyse et le transfert. Modifier l’écriture du lien ne résout pas ces situations. Si l’accès est bloqué, ce cas doit rester non pris en charge.",
+              "N’ajoutez ni cookie de compte, ni proxy résidentiel, ni modification d’empreinte du navigateur. La procédure emploie le site public et ses contrôles habituels. Si la plateforme exige une connexion, le test échoue : l’opérateur doit noter cette limite et réduire la promesse ou renoncer à publier la page."
+            ]
+          },
+          {
+            "heading": "Choisir entre MP4 et MP3",
+            "paragraphs": [
+              "MP4 est un conteneur. Vérifiez que le fichier possède une piste vidéo, une durée plausible et le son attendu. Un enregistrement silencieux peut être une vidéo valable, mais ne fournit pas de piste sonore à extraire. Il ne faut pas proposer du MP3 pour ce cas.",
+              "Lorsque le moteur propose une conversion, le MP3 est une nouvelle sortie audio. Le réglage de 192 kbps vise un débit d’encodage ; il ne mesure pas la qualité originale. Il ne restaure pas les détails perdus. Gardez la source et écoutez le résultat au lieu de vous fier au nom ou à la taille du fichier."
+            ]
+          },
+          {
+            "heading": "Retrouver le fichier sur téléphone",
+            "paragraphs": [
+              "Le téléchargement arrive généralement dans Fichiers ou Téléchargements. Sur iPhone, une vidéo compatible peut ensuite être partagée vers Photos. Sur Android, le gestionnaire de fichiers peut proposer une importation ou un partage. Les menus dépendent du navigateur et du système. Le son reste souvent dans le gestionnaire de fichiers ou un lecteur audio.",
+              "Autorisez l’enregistrement local si votre navigateur le demande, sans donner accès à un compte de plateforme. Si le résultat est introuvable, consultez d’abord la liste des téléchargements du navigateur. Relancer une préparation consomme le même quota et ne résout pas forcément un problème de lecture."
+            ]
+          },
+          {
+            "heading": "Ce que devient le lien",
+            "paragraphs": [
+              "Le formulaire envoie le lien canonique à VidFetch pour analyse. La passerelle contrôle la vérification humaine, la preuve d’accès du navigateur, les quotas et la capacité avant de joindre le moteur. La préparation peut passer par une file et le transfert par un ticket temporaire. VidFetch ne publie pas un hébergement permanent du fichier.",
+              "Utilisez le résultat dans les limites de votre autorisation. Une vidéo publique peut contenir l’image d’autres personnes, de la musique ou des informations confidentielles. Enregistrer une copie ne supprime pas leurs droits. Si le créateur restreint l’accès, demandez-lui un fichier autorisé au lieu de chercher à contourner la restriction."
+            ]
+          },
+          {
+            "heading": "Choisir entre MP4 et MP3 · MP4 / MP3",
+            "paragraphs": [
+              "Pour lire une vidéo sur un téléphone, choisissez une combinaison acceptée par l’appareil et l’application. MP4 avec H.264 et AAC est souvent une base pratique, mais le profil, la résolution et la version du système comptent aussi. Testez un fichier avant de télécharger plusieurs grandes vidéos."
+            ]
+          }
+        ],
+        "updated": "2026-10-30",
+        "publishedAt": "2026-10-30"
+      },
+      "es": {
+        "status": "ready",
+        "title": "Descargar vídeos de X",
+        "description": "Descargar vídeos de X: publicaciones públicas autorizadas por verificar. MP4 y MP3 según los formatos accesibles, sin cuentas protegidas ni acceso privado.",
+        "heading": "Guardar un vídeo autorizado de X",
+        "intro": "Utiliza la dirección individual de una publicación de X que contenga vídeo, con permiso de su autor. Una foto o una vista previa de otra web no demuestra que exista vídeo nativo descargable.",
+        "instructions": [
+          "Abre tu publicación pública o una que tengas permiso para descargar y copia su enlace individual. No envíes perfiles, búsquedas ni datos de acceso.",
+          "Pega el enlace y completa la verificación humana habitual de VidFetch si se solicita. Leer los metadatos no garantiza que se pueda transferir el archivo.",
+          "Elige un MP4 real, o MP3 cuando exista sonido y se ofrezca esa opción. Mantén la página abierta durante la preparación y la cola normal."
+        ],
+        "supported": [
+          "Solo son candidatos los vídeos públicos autorizados accesibles desde el servidor sin cuenta de la plataforma.",
+          "El MP4 debe contener una pista de vídeo; el MP3 debe incluir audio MP3 y una duración válida. Cambiar una extensión no convierte el contenido."
+        ],
+        "limits": [
+          "No se admiten contenido privado, historias, cuentas protegidas ni publicaciones eliminadas. Nunca proporciones contraseñas ni cookies de cuenta.",
+          "El motor aplica hasta 256 MiB, 30 minutos y 10 minutos por operación. La pasarela puede tener un límite de tamaño configurado más bajo; prevalece la respuesta mostrada.",
+          "Hasta 8 preparaciones por día UTC y 1 GiB reservado por identidad anónima; ambas condiciones se aplican. MP3 a 192 kbps. La reserva puede consumirse aunque la preparación falle."
+        ],
+        "faqs": [
+          {
+            "question": "¿Puedo guardar contenido privado?",
+            "answer": "No. El contenido privado, las historias, las cuentas protegidas y las publicaciones eliminadas no están admitidos. Nunca facilites una contraseña o cookie de cuenta."
+          },
+          {
+            "question": "¿VidFetch elimina una marca de agua?",
+            "answer": "No. Guarda el vídeo tal como lo sirve la plataforma y no elimina una marca de agua incrustada en la imagen."
+          },
+          {
+            "question": "¿Por qué falla después del análisis?",
+            "answer": "El acceso puede cambiar o rechazarse la transferencia tras leer los metadatos. La conexión obligatoria, los límites de frecuencia, la cola y las cuotas pueden impedir la operación. No eludas un bloqueo."
+          },
+          {
+            "question": "¿Una publicación pública permite reutilizarla?",
+            "answer": "No. Usa tus publicaciones o consigue autorización explícita. La visibilidad pública no transfiere derechos de autor, musicales ni permiso para volver a publicar."
+          }
+        ],
+        "relatedGuides": [
+          "mp4-vs-webm",
+          "video-download-fails",
+          "video-format-smartphone"
+        ],
+        "sections": {
+          "steps": "Usar un enlace autorizado",
+          "formats": "Formatos por verificar y límites",
+          "faq": "Preguntas sobre descargas autorizadas"
+        },
+        "details": [
+          {
+            "heading": "Vídeo nativo en una publicación de X",
+            "paragraphs": [
+              "Usa una dirección /status/ individual. Los enlaces externos y las vistas animadas no prueban que haya vídeo nativo disponible. Las cuentas protegidas, publicaciones eliminadas y exigencias de inicio de sesión siguen fuera del soporte."
+            ]
+          },
+          {
+            "heading": "Un enlace público puede fallar",
+            "paragraphs": [
+              "Una página pública todavía puede exigir iniciar sesión, restringirse por país o edad o rechazar una dirección de un centro de datos. El autor puede limitar o eliminar el vídeo entre el análisis y la descarga. No se soluciona cambiando la escritura del enlace. Si se bloquea el acceso, ese caso no está admitido. No añadas cookies de cuenta, proxies residenciales ni cambios de huella del navegador para intentar evitarlo."
+            ]
+          },
+          {
+            "heading": "Elegir vídeo o sonido",
+            "paragraphs": [
+              "MP4 es un contenedor: comprueba pistas, duración y reproducción, no solo el nombre. Un vídeo silencioso puede ser válido, pero no permite extraer una pista que no existe. El objetivo de 192 kbps del MP3 es un ajuste de codificación, no la calidad original. No restaura detalles perdidos. Conserva la fuente y escucha el resultado antes de dar por terminada la operación."
+            ]
+          },
+          {
+            "heading": "Guardar en el teléfono",
+            "paragraphs": [
+              "La descarga suele aparecer primero en Archivos o Descargas. En iPhone puedes compartir después un vídeo compatible hacia Fotos. En Android, el gestor de archivos puede ofrecer una importación a la galería. Los menús cambian según el sistema y el navegador. Si no encuentras el archivo, revisa la lista de descargas antes de preparar otro: repetir consume cuota y no arregla necesariamente un códec incompatible."
+            ]
+          },
+          {
+            "heading": "Qué ocurre con el enlace",
+            "paragraphs": [
+              "El formulario envía a VidFetch el enlace canónico para analizarlo. La pasarela comprueba la verificación humana, la prueba de acceso del navegador, las cuotas y la capacidad antes de consultar el motor. La preparación puede pasar por una cola y la transferencia usa un permiso temporal. El resultado no se publica como alojamiento permanente. Guarda solo material autorizado y respeta los derechos de imagen, música y autoría de otras personas."
+            ]
+          },
+          {
+            "heading": "Elegir vídeo o sonido · MP4 / MP3",
+            "paragraphs": [
+              "Para ver un vídeo en un móvil, busca una combinación compatible con el aparato y la aplicación. MP4 con H.264 habitual y AAC suele ser una base práctica. También importan perfil, resolución y versión del sistema. Prueba un archivo antes de descargar muchos vídeos grandes.",
+              "MP4 es un contenedor que puede incluir H.264, HEVC u otros códecs. Tanto vídeo como audio deben ser compatibles. Un archivo reproducible en el navegador puede funcionar de otra manera en la galería o en otra aplicación.",
+              "Si se escucha sin imagen, o al revés, inspecciona cada pista. La guía de contenedores explica qué hay dentro.",
+              "Una referencia en pantalla pequeña puede bastar en 720p o 1080p. Texto detallado, recorte o edición pueden justificar más resolución. No elijas siempre la etiqueta mayor.",
+              "Resolución y fotogramas altos exigen más decodificación. El soporte por hardware varía según equipo y códec; un móvil antiguo puede fallar donde otro reciente funciona bien.",
+              "El tamaño mostrado puede ser estimado. Bitrate variable, pistas separadas y contenedor final cambian el resultado. Deja espacio libre y usa una conexión estable para archivos grandes. Una descarga interrumpida no es un archivo completo. Comprueba la duración y el final antes de añadirlo a una colección.",
+              "Los navegadores suelen usar una zona de descargas o el gestor de archivos del sistema. Guardar no implica añadir el vídeo a Fotos. La ubicación exacta depende del navegador y el sistema.",
+              "Pega un enlace autorizado, analiza y selecciona un formato disponible. Los formatos dependen de la fuente. Restricciones, cuotas y una cola ocupada pueden impedir la preparación sin relación con tu teléfono. La guía de códecs ayuda a comparar opciones."
+            ]
+          }
+        ],
+        "updated": "2026-10-30",
+        "publishedAt": "2026-10-30"
+      },
+      "pt-BR": {
+        "status": "ready",
+        "title": "Baixar vídeo do X",
+        "description": "Baixar vídeo do X: publicações públicas autorizadas para verificar. MP4 e MP3 conforme os formatos acessíveis, sem contas protegidas nem conteúdo privado.",
+        "heading": "Salvar um vídeo autorizado do X",
+        "intro": "Use o endereço individual de uma publicação do X que contenha vídeo, com autorização do autor. Uma foto ou prévia de outro site não demonstra a presença de vídeo nativo disponível.",
+        "instructions": [
+          "Abra sua publicação pública ou uma autorizada e copie o link individual. Não envie perfis, buscas nem dados de acesso.",
+          "Cole o link e faça a verificação humana normal do VidFetch, se solicitada. A análise dos metadados não garante que a transferência funcionará.",
+          "Escolha um MP4 real ou MP3 quando houver uma faixa sonora e a opção for oferecida. Mantenha a página aberta durante a preparação e a fila normal."
+        ],
+        "supported": [
+          "Somente vídeos públicos autorizados que o servidor consiga ler sem conta na plataforma são candidatos.",
+          "MP4 precisa ter faixa de vídeo; MP3 precisa ter áudio MP3 e duração válida. Trocar a extensão não converte o conteúdo."
+        ],
+        "limits": [
+          "Conteúdo privado, stories, contas protegidas e publicações apagadas não são aceitos. Nunca forneça senha nem cookie de conta.",
+          "O motor limita a 256 MiB, 30 minutos e 10 minutos por operação. A configuração da camada pública pode reduzir o tamanho; vale a resposta exibida.",
+          "Até 8 preparações por dia UTC e 1 GiB reservado por identidade anônima; os dois critérios se aplicam. MP3 a 192 kbps. Uma preparação com falha pode consumir a reserva."
+        ],
+        "faqs": [
+          {
+            "question": "Posso salvar conteúdo privado?",
+            "answer": "Não. Conteúdo privado, stories, contas protegidas e publicações apagadas não são aceitos. Nunca informe senha nem cookie de conta."
+          },
+          {
+            "question": "O VidFetch remove marca d’água?",
+            "answer": "Não. O vídeo é salvo como a plataforma o fornece. O VidFetch não remove marca d’água já incorporada à imagem."
+          },
+          {
+            "question": "Por que falha depois da análise?",
+            "answer": "O acesso pode mudar ou a transferência ser recusada após os metadados. Login obrigatório, limites de frequência, fila e cotas podem impedir a operação. Não contorne bloqueios."
+          },
+          {
+            "question": "Uma publicação pública pode ser reutilizada?",
+            "answer": "Não automaticamente. Use publicações suas ou obtenha autorização explícita. A visibilidade pública não transfere direitos autorais, musicais nem permissão para republicar."
+          }
+        ],
+        "relatedGuides": [
+          "mp4-vs-webm",
+          "video-download-fails",
+          "video-format-smartphone"
+        ],
+        "sections": {
+          "steps": "Usar um link autorizado",
+          "formats": "Formatos a verificar e limites",
+          "faq": "Dúvidas sobre downloads autorizados"
+        },
+        "details": [
+          {
+            "heading": "Vídeo nativo em uma publicação do X",
+            "paragraphs": [
+              "Use um endereço /status/ individual. Links externos e prévias animadas não comprovam vídeo nativo disponível. Contas protegidas, publicações apagadas e exigências de login continuam fora do suporte."
+            ]
+          },
+          {
+            "heading": "Por que um link público pode falhar",
+            "paragraphs": [
+              "Uma página pública ainda pode exigir login, aplicar restrições por país ou idade ou recusar um endereço de datacenter. O autor pode limitar ou apagar a gravação entre análise e download. Mudar a escrita do link não resolve esses casos. Se o acesso for bloqueado, trate o caso como não aceito. Não adicione cookies de conta, proxies residenciais nem alterações de identificação do navegador para contornar proteções."
+            ]
+          },
+          {
+            "heading": "Escolher vídeo ou áudio",
+            "paragraphs": [
+              "MP4 é um contêiner. Confira as faixas, a duração e a reprodução, não apenas o nome. Um vídeo sem som pode ser válido, mas não fornece uma faixa para extrair. A meta de 192 kbps do MP3 é uma configuração de codificação, não a qualidade original. Ela não recupera detalhes perdidos. Guarde a fonte e ouça o resultado antes de considerar o trabalho concluído."
+            ]
+          },
+          {
+            "heading": "Encontrar o arquivo no celular",
+            "paragraphs": [
+              "O download costuma aparecer primeiro em Arquivos ou Downloads. No iPhone, depois você pode compartilhar um vídeo compatível para Fotos ou Rolo da Câmera. No Android, o gerenciador pode oferecer uma importação para a galeria. Os menus variam conforme o navegador e o sistema. Confira a lista de downloads antes de preparar outra cópia: repetir usa a cota e nem sempre resolve um codec incompatível."
+            ]
+          },
+          {
+            "heading": "O caminho do link",
+            "paragraphs": [
+              "O formulário envia o link canônico ao VidFetch para análise. A camada pública verifica a confirmação humana, a prova de acesso do navegador, as cotas e a capacidade antes de consultar o motor. A preparação pode passar por uma fila e a transferência usa uma autorização temporária. O resultado não vira hospedagem permanente. Use somente o material autorizado, respeitando imagem, música e direitos autorais de outras pessoas."
+            ]
+          },
+          {
+            "heading": "Escolher vídeo ou áudio · MP4 / MP3",
+            "paragraphs": [
+              "Para assistir no celular, escolha uma combinação aceita pelo aparelho e pelo aplicativo. MP4 com H.264 comum e AAC costuma ser uma referência prática. Perfil, resolução e versão do sistema também importam. Teste um arquivo antes de baixar vários vídeos grandes.",
+              "MP4 é um contêiner: pode guardar H.264, HEVC ou outra faixa. Áudio e vídeo precisam ser compatíveis. Um arquivo que toca no navegador pode ser tratado de outra maneira pela galeria ou por outro aplicativo.",
+              "Se houver som sem imagem, ou o contrário, examine as faixas separadamente. O guia de contêineres explica o conteúdo do arquivo.",
+              "Uma referência em tela pequena pode funcionar em 720p ou 1080p. Texto detalhado, corte ou edição posterior podem exigir mais resolução. Não escolha automaticamente o maior rótulo.",
+              "Resoluções e taxas de quadros elevadas exigem mais decodificação. O suporte por hardware varia; um aparelho antigo pode ter dificuldade onde um recente reproduz sem problemas.",
+              "O tamanho mostrado pode ser estimado. Bitrate variável, faixas separadas e contêiner final alteram o total. Deixe espaço livre. Uma transferência interrompida não produz um arquivo completo: use conexão estável e confira o final antes de arquivar a cópia.",
+              "Navegadores costumam usar uma área de downloads ou o gerenciador de arquivos do sistema. Salvar não significa incluir automaticamente na galeria. O comportamento depende do navegador e do sistema.",
+              "Cole um link autorizado, analise e escolha um formato disponível. As opções dependem da origem. Bloqueios, cotas e uma fila cheia podem impedir a preparação sem relação com o aparelho. O guia de codecs ajuda na seleção.",
+              "Procure primeiro o arquivo completo em Downloads e depois use a opção de importar ou compartilhar oferecida pelo dispositivo.",
+              "MP4 costuma ser um ponto de partida prático para compartilhar vídeos entre dispositivos. WebM pode atender a projetos na web quando os navegadores de destino aceitam seu conteúdo. Nenhuma extensão garante qualidade ou reprodução. Confira o codec de vídeo, o de áudio e o aplicativo que abrirá o arquivo."
+            ]
+          }
+        ],
+        "updated": "2026-10-30",
+        "publishedAt": "2026-10-30"
+      },
+      "id": {
+        "status": "ready",
+        "title": "Download video X",
+        "description": "Download video X: postingan video publik berizin untuk diperiksa. MP4 dan MP3 sesuai format yang dapat diakses, bukan akun terkunci atau konten pribadi.",
+        "heading": "Simpan video X dengan izin",
+        "intro": "Mulai dari alamat postingan X yang berisi video dengan izin pembuatnya. Foto atau pratinjau situs lain bukan bukti adanya video asli yang dapat diunduh. Periksa media untuk postingan itu sendiri.",
+        "instructions": [
+          "Buka postingan publik milik sendiri atau yang diizinkan, lalu salin tautan individualnya. Jangan kirim profil, pencarian, atau data masuk akun.",
+          "Tempel tautan dan selesaikan verifikasi manusia biasa di VidFetch bila diminta. Analisis metadata tidak menjamin transfer akan berhasil.",
+          "Pilih MP4 yang benar-benar tersedia, atau MP3 bila ada trek suara dan pilihan itu ditawarkan. Biarkan halaman terbuka selama persiapan serta antrean normal."
+        ],
+        "supported": [
+          "Hanya postingan video publik berizin yang dapat dibaca server tanpa akun platform menjadi calon dukungan.",
+          "MP4 harus memiliki trek video; MP3 harus memiliki audio MP3 dan durasi yang masuk akal. Mengganti ekstensi bukan konversi."
+        ],
+        "limits": [
+          "Konten pribadi, story, akun terkunci, dan postingan dihapus tidak didukung. Jangan memberikan kata sandi atau kuki akun.",
+          "Mesin membatasi hingga 256 MiB, 30 menit, dan 10 menit per operasi. Pengaturan gerbang publik dapat membatasi ukuran lebih rendah; ikuti respons yang ditampilkan.",
+          "Maksimal 8 persiapan per hari UTC dan cadangan 1 GiB per identitas anonim; kedua syarat berlaku. MP3 memakai 192 kbps. Persiapan gagal dapat tetap memakai cadangan."
+        ],
+        "faqs": [
+          {
+            "question": "Apakah konten pribadi bisa disimpan?",
+            "answer": "Tidak. Konten pribadi, story, akun terkunci, dan postingan dihapus tidak didukung. Jangan pernah memberikan kata sandi atau kuki akun."
+          },
+          {
+            "question": "Apakah bisa download tanpa watermark?",
+            "answer": "VidFetch menyimpan video sebagaimana disediakan platform. Alat ini tidak menghapus watermark yang sudah menyatu dengan gambar."
+          },
+          {
+            "question": "Mengapa gagal setelah analisis?",
+            "answer": "Akses dapat berubah atau transfer ditolak setelah metadata dibaca. Permintaan masuk akun, batas frekuensi, antrean, dan kuota bisa menghentikan operasi. Jangan melewati pemblokiran platform."
+          },
+          {
+            "question": "Apakah postingan publik bebas digunakan ulang?",
+            "answer": "Tidak otomatis. Gunakan postingan sendiri atau dapatkan izin jelas. Visibilitas publik tidak memindahkan hak cipta, hak musik, atau izin menerbitkan ulang."
+          }
+        ],
+        "relatedGuides": [
+          "mp4-vs-webm",
+          "video-download-fails",
+          "video-format-smartphone"
+        ],
+        "sections": {
+          "steps": "Gunakan tautan yang diizinkan",
+          "formats": "Format yang perlu diuji dan batas",
+          "faq": "Pertanyaan unduhan berizin"
+        },
+        "details": [
+          {
+            "heading": "Video asli dalam postingan X",
+            "paragraphs": [
+              "Gunakan alamat /status/ individual. Tautan keluar atau pratinjau animasi bukan bukti video asli tersedia. Akun terkunci, postingan dihapus, dan permintaan masuk akun tetap tidak didukung."
+            ]
+          },
+          {
+            "heading": "Mengapa tautan publik masih gagal",
+            "paragraphs": [
+              "Halaman publik bisa meminta masuk akun, dibatasi menurut negara atau usia, atau menolak alamat pusat data. Pembuat dapat membatasi atau menghapus rekaman antara analisis dan transfer. Mengubah penulisan tautan tidak menyelesaikannya. Jika akses diblokir, perlakukan sebagai tidak didukung. Jangan menambahkan kuki akun, proxy perumahan, atau perubahan sidik peramban untuk melewati perlindungan."
+            ]
+          },
+          {
+            "heading": "Memilih video atau suara",
+            "paragraphs": [
+              "MP4 adalah wadah media. Periksa trek, durasi, dan pemutarannya, bukan nama berkas saja. Video tanpa suara bisa tetap sah, tetapi tidak menyediakan audio untuk diambil. Target MP3 192 kbps merupakan setelan pengodean dan bukan kualitas sumber. Nilai itu tidak memulihkan detail yang sudah hilang. Simpan sumber dan dengarkan hasil sebelum menyatakan proses selesai."
+            ]
+          },
+          {
+            "heading": "Menemukan hasil di ponsel",
+            "paragraphs": [
+              "Unduhan biasanya muncul di File Manager atau Downloads lebih dahulu. Pada iPhone, video yang sesuai kemudian dapat dibagikan ke Photos. Pada Android, pengelola berkas dapat menyediakan impor ke galeri. Menu bergantung pada browser dan sistem. Periksa daftar unduhan sebelum membuat salinan lain. Mengulang memakai kuota yang sama dan belum tentu menyelesaikan masalah codec."
+            ]
+          },
+          {
+            "heading": "Apa yang dilakukan terhadap tautan",
+            "paragraphs": [
+              "Formulir mengirim tautan kanonis ke VidFetch untuk dianalisis. Gerbang memeriksa verifikasi manusia, bukti akses browser, kuota, dan kapasitas sebelum menghubungi mesin. Persiapan dapat masuk antrean dan transfer memakai izin sementara. Hasil bukan layanan penyimpanan publik permanen. Gunakan materi sesuai izin dan hormati hak atas gambar orang lain, musik, serta hak cipta."
+            ]
+          },
+          {
+            "heading": "Memilih video atau suara · MP4 / MP3",
+            "paragraphs": [
+              "Untuk menonton di ponsel, pilih kombinasi yang diterima perangkat dan aplikasinya. MP4 dengan H.264 umum serta AAC sering praktis. Profil codec, resolusi, dan versi sistem tetap penting. Uji satu berkas sebelum mengunduh banyak video berukuran besar.",
+              "MP4 adalah kontainer yang dapat memuat H.264, HEVC, atau trek lain. Video dan audio sama-sama harus didukung. Berkas yang lancar di browser dapat diproses berbeda di galeri maupun aplikasi lain.",
+              "Jika suara ada tetapi gambar tidak, atau sebaliknya, periksa masing-masing trek. Panduan kontainer menjelaskan isi pembungkusnya.",
+              "Referensi singkat di layar kecil dapat cukup pada 720p atau 1080p. Tulisan rinci, pemotongan, atau penyuntingan berikutnya mungkin memerlukan sumber lebih besar. Jangan selalu mengambil label terbesar.",
+              "Resolusi dan laju bingkai tinggi membutuhkan lebih banyak dekode. Dukungan perangkat keras berbeda-beda; ponsel lama dapat kesulitan memutar berkas yang lancar di perangkat baru.",
+              "Ukuran yang ditampilkan dapat berupa perkiraan. Bitrate variabel, trek terpisah, serta kontainer akhir mengubah jumlahnya. Jangan memenuhi seluruh penyimpanan. Unduhan terputus bukan berkas lengkap: pastikan transfer berakhir dan periksa durasi sebelum mengarsipkan.",
+              "Browser biasanya memakai bagian unduhan atau pengelola berkas sistem. Menyimpan video tidak selalu menambahkannya ke galeri. Lokasi dan impor bergantung pada browser serta sistem operasi.",
+              "Tempel tautan berizin, pilih Analisis, lalu format tersedia. Pilihan mengikuti sumber. Pembatasan platform, kuota, dan antrean sibuk dapat menggagalkan persiapan tanpa berkaitan dengan ponsel. Panduan codec membantu memilih.",
+              "Cari berkas lengkap di Unduhan terlebih dahulu, kemudian gunakan fungsi impor atau berbagi yang didukung perangkat.",
+              "MP4 sering menjadi pilihan awal yang praktis untuk memutar video di beragam perangkat. WebM dapat cocok untuk situs jika browser tujuan mendukung isinya. Ekstensi saja tidak menjamin kualitas gambar maupun keberhasilan pemutaran. Periksa codec video, codec audio, dan aplikasi yang akan membuka berkas tersebut.",
+              "Kontainer menyatukan trek dan informasi waktu. Codec memampatkan gambar atau suara di dalamnya. MP4 sering berisi H.264 dan AAC, tetapi dapat memakai kombinasi lain. WebM menggunakan profil Matroska terbatas, termasuk video VP8, VP9 atau AV1 serta audio Vorbis atau Opus.",
+              "Untuk video keluarga yang dibagikan ke ponsel dan komputer, MP4 dengan H.264 dan AAC sering praktis. Namun, perangkat lama atau profil pengodean tertentu tetap dapat gagal. Uji potongan pendek pada perangkat paling lama yang perlu Anda dukung sebelum membagikan seluruh koleksi.",
+              "Situs dapat menawarkan beberapa sumber untuk browser berbeda. Berkas yang lancar di komputer Anda belum tentu diterima aplikasi lain."
+            ]
+          }
+        ],
+        "updated": "2026-10-30",
+        "publishedAt": "2026-10-30"
+      },
+      "de": {
+        "status": "ready",
+        "title": "X-Video herunterladen",
+        "description": "X-Video herunterladen: autorisierte öffentliche Videobeiträge prüfen. MP4 und MP3 je nach erreichbarem Format, ohne geschützte Konten oder private Inhalte.",
+        "heading": "Ein erlaubtes X-Video speichern",
+        "intro": "Nutze die Einzeladresse eines X-Beitrags mit Video und die Erlaubnis des Urhebers. Ein Foto oder eine fremde Linkvorschau belegt kein verfügbares natives Video. Die Medien müssen für genau diesen Beitrag geprüft werden.",
+        "instructions": [
+          "Öffne einen eigenen oder erlaubten öffentlichen Beitrag und kopiere dessen Einzeladresse. Übermittle weder Profile und Suchseiten noch Kontozugangsdaten.",
+          "Füge den Link ein und erledige bei Bedarf die normale menschliche Prüfung von VidFetch. Eine erfolgreiche Metadatenanalyse garantiert noch keine Übertragung.",
+          "Wähle ein wirklich angebotenes MP4 oder bei vorhandener Tonspur eine MP3-Option. Lass die Seite während Vorbereitung und normaler Warteschlange geöffnet."
+        ],
+        "supported": [
+          "Nur erlaubte öffentliche Videobeiträge, die der Server ohne Plattformkonto lesen kann, kommen infrage.",
+          "MP4 muss eine Videospur enthalten; MP3 muss MP3-Audio und eine plausible Dauer haben. Eine andere Dateiendung beweist keine Umwandlung."
+        ],
+        "limits": [
+          "Private Inhalte, Storys, geschützte Konten und gelöschte Beiträge werden nicht unterstützt. Gib niemals Passwörter oder Kontocookies an.",
+          "Die Engine begrenzt auf 256 MiB, 30 Minuten und 10 Minuten je Vorgang. Das öffentliche Gateway kann eine kleinere Größenbegrenzung haben; die angezeigte Antwort ist maßgeblich.",
+          "Höchstens 8 Vorbereitungen pro UTC-Tag und 1 GiB Reservierung je anonymer Identität; beide Grenzen gelten. MP3 verwendet 192 kbps. Eine fehlgeschlagene Vorbereitung kann eine Reservierung verbrauchen."
+        ],
+        "faqs": [
+          {
+            "question": "Kann ich private Inhalte speichern?",
+            "answer": "Nein. Private Inhalte, Storys, geschützte Konten und gelöschte Beiträge werden nicht unterstützt. Gib niemals ein Passwort oder Kontocookie an."
+          },
+          {
+            "question": "Entfernt VidFetch Wasserzeichen?",
+            "answer": "Nein. Das Video wird so gespeichert, wie die Plattform es liefert. VidFetch entfernt kein bereits ins Bild eingebettetes Wasserzeichen."
+          },
+          {
+            "question": "Warum scheitert der Download nach der Analyse?",
+            "answer": "Der Zugriff kann sich ändern oder die Übertragung nach dem Lesen der Metadaten abgelehnt werden. Anmeldung, Anfragelimits, Warteschlange und Kontingente können den Vorgang verhindern. Umgehe keine Plattformsperre."
+          },
+          {
+            "question": "Darf ich einen öffentlichen Beitrag weiterverwenden?",
+            "answer": "Nicht automatisch. Nutze eigene Beiträge oder hole eine ausdrückliche Erlaubnis ein. Öffentliche Sichtbarkeit überträgt weder Urheber- und Musikrechte noch eine Veröffentlichungserlaubnis."
+          }
+        ],
+        "relatedGuides": [
+          "mp4-vs-webm",
+          "video-download-fails",
+          "video-format-smartphone"
+        ],
+        "sections": {
+          "steps": "Einen erlaubten Link verwenden",
+          "formats": "Zu prüfende Formate und Grenzen",
+          "faq": "Fragen zu erlaubten Downloads"
+        },
+        "details": [
+          {
+            "heading": "Natives Video in einem X-Beitrag",
+            "paragraphs": [
+              "Verwende die Einzeladresse mit /status/. Externe Links und animierte Vorschauen beweisen kein verfügbares natives Video. Geschützte Konten, gelöschte Beiträge und Anmeldeanforderungen bleiben ausgeschlossen."
+            ]
+          },
+          {
+            "heading": "Warum öffentliche Links scheitern können",
+            "paragraphs": [
+              "Auch eine öffentliche Seite kann eine Anmeldung verlangen, Länder- oder Altersgrenzen anwenden oder eine Rechenzentrumsadresse ablehnen. Der Urheber kann die Aufnahme zwischen Analyse und Download löschen oder einschränken. Eine andere Schreibweise des Links löst das nicht. Bei blockiertem Zugriff gilt der Fall als nicht unterstützt. Nutze keine Kontocookies, Wohnanschluss-Proxys oder veränderte Browserfingerabdrücke zur Umgehung."
+            ]
+          },
+          {
+            "heading": "Video und Ton richtig prüfen",
+            "paragraphs": [
+              "MP4 ist ein Container. Prüfe Spuren, Dauer und Wiedergabe statt nur den Dateinamen. Ein stummes Video kann gültig sein, bietet aber keine Tonspur zum Extrahieren. Die MP3-Zielrate von 192 kbps ist eine Kodierungseinstellung und keine Angabe zur Quellqualität. Sie stellt verlorene Details nicht wieder her. Bewahre die Quelle auf und höre das Ergebnis an."
+            ]
+          },
+          {
+            "heading": "Die Datei auf dem Handy finden",
+            "paragraphs": [
+              "Downloads erscheinen meist zunächst unter Dateien oder Downloads. Auf dem iPhone lässt sich ein kompatibles Video anschließend nach Fotos teilen. Unter Android bietet der Dateimanager möglicherweise einen Import in die Galerie an. Menüs unterscheiden sich nach Browser und System. Prüfe vor einer erneuten Vorbereitung die Downloadliste. Wiederholungen verbrauchen dasselbe Kontingent und beheben nicht unbedingt ein Codecproblem."
+            ]
+          },
+          {
+            "heading": "Wie der Link verarbeitet wird",
+            "paragraphs": [
+              "Das Formular sendet den kanonischen Link zur Analyse an VidFetch. Das Gateway kontrolliert menschliche Prüfung, Browserzugangsnachweis, Kontingente und Kapazität, bevor die Engine arbeitet. Eine Vorbereitung kann warten; die Übertragung nutzt ein zeitlich begrenztes Ticket. Das Ergebnis wird nicht dauerhaft öffentlich gehostet. Beachte neben dem Urheberrecht auch Musik- und Persönlichkeitsrechte und bleibe innerhalb deiner Erlaubnis."
+            ]
+          },
+          {
+            "heading": "Video und Ton richtig prüfen · MP4 / MP3",
+            "paragraphs": [
+              "Wähle für ein Handyvideo eine Kombination, die Gerät und Wiedergabe-App unterstützen. MP4 mit üblichem H.264 und AAC ist oft eine praktische Basis. Codec-Profil, Auflösung und Betriebssystemversion bleiben wichtig. Teste eine Datei, bevor du viele große Videos herunterlädst.",
+              "MP4 bezeichnet den Container; darin können H.264, HEVC oder andere Spuren liegen. Video und Audio müssen beide unterstützt werden. Eine Datei, die im Browser läuft, kann in Galerie oder anderer App anders behandelt werden.",
+              "Für einen Referenzclip auf kleinem Bildschirm können 720p oder 1080p reichen. Kleine Schrift, Zuschnitt und spätere Bearbeitung können größere Quellen rechtfertigen. Wähle nicht automatisch die höchste Bezeichnung.",
+              "Hohe Auflösung und Bildrate verlangen mehr Decodierung. Hardwareunterstützung unterscheidet sich zwischen Geräten. Ein altes Handy kann bei einer Datei stocken, die ein neueres problemlos abspielt.",
+              "Die angegebene Größe kann geschätzt sein. Variable Bitrate, getrennte Spuren und der endgültige Container verändern das Ergebnis. Lass freien Speicher. Ein abgebrochener Download ist keine vollständige Datei: Nutze eine stabile Verbindung und kontrolliere das Ende vor der Archivierung.",
+              "Browser verwenden meist einen Downloadbereich oder den Dateimanager des Systems. Speichern fügt die Datei nicht zwingend zur Fotobibliothek hinzu. Ort und Import hängen von Browser und Betriebssystem ab.",
+              "Füge einen erlaubten Link ein, analysiere ihn und wähle ein verfügbares Format. Die Formate stammen aus der Quelle. Beschränkungen, Quoten und eine volle Warteschlange können unabhängig vom Handy stören. Der Codec-Ratgeber hilft bei der Auswahl.",
+              "Suche zuerst die fertige Datei im Downloadbereich und nutze dann die vom Gerät unterstützte Import- oder Teilen-Funktion.",
+              "MP4 ist häufig ein sinnvoller Ausgangspunkt für Videos auf verschiedenen Geräten. WebM kann für eine Website passen, wenn die vorgesehenen Browser den Inhalt unterstützen. Die Endung allein garantiert weder Bildqualität noch Wiedergabe. Prüfe Video- und Audiocodec sowie die Anwendung, die die Datei öffnen soll.",
+              "Der Container hält Spuren und Zeitinformationen zusammen. Ein Codec komprimiert Bild oder Ton. MP4 enthält oft H.264 und AAC, kann aber andere Kombinationen aufnehmen. WebM verwendet ein eingeschränktes Matroska-Profil, etwa mit VP8, VP9 oder AV1 sowie Vorbis oder Opus.",
+              "Für Familienvideos auf Handys und Computern ist MP4 mit H.264 und AAC oft praktisch. Das garantiert keine Unterstützung ungewöhnlicher Profile oder alter Geräte. Teste einen kurzen Ausschnitt auf dem ältesten benötigten Gerät, bevor du eine ganze Sammlung verschickst."
+            ]
+          }
+        ],
+        "updated": "2026-10-30",
+        "publishedAt": "2026-10-30"
+      },
+      "it": {
+        "status": "ready",
+        "title": "Scaricare video da X",
+        "description": "Scaricare video da X: post pubblici autorizzati da verificare. MP4 e MP3 secondo i formati accessibili, senza account protetti o contenuti privati.",
+        "heading": "Salvare un video X autorizzato",
+        "intro": "Parti dall’indirizzo individuale di un post X con video e dal permesso dell’autore. Una foto o anteprima di un altro sito non dimostra la disponibilità di un video nativo. Occorre controllare quel preciso post.",
+        "instructions": [
+          "Apri un post pubblico tuo o autorizzato e copia il suo link individuale. Non fornire profili, ricerche o credenziali.",
+          "Incolla il link e completa la normale verifica umana di VidFetch, se richiesta. Leggere i metadati non garantisce il trasferimento.",
+          "Scegli un MP4 realmente disponibile oppure MP3 se esiste una traccia sonora e viene offerta l’opzione. Tieni aperta la pagina durante preparazione e coda."
+        ],
+        "supported": [
+          "Sono candidati soltanto video pubblici autorizzati leggibili dal server senza un account della piattaforma.",
+          "MP4 deve contenere una traccia video; MP3 deve avere audio MP3 e durata plausibile. Cambiare estensione non converte il contenuto."
+        ],
+        "limits": [
+          "Contenuti privati, storie, account protetti e post eliminati non sono supportati. Non fornire password né cookie di account.",
+          "Il motore limita a 256 MiB, 30 minuti e 10 minuti per operazione. La configurazione del gateway pubblico può ridurre le dimensioni; vale la risposta mostrata.",
+          "Fino a 8 preparazioni per giorno UTC e 1 GiB riservato per identità anonima; valgono entrambi i limiti. MP3 a 192 kbps. Una preparazione fallita può consumare la prenotazione."
+        ],
+        "faqs": [
+          {
+            "question": "Posso salvare contenuti privati?",
+            "answer": "No. Contenuti privati, storie, account protetti e post eliminati non sono supportati. Non fornire mai password o cookie di account."
+          },
+          {
+            "question": "VidFetch rimuove la filigrana?",
+            "answer": "No. Salva il video come viene fornito dalla piattaforma. Non rimuove una filigrana già incorporata nell’immagine."
+          },
+          {
+            "question": "Perché fallisce dopo l’analisi?",
+            "answer": "L’accesso può cambiare o il trasferimento essere rifiutato dopo i metadati. Accesso obbligatorio, limiti di frequenza, coda e quote possono impedire l’operazione. Non aggirare un blocco."
+          },
+          {
+            "question": "Un post pubblico si può riutilizzare?",
+            "answer": "Non automaticamente. Usa post tuoi o ottieni un’autorizzazione esplicita. La visibilità pubblica non trasferisce diritti d’autore, musicali o permesso di ripubblicare."
+          }
+        ],
+        "relatedGuides": [
+          "mp4-vs-webm",
+          "video-download-fails",
+          "video-format-smartphone"
+        ],
+        "sections": {
+          "steps": "Usare un link autorizzato",
+          "formats": "Formati da verificare e limiti",
+          "faq": "Domande sui download autorizzati"
+        },
+        "details": [
+          {
+            "heading": "Video nativo in un post X",
+            "paragraphs": [
+              "Usa un indirizzo individuale /status/. Link esterni e anteprime animate non dimostrano la disponibilità di video nativo. Account protetti, post eliminati e richieste di accesso restano esclusi."
+            ]
+          },
+          {
+            "heading": "Perché un link pubblico può fallire",
+            "paragraphs": [
+              "Una pagina pubblica può richiedere accesso, imporre limiti per paese o età oppure rifiutare un indirizzo di datacenter. L’autore può limitare o cancellare la registrazione tra analisi e download. Cambiare la forma del link non risolve questi casi. Se l’accesso è bloccato, considera il caso non supportato. Non aggiungere cookie di account, proxy residenziali o modifiche all’impronta del browser per aggirare le protezioni."
+            ]
+          },
+          {
+            "heading": "Scegliere video o audio",
+            "paragraphs": [
+              "MP4 è un contenitore. Controlla tracce, durata e riproduzione, non soltanto il nome. Un video muto può essere valido, ma non offre una traccia sonora da estrarre. Il valore MP3 di 192 kbps è un obiettivo di codifica, non la qualità originale. Non recupera dettagli persi. Conserva la fonte e ascolta il risultato prima di considerare concluso il lavoro."
+            ]
+          },
+          {
+            "heading": "Trovare il file sul telefono",
+            "paragraphs": [
+              "Il download appare di solito prima in File o Download. Su iPhone puoi poi condividere un video compatibile verso Foto. Su Android il gestore di file può proporre l’importazione nella galleria. I menu dipendono dal sistema e dal browser. Controlla l’elenco dei download prima di preparare un’altra copia: ripetere consuma la stessa quota e non risolve necessariamente un codec incompatibile."
+            ]
+          },
+          {
+            "heading": "Il percorso del link",
+            "paragraphs": [
+              "Il modulo invia il link canonico a VidFetch per l’analisi. Il gateway controlla verifica umana, prova di accesso del browser, quote e capacità prima di contattare il motore. La preparazione può passare per una coda e il trasferimento usa un permesso temporaneo. Il risultato non viene ospitato pubblicamente in modo permanente. Rispetta l’autorizzazione, il diritto d’autore e i diritti su musica e immagini altrui."
+            ]
+          },
+          {
+            "heading": "Scegliere video o audio · MP4 / MP3",
+            "paragraphs": [
+              "Per guardare un video sul telefono, scegli una combinazione supportata dal dispositivo e dall’applicazione. MP4 con H.264 comune e AAC è spesso pratico. Profilo, risoluzione e versione del sistema restano importanti. Prova un file prima di scaricare molti video grandi.",
+              "MP4 è un contenitore e può contenere H.264, HEVC o altre tracce. Audio e video devono essere entrambi compatibili. Un file riproducibile nel browser può essere gestito diversamente nella galleria o in un’altra applicazione.",
+              "Se senti audio senza immagine, o viceversa, ispeziona le tracce individuali. La guida ai contenitori spiega il contenuto.",
+              "Un riferimento su piccolo schermo può bastare a 720p o 1080p. Testo dettagliato, ritaglio o montaggio possono richiedere una fonte maggiore. Non scegliere automaticamente il valore più alto.",
+              "Risoluzione e frequenza elevate richiedono più decodifica. Il supporto hardware varia; un vecchio telefono può faticare con un file fluido su uno recente.",
+              "La dimensione indicata può essere stimata. Bitrate variabile, tracce separate e contenitore finale modificano il totale. Lascia spazio libero. Un download interrotto non è un file completo: usa una connessione stabile e verifica durata e fine prima di archiviare.",
+              "I browser usano spesso un’area download o il gestore file del sistema. Salvare non aggiunge necessariamente il video alla raccolta fotografica. Posizione e importazione dipendono da browser e sistema operativo.",
+              "Incolla un link autorizzato, analizza e scegli un formato disponibile. Le opzioni dipendono dalla fonte. Restrizioni, quote e coda occupata possono bloccare la preparazione indipendentemente dal telefono. La guida ai codec aiuta nella scelta.",
+              "Cerca prima il file completato in Download, poi usa la funzione di importazione o condivisione prevista dal dispositivo.",
+              "MP4 è spesso un punto di partenza pratico per riprodurre un video su dispositivi diversi. WebM può essere adatto a un sito se conosci il supporto dei browser destinatari. L’estensione non garantisce qualità o riproduzione. Controlla codec video, codec audio e applicazione che dovrà aprire il file.",
+              "Il contenitore riunisce tracce e informazioni temporali. Il codec comprime immagini o suono. MP4 contiene spesso H.264 e AAC, ma ammette altre combinazioni. WebM usa un profilo limitato di Matroska, con video VP8, VP9 o AV1 e audio Vorbis oppure Opus."
+            ]
+          }
+        ],
+        "updated": "2026-10-30",
+        "publishedAt": "2026-10-30"
+      },
+      "ar": {
+        "status": "ready",
+        "title": "تنزيل فيديو X",
+        "description": "تنزيل فيديو X: فحص منشورات فيديو عامة بإذن صاحبها. MP4 وMP3 بحسب الصيغ المتاحة، دون حسابات محمية أو محتوى خاص أو تجاوز تسجيل الدخول.",
+        "heading": "حفظ فيديو X بإذن صاحبه",
+        "intro": "ابدأ بعنوان منشور X محدد يحتوي على فيديو وبإذن منشئه. لا تثبت الصورة أو معاينة رابط خارجي وجود فيديو أصلي قابل للتنزيل. يجب فحص الوسائط الخاصة بالمنشور نفسه.",
+        "instructions": [
+          "افتح منشورك العام أو منشورًا مأذونًا بتنزيله وانسخ رابطه الفردي. لا ترسل رابط ملف شخصي أو نتائج بحث أو بيانات دخول.",
+          "ألصق الرابط وأكمل التحقق البشري المعتاد في VidFetch عند طلبه. نجاح قراءة البيانات الوصفية لا يضمن نجاح النقل.",
+          "اختر ملف MP4 متاحًا فعليًا أو MP3 عندما يوجد مسار صوتي ويُعرض هذا الخيار. أبق الصفحة مفتوحة خلال التحضير والانتظار في الطابور المعتاد."
+        ],
+        "supported": [
+          "المنشورات المرشحة هي فيديوهات عامة مأذون بها يستطيع الخادم قراءتها دون حساب على المنصة.",
+          "يجب أن يحتوي MP4 على مسار فيديو، وأن يحتوي MP3 على صوت MP3 ومدة معقولة. تغيير امتداد الملف لا يحوّل محتواه."
+        ],
+        "limits": [
+          "المحتوى الخاص والقصص والحسابات المحمية والمنشورات المحذوفة غير مدعومة. لا تقدم كلمة مرور أو ملف ارتباط لحساب.",
+          "يحد المحرك الملف حتى 256 MiB والمدة حتى 30 دقيقة، وتنتهي العملية بعد 10 دقائق. قد تضبط البوابة العامة حدًا أقل للحجم؛ اتبع الاستجابة المعروضة.",
+          "حتى 8 عمليات تحضير في اليوم بتوقيت UTC وحجز 1 GiB لكل هوية مجهولة؛ يطبق الحدان معًا. يستخدم MP3 معدل 192 kbps. قد تستهلك العملية الفاشلة حجزًا."
+        ],
+        "faqs": [
+          {
+            "question": "هل يمكن حفظ محتوى خاص؟",
+            "answer": "لا. المحتوى الخاص والقصص والحسابات المحمية والمنشورات المحذوفة غير مدعومة. لا تقدم أبدًا كلمة مرور أو ملف ارتباط لحساب."
+          },
+          {
+            "question": "هل يزيل VidFetch علامة مائية؟",
+            "answer": "لا. يحفظ الفيديو كما توفره المنصة، ولا يزيل علامة مائية مدمجة أصلًا داخل الصورة."
+          },
+          {
+            "question": "لماذا يفشل النقل بعد التحليل؟",
+            "answer": "قد يتغير الوصول أو يُرفض النقل بعد قراءة البيانات الوصفية. تسجيل الدخول الإلزامي وحدود الطلبات والطابور والحصص قد تمنع العملية. لا تتجاوز حظر المنصة."
+          },
+          {
+            "question": "هل يمكن إعادة استخدام منشور عام؟",
+            "answer": "ليس تلقائيًا. استخدم منشوراتك أو احصل على إذن صريح. الإتاحة العامة لا تنقل حقوق النشر أو الموسيقى أو إذن إعادة النشر."
+          }
+        ],
+        "relatedGuides": [
+          "mp4-vs-webm",
+          "video-download-fails",
+          "video-format-smartphone"
+        ],
+        "sections": {
+          "steps": "استخدام رابط مأذون به",
+          "formats": "الصيغ المطلوب فحصها والحدود",
+          "faq": "أسئلة عن التنزيل بإذن"
+        },
+        "details": [
+          {
+            "heading": "فيديو أصلي داخل منشور X",
+            "paragraphs": [
+              "استخدم عنوان /status/ الفردي. الروابط الخارجية والمعاينات المتحركة لا تثبت وجود فيديو أصلي متاح. الحسابات المحمية والمنشورات المحذوفة والحالات التي تتطلب تسجيل الدخول تبقى غير مدعومة."
+            ]
+          },
+          {
+            "heading": "لماذا قد يفشل رابط عام",
+            "paragraphs": [
+              "قد تطلب صفحة عامة تسجيل الدخول أو تطبق قيود البلد والعمر أو ترفض عنوان مركز بيانات. يستطيع المنشئ تقييد التسجيل أو حذفه بين التحليل والتنزيل. لا يعالج تغيير كتابة الرابط هذه الحالات. إذا حُجب الوصول، فالحالة غير مدعومة. لا تضف ملفات ارتباط لحساب أو وكلاء سكنيين أو تعديلات على بصمة المتصفح لتجاوز حماية المنصة."
+            ]
+          },
+          {
+            "heading": "اختيار الفيديو أو الصوت",
+            "paragraphs": [
+              "MP4 حاوية وسائط. افحص المسارات والمدة والتشغيل ولا تكتف باسم الملف. قد يكون الفيديو الصامت صالحًا، لكنه لا يوفر مسارًا صوتيًا للاستخراج. معدل MP3 المستهدف، وهو 192 kbps، إعداد للترميز وليس قياسًا لجودة المصدر. لا يعيد التفاصيل المفقودة. احتفظ بالمصدر واستمع إلى الناتج قبل اعتبار المهمة مكتملة."
+            ]
+          },
+          {
+            "heading": "العثور على الملف في الهاتف",
+            "paragraphs": [
+              "يظهر التنزيل عادة أولًا في تطبيق الملفات أو مجلد التنزيلات. على آيفون يمكن بعد ذلك مشاركة فيديو متوافق إلى الصور. وعلى أندرويد قد يوفر مدير الملفات استيرادًا إلى المعرض. تختلف القوائم بحسب النظام والمتصفح. افحص قائمة التنزيلات قبل تحضير نسخة أخرى؛ فالتكرار يستهلك الحصة نفسها وقد لا يحل مشكلة ترميز غير متوافق."
+            ]
+          },
+          {
+            "heading": "ماذا يحدث للرابط",
+            "paragraphs": [
+              "يرسل النموذج الرابط الأساسي إلى VidFetch لتحليله. تتحقق البوابة من التحقق البشري وإثبات وصول المتصفح والحصص والسعة قبل الاتصال بالمحرك. قد يمر التحضير بطابور انتظار، ويستخدم النقل تصريحًا مؤقتًا. لا يصبح الناتج استضافة عامة دائمة. التزم بالإذن الممنوح واحترم حقوق النشر والموسيقى وصور الأشخاص الآخرين."
+            ]
+          },
+          {
+            "heading": "اختيار الفيديو أو الصوت · MP4 / MP3",
+            "paragraphs": [
+              "لمشاهدة فيديو على الهاتف، اختر مجموعة تدعمها قدرات الجهاز والتطبيق. كثيرًا ما يكون MP4 مع H.264 المعتاد وAAC نقطة عملية. ويظل ملف تعريف الترميز والدقة وإصدار النظام مهمًا. اختبر ملفًا واحدًا قبل تنزيل مجموعة من الفيديوهات الكبيرة.",
+              "MP4 حاوية يمكن أن تحمل H.264 أو HEVC أو غيرهما. يجب أن يكون الصوت والفيديو كلاهما مدعومين. وقد يعامل معرض الصور أو تطبيق آخر الملف بطريقة تختلف عن المتصفح.",
+              "إذا سمعت الصوت دون الصورة، أو رأيت الصورة دون الصوت، افحص كل مسار على حدة. يشرح دليل الحاويات ما يوجد داخل الملف ولماذا لا تكفي نهايته لتحديد التوافق.",
+              "قد يكفي 720p أو 1080p لمرجع على شاشة صغيرة. النص الدقيق أو القص أو التحرير لاحقًا قد يبرر مصدرًا أكبر. لا تختَر أعلى رقم تلقائيًا قبل معرفة ما تحتاج إليه.",
+              "تحتاج الدقات ومعدّلات الإطارات المرتفعة إلى عمل أكثر لفك الترميز. يختلف الدعم العتادي بين الأجهزة؛ قد يتعثر هاتف قديم في ملف يعمل بسلاسة على هاتف حديث، رغم أن كليهما يفتح الحاوية نفسها.",
+              "قد يكون الحجم المعروض تقديرًا. يغيّر معدّل البت المتغير والمسارات المنفصلة والحاوية النهائية النتيجة. اترك مساحة حرة بدل ملء الهاتف تمامًا. التنزيل المنقطع ليس ملفًا كاملًا؛ استخدم اتصالًا ثابتًا وافحص المدة والنهاية قبل إضافة الملف إلى أرشيفك.",
+              "تضع المتصفحات الملفات عادة في قسم التنزيلات أو مدير ملفات النظام. الحفظ لا يضيف الفيديو تلقائيًا دائمًا إلى مكتبة الصور. يختلف المكان والاستيراد بحسب المتصفح والنظام.",
+              "الصق رابطًا مسموحًا، وحلّله، ثم اختر صيغة متاحة. الخيارات تتبع المصدر. قد تمنع القيود أو الحصص أو ازدحام قائمة الانتظار التجهيز، بصرف النظر عن هاتفك. يساعد دليل الترميزات في الاختيار.",
+              "ابحث عن الملف المكتمل في التنزيلات أولًا، ثم استخدم وظيفة الاستيراد أو المشاركة التي يدعمها الجهاز لإضافته إلى مكتبة الوسائط.",
+              "غالبًا ما يكون MP4 نقطة بداية مناسبة لمشاركة الفيديو بين أجهزة مختلفة. وقد يناسب WebM موقعًا على الويب إذا كانت المتصفحات المستهدفة تدعم محتواه. لا يضمن امتداد الملف وحده جودة الصورة أو نجاح التشغيل. افحص ترميز الفيديو والصوت، ثم جرّب الملف في التطبيق الذي سيُستخدم لفتحه.",
+              "تجمع الحاوية المسارات ومعلومات التوقيت، بينما يضغط الترميز الصور أو الصوت. يحتوي MP4 كثيرًا على H.264 وAAC، لكنه يقبل مجموعات أخرى. ويستند WebM إلى ملف تعريف محدود من Matroska، مع فيديو VP8 أو VP9 أو AV1 وصوت Vorbis أو Opus.",
+              "لمقطع عائلي يُرسل إلى هواتف وكمبيوترات، قد يكون MP4 مع H.264 وAAC خيارًا عمليًا. لكنه ليس ضمانًا لكل جهاز قديم أو إعداد غير معتاد. اختبر عينة قصيرة على أقدم جهاز تحتاج إلى دعمه قبل إرسال المجموعة كاملة."
+            ]
+          }
+        ],
+        "updated": "2026-10-30",
+        "publishedAt": "2026-10-30"
+      }
     }
   }
 ]
