@@ -57,7 +57,7 @@ Le nombre et le volume sont appliqués ensemble ; huit préparations ne sont pas
 - Build de production OVH avec Webpack : passé. Turbopack local est bloqué sur son port interne également sur main ; le pipeline Linux garde le build normal.
 - `npm run seo-check` : **50 URL, PASS**. Aucun candidat fermé dans le sitemap, aucun noindex introduit sur le contenu public.
 - `npm run test:i18n` : passé, incluant les huit accueils, 16 transferts TikTok localisés et erreurs de quota, RTL/sélecteurs et statuts 404 des 16 nouveaux chemins fermés.
-- Tests d’opérateur : fixtures seulement, aucune exécution de production. CI finale et vérifications communes : lien ajouté après exécution.
+- Tests d’opérateur : fixtures seulement, aucune exécution de production. Passerelle et charge existantes : mêmes sources que main/A (3 et 5 tests passés sur A). La suite Python de déploiement complète est exécutée en CI Linux ; elle reste trop longue dans les conteneurs locaux. [CI de la PR B](https://github.com/aouirdani/vidfetch/actions?query=branch%3Afeat%2Finstagram-x-verification) : la validation définitive est celle des checks du dernier commit.
 
 ## Publication et actions humaines
 
