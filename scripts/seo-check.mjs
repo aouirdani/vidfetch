@@ -125,7 +125,9 @@ try {
     }
     for(const href of data.links.filter(h=>h?.startsWith('/') && !h.startsWith('//'))) {
       const target=new URL(href,origin); target.hash=''; target.search='';
-      assert.ok(pages.has(target.href),`${url}: internal content link outside sitemap: ${target.href}`);
+      if(/^\/local-media\/generated\/(licenses\/(mediabunny|mp3-encoder|lame|gifenc|emscripten|musl|compiler-rt)\.txt|corresponding-source\.tar\.gz)$/.test(target.pathname)) {
+        assert.equal((await request(target.pathname)).status,200,`license/source asset ${target.pathname}`);
+      } else assert.ok(pages.has(target.href),`${url}: internal content link outside sitemap: ${target.href}`);
     }
     if(new URL(url).pathname!=='/') { const other=await request(new URL(url).pathname+'/'); assert.equal(other.status,301,`${url}: trailing slash status`); assert.equal(new URL(other.headers.get('location'),base).pathname,new URL(url).pathname); }
   }

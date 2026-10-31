@@ -1,3 +1,4 @@
+import {toolCopy} from "../local-tools/catalogue";
 import type { Metadata } from "next";
 import { dictionary } from "../i18n/dictionaries";
 import { LANGUAGES, homePath, type Locale } from "../i18n/config";
@@ -10,7 +11,7 @@ export function localizedMetadata(page: SitePage): Metadata {
   const d = dictionary(page.locale), identity = page.identity, kind = identity.kind;
   const guide = identity.kind === "guide" ? guides(page.locale).find(g => g.id === identity.id) : undefined;
   const approved = identity.kind === "platform" ? availablePlatformPages(page.locale).find(entry => entry.id === identity.id) : undefined;
-  const platformCopy = approved && approvedPlatformCopy(approved, page.locale);
+  const platformCopy = identity.kind==="local-tool" ? toolCopy(page.locale,identity.id) : approved && approvedPlatformCopy(approved, page.locale);
   // Only approved platform pages resolve (site-pages), so a platform page always has its own copy.
   const title = guide ? `${guide.seoTitle ?? guide.title} | VidFetch` : platformCopy ? `${platformCopy.title} | VidFetch` : kind === "home" ? homeCopy(page.locale).title : kind === "blog" ? (page.locale === "en" ? "TikTok, Video & Audio Guides | VidFetch" : "Guides TikTok, vidéo et audio | VidFetch") : `${page.locale === "de" ? "Impressum, Datenschutz und Nutzungsregeln" : d.legalTitle} | VidFetch`;
   const description = guide?.description ?? platformCopy?.description ?? (kind === "home" ? homeCopy(page.locale).description : kind === "blog" ? d.blogMetaDescription : d.legalDescription);

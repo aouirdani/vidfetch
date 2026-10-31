@@ -65,6 +65,11 @@ jobs:
         run: npm run seo-check
       - name: Server HTML, eight languages, RTL and unchanged API paths
         run: npm run test:i18n
+      - name: Local conversion fixtures and privacy checks
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          npm run test:local-tools
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: release-${{ github.sha }}

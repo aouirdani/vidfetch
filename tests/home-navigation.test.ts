@@ -131,7 +131,7 @@ describe("AdSense tag placement", () => {
   it("loads the tag on content pages only: never on a 404, a noindex draft or the legal page", () => {
     for (const locale of LOCALES) {
       for (const page of sitePages().filter(p => p.locale === locale)) {
-        const expected = page.indexable && page.identity.kind !== "legal";
+        const expected = page.indexable && page.identity.kind !== "legal" && page.identity.kind !== "local-tool";
         assert.equal(showsAds(page), expected, `${locale} ${page.path}`);
       }
     }

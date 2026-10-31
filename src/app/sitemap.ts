@@ -1,3 +1,4 @@
+import {TOOL_UPDATED} from "@/local-tools/catalogue";
 import type { MetadataRoute } from "next";
 import { sitePages, languageAlternates } from "@/lib/site-pages";
 import { guides } from "@/lib/guides";
@@ -10,7 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     const identity = page.identity;
     // Each page's own last substantial change: a guide's date, an approved platform page's copy date, the home copy's
     // date (homeCopy), otherwise the shared content date of the legal pages.
-    const updated = identity.kind === "guide" ? guides(page.locale).find(g => g.id === identity.id)!.updated
+    const updated = identity.kind === "local-tool" || identity.kind === "legal" ? TOOL_UPDATED : identity.kind === "guide" ? guides(page.locale).find(g => g.id === identity.id)!.updated
       : identity.kind === "blog" ? guides(page.locale).filter(g => g.published).map(g => g.updated).sort().at(-1) ?? CONTENT_UPDATED : identity.kind === "platform" ? platformPageUpdated(identity.id, page.locale) ?? CONTENT_UPDATED : identity.kind === "home" ? homeCopy(page.locale).updated : CONTENT_UPDATED;
     return { url: new URL(page.path, SITE.url).href, lastModified: new Date(updated), changeFrequency: "monthly" as const, priority: identity.kind === "home" ? 1 : 0.6, alternates: { languages: languageAlternates(page) } };
   });
