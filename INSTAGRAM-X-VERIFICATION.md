@@ -52,7 +52,7 @@ Le nombre et le volume sont appliqués ensemble ; huit préparations ne sont pas
 
 ## Tests
 
-- `npm test` : **186 tests passés**, 0 échec. Inclut fermeture des routes/liens/sitemap et ouverture des quatre switches sur une **copie en mémoire** : 16 routes, groupes de huit langues réciproques, canonical, sitemap, WebApplication/Breadcrumb/FAQ JSON-LD. Le catalogue sur disque est contrôlé inchangé après la fixture.
+- `npm test` : **187 tests passés**, 0 échec. Inclut fermeture des routes/liens/sitemap et ouverture des quatre switches sur une **copie en mémoire** : 16 routes, groupes de huit langues réciproques, canonical, sitemap, WebApplication/Breadcrumb/FAQ JSON-LD. Le catalogue sur disque est contrôlé inchangé après la fixture.
 - `npm run lint`, `npm run typecheck`, `npm run check:release` : passés.
 - Build de production OVH avec Webpack : passé. Turbopack local est bloqué sur son port interne également sur main ; le pipeline Linux garde le build normal.
 - `npm run seo-check` : **50 URL, PASS**. Aucun candidat fermé dans le sitemap, aucun noindex introduit sur le contenu public.
@@ -68,3 +68,5 @@ L’opérateur doit fournir ses liens autorisés, réaliser la campagne réelle,
 Après validation seulement, ouvrir les quatre switches du candidat concerné dans une nouvelle PR ; retirer sa seule réserve « sans garantie » dans le formulaire, en conservant celle de l’autre plateforme et sans toucher YouTube ou les dictionnaires des moteurs. Tester SEO/i18n/CI et obtenir une décision humaine. Aucun lien préparé ne doit être soumis à Search Console aujourd’hui.
 
 Après une publication ultérieure approuvée : purge Cloudflare, vérification directe du HTML et des en-têtes des versions EN/FR/ID/PT, soumission de `https://vidfetch.app/sitemap.xml`, puis indexation prioritaire des pages nouvellement ouvertes. Si un blocage durable apparaît, refermer les gates et retirer les liens. Aucune fusion ou activation de production dans cette mission.
+
+Le contrôle des refus est installé avant le clic de téléchargement : une réponse immédiate de quota ne peut pas être manquée. Une fixture couvre ce cas, le refus de connexion et l’absence d’URL brute dans le diagnostic. Les sondages de statut tardifs d’un transfert déjà fini ne créent pas un faux échec.

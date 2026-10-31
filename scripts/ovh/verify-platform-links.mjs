@@ -19,6 +19,25 @@ export function parseLinks(text){return [...new Set(text.split(/\r?\n/).map(x=>x
 export function safeCode(value){return typeof value==='string'&&/^[A-Z_]{3,60}$/.test(value)?value:'UNSUPPORTED';}
 export function mediaSummary(probe,kind){const duration=Number(probe.format?.duration),streams=probe.streams??[];if(!Number.isFinite(duration)||duration<=0||duration>1801)throw Error('INVALID_MEDIA');const audio=streams.filter(s=>s.codec_type==='audio'),video=streams.filter(s=>s.codec_type==='video');if(kind==='mp3'&&(!audio.some(s=>s.codec_name==='mp3')||video.length))throw Error('INVALID_MP3');if(kind==='mp4'&&(!video.length||!String(probe.format?.format_name).split(',').includes('mp4')))throw Error('INVALID_MP4');return{durationSeconds:duration,audioTracks:audio.length,videoTracks:video.length,codecs:streams.filter(s=>['audio','video'].includes(s.codec_type)).map(s=>String(s.codec_name).replace(/[^a-z0-9_]/gi,'').slice(0,30))};}
 export function reportMarkdown(report){return `# ${report.platform} — operator verification\n\nRun: ${report.startedAt}. Rights declaration confirmed. No account cookies, proxy or platform login used.\n\nSuccessful operations: ${report.passed}/${report.attempted} (${report.ratePercent}%). Unattempted operations are excluded. This sample is not a general support guarantee.\n\n| Provided publication | Type | Format | Result | Code | Seconds |\n|---|---|---|---|---|---|\n${report.results.map(r=>`| ${r.link.replace(/\|/g,'%7C')} | ${r.type} | ${r.kind} | ${r.status} | ${r.code??''} | ${r.seconds??''} |`).join('\n')}\n\nSupported-in-sample link types: ${report.typesPassing.join(', ')||'none'}. Inspect the JSON for track and duration checks. Never publish if login or platform restrictions prevent the promised use.\n`;}
+/** Observe before a download click: a fast quota/error response must not be missed. */
+export function observePublicFailures(context){
+ let active=true,failure,resolveRefusal;
+ const refusal=new Promise(resolve=>{resolveRefusal=resolve;});
+ const listener=async res=>{
+  const path=new URL(res.url()).pathname;
+  if(!['/api/download','/api/queue','/auth/transfer'].some(p=>path.startsWith(p)))return;
+  // Transfer status polling can outlive a successful download; it is not a new preparation.
+  if(path==='/api/download'&&res.request().method()==='GET')return;
+  let payload;
+  if((res.headers()['content-type']??'').includes('application/json')){try{payload=await res.json();}catch{}}
+  if(!active||failure||(res.status()<400&&payload?.ok!==false))return;
+  const code=safeCode(payload?.code);
+  failure={code,stopAll:[429,503].includes(res.status())||/QUOTA|RATE|BUSY|QUEUE_FULL/.test(code),blocked:res.status()===403||/LOGIN|AUTH_REQUIRED|PRIVATE|FORBIDDEN|RESTRICT/.test(code)};
+  resolveRefusal(failure);
+ };
+ context.on('response',listener);
+ return{refusal,get failure(){return failure;},close(){active=false;context.off('response',listener);}};
+}
 export async function verify({file,out='platform-verification',origin='https://vidfetch.app',confirm}){
  if(origin!=='https://vidfetch.app')throw Error('This operator command uses only https://vidfetch.app. Tests must use fixtures without running verify().');
  const links=parseLinks(await readFile(file,'utf8'));if(!links.length||links.length>3)throw Error('Provide 1–3 authorized links per run, at most six download operations. Budget includes your other usage today.');
@@ -36,25 +55,33 @@ export async function verify({file,out='platform-verification',origin='https://v
   for(const entry of links){
    let info;
    if(!exhausted){await page.goto(origin,{waitUntil:'domcontentloaded'});await page.getByRole('textbox',{name:d.videoLink}).fill(entry.link);
-    const response=page.waitForResponse(r=>new URL(r.url()).pathname==='/api/fetch-info',{timeout:180000});await page.getByRole('button',{name:d.extract,exact:true}).click();
-    try{const res=await response;const payload=await res.json();if(!res.ok()||!payload.ok){const code=safeCode(payload.code);if(/QUOTA|RATE|BUSY|QUEUE_FULL/.test(code))exhausted=true;info={error:code};}else info=payload.info;}catch{info={error:'ANALYSIS_TIMEOUT'};}
+    const analysis=observePublicFailures(context),response=page.waitForResponse(r=>new URL(r.url()).pathname==='/api/fetch-info',{timeout:180000});
+    try{await page.getByRole('button',{name:d.extract,exact:true}).click();const outcome=await Promise.race([response.then(res=>({res})),analysis.refusal.then(failure=>({failure}))]);
+     if(outcome.failure){if(outcome.failure.stopAll)exhausted=true;info={error:outcome.failure.code};}
+     else{const res=outcome.res,payload=await res.json();if(!res.ok()||!payload.ok){const code=safeCode(payload.code);if([429,503].includes(res.status())||/QUOTA|RATE|BUSY|QUEUE_FULL/.test(code))exhausted=true;info={error:code};}else info=payload.info;}
+    }catch{info={error:'ANALYSIS_TIMEOUT'};}finally{analysis.close();}
    }
+   let linkRestriction;
    for(const kind of ['mp4','mp3']){
     const begin=Date.now(),record={...entry,kind,status:'unsupported'};
     if(exhausted){results.push({...record,status:'not-attempted',code:'QUOTA_OR_QUEUE_STOP'});continue;}
+    if(linkRestriction){results.push({...record,code:linkRestriction,seconds:0});continue;}
     if(info?.error){results.push({...record,code:info.error,seconds:(Date.now()-begin)/1000});continue;}
     const formats=kind==='mp4'?info?.videoFormats:info?.audioFormats,format=formats?.find(f=>f.ext===kind);
     if(!format){results.push({...record,code:'NO_MATCHING_FORMAT'});continue;}
-    let popup;
+    let popup;const observation=observePublicFailures(context);
     try{
      await page.getByRole('tab',{name:new RegExp(kind==='mp4'?d.video:d.audio)}).click();
      const radios=page.getByRole('radiogroup').getByRole('radio');if(await radios.count()!==formats.length)throw Error('FORMAT_NOT_UNAMBIGUOUS');await radios.nth(formats.indexOf(format)).click();
      // The normal UI owns access proofs, queue polling and tickets. No API bypass or retry loop.
      const opened=page.waitForEvent('popup',{timeout:30000});await page.getByRole('button',{name:new RegExp('^'+d.download+' ')}).click();popup=await opened;
-     let restricted=false;const onResponse=async res=>{if(!['/api/download','/api/queue'].some(p=>new URL(res.url()).pathname.startsWith(p)))return;if(res.status()===429||res.status()===503){restricted=true;exhausted=true;}};context.on('response',onResponse);
-     try{const download=await popup.waitForEvent('download',{timeout:660000});const path=join(dir,`result-${results.length}.${kind}`);await download.saveAs(path);if(await download.failure())throw Error('DOWNLOAD_FAILED');const probe=JSON.parse(execFileSync(process.env.FFPROBE_PATH||'ffprobe',['-v','error','-show_format','-show_streams','-of','json',path],{encoding:'utf8',timeout:30000,maxBuffer:1024*1024}));Object.assign(record,{status:'pass',media:mediaSummary(probe,kind)});await rm(path,{force:true});}finally{context.off('response',onResponse);}
-     if(restricted)Object.assign(record,{status:'unsupported',code:'QUOTA_OR_QUEUE_STOP'});
-    }catch{record.code=exhausted?'QUOTA_OR_QUEUE_STOP':'DOWNLOAD_OR_VALIDATION_FAILED';}finally{await popup?.close().catch(()=>{});}
+     const outcome=await Promise.race([popup.waitForEvent('download',{timeout:660000}).then(download=>({download})),observation.refusal.then(failure=>({failure}))]);
+     if(outcome.failure)throw Error('PUBLIC_API_REFUSAL');
+     const download=outcome.download,path=join(dir,`result-${results.length}.${kind}`);
+     await download.saveAs(path);if(await download.failure())throw Error('DOWNLOAD_FAILED');
+     const probe=JSON.parse(execFileSync(process.env.FFPROBE_PATH||'ffprobe',['-v','error','-show_format','-show_streams','-of','json',path],{encoding:'utf8',timeout:30000,maxBuffer:1024*1024}));
+     Object.assign(record,{status:'pass',media:mediaSummary(probe,kind)});await rm(path,{force:true});
+    }catch{const refusal=observation.failure;if(refusal?.stopAll)exhausted=true;if(refusal?.blocked)linkRestriction=refusal.code;record.code=refusal?.code??'DOWNLOAD_OR_VALIDATION_FAILED';}finally{observation.close();await popup?.close().catch(()=>{});}
     record.seconds=Number(((Date.now()-begin)/1000).toFixed(2));results.push(record);
    }
   }

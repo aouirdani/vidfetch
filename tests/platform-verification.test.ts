@@ -1,4 +1,5 @@
 import {test} from 'node:test';
+import {EventEmitter} from 'node:events';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {LOCALES} from '../src/i18n/config';
@@ -8,7 +9,7 @@ import {localizedMetadata,platformPageSchemas} from '../src/lib/localized-seo';
 import {faqSchema} from '../src/lib/seo';
 import sitemap from '../src/app/sitemap';
 // @ts-expect-error Operator script is plain JavaScript; imported helpers perform no network work.
-import {parseLinks,safeCode,mediaSummary,reportMarkdown,verify} from '../scripts/ovh/verify-platform-links.mjs';
+import {parseLinks,safeCode,mediaSummary,reportMarkdown,verify,observePublicFailures} from '../scripts/ovh/verify-platform-links.mjs';
 const ids=['instagram-video','x-video'];
 test('closed Instagram/X candidates have no route, sitemap URL or incoming link in any language',()=>{
  for(const e of platformCandidates.filter(e=>ids.includes(e.id))){assert.equal(e.published,false);assert.ok(Object.values(e.gate).every(v=>v===false));for(const l of LOCALES){const path=platformPagePath(e,l);assert.equal(resolvePage(path.split('/').filter(Boolean)),undefined);assert.ok(!sitemap().some(u=>u.url==='https://vidfetch.app'+path));assert.ok(!platformLinks(l).some(t=>t.id===e.id));assert.ok(!navigationPlatformLinks(l).some(t=>t.id===e.id));assert.ok(e.copy?.[l]?.details?.length);}}
@@ -22,4 +23,12 @@ test('publication fixture: all four switches alone expose 16 complete reciprocal
 });
 test('operator helpers reject unsupported links and never emit raw response details',async()=>{
  const input='https://www.instagram.com/reel/abcdef/\nhttps://x.com/operator/status/12345';assert.equal(parseLinks(input).length,2);for(const link of ['https://x.com/operator','https://www.instagram.com/stories/me/123/','https://user:secret@x.com/op/status/1','https://x.com/op/status/1?ticket=secret'])assert.throws(()=>parseLinks(link));assert.equal(safeCode('https://media.invalid/video?signature=secret'),'UNSUPPORTED');assert.equal(safeCode('QUOTA_EXCEEDED'),'QUOTA_EXCEEDED');assert.throws(()=>mediaSummary({format:{duration:'2',format_name:'mp4'},streams:[{codec_type:'audio',codec_name:'aac'}]},'mp3'));assert.deepEqual(mediaSummary({format:{duration:'2',format_name:'mov,mp4'},streams:[{codec_type:'video',codec_name:'h264'}]},'mp4'),{durationSeconds:2,audioTracks:0,videoTracks:1,codecs:['h264']});const md=reportMarkdown({platform:'x',startedAt:'fixture',passed:0,attempted:1,ratePercent:0,typesPassing:[],results:[{link:'https://x.com/op/status/1',type:'video-post',kind:'mp4',status:'unsupported',code:'LOGIN_REQUIRED'}]});assert.doesNotMatch(md,/signature=|cookie=/);await assert.rejects(()=>verify({file:'missing',origin:'https://example.invalid',confirm:true}));
+});
+
+test('operator observes immediate quota/refusal before the click, ignores stale status polls and retains no raw media URL',async()=>{
+ const context=new EventEmitter(),observed=observePublicFailures(context);
+ const response=(method:string,status:number,code:string)=>({url:()=>"https://vidfetch.app/api/download?signed=secret",request:()=>({method:()=>method}),status:()=>status,headers:()=>({'content-type':'application/json'}),json:async()=>({ok:false,code,error:'https://media.invalid/private?signature=secret'})});
+ context.emit('response',response('GET',404,'TICKET_EXPIRED'));await new Promise(r=>setImmediate(r));assert.equal(observed.failure,undefined);
+ context.emit('response',response('POST',429,'QUOTA_EXCEEDED'));const refusal=await observed.refusal;assert.deepEqual(refusal,{code:'QUOTA_EXCEEDED',stopAll:true,blocked:false});assert.doesNotMatch(JSON.stringify(refusal),/secret|signature|https/);observed.close();assert.equal(context.listenerCount('response'),0);
+ const auth=observePublicFailures(context);context.emit('response',response('POST',403,'AUTH_REQUIRED'));assert.deepEqual(await auth.refusal,{code:'AUTH_REQUIRED',stopAll:false,blocked:true});auth.close();
 });
