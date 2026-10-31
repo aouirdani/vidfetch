@@ -84,8 +84,8 @@ async function run(options,handle){
  }
  let target,size=0;
  if(handle){
-  fileStream=await handle.createWritable();
-  target=new StreamTarget(new WritableStream({async write(chunk){if(cancelled)fail('CANCELLED');const end=chunk.position+chunk.data.byteLength;if(end>maxOutput)fail('OUTPUT');size=Math.max(size,end);await fileStream.write(chunk);},async close(){if(cancelled)fail('CANCELLED');await fileStream.close();},async abort(reason){await fileStream.abort(reason);}}),{chunked:true,chunkSize:LOCAL_LIMITS.streamChunkBytes});
+  fileStream=await handle.createWritable().catch(()=>fail('SAVE'));
+  target=new StreamTarget(new WritableStream({async write(chunk){if(cancelled)fail('CANCELLED');const end=chunk.position+chunk.data.byteLength;if(end>maxOutput)fail('OUTPUT');size=Math.max(size,end);await fileStream.write(chunk).catch(()=>fail('SAVE'));},async close(){if(cancelled)fail('CANCELLED');await fileStream.close().catch(()=>fail('SAVE'));},async abort(reason){await fileStream.abort(reason);}}),{chunked:true,chunkSize:LOCAL_LIMITS.streamChunkBytes});
  }else{
   // Refuse before the target can grow. The event after a write would be too late.
   class BoundedBuffer extends BufferTarget{_write(data,position){if(position+data.byteLength>maxOutput)fail('OUTPUT');super._write(data,position);}}
@@ -111,7 +111,7 @@ async function run(options,handle){
  if(!conversion.isValid||conversion.discardedTracks.some(t=>t.track===video&&tool!=='audio')||(audio&&conversion.discardedTracks.some(t=>t.track===audio)))fail('FORMAT');
  conversion.onProgress=value=>send({type:'progress',value});await conversion.execute();
  let resultInput,bytes;
- if(handle){const file=await handle.getFile();size=file.size;resultInput=inputFrom(file);}
+ if(handle){const file=await handle.getFile().catch(()=>fail('SAVE'));size=file.size;resultInput=inputFrom(file);}
  else{bytes=new Uint8Array(target.buffer);size=bytes.byteLength;resultInput=inputFrom(new Blob([bytes]));}
  const actual=await resultInput.computeDuration();resultInput.dispose();fileStream=undefined;conversion=undefined;
  if(handle)send({type:'result',saved:true,name:handle.name,size,mime:p.mime,ext:p.ext,duration:actual});

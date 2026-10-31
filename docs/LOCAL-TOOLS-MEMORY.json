@@ -15,7 +15,8 @@
     "matrixOverride": "Only the 48-case isolated matrix overrides admission/output budgets to profile full 500 MiB buffer copies. No production asset contains this override. Other matrices enforce production bounds. Matrix precedes removal of an unused variable and selecting overall input duration for audio; codec/output allocation strategy is identical to the final engine. Per-row source SHA retained.",
     "fixtures": "Real encoded H.264/AAC at 30 fps, repeated 10-second test pattern, no free-box size padding in memory profiles. Targets 50/200/500 MiB are approximate; actual bytes and duration recorded. 4K is UHD 3840x2160. Synthetic, not camera/HEVC/HDR. Separate sparse byte-cap tests are admission tests only.",
     "timing": "Elapsed includes browser metadata/probe/plan and sampling; lab observations, not promised conversion times. Host was shared with short verification tasks during some cases.",
-    "audioTimestampNote": "Loop-remuxed AAC has timestamp gaps. Chromium MP3 follows decoded sample duration (e.g. 55,693 AAC frames x1024/48kHz =1188.117s for the 1190.020s 1080p long fixture); WebKit fills timestamps. No claim of exact camera-duration validation is based on looped fixtures."
+    "audioTimestampNote": "Loop-remuxed AAC has timestamp gaps. Chromium MP3 follows decoded sample duration (e.g. 55,693 AAC frames x1024/48kHz =1188.117s for the 1190.020s 1080p long fixture); WebKit fills timestamps. No claim of exact camera-duration validation is based on looped fixtures.",
+    "finalErrorPatch": "Measurements precede wrapping file IO failures as SAVE and translating that message. No allocation strategy, cap, codec or output-target change in this final patch."
   },
   "matrix": [
     {

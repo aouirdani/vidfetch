@@ -497,7 +497,7 @@
         "name": "recording.mp4 audio",
         "bytes": 49083,
         "duration": 2.038617,
-        "ms": 215,
+        "ms": 230,
         "codecs": [
           "mp3"
         ],
@@ -507,7 +507,7 @@
         "name": "recording.mp4 compress",
         "bytes": 142554,
         "duration": 2.041882,
-        "ms": 392,
+        "ms": 395,
         "codecs": [
           "h264",
           "aac"
@@ -520,7 +520,7 @@
         "name": "recording.mp4 trim",
         "bytes": 36327,
         "duration": 1.133333,
-        "ms": 227,
+        "ms": 214,
         "codecs": [
           "h264",
           "aac"
@@ -533,7 +533,7 @@
         "name": "recording.mp4 gif",
         "bytes": 96690,
         "duration": 1,
-        "ms": 972,
+        "ms": 970,
         "codecs": [
           "gif"
         ],
@@ -545,7 +545,7 @@
         "name": "iphone-style.mov audio",
         "bytes": 49083,
         "duration": 2.038617,
-        "ms": 191,
+        "ms": 163,
         "codecs": [
           "mp3"
         ],
@@ -555,7 +555,7 @@
         "name": "iphone-style.mov compress",
         "bytes": 142456,
         "duration": 2.041882,
-        "ms": 393,
+        "ms": 386,
         "codecs": [
           "h264",
           "aac"
@@ -568,7 +568,7 @@
         "name": "iphone-style.mov trim",
         "bytes": 36229,
         "duration": 1.133333,
-        "ms": 232,
+        "ms": 210,
         "codecs": [
           "h264",
           "aac"
@@ -581,7 +581,7 @@
         "name": "iphone-style.mov gif",
         "bytes": 96690,
         "duration": 1,
-        "ms": 975,
+        "ms": 1004,
         "codecs": [
           "gif"
         ],
@@ -593,7 +593,7 @@
         "name": "recording.webm audio",
         "bytes": 49152,
         "duration": 2.040979,
-        "ms": 190,
+        "ms": 167,
         "codecs": [
           "mp3"
         ],
@@ -603,7 +603,7 @@
         "name": "recording.webm compress",
         "bytes": 159997,
         "duration": 2.025354,
-        "ms": 397,
+        "ms": 394,
         "codecs": [
           "h264",
           "aac"
@@ -616,7 +616,7 @@
         "name": "recording.webm trim",
         "bytes": 37024,
         "duration": 1.021,
-        "ms": 233,
+        "ms": 235,
         "codecs": [
           "vp8",
           "opus"
@@ -629,7 +629,7 @@
         "name": "recording.webm gif",
         "bytes": 96533,
         "duration": 1,
-        "ms": 974,
+        "ms": 992,
         "codecs": [
           "gif"
         ],
@@ -641,7 +641,7 @@
         "name": "MP3 128",
         "bytes": 32782,
         "duration": 2.038617,
-        "ms": 197,
+        "ms": 166,
         "codecs": [
           "mp3"
         ],
@@ -651,7 +651,7 @@
         "name": "MP3 320",
         "bytes": 81684,
         "duration": 2.038617,
-        "ms": 190,
+        "ms": 187,
         "codecs": [
           "mp3"
         ],
@@ -661,7 +661,7 @@
         "name": "GIF 15 fps exact timing",
         "bytes": 145465,
         "duration": 1,
-        "ms": 971,
+        "ms": 984,
         "codecs": [
           "gif"
         ],
@@ -673,7 +673,7 @@
         "name": "AAC copy M4A",
         "bytes": 18711,
         "duration": 2,
-        "ms": 119,
+        "ms": 127,
         "codecs": [
           "aac"
         ],
@@ -683,7 +683,7 @@
         "name": "precise trim",
         "bytes": 113750,
         "duration": 0.927347,
-        "ms": 498,
+        "ms": 629,
         "codecs": [
           "h264",
           "aac"
@@ -696,7 +696,7 @@
         "name": "compress light",
         "bytes": 251745,
         "duration": 2.041882,
-        "ms": 391,
+        "ms": 407,
         "codecs": [
           "h264",
           "aac"
@@ -709,7 +709,7 @@
         "name": "compress strong",
         "bytes": 79086,
         "duration": 2.041882,
-        "ms": 401,
+        "ms": 402,
         "codecs": [
           "h264",
           "aac"
@@ -722,7 +722,7 @@
         "name": "4K downscale MP4 preference",
         "bytes": 150873,
         "duration": 2.025354,
-        "ms": 1376,
+        "ms": 955,
         "codecs": [
           "h264",
           "aac"
@@ -735,7 +735,7 @@
         "name": "AAC unavailable WebM fallback",
         "bytes": 151890,
         "duration": 2,
-        "ms": 288,
+        "ms": 306,
         "codecs": [
           "vp8",
           "opus"
@@ -774,7 +774,7 @@
         "name": "desktop 1 GiB admission",
         "bytes": 49083,
         "duration": 2.038617,
-        "ms": 212,
+        "ms": 164,
         "codecs": [
           "mp3"
         ],
@@ -803,7 +803,7 @@
         "name": "recording.mp4 audio",
         "bytes": 49083,
         "duration": 2.038617,
-        "ms": 265,
+        "ms": 279,
         "codecs": [
           "mp3"
         ],
@@ -813,7 +813,7 @@
         "name": "recording.mp4 compress",
         "bytes": 166747,
         "duration": 2.018685,
-        "ms": 881,
+        "ms": 865,
         "codecs": [
           "h264",
           "aac"
@@ -826,7 +826,7 @@
         "name": "recording.mp4 trim",
         "bytes": 36327,
         "duration": 1.133333,
-        "ms": 134,
+        "ms": 129,
         "codecs": [
           "h264",
           "aac"
@@ -839,7 +839,7 @@
         "name": "recording.mp4 gif",
         "bytes": 92323,
         "duration": 1,
-        "ms": 882,
+        "ms": 920,
         "codecs": [
           "gif"
         ],
@@ -851,7 +851,7 @@
         "name": "iphone-style.mov audio",
         "bytes": 49083,
         "duration": 2.038617,
-        "ms": 266,
+        "ms": 278,
         "codecs": [
           "mp3"
         ],
@@ -861,7 +861,7 @@
         "name": "iphone-style.mov compress",
         "bytes": 166649,
         "duration": 2.018685,
-        "ms": 353,
+        "ms": 355,
         "codecs": [
           "h264",
           "aac"
@@ -874,7 +874,7 @@
         "name": "iphone-style.mov trim",
         "bytes": 36229,
         "duration": 1.133333,
-        "ms": 127,
+        "ms": 125,
         "codecs": [
           "h264",
           "aac"
@@ -887,7 +887,7 @@
         "name": "iphone-style.mov gif",
         "bytes": 92323,
         "duration": 1,
-        "ms": 888,
+        "ms": 910,
         "codecs": [
           "gif"
         ],
@@ -899,7 +899,7 @@
         "name": "recording.webm audio",
         "bytes": 49152,
         "duration": 2.040979,
-        "ms": 249,
+        "ms": 146,
         "codecs": [
           "mp3"
         ],
@@ -909,7 +909,7 @@
         "name": "recording.webm compress",
         "bytes": 164754,
         "duration": 2.013,
-        "ms": 370,
+        "ms": 361,
         "codecs": [
           "h264",
           "aac"
@@ -922,7 +922,7 @@
         "name": "recording.webm trim",
         "bytes": 37024,
         "duration": 1.021,
-        "ms": 173,
+        "ms": 114,
         "codecs": [
           "vp8",
           "opus"
@@ -935,7 +935,7 @@
         "name": "recording.webm gif",
         "bytes": 93210,
         "duration": 1,
-        "ms": 876,
+        "ms": 898,
         "codecs": [
           "gif"
         ],
@@ -947,7 +947,7 @@
         "name": "MP3 128",
         "bytes": 32782,
         "duration": 2.038617,
-        "ms": 274,
+        "ms": 270,
         "codecs": [
           "mp3"
         ],
@@ -967,7 +967,7 @@
         "name": "GIF 15 fps exact timing",
         "bytes": 138809,
         "duration": 1,
-        "ms": 873,
+        "ms": 883,
         "codecs": [
           "gif"
         ],
@@ -979,7 +979,7 @@
         "name": "AAC copy M4A",
         "bytes": 18711,
         "duration": 2,
-        "ms": 127,
+        "ms": 121,
         "codecs": [
           "aac"
         ],
@@ -989,7 +989,7 @@
         "name": "precise trim",
         "bytes": 118292,
         "duration": 0.905986,
-        "ms": 380,
+        "ms": 377,
         "codecs": [
           "h264",
           "aac"
@@ -1002,7 +1002,7 @@
         "name": "compress light",
         "bytes": 261025,
         "duration": 2.018685,
-        "ms": 373,
+        "ms": 379,
         "codecs": [
           "h264",
           "aac"
@@ -1015,7 +1015,7 @@
         "name": "compress strong",
         "bytes": 125351,
         "duration": 2.018685,
-        "ms": 371,
+        "ms": 366,
         "codecs": [
           "h264",
           "aac"
@@ -1028,7 +1028,7 @@
         "name": "4K downscale MP4 preference",
         "bytes": 251659,
         "duration": 2.004021,
-        "ms": 1875,
+        "ms": 1888,
         "codecs": [
           "h264",
           "aac"
@@ -1041,7 +1041,7 @@
         "name": "AAC unavailable WebM fallback",
         "bytes": 106462,
         "duration": 2.037,
-        "ms": 265,
+        "ms": 272,
         "codecs": [
           "vp8",
           "opus"
@@ -1054,7 +1054,7 @@
         "name": "desktop 1 GiB admission",
         "bytes": 49083,
         "duration": 2.038617,
-        "ms": 248,
+        "ms": 244,
         "codecs": [
           "mp3"
         ],
@@ -1085,6 +1085,13 @@
     "queue": 5,
     "seoURLs": 82,
     "physicalMobile": false,
-    "nativeSavePickerUI": false
+    "nativeSavePickerUI": false,
+    "savePermissionDenied": "PASS: forced NotAllowedError displays translated SAVE message; no result",
+    "finalInitialJS": {
+      "raw": 619174,
+      "gzip": 194741
+    },
+    "finalEngineBytes": 655222,
+    "lighthouseTiming": "Measured after memory/format/stream changes; before save-error wording and IO-error wrapping only. Final initial JS byte totals unchanged and lazy loading rechecked."
   }
 }

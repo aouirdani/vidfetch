@@ -38,7 +38,7 @@
       "OUTPUT": "The estimated or actual output exceeds the memory limit. Shorten the excerpt, reduce the output or choose direct-file saving when available.",
       "CANCELLED": "Conversion cancelled. The local data was released.",
       "TIMEOUT": "The operation took too long. Try a shorter or smaller file.",
-      "SAVE": "Choose another output filename with the indicated extension. If direct saving is unavailable, select memory download."
+      "SAVE": "Cannot save this output. Check free space and file permissions, and choose a new filename with the indicated extension. You can try memory download within its limit."
     },
     "saveMode": "Save method",
     "directSave": "Save directly to a file",
@@ -87,7 +87,7 @@
       "OUTPUT": "La sortie estimée ou réelle dépasse la limite en mémoire. Raccourcissez l’extrait, réduisez la sortie ou choisissez l’enregistrement direct lorsqu’il est disponible.",
       "CANCELLED": "Conversion annulée. Les données locales ont été libérées.",
       "TIMEOUT": "Le traitement a pris trop de temps. Essayez un fichier plus court ou plus petit.",
-      "SAVE": "Choisissez un autre nom de fichier avec l’extension indiquée. Si l’enregistrement direct est indisponible, sélectionnez le téléchargement en mémoire."
+      "SAVE": "Impossible d’enregistrer cette sortie. Vérifiez l’espace libre et les autorisations, puis choisissez un nouveau nom avec l’extension indiquée. Le téléchargement en mémoire reste possible dans sa limite."
     },
     "saveMode": "Mode d’enregistrement",
     "directSave": "Enregistrer directement dans un fichier",
@@ -136,7 +136,7 @@
       "OUTPUT": "La salida estimada o real supera el límite de memoria. Acorta el fragmento, reduce la salida o guarda directamente si el navegador lo permite.",
       "CANCELLED": "Conversión cancelada. Se liberaron los datos locales.",
       "TIMEOUT": "El proceso tardó demasiado. Prueba un archivo más corto o pequeño.",
-      "SAVE": "Elige otro nombre de archivo con la extensión indicada. Si no puedes guardar directamente, selecciona la descarga desde la memoria."
+      "SAVE": "No se puede guardar la salida. Comprueba el espacio libre y los permisos, y elige un nombre nuevo con la extensión indicada. Puedes probar la descarga en memoria dentro de su límite."
     },
     "saveMode": "Cómo guardar",
     "directSave": "Guardar directamente en un archivo",
@@ -185,7 +185,7 @@
       "OUTPUT": "A saída estimada ou real ultrapassa o limite de memória. Encurte o trecho, reduza a saída ou salve diretamente quando o navegador permitir.",
       "CANCELLED": "Conversão cancelada. Os dados locais foram liberados.",
       "TIMEOUT": "O processamento demorou demais. Tente um arquivo menor ou mais curto.",
-      "SAVE": "Escolha outro nome de arquivo com a extensão indicada. Se não puder salvar diretamente, selecione o download a partir da memória."
+      "SAVE": "Não foi possível salvar o resultado. Confira o espaço livre e as permissões e escolha um nome novo com a extensão indicada. Você pode tentar baixar pela memória dentro do limite."
     },
     "saveMode": "Como salvar",
     "directSave": "Salvar diretamente em um arquivo",
@@ -234,7 +234,7 @@
       "OUTPUT": "Perkiraan atau ukuran hasil melebihi batas memori. Pendekkan cuplikan, kecilkan hasil, atau pilih simpan langsung jika tersedia.",
       "CANCELLED": "Konversi dibatalkan. Data lokal telah dilepaskan.",
       "TIMEOUT": "Proses terlalu lama. Coba berkas lebih kecil atau lebih pendek.",
-      "SAVE": "Pilih nama berkas lain dengan ekstensi yang ditunjukkan. Jika penyimpanan langsung tidak tersedia, pilih unduhan dari memori."
+      "SAVE": "Hasil tidak dapat disimpan. Periksa ruang kosong dan izin berkas, lalu pilih nama baru dengan ekstensi yang ditampilkan. Anda bisa mencoba unduhan dari memori sesuai batasnya."
     },
     "saveMode": "Cara menyimpan",
     "directSave": "Simpan langsung ke berkas",
@@ -283,7 +283,7 @@
       "OUTPUT": "Die geschätzte oder tatsächliche Ausgabe überschreitet die Speichergrenze. Kürze den Ausschnitt, verkleinere die Ausgabe oder speichere direkt, sofern verfügbar.",
       "CANCELLED": "Umwandlung abgebrochen. Lokale Daten wurden freigegeben.",
       "TIMEOUT": "Der Vorgang dauerte zu lange. Versuche eine kürzere oder kleinere Datei.",
-      "SAVE": "Wähle einen anderen Dateinamen mit der angegebenen Endung. Falls direktes Speichern nicht möglich ist, wähle den Download aus dem Speicher."
+      "SAVE": "Die Ausgabe lässt sich nicht speichern. Prüfe freien Speicherplatz und Dateiberechtigungen und wähle einen neuen Namen mit der angegebenen Endung. Ein Download aus dem Speicher ist innerhalb seines Limits möglich."
     },
     "saveMode": "Speichermethode",
     "directSave": "Direkt in eine Datei speichern",
@@ -332,7 +332,7 @@
       "OUTPUT": "L’uscita stimata o effettiva supera il limite di memoria. Accorcia lo spezzone, riduci l’uscita o salva direttamente se disponibile.",
       "CANCELLED": "Conversione annullata. I dati locali sono stati liberati.",
       "TIMEOUT": "Il processo è durato troppo. Prova un file più piccolo o breve.",
-      "SAVE": "Scegli un altro nome con l’estensione indicata. Se il salvataggio diretto non è disponibile, seleziona il download dalla memoria."
+      "SAVE": "Impossibile salvare il risultato. Controlla lo spazio libero e i permessi e scegli un nome nuovo con l’estensione indicata. Puoi provare il download dalla memoria entro il suo limite."
     },
     "saveMode": "Come salvare",
     "directSave": "Salva direttamente in un file",
@@ -381,7 +381,7 @@
       "OUTPUT": "يتجاوز حجم الناتج المقدر أو الفعلي حد الذاكرة. قصّر المقتطف أو خفّض الناتج أو اختر الحفظ المباشر عند توفره.",
       "CANCELLED": "أُلغي التحويل وحُررت البيانات المحلية.",
       "TIMEOUT": "استغرقت العملية وقتًا طويلًا. جرّب ملفًا أصغر أو أقصر.",
-      "SAVE": "اختر اسم ملف آخر بالامتداد المحدد. إذا تعذر الحفظ المباشر فاختر التنزيل من الذاكرة."
+      "SAVE": "تعذر حفظ الناتج. افحص المساحة الحرة وأذونات الملف واختر اسمًا جديدًا بالامتداد المحدد. يمكنك تجربة التنزيل من الذاكرة ضمن حدها."
     },
     "saveMode": "طريقة الحفظ",
     "directSave": "الحفظ مباشرة في ملف",
