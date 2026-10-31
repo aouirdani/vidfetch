@@ -15,21 +15,21 @@ export function LocalMediaTool({locale,tool,messages:d}:{locale:Locale;tool:Loca
  useEffect(()=>{setLimit(matchMedia('(pointer: coarse)').matches || /Android|iPhone|iPad/.test(navigator.userAgent) || ((navigator as Navigator&{deviceMemory?:number}).deviceMemory??8)<4?LOCAL_LIMITS.mobileBytes:LOCAL_LIMITS.desktopBytes);return ()=>{worker.current?.terminate();if(timer.current)clearTimeout(timer.current);urls.current.forEach(url=>URL.revokeObjectURL(url));};},[]);
  const showError=(code:string)=>setError(d.errors[code as keyof typeof d.errors]??d.errors.FORMAT);
  const watch=()=>{clearTimer();timer.current=setTimeout(()=>{release();setBusy(false);setInfo(null);showError('TIMEOUT');},LOCAL_LIMITS.timeoutMs);};
- const reset=()=>{release();setFile(null);setInfo(null);setOutput(null);setInputURL('');setError('');setBusy(false);setProgress(0);if(fileInput.current)fileInput.current.value='';};
+ const reset=(clearPicker=true)=>{release();setFile(null);setInfo(null);setOutput(null);setInputURL('');setError('');setBusy(false);setProgress(0);if(clearPicker&&fileInput.current)fileInput.current.value='';};
  const choose=(chosen:File|undefined)=>{
-  reset();if(!chosen)return;
+  reset(false);if(!chosen)return;
   if(!chosen.size||chosen.size>limit){showError('SIZE');return;}
   if(!/\.(mp4|mov|webm)$/i.test(chosen.name)){showError('FORMAT');return;}
   if(typeof Worker==='undefined'){showError('FORMAT');return;}
   setFile(chosen);setNoPreview(false);const url=URL.createObjectURL(chosen);urls.current.push(url);setInputURL(url);setBusy(true);
   const w=new Worker('/local-media/generated/engine.js',{type:'module'});worker.current=w;watch();
-  w.onerror=()=>{release();setBusy(false);setInfo(null);showError('FORMAT');};
+  w.onerror=()=>{release();setBusy(false);setInfo(null);setInputURL('');showError('FORMAT');};
   w.onmessage=event=>{
    if(worker.current!==w)return;
    const data=event.data;
    if(data.type==='ready'){clearTimer();setInfo(data);setStart('0');setEnd(String(Math.min(data.duration,tool==='gif'?3:data.duration)));setBusy(false);}
    else if(data.type==='progress')setProgress(Math.max(0,Math.min(1,data.value)));
-   else if(data.type==='error'){release();setBusy(false);setInfo(null);showError(data.code);}
+   else if(data.type==='error'){release();setBusy(false);setInfo(null);setInputURL('');showError(data.code);}
    else if(data.type==='result'){
     clearTimer();const blob=new Blob([data.bytes],{type:data.mime}),result=URL.createObjectURL(blob);urls.current.push(result);
     const stem=chosen.name.replace(/\.[^.]*$/,'').normalize('NFKD').replace(/[^\p{L}\p{N}_-]+/gu,'-').slice(0,70)||'video';
@@ -60,8 +60,8 @@ export function LocalMediaTool({locale,tool,messages:d}:{locale:Locale;tool:Loca
   <div className="mt-5 flex flex-wrap gap-3">
    {info&&!output&&!busy&&<button onClick={convert} className="rounded-xl bg-cyan-300 px-5 py-3 font-semibold text-ink-950">{d.convert}</button>}
    {busy&&<button onClick={()=>{reset();showError('CANCELLED');}} className="rounded-xl border border-white/20 px-5 py-3">{d.cancel}</button>}
-   {output&&<a href={output.url} download={output.name} className="rounded-xl bg-cyan-300 px-5 py-3 font-semibold text-ink-950">{d.result} · {(output.bytes/1024**2).toFixed(2)} MiB · {output.duration.toFixed(2)} s</a>}
-   {!busy&&(file||error)&&<button onClick={reset} className="rounded-xl border border-white/20 px-5 py-3">{d.again}</button>}
+   {output&&<a href={output.url} download={output.name} className="rounded-xl bg-cyan-300 px-5 py-3 font-semibold text-ink-950">{d.result} · <bdi dir="ltr">{(output.bytes/1024**2).toFixed(2)} MiB · {output.duration.toFixed(2)} s</bdi></a>}
+   {!busy&&(file||error)&&<button onClick={()=>reset()} className="rounded-xl border border-white/20 px-5 py-3">{d.again}</button>}
   </div>
  </section>;
 }

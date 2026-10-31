@@ -27,7 +27,7 @@
     "result": "Download the local result",
     "preview": "Local preview",
     "noPreview": "This browser cannot preview this file. Conversion may still be available.",
-    "support": "Requires WebCodecs and workers. Availability depends on the browser and codec.",
+    "support": "Requires WebCodecs and workers. Availability depends on the browser and codec. With Safari, audio conversion requires version 26+; codecs still depend on the browser. Direct AAC copying can work without an audio encoder.",
     "errors": {
       "SIZE": "The file is empty or exceeds this device’s size limit.",
       "FORMAT": "This format or codec is not supported by this browser. Try a compatible MP4, MOV or WebM.",
@@ -68,7 +68,7 @@
     "result": "Télécharger le résultat local",
     "preview": "Aperçu local",
     "noPreview": "Ce navigateur ne peut pas afficher cet aperçu. La conversion peut rester disponible.",
-    "support": "WebCodecs et workers nécessaires. La compatibilité dépend du navigateur et du codec.",
+    "support": "WebCodecs et workers nécessaires. La compatibilité dépend du navigateur et du codec. Avec Safari, la conversion audio nécessite la version 26+ ; les codecs dépendent du navigateur. La copie AAC ne demande pas d’encodeur audio.",
     "errors": {
       "SIZE": "Le fichier est vide ou dépasse la taille admise sur cet appareil.",
       "FORMAT": "Ce format ou codec n’est pas pris en charge par ce navigateur. Essayez un MP4, MOV ou WebM compatible.",
@@ -109,7 +109,7 @@
     "result": "Descargar el resultado local",
     "preview": "Vista previa local",
     "noPreview": "Este navegador no puede mostrar la vista previa. La conversión aún podría ser posible.",
-    "support": "Requiere WebCodecs y workers. La compatibilidad depende del navegador y del códec.",
+    "support": "Requiere WebCodecs y workers. La compatibilidad depende del navegador y del códec. Con Safari, la conversión de audio requiere la versión 26+; los códecs dependen del navegador. La copia AAC no necesita codificador de audio.",
     "errors": {
       "SIZE": "El archivo está vacío o supera el límite de este dispositivo.",
       "FORMAT": "Este navegador no admite el formato o códec. Prueba un MP4, MOV o WebM compatible.",
@@ -150,7 +150,7 @@
     "result": "Baixar o resultado local",
     "preview": "Prévia local",
     "noPreview": "Este navegador não consegue exibir a prévia. A conversão ainda pode estar disponível.",
-    "support": "Requer WebCodecs e workers. A compatibilidade depende do navegador e do codec.",
+    "support": "Requer WebCodecs e workers. A compatibilidade depende do navegador e do codec. No Safari, a conversão de áudio requer a versão 26+; os codecs dependem do navegador. A cópia AAC não precisa de codificador de áudio.",
     "errors": {
       "SIZE": "O arquivo está vazio ou ultrapassa o limite deste aparelho.",
       "FORMAT": "Este navegador não aceita o formato ou codec. Tente um MP4, MOV ou WebM compatível.",
@@ -191,7 +191,7 @@
     "result": "Unduh hasil lokal",
     "preview": "Pratinjau lokal",
     "noPreview": "Browser ini tidak dapat menampilkan pratinjau. Konversi mungkin masih tersedia.",
-    "support": "Memerlukan WebCodecs dan worker. Dukungan bergantung pada browser dan codec.",
+    "support": "Memerlukan WebCodecs dan worker. Dukungan bergantung pada browser dan codec. Pada Safari, konversi audio memerlukan versi 26+; codec tetap bergantung pada browser. Salinan AAC tidak memerlukan encoder audio.",
     "errors": {
       "SIZE": "Berkas kosong atau melebihi batas perangkat ini.",
       "FORMAT": "Format atau codec tidak didukung browser ini. Coba MP4, MOV, atau WebM yang kompatibel.",
@@ -232,7 +232,7 @@
     "result": "Lokales Ergebnis herunterladen",
     "preview": "Lokale Vorschau",
     "noPreview": "Dieser Browser kann keine Vorschau anzeigen. Eine Umwandlung kann dennoch möglich sein.",
-    "support": "WebCodecs und Worker erforderlich. Die Unterstützung hängt von Browser und Codec ab.",
+    "support": "WebCodecs und Worker erforderlich. Die Unterstützung hängt von Browser und Codec ab. Bei Safari erfordert Audioumwandlung Version 26+; Codecs hängen weiter vom Browser ab. AAC-Kopieren benötigt keinen Audioencoder.",
     "errors": {
       "SIZE": "Die Datei ist leer oder überschreitet die Gerätegrenze.",
       "FORMAT": "Dieser Browser unterstützt Format oder Codec nicht. Versuche eine kompatible MP4-, MOV- oder WebM-Datei.",
@@ -273,7 +273,7 @@
     "result": "Scarica il risultato locale",
     "preview": "Anteprima locale",
     "noPreview": "Questo browser non può mostrare l’anteprima. La conversione potrebbe comunque essere disponibile.",
-    "support": "Richiede WebCodecs e worker. Il supporto dipende dal browser e dal codec.",
+    "support": "Richiede WebCodecs e worker. Il supporto dipende dal browser e dal codec. Con Safari, la conversione audio richiede la versione 26+; i codec dipendono dal browser. La copia AAC non richiede un encoder audio.",
     "errors": {
       "SIZE": "Il file è vuoto o supera il limite del dispositivo.",
       "FORMAT": "Questo browser non supporta il formato o il codec. Prova un MP4, MOV o WebM compatibile.",
@@ -314,7 +314,7 @@
     "result": "تنزيل الناتج المحلي",
     "preview": "معاينة محلية",
     "noPreview": "لا يستطيع هذا المتصفح عرض المعاينة. قد يبقى التحويل متاحًا.",
-    "support": "يتطلب WebCodecs وعمّال الويب. يعتمد الدعم على المتصفح والترميز.",
+    "support": "يتطلب WebCodecs وعمّال الويب. يعتمد الدعم على المتصفح والترميز. يتطلب تحويل الصوت في Safari الإصدار 26 أو أحدث، وتبقى الترميزات مرتبطة بالمتصفح. لا يحتاج نسخ AAC إلى مشفر صوتي.",
     "errors": {
       "SIZE": "الملف فارغ أو يتجاوز حد هذا الجهاز.",
       "FORMAT": "لا يدعم المتصفح هذه الصيغة أو الترميز. جرّب ملف MP4 أو MOV أو WebM متوافقًا.",

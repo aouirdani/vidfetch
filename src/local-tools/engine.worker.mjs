@@ -28,18 +28,19 @@ async function run(options) {
     if(![160,320,480,640].includes(w)||![5,10,15].includes(fps)) fail('RANGE');
     const sink=new CanvasSink(video,{width:Math.min(w,width),poolSize:1}),gif=GIFEncoder();
     const count=Math.ceil((end-start)*fps),timestamps=Array.from({length:count},(_,i)=>start+i/fps);
-    let n=0;
+    let n=0,elapsedCentis=0;
     for await (const frame of sink.canvasesAtTimestamps(timestamps)) {
       if(cancelled) fail('CANCELLED');
       if(!frame) fail('FORMAT');
       const canvas=frame.canvas,ctx=canvas.getContext('2d',{willReadFrequently:true}),rgba=ctx.getImageData(0,0,canvas.width,canvas.height).data;
       const palette=quantize(rgba,256),indexed=applyPalette(rgba,palette);
-      gif.writeFrame(indexed,canvas.width,canvas.height,{palette,delay:1000/fps,repeat:0});
+      const centis=Math.max(1,Math.round(Math.min(end-start,(n+1)/fps)*100)-elapsedCentis);elapsedCentis+=centis;
+      gif.writeFrame(indexed,canvas.width,canvas.height,{palette,delay:centis*10,repeat:0});
       if(gif.bytesView().byteLength>maxOutput) fail('OUTPUT');
       send({type:'progress',value:++n/count});
     }
-    gif.finish(); const bytes=gif.bytes().slice();
-    send({type:'result',bytes,mime:'image/gif',ext:'gif',duration:end-start},[bytes.buffer]);return;
+    gif.finish(); const bytes=gif.bytes().slice();if(bytes.byteLength>maxOutput)fail('OUTPUT');
+    send({type:'result',bytes,mime:'image/gif',ext:'gif',duration:elapsedCentis/100},[bytes.buffer]);return;
   }
   const target=new BufferTarget();let format,ext,mime,copy={},videoOptions,audioOptions;
   const discardOtherVideo=track=>track.number!==video.number;

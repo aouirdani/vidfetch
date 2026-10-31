@@ -1,0 +1,949 @@
+{
+  "lighthouse": [
+    {
+      "path": "/",
+      "branch": "main",
+      "run": 0,
+      "lcp": 818.1839,
+      "cls": 0,
+      "tbt": 35,
+      "score": 1
+    },
+    {
+      "path": "/",
+      "branch": "tools",
+      "run": 0,
+      "lcp": 826.37735,
+      "cls": 0,
+      "tbt": 44,
+      "score": 1
+    },
+    {
+      "path": "/",
+      "branch": "tools",
+      "run": 1,
+      "lcp": 819.66365,
+      "cls": 0,
+      "tbt": 42,
+      "score": 1
+    },
+    {
+      "path": "/",
+      "branch": "main",
+      "run": 1,
+      "lcp": 820.88675,
+      "cls": 0,
+      "tbt": 36.99999999999977,
+      "score": 1
+    },
+    {
+      "path": "/",
+      "branch": "main",
+      "run": 2,
+      "lcp": 834.23,
+      "cls": 0,
+      "tbt": 40,
+      "score": 1
+    },
+    {
+      "path": "/",
+      "branch": "tools",
+      "run": 2,
+      "lcp": 838.09395,
+      "cls": 0,
+      "tbt": 43,
+      "score": 1
+    },
+    {
+      "path": "/id/download-video-tiktok",
+      "branch": "main",
+      "run": 0,
+      "lcp": 816.4192,
+      "cls": 0,
+      "tbt": 38.99999999999977,
+      "score": 1
+    },
+    {
+      "path": "/id/download-video-tiktok",
+      "branch": "tools",
+      "run": 0,
+      "lcp": 822.47505,
+      "cls": 0,
+      "tbt": 44,
+      "score": 1
+    },
+    {
+      "path": "/id/download-video-tiktok",
+      "branch": "tools",
+      "run": 1,
+      "lcp": 821.26345,
+      "cls": 0,
+      "tbt": 44,
+      "score": 1
+    },
+    {
+      "path": "/id/download-video-tiktok",
+      "branch": "main",
+      "run": 1,
+      "lcp": 816.4352,
+      "cls": 0,
+      "tbt": 39,
+      "score": 1
+    },
+    {
+      "path": "/id/download-video-tiktok",
+      "branch": "main",
+      "run": 2,
+      "lcp": 826.5912,
+      "cls": 0,
+      "tbt": 38,
+      "score": 1
+    },
+    {
+      "path": "/id/download-video-tiktok",
+      "branch": "tools",
+      "run": 2,
+      "lcp": 836.0162,
+      "cls": 0,
+      "tbt": 41,
+      "score": 1
+    },
+    {
+      "path": "/fr/tiktok-en-mp3",
+      "branch": "main",
+      "run": 0,
+      "lcp": 815.9763,
+      "cls": 0,
+      "tbt": 36,
+      "score": 1
+    },
+    {
+      "path": "/fr/tiktok-en-mp3",
+      "branch": "tools",
+      "run": 0,
+      "lcp": 826.90395,
+      "cls": 0,
+      "tbt": 42,
+      "score": 1
+    },
+    {
+      "path": "/fr/tiktok-en-mp3",
+      "branch": "tools",
+      "run": 1,
+      "lcp": 827.95805,
+      "cls": 0,
+      "tbt": 39,
+      "score": 1
+    },
+    {
+      "path": "/fr/tiktok-en-mp3",
+      "branch": "main",
+      "run": 1,
+      "lcp": 816.18755,
+      "cls": 0,
+      "tbt": 40,
+      "score": 1
+    },
+    {
+      "path": "/fr/tiktok-en-mp3",
+      "branch": "main",
+      "run": 2,
+      "lcp": 822.26025,
+      "cls": 0,
+      "tbt": 35,
+      "score": 1
+    },
+    {
+      "path": "/fr/tiktok-en-mp3",
+      "branch": "tools",
+      "run": 2,
+      "lcp": 813.88435,
+      "cls": 0,
+      "tbt": 36,
+      "score": 1
+    },
+    {
+      "path": "/blog/mp4-vs-webm",
+      "branch": "main",
+      "run": 0,
+      "lcp": 814.0555,
+      "cls": 0,
+      "tbt": 39,
+      "score": 1
+    },
+    {
+      "path": "/blog/mp4-vs-webm",
+      "branch": "tools",
+      "run": 0,
+      "lcp": 815.18765,
+      "cls": 0,
+      "tbt": 37,
+      "score": 1
+    },
+    {
+      "path": "/blog/mp4-vs-webm",
+      "branch": "tools",
+      "run": 1,
+      "lcp": 816.59895,
+      "cls": 0,
+      "tbt": 38,
+      "score": 1
+    },
+    {
+      "path": "/blog/mp4-vs-webm",
+      "branch": "main",
+      "run": 1,
+      "lcp": 813.9672,
+      "cls": 0,
+      "tbt": 35,
+      "score": 1
+    },
+    {
+      "path": "/blog/mp4-vs-webm",
+      "branch": "main",
+      "run": 2,
+      "lcp": 811.4605,
+      "cls": 0,
+      "tbt": 40,
+      "score": 1
+    },
+    {
+      "path": "/blog/mp4-vs-webm",
+      "branch": "tools",
+      "run": 2,
+      "lcp": 813.5248,
+      "cls": 0,
+      "tbt": 39,
+      "score": 1
+    }
+  ],
+  "initialJS": [
+    {
+      "path": "/",
+      "branch": "main",
+      "initialJS": {
+        "raw": 609083,
+        "gzip": 191176
+      },
+      "runs": [
+        {
+          "lcp": 228,
+          "cls": 0,
+          "tbt": 45
+        },
+        {
+          "lcp": 240,
+          "cls": 0,
+          "tbt": 53
+        },
+        {
+          "lcp": 248,
+          "cls": 0,
+          "tbt": 62
+        }
+      ],
+      "median": {
+        "lcp": 240,
+        "cls": 0,
+        "tbt": 53
+      }
+    },
+    {
+      "path": "/",
+      "branch": "tools",
+      "initialJS": {
+        "raw": 615798,
+        "gzip": 193823
+      },
+      "runs": [
+        {
+          "lcp": 252,
+          "cls": 0,
+          "tbt": 67
+        },
+        {
+          "lcp": 272,
+          "cls": 0,
+          "tbt": 69
+        },
+        {
+          "lcp": 248,
+          "cls": 0,
+          "tbt": 60
+        }
+      ],
+      "median": {
+        "lcp": 252,
+        "cls": 0,
+        "tbt": 67
+      }
+    },
+    {
+      "path": "/id/download-video-tiktok",
+      "branch": "main",
+      "initialJS": {
+        "raw": 609083,
+        "gzip": 191176
+      },
+      "runs": [
+        {
+          "lcp": 228,
+          "cls": 0,
+          "tbt": 49
+        },
+        {
+          "lcp": 228,
+          "cls": 0,
+          "tbt": 46
+        },
+        {
+          "lcp": 252,
+          "cls": 0,
+          "tbt": 46
+        }
+      ],
+      "median": {
+        "lcp": 228,
+        "cls": 0,
+        "tbt": 46
+      }
+    },
+    {
+      "path": "/id/download-video-tiktok",
+      "branch": "tools",
+      "initialJS": {
+        "raw": 615798,
+        "gzip": 193823
+      },
+      "runs": [
+        {
+          "lcp": 244,
+          "cls": 0,
+          "tbt": 50
+        },
+        {
+          "lcp": 220,
+          "cls": 0,
+          "tbt": 68
+        },
+        {
+          "lcp": 228,
+          "cls": 0,
+          "tbt": 41
+        }
+      ],
+      "median": {
+        "lcp": 228,
+        "cls": 0,
+        "tbt": 50
+      }
+    },
+    {
+      "path": "/fr/tiktok-en-mp3",
+      "branch": "main",
+      "initialJS": {
+        "raw": 609083,
+        "gzip": 191176
+      },
+      "runs": [
+        {
+          "lcp": 196,
+          "cls": 0,
+          "tbt": 53
+        },
+        {
+          "lcp": 228,
+          "cls": 0,
+          "tbt": 55
+        },
+        {
+          "lcp": 212,
+          "cls": 0,
+          "tbt": 46
+        }
+      ],
+      "median": {
+        "lcp": 212,
+        "cls": 0,
+        "tbt": 53
+      }
+    },
+    {
+      "path": "/fr/tiktok-en-mp3",
+      "branch": "tools",
+      "initialJS": {
+        "raw": 615798,
+        "gzip": 193823
+      },
+      "runs": [
+        {
+          "lcp": 264,
+          "cls": 0,
+          "tbt": 50
+        },
+        {
+          "lcp": 216,
+          "cls": 0,
+          "tbt": 65
+        },
+        {
+          "lcp": 220,
+          "cls": 0,
+          "tbt": 62
+        }
+      ],
+      "median": {
+        "lcp": 220,
+        "cls": 0,
+        "tbt": 62
+      }
+    },
+    {
+      "path": "/blog/mp4-vs-webm",
+      "branch": "main",
+      "initialJS": {
+        "raw": 609083,
+        "gzip": 191176
+      },
+      "runs": [
+        {
+          "lcp": 240,
+          "cls": 0,
+          "tbt": 54
+        },
+        {
+          "lcp": 232,
+          "cls": 0,
+          "tbt": 54
+        },
+        {
+          "lcp": 224,
+          "cls": 0,
+          "tbt": 47
+        }
+      ],
+      "median": {
+        "lcp": 232,
+        "cls": 0,
+        "tbt": 54
+      }
+    },
+    {
+      "path": "/blog/mp4-vs-webm",
+      "branch": "tools",
+      "initialJS": {
+        "raw": 615798,
+        "gzip": 193823
+      },
+      "runs": [
+        {
+          "lcp": 228,
+          "cls": 0,
+          "tbt": 47
+        },
+        {
+          "lcp": 196,
+          "cls": 0,
+          "tbt": 48
+        },
+        {
+          "lcp": 184,
+          "cls": 0,
+          "tbt": 52
+        }
+      ],
+      "median": {
+        "lcp": 196,
+        "cls": 0,
+        "tbt": 48
+      }
+    },
+    {
+      "path": "/video-to-mp3",
+      "branch": "tools",
+      "initialJS": {
+        "raw": 615798,
+        "gzip": 193823
+      },
+      "runs": [
+        {
+          "lcp": 212,
+          "cls": 0,
+          "tbt": 63
+        },
+        {
+          "lcp": 196,
+          "cls": 0,
+          "tbt": 50
+        },
+        {
+          "lcp": 196,
+          "cls": 0,
+          "tbt": 48
+        }
+      ],
+      "median": {
+        "lcp": 196,
+        "cls": 0,
+        "tbt": 50
+      }
+    }
+  ],
+  "chromium": {
+    "browser": "156.0.8078.79",
+    "results": [
+      {
+        "name": "recording.mp4 audio",
+        "bytes": 49083,
+        "duration": 2.038617,
+        "ms": 203,
+        "codecs": [
+          "mp3"
+        ],
+        "audioBitrate": 192000
+      },
+      {
+        "name": "recording.mp4 compress",
+        "bytes": 151890,
+        "duration": 2,
+        "ms": 288,
+        "codecs": [
+          "vp8",
+          "opus"
+        ],
+        "audioBitrate": null
+      },
+      {
+        "name": "recording.mp4 trim",
+        "bytes": 36319,
+        "duration": 1.133333,
+        "ms": 200,
+        "codecs": [
+          "h264",
+          "aac"
+        ],
+        "audioBitrate": 70146
+      },
+      {
+        "name": "recording.mp4 gif",
+        "bytes": 96690,
+        "duration": 1,
+        "ms": 979,
+        "codecs": [
+          "gif"
+        ],
+        "audioBitrate": null
+      },
+      {
+        "name": "iphone-style.mov audio",
+        "bytes": 49083,
+        "duration": 2.038617,
+        "ms": 166,
+        "codecs": [
+          "mp3"
+        ],
+        "audioBitrate": 192000
+      },
+      {
+        "name": "iphone-style.mov compress",
+        "bytes": 151890,
+        "duration": 2,
+        "ms": 274,
+        "codecs": [
+          "vp8",
+          "opus"
+        ],
+        "audioBitrate": null
+      },
+      {
+        "name": "iphone-style.mov trim",
+        "bytes": 36221,
+        "duration": 1.133333,
+        "ms": 224,
+        "codecs": [
+          "h264",
+          "aac"
+        ],
+        "audioBitrate": 70146
+      },
+      {
+        "name": "iphone-style.mov gif",
+        "bytes": 96690,
+        "duration": 1,
+        "ms": 985,
+        "codecs": [
+          "gif"
+        ],
+        "audioBitrate": null
+      },
+      {
+        "name": "recording.webm audio",
+        "bytes": 49152,
+        "duration": 2.040979,
+        "ms": 159,
+        "codecs": [
+          "mp3"
+        ],
+        "audioBitrate": 192000
+      },
+      {
+        "name": "recording.webm compress",
+        "bytes": 148923,
+        "duration": 2.02,
+        "ms": 296,
+        "codecs": [
+          "vp8",
+          "opus"
+        ],
+        "audioBitrate": null
+      },
+      {
+        "name": "recording.webm trim",
+        "bytes": 37024,
+        "duration": 1.021,
+        "ms": 212,
+        "codecs": [
+          "vp8",
+          "opus"
+        ],
+        "audioBitrate": null
+      },
+      {
+        "name": "recording.webm gif",
+        "bytes": 96533,
+        "duration": 1,
+        "ms": 967,
+        "codecs": [
+          "gif"
+        ],
+        "audioBitrate": null
+      },
+      {
+        "name": "MP3 128",
+        "bytes": 32782,
+        "duration": 2.038617,
+        "ms": 164,
+        "codecs": [
+          "mp3"
+        ],
+        "audioBitrate": 128000
+      },
+      {
+        "name": "MP3 320",
+        "bytes": 81684,
+        "duration": 2.038617,
+        "ms": 166,
+        "codecs": [
+          "mp3"
+        ],
+        "audioBitrate": 320000
+      },
+      {
+        "name": "GIF 15 fps exact timing",
+        "bytes": 145465,
+        "duration": 1,
+        "ms": 965,
+        "codecs": [
+          "gif"
+        ],
+        "audioBitrate": null
+      },
+      {
+        "name": "AAC copy M4A",
+        "bytes": 18703,
+        "duration": 2,
+        "ms": 120,
+        "codecs": [
+          "aac"
+        ],
+        "audioBitrate": 69655
+      },
+      {
+        "name": "precise trim",
+        "bytes": 83756,
+        "duration": 0.92,
+        "ms": 511,
+        "codecs": [
+          "vp8",
+          "opus"
+        ],
+        "audioBitrate": null
+      },
+      {
+        "name": "compress light",
+        "bytes": 179855,
+        "duration": 2,
+        "ms": 297,
+        "codecs": [
+          "vp8",
+          "opus"
+        ],
+        "audioBitrate": null
+      },
+      {
+        "name": "compress strong",
+        "bytes": 97229,
+        "duration": 2,
+        "ms": 319,
+        "codecs": [
+          "vp8",
+          "opus"
+        ],
+        "audioBitrate": null
+      },
+      {
+        "name": "desktop 32 MiB admission",
+        "bytes": 49083,
+        "duration": 2.038617,
+        "ms": 185,
+        "codecs": [
+          "mp3"
+        ],
+        "audioBitrate": 192000
+      }
+    ],
+    "localizedPages": 32,
+    "privacy": {
+      "violations": [],
+      "requests": [
+        "/local-media/generated/engine.js",
+        "/local-media/generated/mp3.js",
+        "/local-media/generated/lame.wasm"
+      ]
+    },
+    "limits": {
+      "mobileMiB": 8,
+      "desktopMiB": 32
+    },
+    "physicalMobileTested": false
+  },
+  "webkit": {
+    "browser": "27.2",
+    "results": [
+      {
+        "name": "recording.mp4 audio",
+        "bytes": 49083,
+        "duration": 2.038617,
+        "ms": 282,
+        "codecs": [
+          "mp3"
+        ],
+        "audioBitrate": 192000
+      },
+      {
+        "name": "recording.mp4 compress",
+        "bytes": 106462,
+        "duration": 2.037,
+        "ms": 352,
+        "codecs": [
+          "vp8",
+          "opus"
+        ],
+        "audioBitrate": null
+      },
+      {
+        "name": "recording.mp4 trim",
+        "bytes": 36319,
+        "duration": 1.133333,
+        "ms": 164,
+        "codecs": [
+          "h264",
+          "aac"
+        ],
+        "audioBitrate": 70146
+      },
+      {
+        "name": "recording.mp4 gif",
+        "bytes": 92323,
+        "duration": 1,
+        "ms": 859,
+        "codecs": [
+          "gif"
+        ],
+        "audioBitrate": null
+      },
+      {
+        "name": "iphone-style.mov audio",
+        "bytes": 49083,
+        "duration": 2.038617,
+        "ms": 260,
+        "codecs": [
+          "mp3"
+        ],
+        "audioBitrate": 192000
+      },
+      {
+        "name": "iphone-style.mov compress",
+        "bytes": 106462,
+        "duration": 2.037,
+        "ms": 349,
+        "codecs": [
+          "vp8",
+          "opus"
+        ],
+        "audioBitrate": null
+      },
+      {
+        "name": "iphone-style.mov trim",
+        "bytes": 36221,
+        "duration": 1.133333,
+        "ms": 194,
+        "codecs": [
+          "h264",
+          "aac"
+        ],
+        "audioBitrate": 70146
+      },
+      {
+        "name": "iphone-style.mov gif",
+        "bytes": 92323,
+        "duration": 1,
+        "ms": 968,
+        "codecs": [
+          "gif"
+        ],
+        "audioBitrate": null
+      },
+      {
+        "name": "recording.webm audio",
+        "bytes": 49152,
+        "duration": 2.040979,
+        "ms": 289,
+        "codecs": [
+          "mp3"
+        ],
+        "audioBitrate": 192000
+      },
+      {
+        "name": "recording.webm compress",
+        "bytes": 105518,
+        "duration": 2.027,
+        "ms": 254,
+        "codecs": [
+          "vp8",
+          "opus"
+        ],
+        "audioBitrate": null
+      },
+      {
+        "name": "recording.webm trim",
+        "bytes": 37024,
+        "duration": 1.021,
+        "ms": 140,
+        "codecs": [
+          "vp8",
+          "opus"
+        ],
+        "audioBitrate": null
+      },
+      {
+        "name": "recording.webm gif",
+        "bytes": 93210,
+        "duration": 1,
+        "ms": 874,
+        "codecs": [
+          "gif"
+        ],
+        "audioBitrate": null
+      },
+      {
+        "name": "MP3 128",
+        "bytes": 32782,
+        "duration": 2.038617,
+        "ms": 399,
+        "codecs": [
+          "mp3"
+        ],
+        "audioBitrate": 128000
+      },
+      {
+        "name": "MP3 320",
+        "bytes": 81684,
+        "duration": 2.038617,
+        "ms": 483,
+        "codecs": [
+          "mp3"
+        ],
+        "audioBitrate": 320000
+      },
+      {
+        "name": "GIF 15 fps exact timing",
+        "bytes": 138809,
+        "duration": 1,
+        "ms": 1041,
+        "codecs": [
+          "gif"
+        ],
+        "audioBitrate": null
+      },
+      {
+        "name": "AAC copy M4A",
+        "bytes": 18703,
+        "duration": 2,
+        "ms": 248,
+        "codecs": [
+          "aac"
+        ],
+        "audioBitrate": 69655
+      },
+      {
+        "name": "precise trim",
+        "bytes": 64697,
+        "duration": 0.922,
+        "ms": 312,
+        "codecs": [
+          "vp8",
+          "opus"
+        ],
+        "audioBitrate": null
+      },
+      {
+        "name": "compress light",
+        "bytes": 160647,
+        "duration": 2.037,
+        "ms": 373,
+        "codecs": [
+          "vp8",
+          "opus"
+        ],
+        "audioBitrate": null
+      },
+      {
+        "name": "compress strong",
+        "bytes": 70184,
+        "duration": 2.037,
+        "ms": 300,
+        "codecs": [
+          "vp8",
+          "opus"
+        ],
+        "audioBitrate": null
+      },
+      {
+        "name": "desktop 32 MiB admission",
+        "bytes": 49083,
+        "duration": 2.038617,
+        "ms": 249,
+        "codecs": [
+          "mp3"
+        ],
+        "audioBitrate": 192000
+      }
+    ],
+    "localizedPages": 32,
+    "privacy": {
+      "violations": [],
+      "requests": [
+        "/local-media/generated/engine.js",
+        "/local-media/generated/mp3.js",
+        "/local-media/generated/lame.wasm"
+      ]
+    },
+    "limits": {
+      "mobileMiB": 8,
+      "desktopMiB": 32
+    },
+    "physicalMobileTested": false
+  },
+  "buildMode": "VIDFETCH_TARGET=ovh for both main and tools; webpack; third-party URLs blocked"
+}

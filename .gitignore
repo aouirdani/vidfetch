@@ -1,3 +1,4 @@
+/public/local-media/generated/
 node_modules/
 node_modules.local-backup/
 .next/
@@ -28,5 +29,3 @@ test-results/
 # Python deployment checks use temporary bytecode only.
 __pycache__/
 
-/public/local-media/generated/
-/public/local-media/runtime/lame-3.100.tar.gz
