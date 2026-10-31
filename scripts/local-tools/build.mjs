@@ -5,6 +5,8 @@ import {execFileSync} from 'node:child_process';
 import {resolve,dirname} from 'node:path';
 const source=Buffer.concat(await Promise.all([1,2].map(i=>readFile(`scripts/local-tools/lame/source-3.100.part-${i}`))));
 if(createHash('sha256').update(source).digest('hex')!=='ddfe36cab873794038ae2c1210557ad34857a4b6bdc515785d1da9e175b1da1e')throw Error('LAME source checksum mismatch');
+await mkdir('public/local-media/download',{recursive:true});
+await build({entryPoints:['src/local-tools/download.worker.mjs'],outfile:'public/local-media/download/sw.js',bundle:true,format:'esm',platform:'browser',target:'es2022',minify:true});
 const out='public/local-media/generated';await mkdir(`${out}/licenses`,{recursive:true});
 // Replace upstream's inlined binary worker with our reproducible, separately relinkable LAME build.
 const plugin={name:'self-hosted-lame',setup(b){b.onLoad({filter:/mediabunny-mp3-encoder\.mjs$/},async args=>{
@@ -30,7 +32,7 @@ for(const [name,id]of packages){
  for(const file of ['src','package.json',id==='gifenc'?'LICENSE.md':'LICENSE'])await cp(`node_modules/${name}/${file}`,`${kit}/${id}/${file}`,{recursive:true});
 }
 await mkdir(`${kit}/integration`,{recursive:true});
-for(const file of ['scripts/local-tools/build.mjs','src/local-tools/engine.worker.mjs','src/local-tools/limits.ts','package.json','package-lock.json']){await mkdir(`${kit}/integration/${dirname(file)}`,{recursive:true});await cp(file,`${kit}/integration/${file}`);}
+for(const file of ['scripts/local-tools/build.mjs','src/local-tools/engine.worker.mjs','src/local-tools/limits.ts','src/local-tools/opfs.mjs','src/local-tools/storage-policy.ts','src/local-tools/download.worker.mjs','package.json','package-lock.json']){await mkdir(`${kit}/integration/${dirname(file)}`,{recursive:true});await cp(file,`${kit}/integration/${file}`);}
 // The extension uses MP3 helpers from the same upstream monorepo; their unminified form is in the pinned bundle.
 const bundle=await readFile('node_modules/@mediabunny/mp3-encoder/dist/bundles/mediabunny-mp3-encoder.mjs','utf8');
 await writeFile(`${kit}/mp3-encoder/integration.mjs`,bundle.replace(/function Worker2\(\) \{[\s\S]*?\n\}/,()=>`function Worker2(){return new Worker('/local-media/generated/mp3.js',{type:'module'});}`));

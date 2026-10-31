@@ -118,6 +118,7 @@
     "/local-media/generated/licenses/gifenc.txt": null,
     "/local-media/generated/licenses/emscripten.txt": null,
     "/local-media/generated/licenses/musl.txt": null,
-    "/local-media/generated/licenses/compiler-rt.txt": null
+    "/local-media/generated/licenses/compiler-rt.txt": null,
+    "/local-media/download/sw.js": null
   }
 }

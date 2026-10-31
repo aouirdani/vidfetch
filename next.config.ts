@@ -1,3 +1,5 @@
+import {readFileSync} from "node:fs";
+import {createHash} from "node:crypto";
 import type { NextConfig } from "next";
 import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD } from "next/constants";
 import { spawnSync } from "node:child_process";
@@ -33,6 +35,8 @@ export default function configuration(phase: string): NextConfig {
     if (setup.error || setup.status !== 0) throw new Error("VidFetch media engine setup failed. Install yt-dlp with curl_cffi or set YTDLP_PATH to a working standalone binary.");
   }
 
+  const mediaRevision=createHash("sha256");
+  for(const file of ["src/local-tools/engine.worker.mjs","src/local-tools/opfs.mjs","src/local-tools/storage-policy.ts","src/local-tools/download.worker.mjs","src/local-tools/limits.ts","scripts/local-tools/build.mjs","package-lock.json"])mediaRevision.update(file).update(readFileSync(resolve(file)));
   return {
     skipTrailingSlashRedirect: true,
     outputFileTracingIncludes: { "/*": ["./content/guides/**/*.md"] },
@@ -40,6 +44,7 @@ export default function configuration(phase: string): NextConfig {
     // The default frontend never needs engines, database credentials or platform flags.
     // Alias at build time: engines and database code never enter its API bundles.
     env: {
+      NEXT_PUBLIC_LOCAL_MEDIA_REVISION: mediaRevision.digest("hex").slice(0,16),
       NEXT_PUBLIC_DOWNLOADS_UNAVAILABLE: downloadsUnavailable ? "1" : "0",
       NEXT_PUBLIC_OVH_MODE: isOVH ? "1" : "0",
       NEXT_PUBLIC_API_ORIGIN: isOVH ? "" : gateway ?? (downloadsUnavailable ? "" : (process.env.NEXT_PUBLIC_API_ORIGIN ?? "")),

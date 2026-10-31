@@ -107,3 +107,22 @@ node scripts/local-tools/measure-memory.mjs --fixtures /tmp/vidfetch-camera-long
 node scripts/local-tools/measure-memory.mjs --fixtures /tmp/vidfetch-camera-long/manifest.json --filter 20min --tools audio,trim --clip 30 --report /tmp/memory-desktop-buffer.jsonl
 node scripts/local-tools/measure-memory.mjs --fixtures /tmp/vidfetch-camera-long/manifest.json --filter 20min --tools audio,trim --sink file --browsers chromium --report /tmp/memory-desktop-stream.jsonl
 ```
+
+## Extension OPFS — copie mobile complète (~200 Mio)
+
+Quatre mesures supplémentaires, avec le profil mobile sur Mac, aucune dérogation de plafond. La phase de conversion OPFS ne transfère aucun tableau de résultat vers la fenêtre. Le service de téléchargement est testé séparément ; sa mémoire native n’est pas incluse dans cette série. Pas de téléphone physique ni de pic JS complet WebKit. Données : [LOCAL-TOOLS-OPFS-MEMORY.json](LOCAL-TOOLS-OPFS-MEMORY.json).
+
+| Navigateur | Entrée | Pic physique Mio | Heap / backing Mio | Sortie Mio |
+|---|---|---:|---:|---:|
+| chromium | 1080p-200 | 584.6 | 8.4 / 76.0 | 199.6 |
+| chromium | 4k-200 | 587.9 | 10.0 / 83.9 | 199.9 |
+| webkit | 1080p-200 | 407.2 | 6.8 / n.d. | 199.6 |
+| webkit | 4k-200 | 410.6 | 6.5 / n.d. | 199.9 |
+
+En comparaison, la copie en tampon mémoire de la matrice historique atteignait ~1 075–1 285 Mio Chromium et ~1 413–1 430 Mio WebKit sur ces entrées. Il s’agit de mesures de laboratoire espacées, pas d’une comparaison en alternance sur téléphone. La mémoire du gestionnaire de téléchargement iOS doit encore être mesurée sur appareil.
+
+```sh
+node scripts/local-tools/measure-memory.mjs --sink opfs --filter 200 --tools trim --device mobile --fixtures /tmp/vidfetch-camera-bench/manifest.json --report /tmp/opfs-memory.jsonl
+```
+
+Deux copies OPFS complètes supplémentaires depuis la source desktop 1080p ~1 014 Mio / 19 min 50 s ont réussi, sans dérogation de plafond : pic physique **762,3 Mio Chromium / 465,2 Mio WebKit**. Comme les quatre profils mobiles, elles couvrent la conversion et la validation du fichier, pas le gestionnaire de téléchargement natif. Les sorties font 1 062 895 841 octets ; les lignes détaillées sont dans le JSON OPFS.
