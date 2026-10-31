@@ -12,3 +12,5 @@ export function toolCopy(locale:Locale,id:LocalToolId):ToolCopy{return content[l
 export function toolPath(locale:Locale,id:LocalToolId){return `${locale==='en'?'':`/${LANGUAGES[locale].prefix}`}/${SLUGS[locale][TOOL_IDS.indexOf(id)]}`;}
 export function toolLinks(locale:Locale){return TOOL_IDS.map(id=>({id,href:toolPath(locale,id),label:toolCopy(locale,id).heading}));}
 export const TOOL_GUIDES:Record<LocalToolId,string[]>={audio:['video-to-audio','mp3-vs-m4a'],compress:['reduce-video-size','720p-1080p-4k','bitrate-vs-resolution'],trim:['backup-your-videos','video-format-smartphone'],gif:['mp4-vs-webm','bitrate-vs-resolution']};
+
+export const ENGLISH_GUIDE_NOTE:Record<Locale,string>={en:"English",fr:"en anglais",es:"en inglés","pt-BR":"em inglês",id:"bahasa Inggris",de:"auf Englisch",it:"in inglese",ar:"بالإنجليزية"};

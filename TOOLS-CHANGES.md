@@ -36,7 +36,7 @@ AdSense est absent des pages outils locales : aucun contact tiers pendant l’ut
 - it: `https://vidfetch.app/it/convertire-video-in-mp3`, `https://vidfetch.app/it/comprimere-video`, `https://vidfetch.app/it/tagliare-video`, `https://vidfetch.app/it/video-in-gif`
 - ar: `https://vidfetch.app/ar/tahwil-video-ila-mp3`, `https://vidfetch.app/ar/daght-video`, `https://vidfetch.app/ar/qass-video`, `https://vidfetch.app/ar/video-ila-gif`
 
-Chaque page a son contenu serveur de 700–1000 mots, un H1, title ≤60, description ≤155, un groupe réciproque complet de huit langues, x-default EN, canonical et JSON-LD WebApplication gratuit/Breadcrumb/FAQ identique au texte visible. Les guides de compression/résolution/bitrate renvoient au compresseur ; les guides audio/MP3-M4A à l’extracteur. Les liens retour pointent seulement vers les guides réellement disponibles dans la langue.
+Chaque page a son contenu serveur de 700–1000 mots, un H1, title ≤60, description ≤155, un groupe réciproque complet de huit langues, x-default EN, canonical et JSON-LD WebApplication gratuit/Breadcrumb/FAQ identique au texte visible. Les guides de compression/résolution/bitrate renvoient au compresseur ; les guides audio/MP3-M4A à l’extracteur. Les liens retour ciblent les guides réellement disponibles dans la langue, ou leurs versions anglaises explicitement signalées lorsque la traduction n’est pas publiée. Aucune route de guide brouillon n’est liée.
 
 ## Vérifications et limites de l’environnement
 
