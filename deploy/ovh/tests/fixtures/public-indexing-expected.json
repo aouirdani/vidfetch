@@ -115,6 +115,9 @@
     "/local-media/generated/licenses/mediabunny.txt": null,
     "/local-media/generated/licenses/mp3-encoder.txt": null,
     "/local-media/generated/licenses/lame.txt": null,
-    "/local-media/generated/licenses/gifenc.txt": null
+    "/local-media/generated/licenses/gifenc.txt": null,
+    "/local-media/generated/licenses/emscripten.txt": null,
+    "/local-media/generated/licenses/musl.txt": null,
+    "/local-media/generated/licenses/compiler-rt.txt": null
   }
 }

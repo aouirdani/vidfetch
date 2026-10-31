@@ -125,7 +125,7 @@ try {
     }
     for(const href of data.links.filter(h=>h?.startsWith('/') && !h.startsWith('//'))) {
       const target=new URL(href,origin); target.hash=''; target.search='';
-      if(/^\/local-media\/generated\/(licenses\/(mediabunny|mp3-encoder|lame|gifenc)\.txt|corresponding-source\.tar\.gz)$/.test(target.pathname)) {
+      if(/^\/local-media\/generated\/(licenses\/(mediabunny|mp3-encoder|lame|gifenc|emscripten|musl|compiler-rt)\.txt|corresponding-source\.tar\.gz)$/.test(target.pathname)) {
         assert.equal((await request(target.pathname)).status,200,`license/source asset ${target.pathname}`);
       } else assert.ok(pages.has(target.href),`${url}: internal content link outside sitemap: ${target.href}`);
     }

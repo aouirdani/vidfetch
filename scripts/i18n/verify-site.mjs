@@ -67,7 +67,7 @@ try {
     else assert.ok([2,3,9].includes(Object.keys(data.alternates).length), path);
     if (indexable) alternatesOf.set(new URL(path, 'https://vidfetch.app').href, data.alternates);
     assert.ok(data.jsonld.length, path);
-    for (const href of data.links.filter(href => href.startsWith('/') && !href.startsWith('//'))) { if (/^\/local-media\/generated\/(licenses\/(mediabunny|mp3-encoder|lame|gifenc)\.txt|corresponding-source\.tar\.gz)$/.test(href)) assert.equal((await fetch(base+href)).status,200); else assert.ok(allPaths.has(decodeURI(href.split('#')[0].split('?')[0]) || '/'), `${path} -> ${href}`); }
+    for (const href of data.links.filter(href => href.startsWith('/') && !href.startsWith('//'))) { if (/^\/local-media\/generated\/(licenses\/(mediabunny|mp3-encoder|lame|gifenc|emscripten|musl|compiler-rt)\.txt|corresponding-source\.tar\.gz)$/.test(href)) assert.equal((await fetch(base+href)).status,200); else assert.ok(allPaths.has(decodeURI(href.split('#')[0].split('?')[0]) || '/'), `${path} -> ${href}`); }
     const locale = locales[roots.findIndex(root => root && (decodeURI(path) === '/' + root || decodeURI(path).startsWith('/' + root + '/')))] ?? 'en';
     assert.equal(data.lang, locale, path); assert.equal(data.dir, locale === 'ar' ? 'rtl' : 'ltr');
     evidence.serverPages++;

@@ -45,6 +45,12 @@
           "question": "Where is the finished file?",
           "answer": "Use the download link when processing finishes. Your browser chooses the download location. On a phone, check Files or Downloads before trying to import a compatible video into Photos or the gallery."
         }
+      ],
+      "stepsHeading": "Convert a file in three steps",
+      "steps": [
+        "Choose a video saved on your device. Check its size and duration before proceeding.",
+        "Select MP3 and its bitrate, or M4A only for an existing AAC track.",
+        "Start the local conversion and keep this tab open. Check the result, then use its download link."
       ]
     },
     "compress": {
@@ -92,6 +98,12 @@
           "question": "Where is the finished file?",
           "answer": "Use the download link when processing finishes. Your browser chooses the download location. On a phone, check Files or Downloads before trying to import a compatible video into Photos or the gallery."
         }
+      ],
+      "stepsHeading": "Convert a file in three steps",
+      "steps": [
+        "Choose a video saved on your device. Check its size and duration before proceeding.",
+        "Choose a compression preset and, if useful, a maximum height. Check the estimate.",
+        "Start the local conversion and keep this tab open. Check the result, then use its download link."
       ]
     },
     "trim": {
@@ -140,6 +152,12 @@
           "question": "Where is the finished file?",
           "answer": "Use the download link when processing finishes. Your browser chooses the download location. On a phone, check Files or Downloads before trying to import a compatible video into Photos or the gallery."
         }
+      ],
+      "stepsHeading": "Convert a file in three steps",
+      "steps": [
+        "Choose a video saved on your device. Check its size and duration before proceeding.",
+        "Set the start and end in seconds. Choose keyframe copying or precise reencoding.",
+        "Start the local conversion and keep this tab open. Check the result, then use its download link."
       ]
     },
     "gif": {
@@ -187,6 +205,12 @@
           "question": "Where is the finished file?",
           "answer": "Use the download link when processing finishes. Your browser chooses the download location. On a phone, check Files or Downloads before trying to import a compatible video into Photos or the gallery."
         }
+      ],
+      "stepsHeading": "Convert a file in three steps",
+      "steps": [
+        "Choose a video saved on your device. Check its size and duration before proceeding.",
+        "Select up to 15 seconds, then choose the GIF width and frame rate.",
+        "Start the local conversion and keep this tab open. Check the result, then use its download link."
       ]
     }
   },
@@ -236,6 +260,12 @@
           "question": "Où retrouver le résultat sur téléphone ?",
           "answer": "Utilisez le lien de téléchargement une fois le traitement terminé. Regardez dans Fichiers ou Téléchargements. Vous pourrez ensuite importer une vidéo compatible dans Photos ou dans la galerie selon votre téléphone."
         }
+      ],
+      "stepsHeading": "Trois étapes sur votre appareil",
+      "steps": [
+        "Choisissez une vidéo déjà enregistrée sur votre appareil. Vérifiez sa taille et sa durée.",
+        "Choisissez le MP3 et son débit, ou le M4A uniquement pour une piste AAC existante.",
+        "Lancez le traitement local et gardez cet onglet ouvert. Vérifiez le résultat, puis utilisez son lien de téléchargement."
       ]
     },
     "compress": {
@@ -283,6 +313,12 @@
           "question": "Où retrouver le résultat sur téléphone ?",
           "answer": "Utilisez le lien de téléchargement une fois le traitement terminé. Regardez dans Fichiers ou Téléchargements. Vous pourrez ensuite importer une vidéo compatible dans Photos ou dans la galerie selon votre téléphone."
         }
+      ],
+      "stepsHeading": "Trois étapes sur votre appareil",
+      "steps": [
+        "Choisissez une vidéo déjà enregistrée sur votre appareil. Vérifiez sa taille et sa durée.",
+        "Sélectionnez un niveau de compression et, si utile, une hauteur maximale. Consultez l’estimation.",
+        "Lancez le traitement local et gardez cet onglet ouvert. Vérifiez le résultat, puis utilisez son lien de téléchargement."
       ]
     },
     "trim": {
@@ -330,6 +366,12 @@
           "question": "Où retrouver le résultat sur téléphone ?",
           "answer": "Utilisez le lien de téléchargement une fois le traitement terminé. Regardez dans Fichiers ou Téléchargements. Vous pourrez ensuite importer une vidéo compatible dans Photos ou dans la galerie selon votre téléphone."
         }
+      ],
+      "stepsHeading": "Trois étapes sur votre appareil",
+      "steps": [
+        "Choisissez une vidéo déjà enregistrée sur votre appareil. Vérifiez sa taille et sa durée.",
+        "Indiquez début et fin en secondes. Choisissez la copie sur image clé ou le réencodage précis.",
+        "Lancez le traitement local et gardez cet onglet ouvert. Vérifiez le résultat, puis utilisez son lien de téléchargement."
       ]
     },
     "gif": {
@@ -377,6 +419,12 @@
           "question": "Où retrouver le résultat sur téléphone ?",
           "answer": "Utilisez le lien de téléchargement une fois le traitement terminé. Regardez dans Fichiers ou Téléchargements. Vous pourrez ensuite importer une vidéo compatible dans Photos ou dans la galerie selon votre téléphone."
         }
+      ],
+      "stepsHeading": "Trois étapes sur votre appareil",
+      "steps": [
+        "Choisissez une vidéo déjà enregistrée sur votre appareil. Vérifiez sa taille et sa durée.",
+        "Sélectionnez au plus 15 secondes, puis réglez la largeur et la cadence du GIF.",
+        "Lancez le traitement local et gardez cet onglet ouvert. Vérifiez le résultat, puis utilisez son lien de téléchargement."
       ]
     }
   },
@@ -429,6 +477,12 @@
           "question": "¿Dónde está el resultado en el móvil?",
           "answer": "Pulsa el enlace de descarga al terminar. Busca el archivo en Archivos o Descargas. Después podrás importar un vídeo compatible a Fotos o a la galería, según tu dispositivo."
         }
+      ],
+      "stepsHeading": "Tres pasos en tu dispositivo",
+      "steps": [
+        "Elige un vídeo guardado en tu dispositivo. Comprueba su tamaño y duración antes de continuar.",
+        "Selecciona MP3 y su tasa de bits, o M4A solo para una pista AAC existente.",
+        "Inicia el proceso local y mantén abierta esta pestaña. Revisa el resultado y utiliza su enlace de descarga."
       ]
     },
     "compress": {
@@ -478,6 +532,12 @@
           "question": "¿Dónde está el resultado en el móvil?",
           "answer": "Pulsa el enlace de descarga al terminar. Busca el archivo en Archivos o Descargas. Después podrás importar un vídeo compatible a Fotos o a la galería, según tu dispositivo."
         }
+      ],
+      "stepsHeading": "Tres pasos en tu dispositivo",
+      "steps": [
+        "Elige un vídeo guardado en tu dispositivo. Comprueba su tamaño y duración antes de continuar.",
+        "Elige un ajuste de compresión y, si lo necesitas, una altura máxima. Revisa la estimación.",
+        "Inicia el proceso local y mantén abierta esta pestaña. Revisa el resultado y utiliza su enlace de descarga."
       ]
     },
     "trim": {
@@ -528,6 +588,12 @@
           "question": "¿Dónde está el resultado en el móvil?",
           "answer": "Pulsa el enlace de descarga al terminar. Busca el archivo en Archivos o Descargas. Después podrás importar un vídeo compatible a Fotos o a la galería, según tu dispositivo."
         }
+      ],
+      "stepsHeading": "Tres pasos en tu dispositivo",
+      "steps": [
+        "Elige un vídeo guardado en tu dispositivo. Comprueba su tamaño y duración antes de continuar.",
+        "Indica inicio y final en segundos. Elige copia en fotograma clave o recodificación precisa.",
+        "Inicia el proceso local y mantén abierta esta pestaña. Revisa el resultado y utiliza su enlace de descarga."
       ]
     },
     "gif": {
@@ -578,6 +644,12 @@
           "question": "¿Dónde está el resultado en el móvil?",
           "answer": "Pulsa el enlace de descarga al terminar. Busca el archivo en Archivos o Descargas. Después podrás importar un vídeo compatible a Fotos o a la galería, según tu dispositivo."
         }
+      ],
+      "stepsHeading": "Tres pasos en tu dispositivo",
+      "steps": [
+        "Elige un vídeo guardado en tu dispositivo. Comprueba su tamaño y duración antes de continuar.",
+        "Selecciona hasta 15 segundos y ajusta el ancho y los fotogramas por segundo del GIF.",
+        "Inicia el proceso local y mantén abierta esta pestaña. Revisa el resultado y utiliza su enlace de descarga."
       ]
     }
   },
@@ -629,6 +701,12 @@
           "question": "Onde encontro o resultado no celular?",
           "answer": "Use o link de download ao terminar. Confira Arquivos ou Downloads. Depois, importe um vídeo compatível para Fotos ou para o Rolo da Câmera conforme as opções do aparelho."
         }
+      ],
+      "stepsHeading": "Três passos no seu aparelho",
+      "steps": [
+        "Escolha um vídeo já salvo no aparelho. Confira o tamanho e a duração antes de continuar.",
+        "Selecione MP3 e o bitrate desejado, ou M4A apenas para uma faixa AAC existente.",
+        "Inicie o processamento local e mantenha a aba aberta. Confira o resultado e use o link para baixar a cópia."
       ]
     },
     "compress": {
@@ -678,6 +756,12 @@
           "question": "Onde encontro o resultado no celular?",
           "answer": "Use o link de download ao terminar. Confira Arquivos ou Downloads. Depois, importe um vídeo compatível para Fotos ou para o Rolo da Câmera conforme as opções do aparelho."
         }
+      ],
+      "stepsHeading": "Três passos no seu aparelho",
+      "steps": [
+        "Escolha um vídeo já salvo no aparelho. Confira o tamanho e a duração antes de continuar.",
+        "Escolha um perfil de compressão e, se necessário, uma altura máxima. Confira a estimativa.",
+        "Inicie o processamento local e mantenha a aba aberta. Confira o resultado e use o link para baixar a cópia."
       ]
     },
     "trim": {
@@ -727,6 +811,12 @@
           "question": "Onde encontro o resultado no celular?",
           "answer": "Use o link de download ao terminar. Confira Arquivos ou Downloads. Depois, importe um vídeo compatível para Fotos ou para o Rolo da Câmera conforme as opções do aparelho."
         }
+      ],
+      "stepsHeading": "Três passos no seu aparelho",
+      "steps": [
+        "Escolha um vídeo já salvo no aparelho. Confira o tamanho e a duração antes de continuar.",
+        "Informe início e fim em segundos. Escolha cópia por quadro-chave ou recodificação precisa.",
+        "Inicie o processamento local e mantenha a aba aberta. Confira o resultado e use o link para baixar a cópia."
       ]
     },
     "gif": {
@@ -776,6 +866,12 @@
           "question": "Onde encontro o resultado no celular?",
           "answer": "Use o link de download ao terminar. Confira Arquivos ou Downloads. Depois, importe um vídeo compatível para Fotos ou para o Rolo da Câmera conforme as opções do aparelho."
         }
+      ],
+      "stepsHeading": "Três passos no seu aparelho",
+      "steps": [
+        "Escolha um vídeo já salvo no aparelho. Confira o tamanho e a duração antes de continuar.",
+        "Selecione até 15 segundos e ajuste a largura e os quadros por segundo do GIF.",
+        "Inicie o processamento local e mantenha a aba aberta. Confira o resultado e use o link para baixar a cópia."
       ]
     }
   },
@@ -829,6 +925,12 @@
           "question": "Di mana hasilnya tersimpan di ponsel?",
           "answer": "Gunakan tautan unduhan setelah proses selesai. Cari berkas melalui File Manager atau folder Downloads. Setelah itu, impor video yang sesuai ke galeri menggunakan pilihan yang tersedia di ponsel."
         }
+      ],
+      "stepsHeading": "Tiga langkah di perangkat Anda",
+      "steps": [
+        "Pilih video yang sudah tersimpan di perangkat. Periksa ukuran dan durasinya sebelum melanjutkan.",
+        "Pilih MP3 beserta bitrate, atau M4A hanya untuk trek AAC yang sudah ada.",
+        "Mulai proses lokal dan biarkan tab terbuka. Periksa hasilnya, kemudian gunakan tautan unduhan untuk menyimpan salinan."
       ]
     },
     "compress": {
@@ -880,6 +982,12 @@
           "question": "Di mana hasilnya tersimpan di ponsel?",
           "answer": "Gunakan tautan unduhan setelah proses selesai. Cari berkas melalui File Manager atau folder Downloads. Setelah itu, impor video yang sesuai ke galeri menggunakan pilihan yang tersedia di ponsel."
         }
+      ],
+      "stepsHeading": "Tiga langkah di perangkat Anda",
+      "steps": [
+        "Pilih video yang sudah tersimpan di perangkat. Periksa ukuran dan durasinya sebelum melanjutkan.",
+        "Tentukan setelan kompresi dan, bila perlu, tinggi maksimal. Perhatikan perkiraan ukurannya.",
+        "Mulai proses lokal dan biarkan tab terbuka. Periksa hasilnya, kemudian gunakan tautan unduhan untuk menyimpan salinan."
       ]
     },
     "trim": {
@@ -932,6 +1040,12 @@
           "question": "Di mana hasilnya tersimpan di ponsel?",
           "answer": "Gunakan tautan unduhan setelah proses selesai. Cari berkas melalui File Manager atau folder Downloads. Setelah itu, impor video yang sesuai ke galeri menggunakan pilihan yang tersedia di ponsel."
         }
+      ],
+      "stepsHeading": "Tiga langkah di perangkat Anda",
+      "steps": [
+        "Pilih video yang sudah tersimpan di perangkat. Periksa ukuran dan durasinya sebelum melanjutkan.",
+        "Masukkan waktu mulai dan selesai dalam detik. Pilih salinan pada keyframe atau pengodean ulang presisi.",
+        "Mulai proses lokal dan biarkan tab terbuka. Periksa hasilnya, kemudian gunakan tautan unduhan untuk menyimpan salinan."
       ]
     },
     "gif": {
@@ -983,6 +1097,12 @@
           "question": "Di mana hasilnya tersimpan di ponsel?",
           "answer": "Gunakan tautan unduhan setelah proses selesai. Cari berkas melalui File Manager atau folder Downloads. Setelah itu, impor video yang sesuai ke galeri menggunakan pilihan yang tersedia di ponsel."
         }
+      ],
+      "stepsHeading": "Tiga langkah di perangkat Anda",
+      "steps": [
+        "Pilih video yang sudah tersimpan di perangkat. Periksa ukuran dan durasinya sebelum melanjutkan.",
+        "Pilih cuplikan hingga 15 detik, lalu atur lebar dan jumlah bingkai per detik GIF.",
+        "Mulai proses lokal dan biarkan tab terbuka. Periksa hasilnya, kemudian gunakan tautan unduhan untuk menyimpan salinan."
       ]
     }
   },
@@ -1036,6 +1156,12 @@
           "question": "Wo finde ich das Ergebnis auf dem Handy?",
           "answer": "Nutze nach der Verarbeitung den Downloadlink. Suche unter Dateien oder Downloads. Anschließend kannst du ein kompatibles Video mit den Funktionen deines Geräts in Fotos oder die Galerie übernehmen."
         }
+      ],
+      "stepsHeading": "Drei Schritte auf deinem Gerät",
+      "steps": [
+        "Wähle eine bereits gespeicherte Videoaufnahme. Prüfe vor dem Start ihre Größe und Dauer.",
+        "Wähle MP3 mit gewünschter Bitrate oder M4A ausschließlich für eine vorhandene AAC-Spur.",
+        "Starte die lokale Verarbeitung und lass den Tab geöffnet. Prüfe das Ergebnis und lade es über seinen Downloadlink herunter."
       ]
     },
     "compress": {
@@ -1087,6 +1213,12 @@
           "question": "Wo finde ich das Ergebnis auf dem Handy?",
           "answer": "Nutze nach der Verarbeitung den Downloadlink. Suche unter Dateien oder Downloads. Anschließend kannst du ein kompatibles Video mit den Funktionen deines Geräts in Fotos oder die Galerie übernehmen."
         }
+      ],
+      "stepsHeading": "Drei Schritte auf deinem Gerät",
+      "steps": [
+        "Wähle eine bereits gespeicherte Videoaufnahme. Prüfe vor dem Start ihre Größe und Dauer.",
+        "Wähle ein Kompressionsprofil und bei Bedarf eine maximale Höhe. Prüfe die Schätzung.",
+        "Starte die lokale Verarbeitung und lass den Tab geöffnet. Prüfe das Ergebnis und lade es über seinen Downloadlink herunter."
       ]
     },
     "trim": {
@@ -1138,6 +1270,12 @@
           "question": "Wo finde ich das Ergebnis auf dem Handy?",
           "answer": "Nutze nach der Verarbeitung den Downloadlink. Suche unter Dateien oder Downloads. Anschließend kannst du ein kompatibles Video mit den Funktionen deines Geräts in Fotos oder die Galerie übernehmen."
         }
+      ],
+      "stepsHeading": "Drei Schritte auf deinem Gerät",
+      "steps": [
+        "Wähle eine bereits gespeicherte Videoaufnahme. Prüfe vor dem Start ihre Größe und Dauer.",
+        "Gib Anfang und Ende in Sekunden an. Wähle Schlüsselbildkopie oder genaue Neukodierung.",
+        "Starte die lokale Verarbeitung und lass den Tab geöffnet. Prüfe das Ergebnis und lade es über seinen Downloadlink herunter."
       ]
     },
     "gif": {
@@ -1189,6 +1327,12 @@
           "question": "Wo finde ich das Ergebnis auf dem Handy?",
           "answer": "Nutze nach der Verarbeitung den Downloadlink. Suche unter Dateien oder Downloads. Anschließend kannst du ein kompatibles Video mit den Funktionen deines Geräts in Fotos oder die Galerie übernehmen."
         }
+      ],
+      "stepsHeading": "Drei Schritte auf deinem Gerät",
+      "steps": [
+        "Wähle eine bereits gespeicherte Videoaufnahme. Prüfe vor dem Start ihre Größe und Dauer.",
+        "Wähle bis zu 15 Sekunden und stelle Breite sowie Bildrate des GIF ein.",
+        "Starte die lokale Verarbeitung und lass den Tab geöffnet. Prüfe das Ergebnis und lade es über seinen Downloadlink herunter."
       ]
     }
   },
@@ -1241,6 +1385,12 @@
           "question": "Dove trovo il risultato sul telefono?",
           "answer": "Usa il collegamento di download alla fine del lavoro. Controlla File o Download, quindi importa un video compatibile in Foto o nella galleria con le opzioni del dispositivo."
         }
+      ],
+      "stepsHeading": "Tre passaggi sul dispositivo",
+      "steps": [
+        "Scegli un video già salvato sul dispositivo. Controlla dimensioni e durata prima di continuare.",
+        "Seleziona MP3 con il bitrate desiderato oppure M4A solo per una traccia AAC esistente.",
+        "Avvia l’elaborazione locale e lascia aperta la scheda. Controlla il risultato e usa il collegamento per scaricare la copia."
       ]
     },
     "compress": {
@@ -1291,6 +1441,12 @@
           "question": "Dove trovo il risultato sul telefono?",
           "answer": "Usa il collegamento di download alla fine del lavoro. Controlla File o Download, quindi importa un video compatibile in Foto o nella galleria con le opzioni del dispositivo."
         }
+      ],
+      "stepsHeading": "Tre passaggi sul dispositivo",
+      "steps": [
+        "Scegli un video già salvato sul dispositivo. Controlla dimensioni e durata prima di continuare.",
+        "Scegli un profilo di compressione e, se serve, un’altezza massima. Controlla la stima.",
+        "Avvia l’elaborazione locale e lascia aperta la scheda. Controlla il risultato e usa il collegamento per scaricare la copia."
       ]
     },
     "trim": {
@@ -1341,6 +1497,12 @@
           "question": "Dove trovo il risultato sul telefono?",
           "answer": "Usa il collegamento di download alla fine del lavoro. Controlla File o Download, quindi importa un video compatibile in Foto o nella galleria con le opzioni del dispositivo."
         }
+      ],
+      "stepsHeading": "Tre passaggi sul dispositivo",
+      "steps": [
+        "Scegli un video già salvato sul dispositivo. Controlla dimensioni e durata prima di continuare.",
+        "Indica inizio e fine in secondi. Scegli copia sul fotogramma chiave o ricodifica precisa.",
+        "Avvia l’elaborazione locale e lascia aperta la scheda. Controlla il risultato e usa il collegamento per scaricare la copia."
       ]
     },
     "gif": {
@@ -1391,6 +1553,12 @@
           "question": "Dove trovo il risultato sul telefono?",
           "answer": "Usa il collegamento di download alla fine del lavoro. Controlla File o Download, quindi importa un video compatibile in Foto o nella galleria con le opzioni del dispositivo."
         }
+      ],
+      "stepsHeading": "Tre passaggi sul dispositivo",
+      "steps": [
+        "Scegli un video già salvato sul dispositivo. Controlla dimensioni e durata prima di continuare.",
+        "Seleziona fino a 15 secondi e imposta larghezza e fotogrammi al secondo del GIF.",
+        "Avvia l’elaborazione locale e lascia aperta la scheda. Controlla il risultato e usa il collegamento per scaricare la copia."
       ]
     }
   },
@@ -1445,6 +1613,12 @@
           "question": "أين أجد الناتج على الهاتف؟",
           "answer": "استخدم رابط التنزيل بعد اكتمال المعالجة. ابحث في تطبيق الملفات أو مجلد التنزيلات، ثم أضف الفيديو المتوافق إلى الصور أو المعرض باستخدام الخيارات المتاحة على هاتفك."
         }
+      ],
+      "stepsHeading": "ثلاث خطوات على جهازك",
+      "steps": [
+        "اختر فيديو محفوظًا على جهازك وتحقق من حجمه ومدته قبل المتابعة.",
+        "اختر MP3 ومعدل البت المطلوب، أو M4A لمسار AAC موجود أصلًا فقط.",
+        "ابدأ المعالجة المحلية واترك علامة التبويب مفتوحة. افحص الناتج ثم استخدم رابط التنزيل لحفظ النسخة."
       ]
     },
     "compress": {
@@ -1496,6 +1670,12 @@
           "question": "أين أجد الناتج على الهاتف؟",
           "answer": "استخدم رابط التنزيل بعد اكتمال المعالجة. ابحث في تطبيق الملفات أو مجلد التنزيلات، ثم أضف الفيديو المتوافق إلى الصور أو المعرض باستخدام الخيارات المتاحة على هاتفك."
         }
+      ],
+      "stepsHeading": "ثلاث خطوات على جهازك",
+      "steps": [
+        "اختر فيديو محفوظًا على جهازك وتحقق من حجمه ومدته قبل المتابعة.",
+        "حدد إعداد الضغط والارتفاع الأقصى عند الحاجة، وراجع تقدير الحجم قبل البدء.",
+        "ابدأ المعالجة المحلية واترك علامة التبويب مفتوحة. افحص الناتج ثم استخدم رابط التنزيل لحفظ النسخة."
       ]
     },
     "trim": {
@@ -1548,6 +1728,12 @@
           "question": "أين أجد الناتج على الهاتف؟",
           "answer": "استخدم رابط التنزيل بعد اكتمال المعالجة. ابحث في تطبيق الملفات أو مجلد التنزيلات، ثم أضف الفيديو المتوافق إلى الصور أو المعرض باستخدام الخيارات المتاحة على هاتفك."
         }
+      ],
+      "stepsHeading": "ثلاث خطوات على جهازك",
+      "steps": [
+        "اختر فيديو محفوظًا على جهازك وتحقق من حجمه ومدته قبل المتابعة.",
+        "أدخل البداية والنهاية بالثواني واختر النسخ عند إطار مفتاحي أو إعادة الترميز الدقيقة.",
+        "ابدأ المعالجة المحلية واترك علامة التبويب مفتوحة. افحص الناتج ثم استخدم رابط التنزيل لحفظ النسخة."
       ]
     },
     "gif": {
@@ -1599,6 +1785,12 @@
           "question": "أين أجد الناتج على الهاتف؟",
           "answer": "استخدم رابط التنزيل بعد اكتمال المعالجة. ابحث في تطبيق الملفات أو مجلد التنزيلات، ثم أضف الفيديو المتوافق إلى الصور أو المعرض باستخدام الخيارات المتاحة على هاتفك."
         }
+      ],
+      "stepsHeading": "ثلاث خطوات على جهازك",
+      "steps": [
+        "اختر فيديو محفوظًا على جهازك وتحقق من حجمه ومدته قبل المتابعة.",
+        "حدد مقتطفًا لا يتجاوز 15 ثانية، ثم اضبط عرض GIF وعدد الإطارات في الثانية.",
+        "ابدأ المعالجة المحلية واترك علامة التبويب مفتوحة. افحص الناتج ثم استخدم رابط التنزيل لحفظ النسخة."
       ]
     }
   }

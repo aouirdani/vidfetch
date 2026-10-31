@@ -22,6 +22,7 @@ for(const [name,id,license] of packages){
  manifest.push({name,version:pkg.version,license});
 }
 await cp('node_modules/@mediabunny/mp3-encoder/licenses/lame/COPYING',`${out}/licenses/lame.txt`);
+for(const name of ['emscripten','musl','compiler-rt'])await cp(`scripts/local-tools/lame/notices/${name}.txt`,`${out}/licenses/${name}.txt`);
 // Corresponding MPL source, bridge, rebuild recipe and unmodified LGPL source on the same host.
 const kit=`${out}/sources`;await mkdir(kit,{recursive:true});
 for(const [name,id]of packages){

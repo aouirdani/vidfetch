@@ -23,3 +23,10 @@ separate WASM binary. There is no signature check that prevents replacement.
 The generated corresponding-source.tar.gz contains the supplied library source,
 MPL source forms, this recipe and the integration source. All copyright and
 license notices must accompany redistributed versions. No warranty is provided.
+
+Runtime notices: Emscripten 3.1.64 MIT or NCSA (MIT chosen), musl MIT with its
+additional copyright notices, compiler-rt Apache-2.0 WITH LLVM-exception.
+Exact texts from the build image are in notices/, included in the source kit
+and self-hosted license section. Sources: https://github.com/emscripten-core/emscripten/tree/3.1.64
+and its system/lib/libc/musl and system/lib/compiler-rt directories. The LGPL
+library and MPL bridge notices remain independent of these runtime components.
