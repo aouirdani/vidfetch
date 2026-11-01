@@ -273,11 +273,11 @@ class Profile(unittest.TestCase):
 
     def test_installer_script(self):
         script = Path(__file__).with_name('install-web-secrets.test.sh')
+        if subprocess.run(['uname'], capture_output=True, text=True).stdout.strip() != 'Linux':
+            self.skipTest('GNU/Linux required')
         prefix = [] if os.geteuid() == 0 else ['sudo', '-n']
         if prefix and subprocess.run(['sudo', '-n', 'true'], capture_output=True).returncode:
             self.skipTest('root required')
-        if subprocess.run(['uname'], capture_output=True, text=True).stdout.strip() != 'Linux':
-            self.skipTest('GNU/Linux required')
         result = subprocess.run([*prefix, 'bash', str(script)], capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 

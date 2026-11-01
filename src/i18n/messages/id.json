@@ -29,6 +29,8 @@
   "networkError": "Tidak dapat terhubung ke VidFetch. Periksa koneksi Anda dan coba lagi.",
   "backendUnavailable": "Analisis dan unduhan sementara tidak tersedia. Silakan coba lagi nanti.",
   "rateLimited": "Terlalu banyak permintaan. Tunggu sebelum mencoba lagi.",
+  "quotaReached": "Kuota unduhan harian telah tercapai. Kuota diatur ulang pukul 00.00 UTC.",
+  "localToolsCta": "Gunakan alat video lokal selagi menunggu",
   "restricted": "Sumber ini memerlukan izin atau sedang tidak tersedia. VidFetch tidak melewati pembatasannya.",
   "expired": "Izin atau tautan unduhan ini sudah kedaluwarsa. Coba lagi.",
   "limitError": "Media ini melebihi batas ukuran atau durasi layanan.",

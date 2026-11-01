@@ -10,7 +10,8 @@ import { LOCALES, type Locale } from "../../src/i18n/config";
 import { downloadHelper } from "./helper";
 import { WaitingQueue,type QueueOptions } from "./queue";
 
-type Job = { inner: string; owner: string; ip: string; expires: number; retained: number; used: boolean; delivered: boolean; cookie?: string; timer?: NodeJS.Timeout; totalTimer?: NodeJS.Timeout; bytes: number; terminal?: "aborted" | "failed" | "expired"; settle: (bytes: number) => void; controller: AbortController; deadline: number };
+type Reservation = ((bytes: number) => void) & { extend: (neededBytes: number) => boolean; reservedBytes:number };
+type Job = { inner: string; owner: string; ip: string; expires: number; retained: number; used: boolean; delivered: boolean; cookie?: string; timer?: NodeJS.Timeout; totalTimer?: NodeJS.Timeout; bytes: number; reservedBytes: number; reserveMore: (neededBytes: number) => boolean; terminal?: "aborted" | "failed" | "expired"; settle: (bytes: number) => void; controller: AbortController; deadline: number };
 export function createGateway(options: {
   origin: string; sites: string[]; key: Buffer; backend: string; ledger: GatewayLedger;
   requireIsolation?: boolean; ticketMs?: number; retentionMs?: number; operationMs?: number; maxBytes?: number;
@@ -79,7 +80,7 @@ export function createGateway(options: {
     res.on("error", () => {});
     let controller: AbortController | undefined;
     let hold = false, published = false;
-    let quota: ((bytes: number) => void) | undefined;
+    let quota: Reservation | undefined;
     let operationTimer: NodeJS.Timeout | undefined;
     let transferJob: Job | undefined;
     const onClose = () => { if (!res.writableFinished) controller?.abort(); };
@@ -94,7 +95,8 @@ export function createGateway(options: {
       const rawIp = req.headers["x-forwarded-for"];
       if (typeof rawIp !== "string" || !isIP(rawIp)) throw new AccessError("FORBIDDEN_PROXY", 403);
       const ip = alias(isIP(rawIp) === 6 ? new URL(`http://[${rawIp}]`).hostname : rawIp);
-      options.ledger.rate(ip, "request", 120, 60000);
+      options.ledger.metric("requests");
+      options.ledger.rate(ip, "request", options.ledger.config.requestsPerMinute, 60000);
       const url = new URL(req.url ?? "/", options.origin);
       if (url.origin !== options.origin) throw new AccessError("FORBIDDEN_HOST", 403);
       let path = url.pathname;
@@ -120,7 +122,7 @@ export function createGateway(options: {
         if(typeof identity!=="string"||!/^[A-Za-z0-9_-]{43}$/.test(identity))throw new AccessError("INVALID_ACCESS");
         if(typeof requestNonce!=="string"||!/^[a-f0-9-]{36}$/.test(requestNonce)||typeof keyHash!=="string"||!/^[A-Za-z0-9_-]{43}$/.test(keyHash))throw new AccessError("INVALID_ACCESS");
         options.ledger.useProof(`issuer:${keyHash}`,requestNonce);
-        options.ledger.rate(identity,"grant",10,60000);json(res,200,{ok:true});return;
+        options.ledger.rate(identity,"grant",options.ledger.config.grantsPerMinute,60000);json(res,200,{ok:true});return;
       }
       if (path === "/download-helper" && req.method === "GET") {
         const requested = new URL(req.url!, options.origin).searchParams.get("lang");
@@ -150,18 +152,19 @@ export function createGateway(options: {
         res.setHeader("Set-Cookie", "__Secure-vidfetch-transfer=; Path=/api/download; Max-Age=0; Secure; HttpOnly; SameSite=Strict");
         res.writeHead(200, { "Content-Type": response.headers["content-type"] ?? "application/octet-stream", "Content-Disposition": response.headers["content-disposition"] ?? 'attachment; filename="VidFetch_download"', "Cache-Control": "no-store", "Referrer-Policy": "no-referrer", "X-Content-Type-Options": "nosniff" });
         const current = job;
-        let sourceFailed=false;
+        let sourceFailed=false,quotaRejected=false;
         response.once("aborted",()=>{if(!current.controller.signal.aborted)sourceFailed=true;});
         response.once("error",()=>{if(!current.controller.signal.aborted)sourceFailed=true;});
         let nextOutput = Date.now(); let timer: NodeJS.Timeout | undefined;
         const throttle = new Transform({ highWaterMark: 65536, transform(chunk: Buffer, _encoding, callback) {
           if (current.bytes + chunk.length > maxBytes) { sourceFailed=true;return callback(new AccessError("TOO_LARGE", 413)); }
+          if (current.bytes + chunk.length > current.reservedBytes && !current.reserveMore(current.bytes + chunk.length)) { sourceFailed=true;quotaRejected=true;return callback(new AccessError("QUOTA_EXCEEDED", 429)); }
           current.bytes += chunk.length;
           const wait = Math.max(0, nextOutput - Date.now()); nextOutput = Math.max(nextOutput, Date.now()) + chunk.length / bytesPerSecond * 1000;
           timer = setTimeout(() => { timer = undefined; callback(null, chunk); }, wait);
         }, destroy(error, callback) { clearTimeout(timer); callback(error); } });
         try { await pipeline(response, throttle, res, { signal: controller.signal }); current.delivered = true; }
-        catch { current.terminal = !sourceFailed && res.destroyed && !res.writableFinished ? "aborted" : "failed"; controller.abort(); }
+        catch { current.terminal = !sourceFailed && res.destroyed && !res.writableFinished ? "aborted" : "failed"; if(sourceFailed)options.ledger.metric(quotaRejected?"quota_rejected":"other_errors"); controller.abort(); }
         finally { clearTimeout(timer); current.retained = Date.now() + retentionMs; release(current); }
         return;
       }
@@ -215,7 +218,7 @@ export function createGateway(options: {
       const detection = detectPlatform(typeof payload.url === "string" ? payload.url : "");
       if (!detection.ok) throw new AccessError("INVALID_URL", 400);
       if (path === "/api/download" && (typeof payload.format_id !== "string" || !/^[a-zA-Z0-9_.-]{1,180}$/.test(payload.format_id) || !["video", "audio"].includes(String(payload.type)))) throw new AccessError("INVALID_FORMAT", 400);
-      if(!claimed){options.ledger.rate(ip, "work", 20, 600000); options.ledger.rate(claims.sub, "work", 20, 600000);}
+      if(!claimed){options.ledger.rate(ip, "work", options.ledger.config.workPerTenMinutes, 600000); options.ledger.rate(claims.sub, "work", options.ledger.config.workPerTenMinutes, 600000);}
       if(queue&&!claimed){
         if(activeOwner===claims.sub||activeIp===ip)throw new AccessError("QUEUE_DUPLICATE",429);
         if([...jobs.values()].some(job=>job.owner===claims.sub&&!job.delivered&&!job.terminal))throw new AccessError("QUEUE_DUPLICATE",429);
@@ -228,12 +231,21 @@ export function createGateway(options: {
         const health = await upstreamJson("/api/health", "GET", undefined, controller.signal);
         if (health.status !== 200 || (health.data.engine as { isolationProfile?: string } | undefined)?.isolationProfile !== (options.isolationProfile ?? "vidfetch-netns-v1")) throw new AccessError("SECURITY_NOT_READY", 503);
       }
-      if (path === "/api/download") quota = options.ledger.reserve(ip, claims.sub, maxBytes);
+      if (path === "/api/download") {
+        const announced = payload.expectedBytes;
+        const expected = typeof announced === "number" && Number.isSafeInteger(announced) && announced > 0 && announced <= maxBytes ? announced : maxBytes;
+        const margin = Math.min(16 * 1024 ** 2, Math.max(1024 ** 2, Math.ceil(expected * 0.1)));
+        quota = options.ledger.reserve(ip, claims.sub, Math.min(maxBytes, expected + margin), maxBytes);
+      }
       const reply = await upstreamJson(path, method, body, controller.signal);
+      if(reply.status===429)options.ledger.metric(reply.data.code==="QUOTA_EXCEEDED"?"quota_rejected":"other_errors");
+      else if(reply.status>=500)options.ledger.metric("busy_or_unavailable");
+      if (path === "/api/download" && (reply.status !== 201 || reply.data.ok !== true)) { quota?.(0); quota = undefined; }
       if (path === "/api/download" && reply.status === 201 && reply.data.ok === true) {
         if (typeof reply.data.token !== "string" || !/^[a-f0-9-]{36}$/.test(reply.data.token)) throw new AccessError("UPSTREAM_INVALID", 502);
         const token = randomBytes(32).toString("base64url");
-        const current: Job = { inner: reply.data.token, owner: claims.sub, ip, expires: Date.now() + ticketMs, retained: Date.now() + retentionMs, used: false, delivered: false, bytes: 0, settle: quota!, controller, deadline: operationStarted + (options.operationMs ?? 600000) };
+        const current: Job = { inner: reply.data.token, owner: claims.sub, ip, expires: Date.now() + ticketMs, retained: Date.now() + retentionMs, used: false, delivered: false, bytes: 0, reservedBytes: quota!.reservedBytes, reserveMore: () => false, settle: quota!, controller, deadline: operationStarted + (options.operationMs ?? 600000) };
+        current.reserveMore = neededBytes => { const allowed=quota!.extend(neededBytes); if(allowed)current.reservedBytes=quota!.reservedBytes; return allowed; };
         current.timer = setTimeout(() => {
           current.terminal = "expired";
           // The source ticket lives 60s; an outer 55s expiry must not offer the
@@ -253,6 +265,9 @@ export function createGateway(options: {
     } catch (error) {
       if (transferJob && !transferJob.delivered) { transferJob.terminal ??= "failed"; transferJob.controller.abort(); release(transferJob); }
       const issue = error instanceof AccessError ? error : new AccessError("BACKEND_UNAVAILABLE", 503);
+      if (issue.code === "QUOTA_EXCEEDED") options.ledger.metric("quota_rejected");
+      else if (issue.status === 503 || issue.code === "BUSY") options.ledger.metric("busy_or_unavailable");
+      else if (issue.status >= 500 || issue.status === 429) options.ledger.metric("other_errors");
       if (hold && !published) { active = false;activeOwner=undefined;activeIp=undefined; quota?.(0); }
       if (!res.destroyed) json(res, issue.status, { ok: false, code: issue.code, error: issue.status === 429 ? "The download service is busy or your quota is reached. Try later." : "The secure download request could not be completed." });
     } finally {

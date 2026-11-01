@@ -200,7 +200,7 @@ try {
     await page.goto(base + encodeURI(path));
     await page.getByRole('textbox',{name:d.videoLink}).fill('https://www.tiktok.com/@pokemonlife22/video/7059698374567611694');
     await page.getByRole('button',{name:d.extract,exact:true}).click();
-    await page.getByRole('alert').filter({hasText:d.rateLimited}).waitFor();
+    await page.getByRole('alert').filter({hasText:d.quotaReached}).waitFor();
     await context.close();
   }
   assert.equal((await fetch(base + '/fr/', { redirect: 'manual' })).status, 301);
