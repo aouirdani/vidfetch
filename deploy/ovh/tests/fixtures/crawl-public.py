@@ -109,6 +109,13 @@ missing, unexpected = sorted(expected_noindex - set(others)), sorted(set(others)
 status, headers, robots_txt = get('/robots.txt')
 (ok if status == 200 and 'Sitemap: https://vidfetch.app/sitemap.xml' in robots_txt and not re.search(r'(?m)^Disallow: */\s*$', robots_txt)
  and 'noindex' not in headers.get('X-Robots-Tag', '') else bad)('robots.txt from the frontend: sitemap published, only private paths disallowed')
+# Self-hosted worker/codec/source assets must survive the actual production Caddy matchers.
+for path, mime in expected.get('localAssets', {}).items():
+    status, asset_headers, _ = get(path)
+    actual_mime = asset_headers.get('Content-Type', '').split(';')[0]
+    isolated = asset_headers.get('Cross-Origin-Embedder-Policy') or asset_headers.get('Cross-Origin-Opener-Policy')
+    (ok if status == 200 and (not mime or actual_mime == mime) and not isolated else bad)(
+        f'local asset {path}: {status}, MIME {actual_mime}, cache {asset_headers.get("Cache-Control")}, no COOP/COEP')
 for path, expected in (('/fr/', '/fr'), ('/de/', '/de'), ('/legal/', '/legal'), ('/fr/mentions-legales/', '/fr/mentions-legales')):
     status, headers, _ = get(path)
     location = headers.get('Location', '')

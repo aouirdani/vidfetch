@@ -27,5 +27,5 @@ export const ADVERTISING_PRIVACY: Record<Locale, string> = {
  * without publisher content, under construction, or used for navigation or alerts.
  */
 export function showsAds(page: Pick<SitePage, "indexable" | "identity"> | undefined): boolean {
-  return !!page?.indexable && page.identity.kind !== "legal";
+  return !!page?.indexable && page.identity.kind !== "legal" && page.identity.kind !== "local-tool";
 }

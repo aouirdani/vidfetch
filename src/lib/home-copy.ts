@@ -10,7 +10,7 @@ export type HomeCopy = {
 };
 
 /** Last substantial change of the homes that have their own copy here (sitemap lastmod, WebPage dateModified). */
-export const HOME_UPDATED = "2026-10-29";
+export const HOME_UPDATED = "2026-10-30";
 
 const BASE_COPY: Partial<Record<Locale, HomeCopy>> = {
   en: {
