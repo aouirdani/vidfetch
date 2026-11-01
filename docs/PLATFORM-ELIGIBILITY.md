@@ -29,6 +29,6 @@ Elle demande une confirmation interactive `I HAVE PERMISSION`, limite chaque exÃ
 
 - [Reddit User Agreement, section 7](https://redditinc.com/policies/user-agreement)
 - [Vimeo Help Center: downloading is controlled by the owner](https://help.vimeo.com/hc/en-us/articles/12426502581265-How-to-download-a-video-on-Vimeo)
-- [Dailymotion Terms of Use, section 2.6 and section 6.9](https://legal.dailymotion.com/en/terms-of-use/)
+- [Dailymotion Terms of Use, section 6.1(ix) and section 6.9, updated June 30, 2026 and effective July 7, 2026](https://legal.dailymotion.com/en/terms-of-use/)
 - [X Terms of Service, effective October 9, 2026](https://x.com/en/tos) â€” scraping without prior written consent is prohibited; this reinforces the existing closed X gate.
 - [Meta: How We Combat Scraping](https://about.fb.com/news/2021/04/how-we-combat-scraping/)
