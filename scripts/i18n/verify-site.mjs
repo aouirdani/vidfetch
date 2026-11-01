@@ -1,9 +1,10 @@
 import assert from 'node:assert/strict';
 import { createServer } from 'node:net';
-import { spawn } from 'node:child_process';
-import { readFileSync, writeFileSync } from 'node:fs';
+import { execFileSync, spawn } from 'node:child_process';
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
-import { resolve } from 'node:path';
+import { resolve, join } from 'node:path';
+import { tmpdir } from 'node:os';
 import { build } from 'esbuild';
 import { chromium } from 'playwright';
 const locales = ['en', 'fr', 'es', 'pt-BR', 'id', 'de', 'it', 'ar'];
@@ -14,6 +15,17 @@ const preparedCatalogue=JSON.parse(readFileSync('content/platforms/catalogue.jso
 const closedPreparedPaths=preparedCatalogue.filter(e=>['instagram-video','x-video'].includes(e.id)).flatMap(e=>locales.map((l,i)=>'/'+[roots[i],e.slugs[l]].filter(Boolean).join('/')));
 const removedPages = [...closedPreparedPaths,'/es/guias', '/pt/guias', '/id/panduan', '/de/ratgeber', '/it/guide', '/ar/أدلة', '/youtube-video-downloader', '/instagram-reels-downloader', '/twitter-video-downloader'];
 const dictionaries = Object.fromEntries(locales.map(l => [l, JSON.parse(readFileSync(`src/i18n/messages/${l}.json`, 'utf8'))]));
+function formatSize(bytes) {
+  const units=['B','KB','MB','GB','TB']; let value=bytes,index=0;
+  while(value>=1024&&index<units.length-1){value/=1024;index++;}
+  return `${value>=100||index===0?Math.round(value):value.toFixed(1)} ${units[index]}`;
+}
+const mediaFixtureDir = mkdtempSync(join(tmpdir(), 'vidfetch-ui-media-'));
+const fixtureVideo = join(mediaFixtureDir, 'camera-test.mp4'), fixtureAudio = join(mediaFixtureDir, 'camera-test.mp3');
+const ffmpeg = process.env.FFMPEG_PATH || 'ffmpeg';
+execFileSync(ffmpeg, ['-hide_banner','-loglevel','error','-f','lavfi','-i','testsrc2=size=320x180:rate=15','-f','lavfi','-i','sine=frequency=440:sample_rate=44100','-t','2','-c:v','libx264','-pix_fmt','yuv420p','-c:a','aac','-y',fixtureVideo]);
+execFileSync(ffmpeg, ['-hide_banner','-loglevel','error','-i',fixtureVideo,'-vn','-codec:a','libmp3lame','-b:a','128k','-y',fixtureAudio]);
+const fixtureVideoBytes = readFileSync(fixtureVideo), fixtureAudioBytes = readFileSync(fixtureAudio);
 const reserve = createServer();
 await new Promise((resolve, reject) => { reserve.once('error', reject); reserve.listen(0, '127.0.0.1', resolve); });
 const port = reserve.address().port;
@@ -111,7 +123,16 @@ try {
     const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
     const page = await context.newPage(); const errors = []; page.on('pageerror', error => errors.push(error.message));
     await page.route('https://**/*', route => new URL(route.request().url()).hostname === 'challenges.cloudflare.com' ? route.fulfill({ contentType: 'text/javascript', body: '' }) : route.abort());
-    await page.goto(base + path); await page.locator('[data-language-selector] summary').click();
+    await page.goto(base + path);
+    if (['en','fr','ar','id'].includes(locale)) await page.screenshot({ path: `docs/ux/after/home-${locale}-mobile.png` });
+    const mobileMenu = page.locator('header details').nth(1);
+    await mobileMenu.locator('summary').click();
+    const mobileLinks = await mobileMenu.locator('nav a').evaluateAll(links => links.map(link => new URL(link.href).pathname));
+    const localTiktokLinks = preparedCatalogue.filter(entry => entry.published && entry.platform === 'tiktok').map(entry => (roots[i] ? '/' + roots[i] : '') + '/' + entry.slugs[locale]);
+    for (const href of localTiktokLinks) assert.ok(mobileLinks.includes(href), `mobile menu ${locale} -> ${href}`);
+    assert.ok(mobileLinks.length >= 8, `mobile menu ${locale} contains its local platform and converter navigation`);
+    await mobileMenu.locator('summary').click();
+    await page.locator('[data-language-selector] summary').click();
     assert.equal(await page.locator('[data-language-selector] nav a').count(), 8);
     await page.locator(`[data-language-selector] nav a[hreflang="${locale === 'en' ? 'fr' : 'en'}"]`).click(); await page.waitForURL(base + (locale === 'en' ? '/fr' : '/'));
     await page.goto(base + path); await page.getByRole('textbox', { name: d.videoLink }).fill('https://www.tiktok.com/@pokemonlife22/video/7059698374567611694');
@@ -120,9 +141,8 @@ try {
     await page.getByRole('status').filter({ hasText: d.backendUnavailable }).waitFor();
     assert.deepEqual(errors, [], locale);
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, locale);
-    // Controlled UI fixture: real browser crypto and helper, mocked engines/admission.
-    // The attachment bytes are synthetic; this is not evidence of media transcoding.
-    const requests = [], attachment = Buffer.from('VidFetch synthetic UI transfer\n'.repeat(32));
+    // Controlled UI fixture: local ffmpeg media, real browser crypto/helper, mocked admission only.
+    const requests = [], attachment = fixtureAudioBytes;
     const video = { id: 'v1', label: '480p', kind: 'video', ext: 'mp4', width: 480, height: 854, fps: 30, vcodec: 'h264', acodec: 'aac', hasAudio: true, progressive: true, filesize: null, filesizeLabel: null, bitrateKbps: null, note: null, recommended: true, protocol: 'https' };
     const second = { ...video, id: 'v2', label: '720p · 60 fps', width: 720, height: 1280, fps: 60, recommended: false };
     const audio = { ...video, id: 'mp3', label: 'MP3 · 192 kbps', kind: 'audio', ext: 'mp3', width: null, height: null, fps: null, vcodec: null, acodec: 'mp3', bitrateKbps: 192 };
@@ -134,9 +154,17 @@ try {
     await context.route(/\/api\/download(?:\?|$)/, route => {
       const request = route.request(), url = new URL(request.url()); requests.push(url.pathname);
       if (request.method() === 'POST') { const body = request.postDataJSON(); assert.deepEqual(Object.keys(body).sort(), ['format_id', 'type', 'url']); assert.equal(body.type, 'audio'); assert.equal(body.format_id, 'mp3'); return route.fulfill({ json: { ok: true, token: 'fixture-ticket', filename: 'fixture.bin', downloadUrl: '/api/download?ticket=fixture-ticket' } }); }
-      if (url.searchParams.has('ticket')) return route.fulfill({ contentType: 'application/octet-stream', headers: { 'Content-Disposition': 'attachment; filename="fixture.bin"' }, body: attachment });
+      if (url.searchParams.has('ticket')) return route.fulfill({ contentType: 'audio/mpeg', headers: { 'Content-Disposition': 'attachment; filename="camera-test.mp3"' }, body: attachment });
       return route.fulfill({ json: { ok: true, status: 'completed', bytes: attachment.length, error: null } });
     });
+    if (['en','fr','ar','id'].includes(locale)) {
+      const queueRoute = route => route.fulfill({ status: 202, json: { ok: true, queued: true, queueToken: 'Q'.repeat(43), status: 'waiting', position: 2, estimatedWaitMs: 30000, expiresAt: Date.now() + 120000, retryAfterMs: 5000 } });
+      await page.route('**/api/fetch-info', queueRoute);
+      await page.goto(base + path); await page.getByRole('textbox', { name: d.videoLink }).fill('https://www.tiktok.com/@pokemonlife22/video/7059698374567611694'); await page.getByRole('button', { name: d.extract, exact: true }).click();
+      await page.getByRole('status').filter({ hasText: d.waiting.split('{position}')[0] }).waitFor();
+      await page.screenshot({ path: `docs/ux/after/queue-${locale}-mobile.png` });
+      await page.unroute('**/api/fetch-info', queueRoute);
+    }
     await page.goto(base + path); await page.getByRole('textbox', { name: d.videoLink }).fill('https://www.tiktok.com/@pokemonlife22/video/7059698374567611694'); await page.getByRole('button', { name: d.extract, exact: true }).click();
     await page.getByRole('tab', { name: new RegExp(d.video) }).waitFor();
     assert.equal(await page.evaluate(() => window.__fixtureLanguage), locale === 'pt-BR' ? 'pt-br' : locale);
@@ -144,8 +172,9 @@ try {
     assert.match(await radios.nth(1).textContent(), /720p/);
     await page.getByRole('tab', { name: new RegExp(d.audio) }).click();
     const popupPromise = page.waitForEvent('popup'); await page.getByRole('button', { name: new RegExp('^' + d.download + ' ') }).click(); const popup = await popupPromise;
-    const file = await popup.waitForEvent('download'); const saved = resolve(`../ui-transfer-${locale}-${process.pid}.bin`); await file.saveAs(saved); assert.deepEqual(readFileSync(saved), attachment);
-    await page.locator('p:not(.sr-only)').filter({ hasText: d.saved.replace('{size}', `${attachment.length} B`) }).waitFor();
+    const file = await popup.waitForEvent('download'); const saved = resolve(`../ui-transfer-${locale}-${process.pid}.mp3`); await file.saveAs(saved); assert.deepEqual(readFileSync(saved), attachment);
+    await page.getByText(d.saved.replace('{size}',formatSize(attachment.length)),{exact:true}).last().waitFor({state:'visible'});
+    if (['en','fr','ar','id'].includes(locale)) await page.screenshot({ path: `docs/ux/after/download-${locale}-mobile.png` });
     assert.ok(requests.every(path => /^\/api\/(fetch-info|download)$/.test(path)));
     assert.deepEqual(errors, [], locale); await popup.close();
     await page.goto(base + path); await page.waitForLoadState('networkidle');
@@ -174,7 +203,7 @@ try {
     page.on('pageerror', error => errors.push(error.message));
     await page.route('https://**/*', route => new URL(route.request().url()).hostname === 'challenges.cloudflare.com' ? route.fulfill({ contentType: 'text/javascript', body: '' }) : route.abort());
     await page.addInitScript(() => { window.turnstile = { render(element, options) { setTimeout(() => options.callback('fixture-challenge'), 0); return 'fixture'; }, remove() {}, reset() {} }; });
-    const attachment = Buffer.from(`VidFetch synthetic ${kind} transfer\n`.repeat(24));   // under 1 kB: the UI shows it in bytes
+    const attachment = kind === 'video' ? fixtureVideoBytes : fixtureAudioBytes;
     const audio = { id: 'mp3', label: 'MP3 · 192 kbps', kind: 'audio', ext: 'mp3', width: null, height: null, fps: null, vcodec: null, acodec: 'mp3', hasAudio: true, progressive: true, filesize: null, filesizeLabel: null, bitrateKbps: 192, note: null, recommended: true };
     const video = { ...audio, id: 'v1', label: '720p', kind: 'video', ext: 'mp4', width: 720, height: 1280, fps: 30, vcodec: 'h264', acodec: 'aac', bitrateKbps: null };
     await context.route('**/api/download-access', route => route.fulfill({ json: route.request().method() === 'GET' ? { available: true, siteKey: 'fixture-public-key' } : { ok: true, grant: 'fixture-grant', expiresAt: Date.now() + 120000 } }));
@@ -184,16 +213,18 @@ try {
     await context.route(/\/api\/download(?:\?|$)/, route => {
       const request = route.request(), url = new URL(request.url());
       if (request.method() === 'POST') { const body = request.postDataJSON(); posted.push(body); return route.fulfill({ json: { ok: true, token: 'fixture-ticket', filename: 'fixture.bin', downloadUrl: '/api/download?ticket=fixture-ticket' } }); }
-      if (url.searchParams.has('ticket')) return route.fulfill({ contentType: 'application/octet-stream', headers: { 'Content-Disposition': 'attachment; filename="fixture.bin"' }, body: attachment });
+      if (url.searchParams.has('ticket')) return route.fulfill({ contentType: kind === 'video' ? 'video/mp4' : 'audio/mpeg', headers: { 'Content-Disposition': `attachment; filename="camera-test.${kind === 'video' ? 'mp4' : 'mp3'}"` }, body: attachment });
       return route.fulfill({ json: { ok: true, status: 'completed', bytes: attachment.length, error: null } });
     });
     await page.goto(base + encodeURI(path));
     await page.getByRole('textbox', { name: d.videoLink }).fill('https://www.tiktok.com/@pokemonlife22/video/7059698374567611694'); await page.getByRole('button', { name: d.extract, exact: true }).click();
     await page.getByRole('tab', { name: new RegExp(d.video) }).waitFor(); await page.getByRole('tab', { name: new RegExp(d.audio) }).waitFor();
+    if (['en','fr','ar','id'].includes(locale) && kind === 'video') await page.screenshot({ path: `docs/ux/after/formats-${locale}-mobile.png` });
     if (kind === 'audio') await page.getByRole('tab', { name: new RegExp(d.audio) }).click();
     const popupPromise = page.waitForEvent('popup'); await page.getByRole('button', { name: new RegExp('^' + d.download + ' ') }).click(); const popup = await popupPromise;
-    const file = await popup.waitForEvent('download'); const saved = resolve(`../ui-transfer-${kind}-${locale}-${process.pid}.bin`); await file.saveAs(saved); assert.deepEqual(readFileSync(saved), attachment, path);
-    await page.locator('p:not(.sr-only)').filter({ hasText: d.saved.replace('{size}', `${attachment.length} B`) }).waitFor();
+    const file = await popup.waitForEvent('download'); const saved = resolve(`../ui-transfer-${kind}-${locale}-${process.pid}.${kind === 'video' ? 'mp4' : 'mp3'}`); await file.saveAs(saved); assert.deepEqual(readFileSync(saved), attachment, path);
+    await page.getByText(d.saved.replace('{size}',formatSize(attachment.length)),{exact:true}).last().waitFor({state:'visible'});
+    if (['en','fr','ar','id'].includes(locale) && kind === 'video') await page.screenshot({ path: `docs/ux/after/download-${locale}-video-mobile.png` });
     assert.deepEqual(posted.map(body => [Object.keys(body).sort().join(','), body.type, body.format_id]), [['format_id,type,url', kind, kind === 'audio' ? 'mp3' : 'v1']], path);
     assert.deepEqual(errors, [], path); await popup.close();
     await context.route('**/api/fetch-info',route => route.fulfill({status:429,json:{ok:false,code:'QUOTA_EXCEEDED'}}));
@@ -201,6 +232,7 @@ try {
     await page.getByRole('textbox',{name:d.videoLink}).fill('https://www.tiktok.com/@pokemonlife22/video/7059698374567611694');
     await page.getByRole('button',{name:d.extract,exact:true}).click();
     await page.getByRole('alert').filter({hasText:d.rateLimited}).waitFor();
+    if (['en','fr','ar','id'].includes(locale) && kind === 'video') await page.screenshot({ path: `docs/ux/after/quota-${locale}-mobile.png` });
     await context.close();
   }
   assert.equal((await fetch(base + '/fr/', { redirect: 'manual' })).status, 301);
@@ -217,6 +249,7 @@ try {
   console.log(JSON.stringify(evidence, null, 2));
 } finally {
   await browser?.close();
+  rmSync(mediaFixtureDir,{recursive:true,force:true});
   if (server.exitCode === null && server.signalCode === null) try { process.kill(-server.pid, 'SIGTERM'); } catch {}
   await new Promise(resolve => { if (server.exitCode !== null || server.signalCode !== null) resolve(); else { server.once('exit', resolve); setTimeout(() => { if (server.exitCode === null && server.signalCode === null) try { process.kill(-server.pid, 'SIGKILL'); } catch {} resolve(); }, 5000).unref(); } });
   writeFileSync('../local-next-server.log', serverLog);
