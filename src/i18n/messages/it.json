@@ -124,7 +124,7 @@
   "faq5q": "Come salvo l’audio in MP3?",
   "faq5a": "Analizza un link accessibile e autorizzato, scegli Audio e MP3 se disponibile. La conversione non migliora la registrazione originale.",
   "faq6q": "Quali sono i limiti del servizio?",
-  "faq6a": "Uscita massima di 256 MiB, durata dichiarata di 30 minuti e preparazione di 10 minuti. Limiti giornalieri: 8 operazioni e 1 GiB per sessione del browser e per IP, oltre a 100 operazioni e 4 GiB per l’intero servizio. Un’attività alla volta; la coda OVH attuale ha 2 posti.",
+  "faq6a": "Uscita massima di 256 MiB, durata dichiarata di 30 minuti e operazione di 10 minuti. Un’operazione alla volta, con quote e coda limitata.",
   "faq7q": "Il download è consentito?",
   "faq7a": "Salva solo contenuti tuoi, con licenza adeguata o con permesso di download. La visibilità pubblica non equivale a un’autorizzazione. Rispetta leggi e regole della piattaforma.",
   "legalTitle": "Termini, privacy e informazioni legali",

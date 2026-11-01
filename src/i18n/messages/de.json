@@ -124,7 +124,7 @@
   "faq5q": "Wie speichere ich Audio als MP3?",
   "faq5a": "Analysiere einen zugänglichen, erlaubten Link und wähle Audio sowie MP3, falls verfügbar. Die Konvertierung verbessert nicht die Originalaufnahme.",
   "faq6q": "Welche Limits gelten?",
-  "faq6a": "Ausgabe maximal 256 MiB, angegebene Mediendauer 30 Minuten und Vorbereitung 10 Minuten. Tageslimits: 8 Vorgänge und 1 GiB je Browsersitzung und IP-Adresse sowie 100 Vorgänge und 4 GiB für den gesamten Dienst. Jeweils ein Auftrag; die aktuelle OVH-Warteschlange hat 2 Plätze.",
+  "faq6a": "Ausgabe maximal 256 MiB, angegebene Mediendauer 30 Minuten, Vorgang 10 Minuten. Es läuft jeweils ein Vorgang; Quoten und eine begrenzte Warteschlange gelten.",
   "faq7q": "Ist das Herunterladen erlaubt?",
   "faq7a": "Speichere nur eigene, passend lizenzierte oder ausdrücklich erlaubte Inhalte. Öffentliche Sichtbarkeit bedeutet keine Downloadberechtigung. Beachte Gesetze und Plattformregeln.",
   "legalTitle": "Bedingungen, Datenschutz und rechtliche Informationen",

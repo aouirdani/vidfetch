@@ -124,7 +124,7 @@
   "faq5q": "¿Cómo guardo el audio en MP3?",
   "faq5a": "Analiza un enlace accesible y autorizado, elige Audio y selecciona MP3 si está disponible. La conversión no mejora la grabación original.",
   "faq6q": "¿Cuáles son los límites del servicio?",
-  "faq6a": "La salida se limita a 256 MiB, la duración declarada a 30 minutos y la preparación a 10 minutos. Límites diarios: 8 operaciones y 1 GiB por sesión del navegador y por IP, además de 100 operaciones y 4 GiB para todo el servicio. Una tarea a la vez; la cola actual de OVH tiene 2 plazas.",
+  "faq6a": "La salida se limita a 256 MiB, la duración declarada a 30 minutos y cada operación a 10 minutos. Una operación a la vez, con cuotas y cola limitada.",
   "faq7q": "¿Está permitido descargar?",
   "faq7a": "Guarda solo contenido propio, con licencia adecuada o con permiso de descarga. Que sea público no implica permiso. Respeta la ley y las normas de la plataforma.",
   "legalTitle": "Condiciones, privacidad e información legal",
