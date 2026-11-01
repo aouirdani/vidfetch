@@ -7,6 +7,8 @@ import { request as httpsRequest } from 'node:https';
 import { request as httpRequest } from 'node:http';
 
 const origin = 'https://vidfetch.app';
+const maxHtmlBytes = Number(process.env.SEO_CHECK_MAX_HTML_BYTES ?? 512 * 1024);
+assert.ok(Number.isSafeInteger(maxHtmlBytes) && maxHtmlBytes > 0, 'SEO_CHECK_MAX_HTML_BYTES must be a positive integer');
 const localeOg = { en:'en_US',fr:'fr_FR',es:'es_ES','pt-BR':'pt_BR',id:'id_ID',de:'de_DE',it:'it_IT',ar:'ar_AR' };
 // An external origin lets release/edge checks use the same assertions as local Next.
 let base = process.env.SEO_CHECK_BASE_URL, server, log = '';
@@ -77,7 +79,7 @@ try {
     assert.ok(allowed(path),`${url}: blocked by robots`);
     const response=await request(path); assert.equal(response.status,200,url);
     assert.doesNotMatch(response.headers.get('x-robots-tag')??'',/noindex|nofollow|none|nosnippet|noarchive|unavailable_after|max-snippet:\s*0/i,url);
-    const html=await response.text(); await dom.setContent(html,{waitUntil:'domcontentloaded'});
+    const html=await response.text(), htmlBytes=Buffer.byteLength(html); await dom.setContent(html,{waitUntil:'domcontentloaded'});
     const data=await dom.evaluate(()=>({
       title:document.title, description:document.querySelector('meta[name=description]')?.content,
       robots:[...document.querySelectorAll('meta[name=robots]')].map(n=>n.content),
@@ -93,7 +95,9 @@ try {
       answers:[...document.querySelectorAll('details > p')].map(n=>n.textContent.trim()),
       links:[...document.querySelectorAll('main a[href],header a[href],footer a[href]')].map(n=>n.getAttribute('href')),
     }));
+    data.htmlBytes=htmlBytes;
     assert.ok(data.title && [...data.title].length<=60,`${url}: title ${data.title?.length}: ${data.title}`);
+    assert.ok(data.htmlBytes<=maxHtmlBytes,`${url}: rendered HTML is ${data.htmlBytes} bytes (limit ${maxHtmlBytes})`);
     assert.ok(data.description && [...data.description].length<=160,`${url}: description ${data.description?.length}`);
     assert.equal(data.h1.length,1,`${url}: H1`); assert.ok(data.h1[0]);
     assert.doesNotMatch(data.robots.join(' '),/noindex/i,url);
@@ -116,8 +120,25 @@ try {
     const xmlAlternates=Object.fromEntries([...block.matchAll(/<xhtml:link\s+rel="alternate"\s+hreflang="([^"]+)"\s+href="([^"]+)"\s*\/?\s*>/g)].map(m=>[m[1],m[2]]));
     assert.deepEqual(data.alternates,xmlAlternates,`${url}: sitemap/head alternatives`);
     pages.set(url,data);
-    console.log(`PASS ${path} (${data.lang}, ${data.main.split(/\s+/).length} words in main)`);
+    console.log(`PASS ${path} (${data.lang}, ${data.main.split(/\s+/).length} words, ${data.htmlBytes} HTML bytes)`);
   }
+  const unique = (property) => {
+    const seen = new Map();
+    for (const [url, data] of pages) {
+      const raw = property==='h1' ? data.h1[0] : data[property];
+      const value = raw.trim().toLocaleLowerCase();
+      assert.ok(!seen.has(value), `Duplicate ${property}: ${seen.get(value)} and ${url}: ${data[property]}`);
+      seen.set(value,url);
+    }
+  };
+  unique('title'); unique('h1');
+  const incoming = new Map(urls.map(url=>[url,0]));
+  for(const [source,data] of pages) for(const href of data.links.filter(h=>h?.startsWith('/')&&!h.startsWith('//'))) {
+    const target=new URL(href,origin); target.hash=''; target.search='';
+    if(incoming.has(target.href)&&target.href!==source) incoming.set(target.href,incoming.get(target.href)+1);
+  }
+  const orphans=[...incoming].filter(([,count])=>count===0).map(([url])=>url);
+  assert.deepEqual(orphans,[],`Orphaned sitemap URLs: ${orphans.join(', ')}`);
   for(const [url,data] of pages) {
     for(const [lang,target] of Object.entries(data.alternates)) {
       assert.ok(pages.has(target),`${url}: alternate target absent from sitemap: ${target}`);
@@ -132,7 +153,7 @@ try {
     if(new URL(url).pathname!=='/') { const other=await request(new URL(url).pathname+'/'); assert.equal(other.status,301,`${url}: trailing slash status`); assert.equal(new URL(other.headers.get('location'),base).pathname,new URL(url).pathname); }
   }
   assert.equal((await request('/seo-check-missing-6d18c7')).status,404,'missing URL must return 404');
-  console.log(`SEO CHECK PASS: ${pages.size} URLs; HTTP 200, robots, title/description, H1, canonicals, reciprocal hreflang, lang/RTL, OG, JSON-LD/FAQ, sitemap dates, SSR text, internal links, 301 and 404.`);
+  console.log(`SEO CHECK PASS: ${pages.size} URLs; unique titles/H1, <=${maxHtmlBytes} HTML bytes, no orphans, HTTP 200, robots, title/description, canonicals, reciprocal hreflang, lang/RTL, OG, JSON-LD/FAQ, sitemap dates, SSR text, internal links, 301 and 404.`);
 } finally {
   await browser?.close(); server?.kill('SIGTERM');
 }

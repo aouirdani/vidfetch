@@ -90,6 +90,25 @@ describe("priority platform pages: copy", () => {
     }
   });
 
+  it("states the same size, duration and per-browser/IP/service quotas for every published TikTok language", () => {
+    const pages=written.filter(({entry})=>entry.platform==="tiktok");
+    assert.equal(pages.length,16);
+    for(const {entry,locale,copy} of pages){
+      const limits=copy.limits.join(" ");
+      const visible=text(copy);
+      assert.match(visible,/256\s?MiB|256\s?ميغابايت/,`${entry.id}/${locale}: size`);
+      assert.match(visible,/30\s*(?:minutes?|minutos?|minuti|Minuten|menit|دقيقة)/i,`${entry.id}/${locale}: media duration`);
+      assert.match(limits,/8/,`${entry.id}/${locale}: per-identity operations`);
+      assert.match(limits,/1\s?(?:GiB|Gio)/,`${entry.id}/${locale}: per-identity bytes`);
+      assert.match(limits,/100/,`${entry.id}/${locale}: service operations`);
+      assert.match(limits,/4\s?(?:GiB|Gio)/,`${entry.id}/${locale}: service bytes`);
+      assert.ok(/2|طلبين/.test(limits),`${entry.id}/${locale}: current waiting queue`);
+      assert.match(limits,/10\s*(?:minutes?|minutos?|minuti|Minuten|menit|دقائق)/i,`${entry.id}/${locale}: operation limit`);
+      assert.match(limits,/\bIP\b/,`${entry.id}/${locale}: source-IP limit`);
+      assert.match(limits,/browser|navigateur|navegador|browser|Browser|متصفح/i,`${entry.id}/${locale}: browser identity limit`);
+    }
+  });
+
   it("only shows example links that the URL detector accepts for that platform", () => {
     for (const { entry, copy } of written) {
       for (const url of copy.supported.join(" ").match(/https?:\/\/[^\s…]+(?=\s|$)/g) ?? []) {

@@ -124,7 +124,7 @@
   "faq5q": "How do I save audio as MP3?",
   "faq5a": "Analyze an accessible authorized link, choose the Audio tab and select MP3 if available. Converting audio does not improve the original recording.",
   "faq6q": "What are the service limits?",
-  "faq6a": "Output is limited to 256 MiB, declared media duration to 30 minutes and each operation to 10 minutes. One operation runs at a time; quotas and a bounded queue also apply.",
+  "faq6a": "Output is limited to 256 MiB, declared media duration to 30 minutes and preparation to 10 minutes. Daily caps are 8 operations and 1 GiB per browser session and per IP, plus 100 operations and 4 GiB service-wide. One job runs at a time; the current OVH queue has 2 places.",
   "faq7q": "Is downloading permitted?",
   "faq7a": "Only save content you own, that is appropriately licensed, or that you have permission to download. Public visibility alone does not give you that permission. Follow local law and platform rules.",
   "legalTitle": "Terms, privacy & legal information",

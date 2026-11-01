@@ -29,11 +29,12 @@ jobs:
     outputs:
       archive_sha256: ${{ steps.archive.outputs.sha256 }}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           persist-credentials: false
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
+          # The runner action uses Node 24; the deployed OVH runtime remains Node 22.
           node-version: 22.23.3
           cache: npm
       - run: npm ci --ignore-scripts
@@ -45,6 +46,11 @@ jobs:
       - run: node backend/gateway/run-load.mjs
       - run: python3 -m unittest discover -s deploy/ovh/tests -v
       - run: npm run check:release
+      - name: Verify the engine-free frontend build and browser smoke paths
+        run: |
+          npm run build
+          npm run test:vercel -- --browser
+          npm run smoke:browser
       - name: Linux standalone frontend and checked engines (no production secrets)
         id: archive
         env:
@@ -70,7 +76,7 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y ffmpeg
           npm run test:local-tools
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
           name: release-${{ github.sha }}
           path: release-${{ github.sha }}.tgz
@@ -95,10 +101,10 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           persist-credentials: false
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         if: github.event_name == 'push'
         with:
           name: release-${{ github.sha }}
@@ -127,7 +133,7 @@ jobs:
       # Only a successful transfer can publish this exact archive for a later deploy.
       - name: Retain verified archive without rebuilding or repacking
         if: github.event_name == 'workflow_dispatch'
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
           name: release-${{ github.sha }}
           path: release-${{ github.sha }}.tgz

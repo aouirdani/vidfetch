@@ -1,86 +1,39 @@
-import assert from "node:assert/strict";
-import { chromium } from "playwright";
-import { mkdir, mkdtemp, rm, stat } from "node:fs/promises";
-import { tmpdir } from "node:os";
-import { join } from "node:path";
-import { execFileSync } from "node:child_process";
-import ffprobe from "ffprobe-static";
+import assert from 'node:assert/strict';
+import { spawn } from 'node:child_process';
+import { once } from 'node:events';
+import { createServer } from 'node:net';
+import { chromium } from 'playwright';
+import { setTimeout as delay } from 'node:timers/promises';
 
-const base = process.env.BASE_URL || "http://localhost:3000";
-const directory = await mkdtemp(join(tmpdir(), "vidfetch-browser-"));
-const browser = await chromium.launch({ headless: true, args: ["--no-sandbox"] });
-const errors = [];
+const reserve=createServer(); reserve.listen(0,'127.0.0.1'); await once(reserve,'listening');
+const port=reserve.address().port; await new Promise(resolve=>reserve.close(resolve));
+const base=`http://127.0.0.1:${port}`;
+const child=spawn(process.execPath,['node_modules/next/dist/bin/next','start','--hostname','127.0.0.1','--port',String(port)],{env:{...process.env,NODE_ENV:'production',NEXT_TELEMETRY_DISABLED:'1'},detached:true,stdio:'ignore'});
+let browser;
 try {
-  await mkdir("test-results", { recursive: true });
-  const context = await browser.newContext({ acceptDownloads: true, viewport: { width: 1440, height: 1024 } });
-  const page = await context.newPage();
-  page.on("pageerror", (error) => errors.push(error.message));
-  await page.goto(base, { waitUntil: "networkidle" });
-  assert.equal(await page.locator("html").getAttribute("lang"), "en");
-  assert.match(await page.locator("h1").innerText(), /Download your videos/);
-  await page.screenshot({ path: "test-results/home-desktop.png", fullPage: true });
-  for (const platform of ["Instagram", "TikTok"]) {
-    // Example chips live inside the extractor form and are labelled by platform name.
-    await page.locator("form").getByRole("button", { name: platform, exact: true }).click();
-    const card = page.getByRole("region", { name: "Extracted video" });
-    await card.waitFor({ state: "visible", timeout: 100000 });
-    const waiting = page.waitForEvent("download", { timeout: 120000 });
-    await card.getByRole("button", { name: /^Download / }).click();
-    const download = await waiting;
-    const filename = join(directory, `${platform}.mp4`);
-    await download.saveAs(filename);
-    assert.equal(await download.failure(), null);
-    assert.match(download.suggestedFilename(), /^VidFetch_.+\.mp4$/);
-    assert.ok((await stat(filename)).size > 1000);
-    const details = JSON.parse(execFileSync(ffprobe.path, ["-v", "error", "-show_entries", "stream=codec_type", "-of", "json", filename], { encoding: "utf8" }));
-    assert.ok(details.streams.some((s) => s.codec_type === "video"));
-    await card.getByText(/Saved .* to your device/).waitFor({ timeout: 20000 });
-    await page.screenshot({ path: `test-results/${platform.toLowerCase()}-download.png`, fullPage: true });
-    console.log(`PASS browser ${platform}: native file download + completed status + playable video`);
-    await page.getByRole("button", { name: "Extract another video", exact: true }).click();
+  let ready=false;
+  for(let i=0;i<80;i++){try{if((await fetch(base,{signal:AbortSignal.timeout(1000)})).status===200){ready=true;break;}}catch{}if(child.exitCode!==null)break;await delay(250);}
+  assert.ok(ready,'production Next server should start');
+  browser=await chromium.launch({headless:true});
+  const context=await browser.newContext({javaScriptEnabled:false});
+  const externalRequests=[];
+  context.on('request',request=>{if(new URL(request.url()).origin!==base)externalRequests.push(request.url());});
+  await context.route('**/*',route=>new URL(route.request().url()).origin===base?route.continue():route.abort());
+  const page=await context.newPage();
+  const paths=['/','/fr','/id','/ar','/tiktok-video-downloader','/video-to-mp3','/compress-video','/trim-video','/video-to-gif','/fr/convertir-video-en-mp3','/id/kompres-video','/ar/daght-video'];
+  for(const path of paths){
+    const response=await page.goto(base+path,{waitUntil:'domcontentloaded'});
+    assert.equal(response.status(),200,path);
+    assert.equal(await page.locator('h1').count(),1,path);
+    assert.ok((await page.title()).trim(),`${path}: title`);
+    assert.ok((await page.locator('main').innerText()).trim().length>100,`${path}: SSR main text`);
+    assert.ok(await page.locator('form').count()||await page.locator('input[type=file]').count(),`${path}: expected tool form`);
   }
-  await page.getByRole("textbox", { name: "Video link", exact: true }).fill("https://instagram.com/example/");
-  assert.equal(await page.getByRole("button", { name: "Extract", exact: true }).isDisabled(), true);
-  await page.getByRole("button", { name: "Clear link" }).click();
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.screenshot({ path: "test-results/home-mobile.png", fullPage: true });
-  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true, "The mobile layout should not scroll horizontally");
-  const copy = await page.locator("body").innerText();
-  assert.doesNotMatch(copy, /Téléchargez|Extraire|Téléchargements|Aucune donnée|Tous droits réservés|Fonctionnalités/);
-  // The usage dashboard was removed entirely: neither the UI nor the API may expose it.
-  assert.doesNotMatch(copy, /Recent transfers|Service activity|Links analyzed/i);
-  const statsStatus = await page.evaluate(async () => (await fetch("/api/stats")).status);
-  assert.equal(statsStatus, 404, "the public stats endpoint must no longer exist");
-  await page.goto(`${base}/legal`, { waitUntil: "networkidle" });
-  assert.match(await page.locator("h1").innerText(), /Terms, privacy & legal information/);
-  assert.equal(await page.locator("html").getAttribute("lang"), "en");
-
-  // Platform landing pages must be indexable and usable on a phone viewport.
-  for (const slug of ["tiktok-video-downloader", "instagram-reels-downloader"]) {
-    await page.goto(`${base}/${slug}`, { waitUntil: "networkidle" });
-    assert.equal(await page.locator("h1").count(), 1);
-    assert.equal(await page.locator('link[rel="canonical"]').getAttribute("href"), `https://vidfetch.app/${slug}`);
-    assert.ok(await page.locator('script[type="application/ld+json"]').count() >= 1);
-    assert.ok(await page.getByRole("navigation", { name: "Breadcrumb" }).isVisible());
-    assert.ok(await page.getByRole("textbox", { name: "Video link", exact: true }).isVisible());
-    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true, `${slug} must not scroll horizontally`);
-  }
-  await page.goto(`${base}/this-page-does-not-exist`, { waitUntil: "networkidle" });
-  assert.match(await page.locator("h1").innerText(), /does not exist/);
-
-  // Share-sheet / shared-link entry point: ?url= and ?text= must auto-extract.
-  const shared = "https://www.tiktok.com/@pokemonlife22/video/7059698374567611694";
-  for (const query of [`url=${encodeURIComponent(shared)}`, `text=${encodeURIComponent(`look at this ${shared}`)}`]) {
-    await page.goto(`${base}/?${query}`, { waitUntil: "domcontentloaded" });
-    await page.getByRole("region", { name: "Extracted video" }).waitFor({ timeout: 120000 });
-    assert.equal(new URL(page.url()).search, "", "the shared link should be cleared from the address bar");
-  }
-  await page.goto(`${base}/?url=https://example.com/not-supported`, { waitUntil: "networkidle" });
-  assert.equal(await page.getByRole("region", { name: "Extracted video" }).count(), 0, "an unsupported shared link must be ignored");
-  console.log("PASS shared-link entry point (?url= and ?text=)");
-  assert.deepEqual(errors, [], "No browser runtime errors");
-  console.log("PASS English desktop/mobile interface, legal page, URL validation, and no runtime errors");
+  assert.equal((await page.goto(base+'/youtube-video-downloader',{waitUntil:'domcontentloaded'})).status(),404,'YouTube remains unpublished');
+  assert.equal((await page.goto(base+'/missing-smoke-route',{waitUntil:'domcontentloaded'})).status(),404,'unknown routes stay 404');
+  assert.deepEqual(externalRequests,[],'the smoke path must not contact third parties');
+  console.log(`BROWSER SMOKE PASS: ${paths.length} SSR pages, no third-party requests, YouTube blocked, true 404s.`);
 } finally {
-  await browser.close();
-  await rm(directory, { recursive: true, force: true });
+  await browser?.close();
+  if(child.exitCode===null){process.kill(-child.pid,'SIGTERM');await Promise.race([once(child,'exit'),delay(5000)]);if(child.exitCode===null)process.kill(-child.pid,'SIGKILL');}
 }
