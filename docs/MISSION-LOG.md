@@ -2,6 +2,13 @@
 
 Date affichée en Europe/Paris. Les commits de la branche de travail ne deviennent pas publics avant la procédure de revue prévue pour chaque phase.
 
+## 2026-11-01 — Préparation du revert capacité
+
+- PR #31 `revert: capacity until admin session`, branche `revert/capacity-until-admin-session`, commit initial `303def85819016d40eeab77472855a0f85613ec5`; revert Git normal de `a906a4969fba1dc3ecea6a0797bd0b27998856f1`, sans réécriture d'historique.
+- Artefact officiel CI de la release active `3a4f929a7c35b4fe416bf0ec540880c9ed7ffbb9`, workflow `41298579682`, téléchargé depuis GitHub. Empreintes manifestes de référence: moteur OVH `fa0d3d4e15a5a45ca0deb2b35e7ba03adc95c31b87500378068121f291c42287`; passerelle `0fa1404530c272b76aaec9aee18125660e8561c744e4ccc1fbb9c7dbee9850e5`.
+- Production avant revert: `curl https://vidfetch.app/api/health` renvoie `ok`, `frontend.ready=true`, release `3a4f929a7c35b4fe416bf0ec540880c9ed7ffbb9`, downloads disponibles.
+- Décision: attendre l'archive exacte construite par le run CI de la PR et comparer les deux hashes au manifeste de production avant fusion. Aucun accès root/SSH utilisé.
+
 ## 2026-11-01 — Phase 1, convertisseurs locaux
 
 - Reprise sur `feat/local-tools`, commit de synchronisation `b21d2786`; PR #24 est ouverte, en brouillon, et aucun changement n’a été poussé sur `main`.
