@@ -46,6 +46,8 @@ jobs:
       - run: node backend/gateway/run-load.mjs
       - run: python3 -m unittest discover -s deploy/ovh/tests -v
       - run: npm run check:release
+      - name: Install Chromium for browser smoke checks
+        run: npx playwright install --with-deps chromium
       - name: Verify the engine-free frontend build and browser smoke paths
         run: |
           npm run build
@@ -65,8 +67,6 @@ jobs:
           VIDFETCH_REQUIRE_INDEXING_TEST: '1'
           VIDFETCH_INDEXING_APP: build/releases/${{ github.sha }}/app
         run: python3 -m unittest discover -s deploy/ovh/tests -p test_public_indexing.py -v
-      - name: Install isolated browser for local multilingual checks
-        run: npx playwright install --with-deps chromium
       - name: SEO invariants for every sitemap URL
         run: npm run seo-check
       - name: Server HTML, eight languages, RTL and unchanged API paths
