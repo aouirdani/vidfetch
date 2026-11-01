@@ -70,6 +70,7 @@ Les versions EN/FR existantes restent `/tiktok-video-downloader`, `/tiktok-to-mp
 - EN : `/blog/why-cant-i-save-tiktok`, `/blog/save-tiktok-sound-mp3`, `/blog/save-tiktok-phone-gallery`.
 - FR : `/fr/guides/pourquoi-impossible-enregistrer-tiktok`, `/fr/guides/recuperer-son-tiktok-mp3`, `/fr/guides/enregistrer-tiktok-galerie-iphone-android`.
 - `/blog` et les articles déjà présents ont perdu le `noindex`; `/fr/guides` est un index de contenu. Le fichier `SEO-CHANGES.md` conserve l'inventaire étendu des URL historiques indexables.
+- Les dix articles anglais déjà publiés et désormais indexables : `/blog/720p-1080p-4k`, `/blog/backup-your-videos`, `/blog/bitrate-vs-resolution`, `/blog/h264-h265-av1`, `/blog/mp3-vs-m4a`, `/blog/mp4-vs-webm`, `/blog/reduce-video-size`, `/blog/video-download-fails`, `/blog/video-format-smartphone`, `/blog/video-to-audio`.
 
 ### Candidats privés — non publiés
 
