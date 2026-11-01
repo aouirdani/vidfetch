@@ -17,7 +17,7 @@ const MAX_BODY = 8192;
 const defaults = {
   ticketMs: 60000, statusMs: 30 * 60 * 1000, firstMs: 90000, metadataMs: 75000,
   operationMs: 10 * 60 * 1000, idleMs: 30000, bodyMs: 10000,
-  maxBytes: 256 * 1024 * 1024, maxDuration: 30 * 60, maxMetadataBytes: 2 * 1024 * 1024, maxConcurrent: 1,
+  maxBytes: 256 * 1024 * 1024, maxDuration: 30 * 60, maxMetadataBytes: 2 * 1024 * 1024,
 };
 const engineDefaults = { engineStatus, ytDlpBinary, ffmpegBinary, engineContext, dumpJson, assertPublicUrl, validateMediaDestinations };
 type State = "ready" | "streaming" | "completed" | "failed" | "aborted" | "expired";
@@ -108,7 +108,7 @@ export function createBackend(options: {
   };
   const acquire = (needsStatus = false): Work => {
     prune();
-    if (active.size >= limits.maxConcurrent) throw new EngineError("BUSY", "The server is busy. Try again shortly.", 429);
+    if (active.size >= 1) throw new EngineError("BUSY", "The server is busy. Try again shortly.", 429);
     if (needsStatus && statuses.size >= 256) throw new EngineError("BUSY", "The server's transfer history is full. Try again shortly.", 429);
     const controller = new AbortController();
     let disposal: Promise<void> | undefined;

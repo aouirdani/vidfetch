@@ -29,8 +29,6 @@
   "networkError": "VidFetch ist nicht erreichbar. Prüfe deine Verbindung und versuche es erneut.",
   "backendUnavailable": "Analyse und Downloads sind vorübergehend nicht verfügbar. Versuche es später erneut.",
   "rateLimited": "Zu viele Anfragen. Warte vor dem nächsten Versuch.",
-  "quotaReached": "Das tägliche Downloadkontingent ist erreicht. Es wird um 00:00 UTC zurückgesetzt.",
-  "localToolsCta": "Nutze während der Wartezeit ein lokales Videowerkzeug",
   "restricted": "Diese Quelle erfordert eine Berechtigung oder ist nicht verfügbar. VidFetch umgeht keine Beschränkungen.",
   "expired": "Diese Berechtigung oder dieser Downloadlink ist abgelaufen. Versuche es erneut.",
   "limitError": "Dieses Medium überschreitet die Größen- oder Zeitlimits des Dienstes.",

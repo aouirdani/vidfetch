@@ -14,7 +14,6 @@ import { DownloadAccess } from "./DownloadAccess";
 import { detectPlatform, PLATFORM_META, type Platform } from "@/lib/platforms";
 import { YOUTUBE_NOTICE } from "@/lib/youtube-notice";
 import { FORM_COPY, TIKTOK_LINK_SHAPES } from "@/lib/form-copy";
-import { toolPath } from "@/local-tools/catalogue";
 
 // The result card is only needed after a successful extraction.
 const VideoCard = dynamic(() => import("./VideoCard").then((module) => module.VideoCard), {
@@ -45,7 +44,6 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<FetchInfoSuccess | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [errorCode, setErrorCode] = useState<string | null>(null);
   const [authorized, setAuthorized] = useState(!secureGateway);
   const [verificationNeeded, setVerificationNeeded] = useState(false);
   const pending = useRef<string | null>(null);
@@ -72,23 +70,22 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
   }, []);
 
   const submit = useCallback(async (raw?: string) => {
-    if (downloadsUnavailable) { setError(d.backendUnavailable); setErrorCode(null); return; }
+    if (downloadsUnavailable) { setError(d.backendUnavailable); return; }
     const check = detectPlatform(raw ?? value);
     if (!check.ok) {
       setError(check.reason === "empty"
         ? d.emptyLink
         : d.invalidLink);
-      setErrorCode(null);
       inputRef.current?.focus();
       return;
     }
-    if (check.platform === "youtube") { setValue(check.url); setError(null); setErrorCode(null); setResult(null); return; }
-    if (!authorized) { pending.current = check.url; setVerificationNeeded(true); setError(null); setErrorCode(null); return; }
+    if (check.platform === "youtube") { setValue(check.url); setError(null); setResult(null); return; }
+    if (!authorized) { pending.current = check.url; setVerificationNeeded(true); setError(null); return; }
     requestRef.current?.abort();
     const controller = new AbortController();
     requestRef.current = controller;
     setValue(check.url);
-    setLoading(true); setError(null); setErrorCode(null); setResult(null);setWaiting(null);
+    setLoading(true); setError(null); setResult(null);setWaiting(null);
     try {
       const payload = await postJson<FetchInfoResponse>("/api/fetch-info", { url: check.url }, controller.signal,notice=>setWaiting(interpolate(d.waiting, { position: notice.position, seconds: Math.ceil(notice.estimatedWaitMs/1000) })));
       if (controller.signal.aborted) return;
@@ -98,9 +95,9 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
           const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
           resultsRef.current?.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "nearest" });
         });
-      } else { setError(errorMessage(payload.code, d)); setErrorCode(payload.code ?? null); }
+      } else setError(errorMessage(payload.code, d));
     } catch {
-      if (!controller.signal.aborted) { setError(d.networkError); setErrorCode(null); }
+      if (!controller.signal.aborted) setError(d.networkError);
     } finally { if (!controller.signal.aborted) {setLoading(false);setWaiting(null);} }
   }, [value, authorized, d]);
 
@@ -131,19 +128,19 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
   function reset() {
     requestRef.current?.abort();
     pending.current = null; setVerificationNeeded(false);
-    setValue(""); setResult(null); setError(null); setErrorCode(null); setLoading(false);setWaiting(null);
+    setValue(""); setResult(null); setError(null); setLoading(false);setWaiting(null);
     inputRef.current?.focus();
   }
 
   async function paste() {
     try {
       const text = await navigator.clipboard.readText();
-      if (!text.trim()) { setError(d.clipboardEmpty); setErrorCode(null); return; }
-      setValue(text.trim()); setError(null); setErrorCode(null);
+      if (!text.trim()) { setError(d.clipboardEmpty); return; }
+      setValue(text.trim()); setError(null);
       const check = detectPlatform(text);
       if (check.ok) void submit(text);
       else inputRef.current?.focus();
-    } catch { setError(d.clipboardBlocked); setErrorCode(null); }
+    } catch { setError(d.clipboardBlocked); }
   }
 
   return (
@@ -157,7 +154,7 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
           invalid ? "ring-amber-400/40" : detection.ok ? "ring-cyan-400/50" : "ring-white/10 focus-within:ring-cyan-400/50")}>
           <div className="flex flex-1 items-center gap-2.5 px-2">
             <Link2 className={clsx("h-5 w-5 shrink-0 transition-colors", detection.ok ? "text-cyan-300" : "text-slate-400")} aria-hidden />
-            <input ref={inputRef} value={value} onChange={(event) => { setValue(event.target.value); if (error) { setError(null); setErrorCode(null); } }}
+            <input ref={inputRef} value={value} onChange={(event) => { setValue(event.target.value); if (error) setError(null); }}
               type="url" inputMode="url" autoComplete="off" spellCheck={false} maxLength={4096} enterKeyHint="go"
               placeholder={d.placeholder} aria-label={d.videoLink} dir="ltr" aria-describedby="url-help" aria-invalid={invalid}
               className="h-12 w-full min-w-0 bg-transparent text-[15px] text-white placeholder:text-slate-400 focus:outline-none" />
@@ -214,7 +211,6 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
             <div className="min-w-0">
               <p className="text-sm font-semibold text-red-100">{d.fetchFailed}</p>
               <p className="mt-1 text-sm leading-relaxed text-red-200/85">{error}</p>
-              {errorCode === "QUOTA_EXCEEDED" && <a href={toolPath(locale,"compress")} className="mt-2 inline-block text-sm font-semibold text-cyan-200 underline underline-offset-4">{d.localToolsCta}</a>}
               {detection.ok && (
                 <div className="mt-3 flex flex-wrap items-center gap-4 text-xs">
                   <button type="button" onClick={() => void submit()} disabled={loading} className="font-semibold text-white underline-offset-4 hover:underline">{d.retry}</button>

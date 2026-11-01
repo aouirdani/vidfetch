@@ -29,8 +29,6 @@
   "networkError": "VidFetch est injoignable. Vérifiez votre connexion et réessayez.",
   "backendUnavailable": "L’analyse et les téléchargements sont temporairement indisponibles. Réessayez plus tard.",
   "rateLimited": "Trop de demandes. Patientez avant de réessayer.",
-  "quotaReached": "Le quota quotidien de téléchargements est atteint. Il est réinitialisé à 00 h 00 UTC.",
-  "localToolsCta": "Utiliser un outil vidéo local pendant l’attente",
   "restricted": "Cette source exige une autorisation ou est indisponible. VidFetch ne contourne pas ses restrictions.",
   "expired": "Cette autorisation ou ce lien a expiré. Réessayez.",
   "limitError": "Ce média dépasse les limites de taille ou de durée du service.",

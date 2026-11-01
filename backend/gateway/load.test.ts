@@ -5,7 +5,6 @@ import {createServer as createTlsServer} from "node:https";
 import {once} from "node:events";
 import {randomBytes,randomUUID} from "node:crypto";
 import {writeFile} from "node:fs/promises";
-import {statSync,createReadStream} from "node:fs";
 import {resolve} from "node:path";
 import {performance} from "node:perf_hooks";
 import {createGateway} from "./server";
@@ -17,7 +16,6 @@ import {tlsFixture,trustedFetch} from "./tests.test";
 
 test("progressive synthetic HTTPS load 1/2/4/8, Funnel headers and one engine lease",{timeout:90000},async()=>{
  const tls=await tlsFixture(),secret=randomBytes(32),site="https://app.example.net",ledger=new GatewayLedger(resolve(tls.directory,"load.sqlite"));
- const fixture=process.env.VIDFETCH_LOAD_FIXTURE,fixtureBytes=fixture?statSync(fixture).size:65536;
  const records=new Map<string,{status:string;bytes:number;updated:number}>();let workers=0,maxWorkers=0,preparations=0,resourceRefused=false;
  const backend=createServer((req,res)=>{
   res.setHeader("Content-Type","application/json");
@@ -29,8 +27,8 @@ test("progressive synthetic HTTPS load 1/2/4/8, Funnel headers and one engine le
   if(url.searchParams.has("status")){res.end(JSON.stringify({ok:true,...entry}));return;}
   entry.status="streaming";res.setHeader("Content-Type","application/octet-stream");res.setHeader("Content-Disposition",'attachment; filename="fixture.bin"');
   let closed=false;res.once("close",()=>{if(!closed){workers--;closed=true;}});
-  if(fixture){res.setHeader("Content-Length",fixtureBytes);const stream=createReadStream(fixture);stream.on("data",chunk=>entry.bytes+=chunk.length);stream.on("end",()=>{entry.status="completed";entry.updated=Date.now();});stream.pipe(res);}
-  else{for(let i=0;i<4;i++){entry.bytes+=16384;res.write(Buffer.alloc(16384,42));}entry.status="completed";entry.updated=Date.now();res.end();}
+  for(let i=0;i<4;i++){entry.bytes+=16384;res.write(Buffer.alloc(16384,42));}
+  entry.status="completed";entry.updated=Date.now();res.end();
  });backend.listen(0,"127.0.0.1");await once(backend,"listening");const ba=backend.address();assert(ba&&typeof ba!=="string");
  const edge=createTlsServer({key:tls.key,cert:tls.cert});edge.listen(0,"127.0.0.1");await once(edge,"listening");const ea=edge.address();assert(ea&&typeof ea!=="string");const origin=`https://127.0.0.1:${ea.port}`;
  const gateway=createGateway({origin,sites:[site],key:secret,backend:`http://127.0.0.1:${ba.port}`,ledger,proxy:"funnel",bytesPerSecond:262144,admitWork:async()=>{if(resourceRefused)throw new (await import("../../src/server/access-crypto")).AccessError("RESOURCE_GUARD",503);},queue:{maxWaiting:2,waitMs:30000,heartbeatMs:20000,claimMs:10000,estimateMs:1000}});
@@ -51,8 +49,8 @@ test("progressive synthetic HTTPS load 1/2/4/8, Funnel headers and one engine le
   if(!ready.ok||!ready.token)return false;
   const grant=await a.client.grant(),body=JSON.stringify({ticket:ready.token});
   const permission=await a.transport(origin+"/auth/transfer",{method:"POST",body,headers:{Authorization:`Bearer ${grant}`,"X-VidFetch-Proof":await a.client.proof("POST","/auth/transfer",body,grant)}});assert.equal(permission.status,200);
-  const cookie=permission.headers.get("set-cookie")!.split(";")[0],response=await a.transport(`${origin}/api/download?ticket=${ready.token}`,{headers:{Cookie:cookie,"Sec-Fetch-Site":"same-origin"}});assert.equal(response.status,200);assert.equal((await response.arrayBuffer()).byteLength,fixtureBytes);
-  const state=await(await a.client.request(`/api/download?status=${ready.token}`)).json();assert.equal(state.status,"completed");assert.equal(state.bytes,fixtureBytes);return true;
+  const cookie=permission.headers.get("set-cookie")!.split(";")[0],response=await a.transport(`${origin}/api/download?ticket=${ready.token}`,{headers:{Cookie:cookie,"Sec-Fetch-Site":"same-origin"}});assert.equal(response.status,200);assert.equal((await response.arrayBuffer()).byteLength,65536);
+  const state=await(await a.client.request(`/api/download?status=${ready.token}`)).json();assert.equal(state.status,"completed");assert.equal(state.bytes,65536);return true;
  };
  const results:unknown[]=[],actors:Actor[]=[];
  let maximumRss=process.memoryUsage().rss;const sampler=setInterval(()=>{maximumRss=Math.max(maximumRss,process.memoryUsage().rss);},50);
@@ -78,7 +76,7 @@ test("progressive synthetic HTTPS load 1/2/4/8, Funnel headers and one engine le
   resourceRefused=true;const beforeGuard=preparations,guard=await actors[3].client.request("/api/download",{method:"POST",body:downloadBody});assert.equal(guard.status,503);assert.equal((await guard.json()).code,"RESOURCE_GUARD");assert.equal(preparations,beforeGuard);
   assert.equal((await actors[3].client.request("/api/health")).status,503);resourceRefused=false;
   assert.equal(maxWorkers,1);assert.equal(workers,0);assert(maximumRss<256*1024**2);
-  await writeFile(resolve(tls.directory,"load-results.json"),JSON.stringify({environment:"local HTTPS, synthetic backend, no Internet load",fixtureBytes,results,maximumRssBytes:maximumRss,maxSimultaneousSyntheticEngines:maxWorkers,maxWaiting:2,metadataSharesQueue:true,ownership:true,cancelDoesNotStartEngine:true,funnelHeadersSimulated:true,productionCapacityValidated:false},null,2)+'\n',{flag:"wx"});
+  await writeFile(resolve(tls.directory,"load-results.json"),JSON.stringify({environment:"Mac local HTTPS, synthetic backend, no Internet load",results,maximumRssBytes:maximumRss,maxSimultaneousSyntheticEngines:maxWorkers,maxWaiting:2,metadataSharesQueue:true,ownership:true,cancelDoesNotStartEngine:true,funnelHeadersSimulated:true,productionCapacityValidated:false},null,2)+'\n',{flag:"wx"});
   console.log(JSON.stringify({syntheticStages:results,maxSimultaneousSyntheticEngines:maxWorkers,maximumRssMiB:maximumRss/1024**2,evidence:resolve(tls.directory,"load-results.json")}));
  }finally{clearInterval(sampler);await gateway.shutdown();for(const server of [edge,backend]){server.closeAllConnections();await new Promise<void>(r=>server.close(()=>r()));}}
 });
