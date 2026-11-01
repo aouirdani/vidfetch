@@ -12,11 +12,11 @@ Date affichée en Europe/Paris. Les commits de la branche de travail ne devienne
 
 ## 2026-11-01 — Suite des PR de mission
 
-- PR #29 (`feat/seo-debt`) est en cours de rebase sur le `main` post-revert. Conflits résolus dans le workflow et le journal en conservant les changements SEO et la preuve du déploiement du revert. Le document capacité y devient un compte rendu historique; les fonctionnalités de #26 ne sont pas réintroduites.
+- PR #29 (`feat/seo-debt`) a été rebasée sur le `main` post-revert (tête locale `29b3d836`). Conflits résolus dans le workflow et le journal en conservant les changements SEO et la preuve du déploiement du revert. Le document capacité y devient un compte rendu historique; les fonctionnalités de #26 ne sont pas réintroduites. Lint, typecheck et les tests Node **191/191** repassent; push et CI GitHub à suivre.
 - Ordre conservé pour la suite : #29, #27, #30, #28. Chaque PR sera rebasée, testée, relue avant fusion puis vérifiée en production. Les PR suivantes ne sont pas encore intégrées.
 - Phase 3 / PR #27 : navigation mobile localisée et captures/audit EN, FR, AR, ID préparés; le build précédent de cette PR était vert. Revalidation requise après rebase.
 - Phase 4 / PR #30 : 64 entrées candidates Facebook, Reddit, Vimeo, Dailymotion, toutes non publiées et sans gates; aucune URL au sitemap. Pas de liens opérateur autorisés, aucune vérification de plateforme réelle.
-- Phase 5 / PR #29 : CI Node 24 épinglée par SHA, vérifications browser/SEO ajoutées, limites cohérentes et rapport final. Tests locaux connus : lint, typecheck, `npm test` 192/192, `test:i18n` 97 pages/8 langues, SEO 82 URL. Le CI est à relancer après le rebase.
+- Phase 5 / PR #29 : CI Node 24 épinglée par SHA, vérifications browser/SEO ajoutées, limites cohérentes et rapport final. Avant le revert, lint, typecheck, `npm test` 192/192, `test:i18n` 97 pages/8 langues et SEO 82 URL passaient. Après rebase sur `31f5112`, lint, typecheck et `npm test` 191/191 passent (le test de rapport capacité retiré explique le compte); le CI complet est à relancer.
 - Phase 6 / PR #28 : contenus de lancement préparés sous `docs/launch/`, non publiés. CI à revérifier après rebase.
 
 ## 2026-11-01 — Préparation du revert capacité

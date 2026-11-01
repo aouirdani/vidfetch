@@ -23,8 +23,10 @@ Les pourcentages ne s'additionnent pas et ne représentent pas un score du site.
 
 - PR #24 (`feat/local-tools`) a été fusionnée et déployée. Elle comprend 32 routes d'outils locaux, l'OPFS, les plafonds prudents et les workers. Les mesures de laboratoire et l'analyse des budgets sont dans `TOOLS-CHANGES.md`, `docs/LOCAL-TOOLS-MEMORY.md` et `docs/LOCAL-TOOLS-OPFS-MEMORY.json`.
 - PR #26 (`feat/capacity`) a été fusionnée en `a906a4969fba1dc3ecea6a0797bd0b27998856f1`, mais le run de déploiement `41334481660` a refusé l'archive : « Engine/gateway artifact changed; separate administrator review required ». La santé publique observée indiquait encore la release précédente `3a4f929a7c35b4fe416bf0ec540880c9ed7ffbb9`. Aucun changement backend n'a été promu. L'accès SSH non interactif est refusé; aucune commande sudo serveur n'a été exécutée.
-- PR #27 (UI/UX) est ouverte; son build CI a réussi. PR #28 (kit de lancement) est ouverte; CI était en cours à la dernière consultation. PR #29 (SEO/dette technique) et PR #30 (plateformes candidates) sont ouvertes; leurs checks étaient en cours. **Aucune de ces trois PR n'a été fusionnée.**
-- Aucune PR ne doit être fusionnée tant que le garde de déploiement moteur/passerelle n'est pas traité par l'administrateur; une fusion déclencherait un déploiement frontend qui pourrait à nouveau échouer. Aucun accès Cloudflare ou Search Console n'est configuré.
+- Le revert #31 (`revert: capacity until admin session`) a depuis été fusionné en `31f51121735aacbfee99c29dadee1440b693b734`. Son CI push/deploy `41343004391` a réussi. `/api/health` en production confirme ce commit comme actif, sans rollback; l'ancienne release `3a4f929` n'est donc plus active.
+- La parité préalable a été contrôlée sur les archives CI exactes : les hashes moteur et passerelle de la release `3a4f929` et de l'archive candidate PR #31 sont identiques. Le code #26 a été retiré de `main`; capacité v2 n'est pas active.
+- PR #29 a été rebasée sur ce `main` post-revert (commit de rebase local `29b3d836`) et est en attente de push/checks GitHub. Lint, typecheck et tests Node passent localement (**191/191**; le test de rapport capacité de #26 a disparu avec le revert). PR #27 (UI/UX), #30 (candidats verrouillés) et #28 (kit de lancement) restent ouvertes et seront traitées dans cet ordre après #29. Leurs anciens checks ne valent pas après leur prochain rebase.
+- Aucun accès Cloudflare ou Search Console n'est configuré; aucun cache CDN n'a été purgé.
 
 ## Résultats de validation disponibles
 
@@ -32,7 +34,7 @@ Les pourcentages ne s'additionnent pas et ne représentent pas un score du site.
 - Phase 2 : banc synthétique local **7/7**, pic observé autour de **85,6 Mio RSS** pour sa fixture; ce résultat n'est ni un test VPS ni une projection d'utilisateurs quotidiens. Réglages de production non appliqués.
 - Phase 3 : PR #27 build réussi. Les captures avant/après et mesures sont dans `docs/ux/` de cette branche; tests sur dimensions Playwright, pas sur appareils physiques.
 - Phase 4 : dans `feat/platform-audit`, `npm run lint`, `npm run typecheck`, `npm test` **192/192**, `npm run test:i18n` (**97 pages**, 8 langues) passent. Les candidats n'apparaissent ni dans le sitemap ni dans le rendu. Le vérificateur réel n'a pas été lancé.
-- Phase 5 : dans `feat/seo-debt`, `lint`, `typecheck`, `npm test` **192/192**, `test:i18n` (**97 pages**, 8 langues) et `check:release` passent. Le build OVH, `test:vercel -- --browser`, smoke SSR et `seo-check` (**82 URL**, zéro orpheline, HTML maximum **200 290 octets**) sont documentés comme réussis. La version finale de cette branche attend ses checks GitHub.
+- Phase 5 : avant le revert, `feat/seo-debt` avait lint, typecheck, `npm test` **192/192**, `test:i18n` (**97 pages**, 8 langues), build OVH, Vercel/browser smoke et `seo-check` (**82 URL**, zéro orpheline, HTML max **200 290 octets**) au vert. Après rebase post-revert, lint/typecheck et `npm test` **191/191** repassent en local; CI GitHub complète encore à faire.
 - Phase 6 : textes préparés dans `docs/launch/` seulement; aucun compte tiers n'a été utilisé et rien n'a été publié.
 
 ## URL nouvelles ou modifiées
@@ -78,7 +80,7 @@ La PR #30 contient 64 lignes de catalogue Facebook/Reddit/Vimeo/Dailymotion (MP4
 
 ## Capacité, performances et expérience réelle
 
-La configuration serveur mesurée dans le code conserve ses valeurs par défaut actuelles : maximum 100 opérations et 4 Gio/jour au niveau service, 8 opérations et 1 Gio par identité/IP selon la règle existante, une conversion simultanée et une file limitée. La PR de capacité ajoute des réglages et de la télémétrie, mais ils ne sont pas actifs en production. Il serait inexact d'annoncer une capacité confirmée à plusieurs centaines d'usagers par jour.
+La configuration serveur qui reste après le revert conserve les plafonds actuels, dont la limite globale de 100 téléchargements par jour; les variables, réservations, métriques et réglages de file de #26 ne sont pas présents ni actifs sur `main`. Aucun banc de charge VPS n'a été lancé. Il serait inexact d'annoncer une capacité confirmée à plusieurs centaines d'usagers par jour.
 
 Pour les convertisseurs, les tests isolés couvrent des fichiers générés et des parcours Chromium/WebKit; les sorties et les écritures OPFS sont vérifiées. L'OPFS et le sélecteur de fichier du système ne sont pas validés sur téléphone physique. L'ouverture dans Photos, Galerie ou WhatsApp, Safari 26 matériel, Android/Chrome matériel, HEVC/HDR de caméra, permissions réelles et quotas de stockage mobiles restent à tester. Les limites de l'outil sont des bornes applicatives prudentes, pas une garantie de capacité matérielle universelle.
 
@@ -86,7 +88,7 @@ Les mesures LCP/CLS/TBT et taille JS comparatives sont conservées dans `TOOLS-C
 
 ## Actions restant au propriétaire
 
-1. **Administrateur OVH — environ 30–60 min, selon l'audit** : examiner l'archive de capacité refusée, les diffs protégés et les scripts versionnés; déployer moteur/passerelle avec retour arrière validé, puis exécuter `sudo /usr/local/libexec/vidfetch-ci/promote.py status`. Ne pas relancer « Re-run all jobs » sur l'ancien artefact; créer un nouveau commit si un nouvel artefact est nécessaire. Sans cette étape, ne pas fusionner les PR frontend restantes.
+1. **Capacité v2 sur OVH — temps à estimer par l'administrateur** : relire la future PR `feat/capacity-v2` et son script d'administration, exécuter uniquement sa procédure documentée après revue root, puis confirmer `sudo /usr/local/libexec/vidfetch-ci/promote.py status`. Ne pas annoncer de hausse de capacité avant mesure VPS. Le déploiement frontend normal fonctionne à nouveau après le revert.
 2. **Capacité VPS — 1–2 h en heures creuses** : exécuter le banc isolé décrit dans `docs/VIDFETCH-CAPACITE.md`, surveiller RAM et erreurs, choisir le profil normal réellement mesuré, configurer le fichier d'environnement, redémarrer avec retour arrière et vérifier le statut. Activer l'alerte avec un canal HTTPS administré.
 3. **Téléphones — 1–2 h par modèle** : suivre le protocole de `TOOLS-CHANGES.md` sur iPhone Safari 26 et Android Chrome avec vidéos caméra 30 s, 2 min et 5 min en 1080p/4K, dont HEVC iPhone; vérifier sortie dans Photos/Galerie/WhatsApp et noter temps, mémoire/espace et erreurs.
 4. **Relecture native — variable** : faire relire en priorité arabe et indonésien, puis portugais, les phrases signalées dans `docs/RELECTURE-NATIVE.md` et `TOOLS-CHANGES.md` avant de considérer le contenu final.
@@ -100,4 +102,4 @@ Les mesures LCP/CLS/TBT et taille JS comparatives sont conservées dans `TOOLS-C
 - Le garde d'intégrité des bundles moteur/passerelle est une vraie condition de déploiement, pas un échec à contourner. Aucun fichier protégé, secret, compte de plateforme, configuration active Caddy ou Cloudflare n'a été modifié.
 - La vérification Instagram/X n'a pas été exécutée faute de lien autorisé disponible; les gates restent fermées. Vague 2 est du contenu de préparation interne et ne prétend à aucun support.
 - Aucun changement YouTube n'a été réalisé; les routes restent bloquées.
-- Les checks de CI #28–#30 étaient encore en cours à la dernière interrogation. Aucune fusion automatique des PR restées ouvertes n'a été effectuée.
+- Le CI push/deploy post-revert est vert. Les PR #27–#30 n'ont pas été fusionnées; les checks de leurs têtes devront être verts après rebase et avant chaque fusion.
