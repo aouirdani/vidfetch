@@ -83,7 +83,7 @@ try {
   assert.equal((await request("/api/health", { method: "HEAD" })).status, 200);
   pass("HTTP methods: three 405 responses and automatic HEAD 200");
 
-  const routes = ["/", "/youtube-video-downloader", "/tiktok-video-downloader", "/instagram-reels-downloader", "/twitter-video-downloader", "/legal"];
+  const routes = ["/", "/tiktok-video-downloader", "/legal"];
   for (const path of routes) {
     const response = await request(path);
     assert.equal(response.status, 200, path);
@@ -94,6 +94,7 @@ try {
     assert.doesNotMatch(html, /Engine unavailable|connected to the backend/i);
     assert.equal((html.match(/<h1(?:\s|>)/g) ?? []).length, 1);
   }
+  for (const path of ["/youtube-video-downloader", "/instagram-reels-downloader", "/twitter-video-downloader"]) assert.equal((await request(path)).status, 404, `${path} must remain unpublished`);
   for (const path of ["/robots.txt", "/sitemap.xml", "/manifest.webmanifest", "/icon.svg", "/og-image-v3.jpg"]) {
     const response = await request(path);
     assert.equal(response.status, 200, path);
@@ -101,7 +102,7 @@ try {
   }
   assert.equal((await request("/this-page-does-not-exist")).status, 404);
   assert.equal((await request("/api/stats")).status, 404);
-  pass("six SEO pages, five public assets, clean initial UI, 404 and no stats exposure");
+  pass("three published SEO pages, five public assets, clean initial UI, 404 and no stats exposure");
 
   const traces = await traceFiles(".next/server/app/api");
   assert.equal(traces.length, 4);
@@ -130,9 +131,9 @@ try {
       await page.waitForFunction(expected => document.querySelector('input[aria-label="Video link"]')?.value === expected, shared, { timeout: 10000 });
       assert.equal(await page.getByRole("textbox", { name: "Video link", exact: true }).inputValue(), shared);
       assert.equal(new URL(page.url()).search, "");
-      assert.equal(await page.getByRole("button", { name: "Extract", exact: true }).isDisabled(), false);
-      await page.getByRole("button", { name: "Extract", exact: true }).click();
-      await page.getByRole("alert").getByText(/temporarily unavailable/).waitFor();
+      assert.equal(await page.getByRole("button", { name: "Extract", exact: true }).isDisabled(), true);
+      await page.getByText("YouTube is not available on VidFetch", { exact: true }).waitFor();
+      assert.equal(apiRequests.length, 0, "A YouTube share URL must not contact the API");
       await page.setViewportSize({ width: 390, height: 844 });
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true);
       await page.screenshot({ path: join(directory, "unavailable-mobile.png"), fullPage: true });

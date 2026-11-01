@@ -94,7 +94,7 @@
       "en": {
         "status": "ready",
         "title": "TikTok Video Downloader – Save MP4 from a Link",
-        "description": "Paste a public TikTok link and save the video as MP4. Free, no account, works with app share links. Files up to 256 MB and videos up to 30 minutes.",
+        "description": "Paste a public TikTok link and save the video as MP4. Free, no account, works with app share links. Files up to 256 MiB and videos up to 30 minutes.",
         "heading": "Download a TikTok video as MP4",
         "intro": "Paste the link of a public TikTok video and VidFetch lists the MP4 renditions TikTok publishes for that post, with their resolution. Pick one and the file is saved to your phone or computer. Nothing to install, no account, no sign-in.",
         "instructions": [
@@ -112,7 +112,9 @@
           "Only public videos open: private accounts, friends-only posts and deleted videos cannot be downloaded.",
           "Photo posts (slideshows), profiles, hashtags and live streams are not supported.",
           "VidFetch saves a rendition TikTok publishes and does not edit the image, so it cannot remove a watermark that is part of the video.",
-          "Each connection can make up to 8 downloads per day, and the service shares a daily capacity between all users."
+          "Daily caps are 8 preparations and 1 GiB per browser session and per source IP, plus 100 preparations and 4 GiB service-wide. A source or queue can also prevent a request.",
+          "The service runs one operation at a time; the current OVH waiting queue holds 2 requests.",
+          "Each preparation is limited to 10 minutes."
         ],
         "faqs": [
           {
@@ -129,7 +131,7 @@
           },
           {
             "question": "Is there a limit?",
-            "answer": "Files up to 256 MB, videos up to 30 minutes, one preparation at a time, and up to 8 downloads per day for each connection."
+            "answer": "Files up to 256 MiB and videos up to 30 minutes. Preparation takes up to 10 minutes; daily caps are 8 operations and 1 GiB per browser session and per source IP, plus 100 operations and 4 GiB service-wide."
           },
           {
             "question": "What quality do I get? Is the download in HD?",
@@ -177,7 +179,7 @@
             "heading": "When a TikTok download stops or does not start",
             "paragraphs": [
               "Before the first download, VidFetch may run a short automatic verification that protects the service from automated abuse; the download continues once it is done. When the service is busy, your request waits in a short queue and the page shows your position.",
-              "Each preparation is limited to 10 minutes and each connection to 8 downloads per day. A download link is valid briefly and only once: if it has expired, select Extract again instead of reusing an old link, and keep the page open until your browser reports the file as complete."
+              "Preparation is limited to 10 minutes. Daily caps are 8 operations and 1 GiB per browser session and per source IP, plus 100 operations and 4 GiB service-wide. A download link is valid briefly and only once: if it has expired, select Extract again instead of reusing an old link, and keep the page open until your browser reports the file as complete."
             ]
           },
           {
@@ -194,7 +196,7 @@
       "fr": {
         "status": "ready",
         "title": "Télécharger une vidéo TikTok en MP4",
-        "description": "Collez le lien d'une vidéo TikTok publique et enregistrez-la en MP4. Gratuit, sans compte, liens de partage de l'appli acceptés, jusqu'à 256 Mo.",
+        "description": "Collez le lien d'une vidéo TikTok publique et enregistrez-la en MP4. Gratuit, sans compte, liens de partage de l'appli acceptés, jusqu'à 256 MiB.",
         "heading": "Télécharger une vidéo TikTok en MP4",
         "intro": "Collez le lien d'une vidéo TikTok publique : VidFetch affiche les versions MP4 que TikTok publie pour cette vidéo, avec leur résolution. Choisissez-en une et le fichier s'enregistre sur votre téléphone ou votre ordinateur, sans application à installer ni compte à créer.",
         "instructions": [
@@ -212,7 +214,9 @@
           "Seules les vidéos publiques s'ouvrent : comptes privés, publications réservées aux amis et vidéos supprimées sont exclus.",
           "Les publications photo (diaporamas), les profils, les hashtags et les directs ne sont pas pris en charge.",
           "VidFetch enregistre une version publiée par TikTok sans retoucher l'image : un filigrane incrusté dans la vidéo ne peut pas être retiré.",
-          "Chaque connexion peut effectuer jusqu'à 8 téléchargements par jour, et la capacité quotidienne du service est partagée entre tous les utilisateurs."
+          "Plafonds quotidiens : 8 préparations et 1 GiB par session de navigateur et par IP source, ainsi que 100 préparations et 4 GiB pour le service. La source ou la file peut aussi empêcher une demande.",
+          "Une seule opération fonctionne à la fois ; la file OVH actuelle accepte 2 demandes.",
+          "Chaque préparation est limitée à 10 minutes."
         ],
         "faqs": [
           {
@@ -229,7 +233,7 @@
           },
           {
             "question": "Y a-t-il une limite ?",
-            "answer": "Fichiers jusqu'à 256 Mo, vidéos jusqu'à 30 minutes, une préparation à la fois, et jusqu'à 8 téléchargements par jour pour chaque connexion."
+            "answer": "Fichiers jusqu’à 256 MiB et vidéos jusqu’à 30 minutes. La préparation dure au plus 10 minutes ; plafonds quotidiens : 8 opérations et 1 GiB par session de navigateur et par IP source, plus 100 opérations et 4 GiB pour le service."
           },
           {
             "question": "Quelle qualité obtient-on ? Le téléchargement est-il en HD ?",
@@ -277,7 +281,7 @@
             "heading": "Quand un téléchargement TikTok s'arrête ou ne démarre pas",
             "paragraphs": [
               "Avant le premier téléchargement, VidFetch peut afficher une courte vérification automatique qui protège le service contre les abus automatisés ; le téléchargement se poursuit une fois celle-ci terminée. Quand le service est chargé, votre demande attend dans une file courte et la page indique votre position.",
-              "Chaque préparation est limitée à 10 minutes et chaque connexion à 8 téléchargements par jour. Un lien de téléchargement n'est valable que peu de temps et une seule fois : s'il a expiré, relancez l'analyse au lieu de réutiliser un ancien lien, et gardez la page ouverte jusqu'à ce que le navigateur indique que le fichier est complet."
+              "La préparation est limitée à 10 minutes. Plafonds quotidiens : 8 opérations et 1 GiB par session de navigateur et par IP source, plus 100 opérations et 4 GiB pour le service. Un lien de téléchargement n'est valable que peu de temps et une seule fois : s'il a expiré, relancez l'analyse au lieu de réutiliser un ancien lien, et gardez la page ouverte jusqu'à ce que le navigateur indique que le fichier est complet."
             ]
           },
           {
@@ -294,7 +298,7 @@
       "id": {
         "status": "ready",
         "title": "Download video TikTok ke MP4",
-        "description": "Download video TikTok gratis tanpa akun. Tempel link berbagi dari aplikasi, simpan MP4 dari video publik. Batas 256 MB dan 30 menit; kuota berlaku.",
+        "description": "Download video TikTok gratis tanpa akun. Tempel link berbagi dari aplikasi, simpan MP4 dari video publik. Batas 256 MiB dan 30 menit; kuota berlaku.",
         "heading": "Download video TikTok ke MP4 di HP",
         "intro": "Mau menyimpan tutorial TikTok supaya bisa ditonton lagi saat koneksi kurang stabil? Salin link video publik yang boleh Anda simpan, lalu tempel di VidFetch. Anda tidak perlu membuat akun VidFetch atau memasang aplikasi tambahan. Pilih keluaran MP4 yang tersedia setelah analisis selesai. File berisi gambar dan suara yang diberikan sumber; kualitasnya mengikuti video tersebut, bukan angka resolusi yang dijanjikan untuk semua tautan.",
         "instructions": [
@@ -307,8 +311,10 @@
           "Gunakan satu tautan publik untuk setiap permintaan. Halaman profil, hashtag, unggahan foto, dan siaran LIVE bukan video biasa yang didukung alat ini."
         ],
         "limits": [
-          "Maksimal 256 MB dan 30 menit per media. Kuota serta jumlah pekerjaan bersamaan tetap dibatasi; menekan unduh berkali-kali tidak mempercepat antrean.",
-          "Video privat, video yang telah dihapus, dan sumber yang meminta login tidak bisa dijamin tersedia. VidFetch tidak meminta kata sandi TikTok dan tidak membuka akses privat."
+          "Maksimal 256 MiB dan 30 menit per media. Kuota serta jumlah pekerjaan bersamaan tetap dibatasi; menekan unduh berkali-kali tidak mempercepat antrean.",
+          "Video privat, video yang telah dihapus, dan sumber yang meminta login tidak bisa dijamin tersedia. VidFetch tidak meminta kata sandi TikTok dan tidak membuka akses privat.",
+          "Batas harian UTC: 8 persiapan dan cadangan 1 GiB per identitas browser serta per IP sumber, ditambah 100 persiapan dan 4 GiB untuk seluruh layanan. Satu operasi diproses sekaligus; antrean OVH saat ini menampung 2 permintaan.",
+          "Setiap persiapan dibatasi 10 menit."
         ],
         "faqs": [
           {
@@ -321,7 +327,7 @@
           },
           {
             "question": "Apakah perlu akun atau membayar?",
-            "answer": "Tidak perlu akun VidFetch dan alat ini gratis. Batas 256 MB, 30 menit, kuota, serta ketersediaan sumber tetap berlaku."
+            "answer": "Tidak perlu akun VidFetch dan alat ini gratis. Batas 256 MiB, 30 menit, kuota, serta ketersediaan sumber tetap berlaku."
           }
         ],
         "relatedGuides": [],
@@ -376,7 +382,7 @@
       "pt-BR": {
         "status": "ready",
         "title": "Baixar vídeo do TikTok em MP4",
-        "description": "Baixar vídeo do TikTok grátis, sem conta, com link de compartilhamento do app. Salve em MP4: limite de 256 MB e 30 minutos; sujeito a cotas.",
+        "description": "Baixar vídeo do TikTok grátis, sem conta, com link de compartilhamento do app. Salve em MP4: limite de 256 MiB e 30 minutos; sujeito a cotas.",
         "heading": "Baixar vídeo do TikTok em MP4 no celular",
         "intro": "Quer guardar uma receita ou uma explicação publicada no TikTok? Copie o link do vídeo público que você tem autorização para salvar e cole no VidFetch. A ferramenta mostra os formatos disponíveis na origem e prepara a opção escolhida. O MP4 mantém imagem e som juntos. Não é preciso criar uma conta no VidFetch nem instalar outro aplicativo. A resolução depende do material recebido: escolher um número maior não recria detalhes que nunca existiram.",
         "instructions": [
@@ -389,8 +395,10 @@
           "A ferramenta trabalha com uma publicação pública por vez. Perfis, hashtags, publicações de fotos e transmissões ao vivo não são entradas compatíveis."
         ],
         "limits": [
-          "O limite é de 256 MB e 30 minutos por mídia. Há cotas e limites de tarefas simultâneas; repetir o clique não aumenta a capacidade do serviço.",
-          "Publicações privadas, removidas ou que exigem login podem falhar. Nunca informe sua senha do TikTok no campo de links."
+          "O limite é de 256 MiB e 30 minutos por mídia. Há cotas e limites de tarefas simultâneas; repetir o clique não aumenta a capacidade do serviço.",
+          "Publicações privadas, removidas ou que exigem login podem falhar. Nunca informe sua senha do TikTok no campo de links.",
+          "Limites diários UTC: 8 preparações e 1 GiB reservado por identidade do navegador e por IP de origem, além de 100 preparações e 4 GiB para todo o serviço. Uma operação é processada por vez; a fila OVH atual aceita 2 solicitações.",
+          "Cada preparação tem limite de 10 minutos."
         ],
         "faqs": [
           {
@@ -403,7 +411,7 @@
           },
           {
             "question": "É grátis e sem cadastro?",
-            "answer": "Sim, sem conta no VidFetch. Continuam valendo os limites de 256 MB e 30 minutos, as cotas e as restrições da fonte."
+            "answer": "Sim, sem conta no VidFetch. Continuam valendo os limites de 256 MiB e 30 minutos, as cotas e as restrições da fonte."
           }
         ],
         "relatedGuides": [],
@@ -461,7 +469,7 @@
       "es": {
         "status": "ready",
         "title": "Descargar vídeos de TikTok en MP4",
-        "description": "Descargar vídeos de TikTok gratis y sin cuenta con el enlace de compartir de la app. Guarda en MP4: hasta 256 MB y 30 minutos; hay cuotas.",
+        "description": "Descargar vídeos de TikTok gratis y sin cuenta con el enlace de compartir de la app. Guarda en MP4: hasta 256 MiB y 30 minutos; hay cuotas.",
         "heading": "Descargar vídeos de TikTok en MP4",
         "intro": "Para guardar una receta o una explicación de TikTok, necesitas el enlace de esa publicación, no la dirección del perfil. VidFetch analiza vídeos públicos y prepara los formatos que la plataforma proporciona. Elige MP4 para conservar imagen y sonido juntos. No necesitas registrarte en VidFetch ni instalar una aplicación adicional. Antes de descargar, comprueba que tienes permiso para guardar el contenido: que un vídeo se pueda ver públicamente no concede derechos de reutilización.",
         "instructions": [
@@ -474,8 +482,10 @@
           "Procesa una publicación pública por petición. Los perfiles, hashtags, directos y publicaciones de fotos no equivalen a un vídeo compatible."
         ],
         "limits": [
-          "El máximo por archivo multimedia es de 256 MB y 30 minutos. Hay cuotas y límites de trabajos simultáneos; insistir con varias pestañas no elimina esos límites.",
-          "Las publicaciones privadas, eliminadas o sujetas a inicio de sesión pueden no estar disponibles. No introduzcas contraseñas ni datos de tu cuenta en el campo del enlace."
+          "El máximo por archivo multimedia es de 256 MiB y 30 minutos. Hay cuotas y límites de trabajos simultáneos; insistir con varias pestañas no elimina esos límites.",
+          "Las publicaciones privadas, eliminadas o sujetas a inicio de sesión pueden no estar disponibles. No introduzcas contraseñas ni datos de tu cuenta en el campo del enlace.",
+          "Límites diarios UTC: 8 preparaciones y 1 GiB reservado por identidad del navegador y por IP de origen, además de 100 preparaciones y 4 GiB para todo el servicio. Solo se procesa una operación a la vez; la cola actual de OVH admite 2 solicitudes.",
+          "Cada preparación está limitada a 10 minutos."
         ],
         "faqs": [
           {
@@ -488,7 +498,7 @@
           },
           {
             "question": "¿Hace falta una cuenta o pagar?",
-            "answer": "VidFetch es gratis y no requiere cuenta. Se mantienen los límites de 256 MB y 30 minutos, las cuotas y las restricciones del origen."
+            "answer": "VidFetch es gratis y no requiere cuenta. Se mantienen los límites de 256 MiB y 30 minutos, las cuotas y las restricciones del origen."
           }
         ],
         "relatedGuides": [],
@@ -546,7 +556,7 @@
       "de": {
         "status": "ready",
         "title": "TikTok-Video herunterladen als MP4",
-        "description": "TikTok-Video herunterladen: kostenlos, ohne Konto, mit Teilen-Link aus der App. MP4 für öffentliche Videos. Bis 256 MB und 30 Minuten; Kontingente.",
+        "description": "TikTok-Video herunterladen: kostenlos, ohne Konto, mit Teilen-Link aus der App. MP4 für öffentliche Videos. Bis 256 MiB und 30 Minuten; Kontingente.",
         "heading": "TikTok-Video herunterladen als MP4",
         "intro": "Du möchtest eine Anleitung aus TikTok später noch einmal ansehen? Kopiere den Link zum öffentlichen Video, das du speichern darfst, und füge ihn bei VidFetch ein. Nach der Analyse wählst du ein verfügbares MP4-Format. Bild und Ton bleiben zusammen. Ein VidFetch-Konto und eine zusätzliche App sind dafür nicht nötig. Die Auswahl richtet sich nach der Quelle. Eine höhere Auflösungsangabe erzeugt keine Bilddetails, die im Ausgangsmaterial fehlen.",
         "instructions": [
@@ -559,8 +569,10 @@
           "Pro Anfrage wird ein öffentliches Video verarbeitet. Profile, Hashtags, Fotobeiträge und laufende LIVE-Sendungen sind keine unterstützten Video-Eingaben."
         ],
         "limits": [
-          "Die Grenze liegt bei 256 MB und 30 Minuten je Medium. Kontingente und Begrenzungen für gleichzeitige Aufträge gelten weiterhin; wiederholtes Klicken beschleunigt keine Warteschlange.",
-          "Private, gelöschte oder nur nach Anmeldung erreichbare Beiträge können nicht zuverlässig abgerufen werden. Gib niemals dein TikTok-Passwort in das Linkfeld ein."
+          "Die Grenze liegt bei 256 MiB und 30 Minuten je Medium. Kontingente und Begrenzungen für gleichzeitige Aufträge gelten weiterhin; wiederholtes Klicken beschleunigt keine Warteschlange.",
+          "Private, gelöschte oder nur nach Anmeldung erreichbare Beiträge können nicht zuverlässig abgerufen werden. Gib niemals dein TikTok-Passwort in das Linkfeld ein.",
+          "Tageslimits nach UTC: 8 Vorbereitungen und 1 GiB Reservierung je Browseridentität und Quell-IP sowie 100 Vorbereitungen und 4 GiB für den gesamten Dienst. Es läuft jeweils ein Vorgang; die aktuelle OVH-Warteschlange nimmt 2 Anfragen auf.",
+          "Jede Vorbereitung ist auf 10 Minuten begrenzt."
         ],
         "faqs": [
           {
@@ -573,7 +585,7 @@
           },
           {
             "question": "Ist ein Konto oder eine Zahlung nötig?",
-            "answer": "VidFetch ist kostenlos und benötigt kein Konto. Die Grenzen von 256 MB und 30 Minuten sowie Kontingente und Quellenbeschränkungen bleiben bestehen."
+            "answer": "VidFetch ist kostenlos und benötigt kein Konto. Die Grenzen von 256 MiB und 30 Minuten sowie Kontingente und Quellenbeschränkungen bleiben bestehen."
           }
         ],
         "relatedGuides": [],
@@ -634,7 +646,7 @@
       "it": {
         "status": "ready",
         "title": "Scaricare video TikTok in MP4",
-        "description": "Scaricare video TikTok gratis e senza account con il link di condivisione dell’app. Salva in MP4: massimo 256 MB e 30 minuti; si applicano quote.",
+        "description": "Scaricare video TikTok gratis e senza account con il link di condivisione dell’app. Salva in MP4: massimo 256 MiB e 30 minuti; si applicano quote.",
         "heading": "Scaricare video TikTok in MP4 sul telefono",
         "intro": "Vuoi tenere una ricetta o una spiegazione vista su TikTok? Copia il link del singolo video pubblico che hai il permesso di salvare e incollalo in VidFetch. Dopo l’analisi scegli un formato MP4 disponibile per conservare immagini e suono insieme. Non serve creare un account VidFetch né installare un’altra app. La qualità dipende dal materiale fornito dalla piattaforma: una risoluzione più alta non ricostruisce dettagli assenti nella registrazione.",
         "instructions": [
@@ -647,8 +659,10 @@
           "Ogni richiesta riguarda una pubblicazione pubblica. Profili, hashtag, post fotografici e dirette LIVE non sono video compatibili con questo strumento."
         ],
         "limits": [
-          "Il massimo è di 256 MB e 30 minuti per contenuto multimediale. Restano quote e limiti alle operazioni simultanee; ripetere il clic non rende più veloce la coda.",
-          "I post privati, rimossi o accessibili solo dopo l’accesso possono non essere disponibili. Non inserire mai la password TikTok nel campo del link."
+          "Il massimo è di 256 MiB e 30 minuti per contenuto multimediale. Restano quote e limiti alle operazioni simultanee; ripetere il clic non rende più veloce la coda.",
+          "I post privati, rimossi o accessibili solo dopo l’accesso possono non essere disponibili. Non inserire mai la password TikTok nel campo del link.",
+          "Limiti giornalieri UTC: 8 preparazioni e 1 GiB riservato per identità del browser e per IP di origine, oltre a 100 preparazioni e 4 GiB per l’intero servizio. Si elabora un’operazione alla volta; la coda OVH attuale accetta 2 richieste.",
+          "Ogni preparazione è limitata a 10 minuti."
         ],
         "faqs": [
           {
@@ -661,7 +675,7 @@
           },
           {
             "question": "È gratuito e senza registrazione?",
-            "answer": "Sì, non serve un account VidFetch. Restano i limiti di 256 MB e 30 minuti, le quote e le restrizioni della fonte."
+            "answer": "Sì, non serve un account VidFetch. Restano i limiti di 256 MiB e 30 minuti, le quote e le restrizioni della fonte."
           }
         ],
         "relatedGuides": [],
@@ -720,7 +734,7 @@
       "ar": {
         "status": "ready",
         "title": "تحميل فيديو تيك توك بصيغة MP4",
-        "description": "تحميل فيديو تيك توك مجانًا دون حساب عبر رابط المشاركة من التطبيق. احفظ فيديو عامًا بصيغة MP4. الحد 256 ميغابايت و30 دقيقة مع حصص استخدام.",
+        "description": "تحميل فيديو تيك توك مجانًا دون حساب عبر رابط المشاركة من التطبيق. احفظ فيديو عامًا بصيغة MP4. الحد 256 MiB و30 دقيقة مع حصص استخدام.",
         "heading": "تحميل فيديو تيك توك بصيغة MP4 على الهاتف",
         "intro": "هل تريد الاحتفاظ بشرح أو وصفة شاهدتها على تيك توك؟ انسخ رابط الفيديو العام الذي تملك إذنًا بحفظه، ثم الصقه في VidFetch. بعد التحليل يمكنك اختيار صيغة MP4 المتاحة للاحتفاظ بالصورة والصوت معًا. لا تحتاج إلى إنشاء حساب في VidFetch أو تثبيت تطبيق إضافي. تعتمد الجودة على الملف الذي توفره المنصة، ولا تؤدي زيادة رقم الدقة إلى استعادة تفاصيل غير موجودة في التسجيل الأصلي.",
         "instructions": [
@@ -733,8 +747,10 @@
           "تتعامل كل محاولة مع فيديو عام واحد. الحسابات والوسوم ومنشورات الصور والبث المباشر ليست مدخلات فيديو تدعمها هذه الأداة."
         ],
         "limits": [
-          "الحد الأقصى هو 256 ميغابايت و30 دقيقة لكل وسيط. تطبق حصص للاستخدام وحدود للمهام المتزامنة، ولا يؤدي تكرار الضغط إلى تجاوزها أو تسريع الانتظار.",
-          "قد يتعذر الوصول إلى الفيديو الخاص أو المحذوف أو الذي يتطلب تسجيل الدخول. لا تكتب كلمة مرور حساب تيك توك في حقل الرابط."
+          "الحد الأقصى هو 256 MiB و30 دقيقة لكل وسيط. تطبق حصص للاستخدام وحدود للمهام المتزامنة، ولا يؤدي تكرار الضغط إلى تجاوزها أو تسريع الانتظار.",
+          "قد يتعذر الوصول إلى الفيديو الخاص أو المحذوف أو الذي يتطلب تسجيل الدخول. لا تكتب كلمة مرور حساب تيك توك في حقل الرابط.",
+          "الحدود اليومية بتوقيت UTC: 8 عمليات تحضير وحجز 1 GiB لكل هوية متصفح ولكل عنوان IP مصدر، إضافة إلى 100 عملية و4 GiB للخدمة كلها. تُعالج عملية واحدة في كل مرة، وتقبل قائمة انتظار OVH الحالية طلبين.",
+          "تقتصر مدة كل عملية تحضير على 10 دقائق."
         ],
         "faqs": [
           {
@@ -747,7 +763,7 @@
           },
           {
             "question": "هل أحتاج إلى حساب أو اشتراك؟",
-            "answer": "الأداة مجانية ولا تتطلب حساب VidFetch. تبقى حدود 256 ميغابايت و30 دقيقة وحصص الاستخدام وقيود المصدر سارية."
+            "answer": "الأداة مجانية ولا تتطلب حساب VidFetch. تبقى حدود 256 MiB و30 دقيقة وحصص الاستخدام وقيود المصدر سارية."
           }
         ],
         "relatedGuides": [],
@@ -858,7 +874,7 @@
         "title": "TikTok to MP3 – Save a TikTok Sound",
         "description": "Turn the sound of a public TikTok video into a real MP3 file (192 kbps). Paste the link, open the Audio tab and save it. Free and no account needed.",
         "heading": "Convert a TikTok video to MP3",
-        "intro": "Want the voice-over, a talk or the music of a TikTok you are allowed to keep? Paste the link of the public video, open the Audio tab and VidFetch encodes its soundtrack into a genuine MP3 file at 192 kbps, ready for any player.",
+        "intro": "Want the voice-over, a talk or the music of a TikTok you are allowed to keep? Paste the link of the public video, open the Audio tab and VidFetch encodes its soundtrack into an MP3 file at 192 kbps for compatible audio players.",
         "instructions": [
           "Copy the link of the TikTok video: Share, then Copy link in the app, or the page address on a computer.",
           "Paste it in the field above and select Extract.",
@@ -872,7 +888,10 @@
         "limits": [
           "The MP3 comes from a specific video: TikTok sound pages (/music/…) and playlists are not supported.",
           "The audio is converted from the soundtrack TikTok serves; it cannot be better than that source.",
-          "Music in a video may be protected by copyright: only keep audio you have the right to use."
+          "Music in a video may be protected by copyright: only keep audio you have the right to use.",
+          "Daily UTC caps: 8 preparations and 1 GiB reserved per browser identity and per source IP, plus 100 preparations and 4 GiB service-wide. One operation runs at a time; the current OVH waiting queue holds 2 requests.",
+          "Each preparation is limited to 10 minutes.",
+          "The service output limit is 256 MiB per file; the video can be up to 30 minutes long."
         ],
         "faqs": [
           {
@@ -897,7 +916,7 @@
           },
           {
             "question": "Is it free? Do I need an account?",
-            "answer": "Yes, it is free, with no account, no app and no sign-in. Each connection can make up to 8 downloads per day."
+            "answer": "Yes, it is free, with no account, no app and no sign-in. The daily preparation and data quotas above also apply."
           }
         ],
         "relatedGuides": [
@@ -957,7 +976,9 @@
           "Le MP3 provient d'une vidéo précise : les pages Son de TikTok (/music/…) et les playlists ne sont pas prises en charge.",
           "Le son est converti à partir de la bande-son fournie par TikTok : il ne peut pas être de meilleure qualité que cette source.",
           "La musique d'une vidéo peut être protégée par le droit d'auteur : ne conservez que les sons que vous avez le droit d'utiliser.",
-          "Chaque connexion peut effectuer jusqu'à 8 téléchargements par jour, et la capacité quotidienne du service est partagée entre tous les utilisateurs."
+          "Plafonds quotidiens : 8 préparations et 1 GiB par session de navigateur et par IP source, ainsi que 100 préparations et 4 GiB pour le service. La source ou la file peut aussi empêcher une demande.",
+          "Chaque préparation est limitée à 10 minutes.",
+          "La sortie est limitée à 256 MiB par fichier ; la vidéo peut durer au plus 30 minutes."
         ],
         "faqs": [
           {
@@ -1016,7 +1037,7 @@
       "id": {
         "status": "ready",
         "title": "Download TikTok MP3 dari tautan video",
-        "description": "Download TikTok MP3 gratis tanpa akun dari link berbagi aplikasi. Ambil audio video publik, bukan lagu terpisah. Batas 256 MB, 30 menit; ada kuota.",
+        "description": "Download TikTok MP3 gratis tanpa akun dari link berbagi aplikasi. Ambil audio video publik, bukan lagu terpisah. Batas 256 MiB, 30 menit; ada kuota.",
         "heading": "Download TikTok MP3 untuk didengarkan offline",
         "intro": "Kalau yang dibutuhkan hanya penjelasan suara dari video TikTok, menyimpan seluruh gambar akan menghabiskan ruang tanpa banyak manfaat. VidFetch bisa mengubah trek audio video publik menjadi MP3 pada 192 kbps. Tempel link berbagi dari aplikasi, analisis videonya, lalu buka pilihan Audio. Ini mengambil suara yang sudah ada dalam video, termasuk ucapan dan musik yang bercampur. Ini bukan pencarian katalog lagu dan bukan alat pemisah vokal.",
         "instructions": [
@@ -1029,8 +1050,10 @@
           "Gunakan satu tautan publik untuk setiap permintaan. Halaman profil, hashtag, unggahan foto, dan siaran LIVE bukan video biasa yang didukung alat ini."
         ],
         "limits": [
-          "Maksimal 256 MB dan 30 menit per media. Kuota serta jumlah pekerjaan bersamaan tetap dibatasi; menekan unduh berkali-kali tidak mempercepat antrean.",
-          "Video privat, video yang telah dihapus, dan sumber yang meminta login tidak bisa dijamin tersedia. VidFetch tidak meminta kata sandi TikTok dan tidak membuka akses privat."
+          "Maksimal 256 MiB dan 30 menit per media. Kuota serta jumlah pekerjaan bersamaan tetap dibatasi; menekan unduh berkali-kali tidak mempercepat antrean.",
+          "Video privat, video yang telah dihapus, dan sumber yang meminta login tidak bisa dijamin tersedia. VidFetch tidak meminta kata sandi TikTok dan tidak membuka akses privat.",
+          "Batas harian UTC: 8 persiapan dan cadangan 1 GiB per identitas browser serta per IP sumber, ditambah 100 persiapan dan 4 GiB untuk seluruh layanan. Satu operasi diproses sekaligus; antrean OVH saat ini menampung 2 permintaan.",
+          "Setiap persiapan dibatasi 10 menit."
         ],
         "faqs": [
           {
@@ -1043,7 +1066,7 @@
           },
           {
             "question": "Apakah perlu akun atau membayar?",
-            "answer": "Tidak perlu akun VidFetch dan alat ini gratis. Batas 256 MB, 30 menit, kuota, serta ketersediaan sumber tetap berlaku."
+            "answer": "Tidak perlu akun VidFetch dan alat ini gratis. Batas 256 MiB, 30 menit, kuota, serta ketersediaan sumber tetap berlaku."
           }
         ],
         "relatedGuides": [],
@@ -1097,7 +1120,7 @@
       "pt-BR": {
         "status": "ready",
         "title": "TikTok para MP3: baixar o áudio do vídeo",
-        "description": "TikTok para MP3 grátis e sem conta. Aceita link de compartilhamento do app para extrair o áudio. Até 256 MB e 30 minutos; sujeito a cotas.",
+        "description": "TikTok para MP3 grátis e sem conta. Aceita link de compartilhamento do app para extrair o áudio. Até 256 MiB e 30 minutos; sujeito a cotas.",
         "heading": "TikTok para MP3: salvar o som do vídeo",
         "intro": "Para ouvir uma explicação sem manter o vídeo inteiro no celular, use a opção TikTok para MP3. O VidFetch converte a faixa sonora de um vídeo público em um arquivo MP3 a 192 kbps. O resultado traz o áudio completo daquela publicação, incluindo fala, música e efeitos misturados. Não é um catálogo de músicas, nem recupera automaticamente a faixa original usada pelo criador. Antes de começar, confirme que você tem permissão para guardar esse conteúdo.",
         "instructions": [
@@ -1110,8 +1133,10 @@
           "A ferramenta trabalha com uma publicação pública por vez. Perfis, hashtags, publicações de fotos e transmissões ao vivo não são entradas compatíveis."
         ],
         "limits": [
-          "O limite é de 256 MB e 30 minutos por mídia. Há cotas e limites de tarefas simultâneas; repetir o clique não aumenta a capacidade do serviço.",
-          "Publicações privadas, removidas ou que exigem login podem falhar. Nunca informe sua senha do TikTok no campo de links."
+          "O limite é de 256 MiB e 30 minutos por mídia. Há cotas e limites de tarefas simultâneas; repetir o clique não aumenta a capacidade do serviço.",
+          "Publicações privadas, removidas ou que exigem login podem falhar. Nunca informe sua senha do TikTok no campo de links.",
+          "Limites diários UTC: 8 preparações e 1 GiB reservado por identidade do navegador e por IP de origem, além de 100 preparações e 4 GiB para todo o serviço. Uma operação é processada por vez; a fila OVH atual aceita 2 solicitações.",
+          "Cada preparação tem limite de 10 minutos."
         ],
         "faqs": [
           {
@@ -1124,7 +1149,7 @@
           },
           {
             "question": "É grátis e sem cadastro?",
-            "answer": "Sim, sem conta no VidFetch. Continuam valendo os limites de 256 MB e 30 minutos, as cotas e as restrições da fonte."
+            "answer": "Sim, sem conta no VidFetch. Continuam valendo os limites de 256 MiB e 30 minutos, as cotas e as restrições da fonte."
           }
         ],
         "relatedGuides": [],
@@ -1181,7 +1206,7 @@
       "es": {
         "status": "ready",
         "title": "TikTok a MP3: descargar el audio del vídeo",
-        "description": "TikTok a MP3 gratis y sin cuenta. Pega el enlace de compartir de la app para guardar el audio. Límite de 256 MB y 30 minutos; se aplican cuotas.",
+        "description": "TikTok a MP3 gratis y sin cuenta. Pega el enlace de compartir de la app para guardar el audio. Límite de 256 MiB y 30 minutos; se aplican cuotas.",
         "heading": "TikTok a MP3 para escuchar el audio sin conexión",
         "intro": "Si solo necesitas escuchar una explicación, convertir TikTok a MP3 evita guardar también las imágenes. VidFetch toma la pista sonora de un vídeo público y la convierte en un archivo MP3 a 192 kbps. El resultado conserva las voces, la música y los efectos que ya estaban mezclados. No busca la canción original en un catálogo ni separa instrumentos. Escucha primero la publicación para confirmar que contiene el audio que quieres y que puedes guardarlo.",
         "instructions": [
@@ -1194,8 +1219,10 @@
           "Procesa una publicación pública por petición. Los perfiles, hashtags, directos y publicaciones de fotos no equivalen a un vídeo compatible."
         ],
         "limits": [
-          "El máximo por archivo multimedia es de 256 MB y 30 minutos. Hay cuotas y límites de trabajos simultáneos; insistir con varias pestañas no elimina esos límites.",
-          "Las publicaciones privadas, eliminadas o sujetas a inicio de sesión pueden no estar disponibles. No introduzcas contraseñas ni datos de tu cuenta en el campo del enlace."
+          "El máximo por archivo multimedia es de 256 MiB y 30 minutos. Hay cuotas y límites de trabajos simultáneos; insistir con varias pestañas no elimina esos límites.",
+          "Las publicaciones privadas, eliminadas o sujetas a inicio de sesión pueden no estar disponibles. No introduzcas contraseñas ni datos de tu cuenta en el campo del enlace.",
+          "Límites diarios UTC: 8 preparaciones y 1 GiB reservado por identidad del navegador y por IP de origen, además de 100 preparaciones y 4 GiB para todo el servicio. Solo se procesa una operación a la vez; la cola actual de OVH admite 2 solicitudes.",
+          "Cada preparación está limitada a 10 minutos."
         ],
         "faqs": [
           {
@@ -1208,7 +1235,7 @@
           },
           {
             "question": "¿Hace falta una cuenta o pagar?",
-            "answer": "VidFetch es gratis y no requiere cuenta. Se mantienen los límites de 256 MB y 30 minutos, las cuotas y las restricciones del origen."
+            "answer": "VidFetch es gratis y no requiere cuenta. Se mantienen los límites de 256 MiB y 30 minutos, las cuotas y las restricciones del origen."
           }
         ],
         "relatedGuides": [],
@@ -1265,7 +1292,7 @@
       "de": {
         "status": "ready",
         "title": "TikTok zu MP3: Ton aus einem Video speichern",
-        "description": "TikTok zu MP3: kostenlos und ohne Konto mit Teilen-Link aus der App. Ton öffentlicher Videos speichern. Bis 256 MB, 30 Minuten; Kontingente gelten.",
+        "description": "TikTok zu MP3: kostenlos und ohne Konto mit Teilen-Link aus der App. Ton öffentlicher Videos speichern. Bis 256 MiB, 30 Minuten; Kontingente gelten.",
         "heading": "TikTok zu MP3 umwandeln und den Ton speichern",
         "intro": "Wenn du nur einer Erklärung zuhören möchtest, brauchst du die Bilder nicht unbedingt. VidFetch wandelt die Tonspur eines öffentlichen TikTok-Videos in MP3 mit 192 kbps um. Du erhältst den vorhandenen Mix aus Sprache, Musik und Geräuschen. Das Werkzeug sucht keinen vollständigen Song und trennt keine Stimme von der Musik. Prüfe deshalb vorher das Video und speichere nur Inhalte, für die du die nötige Erlaubnis hast.",
         "instructions": [
@@ -1278,8 +1305,10 @@
           "Pro Anfrage wird ein öffentliches Video verarbeitet. Profile, Hashtags, Fotobeiträge und laufende LIVE-Sendungen sind keine unterstützten Video-Eingaben."
         ],
         "limits": [
-          "Die Grenze liegt bei 256 MB und 30 Minuten je Medium. Kontingente und Begrenzungen für gleichzeitige Aufträge gelten weiterhin; wiederholtes Klicken beschleunigt keine Warteschlange.",
-          "Private, gelöschte oder nur nach Anmeldung erreichbare Beiträge können nicht zuverlässig abgerufen werden. Gib niemals dein TikTok-Passwort in das Linkfeld ein."
+          "Die Grenze liegt bei 256 MiB und 30 Minuten je Medium. Kontingente und Begrenzungen für gleichzeitige Aufträge gelten weiterhin; wiederholtes Klicken beschleunigt keine Warteschlange.",
+          "Private, gelöschte oder nur nach Anmeldung erreichbare Beiträge können nicht zuverlässig abgerufen werden. Gib niemals dein TikTok-Passwort in das Linkfeld ein.",
+          "Tageslimits nach UTC: 8 Vorbereitungen und 1 GiB Reservierung je Browseridentität und Quell-IP sowie 100 Vorbereitungen und 4 GiB für den gesamten Dienst. Es läuft jeweils ein Vorgang; die aktuelle OVH-Warteschlange nimmt 2 Anfragen auf.",
+          "Jede Vorbereitung ist auf 10 Minuten begrenzt."
         ],
         "faqs": [
           {
@@ -1292,7 +1321,7 @@
           },
           {
             "question": "Ist ein Konto oder eine Zahlung nötig?",
-            "answer": "VidFetch ist kostenlos und benötigt kein Konto. Die Grenzen von 256 MB und 30 Minuten sowie Kontingente und Quellenbeschränkungen bleiben bestehen."
+            "answer": "VidFetch ist kostenlos und benötigt kein Konto. Die Grenzen von 256 MiB und 30 Minuten sowie Kontingente und Quellenbeschränkungen bleiben bestehen."
           }
         ],
         "relatedGuides": [],
@@ -1352,7 +1381,7 @@
       "it": {
         "status": "ready",
         "title": "TikTok in MP3: scaricare l’audio del video",
-        "description": "TikTok in MP3 gratis e senza account. Incolla il link di condivisione dell’app per salvare l’audio. Massimo 256 MB e 30 minuti; si applicano quote.",
+        "description": "TikTok in MP3 gratis e senza account. Incolla il link di condivisione dell’app per salvare l’audio. Massimo 256 MiB e 30 minuti; si applicano quote.",
         "heading": "TikTok in MP3: salvare la traccia audio",
         "intro": "Per ascoltare una spiegazione senza conservare anche le immagini, puoi convertire TikTok in MP3. VidFetch prepara un file MP3 a 192 kbps partendo dalla traccia sonora di un video pubblico. Rimangono le voci, la musica e gli effetti già mescolati nel video. Non è un catalogo musicale e non separa il parlato dagli strumenti. Controlla prima di aver scelto la pubblicazione giusta e di avere il permesso di conservarne l’audio.",
         "instructions": [
@@ -1365,8 +1394,10 @@
           "Ogni richiesta riguarda una pubblicazione pubblica. Profili, hashtag, post fotografici e dirette LIVE non sono video compatibili con questo strumento."
         ],
         "limits": [
-          "Il massimo è di 256 MB e 30 minuti per contenuto multimediale. Restano quote e limiti alle operazioni simultanee; ripetere il clic non rende più veloce la coda.",
-          "I post privati, rimossi o accessibili solo dopo l’accesso possono non essere disponibili. Non inserire mai la password TikTok nel campo del link."
+          "Il massimo è di 256 MiB e 30 minuti per contenuto multimediale. Restano quote e limiti alle operazioni simultanee; ripetere il clic non rende più veloce la coda.",
+          "I post privati, rimossi o accessibili solo dopo l’accesso possono non essere disponibili. Non inserire mai la password TikTok nel campo del link.",
+          "Limiti giornalieri UTC: 8 preparazioni e 1 GiB riservato per identità del browser e per IP di origine, oltre a 100 preparazioni e 4 GiB per l’intero servizio. Si elabora un’operazione alla volta; la coda OVH attuale accetta 2 richieste.",
+          "Ogni preparazione è limitata a 10 minuti."
         ],
         "faqs": [
           {
@@ -1379,7 +1410,7 @@
           },
           {
             "question": "È gratuito e senza registrazione?",
-            "answer": "Sì, non serve un account VidFetch. Restano i limiti di 256 MB e 30 minuti, le quote e le restrizioni della fonte."
+            "answer": "Sì, non serve un account VidFetch. Restano i limiti di 256 MiB e 30 minuti, le quote e le restrizioni della fonte."
           }
         ],
         "relatedGuides": [],
@@ -1439,7 +1470,7 @@
       "ar": {
         "status": "ready",
         "title": "تيك توك MP3: تحميل صوت الفيديو",
-        "description": "تيك توك MP3 مجانًا دون حساب. الصق رابط المشاركة من التطبيق لحفظ صوت فيديو عام. الحد 256 ميغابايت و30 دقيقة مع حصص استخدام.",
+        "description": "تيك توك MP3 مجانًا دون حساب. الصق رابط المشاركة من التطبيق لحفظ صوت فيديو عام. الحد 256 MiB و30 دقيقة مع حصص استخدام.",
         "heading": "تيك توك MP3: حفظ صوت الفيديو للاستماع لاحقًا",
         "intro": "إذا كنت تحتاج إلى الاستماع إلى شرح دون مشاهدة الصورة، يمكنك حفظ صوت فيديو تيك توك بصيغة MP3. يحول VidFetch المسار الصوتي للفيديو العام إلى ملف بمعدل 192 كيلوبت في الثانية. يشمل الناتج الكلام والموسيقى والمؤثرات الموجودة معًا في التسجيل. هذه الأداة ليست مكتبة أغنيات ولا تفصل صوت المتحدث عن الموسيقى. استمع إلى الفيديو أولًا وتأكد من أنه المحتوى المقصود ومن أن لديك إذنًا بحفظه.",
         "instructions": [
@@ -1452,8 +1483,10 @@
           "تتعامل كل محاولة مع فيديو عام واحد. الحسابات والوسوم ومنشورات الصور والبث المباشر ليست مدخلات فيديو تدعمها هذه الأداة."
         ],
         "limits": [
-          "الحد الأقصى هو 256 ميغابايت و30 دقيقة لكل وسيط. تطبق حصص للاستخدام وحدود للمهام المتزامنة، ولا يؤدي تكرار الضغط إلى تجاوزها أو تسريع الانتظار.",
-          "قد يتعذر الوصول إلى الفيديو الخاص أو المحذوف أو الذي يتطلب تسجيل الدخول. لا تكتب كلمة مرور حساب تيك توك في حقل الرابط."
+          "الحد الأقصى هو 256 MiB و30 دقيقة لكل وسيط. تطبق حصص للاستخدام وحدود للمهام المتزامنة، ولا يؤدي تكرار الضغط إلى تجاوزها أو تسريع الانتظار.",
+          "قد يتعذر الوصول إلى الفيديو الخاص أو المحذوف أو الذي يتطلب تسجيل الدخول. لا تكتب كلمة مرور حساب تيك توك في حقل الرابط.",
+          "الحدود اليومية بتوقيت UTC: 8 عمليات تحضير وحجز 1 GiB لكل هوية متصفح ولكل عنوان IP مصدر، إضافة إلى 100 عملية و4 GiB للخدمة كلها. تُعالج عملية واحدة في كل مرة، وتقبل قائمة انتظار OVH الحالية طلبين.",
+          "تقتصر مدة كل عملية تحضير على 10 دقائق."
         ],
         "faqs": [
           {
@@ -1466,7 +1499,7 @@
           },
           {
             "question": "هل أحتاج إلى حساب أو اشتراك؟",
-            "answer": "الأداة مجانية ولا تتطلب حساب VidFetch. تبقى حدود 256 ميغابايت و30 دقيقة وحصص الاستخدام وقيود المصدر سارية."
+            "answer": "الأداة مجانية ولا تتطلب حساب VidFetch. تبقى حدود 256 MiB و30 دقيقة وحصص الاستخدام وقيود المصدر سارية."
           }
         ],
         "relatedGuides": [],
@@ -1684,7 +1717,7 @@
         "limits": [
           "Private content, stories, protected accounts and deleted publications are not supported. Do not send account cookies, passwords or authentication tokens.",
           "The engine caps a file at 256 MiB and duration at 30 minutes, with a 10 minute operation timeout. The public gateway may impose a smaller configured cap; the displayed response is authoritative.",
-          "The anonymous allowance is up to 8 download preparations per UTC day and 1 GiB reserved per identity; both limits apply. MP3 encoding uses 192 kbps. A failed preparation may still consume a reservation."
+          "Daily caps: 8 preparations and 1 GiB per browser identity and per source IP, plus 100 preparations and 4 GiB service-wide per UTC day. MP3 encoding uses 192 kbps. A failed preparation may still consume a reservation."
         ],
         "faqs": [
           {
@@ -1778,7 +1811,7 @@
         "limits": [
           "Les contenus privés, stories, comptes protégés et publications supprimées ne sont pas pris en charge. Ne fournissez ni cookie de compte, ni mot de passe, ni jeton d’authentification.",
           "Le moteur limite un fichier à 256 Mio et sa durée à 30 minutes ; une opération expire après 10 minutes. La passerelle publique peut appliquer une taille configurée plus basse. La réponse affichée fait foi.",
-          "Le quota anonyme est de 8 préparations au plus par jour UTC et de 1 Gio réservé par identité ; les deux limites s’appliquent. Le MP3 utilise 192 kbps. Une préparation échouée peut consommer une réservation."
+          "Plafonds quotidiens UTC : 8 préparations et 1 Gio par identité de navigateur et par IP source, plus 100 préparations et 4 Gio pour le service. Le MP3 utilise 192 kbps. Une préparation échouée peut consommer une réservation."
         ],
         "faqs": [
           {
@@ -1871,7 +1904,7 @@
         "limits": [
           "No se admiten contenido privado, historias, cuentas protegidas ni publicaciones eliminadas. Nunca proporciones contraseñas ni cookies de cuenta.",
           "El motor aplica hasta 256 MiB, 30 minutos y 10 minutos por operación. La pasarela puede tener un límite de tamaño configurado más bajo; prevalece la respuesta mostrada.",
-          "Hasta 8 preparaciones por día UTC y 1 GiB reservado por identidad anónima; ambas condiciones se aplican. MP3 a 192 kbps. La reserva puede consumirse aunque la preparación falle."
+          "Límites diarios UTC: 8 preparaciones y 1 GiB por identidad del navegador y por IP de origen, además de 100 preparaciones y 4 GiB para todo el servicio. MP3 a 192 kbps. Una preparación fallida puede consumir la reserva."
         ],
         "faqs": [
           {
@@ -1967,7 +2000,7 @@
         "limits": [
           "Conteúdo privado, stories, contas protegidas e publicações apagadas não são aceitos. Nunca forneça senha nem cookie de conta.",
           "O motor limita a 256 MiB, 30 minutos e 10 minutos por operação. A configuração da camada pública pode reduzir o tamanho; vale a resposta exibida.",
-          "Até 8 preparações por dia UTC e 1 GiB reservado por identidade anônima; os dois critérios se aplicam. MP3 a 192 kbps. Uma preparação com falha pode consumir a reserva."
+          "Limites diários UTC: 8 preparações e 1 GiB por identidade do navegador e por IP de origem, além de 100 preparações e 4 GiB para todo o serviço. MP3 a 192 kbps. Uma preparação com falha pode consumir a reserva."
         ],
         "faqs": [
           {
@@ -2065,7 +2098,7 @@
         "limits": [
           "Konten pribadi, story, akun terkunci, dan postingan dihapus tidak didukung. Jangan memberikan kata sandi atau kuki akun.",
           "Mesin membatasi hingga 256 MiB, 30 menit, dan 10 menit per operasi. Pengaturan gerbang publik dapat membatasi ukuran lebih rendah; ikuti respons yang ditampilkan.",
-          "Maksimal 8 persiapan per hari UTC dan cadangan 1 GiB per identitas anonim; kedua syarat berlaku. MP3 memakai 192 kbps. Persiapan gagal dapat tetap memakai cadangan."
+          "Batas harian UTC: 8 persiapan dan 1 GiB per identitas browser serta per IP sumber, ditambah 100 persiapan dan 4 GiB untuk seluruh layanan. MP3 memakai 192 kbps. Persiapan yang gagal tetap dapat memakai cadangan kuota."
         ],
         "faqs": [
           {
@@ -2166,7 +2199,7 @@
         "limits": [
           "Private Inhalte, Storys, geschützte Konten und gelöschte Beiträge werden nicht unterstützt. Gib niemals Passwörter oder Kontocookies an.",
           "Die Engine begrenzt auf 256 MiB, 30 Minuten und 10 Minuten je Vorgang. Das öffentliche Gateway kann eine kleinere Größenbegrenzung haben; die angezeigte Antwort ist maßgeblich.",
-          "Höchstens 8 Vorbereitungen pro UTC-Tag und 1 GiB Reservierung je anonymer Identität; beide Grenzen gelten. MP3 verwendet 192 kbps. Eine fehlgeschlagene Vorbereitung kann eine Reservierung verbrauchen."
+          "Tageslimits nach UTC: 8 Vorbereitungen und 1 GiB je Browseridentität und Quell-IP sowie 100 Vorbereitungen und 4 GiB für den gesamten Dienst. MP3 verwendet 192 kbps. Eine fehlgeschlagene Vorbereitung kann das Kontingent belasten."
         ],
         "faqs": [
           {
@@ -2265,7 +2298,7 @@
         "limits": [
           "Contenuti privati, storie, account protetti e post eliminati non sono supportati. Non fornire password né cookie di account.",
           "Il motore limita a 256 MiB, 30 minuti e 10 minuti per operazione. La configurazione del gateway pubblico può ridurre le dimensioni; vale la risposta mostrata.",
-          "Fino a 8 preparazioni per giorno UTC e 1 GiB riservato per identità anonima; valgono entrambi i limiti. MP3 a 192 kbps. Una preparazione fallita può consumare la prenotazione."
+          "Limiti giornalieri UTC: 8 preparazioni e 1 GiB per identità del browser e per IP di origine, oltre a 100 preparazioni e 4 GiB per l’intero servizio. MP3 a 192 kbps. Una preparazione non riuscita può consumare la prenotazione."
         ],
         "faqs": [
           {
@@ -2364,7 +2397,7 @@
         "limits": [
           "المحتوى الخاص والقصص والحسابات المحمية والمنشورات المحذوفة غير مدعومة. لا تقدم كلمة مرور أو ملف ارتباط لحساب.",
           "يحد المحرك الملف حتى 256 MiB والمدة حتى 30 دقيقة، وتنتهي العملية بعد 10 دقائق. قد تضبط البوابة العامة حدًا أقل للحجم؛ اتبع الاستجابة المعروضة.",
-          "حتى 8 عمليات تحضير في اليوم بتوقيت UTC وحجز 1 GiB لكل هوية مجهولة؛ يطبق الحدان معًا. يستخدم MP3 معدل 192 kbps. قد تستهلك العملية الفاشلة حجزًا."
+          "الحدود اليومية بتوقيت UTC: 8 عمليات تحضير و1 GiB لكل هوية متصفح ولكل عنوان IP مصدر، إضافة إلى 100 عملية و4 GiB للخدمة كلها. يستخدم MP3 معدل 192 kbps. قد تستهلك العملية الفاشلة حجزًا."
         ],
         "faqs": [
           {
@@ -2488,7 +2521,7 @@
         "limits": [
           "Private content, stories, protected accounts and deleted publications are not supported. Do not send account cookies, passwords or authentication tokens.",
           "The engine caps a file at 256 MiB and duration at 30 minutes, with a 10 minute operation timeout. The public gateway may impose a smaller configured cap; the displayed response is authoritative.",
-          "The anonymous allowance is up to 8 download preparations per UTC day and 1 GiB reserved per identity; both limits apply. MP3 encoding uses 192 kbps. A failed preparation may still consume a reservation."
+          "Daily caps: 8 preparations and 1 GiB per browser identity and per source IP, plus 100 preparations and 4 GiB service-wide per UTC day. MP3 encoding uses 192 kbps. A failed preparation may still consume a reservation."
         ],
         "faqs": [
           {
@@ -2582,7 +2615,7 @@
         "limits": [
           "Les contenus privés, stories, comptes protégés et publications supprimées ne sont pas pris en charge. Ne fournissez ni cookie de compte, ni mot de passe, ni jeton d’authentification.",
           "Le moteur limite un fichier à 256 Mio et sa durée à 30 minutes ; une opération expire après 10 minutes. La passerelle publique peut appliquer une taille configurée plus basse. La réponse affichée fait foi.",
-          "Le quota anonyme est de 8 préparations au plus par jour UTC et de 1 Gio réservé par identité ; les deux limites s’appliquent. Le MP3 utilise 192 kbps. Une préparation échouée peut consommer une réservation."
+          "Plafonds quotidiens UTC : 8 préparations et 1 Gio par identité de navigateur et par IP source, plus 100 préparations et 4 Gio pour le service. Le MP3 utilise 192 kbps. Une préparation échouée peut consommer une réservation."
         ],
         "faqs": [
           {
@@ -2675,7 +2708,7 @@
         "limits": [
           "No se admiten contenido privado, historias, cuentas protegidas ni publicaciones eliminadas. Nunca proporciones contraseñas ni cookies de cuenta.",
           "El motor aplica hasta 256 MiB, 30 minutos y 10 minutos por operación. La pasarela puede tener un límite de tamaño configurado más bajo; prevalece la respuesta mostrada.",
-          "Hasta 8 preparaciones por día UTC y 1 GiB reservado por identidad anónima; ambas condiciones se aplican. MP3 a 192 kbps. La reserva puede consumirse aunque la preparación falle."
+          "Límites diarios UTC: 8 preparaciones y 1 GiB por identidad del navegador y por IP de origen, además de 100 preparaciones y 4 GiB para todo el servicio. MP3 a 192 kbps. Una preparación fallida puede consumir la reserva."
         ],
         "faqs": [
           {
@@ -2771,7 +2804,7 @@
         "limits": [
           "Conteúdo privado, stories, contas protegidas e publicações apagadas não são aceitos. Nunca forneça senha nem cookie de conta.",
           "O motor limita a 256 MiB, 30 minutos e 10 minutos por operação. A configuração da camada pública pode reduzir o tamanho; vale a resposta exibida.",
-          "Até 8 preparações por dia UTC e 1 GiB reservado por identidade anônima; os dois critérios se aplicam. MP3 a 192 kbps. Uma preparação com falha pode consumir a reserva."
+          "Limites diários UTC: 8 preparações e 1 GiB por identidade do navegador e por IP de origem, além de 100 preparações e 4 GiB para todo o serviço. MP3 a 192 kbps. Uma preparação com falha pode consumir a reserva."
         ],
         "faqs": [
           {
@@ -2869,7 +2902,7 @@
         "limits": [
           "Konten pribadi, story, akun terkunci, dan postingan dihapus tidak didukung. Jangan memberikan kata sandi atau kuki akun.",
           "Mesin membatasi hingga 256 MiB, 30 menit, dan 10 menit per operasi. Pengaturan gerbang publik dapat membatasi ukuran lebih rendah; ikuti respons yang ditampilkan.",
-          "Maksimal 8 persiapan per hari UTC dan cadangan 1 GiB per identitas anonim; kedua syarat berlaku. MP3 memakai 192 kbps. Persiapan gagal dapat tetap memakai cadangan."
+          "Batas harian UTC: 8 persiapan dan 1 GiB per identitas browser serta per IP sumber, ditambah 100 persiapan dan 4 GiB untuk seluruh layanan. MP3 memakai 192 kbps. Persiapan yang gagal tetap dapat memakai cadangan kuota."
         ],
         "faqs": [
           {
@@ -2970,7 +3003,7 @@
         "limits": [
           "Private Inhalte, Storys, geschützte Konten und gelöschte Beiträge werden nicht unterstützt. Gib niemals Passwörter oder Kontocookies an.",
           "Die Engine begrenzt auf 256 MiB, 30 Minuten und 10 Minuten je Vorgang. Das öffentliche Gateway kann eine kleinere Größenbegrenzung haben; die angezeigte Antwort ist maßgeblich.",
-          "Höchstens 8 Vorbereitungen pro UTC-Tag und 1 GiB Reservierung je anonymer Identität; beide Grenzen gelten. MP3 verwendet 192 kbps. Eine fehlgeschlagene Vorbereitung kann eine Reservierung verbrauchen."
+          "Tageslimits nach UTC: 8 Vorbereitungen und 1 GiB je Browseridentität und Quell-IP sowie 100 Vorbereitungen und 4 GiB für den gesamten Dienst. MP3 verwendet 192 kbps. Eine fehlgeschlagene Vorbereitung kann das Kontingent belasten."
         ],
         "faqs": [
           {
@@ -3069,7 +3102,7 @@
         "limits": [
           "Contenuti privati, storie, account protetti e post eliminati non sono supportati. Non fornire password né cookie di account.",
           "Il motore limita a 256 MiB, 30 minuti e 10 minuti per operazione. La configurazione del gateway pubblico può ridurre le dimensioni; vale la risposta mostrata.",
-          "Fino a 8 preparazioni per giorno UTC e 1 GiB riservato per identità anonima; valgono entrambi i limiti. MP3 a 192 kbps. Una preparazione fallita può consumare la prenotazione."
+          "Limiti giornalieri UTC: 8 preparazioni e 1 GiB per identità del browser e per IP di origine, oltre a 100 preparazioni e 4 GiB per l’intero servizio. MP3 a 192 kbps. Una preparazione non riuscita può consumare la prenotazione."
         ],
         "faqs": [
           {
@@ -3168,7 +3201,7 @@
         "limits": [
           "المحتوى الخاص والقصص والحسابات المحمية والمنشورات المحذوفة غير مدعومة. لا تقدم كلمة مرور أو ملف ارتباط لحساب.",
           "يحد المحرك الملف حتى 256 MiB والمدة حتى 30 دقيقة، وتنتهي العملية بعد 10 دقائق. قد تضبط البوابة العامة حدًا أقل للحجم؛ اتبع الاستجابة المعروضة.",
-          "حتى 8 عمليات تحضير في اليوم بتوقيت UTC وحجز 1 GiB لكل هوية مجهولة؛ يطبق الحدان معًا. يستخدم MP3 معدل 192 kbps. قد تستهلك العملية الفاشلة حجزًا."
+          "الحدود اليومية بتوقيت UTC: 8 عمليات تحضير و1 GiB لكل هوية متصفح ولكل عنوان IP مصدر، إضافة إلى 100 عملية و4 GiB للخدمة كلها. يستخدم MP3 معدل 192 kbps. قد تستهلك العملية الفاشلة حجزًا."
         ],
         "faqs": [
           {

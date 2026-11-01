@@ -124,7 +124,7 @@
   "faq5q": "Bagaimana cara menyimpan audio sebagai MP3?",
   "faq5a": "Analisis tautan yang dapat diakses dan diizinkan, pilih Audio, lalu MP3 jika tersedia. Konversi tidak meningkatkan kualitas rekaman asli.",
   "faq6q": "Apa batas layanan ini?",
-  "faq6a": "Hasil dibatasi 256 MiB, durasi media yang dinyatakan 30 menit, dan operasi 10 menit. Satu operasi berjalan sekaligus, dengan kuota dan antrean terbatas.",
+  "faq6a": "Hasil dibatasi 256 MiB, durasi media yang dinyatakan 30 menit, dan persiapan 10 menit. Batas harian: 8 operasi dan 1 GiB per sesi browser serta per alamat IP, ditambah 100 operasi dan 4 GiB untuk seluruh layanan. Satu tugas berjalan sekaligus; antrean OVH saat ini memiliki 2 tempat.",
   "faq7q": "Apakah mengunduh diperbolehkan?",
   "faq7a": "Simpan hanya konten milik Anda, berlisensi sesuai, atau dengan izin unduh. Dapat dilihat publik bukan berarti boleh diunduh. Patuhi hukum dan aturan platform.",
   "legalTitle": "Ketentuan, privasi, dan informasi hukum",

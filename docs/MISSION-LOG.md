@@ -2,6 +2,23 @@
 
 Date affichée en Europe/Paris. Les commits de la branche de travail ne deviennent pas publics avant la procédure de revue prévue pour chaque phase.
 
+## 2026-11-01 — Revert capacité déployé
+
+- PR #31 `revert: capacity until admin session` fusionnée en `31f51121735aacbfee99c29dadee1440b693b734`. Le commit `a906a4969fba1dc3ecea6a0797bd0b27998856f1` a été annulé par un commit revert normal, sans réécriture de l'historique.
+- Vérification avant fusion : l'artefact de production CI `3a4f929a7c35b4fe416bf0ec540880c9ed7ffbb9` (run `41298579682`) et l'archive CI de la PR #31 (run `41339925495`, release de merge `fc420e678d73171af8d581adfc098e850c904b0d`) ont exactement les mêmes hashes : moteur `fa0d3d4e15a5a45ca0deb2b35e7ba03adc95c31b87500378068121f291c42287`; gateway `0fa1404530c272b76aaec9aee18125660e8561c744e4ccc1fbb9c7dbee9850e5`.
+- CI complète PR #31 réussie (lint, typage, tests Node/backend/gateway/charge/Python, build, Caddy, SEO, i18n et tests des outils). Le push de merge `41343004391` et le job `deploy` ont réussi, sans retour arrière.
+- Vérification publique après promotion : `curl https://vidfetch.app/api/health` retourne `release=31f51121735aacbfee99c29dadee1440b693b734`, `frontend.ready=true`, `downloads.available=true`. Le status root sur VPS n'a pas été consulté; le workflow de promotion et l'endpoint public confirment le commit actif.
+- Le code de capacité de #26 est retiré de `main`; aucune hausse de quota ni configuration de capacité n'a été appliquée.
+
+## 2026-11-01 — Suite des PR de mission
+
+- PR #29 (`feat/seo-debt`) a été rebasée sur le `main` post-revert (tête locale `29b3d836`). Conflits résolus dans le workflow et le journal en conservant les changements SEO et la preuve du déploiement du revert. Le document capacité y devient un compte rendu historique; les fonctionnalités de #26 ne sont pas réintroduites. Lint, typecheck et les tests Node **191/191** repassent; push et CI GitHub à suivre.
+- Ordre conservé pour la suite : #29, #27, #30, #28. Chaque PR sera rebasée, testée, relue avant fusion puis vérifiée en production. Les PR suivantes ne sont pas encore intégrées.
+- Phase 3 / PR #27 : navigation mobile localisée et captures/audit EN, FR, AR, ID préparés; le build précédent de cette PR était vert. Revalidation requise après rebase.
+- Phase 4 / PR #30 : 64 entrées candidates Facebook, Reddit, Vimeo, Dailymotion, toutes non publiées et sans gates; aucune URL au sitemap. Pas de liens opérateur autorisés, aucune vérification de plateforme réelle.
+- Phase 5 / PR #29 : CI Node 24 épinglée par SHA, vérifications browser/SEO ajoutées, limites cohérentes et rapport final. Avant le revert, lint, typecheck, `npm test` 192/192, `test:i18n` 97 pages/8 langues et SEO 82 URL passaient. Après rebase sur `31f5112`, lint, typecheck et `npm test` 191/191 passent (le test de rapport capacité retiré explique le compte); le CI complet est à relancer.
+- Phase 6 / PR #28 : contenus de lancement préparés sous `docs/launch/`, non publiés. CI à revérifier après rebase.
+
 ## 2026-11-01 — Préparation du revert capacité
 
 - PR #31 `revert: capacity until admin session`, branche `revert/capacity-until-admin-session`, commit initial `303def85819016d40eeab77472855a0f85613ec5`; revert Git normal de `a906a4969fba1dc3ecea6a0797bd0b27998856f1`, sans réécriture d'historique.
