@@ -10,6 +10,12 @@ Date affichée en Europe/Paris. Les commits de la branche de travail ne devienne
 - Vérification publique après promotion : `curl https://vidfetch.app/api/health` retourne `release=31f51121735aacbfee99c29dadee1440b693b734`, `frontend.ready=true`, `downloads.available=true`. Le status root sur VPS n'a pas été consulté; le workflow de promotion et l'endpoint public confirment le commit actif.
 - Le code de capacité de #26 est retiré de `main`; aucune hausse de quota ni configuration de capacité n'a été appliquée.
 
+## 2026-11-01 — Correction de parité de release après #29
+
+- PR #29 a fusionné en `10e64aa37740165edb88951891cda7057c177661`; sa CI build était verte, mais le job deploy `41348552488` a été refusé par `promote.py` avec `Engine/gateway artifact changed; separate administrator review required`. La production reste sur `31f51121735aacbfee99c29dadee1440b693b734`; `/api/health` confirme que la release n'a pas changé. Premier refus depuis le revert, aucun retour arrière.
+- Comparaison des archives CI: le moteur correspond à la production (`fa0d3d4e…`), la passerelle diffère (`a0828b4e…` vs `0fa14045…`). Le diff du bundle correspond aux nouvelles chaînes `faq6a` des huit dictionnaires; `backend/gateway/helper.ts` importe ces messages dans le bundle de la passerelle. La copie localisée des limites reste sur les pages TikTok du catalogue et les pages FAQ des outils. Cette PR corrective restaure uniquement ces huit chaînes d'accueil à leur texte précédent, générique et exact, pour préserver la parité moteur/passerelle sans toucher aux moteurs ni au garde.
+- Une fois fusionnée et déployée, comparer les empreintes de l'archive à celles de `3a4f929`/`31f5112`, puis reprendre #27. Aucun accès SSH/root ou secret n'a été utilisé.
+
 ## 2026-11-01 — Suite des PR de mission
 
 - PR #29 (`feat/seo-debt`) a été rebasée sur le `main` post-revert (tête locale `29b3d836`). Conflits résolus dans le workflow et le journal en conservant les changements SEO et la preuve du déploiement du revert. Le document capacité y devient un compte rendu historique; les fonctionnalités de #26 ne sont pas réintroduites. Lint, typecheck et les tests Node **191/191** repassent; push et CI GitHub à suivre.
