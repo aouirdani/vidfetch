@@ -11,6 +11,7 @@ import { Readable } from "node:stream";
 import { setTimeout as delay } from "node:timers/promises";
 import { createGateway } from "./server";
 import { GatewayLedger } from "./ledger";
+import { WaitingQueue } from "./queue";
 import { createAccessIssuer } from "../../src/server/download-access";
 import { SecureDownloadClient } from "../../src/lib/secure-client";
 import { serviceMac } from "../../src/server/access-crypto";
@@ -118,6 +119,28 @@ test("deployment diagnostics require service authentication and drain refuses ne
     draining = false;
     assert.equal((await request("/api/fetch-info", "POST")).status, 400);
   } finally { await gateway.shutdown(); }
+});
+
+test("quota reservation uses announced size, safely grows to streamed bytes, and reports anonymous aggregates", async()=>{
+ const folder=await mkdtemp(resolve("backend/artifacts/quota-sizing-"));
+ const ledger=new GatewayLedger(resolve(folder,"quota.sqlite"),{identityBytes:1000,globalBytes:2000,identityOps:2,globalOps:10});
+ const ip="hashed-ip",owner="browser-key",reservation=ledger.reserve(ip,owner,200,800,Date.UTC(2026,0,1));
+ assert.equal(reservation.reservedBytes,200);
+ assert.equal(reservation.extend(450),true);
+ assert.equal(reservation.reservedBytes,450);
+ assert.equal(reservation.extend(801),false);
+ reservation(400);
+ assert.deepEqual(ledger.snapshot(Date.UTC(2026,0,1)),{day:"2026-01-01",operations:1,bytes:400,limits:{operations:10,bytes:2000},metrics:{}});
+ ledger.metric("requests",Date.UTC(2026,0,1));ledger.metric("quota_rejected",Date.UTC(2026,0,1));
+ assert.deepEqual(ledger.snapshot(Date.UTC(2026,0,1)).metrics,{requests:1,quota_rejected:1});
+ assert.throws(()=>ledger.reserve("another-ip","other-browser",1500,1500,Date.UTC(2026,0,1)),/QUOTA_EXCEEDED/);
+ ledger.close();
+});
+
+test("waiting queue supports bounded configurable capacity above the old two-place default",()=>{
+ const queue=new WaitingQueue({maxWaiting:16,waitMs:600000,heartbeatMs:20000,claimMs:15000,estimateMs:1000});
+ assert.equal(queue.maximum,16);
+ assert.throws(()=>new WaitingQueue({maxWaiting:33}),/Invalid queue bounds/);
 });
 
 // The exact anonymous requests verify-outsider.sh --public-dl sends to dl.vidfetch.app, against the gateway configured as

@@ -22,7 +22,7 @@ export class WaitingQueue {
     this.claimMs = options.claimMs ?? 15000;
     this.estimateMs = options.estimateMs ?? 90000;
     if (![this.maximum,this.waitMs,this.heartbeatMs,this.claimMs,this.estimateMs].every(n=>Number.isInteger(n)&&n>0)
-      || this.maximum>8 || this.waitMs>300000 || this.heartbeatMs>this.waitMs || this.claimMs>this.waitMs) throw Error("Invalid queue bounds");
+      || this.maximum>32 || this.waitMs>600000 || this.heartbeatMs>this.waitMs || this.claimMs>this.waitMs) throw Error("Invalid queue bounds");
   }
   sweep(now = Date.now()) {
     this.entries = this.entries.filter(e=>now<e.expires && now-e.seen<this.heartbeatMs && (e.offered===undefined || now<e.offered+this.claimMs));
