@@ -1,12 +1,13 @@
 import assert from 'node:assert/strict';
 import { createServer } from 'node:net';
 import { execFileSync, spawn } from 'node:child_process';
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { resolve, join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { build } from 'esbuild';
 import { chromium } from 'playwright';
+import ffmpegStatic from 'ffmpeg-static';
 const locales = ['en', 'fr', 'es', 'pt-BR', 'id', 'de', 'it', 'ar'];
 const roots = ['', 'fr', 'es', 'pt', 'id', 'de', 'it', 'ar'];
 // Only English has guides to show: the other guide indexes are not pages (404), never an empty "being reviewed" page.
@@ -20,12 +21,7 @@ function formatSize(bytes) {
   while(value>=1024&&index<units.length-1){value/=1024;index++;}
   return `${value>=100||index===0?Math.round(value):value.toFixed(1)} ${units[index]}`;
 }
-const mediaFixtureDir = mkdtempSync(join(tmpdir(), 'vidfetch-ui-media-'));
-const fixtureVideo = join(mediaFixtureDir, 'camera-test.mp4'), fixtureAudio = join(mediaFixtureDir, 'camera-test.mp3');
-const ffmpeg = process.env.FFMPEG_PATH || 'ffmpeg';
-execFileSync(ffmpeg, ['-hide_banner','-loglevel','error','-f','lavfi','-i','testsrc2=size=320x180:rate=15','-f','lavfi','-i','sine=frequency=440:sample_rate=44100','-t','2','-c:v','libx264','-pix_fmt','yuv420p','-c:a','aac','-y',fixtureVideo]);
-execFileSync(ffmpeg, ['-hide_banner','-loglevel','error','-i',fixtureVideo,'-vn','-codec:a','libmp3lame','-b:a','128k','-y',fixtureAudio]);
-const fixtureVideoBytes = readFileSync(fixtureVideo), fixtureAudioBytes = readFileSync(fixtureAudio);
+let mediaFixtureDir, fixtureVideoBytes, fixtureAudioBytes;
 const reserve = createServer();
 await new Promise((resolve, reject) => { reserve.once('error', reject); reserve.listen(0, '127.0.0.1', resolve); });
 const port = reserve.address().port;
@@ -38,6 +34,12 @@ let serverLog = ''; for (const stream of [server.stdout, server.stderr]) stream.
 let browser;
 const evidence = { port, serverPages: 0, locales: [], checks: [], publicNetworkUsed: false };
 try {
+  mediaFixtureDir = mkdtempSync(join(tmpdir(), 'vidfetch-ui-media-'));
+  const fixtureVideo = join(mediaFixtureDir, 'camera-test.mp4'), fixtureAudio = join(mediaFixtureDir, 'camera-test.mp3');
+  const ffmpeg = process.env.FFMPEG_PATH || (ffmpegStatic && existsSync(ffmpegStatic) ? ffmpegStatic : 'ffmpeg');
+  execFileSync(ffmpeg, ['-hide_banner','-loglevel','error','-f','lavfi','-i','testsrc2=size=320x180:rate=15','-f','lavfi','-i','sine=frequency=440:sample_rate=44100','-t','2','-c:v','libx264','-pix_fmt','yuv420p','-c:a','aac','-y',fixtureVideo]);
+  execFileSync(ffmpeg, ['-hide_banner','-loglevel','error','-i',fixtureVideo,'-vn','-codec:a','libmp3lame','-b:a','128k','-y',fixtureAudio]);
+  fixtureVideoBytes = readFileSync(fixtureVideo); fixtureAudioBytes = readFileSync(fixtureAudio);
   const helperModule = resolve(`../helper-fixture-${process.pid}.mjs`);
   const helperBundle = await build({ entryPoints: ['backend/gateway/helper.ts'], bundle: true, platform: 'node', format: 'esm', write: false });
   writeFileSync(helperModule, helperBundle.outputFiles[0].text, { flag: 'wx' });
@@ -249,7 +251,7 @@ try {
   console.log(JSON.stringify(evidence, null, 2));
 } finally {
   await browser?.close();
-  rmSync(mediaFixtureDir,{recursive:true,force:true});
+  if(mediaFixtureDir)rmSync(mediaFixtureDir,{recursive:true,force:true});
   if (server.exitCode === null && server.signalCode === null) try { process.kill(-server.pid, 'SIGTERM'); } catch {}
   await new Promise(resolve => { if (server.exitCode !== null || server.signalCode !== null) resolve(); else { server.once('exit', resolve); setTimeout(() => { if (server.exitCode === null && server.signalCode === null) try { process.kill(-server.pid, 'SIGKILL'); } catch {} resolve(); }, 5000).unref(); } });
   writeFileSync('../local-next-server.log', serverLog);
