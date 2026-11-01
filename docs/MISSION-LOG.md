@@ -18,6 +18,12 @@ Date affichée en Europe/Paris. Les commits de la branche de travail ne devienne
 - `curl https://vidfetch.app/api/health` confirme la release `a095f61c929e5dc7e06dcb97e405e7bde60e94da`. Échantillon de production: `/`, `/id/`, `/tiktok-video-downloader`, `/fr/convertir-video-en-mp3` et `/blog` répondent 200 et `index, follow`; canonical absolu auto-référent et hreflang présents (17 sur les groupes complets, 19 sur le groupe outils). `/sitemap.xml` répond 200 et contient les liens hreflang.
 - Aucun accès SSH/root ou secret utilisé.
 
+## 2026-11-01 — Correction de parité après le déploiement de #27
+
+- PR #27 a fusionné en `9b7307b054150c7decec66f607f5f54b8d342719`; CI build verte. Le déploiement `41356141209` a été refusé par la garde `Engine/gateway artifact changed; separate administrator review required`. `/api/health` confirme que la production reste sur `a095f61c929e5dc7e06dcb97e405e7bde60e94da`; aucune release n'a été promue ni rollbackée.
+- L'archive CI confirme moteur identique (`fa0d3d4e15a5a45ca0deb2b35e7ba03adc95c31b87500378068121f291c42287`) mais passerelle modifiée (`b5ff75d9c96684d002b75cfe153f527eac695a8a773a36757084480ec48aa0d1` au lieu de `0fa1404530c272b76aaec9aee18125660e8561c744e4ccc1fbb9c7dbee9850e5`). Le diff de passerelle montre uniquement le nouveau champ `menuLabel` dans les huit JSON; `backend/gateway/helper.ts` embarque ces dictionnaires.
+- La PR corrective déplace les huit libellés de menu vers `src/i18n/navigation-labels.ts`, importé seulement par le frontend, et restaure les dictionnaires partagés. Aucun moteur, quota, endpoint ni garde de promotion ne change. Vérifier l'égalité exacte des hashes sur l'archive CI corrective avant fusion, puis contrôler la production avant de reprendre #30.
+
 ## 2026-11-01 — Suite des PR de mission
 
 - PR #29 fusionnée en `10e64aa`; son premier déploiement a été refusé à cause de la FAQ partagée incluse au bundle passerelle. PR corrective #32 fusionnée et déployée en `a095f61c`, parité artefact exacte vérifiée.
