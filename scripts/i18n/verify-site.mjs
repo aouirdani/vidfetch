@@ -137,10 +137,12 @@ try {
     await page.locator('[data-language-selector] summary').click();
     assert.equal(await page.locator('[data-language-selector] nav a').count(), 8);
     await page.locator(`[data-language-selector] nav a[hreflang="${locale === 'en' ? 'fr' : 'en'}"]`).click(); await page.waitForURL(base + (locale === 'en' ? '/fr' : '/'));
+    await context.route('**/api/download-access', route => route.fulfill({ json: { available: false } }));
     await page.goto(base + path); await page.getByRole('textbox', { name: d.videoLink }).fill('https://www.tiktok.com/@pokemonlife22/video/7059698374567611694');
     assert.equal(await page.getByRole('textbox', { name: d.videoLink }).getAttribute('dir'), 'ltr');
     await page.getByRole('button', { name: d.extract, exact: true }).click();
     await page.getByRole('status').filter({ hasText: d.backendUnavailable }).waitFor();
+    await context.unroute('**/api/download-access');
     assert.deepEqual(errors, [], locale);
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, locale);
     // Controlled UI fixture: local ffmpeg media, real browser crypto/helper, mocked admission only.
