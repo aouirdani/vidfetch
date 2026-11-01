@@ -29,8 +29,6 @@
   "networkError": "No se pudo conectar con VidFetch. Comprueba tu conexión e inténtalo de nuevo.",
   "backendUnavailable": "El análisis y las descargas no están disponibles temporalmente. Inténtalo más tarde.",
   "rateLimited": "Demasiadas solicitudes. Espera antes de volver a intentarlo.",
-  "quotaReached": "Se alcanzó la cuota diaria de descargas. Se restablece a las 00:00 UTC.",
-  "localToolsCta": "Usa una herramienta de vídeo local mientras esperas",
   "restricted": "Esta fuente requiere autorización o no está disponible. VidFetch no elude sus restricciones.",
   "expired": "Esta autorización o enlace ha caducado. Inténtalo de nuevo.",
   "limitError": "Este archivo supera los límites de tamaño o duración del servicio.",

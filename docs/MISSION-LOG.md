@@ -2,6 +2,13 @@
 
 Date affichée en Europe/Paris. Les commits de la branche de travail ne deviennent pas publics avant la procédure de revue prévue pour chaque phase.
 
+## 2026-11-01 — Préparation du revert capacité
+
+- PR #31 `revert: capacity until admin session`, branche `revert/capacity-until-admin-session`, commit initial `303def85819016d40eeab77472855a0f85613ec5`; revert Git normal de `a906a4969fba1dc3ecea6a0797bd0b27998856f1`, sans réécriture d'historique.
+- Artefact officiel CI de la release active `3a4f929a7c35b4fe416bf0ec540880c9ed7ffbb9`, workflow `41298579682`, téléchargé depuis GitHub. Empreintes manifestes de référence: moteur OVH `fa0d3d4e15a5a45ca0deb2b35e7ba03adc95c31b87500378068121f291c42287`; passerelle `0fa1404530c272b76aaec9aee18125660e8561c744e4ccc1fbb9c7dbee9850e5`.
+- Production avant revert: `curl https://vidfetch.app/api/health` renvoie `ok`, `frontend.ready=true`, release `3a4f929a7c35b4fe416bf0ec540880c9ed7ffbb9`, downloads disponibles.
+- Décision: attendre l'archive exacte construite par le run CI de la PR et comparer les deux hashes au manifeste de production avant fusion. Aucun accès root/SSH utilisé.
+
 ## 2026-11-01 — Phase 1, convertisseurs locaux
 
 - Reprise sur `feat/local-tools`, commit de synchronisation `b21d2786`; PR #24 est ouverte, en brouillon, et aucun changement n’a été poussé sur `main`.
@@ -13,14 +20,3 @@ Date affichée en Europe/Paris. Les commits de la branche de travail ne devienne
 - CI finale du commit `eedaadb9` : [run 41295843330](https://github.com/aouirdani/vidfetch/actions/runs/41295843330), tous les jobs réussis. PR #24 `CLEAN`, toujours en brouillon à ce point du journal.
 - Exception indépendante de la CI : `npm run test:vercel` échoue sur sa liste historique qui exige YouTube en 200. Réparation prévue en phase 5, sans rendre cette plateforme accessible.
 - Décision : préparer la PR #24 à la fusion après cette CI; n’effectuer aucune poussée directe sur `main`. Vérification de la promotion et du statut actif du serveur restent après fusion.
-- Après fusion de la PR #24 : squash commit `3a4f929a7c35b4fe416bf0ec540880c9ed7ffbb9`, workflow [41298579682](https://github.com/aouirdani/vidfetch/actions/runs/41298579682) build et déploiement verts. `/api/health` en production annonce exactement cette release; un échantillon des pages outils, accueil, blog, sitemap et 404 est cohérent. `seo-check` distant vérifie les 82 URL; son dernier audit des liens échoue seulement sur une URL de protection e-mail Cloudflare ajoutée à la volée (`/cdn-cgi/l/email-protection`), à corriger en phase 5.
-- Vérification d'accès opérateur : la tentative SSH non interactive à l'OVH est refusée (`Permission denied (publickey,password)`). Les secrets SSH du workflow n'ont pas été consultés. Aucun jeton API Cloudflare ni secret GSC n'est configuré ; purge CDN et Search Console restent aux actions finales du propriétaire.
-
-## 2026-11-01 — Phase 2, capacité (préparation)
-
-- Branche `feat/capacity`, basée sur la release frontend active `3a4f929a`. Aucune modification des fichiers protégés générés `backend/vidfetch-ovh.cjs` et `backend/vidfetch-gateway.cjs`.
-- La taille du format annoncée par le frontend sert désormais à calculer une réservation initiale (10 %, marge bornée à 1–16 Mio); l'annonce n'est pas fiable. La passerelle augmente atomiquement cette réserve pendant le flux et bloque les octets excédentaires quand les plafonds IP/identité ou globaux seraient atteints. L'échec moteur libère les octets non utilisés. File configurable jusqu'à 32 entrées/10 min, concurrence moteur configurable avec défaut 1, quotas/rates configurables avec valeurs par défaut inchangées.
-- Compteurs quotidiens anonymes ajoutés et rapport/alertes préparés à 80 % du quota, >5 % d'erreur (à partir de 20 requêtes), ou 3 indisponibilités. Rapport sans URL/IP; webhook HTTPS optionnel documenté sans secret.
-- Banc local `npm run load:isolated`: fixture MP4/AAC générée via ffmpeg, relayée par serveur synthétique sur loopback; stop à 512 Mio de RAM libre. Dernière mesure : fixture 396 790 octets, clients 1/2/4/8, 1 moteur simultané, pic RSS 85,4 Mio. Ce n'est pas une mesure VPS ni une projection de capacité journalière.
-- Vérification locale : build complet OVH (Webpack), lint, typecheck, 191/191 tests Node, backend 17/17, passerelle 5/5, banc synthétique 7/7 (pic RSS 85,6 Mio), tests OVH Python 81 (15 ignorés faute de Docker ou Linux), `seo-check` 82 URL et `test:i18n` (97 pages / 8 langues / SSR et transferts) verts. `check:release` trouve 0 problème. Au premier lancement simultané, le garde RAM du banc s'est arrêté comme prévu; le lancement isolé a passé. La CI sur la PR reste à suivre avant décision de fusion.
-- Bloqué uniquement pour l'application sur VPS : pas d'accès SSH/sudo. Ne pas annoncer une capacité « centaines/jour » : quotas effectifs actuels (100 global/jour, 4 Gio global/jour, 8 opérations/identité/jour et concurrence 1) restent appliqués. Poursuivre les phases suivantes, puis remettre au propriétaire les commandes et valeurs proposées après mesure serveur.

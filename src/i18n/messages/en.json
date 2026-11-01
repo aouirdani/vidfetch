@@ -29,8 +29,6 @@
   "networkError": "Could not reach VidFetch. Check your connection and try again.",
   "backendUnavailable": "Video extraction and downloads are temporarily unavailable. Please try again later.",
   "rateLimited": "Too many requests. Wait before trying again.",
-  "quotaReached": "The daily download quota has been reached. It resets at 00:00 UTC.",
-  "localToolsCta": "Use a local video tool while you wait",
   "restricted": "This source requires authorization or is currently unavailable. VidFetch cannot bypass its restrictions.",
   "expired": "This authorization or download link has expired. Try again.",
   "limitError": "This media exceeds the service’s size or duration limits.",
