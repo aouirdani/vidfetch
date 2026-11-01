@@ -235,7 +235,7 @@ try {
     await page.goto(base + encodeURI(path));
     await page.getByRole('textbox',{name:d.videoLink}).fill('https://www.tiktok.com/@pokemonlife22/video/7059698374567611694');
     await page.getByRole('button',{name:d.extract,exact:true}).click();
-    await page.getByRole('alert').filter({hasText:d.rateLimited}).waitFor();
+    await page.getByRole('alert').filter({hasText:d.quotaReached}).waitFor();
     if (['en','fr','ar','id'].includes(locale) && kind === 'video') await page.screenshot({ path: `docs/ux/after/quota-${locale}-mobile.png` });
     await context.close();
   }

@@ -14,13 +14,14 @@ import { interpolate, LANGUAGES } from "@/i18n/config";
 import { errorMessage } from "@/i18n/errors";
 import type { Messages } from "@/i18n/dictionaries";
 import { localizedFormatLabel } from "@/i18n/formats";
+import { toolPath } from "@/local-tools/catalogue";
 
 function formatLabel(f: MediaFormat, d: Messages) {
   return localizedFormatLabel(f, d);
 }
 
 type Props = { info: MediaInfo; engine: EngineStatus; onReset: () => void };
-type Notice = { text: string; tone: "info" | "success" | "error" };
+type Notice = { text: string; tone: "info" | "success" | "error"; code?:string };
 type Stage = "idle" | "preparing" | "streaming";
 
 
@@ -124,12 +125,12 @@ export function VideoCard({ info, engine, onReset }: Props) {
     let channel: ReturnType<typeof openSecureTransfer>;
     try {
       channel = openSecureTransfer(locale);
-      const ready = await postJson<DownloadResponse>("/api/download", { url: info.url, format_id: activeFormat.id, type: activeFormat.kind }, controller.signal,notice=>{
+      const ready = await postJson<DownloadResponse>("/api/download", { url: info.url, format_id: activeFormat.id, type: activeFormat.kind, expectedBytes: activeFormat.filesize ?? undefined }, controller.signal,notice=>{
         if(channel&&!channel.isOpen()){controller.abort();return;}
         if(mounted.current)setNotice({tone:"info",text:interpolate(d.waiting, { position: notice.position, seconds: Math.ceil(notice.estimatedWaitMs/1000) }) + " " + d.keepOpen});
       });
       if (!mounted.current) { channel?.close(); return; }
-      if (!ready.ok) throw new Error(errorMessage(ready.code, d));
+      if (!ready.ok) throw new DownloadClientError(ready.code, errorMessage(ready.code, d));
       if (channel) await channel.start(ready.token);
       else {
         const anchor = document.createElement("a");
@@ -180,7 +181,8 @@ export function VideoCard({ info, engine, onReset }: Props) {
       if (!mounted.current) return;
       setStage("idle");
       if(controller.signal.aborted){setNotice({tone:"info",text:d.waitingCancelled});return;}
-      setNotice({ tone: "error", text: error instanceof DownloadClientError ? errorMessage(error.code, d) : error instanceof Error && Object.values(d).includes(error.message) ? error.message : d.operationFailed });
+      const code=error instanceof DownloadClientError?error.code:undefined;
+      setNotice({ tone: "error", text: code ? errorMessage(code, d) : error instanceof Error && Object.values(d).includes(error.message) ? error.message : d.operationFailed, code });
     }
   }
 
@@ -192,7 +194,7 @@ export function VideoCard({ info, engine, onReset }: Props) {
           if (document?.contentType === "application/json") {
             const response = JSON.parse(document.body.textContent ?? "{}") as { error?: string; code?: string };
             if (response.error) {
-              setNotice({ tone: "error", text: errorMessage(response.code, d) });
+              setNotice({ tone: "error", text: errorMessage(response.code, d), code:response.code });
               setStage("idle");
               if (timerRef.current) clearTimeout(timerRef.current);
             }
@@ -300,6 +302,7 @@ export function VideoCard({ info, engine, onReset }: Props) {
                 {notice.tone === "success" ? <CircleCheck className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />
                   : <CircleAlert className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />}
                 {notice.text}
+                {notice.code === "QUOTA_EXCEEDED" && <a href={toolPath(locale,"compress")} className="ms-1 font-semibold underline underline-offset-4">{d.localToolsCta}</a>}
               </p>
             )}
 

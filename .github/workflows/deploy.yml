@@ -44,6 +44,8 @@ jobs:
       - run: npm run test:backend
       - run: node backend/gateway/run-tests.mjs
       - run: node backend/gateway/run-load.mjs
+      - run: sudo apt-get update -qq && sudo apt-get install -y ffmpeg
+      - run: npm run load:isolated
       - run: python3 -m unittest discover -s deploy/ovh/tests -v
       - run: npm run check:release
       - name: Install Chromium for browser smoke checks
@@ -69,10 +71,6 @@ jobs:
         run: python3 -m unittest discover -s deploy/ovh/tests -p test_public_indexing.py -v
       - name: SEO invariants for every sitemap URL
         run: npm run seo-check
-      - name: Install FFmpeg for generated browser test media
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y ffmpeg
       - name: Server HTML, eight languages, RTL and unchanged API paths
         run: npm run test:i18n
       - name: Local conversion fixtures and privacy checks

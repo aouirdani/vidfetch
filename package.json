@@ -14,7 +14,8 @@
     "test:i18n": "node scripts/i18n/verify-site.mjs",
     "check:release": "node scripts/check-release.mjs",
     "seo-check": "node scripts/seo-check",
-    "test:local-tools": "node scripts/local-tools/test.mjs && node scripts/local-tools/test-opfs.mjs"
+    "test:local-tools": "node scripts/local-tools/test.mjs && node scripts/local-tools/test-opfs.mjs",
+    "load:isolated": "node scripts/load/run.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",
