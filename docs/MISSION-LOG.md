@@ -75,4 +75,10 @@ Date affichée en Europe/Paris. Les commits de la branche de travail ne devienne
 - Préparation de candidats internes Facebook, Reddit, Vimeo et Dailymotion : 64 variantes catalogue (MP4 et MP3 × 8 langues), toutes `published: false` et trois gates à `false`. Le runtime refuse aussi ces plateformes car le parseur et les moteurs ne les déclarent pas compatibles; ouvrir les seules gates dans une copie de fixture ne crée donc aucune route.
 - Ajout de `docs/PLATFORM-ELIGIBILITY.md` avec les liens/résumés des conditions officielles et les risques à examiner avant tout test/publication. Les pages candidates sont exclues du rendu, du maillage et du sitemap. YouTube n'a pas été modifié.
 - Extension du vérificateur opérateur aux plateformes candidates; il ne contourne pas les protections et n'a pas été exécuté. Aucun fichier `operator/authorized-links.txt` disponible, donc Instagram/X restent verrouillés et l'absence de médias autorisés est consignée comme arrêt obligatoire de leur validation réelle.
-- Validation locale antérieure au rebase : lint, typecheck, `npm test` 192/192, `test:i18n` 97 pages / 8 langues passent. CI GitHub doit être revérifiée sur le nouveau `main`. Aucun changement moteur/backend.
+- Validation après rebase sur le merge commit #33 `0d96be8`: CI complète [run 41398222743](https://github.com/aouirdani/vidfetch/actions/runs/41398222743) verte. L'archive a exactement les hashes moteur et passerelle de production. PR #30 fusionnée en `6bc01461736d89522d7585de5c3bcf42f03c210a`, déploiement et vérification de production à suivre.
+
+## 2026-11-01 — Phase 6, kit de lancement préparé
+
+- Création de brouillons distincts pour Product Hunt, Show HN, l'article technique du blog et son adaptation Dev.to, r/InternetIsBeautiful et AlternativeTo, sous `docs/launch/`.
+- Les textes distinguent conversion locale de fichiers personnels et analyse serveur de liens TikTok, précisent les limites, le watermark incrusté et l'indisponibilité YouTube, et n'affichent ni avis ni statistiques. Instagram/X ne sont pas présentés comme vérifiés.
+- Aucun message n'a été publié. Avant publication, confirmer que la release publique correspond à ces capacités et utiliser les comptes du propriétaire.
