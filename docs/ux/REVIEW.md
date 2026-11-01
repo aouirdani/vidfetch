@@ -22,4 +22,13 @@ VidFetch demande de copier le lien, puis de le coller (ou d'utiliser le bouton P
 
 Les captures Chromium locales avant/après sont dans `before/` et `after/` : accueil, page TikTok et compresseur aux dimensions 390×844, 768×1024 et 1440×900. Les menus mobiles ouverts sont aussi capturés en EN, FR, AR et ID; les autres captures montrent formats, téléchargement, file et quota dans ces langues. Le test Playwright `npm run test:i18n` vérifie les 97 pages SSR, les liens de langue, le rendu RTL, les sélecteurs de formats, et le parcours de téléchargement avec une vidéo MP4 et une piste MP3 synthétiques produites localement par FFmpeg. Les réponses API restent des fixtures; aucun média n'est demandé à TikTok.
 
-Les captures ne représentent pas un appareil physique. Pas de score Lighthouse fiable enregistré ici : aucun binaire Lighthouse autonome n'est installé/configuré dans le dépôt. La modification ne rajoute ni script client ni dépendance et ne touche pas aux médias/ressources LCP; la mesure de performance réelle sur mobile reste à confirmer après fusion si le propriétaire souhaite un score de référence.
+Les captures ne représentent pas un appareil physique. Lighthouse n'est pas installé. Pour comparer malgré cela, trois navigations Chromium ont été faites sur le commit de base et trois sur la version modifiée, avec viewport 390×844, CPU ×4, réseau simulé à 200 kbit/s et 150 ms de latence; les scripts HTTPS tiers étaient bloqués. Les valeurs sont des médianes locales, pas des scores Lighthouse ni une mesure terrain. Le TBT est estimé par les tâches longues observées moins 50 ms.
+
+| Page | LCP avant → après | CLS avant → après | TBT estimé avant → après | JS transféré avant → après |
+|---|---:|---:|---:|---:|
+| Accueil EN | 336 → 332 ms (-1,2 %) | 0 → 0 | 64 → 59 ms (-7,8 %) | 159 678 → 159 685 B (+0,004 %) |
+| TikTok EN | 332 → 328 ms (-1,2 %) | 0 → 0 | 58 → 58 ms (0 %) | 159 678 → 159 685 B (+0,004 %) |
+| Compresser EN | 312 → 304 ms (-2,6 %) | 0 → 0 | 58 → 40 ms (-31 %) | 159 678 → 159 685 B (+0,004 %) |
+| Article EN | 288 → 312 ms (+8,3 %) | 0 → 0 | 55 → 43 ms (-21,8 %) | 159 678 → 159 685 B (+0,004 %) |
+
+Aucun indicateur observé ne dépasse +10 %. La variation LCP de l'article est sous le seuil et n'est pas attribuée au menu qui n'ajoute que sept octets de JavaScript; l'échantillon est trop petit pour établir une causalité. Aucun téléphone physique n'est accessible.
