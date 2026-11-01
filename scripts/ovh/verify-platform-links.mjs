@@ -13,7 +13,11 @@ export function parseLinks(text){return [...new Set(text.split(/\r?\n/).map(x=>x
  let platform,type;
  if(['instagram.com','www.instagram.com'].includes(u.hostname)&&/^\/(reel|p)\/[\w-]{5,80}\/?$/.test(u.pathname)){platform='instagram';type=u.pathname.split('/')[1]==='reel'?'reel':'video-post';}
  else if(['x.com','www.x.com','twitter.com','www.twitter.com'].includes(u.hostname)&&/^\/(?:\w{1,20}\/status|i\/web\/status)\/\d+\/?$/.test(u.pathname)){platform='x';type='video-post';}
- else throw Error('Only individual Instagram reel/p and X video status URLs are accepted.');
+ else if(['facebook.com','www.facebook.com','m.facebook.com'].includes(u.hostname)&&/^\/(?:reel\/\d+|videos\/\d+(?:\/\d+)?|watch\/[\w-]+)\/?$/.test(u.pathname)){platform='facebook';type=u.pathname.startsWith('/reel/')?'reel':'video-post';}
+ else if(['reddit.com','www.reddit.com','old.reddit.com'].includes(u.hostname)&&/^\/r\/[\w-]+\/comments\/[\w]+(?:\/[\w-]+)?\/?$/.test(u.pathname)){platform='reddit';type='post-video';}
+ else if(['vimeo.com','www.vimeo.com'].includes(u.hostname)&&/^\/(?:video\/)?\d+\/?$/.test(u.pathname)){platform='vimeo';type='video-page';}
+ else if(['dailymotion.com','www.dailymotion.com'].includes(u.hostname)&&/^\/video\/[\w]+\/?$/.test(u.pathname)){platform='dailymotion';type='video-page';}
+ else throw Error('Only individual Instagram, X, Facebook, Reddit, Vimeo or Dailymotion publication URLs are accepted.');
  return{link,platform,type};
 });}
 export function safeCode(value){return typeof value==='string'&&/^[A-Z_]{3,60}$/.test(value)?value:'UNSUPPORTED';}
@@ -50,7 +54,7 @@ export async function verify({file,out='platform-verification',origin='https://v
  try{
   // Fresh context: never accept account cookies, browser profiles, proxy configuration or storageState.
   browser=await chromium.launch({headless:false});const context=await browser.newContext({acceptDownloads:true});
-  await context.route('**/*',route=>{const u=new URL(route.request().url());if(/(^|\.)(instagram\.com|instagr\.am|x\.com|twitter\.com)$/.test(u.hostname))return route.abort();return route.continue();});
+  await context.route('**/*',route=>{const u=new URL(route.request().url());if(/(^|\.)(instagram\.com|instagr\.am|x\.com|twitter\.com|facebook\.com|reddit\.com|vimeo\.com|dailymotion\.com)$/.test(u.hostname))return route.abort();return route.continue();});
   const page=await context.newPage();console.log('Complete VidFetch’s usual human verification in the visible browser when asked. Do not open or sign into a platform.');
   for(const entry of links){
    let info;
@@ -86,7 +90,7 @@ export async function verify({file,out='platform-verification',origin='https://v
    }
   }
  }finally{await browser?.close();await rm(dir,{recursive:true,force:true});}
- await mkdir(out,{recursive:true});for(const platform of ['instagram','x']){const rows=results.filter(r=>r.platform===platform);if(!rows.length)continue;const attempted=rows.filter(r=>r.status!=='not-attempted').length,passed=rows.filter(r=>r.status==='pass').length;const report={platform,startedAt,rightsConfirmed:true,attempted,passed,ratePercent:attempted?Number((passed/attempted*100).toFixed(1)):0,typesPassing:[...new Set(rows.filter(r=>r.status==='pass').map(r=>r.type))],results:rows};await writeFile(join(out,`${platform}.json`),JSON.stringify(report,null,2)+'\n');await writeFile(join(out,`${platform}.md`),reportMarkdown(report));}
+ await mkdir(out,{recursive:true});for(const platform of ['instagram','x','facebook','reddit','vimeo','dailymotion']){const rows=results.filter(r=>r.platform===platform);if(!rows.length)continue;const attempted=rows.filter(r=>r.status!=='not-attempted').length,passed=rows.filter(r=>r.status==='pass').length;const report={platform,startedAt,rightsConfirmed:true,attempted,passed,ratePercent:attempted?Number((passed/attempted*100).toFixed(1)):0,typesPassing:[...new Set(rows.filter(r=>r.status==='pass').map(r=>r.type))],results:rows};await writeFile(join(out,`${platform}.json`),JSON.stringify(report,null,2)+'\n');await writeFile(join(out,`${platform}.md`),reportMarkdown(report));}
  console.log('Reports written. No signed media URL, title, uploader, cookie or ticket was included. Review failures before any publication.');
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){const args=process.argv.slice(2),allowed=['--links','--out','--confirm-rights'];for(let i=0;i<args.length;i++){if(!allowed.includes(args[i]))throw Error('Unknown option. Cookies, credentials, proxies and browser-profile options are forbidden.');if(args[i]!=='--confirm-rights')i++;}const option=n=>args[args.indexOf(n)+1];verify({file:option('--links'),out:args.includes('--out')?option('--out'):undefined,confirm:args.includes('--confirm-rights')}).catch(()=>{console.error('Verification stopped. Check input, explicit rights confirmation, local browser and ffprobe. No automatic retry or workaround.');process.exitCode=1;});}

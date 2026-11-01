@@ -1,6 +1,6 @@
 import catalogue from "../../content/platforms/catalogue.json";
 import { LANGUAGES, LOCALES, type Locale } from "../i18n/config";
-import type { Platform } from "./platforms";
+import { PLATFORMS, type Platform } from "./platforms";
 export type PlatformCopy = {
   status: "ready"; title: string; description: string; heading: string; intro: string;
   instructions: string[]; supported: string[]; limits: string[];
@@ -12,15 +12,20 @@ export type PlatformCopy = {
   updated: string; publishedAt: string;
 };
 export type PlatformCandidate = {
-  id: string; platform: Platform; published: boolean; slugs: Record<Locale, string>;
+  id: string; platform: Platform | "facebook" | "reddit" | "vimeo" | "dailymotion"; published: boolean; status?: string; slugs: Record<Locale, string>;
   gate: { authorizedMediaVerified: boolean; copyReviewed: boolean; permissionToPublish: boolean };
   copy?: Partial<Record<Locale, PlatformCopy>>;
 };
 export const platformCandidates = catalogue as PlatformCandidate[];
+function isRuntimePlatform(platform: PlatformCandidate["platform"]): platform is Platform {
+  return (PLATFORMS as readonly string[]).includes(platform);
+}
 /** No route becomes indexable merely by changing a single publication flag. */
 export function approvedPlatformCopy(entry: PlatformCandidate, locale: Locale): PlatformCopy | undefined {
   const copy = entry.copy?.[locale], today = new Date().toISOString().slice(0, 10);
   const slug = entry.slugs[locale];
+  // Content candidates never become public until the URL parser and runtime understand the platform.
+  if (!isRuntimePlatform(entry.platform)) return undefined;
   if (!entry.published || entry.gate.authorizedMediaVerified !== true || entry.gate.copyReviewed !== true || entry.gate.permissionToPublish !== true || !copy || copy.status !== "ready") return undefined;
   if (!/^[\p{L}\p{N}]+(?:-[\p{L}\p{N}]+)*$/u.test(slug) || LOCALES.some(l => LANGUAGES[l].prefix === slug) || ["api", "auth", LANGUAGES[locale].blog, LANGUAGES[locale].legal].includes(slug)) return undefined;
   const sentences = (value: unknown, minimum: number) => Array.isArray(value) && value.length >= minimum && value.every(text => typeof text === "string" && text.trim());
@@ -29,7 +34,9 @@ export function approvedPlatformCopy(entry: PlatformCandidate, locale: Locale): 
   if (!/^\d{4}-\d{2}-\d{2}$/.test(copy.publishedAt) || !/^\d{4}-\d{2}-\d{2}$/.test(copy.updated) || copy.publishedAt > today || copy.updated > today) return undefined;
   return copy;
 }
-export function availablePlatformPages(locale: Locale) { return platformCandidates.filter(entry => approvedPlatformCopy(entry, locale)); }
+export function availablePlatformPages(locale: Locale) {
+  return platformCandidates.filter((entry): entry is PlatformCandidate & { platform: Platform } => isRuntimePlatform(entry.platform) && !!approvedPlatformCopy(entry, locale));
+}
 /** Date of the last substantial change of an approved platform page's copy (sitemap lastmod, JSON-LD dateModified). */
 export function platformPageUpdated(id: string, locale: Locale): string | undefined {
   const entry = availablePlatformPages(locale).find(candidate => candidate.id === id);
