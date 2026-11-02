@@ -20,44 +20,52 @@ gh run download "$RUN_ID" -n "release-$RELEASE_SHA" -D /tmp/vidfetch-capacity-re
 shasum -a 256 "/tmp/vidfetch-capacity-release/release-$RELEASE_SHA.tgz"
 # Attendu : exactement ARCHIVE_SHA256.
 
-# 2. Envoyer l'archive et les deux outils administrateur vers le VPS, sans les activer.
+# 2. Envoyer l'archive et les outils vers le compte Debian, sans session root.
 scp "/tmp/vidfetch-capacity-release/release-$RELEASE_SHA.tgz" \
   deploy/ovh/media/admin/12-engine-release.sh \
+  deploy/ovh/media/admin/11-downloads.sh \
+  deploy/ovh/media/admin/set-ready.sh \
+  deploy/ovh/media/admin/common.sh \
   deploy/ovh/media/admin/guard-update.py \
   deploy/ovh/ci/release-lib.py \
-  root@15.235.127.165:/var/tmp/
+  debian@15.235.127.165:/var/tmp/
 # Attendu : transfert complet; aucun fichier en production n'a encore changé.
 
-# 3. Ouvrir une session administrateur sur le VPS. Installer les outils en emplacement root protégé,
-# copier l'archive CI sous son SHA et vérifier son hash avant l'examen.
-ssh root@15.235.127.165
+# 3. Installer les outils avec sudo dans une session Debian et vérifier le hash de l'archive.
+ssh -t debian@15.235.127.165 'bash -s' <<'REMOTE'
 set -eu
 RELEASE_SHA=REMPLACER_PAR_SHA_COMPLET_DU_COMMIT_MAIN
 ARCHIVE_SHA256=REMPLACER_PAR_SHA256_DE_L_ARCHIVE_DU_RESUME_CI
-install -o root -g root -m 0755 /var/tmp/12-engine-release.sh /usr/local/libexec/vidfetch-ci/12-engine-release.sh
-install -o root -g root -m 0755 /var/tmp/guard-update.py /usr/local/libexec/vidfetch-ci/guard-update.py
-install -o root -g root -m 0644 /var/tmp/release-lib.py /usr/local/libexec/vidfetch-ci/release-lib.py
-install -o vidfetch-deploy -g vidfetch-deploy -m 0640 \
+sudo install -o root -g root -m 0755 /var/tmp/12-engine-release.sh /usr/local/libexec/vidfetch-ci/12-engine-release.sh
+sudo install -o root -g root -m 0755 /var/tmp/11-downloads.sh /usr/local/libexec/vidfetch-ci/11-downloads.sh
+sudo install -o root -g root -m 0755 /var/tmp/set-ready.sh /usr/local/libexec/vidfetch-ci/set-ready.sh
+sudo install -o root -g root -m 0644 /var/tmp/common.sh /usr/local/libexec/vidfetch-ci/common.sh
+sudo install -o root -g root -m 0755 /var/tmp/guard-update.py /usr/local/libexec/vidfetch-ci/guard-update.py
+sudo install -o root -g root -m 0644 /var/tmp/release-lib.py /usr/local/libexec/vidfetch-ci/release-lib.py
+sudo install -o vidfetch-deploy -g vidfetch-deploy -m 0640 \
   "/var/tmp/release-$RELEASE_SHA.tgz" "/var/lib/vidfetch-deploy/ci-incoming/$RELEASE_SHA.tgz"
-printf '%s  %s\n' "$ARCHIVE_SHA256" "/var/lib/vidfetch-deploy/ci-incoming/$RELEASE_SHA.tgz" | sha256sum --check --strict
+printf '%s  %s\n' "$ARCHIVE_SHA256" "/var/lib/vidfetch-deploy/ci-incoming/$RELEASE_SHA.tgz" | sudo sha256sum --check --strict
 # Attendu : le hash affiche OK.
+REMOTE
 
 # 4. Vérifier l'état courant; n'appliquer que si le garde est propre et que les bundles actuels
 # correspondent au manifeste frontend. La commande ne modifie ni services ni fichiers.
-sudo /usr/local/libexec/vidfetch-ci/promote.py status
-sudo python3 /usr/local/libexec/vidfetch-ci/guard-update.py list
-sudo bash /usr/local/libexec/vidfetch-ci/12-engine-release.sh check "$RELEASE_SHA" "$ARCHIVE_SHA256"
+ssh -t debian@15.235.127.165 'sudo /usr/local/libexec/vidfetch-ci/promote.py status'
+ssh -t debian@15.235.127.165 'sudo python3 /usr/local/libexec/vidfetch-ci/guard-update.py list'
+ssh -t debian@15.235.127.165 "sudo bash /usr/local/libexec/vidfetch-ci/12-engine-release.sh check '$RELEASE_SHA' '$ARCHIVE_SHA256'"
 # Attendu : status du frontend actuel, « 0 differing », parité moteur/gateway courante,
 # hashes cible et verdict « archive verified ». Si un de ces contrôles échoue, s'arrêter.
 
 # 5. Appliquer la transaction; le script sauvegarde, installe les deux bundles, aligne le frontend,
 # met à jour le garde, teste les services et lance son rollback automatique si une vérification échoue.
-sudo bash /usr/local/libexec/vidfetch-ci/12-engine-release.sh apply "$RELEASE_SHA" "$ARCHIVE_SHA256"
+ssh -t debian@15.235.127.165 'sudo bash /usr/local/libexec/vidfetch-ci/11-downloads.sh close'
+# Attendu : downloads.available=false et ready=0 avant toute activation.
+ssh -t debian@15.235.127.165 "sudo bash /usr/local/libexec/vidfetch-ci/12-engine-release.sh apply '$RELEASE_SHA' '$ARCHIVE_SHA256'"
 # Attendu : « APPLIED », chemins de sauvegarde et hashes des deux bundles, « guard=clean ».
 
 # 6. Contrôler l'état une fois encore, puis vérifier la santé publique depuis le VPS.
-sudo /usr/local/libexec/vidfetch-ci/promote.py status
-sudo python3 /usr/local/libexec/vidfetch-ci/guard-update.py list
+ssh -t debian@15.235.127.165 'sudo /usr/local/libexec/vidfetch-ci/promote.py status'
+ssh -t debian@15.235.127.165 'sudo python3 /usr/local/libexec/vidfetch-ci/guard-update.py list'
 curl --fail --silent --show-error https://vidfetch.app/api/health
 curl --fail --silent --show-error -I https://vidfetch.app/
 # Attendu : release = RELEASE_SHA, frontend.ready et downloads.available true, zéro différence
@@ -65,9 +73,9 @@ curl --fail --silent --show-error -I https://vidfetch.app/
 
 # 7. En cas d'anomalie après une application confirmée, lancer le rollback explicite puis contrôler
 # les mêmes health/status et le garde. Le script refuse un rollback devenu obsolète.
-sudo bash /usr/local/libexec/vidfetch-ci/12-engine-release.sh rollback
-sudo /usr/local/libexec/vidfetch-ci/promote.py status
-sudo python3 /usr/local/libexec/vidfetch-ci/guard-update.py list
+ssh -t debian@15.235.127.165 'sudo bash /usr/local/libexec/vidfetch-ci/12-engine-release.sh rollback'
+ssh -t debian@15.235.127.165 'sudo /usr/local/libexec/vidfetch-ci/promote.py status'
+ssh -t debian@15.235.127.165 'sudo python3 /usr/local/libexec/vidfetch-ci/guard-update.py list'
 ```
 
 Après l'étape 6, les pushes main suivants peuvent utiliser le workflow normal : les moteurs de leur archive et le manifeste frontend sont désormais alignés. Le rollback remet aussi l'ancien pointeur frontend et restaure le garde d'avant l'opération; il ne supprime aucune release. Les archives de CI, les releases et les sauvegardes restent conservées pour diagnostic. Ne pas exécuter en présence de transferts actifs : `check`/`apply` refuse les connexions gateway et processus média en cours.
@@ -79,48 +87,48 @@ Cette installation ne lance pas le nettoyage immédiatement. Le service hebdomad
 Après fusion de la PR, depuis un checkout synchronisé avec `origin/main`, copier-coller cette séquence complète. Contrôler la ligne « Attendu » après chaque étape avant de continuer :
 
 ```sh
-scp deploy/ovh/media/admin/13-clean-ci-incoming.py deploy/ovh/systemd/vidfetch-ci-incoming-cleanup.service deploy/ovh/systemd/vidfetch-ci-incoming-cleanup.timer root@15.235.127.165:/var/tmp/
+scp deploy/ovh/media/admin/13-clean-ci-incoming.py deploy/ovh/systemd/vidfetch-ci-incoming-cleanup.service deploy/ovh/systemd/vidfetch-ci-incoming-cleanup.timer debian@15.235.127.165:/var/tmp/
 # Attendu : les trois fichiers versionnés sont transférés au VPS.
 
-ssh root@15.235.127.165 'bash -s' <<'REMOTE'
+ssh -t debian@15.235.127.165 'bash -s' <<'REMOTE'
 set -eu
-# Attendu : session root; une erreur interrompt le reste de la séquence.
+# Attendu : session debian avec sudo disponible; une erreur interrompt la séquence.
 
-install -o root -g root -m 0755 /var/tmp/13-clean-ci-incoming.py /usr/local/libexec/vidfetch-ci/13-clean-ci-incoming.py
+sudo install -o root -g root -m 0755 /var/tmp/13-clean-ci-incoming.py /usr/local/libexec/vidfetch-ci/13-clean-ci-incoming.py
 # Attendu : script installé root:root, exécutable.
 
-install -o root -g root -m 0644 /var/tmp/vidfetch-ci-incoming-cleanup.service /etc/systemd/system/vidfetch-ci-incoming-cleanup.service
+sudo install -o root -g root -m 0644 /var/tmp/vidfetch-ci-incoming-cleanup.service /etc/systemd/system/vidfetch-ci-incoming-cleanup.service
 # Attendu : unité oneshot installée.
 
-install -o root -g root -m 0644 /var/tmp/vidfetch-ci-incoming-cleanup.timer /etc/systemd/system/vidfetch-ci-incoming-cleanup.timer
+sudo install -o root -g root -m 0644 /var/tmp/vidfetch-ci-incoming-cleanup.timer /etc/systemd/system/vidfetch-ci-incoming-cleanup.timer
 # Attendu : timer hebdomadaire installé.
 
-systemd-analyze verify /etc/systemd/system/vidfetch-ci-incoming-cleanup.service /etc/systemd/system/vidfetch-ci-incoming-cleanup.timer
+sudo systemd-analyze verify /etc/systemd/system/vidfetch-ci-incoming-cleanup.service /etc/systemd/system/vidfetch-ci-incoming-cleanup.timer
 # Attendu : aucune erreur de syntaxe ou de dépendance systemd.
 
-systemctl daemon-reload
+sudo systemctl daemon-reload
 # Attendu : systemd a rechargé les unités sans erreur.
 
-systemctl enable --now vidfetch-ci-incoming-cleanup.timer
+sudo systemctl enable --now vidfetch-ci-incoming-cleanup.timer
 # Attendu : lien d'activation créé et timer démarré; aucun archivage immédiat.
 
-systemctl is-enabled vidfetch-ci-incoming-cleanup.timer && systemctl is-active vidfetch-ci-incoming-cleanup.timer
+sudo systemctl is-enabled vidfetch-ci-incoming-cleanup.timer && sudo systemctl is-active vidfetch-ci-incoming-cleanup.timer
 # Attendu : enabled puis active.
 
-systemctl list-timers --all vidfetch-ci-incoming-cleanup.timer
+sudo systemctl list-timers --all vidfetch-ci-incoming-cleanup.timer
 # Attendu : prochaine échéance hebdomadaire affichée.
 
-systemctl start vidfetch-ci-incoming-cleanup.service
+sudo systemctl start vidfetch-ci-incoming-cleanup.service
 # Attendu : commande terminée sans erreur; aucun transfert concurrent n'a été interrompu.
 
-journalctl -u vidfetch-ci-incoming-cleanup.service -n 20 --no-pager
+sudo journalctl -u vidfetch-ci-incoming-cleanup.service -n 20 --no-pager
 # Attendu : ligne « complete » ou « skipped: dispatcher holds ... »; si déplacement, elle nomme
 # le dossier daté et le nombre d'archives déplacées. Le SHA actif est conservé.
 
-find /var/backups -maxdepth 2 -type f -path '/var/backups/vidfetch-ci-incoming-*/*' -printf '%p %s bytes\n'
+sudo find /var/backups -maxdepth 2 -type f -path '/var/backups/vidfetch-ci-incoming-*/*' -printf '%p %s bytes\n'
 # Attendu : les archives déplacées restent présentes sous une sauvegarde datée; rien n'est effacé.
 
-du -sh /var/lib/vidfetch-deploy/ci-incoming
+sudo du -sh /var/lib/vidfetch-deploy/ci-incoming
 # Attendu : taille résiduelle. Le rapport quotidien déclenche ci_incoming_storage_above_500_mib
 # au-delà de 500 MiB.
 REMOTE
@@ -129,7 +137,7 @@ REMOTE
 
 ### Éléments encore à vérifier par l'administrateur
 
-- Confirmer le dossier de réception et les valeurs d'archive du run précis avant la copie; l'accès SSH/root n'est pas disponible dans l'environnement de développement.
+- Confirmer le dossier de réception et les valeurs d'archive du run précis avant la copie; la procédure utilise le compte `debian`, `/var/tmp` et `sudo`, sans connexion SSH root.
 - Contrôler la commande `status`, la santé de Caddy/DNS et l'état des trois services après application. Le script vérifie loopback et l'apex TLS depuis le VPS, mais ce rapport ne peut pas certifier l'état du VPS.
 - Installer et lancer le timer de nettoyage avec la séquence ci-dessus; la procédure et le déplacement n'ont pas été exécutés sur le VPS depuis cet environnement.
 - La capacité proposée dans cette branche n'est pas activée en production avant cette opération. Mesurer ensuite les compteurs et la RAM réelle avant d'annoncer une capacité quotidienne supérieure.

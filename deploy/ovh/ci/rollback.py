@@ -23,6 +23,7 @@ HELPER = '/usr/local/libexec/vidfetch-ci/promote.py'
 WEB_ENV = Path('/etc/vidfetch/web.env')
 PROC = Path('/proc')
 SYSTEMCTL = '/usr/bin/systemctl'
+DOWNLOADS_LOCK = Path('/run/vidfetch-media-test.lock')
 BUNDLES = {'vidfetch.service': 'backend/vidfetch-ovh.cjs', 'vidfetch-gateway.service': 'backend/vidfetch-gateway.cjs'}
 
 
@@ -69,28 +70,33 @@ def main():
     store, base = helper['STORE'], helper['BASE']
     with (store / 'lock').open('a') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        pending = store / 'pending.json'
-        record = pending if pending.exists() else store / 'previous.json'
-        helper['trusted'](record)
-        data = json.loads(record.read_text())
-        target = Path(data['previous'] if pending.exists() else data['path']).resolve(strict=True)
-        if target.parent not in [store / 'releases', Path('/opt/vidfetch-web/releases')]:
-            sys.exit('Unexpected recovery release path')
-        manifest = target / 'manifest.json'
-        helper['trusted'](manifest)
-        ready = ready_state(helper)
-        why = None if ready == '0' else incompatibility(helper, target)
-        if why:
-            sys.exit(f'Refused, nothing changed: downloads are not confirmed closed (ready: {ready}) and the release to restore {why}.\n'
-                     'Close downloads first (11-downloads.sh close), run this again, then 08-gateway.sh rollback.')
-        helper['guards']()
-        helper['core']['pointer'](base, target)
-        helper['restart']()
-        helper['wait_health'](helper['release_id'](target))
-        helper['origin_health']()
-        if pending.exists():
-            pending.rename(store / ('recovered-' + str(os.stat(pending).st_mtime_ns) + '.json'))
-        print('Frontend rollback validated; backend, gateway and previous releases retained')
+        with DOWNLOADS_LOCK.open('a') as downloads_lock:
+            try:
+                fcntl.flock(downloads_lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except BlockingIOError:
+                sys.exit('Refused, nothing changed: a download or engine/gateway release is in progress; retry after it finishes.')
+            pending = store / 'pending.json'
+            record = pending if pending.exists() else store / 'previous.json'
+            helper['trusted'](record)
+            data = json.loads(record.read_text())
+            target = Path(data['previous'] if pending.exists() else data['path']).resolve(strict=True)
+            if target.parent not in [store / 'releases', Path('/opt/vidfetch-web/releases')]:
+                sys.exit('Unexpected recovery release path')
+            manifest = target / 'manifest.json'
+            helper['trusted'](manifest)
+            ready = ready_state(helper)
+            why = None if ready == '0' else incompatibility(helper, target)
+            if why:
+                sys.exit(f'Refused, nothing changed: downloads are not confirmed closed (ready: {ready}) and the release to restore {why}.\n'
+                         'Close downloads first (11-downloads.sh close), run this again, then 08-gateway.sh rollback.')
+            helper['guards']()
+            helper['core']['pointer'](base, target)
+            helper['restart']()
+            helper['wait_health'](helper['release_id'](target))
+            helper['origin_health']()
+            if pending.exists():
+                pending.rename(store / ('recovered-' + str(os.stat(pending).st_mtime_ns) + '.json'))
+            print('Frontend rollback validated; backend, gateway and previous releases retained')
 
 
 if __name__ == '__main__':

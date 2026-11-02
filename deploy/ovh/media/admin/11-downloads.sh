@@ -15,7 +15,7 @@ take_lock
 HERE=$(dirname "$0")
 frontend_health() { $CURL -s -m 10 http://127.0.0.1:3001/api/health 2>/dev/null || true; }
 close_now() {
-  bash "$HERE/set-ready.sh" 0 >/dev/null || log "WARNING: set-ready.sh 0 failed: check $WEB_ENV and $WEB_UNIT by hand"
+  VM_DOWNLOADS_LOCK_HELD=1 bash "$HERE/set-ready.sh" 0 >/dev/null || log "WARNING: set-ready.sh 0 failed: check $WEB_ENV and $WEB_UNIT by hand"
   write_public_profile public || log "WARNING: could not put back the public CI profile"
 }
 if [ "$ACTION" = close ]; then
@@ -38,7 +38,7 @@ if why=$(release_drift); then die "the engine and gateway in service are not tho
 if out=$(dl_public); then :; else printf '%s\n' "$out" >&2; die "dl.vidfetch.app is not as expected: nothing changed"; fi
 # --- profile first (it also accepts ready=0), then ready; any failed check closes again
 write_public_profile public-downloads || die "could not install the public-downloads CI profile: nothing else changed"
-bash "$HERE/set-ready.sh" 1 >/dev/null || { close_now; die "set-ready.sh 1 failed: closed again"; }
+VM_DOWNLOADS_LOCK_HELD=1 bash "$HERE/set-ready.sh" 1 >/dev/null || { close_now; die "set-ready.sh 1 failed: closed again"; }
 fails=0
 for i in 1 2 3 4 5 6 7 8 9 10; do grep -q '"downloads":{"available":true}' <<< "$(frontend_health)" && break; sleep 2; done
 grep -q '"downloads":{"available":true}' <<< "$(frontend_health)" || { echo "  the frontend does not report downloads available" >&2; fails=1; }

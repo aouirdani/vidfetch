@@ -38,6 +38,7 @@ r=pathlib.Path('/opt/vidfetch-ci-web/releases/1111111111111111111111111111111111
 PY
 ln -s /opt/vidfetch-ci-web/releases/1111111111111111111111111111111111111111 /opt/vidfetch-web-preproduction-20261013/current
 printf 'VIDFETCH_GATEWAY_ORIGIN=https://api.vidfetch.app\n' >/etc/vidfetch/gateway.env; chmod 0600 /etc/vidfetch/gateway.env
+printf 'VIDFETCH_CONNECTION_READY=0\n' >/etc/vidfetch/web.env; chmod 0600 /etc/vidfetch/web.env
 printf '{"files":{}}\n' >/etc/vidfetch/ci-web-test-guard.json; chmod 0600 /etc/vidfetch/ci-web-test-guard.json
 for pair in 'vidfetch.service engine /opt/vidfetch/releases/old/vidfetch-ovh.cjs' 'vidfetch-gateway.service gateway /opt/vidfetch/releases/old/vidfetch-gateway.cjs' 'vidfetch-web-preproduction-20261013.service web /opt/vidfetch-web-preproduction-20261013/current/app/server.js'; do
  set -- $pair; cat >"/etc/systemd/system/$1" <<UNIT
@@ -85,9 +86,12 @@ docker cp "$t/$rid.tgz" "$c:/var/lib/vidfetch-deploy/ci-incoming/$rid.tgz" >/dev
 sum=$(docker exec "$c" sha256sum "/var/lib/vidfetch-deploy/ci-incoming/$rid.tgz" | cut -d' ' -f1)
 [ "${#sum}" = 64 ] || { echo 'fixture archive was not created' >&2; exit 1; }
 # The test container is root, matching the production helper's trusted incoming upload boundary.
-cmd="VM_SYSD=/etc/systemd/system VM_CI_STORE=/opt/vidfetch-ci-web VM_CI_INCOMING=/var/lib/vidfetch-deploy/ci-incoming VM_RELEASES=/opt/vidfetch/releases VM_WEB_BASE=/opt/vidfetch-web-preproduction-20261013 VM_GUARD=/etc/vidfetch/ci-web-test-guard.json VM_GUARD_UPDATE=/usr/local/libexec/vidfetch-ci/guard-update.py VM_RELEASE_LIB=/usr/local/libexec/vidfetch-ci/release-lib.py VM_BACKUPS=/var/backups VM_NODE=/usr/bin/node VM_LOCK=/opt/vidfetch-ci-web/lock VM_SKIP_PUBLIC_ORIGIN=1 VM_SKIP_PROMOTER_READY=1 VM_SETTLE_SECONDS=1"
+cmd="VM_SYSD=/etc/systemd/system VM_CI_STORE=/opt/vidfetch-ci-web VM_CI_INCOMING=/var/lib/vidfetch-deploy/ci-incoming VM_RELEASES=/opt/vidfetch/releases VM_WEB_BASE=/opt/vidfetch-web-preproduction-20261013 VM_WEB_ENV=/etc/vidfetch/web.env VM_DOWNLOADS_LOCK=/run/vidfetch-media-test.lock VM_GUARD=/etc/vidfetch/ci-web-test-guard.json VM_GUARD_UPDATE=/usr/local/libexec/vidfetch-ci/guard-update.py VM_RELEASE_LIB=/usr/local/libexec/vidfetch-ci/release-lib.py VM_BACKUPS=/var/backups VM_NODE=/usr/bin/node VM_LOCK=/opt/vidfetch-ci-web/lock VM_SKIP_PUBLIC_ORIGIN=1 VM_SKIP_PROMOTER_READY=1 VM_SETTLE_SECONDS=1"
 script=/repo/deploy/ovh/media/admin/12-engine-release.sh
 run() { docker exec "$c" bash -c "$cmd bash '$script' $*"; }
+docker exec "$c" sh -c "printf 'VIDFETCH_CONNECTION_READY=1\\n' >/etc/vidfetch/web.env"
+if run apply "$rid" "$sum" 2>&1 | grep -q 'downloads must be closed'; then echo 'ok - apply refuses while public downloads are open'; else echo 'apply unexpectedly allowed with downloads open' >&2; exit 1; fi
+docker exec "$c" sh -c "printf 'VIDFETCH_CONNECTION_READY=0\\n' >/etc/vidfetch/web.env"
 run check "$rid" "$sum" | grep -q 'check operation made no changes'
 echo 'ok - check verifies archive and leaves services alone'
 run apply "$rid" "$sum" | grep -q 'APPLIED:'

@@ -5,6 +5,7 @@ The real CI promoter's release library is used (pointer switch, digests, release
 (systemctl, /proc, the frontend restart and health checks, file ownership)."""
 import contextlib
 import fcntl
+import fcntl
 import hashlib
 import importlib.util
 import io
@@ -49,6 +50,8 @@ class Guard(unittest.TestCase):
         self.current = self.release(CURRENT, b'engine', b'gateway-new')
         (self.base / 'current').symlink_to(self.current)
         self.web_env = t / 'web.env'
+        self.downloads_lock = t / 'run' / 'vidfetch-media-test.lock'
+        self.downloads_lock.parent.mkdir()
         self.ready('1')
         self.calls, self.untrusted, self.systemctl_error, self.health_fails = [], set(), None, False
         helper = runpy.run_path(str(root / 'deploy/ovh/ci/promote.py'))
@@ -57,6 +60,7 @@ class Guard(unittest.TestCase):
                       origin_health=lambda: self.calls.append('origin'))
         self.rollback = load_rollback()
         for mock in [patch.object(self.rollback, 'WEB_ENV', self.web_env), patch.object(self.rollback, 'PROC', t / 'proc'),
+                     patch.object(self.rollback, 'DOWNLOADS_LOCK', self.downloads_lock),
                      patch.object(self.rollback.runpy, 'run_path', return_value=helper),
                      patch.object(self.rollback.os, 'geteuid', return_value=0),
                      patch.dict(os.environ, {'SUDO_USER': 'debian'}, clear=False)]:
@@ -141,6 +145,16 @@ class Guard(unittest.TestCase):
         """A normal CI rollback: the promoter never changes the bundles, so the previous release has the same ones."""
         previous = self.previous()
         self.assert_restored(self.go(), previous)
+
+    def test_1b_active_download_lock_refuses_before_changing_frontend(self):
+        self.previous()
+        with self.downloads_lock.open('a') as held:
+            fcntl.flock(held, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            result = self.go()
+        self.assertEqual(result[0], 'refused', result[1])
+        self.assertIn('a download or engine/gateway release is in progress', result[1])
+        self.assertEqual((self.base / 'current').resolve(), self.current)
+        self.assertEqual(self.calls, [])
 
     def test_2_ready_1_release_with_another_gateway_is_refused(self):
         """After a reviewed activation and 08-gateway.sh upgrade: the previous release was built with the older gateway."""

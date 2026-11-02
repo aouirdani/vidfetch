@@ -239,8 +239,8 @@ WEB_ENV=${VM_WEB_ENV-/etc/vidfetch/web.env}
 # ready_value: the frontend's VIDFETCH_CONNECTION_READY (last assignment wins, as for systemd); "" if unset.
 ready_value() { sed -n 's/^VIDFETCH_CONNECTION_READY=//p' "${WEB_ENV:?}" | tail -n1; }
 # Downloads may be offered only while the engine and the gateway in service are the ones the active frontend release
-# was built with: a frontend facing an older gateway (e.g. after activate-reviewed.py and before 08-gateway.sh
-# upgrade, or after a gateway rollback) is refused before anything opens. release_drift: why not (status 0), else 1.
+# was built with: a frontend facing an older gateway after a gateway change or rollback is refused before anything
+# opens. release_drift: why not (status 0), else 1.
 # The bundle "in service" is the one the unit's MAIN PROCESS executes: the .cjs its ExecStart names, which that
 # process must be running, unchanged since the process started (a unit edited, or a bundle rewritten, without a
 # restart leaves other code in memory than the file named here).

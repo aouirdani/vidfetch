@@ -29,6 +29,14 @@ Les pourcentages ne s'additionnent pas et ne représentent pas un score du site.
 - La capacité v2 est préparée sur `feat/capacity-v2` avec la capacité de #26 et le nouvel outil administrateur `12-engine-release.sh`. PR [#34](https://github.com/aouirdani/vidfetch/pull/34), CI complète [run 41429583375](https://github.com/aouirdani/vidfetch/actions/runs/41429583375) verte, test d'intégration systemd isolé réussi. Elle reste non fusionnée comme demandé; l'opération serveur attend une revue et une fenêtre administrateur. Procédure : `docs/VIDFETCH-CAPACITE-MISE-EN-PROD.md`.
 - Aucun accès Cloudflare ou Search Console n'est configuré; aucun cache CDN n'a été purgé.
 
+### Revue d'intégration de la PR #34 (2 novembre 2026)
+
+- Les changements utiles des PR #7, #15 et #17 sont repris sur `feat/capacity-v2` : erreurs amont distinguées dans l'interface localisée, téléchargement via cadre caché, et rollback frontal refusé si les téléchargements sont ouverts et la release incompatible.
+- De #16, seuls les contrôles de cohérence des processus, la fermeture requise pendant les changements de passerelle et le verrou partagé sont conservés. L'autre voie d'activation est exclue : `12-engine-release.sh` reste l'unique transaction pour mettre à niveau moteur, passerelle et frontend ensemble.
+- La procédure opérateur utilise `debian@15.235.127.165`, transfère vers `/var/tmp`, et appelle `sudo install`, `sudo systemctl` ou `sudo bash`; aucun login root n'est requis. L'accès réel SSH/sudo n'est pas disponible ici, donc la procédure a été contrôlée statiquement, pas exécutée sur le VPS.
+- YouTube reste bloqué. Le cas d'erreur importé de #7 est maintenant une fixture synthétique TikTok générique; aucune reconnaissance, route ou capacité YouTube n'a été ajoutée.
+- Un contrôle système doit confirmer le verrouillage commun du rollback. La CI de la nouvelle révision de #34 reste à terminer avant fusion; cette PR ne doit pas être fusionnée tant que le run n'est pas vert.
+
 ## Résultats de validation disponibles
 
 - Phase 1 : rapports de CI indiqués dans `TOOLS-CHANGES.md`; builds, lint, typage, tests des outils et du backend documentés. Profils Playwright Chromium/WebKit et données de mémoire disponibles; aucun iPhone ou téléphone Android matériel testé.

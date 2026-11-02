@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Transactional activation of the engine and gateway from one verified CI release.
+# Downloads remain closed and serialized against the public open/close switch throughout the transaction.
 # Usage: 12-engine-release.sh check RELEASE_SHA ARCHIVE_SHA256
 #        12-engine-release.sh apply RELEASE_SHA ARCHIVE_SHA256
 #        12-engine-release.sh rollback
@@ -37,10 +38,22 @@ ENGINE_PATH_KEY=backend/vidfetch-ovh.cjs
 GATEWAY_PATH_KEY=backend/vidfetch-gateway.cjs
 # Serialize against promote.py, which uses the same lock file.
 LOCK=${VM_LOCK-/opt/vidfetch-ci-web/lock}
+DOWNLOADS_LOCK=${VM_DOWNLOADS_LOCK-/run/vidfetch-media-test.lock}
 SETTLE=${VM_SETTLE_SECONDS:-5}
 
 die() { echo "REFUSED: $*" >&2; exit 1; }
 log() { printf '[%s] %s\n' "$(date -u +%FT%TZ)" "$*"; }
+take_downloads_lock() {
+  [[ "$DOWNLOADS_LOCK" == /* && "$DOWNLOADS_LOCK" != *..* && "$DOWNLOADS_LOCK" != *//* ]] || die "unsafe downloads lock path: $DOWNLOADS_LOCK"
+  exec 8>"$DOWNLOADS_LOCK"
+  flock -w 20 8 || die "another downloads or engine/gateway operation is active"
+}
+require_downloads_closed() {
+  [ -f "$WEB_ENV" ] && [ ! -L "$WEB_ENV" ] || die "frontend environment is missing or unsafe: $WEB_ENV"
+  local ready
+  ready=$(ready_value 2>/dev/null || true)
+  [ "$ready" = 0 ] || die "downloads must be closed (VIDFETCH_CONNECTION_READY=${ready:-unset}); run 11-downloads.sh close first"
+}
 sha() { sha256sum -- "$1" | cut -c1-64; }
 root_file() {
   local f=$1
@@ -432,8 +445,11 @@ make_backup() {
 }
 apply_release() {
   local incoming archive active source runtime engine_old gateway_old engine_line gateway_line engine_new gateway_new
+  take_downloads_lock
+  require_downloads_closed
   incoming=$(release_archive)
   validate_common
+  if why=$(release_drift); then die "engine/gateway process state is incompatible with the active release: $why"; fi
   archive=$(secure_archive_copy "$incoming")
   archive_check "$archive" "$RELEASE" "$ARCHIVE_SHA"
   active=$(readlink -f "$WEB_BASE/current")
@@ -470,6 +486,7 @@ apply_release() {
   "$SYSTEMCTL" start "$GATEWAY_UNIT"
   "$SYSTEMCTL" restart "$WEB_UNIT"
   health_wait "$RELEASE"
+  if why=$(release_drift); then die "engine/gateway processes do not match the activated release: $why"; fi
   # The guard update makes these installed bundles and narrow ExecStart drop-ins part of the protected baseline.
   guard_reconcile "$engine_new" "$gateway_new" \
     "$(dropin_dir "$ENGINE_UNIT")/$ENGINE_DROPIN_NAME" "$(dropin_dir "$GATEWAY_UNIT")/$GATEWAY_DROPIN_NAME"
@@ -510,6 +527,8 @@ main() {
     rollback)
       [ $# = 1 ] || die "usage: $0 rollback"
       exec 9>"$LOCK"; flock -w 20 9 || die "another engine-release operation is active"
+      take_downloads_lock
+      require_downloads_closed
       local backup
       backup=$(readlink -f "$BACKUPS/vidfetch-engine-release-latest" 2>/dev/null) || die "no engine-release backup found"
       safe_root_dir "$backup"
