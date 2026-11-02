@@ -1,28 +1,32 @@
 import type { Locale } from "@/i18n/config";
 import type { SitePage } from "@/lib/site-pages";
 
-/** Google AdSense publisher. The site layout loads the tag; /ads.txt declares the same publisher. */
+/** Google AdSense publisher reference; /ads.txt declares the same publisher. The account is not approved yet. */
 export const ADSENSE_CLIENT = "ca-pub-7903460199253248";
 export const ADSENSE_SCRIPT = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`;
+/** Keep off until Google approves the publisher account. */
+export const ADSENSE_DEFERRED_LOADING_ENABLED = false;
+/** Loaded only after an interaction/scroll AND after the load event, if explicitly enabled. */
+export const ADSENSE_DEFERRED_LOADER = `(()=>{let pageLoaded=document.readyState==="complete",intent=false,started=false;const start=()=>{if(!pageLoaded||!intent||started)return;started=true;removeEventListener("load",onLoad);for(const event of ["pointerdown","keydown","scroll","touchstart"])removeEventListener(event,onIntent);const script=document.createElement("script");script.async=true;script.src=${JSON.stringify(ADSENSE_SCRIPT)};script.crossOrigin="anonymous";document.head.appendChild(script)};const onLoad=()=>{pageLoaded=true;start()};const onIntent=()=>{intent=true;start()};if(!pageLoaded)addEventListener("load",onLoad,{once:true});for(const event of ["pointerdown","keydown","scroll","touchstart"])addEventListener(event,onIntent,{once:true,passive:true});start()})()`;
 
 /**
- * First privacy paragraph now that the site shows Google ads (AdSense requires this disclosure).
+ * First privacy paragraph while the AdSense publisher account is unapproved and no ads are displayed.
  * Kept out of src/i18n/messages on purpose: the download gateway bundles those dictionaries, and any change
  * there changes the gateway artifact, which the CI promoter refuses to deploy without a separate review.
  */
 export const ADVERTISING_PRIVACY: Record<Locale, string> = {
-  en: "No VidFetch account is required. The site shows ads served by Google AdSense. Google and its partners may use cookies to serve ads based on your visits to this and other websites. You can manage personalized advertising in Google’s Ads Settings (adssettings.google.com).",
-  fr: "Aucun compte VidFetch n’est requis. Le site affiche des annonces diffusées par Google AdSense. Google et ses partenaires peuvent utiliser des cookies pour diffuser des annonces en fonction de vos visites sur ce site et sur d’autres sites. Vous pouvez gérer la publicité personnalisée dans les paramètres des annonces de Google (adssettings.google.com).",
-  es: "No se requiere cuenta de VidFetch. El sitio muestra anuncios servidos por Google AdSense. Google y sus socios pueden usar cookies para mostrar anuncios basados en tus visitas a este y otros sitios web. Puedes gestionar la publicidad personalizada en la Configuración de anuncios de Google (adssettings.google.com).",
-  "pt-BR": "Não é necessário ter conta no VidFetch. O site exibe anúncios veiculados pelo Google AdSense. O Google e seus parceiros podem usar cookies para exibir anúncios com base nas suas visitas a este e a outros sites. Você pode gerenciar a publicidade personalizada nas Configurações de anúncios do Google (adssettings.google.com).",
-  id: "Tidak perlu akun VidFetch. Situs ini menampilkan iklan yang disajikan oleh Google AdSense. Google dan mitranya dapat menggunakan kuki untuk menayangkan iklan berdasarkan kunjungan Anda ke situs ini dan situs lain. Anda dapat mengelola iklan yang dipersonalisasi di Setelan Iklan Google (adssettings.google.com).",
-  de: "Ein VidFetch-Konto ist nicht erforderlich. Die Website zeigt Anzeigen, die von Google AdSense ausgeliefert werden. Google und seine Partner können Cookies verwenden, um Anzeigen auf Grundlage deiner Besuche auf dieser und anderen Websites auszuliefern. Personalisierte Werbung kannst du in den Google-Anzeigeneinstellungen (adssettings.google.com) verwalten.",
-  it: "Non serve un account VidFetch. Il sito mostra annunci forniti da Google AdSense. Google e i suoi partner possono usare cookie per mostrare annunci basati sulle tue visite a questo e ad altri siti. Puoi gestire la pubblicità personalizzata nelle Impostazioni annunci di Google (adssettings.google.com).",
-  ar: "لا يلزم حساب VidFetch. يعرض الموقع إعلانات تقدّمها Google AdSense. قد تستخدم Google وشركاؤها ملفات تعريف الارتباط لعرض إعلانات استنادًا إلى زياراتك لهذا الموقع ولمواقع أخرى. يمكنك إدارة الإعلانات المخصّصة من إعدادات الإعلانات في Google (adssettings.google.com).",
+  en: "VidFetch does not currently display ads. If advertising is enabled in the future, this notice will be updated to explain any related data use.",
+  fr: "VidFetch n’affiche actuellement aucune publicité. Si la publicité est activée à l’avenir, cette notice sera mise à jour pour expliquer tout traitement de données associé.",
+  es: "VidFetch no muestra anuncios actualmente. Si la publicidad se habilita en el futuro, actualizaremos este aviso para explicar cualquier uso de datos relacionado.",
+  "pt-BR": "O VidFetch não exibe anúncios no momento. Se a publicidade for ativada no futuro, este aviso será atualizado para explicar qualquer uso de dados relacionado.",
+  id: "VidFetch saat ini tidak menampilkan iklan. Jika iklan diaktifkan nanti, pemberitahuan ini akan diperbarui untuk menjelaskan penggunaan data yang terkait.",
+  de: "VidFetch zeigt derzeit keine Werbung an. Sollte Werbung künftig aktiviert werden, wird dieser Hinweis aktualisiert und erklärt dann die damit verbundene Datennutzung.",
+  it: "Al momento VidFetch non mostra annunci. Se la pubblicità verrà attivata in futuro, aggiorneremo questa informativa per spiegare l'eventuale uso dei dati correlato.",
+  ar: "لا يعرض VidFetch إعلانات حاليًا. إذا فُعّلت الإعلانات مستقبلًا، فسنحدّث هذا الإشعار لتوضيح أي استخدام للبيانات مرتبط بها.",
 };
 
 /**
- * Pages that load the AdSense tag: indexable pages with publisher content (the homes, the approved platform pages and
+ * Pages that declare the AdSense publisher account: indexable pages with publisher content (the homes, the approved platform pages and
  * published guides). Never a 404, a noindex draft or the legal page: Google Publisher Policies exclude ads on screens
  * without publisher content, under construction, or used for navigation or alerts.
  */

@@ -127,8 +127,8 @@ describe("TikTok pages: practical sections", () => {
   });
 });
 
-describe("AdSense tag placement", () => {
-  it("loads the tag on content pages only: never on a 404, a noindex draft or the legal page", () => {
+describe("AdSense publisher declaration eligibility", () => {
+  it("declares the publisher only for eligible content pages: never a 404, noindex draft, legal page or local tool", () => {
     for (const locale of LOCALES) {
       for (const page of sitePages().filter(p => p.locale === locale)) {
         const expected = page.indexable && page.identity.kind !== "legal" && page.identity.kind !== "local-tool";

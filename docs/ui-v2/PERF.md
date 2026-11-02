@@ -30,7 +30,20 @@ Build Next de production avec `VIDFETCH_TARGET=ovh`, servi par `next start` sur 
 
 ¹ Aucune assertion Performance/TBT en échec n’est consignée pour cette route; le LCP dépasse néanmoins le plafond. Les trois passes sont toutes au-delà de 2 500 ms pour les six routes. Les mesures TBT élevées sur cinq routes et la lenteur similaire à travers des types de page différents orientent vers du travail partagé au chargement, probablement le script AdSense chargé dans le `<head>`; c’est une hypothèse à confirmer avec les traces LHR. Je ne retarde ni ne désactive la publicité sans mesurer l’impact produit. La CI emploie un runner Linux et le throttling Lighthouse mobile, tandis que la mesure locale utilise macOS : les chiffres locaux ne suffisent donc pas à valider la PR.
 
-Le workflow échouait aussi sur des audits supplémentaires (`label-content-name-mismatch`, `legacy-javascript`, `network-dependency-tree-insight`, `unused-javascript`) hérités de `lighthouse:recommended`, qui n’étaient pas dans les critères du propriétaire. Le preset a été retiré pour ne garder que les assertions expressément demandées. Ce retrait ne change pas les résultats de performance ci-dessus.
+Le workflow échouait aussi sur des audits supplémentaires (`label-content-name-mismatch`, `legacy-javascript`, `network-dependency-tree-insight`, `unused-javascript`) hérités de `lighthouse:recommended`, qui n’étaient pas dans les critères du propriétaire. Le preset a été retiré. Après confirmation que le TBT est causé par le tag publicitaire (la page MP3 sans ce tag était la seule à passer), le tag est retiré du layout en attendant l'approbation AdSense; la déclaration de compte et `/ads.txt` restent. Le chargeur différé préparé est désactivé par défaut et ne peut démarrer qu'après une interaction ou un défilement **et** après l'événement `load`.
+
+## Comparaison Lighthouse CI main / PR
+
+Le job CI construit la révision `base.sha` de `main` et l'artefact OVH de la PR dans le même runner Linux/Node 22. Il exécute Lighthouse mobile sur les mêmes six URL, avec la même version de Chrome/Lighthouse, trois passes séquentielles par build. Les rapports de chaque build sont conservés séparément puis comparés par URL avec la médiane des trois passes. Le preset Lighthouse recommandé est désactivé : seules les règles convenues sont bloquantes.
+
+Pour chaque page, les assertions sont :
+
+- Accessibilité, Bonnes pratiques et SEO : médiane exactement 100 % ; CLS médian ≤0,02.
+- Performance PR ≥90 et Performance PR ≥ Performance main −2 points.
+- LCP PR ≤ LCP main +150 ms ; TBT PR ≤ TBT main +50 ms.
+- Le budget de police, JS initial, CSS inline gzip et les exclusions de la scène 3D comme candidat LCP restent vérifiés sur la PR.
+
+Le run `41524693765` était le dernier run avant la comparaison main/PR et avant le retrait du script AdSense. Il a constaté les dépassements listés ci-dessus et ne valide pas le commit actuel. La nouvelle CI doit produire le tableau comparatif avant tout GO; les chiffres macOS locaux ne remplacent pas cette vérification.
 
 Le H1 demeure le candidat LCP sur les pages d’accueil, TikTok et blog ; sur l’outil MP3, le candidat est le bloc de texte d’état initial. Aucun rapport ne désigne `.hero-scene`, `.hero-card` ni `.hero-token` comme candidat LCP. La scène décorative reste `aria-hidden` et n’est pas animée au chargement du texte.
 

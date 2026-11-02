@@ -122,3 +122,10 @@ Date affichée en Europe/Paris. Les commits de la branche de travail ne devienne
 - Retrait du preset d'assertions `lighthouse:recommended` en cours pour ne garder que les catégories et métriques demandées; il ajoutait des exigences hors critères. Cela ne résout pas les dépassements de P/LCP/TBT observés.
 - L'écart local/CI s'observe uniformément sur les routes et le chargement publicitaire du `<head>` est une piste, non une cause confirmée. Aucun changement publicitaire n'est appliqué sans traces plus précises.
 - **NO-GO** : PR #35 reste en brouillon; aucune fusion ni production. Il faut d'abord confirmer les tâches bloquantes dans les traces LHR et obtenir une nouvelle CI entièrement verte.
+
+## 2026-11-02 — PR #35, retrait AdSense et comparaison main/PR
+
+- Selon les données Lighthouse communiquées par le propriétaire, la page `/video-to-mp3`, seule page sans AdSense, est la seule à passer le TBT. Retrait du `<script adsbygoogle>` du layout. Le meta `google-adsense-account` reste sur les mêmes pages éligibles `showsAds`; `public/ads.txt` est inchangé.
+- Les huit textes `ADVERTISING_PRIVACY` disent maintenant qu'aucune publicité n'est actuellement affichée. `src/i18n/messages` n'a pas été modifié. Un chargeur qui attend une interaction/scroll et l'événement `load` est préparé, contrôlé par `ADSENSE_DEFERRED_LOADING_ENABLED = false`.
+- La CI Lighthouse compare désormais, dans le même job Linux/Node 22, `main` et la PR sur les six mêmes URL et trois passes médianes. Elle contrôle Accessibilité/Bonnes pratiques/SEO à 100, CLS≤0,02, Performance PR≥90 et ≥main−2, LCP≤main+150ms, TBT≤main+50ms; le preset `lighthouse:recommended` est retiré.
+- Validation locale : build OVH, lint, typecheck, `npm test` 192/192, `seo-check` 82 URL et `test:i18n` 97 pages vertes. Le comparateur a passé un fixture synthétique aux bornes exactes. Les mesures comparatives Linux de la nouvelle CI restent à obtenir; pas de sortie de brouillon, fusion ni production avant résultat vert et revue critique.

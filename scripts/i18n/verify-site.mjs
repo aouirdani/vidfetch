@@ -102,9 +102,11 @@ try {
     const legalLinks = await dom.evaluate(() => ({ main: [...document.querySelectorAll('main a[href]')].map(e => decodeURI(e.getAttribute('href'))), footer: [...document.querySelectorAll('footer a[href]')].map(e => ({ href: decodeURI(e.getAttribute('href')), lang: e.getAttribute('hreflang') })) }));
     assert.equal(legalLinks.main.some(href => tiktokPages.includes(href)), false, `legal text of ${legal} stays free of SEO links`);
     for (const href of want) assert.ok(legalLinks.footer.some(l => l.href === href && l.lang === null), `footer of ${legal} -> ${href}`);
-    // the AdSense tag: on the home, never on the legal page
-    assert.match(await (await fetch(base + '/' + root)).text(), /adsbygoogle\.js\?client=ca-pub-/, `home ${locales[i]} loads the AdSense tag`);
-    assert.doesNotMatch(legalHtml, /adsbygoogle/, `legal ${legal} has no AdSense tag`);
+    // Publisher identity is declared on eligible content pages, but the unapproved ad script is not loaded.
+    const homeHtml = await (await fetch(base + '/' + root)).text();
+    assert.match(homeHtml, /<meta name="google-adsense-account" content="ca-pub-7903460199253248"/, `home ${locales[i]} declares the publisher`);
+    assert.doesNotMatch(homeHtml, /adsbygoogle\.js/, `home ${locales[i]} does not load AdSense`);
+    assert.doesNotMatch(legalHtml, /google-adsense-account|adsbygoogle/, `legal ${legal} has no publisher declaration or ad script`);
     for (const address of ['legal@vidfetch.app', 'privacy@vidfetch.app', 'abuse@vidfetch.app']) assert.ok(legalHtml.includes(address), `${legal} shows ${address}`);
     assert.ok(legalHtml.includes('href="mailto:abuse@vidfetch.app"'), `${legal}: footer abuse link`);
   }
@@ -191,7 +193,7 @@ try {
     assert.equal(await page.getByRole('button', { name: 'YouTube', exact: true }).count(), 0, `${locale}: no YouTube example`);
     for (const name of ['TikTok', 'Instagram']) assert.equal(await page.getByRole('button', { name, exact: true }).count(), 0, `${locale}: no example button that starts a download`);
     const missing = await page.goto(base + '/' + (roots[i] ? roots[i] + '/' : '') + 'missing-page'); assert.equal(missing.status(), 404, locale);
-    assert.doesNotMatch(await missing.text(), /adsbygoogle/, `${locale}: no AdSense tag on a 404`);
+    assert.doesNotMatch(await missing.text(), /google-adsense-account|adsbygoogle/, `${locale}: no publisher declaration or ad script on a 404`);
     assert.equal(await page.locator('html').getAttribute('lang'), locale);
     await page.getByRole('heading', { name: d.notFoundTitle }).waitFor();
     const robotsTags = await page.locator('meta[name=robots]').evaluateAll(nodes => nodes.map(node => node.getAttribute('content')));

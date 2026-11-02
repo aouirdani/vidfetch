@@ -9,7 +9,7 @@ import { LANGUAGES, localeForSegments } from "@/i18n/config";
 import { resolvePage } from "@/lib/site-pages";
 import { localizedIdentity } from "@/lib/localized-seo";
 import { SITE, jsonLdGraph } from "@/lib/seo";
-import { ADSENSE_SCRIPT, ADVERTISING_PRIVACY, showsAds } from "@/lib/adsense";
+import { ADSENSE_CLIENT, ADSENSE_DEFERRED_LOADER, ADSENSE_DEFERRED_LOADING_ENABLED, ADVERTISING_PRIVACY, showsAds } from "@/lib/adsense";
 import { withOfficialContacts } from "@/lib/contact";
 const headingFont = localFont({
   src: "../../../../public/fonts/bricolage-grotesque-latin-800.woff2",
@@ -35,7 +35,8 @@ export default async function SiteLayout({ children, params }: { children: React
   return <html lang={locale} dir={LANGUAGES[locale].dir}><head>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdGraph(localizedIdentity(locale)) }} />
     {locale !== "ar" && <link rel="preload" href="/fonts/bricolage-grotesque-latin-800.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />}
-    {showsAds(page) && <script async src={ADSENSE_SCRIPT} crossOrigin="anonymous" />}
+    {showsAds(page) && <meta name="google-adsense-account" content={ADSENSE_CLIENT} />}
+    {showsAds(page) && ADSENSE_DEFERRED_LOADING_ENABLED && <script dangerouslySetInnerHTML={{ __html: ADSENSE_DEFERRED_LOADER }} />}
   </head><body className={`${headingFont.variable} min-h-dvh bg-ink-950 font-sans text-slate-100 antialiased`}>
     <I18nProvider locale={locale} messages={{ ...withOfficialContacts(d), privacy1: ADVERTISING_PRIVACY[locale] }}>
       <a href="#main" className="skip-link sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-[100] focus:rounded-xl focus:px-4 focus:py-2 focus:text-sm">{d.skip}</a>
