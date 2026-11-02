@@ -9,7 +9,7 @@ const expectedRuns = 3;
 const median = values => [...values].sort((a, b) => a - b)[Math.floor(values.length / 2)];
 
 async function collect(directory, label) {
-  const names = (await readdir(directory)).filter(file => /^lhr-.*\.json$/.test(file));
+  const names = (await readdir(directory)).filter(file => /\.report\.json$/.test(file));
   assert.equal(names.length, routes.length * expectedRuns, `${label}: expected ${routes.length * expectedRuns} Lighthouse reports; found ${names.length}`);
   const result = new Map();
   for (const name of names) {
@@ -50,7 +50,7 @@ console.log(`Bricolage Latin + Latin-ext WOFF2: ${latinFontBytes} B (max 90,000)
 
 const assetsByRoute = new Map();
 for (const name of await readdir(prDir)) {
-  if (!/^lhr-.*\.json$/.test(name)) continue;
+  if (!/\.report\.json$/.test(name)) continue;
   const report = JSON.parse(await readFile(join(prDir, name), 'utf8'));
   const pathname = decodeURIComponent(new URL(report.finalDisplayedUrl).pathname);
   const origin = new URL(report.finalDisplayedUrl).origin;

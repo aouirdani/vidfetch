@@ -28,7 +28,7 @@ Build Next de production avec `VIDFETCH_TARGET=ovh`, servi par `next start` sur 
 | `/blog/why-cant-i-save-tiktok` | 89 | 2 694 ms | 323 ms |
 | `/ar` | 89 | 2 549 ms | 338 ms |
 
-¹ Aucune assertion Performance/TBT en échec n’est consignée pour cette route; le LCP dépasse néanmoins le plafond. Les trois passes sont toutes au-delà de 2 500 ms pour les six routes. Les mesures TBT élevées sur cinq routes et la lenteur similaire à travers des types de page différents orientent vers du travail partagé au chargement, probablement le script AdSense chargé dans le `<head>`; c’est une hypothèse à confirmer avec les traces LHR. Je ne retarde ni ne désactive la publicité sans mesurer l’impact produit. La CI emploie un runner Linux et le throttling Lighthouse mobile, tandis que la mesure locale utilise macOS : les chiffres locaux ne suffisent donc pas à valider la PR.
+¹ Aucune assertion Performance/TBT en échec n’est consignée pour cette route; le LCP dépasse néanmoins le plafond. Ces résultats historiques précèdent la comparaison main/PR et le retrait du script AdSense. Ils ne valident pas le commit actuel.
 
 Le workflow échouait aussi sur des audits supplémentaires (`label-content-name-mismatch`, `legacy-javascript`, `network-dependency-tree-insight`, `unused-javascript`) hérités de `lighthouse:recommended`, qui n’étaient pas dans les critères du propriétaire. Le preset a été retiré. Après confirmation que le TBT est causé par le tag publicitaire (la page MP3 sans ce tag était la seule à passer), le tag est retiré du layout en attendant l'approbation AdSense; la déclaration de compte et `/ads.txt` restent. Le chargeur différé préparé est désactivé par défaut et ne peut démarrer qu'après une interaction ou un défilement **et** après l'événement `load`.
 
@@ -43,11 +43,11 @@ Pour chaque page, les assertions sont :
 - LCP PR ≤ LCP main +150 ms ; TBT PR ≤ TBT main +50 ms.
 - Le budget de police, JS initial, CSS inline gzip et les exclusions de la scène 3D comme candidat LCP restent vérifiés sur la PR.
 
-Le run `41524693765` était le dernier run avant la comparaison main/PR et avant le retrait du script AdSense. Il a constaté les dépassements listés ci-dessus et ne valide pas le commit actuel. La nouvelle CI doit produire le tableau comparatif avant tout GO; les chiffres macOS locaux ne remplacent pas cette vérification.
+Le run `41524693765` était le dernier run avant la comparaison main/PR et avant le retrait du script AdSense. Le run `41533804636` a bien collecté 18 rapports par build, mais le comparateur n'a reconnu aucun rapport : il cherchait `lhr-*.json` alors que LHCI produit des fichiers `*.report.json`. Le motif est corrigé ; le run échoué ne fournit pas de mesures exploitables pour la décision de fusion.
 
 Le H1 demeure le candidat LCP sur les pages d’accueil, TikTok et blog ; sur l’outil MP3, le candidat est le bloc de texte d’état initial. Aucun rapport ne désigne `.hero-scene`, `.hero-card` ni `.hero-token` comme candidat LCP. La scène décorative reste `aria-hidden` et n’est pas animée au chargement du texte.
 
-Les seuils finaux remplacent l’ancienne limite LCP de 1 800 ms et la comparaison baseline +150 ms. Le budget personnalisé vérifie les médianes de trois passes : Performance ≥95, A11y/BP/SEO=100, LCP≤2 500 ms, CLS≤0,02 et TBT≤200 ms. Lighthouse CI applique les mêmes catégories et métriques, sans le preset d’audits supplémentaires.
+Les seuils finaux remplacent l’ancienne limite LCP de 1 800 ms, le plancher Performance ≥95 et la comparaison baseline +150 ms. Les médianes de trois passes exigent A11y/BP/SEO=100, CLS≤0,02, Performance PR≥90 et ≥Performance main−2 points, LCP PR≤LCP main+150 ms et TBT PR≤TBT main+50 ms. Le plancher Performance ne s'applique qu'à la PR.
 
 ## Poids et polices
 
@@ -64,7 +64,7 @@ INP n’est pas mesurable de façon stable par ces navigations synthétiques san
 
 ### Diagnostic `/id/download-video-tiktok`
 
-Le candidat LCP est le paragraphe descriptif du héros, pas une image. Sur cette page comme sur les autres, Lighthouse mesure **162 011 B** de JavaScript première partie, avec les mêmes deux chunks principaux (**67 861 B** et **64 658 B**). Aucune image n’est transférée ; la même police Latin de **22 209 B** est demandée que sur EN/FR/MP3/blog. Le TBT vient surtout de tâches longues du chunk Next (≈87–90 ms) et d’AdSense (tâches variables, ≈55–108 ms par tâche). Aucun bundle additionnel ni ressource spécifique ID n’est en cause ; retirer du code exigerait de modifier le runtime partagé ou le chargement publicitaire. La médiane ID (LCP **2 495 ms**, TBT **115 ms**) respecte les seuils acceptés. Les passes ID ont mesuré 2 343, 2 500 et 2 495 ms, cohérent avec les paliers de throttling.
+Le candidat LCP est le paragraphe descriptif du héros, pas une image. Sur cette page comme sur les autres, Lighthouse mesure **162 011 B** de JavaScript première partie, avec les mêmes deux chunks principaux (**67 861 B** et **64 658 B**). Aucune image n’est transférée ; la même police Latin de **22 209 B** est demandée que sur EN/FR/MP3/blog. La mesure précédente ne montrait ni bundle additionnel ni ressource spécifique ID ; ses tâches AdSense sont désormais supprimées du parcours initial. La comparaison après le retrait doit confirmer si le TBT restant provient du runtime partagé. Les valeurs locales ID (LCP **2 495 ms**, TBT **115 ms**) restent indicatives et ne remplacent pas la comparaison CI.
 
 ## Captures
 
