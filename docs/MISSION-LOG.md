@@ -100,10 +100,17 @@ Date affichée en Europe/Paris. Les commits de la branche de travail ne devienne
 - Revue des polices : désactiver le préchargement d'Onest pour ne précharger que Bricolage a produit sur une passe mobile CLS 0,171 et Performance 88. Le préchargement est rétabli pour préserver CLS 0 sur la configuration mesurée; la consigne de précharger uniquement la fonte du H1 reste à résoudre proprement.
 - Décision : pas de fusion ni de déploiement tant que le LCP n'est pas réduit sous 1,8 s et que Performance arabe n'atteint pas 95. La CI Lighthouse constitue un garde-fou de régression et signale actuellement ces deux écarts; résultat complet à joindre à la PR pour correction ciblée.
 
-## 2026-11-02 — PR #35, correction polices et seuils révisés
+## 2026-11-02 — PR #35, première correction polices et mesure
 
 - Remplacement d'Onest et de la fonte arabe web par les piles système. Bricolage Grotesque 800 est servi en deux WOFF2 Latin/Latin-ext sous OFL, `font-display: optional`, via `next/font/local` avec fallback métrique; le lien de préchargement n'est rendu que hors `/ar`. Contrôle réseau Lighthouse : une fonte sur les pages latines, aucune sur l'arabe.
-- CI Lighthouse et `scripts/ui-v2/assert-budgets.mjs` utilisent les médianes des trois passes; seuils révisés : P95, A11y/BP/SEO100, LCP ≤2 500 ms et baseline+150, CLS≤0,02, TBT≤100. CSS ≤ baseline +6 Ko gzip.
+- À ce stade, Lighthouse CI et `scripts/ui-v2/assert-budgets.mjs` utilisaient les médianes des trois passes avec une limite baseline+150 et TBT≤100. Ces deux seuils ont ensuite été remplacés après acceptation du propriétaire (entrée suivante).
 - Build OVH local, lint, typecheck, `seo-check` (82 URL), `test:i18n` (97 pages / 8 langues), tests Node (192/192) passent. Captures `docs/ui-v2/after/` régénérées.
-- Lighthouse mobile médian : Performance 97–98; A11y/BP/SEO100; CLS0. LCP relative échoue FR (2 496 ms, +160), ID (2 495 ms, +306), MP3 (2 493 ms, +155), blog (2 495 ms, +157). TBT échoue ID (115 ms). Accueil EN et arabe passent ces budgets. CSS inline 12 913 B gzip (+2 629 B versus 10 284 B baseline), JS 162 011 B, WOFF2 latins 32 340 B. Aucune scène 3D n'est candidate LCP.
-- La CI de l'ancien commit a échoué sur Lighthouse; aucune production n'a été modifiée. PR #35 reste brouillon et NO-GO tant que les quatre dépassements LCP relatif et le TBT ID ne sont pas corrigés. PSI production et appareil physique non testés.
+- Lighthouse mobile médian : Performance 97–98; A11y/BP/SEO100; CLS0. À l'ancien seuil relatif, FR +160, ID +306, MP3 +155 et blog +157; TBT ID 115. CSS 12 913 B gzip (+2 629 B), JS 162 011 B, polices latines 32 340 B. Aucune scène 3D n'est candidate LCP.
+- La CI de l'ancien commit a échoué à son assertion Lighthouse, selon l'ancien seuil. Aucune production n'a été modifiée. PSI production et appareil physique non testés.
+
+## 2026-11-02 — PR #35, seuils finaux acceptés
+
+- Le propriétaire a remplacé la comparaison LCP au baseline par LCP médian ≤2 500 ms et a relevé le TBT médian ≤200 ms; les autres assertions restent P≥95, A11y/BP/SEO=100 et CLS≤0,02. Les deux configurations (`.lighthouserc.cjs`, `scripts/ui-v2/assert-budgets.mjs`) appliquent ces limites aux médianes de trois passes.
+- Diagnostic `/id/download-video-tiktok` : même JS première partie que les autres pages (162 011 B, chunks principaux 67 861 B et 64 658 B), aucune image, et même WOFF2 latin de 22 209 B. Le candidat LCP est le paragraphe descriptif. Les longues tâches observées viennent du chunk Next partagé (87–90 ms) et d’AdSense variable (55–108 ms); aucune optimisation spécifique ID à faible risque identifiée.
+- Les 6 pages passent localement les nouveaux seuils, avec Performance 97–98, LCP 2 345–2 496 ms, CLS0 et TBT médian ≤115 ms. `assert-budgets` passe sur les 18 rapports. Build, lint, typecheck, `seo-check` (82), `test:i18n` (97) et `npm test` (192/192) sont verts.
+- Commit de seuils/docs à pousser sur la PR #35; CI GitHub du nouveau commit à suivre. Pas de sortie de brouillon, fusion ou production avant CI verte et revue critique.

@@ -30,7 +30,7 @@ module.exports = {
         'categories:seo': ['error', { minScore: 1, aggregationMethod: 'median' }],
         'largest-contentful-paint': ['error', { maxNumericValue: 2500, aggregationMethod: 'median' }],
         'cumulative-layout-shift': ['error', { maxNumericValue: 0.02, aggregationMethod: 'median' }],
-        'total-blocking-time': ['error', { maxNumericValue: 100, aggregationMethod: 'median' }],
+        'total-blocking-time': ['error', { maxNumericValue: 200, aggregationMethod: 'median' }],
       },
     },
     upload: { target: 'filesystem', outputDir: '.lighthouseci' },
