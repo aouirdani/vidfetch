@@ -23,7 +23,7 @@ validate_source() {
   [ -f "$SRC" ] && [ ! -L "$SRC" ] || die "rollback.py missing next to this toolkit: send it again (send-to-vps.sh)"
   parses "$SRC" || die "rollback.py does not parse"
   grep -qxF "    if os.geteuid() != 0 or os.environ.get('SUDO_USER') == 'vidfetch-deploy':" "$SRC" || die "this rollback.py lost the administrator check"
-  grep -qxF "        why = None if ready == '0' else incompatibility(helper, target)" "$SRC" || die "this rollback.py has no downloads guard"
+  grep -qF "why = None if ready == '0' else incompatibility(helper, target)" "$SRC" || die "this rollback.py has no downloads guard"
   # what the new helper reads from the installed promoter, besides what the previous one already used
   grep -qx 'def command(args):' "$DIR/promote.py" && grep -qx 'def trusted(path):' "$DIR/promote.py" \
     || die "the installed promoter ($DIR/promote.py) does not provide command() and trusted(): inspect it first"

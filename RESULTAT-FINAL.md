@@ -39,6 +39,7 @@ Les pourcentages ne s'additionnent pas et ne représentent pas un score du site.
 - Le test Python de rollback vérifie maintenant aussi qu'un verrou de téléchargement actif fait refuser l'opération sans déplacer le pointeur; le test Debian/systemd vérifie le refus d'`apply` avec `ready=1`.
 - Les PR #6, #7, #15, #16 et #17 sont fermées avec un commentaire renvoyant vers #34. Les commentaires précisent que YouTube reste bloqué et que l'activation alternative de #16 n'est pas reprise.
 - Sur la révision de revue, les validations locales passent (Node 193/193, backend 18/18, OVH Python 105 avec 16 ignorés, `seo-check` 82 URL, `test:i18n` 97 pages, lint, typecheck, build Webpack, `test:vercel -- --browser`, `smoke:browser`, gateway 6/6, outils locaux/OPFS, test systemd engine-release). Le build habituel `npm run build` via Turbopack échoue localement avec `Operation not permitted` en lançant un processus; le build Webpack termine. Le statut CI de la tête actuelle est disponible sur [les checks de la PR #34](https://github.com/aouirdani/vidfetch/pull/34/checks); la PR reste non fusionnée.
+- La CI du commit `54b6b3a` a révélé un test de l'installateur de rollback trop lié à l'indentation de son helper. Le contrôle est corrigé et son test conteneurisé passe 30/30; le run CI complet doit être vert sur le nouveau commit avant fusion.
 
 ## Résultats de validation disponibles
 
