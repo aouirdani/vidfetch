@@ -47,6 +47,8 @@ jobs:
       - run: sudo apt-get update -qq && sudo apt-get install -y ffmpeg
       - run: npm run load:isolated
       - run: python3 -m unittest discover -s deploy/ovh/tests -v
+      - name: Exercise transactional engine release with isolated systemd
+        run: sh deploy/ovh/tests/engine-release-systemd.test.sh
       - run: npm run check:release
       - name: Install Chromium for browser smoke checks
         run: npx playwright install --with-deps chromium
