@@ -34,7 +34,7 @@ function FormatRow({ format, active, hasSeparateAudio, onSelect, onKeyDown, inne
   const details = [format.ext.toUpperCase(), codec, format.filesizeLabel && `≈ ${format.filesizeLabel}`].filter(Boolean);
   return (
     <button ref={innerRef} type="button" onClick={onSelect} onKeyDown={onKeyDown} role="radio" aria-checked={active} tabIndex={active ? 0 : -1}
-      className={clsx("group flex w-full items-center gap-3 rounded-xl border px-3.5 py-3 text-start transition-colors duration-150 min-h-[60px]",
+      className={clsx("video-format-option group flex w-full items-center gap-3 rounded-xl border px-3.5 py-3 text-start transition-colors duration-150 min-h-[72px]",
         active ? "border-cyan-400/60 bg-cyan-500/[0.12]" : "border-white/8 bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.05]")}>
       <span className={clsx("flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors",
         active ? "bg-cyan-400 text-ink-950" : "bg-white/5 text-slate-400 group-hover:text-slate-200")}>
@@ -185,7 +185,7 @@ export function VideoCard({ info, engine, onReset }: Props) {
   }
 
   return (
-    <section className="animate-rise overflow-hidden rounded-3xl border border-white/10 bg-ink-850/80 shadow-[0_40px_120px_-60px_rgba(139,92,246,0.9)]" aria-label={d.extractedVideo}>
+    <section className="video-result-card animate-rise overflow-hidden" aria-label={d.extractedVideo}>
       <iframe ref={frameRef} name={frameName} title={d.downloadChannel} className="hidden" aria-hidden="true" tabIndex={-1} onLoad={() => {
         try {
           const document = frameRef.current?.contentDocument;
@@ -201,7 +201,7 @@ export function VideoCard({ info, engine, onReset }: Props) {
       }} />
 
       <div className="grid gap-0 lg:grid-cols-[minmax(0,340px)_minmax(0,1fr)]">
-        <div className="relative aspect-video overflow-hidden bg-ink-800 lg:aspect-auto">
+        <div className="video-thumbnail relative aspect-video overflow-hidden bg-ink-800 lg:aspect-auto">
           {info.thumbnail && !thumbnailFailed ? (
             /* eslint-disable-next-line @next/next/no-img-element */
             <img src={info.thumbnail} alt={info.title} width={1280} height={720} className="absolute inset-0 h-full w-full object-cover"

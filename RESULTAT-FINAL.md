@@ -1,6 +1,6 @@
 # Résultat final — mission VidFetch
 
-État établi le 1 novembre 2026 à partir du dépôt, des builds locaux et des statuts GitHub disponibles. Les pourcentages ci-dessous mesurent la réalisation technique du périmètre demandé, pas une probabilité de succès commercial.
+État établi le 2 novembre 2026 à partir du dépôt, des builds locaux et des statuts GitHub disponibles. Les pourcentages ci-dessous mesurent la réalisation technique du périmètre demandé, pas une probabilité de succès commercial.
 
 ## Architecture
 
@@ -13,7 +13,7 @@ Le site est une application Next.js App Router rendue côté serveur/statique. L
 | Plateformes | TikTok disponible; Instagram/X annoncés sans garantie | **55 %** | TikTok conservé; Instagram/X et 4 plateformes candidates demeurent verrouillés. Aucun contournement ni test de plateforme sans média autorisé. Voir PR [#30](https://github.com/aouirdani/vidfetch/pull/30). |
 | Formats | TikTok MP4/MP3 | **90 %** | MP3/M4A, compression, coupe et GIF locaux sont inclus dans les 32 pages de la PR #24 fusionnée. Sorties et confidentialité contrôlées avec fixtures; compatibilité réelle des téléphones non certifiée. |
 | Capacité | Quotas et concurrence fixes; pas de mesure | **45 %** | Variables, réservation, file, métriques anonymes et banc isolé préparés dans PR #26. Pas d'application serveur ni de mesure VPS : impossible de promettre plusieurs centaines d'usagers/jour. |
-| UI/UX | Parcours initial | **75 %** | Navigation mobile et captures/audit dans PR [#27](https://github.com/aouirdani/vidfetch/pull/27), build vert. PR non fusionnée à cause du verrou de déploiement. |
+| UI/UX | Parcours initial | **75 % en production** | Une nouvelle version visuelle est implémentée sur `feat/ui-v2`; 21 captures viewport avant/après sont dans `docs/ui-v2/`. Lighthouse local donne 97 en anglais, 96 en ID/blog/outils et 92 en arabe, mais le LCP dépasse le seuil demandé sur toutes les pages. PR non fusionnée tant que ces seuils ne passent pas. Voir `docs/ui-v2/PERF.md`. |
 | SEO | Blog exclu, peu de pages localisées | **90 %** | Blog indexable, contenus TikTok dans 8 langues, outils locaux et contrôle SEO. PR #29 durcit encore le CI; vérifications locales passent, CI GitHub en cours. Aucun chiffre d'impressions n'est garanti. |
 | Exploitation | Déploiement frontend automatique | **55 %** | CI, tests de fumée, documentation de capacité, kit de lancement et procédure de vérification ajoutés. Le déploiement des releases contenant moteur/passerelle est bloqué par le garde de promotion; pas d'accès SSH/sudo pour le résoudre. |
 
@@ -36,6 +36,7 @@ Les pourcentages ne s'additionnent pas et ne représentent pas un score du site.
 - Phase 4 : dans `feat/platform-audit`, `npm run lint`, `npm run typecheck`, `npm test` **192/192**, `npm run test:i18n` (**97 pages**, 8 langues) passent. Les candidats n'apparaissent ni dans le sitemap ni dans le rendu. Le vérificateur réel n'a pas été lancé.
 - Phase 5 : avant le revert, `feat/seo-debt` avait lint, typecheck, `npm test` **192/192**, `test:i18n` (**97 pages**, 8 langues), build OVH, Vercel/browser smoke et `seo-check` (**82 URL**, zéro orpheline, HTML max **200 290 octets**) au vert. Après rebase post-revert, lint/typecheck et `npm test` **191/191** repassent en local; CI GitHub complète encore à faire.
 - Phase 6 : textes préparés dans `docs/launch/` seulement; aucun compte tiers n'a été utilisé et rien n'a été publié.
+- UI v2 : build OVH standalone local, lint, typecheck, `npm test` **192/192**, `test:i18n` (**97 pages**, 8 langues) et `seo-check` (**82 URL**) passent. Lighthouse mobile (3 passes) : A11y/Bonnes pratiques/SEO **100** partout, CLS **0**, TBT ≤ **100 ms**, mais LCP médian **2,64 s** sur les pages latines et **3,30 s** en arabe (limite 1,8 s). JavaScript première partie **161 760 B** (limite 166 266), CSS gzip **12 659 B** (limite 20 000), polices latines **55 604 B** (limite 90 000). Les assertions Lighthouse CI échoueront donc à juste titre; aucune fusion ou mesure post-déploiement n'a été faite.
 
 ## URL nouvelles ou modifiées
 

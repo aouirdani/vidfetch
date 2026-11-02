@@ -69,7 +69,7 @@ export function LocalMediaTool({locale,tool,messages:d}:{locale:Locale;tool:Loca
  const cancel=()=>{const old=worker.current;old?.postMessage({type:'cancel'});worker.current=null;setTimeout(()=>old?.terminate(),1000);reset();showError('CANCELLED');};
  const select=(label:string,value:string,onChange:(v:string)=>void,items:[string,string][])=> <label className="grid gap-2 text-sm">{label}<select aria-label={label} className="rounded-lg border border-white/15 bg-ink-950 p-3" value={value} onChange={e=>{setError('');onChange(e.target.value);}} disabled={busy}>{items.map(([v,t])=><option key={v} value={v}>{t}</option>)}</select></label>;
  const limitText=(tool==='gif'?d.gifLimits:d.limits).replace('{size}',String(limits.inputBytes/1024**2)).replace('{minutes}',String(limits.duration/60)).replace('{buffer}',String(limits.bufferBytes/1024**2)).replace('{timeout}',String(limits.timeoutMs/60000));
- return <section aria-label={d.choose} className="mt-6 rounded-2xl border border-cyan-300/25 bg-cyan-400/[0.03] p-5 sm:p-7" data-local-tool={tool}>
+ return <section aria-label={d.choose} className="tool-surface mt-6" data-local-tool={tool}>
   <p className="mb-3 text-sm text-cyan-100">{d.privacy}</p>
   <label className="grid gap-3 font-semibold">{d.choose}<input ref={fileInput} type="file" accept=".mp4,.mov,.webm,video/mp4,video/quicktime,video/webm" onChange={e=>choose(e.target.files?.[0])} disabled={busy} className="w-full rounded-lg border border-white/15 p-3 text-sm"/></label>
   <p className="mt-3 text-xs leading-relaxed text-slate-400">{limitText} {d.support}</p>

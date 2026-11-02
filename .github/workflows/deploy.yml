@@ -75,6 +75,14 @@ jobs:
           sudo apt-get install -y ffmpeg
       - name: Server HTML, eight languages, RTL and unchanged API paths
         run: npm run test:i18n
+      - name: Lighthouse mobile budgets on the exact OVH standalone build
+        env:
+          VIDFETCH_RELEASE: ${{ github.sha }}
+        run: |
+          CHROME_PATH="$(node -e 'process.stdout.write(require("playwright").chromium.executablePath())')"
+          export CHROME_PATH
+          npx --yes @lhci/cli@0.15.1 autorun --config=.lighthouserc.cjs
+          node scripts/ui-v2/assert-budgets.mjs .lighthouseci "build/releases/${VIDFETCH_RELEASE}/app/.next/server/app"
       - name: Local conversion fixtures and privacy checks
         run: npm run test:local-tools
       - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
