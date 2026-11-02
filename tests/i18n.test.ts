@@ -127,12 +127,12 @@ test("localized format presentation preserves portrait resolution and high frame
   const format = normaliseFormat({ format_id: "portrait", ext: "mp4", height: 1920, width: 1080, fps: 60, vcodec: "h264", acodec: "aac" })!;
   for (const locale of LOCALES) assert.equal(localizedFormatLabel(format, dictionaries[locale]), "1080p · 60 fps");
 });
-test("eleven platform intents have eight slugs and cannot publish without evidence and reviewed copy", () => {
-  assert.equal(platformCandidates.length, 11);
+test("platform candidates have eight unique slugs and cannot publish without runtime support, evidence and reviewed copy", () => {
+  assert.equal(platformCandidates.length, 19);
   for (const locale of LOCALES) {
     // Only the TikTok pages with approved copy are published: en and fr (video, MP3).
     assert.deepEqual(availablePlatformPages(locale).map(entry => entry.id), ["tiktok-video-downloader", "tiktok-mp3"]);
-    assert.equal(new Set(platformCandidates.map(entry => entry.slugs[locale])).size, 11);
+    assert.equal(new Set(platformCandidates.map(entry => entry.slugs[locale])).size, 19);
     for (const entry of platformCandidates.filter(e => e.platform !== "tiktok")) assert.equal(approvedPlatformCopy({ ...entry, published: true }, locale), undefined);
   }
 });

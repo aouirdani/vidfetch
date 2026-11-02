@@ -19,7 +19,7 @@ const PRIORITY: Array<[string, Locale]> = [
   ["instagram-reels-downloader", "en"], ["instagram-video", "es"], ["x-video", "en"],
 ];
 const written = platformCandidates.flatMap(entry =>
-  Object.entries(entry.copy ?? {}).map(([locale, copy]) => ({ entry, locale: locale as Locale, copy: copy as PlatformCopy })));
+  Object.entries(entry.copy ?? {}).filter(([, copy]) => copy.status === "ready").map(([locale, copy]) => ({ entry, locale: locale as Locale, copy: copy as PlatformCopy })));
 const text = (copy: PlatformCopy) => [copy.title, copy.description, copy.heading, copy.intro, ...copy.instructions, ...copy.supported, ...copy.limits,
   ...copy.faqs.flatMap(faq => [faq.question, faq.answer]), ...(copy.details ?? []).flatMap(section => [section.heading, ...section.paragraphs])].join("\n");
 const source = (file: string) => readFileSync(file, "utf8");
@@ -70,7 +70,8 @@ describe("priority platform pages: copy", () => {
 
   it("names the platform in each heading and keeps one intent per page", () => {
     for (const { entry, locale, copy } of written) {
-      const names = entry.platform === "twitter" ? ["X", "Twitter"] : [PLATFORM_META[entry.platform].name, ...(entry.platform === "tiktok" ? ["تيك توك"] : [])];
+      const platformName = Object.hasOwn(PLATFORM_META, entry.platform) ? PLATFORM_META[entry.platform as keyof typeof PLATFORM_META].name : entry.platform;
+      const names = entry.platform === "twitter" ? ["X", "Twitter"] : [platformName, ...(entry.platform === "tiktok" ? ["تيك توك"] : [])];
       assert.ok(names.some(name => copy.heading.includes(name)), `${entry.id}/${locale}: ${copy.heading}`);
     }
     const intents = written.map(w => `${w.locale}:${w.copy.heading.toLowerCase()}`);

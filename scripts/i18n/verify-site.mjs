@@ -13,7 +13,7 @@ const roots = ['', 'fr', 'es', 'pt', 'id', 'de', 'it', 'ar'];
 // Only English has guides to show: the other guide indexes are not pages (404), never an empty "being reviewed" page.
 const blogs = ['blog', 'fr/guides'];
 const preparedCatalogue=JSON.parse(readFileSync('content/platforms/catalogue.json','utf8'));
-const closedPreparedPaths=preparedCatalogue.filter(e=>['instagram-video','x-video'].includes(e.id)).flatMap(e=>locales.map((l,i)=>'/'+[roots[i],e.slugs[l]].filter(Boolean).join('/')));
+const closedPreparedPaths=preparedCatalogue.filter(e=>['instagram-video','x-video'].includes(e.id)||['facebook','reddit','vimeo','dailymotion'].includes(e.platform)).flatMap(e=>locales.map((l,i)=>'/'+[roots[i],e.slugs[l]].filter(Boolean).join('/')));
 const removedPages = [...closedPreparedPaths,'/es/guias', '/pt/guias', '/id/panduan', '/de/ratgeber', '/it/guide', '/ar/أدلة', '/youtube-video-downloader', '/instagram-reels-downloader', '/twitter-video-downloader'];
 const dictionaries = Object.fromEntries(locales.map(l => [l, JSON.parse(readFileSync(`src/i18n/messages/${l}.json`, 'utf8'))]));
 function formatSize(bytes) {
