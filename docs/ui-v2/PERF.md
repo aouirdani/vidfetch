@@ -15,11 +15,26 @@ Build Next de production avec `VIDFETCH_TARGET=ovh`, servi par `next start` sur 
 | `/blog/why-cant-i-save-tiktok` | 98 → 97 | 100 | 100 | 100 | 2 495 ms | 0 | 85 ms |
 | `/ar` | 98 → 98 | 100 | 100 | 100 | 2 345 ms | 0 | 59 ms |
 
-**Résultat avec les seuils acceptés : les six pages passent.** Performance ≥95, Accessibilité/Bonnes pratiques/SEO=100, LCP médian ≤2 500 ms, CLS≤0,02 et TBT médian ≤200 ms. Les valeurs proches de 2,34 s ou 2,49 s correspondent aux paliers de throttling mobile de Lighthouse. La comparaison « baseline +150 ms » est retirée : elle pénalisait des écarts de quelques millisecondes entre mesures simulées par paliers. Les rapports des 18 passes sont conservés hors dépôt dans `/private/tmp/vf-ui-v2-revised/`.
+**Résultat local : les six pages passent** les seuils acceptés sur ce Mac. Les valeurs proches de 2,34 s ou 2,49 s correspondent aux paliers de throttling mobile de Lighthouse. La comparaison « baseline +150 ms » est retirée : elle pénalisait des écarts de quelques millisecondes entre mesures simulées par paliers. Les rapports des 18 passes locales sont conservés hors dépôt dans `/private/tmp/vf-ui-v2-revised/`.
+
+**Résultat CI (run 41524693765, artefact Linux standalone OVH) : échec Lighthouse.** Les médianes y diffèrent sensiblement des mesures locales :
+
+| Page | Performance médiane CI | LCP médian CI | TBT médian CI |
+|---|---:|---:|---:|
+| `/` | 90 | 2 692 ms | 314 ms |
+| `/fr` | 89 | 2 692 ms | 325 ms |
+| `/id/download-video-tiktok` | 89 | 2 686 ms | 315 ms |
+| `/video-to-mp3` | ≥95¹ | 2 684 ms | ≤200 ms¹ |
+| `/blog/why-cant-i-save-tiktok` | 89 | 2 694 ms | 323 ms |
+| `/ar` | 89 | 2 549 ms | 338 ms |
+
+¹ Aucune assertion Performance/TBT en échec n’est consignée pour cette route; le LCP dépasse néanmoins le plafond. Les trois passes sont toutes au-delà de 2 500 ms pour les six routes. Les mesures TBT élevées sur cinq routes et la lenteur similaire à travers des types de page différents orientent vers du travail partagé au chargement, probablement le script AdSense chargé dans le `<head>`; c’est une hypothèse à confirmer avec les traces LHR. Je ne retarde ni ne désactive la publicité sans mesurer l’impact produit. La CI emploie un runner Linux et le throttling Lighthouse mobile, tandis que la mesure locale utilise macOS : les chiffres locaux ne suffisent donc pas à valider la PR.
+
+Le workflow échouait aussi sur des audits supplémentaires (`label-content-name-mismatch`, `legacy-javascript`, `network-dependency-tree-insight`, `unused-javascript`) hérités de `lighthouse:recommended`, qui n’étaient pas dans les critères du propriétaire. Le preset a été retiré pour ne garder que les assertions expressément demandées. Ce retrait ne change pas les résultats de performance ci-dessus.
 
 Le H1 demeure le candidat LCP sur les pages d’accueil, TikTok et blog ; sur l’outil MP3, le candidat est le bloc de texte d’état initial. Aucun rapport ne désigne `.hero-scene`, `.hero-card` ni `.hero-token` comme candidat LCP. La scène décorative reste `aria-hidden` et n’est pas animée au chargement du texte.
 
-Les seuils finaux remplacent l’ancienne limite LCP de 1 800 ms et la comparaison baseline +150 ms. Lighthouse CI et le budget personnalisé vérifient les médianes de trois passes : Performance ≥95, A11y/BP/SEO=100, LCP≤2 500 ms, CLS≤0,02 et TBT≤200 ms.
+Les seuils finaux remplacent l’ancienne limite LCP de 1 800 ms et la comparaison baseline +150 ms. Le budget personnalisé vérifie les médianes de trois passes : Performance ≥95, A11y/BP/SEO=100, LCP≤2 500 ms, CLS≤0,02 et TBT≤200 ms. Lighthouse CI applique les mêmes catégories et métriques, sans le preset d’audits supplémentaires.
 
 ## Poids et polices
 

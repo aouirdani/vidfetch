@@ -114,3 +114,11 @@ Date affichée en Europe/Paris. Les commits de la branche de travail ne devienne
 - Diagnostic `/id/download-video-tiktok` : même JS première partie que les autres pages (162 011 B, chunks principaux 67 861 B et 64 658 B), aucune image, et même WOFF2 latin de 22 209 B. Le candidat LCP est le paragraphe descriptif. Les longues tâches observées viennent du chunk Next partagé (87–90 ms) et d’AdSense variable (55–108 ms); aucune optimisation spécifique ID à faible risque identifiée.
 - Les 6 pages passent localement les nouveaux seuils, avec Performance 97–98, LCP 2 345–2 496 ms, CLS0 et TBT médian ≤115 ms. `assert-budgets` passe sur les 18 rapports. Build, lint, typecheck, `seo-check` (82), `test:i18n` (97) et `npm test` (192/192) sont verts.
 - Commit de seuils/docs à pousser sur la PR #35; CI GitHub du nouveau commit à suivre. Pas de sortie de brouillon, fusion ou production avant CI verte et revue critique.
+
+## 2026-11-02 — PR #35, vérification des seuils en CI
+
+- Le commit `14c618d` a échoué sur Lighthouse CI parce que Lighthouse CLI refuse `preset: "mobile"`. Correctif poussé dans `8e17511` : `emulatedFormFactor: "mobile"`.
+- Le run CI `41524693765` a ensuite passé lint, typecheck, tests Node/backend, tests OVH, build Linux standalone, Caddy, SEO et HTML serveur. Lighthouse a échoué sur le commit `8e17511`: P médian 89–90 sur cinq routes, LCP médian 2 549–2 694 ms sur les six routes, et TBT médian 314–338 ms sur cinq routes. `/video-to-mp3` n'a pas d'échec de P/TBT consigné, mais LCP 2 684 ms dépasse le seuil. Voir `docs/ui-v2/PERF.md`.
+- Retrait du preset d'assertions `lighthouse:recommended` en cours pour ne garder que les catégories et métriques demandées; il ajoutait des exigences hors critères. Cela ne résout pas les dépassements de P/LCP/TBT observés.
+- L'écart local/CI s'observe uniformément sur les routes et le chargement publicitaire du `<head>` est une piste, non une cause confirmée. Aucun changement publicitaire n'est appliqué sans traces plus précises.
+- **NO-GO** : PR #35 reste en brouillon; aucune fusion ni production. Il faut d'abord confirmer les tâches bloquantes dans les traces LHR et obtenir une nouvelle CI entièrement verte.

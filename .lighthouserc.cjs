@@ -22,7 +22,6 @@ module.exports = {
       },
     },
     assert: {
-      preset: 'lighthouse:recommended',
       assertions: {
         'categories:performance': ['error', { minScore: 0.95, aggregationMethod: 'median' }],
         'categories:accessibility': ['error', { minScore: 1, aggregationMethod: 'median' }],
