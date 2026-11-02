@@ -34,7 +34,7 @@ Le workflow échouait aussi sur des audits supplémentaires (`label-content-name
 
 ## Comparaison Lighthouse CI main / PR
 
-Le job CI construit la révision `base.sha` de `main` et l'artefact OVH de la PR dans le même runner Linux/Node 22. Il exécute Lighthouse mobile sur les mêmes six URL, avec la même version de Chrome/Lighthouse, trois passes séquentielles par build. Les rapports de chaque build sont conservés séparément puis comparés par URL avec la médiane des trois passes. Le preset Lighthouse recommandé est désactivé : seules les règles convenues sont bloquantes.
+Le job CI construit `main` et l'artefact OVH de la PR dans le même runner Linux/Node 22. Il exécute Lighthouse mobile sur les mêmes six URL, avec la même version de Chrome/Lighthouse, trois passes séquentielles par build. Les rapports de chaque build sont conservés séparément puis comparés par URL avec la médiane des trois passes. Le preset Lighthouse recommandé est désactivé : seules les règles convenues sont bloquantes. Les assertions natives LHCI exigent A11y/BP/SEO=100 et CLS≤0,02 pour chaque build; le comparateur applique les seuils Performance à la PR uniquement afin que le build historique de `main` puisse servir de référence même s'il est sous le plancher.
 
 Pour chaque page, les assertions sont :
 

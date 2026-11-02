@@ -23,7 +23,6 @@ module.exports = {
     },
     assert: {
       assertions: {
-        'categories:performance': ['error', { minScore: 0.9, aggregationMethod: 'median' }],
         'categories:accessibility': ['error', { minScore: 1, aggregationMethod: 'median' }],
         'categories:best-practices': ['error', { minScore: 1, aggregationMethod: 'median' }],
         'categories:seo': ['error', { minScore: 1, aggregationMethod: 'median' }],
