@@ -4,9 +4,8 @@ const { spawn } = require('node:child_process');
 if (process.argv.includes('--version')) { console.log('test-engine'); process.exit(0); }
 if (process.env.VIDFETCH_TEST_PID_LOG) appendFileSync(process.env.VIDFETCH_TEST_PID_LOG, `${process.pid}\n`);
 if (process.argv.includes('--dump-json')) {
-  if (process.env.VIDFETCH_TEST_METADATA_MODE === 'youtube-bot-check') {
-    // Exact stderr captured on the OVH VPS on 13 Oct 2026 (yt-dlp 2026.08.19, engine flags, unauthenticated).
-    process.stderr.write(require('node:fs').readFileSync(require('node:path').join(__dirname, 'fixtures/youtube-bot-check.stderr')));
+  if (process.env.VIDFETCH_TEST_METADATA_MODE === 'automated-traffic-block') {
+    process.stderr.write('ERROR: [tiktok] fixture: Sign in to confirm you are not a bot.\n');
     process.exit(1);
   }
   if (process.env.VIDFETCH_TEST_METADATA_MODE === 'hang') {

@@ -159,7 +159,7 @@ function runMetadata(url: string, flags: string[], timeoutMs: number, platform: 
 /** Bounded five-minute metadata cache avoids three separate upstream extractions per download. */
 export async function dumpJson(input: string, timeoutMs = 75000, options: { signal?: AbortSignal; cache?: boolean; maxMetadataBytes?: number } = {}): Promise<DumpResult> {
   const detection = detectPlatform(input);
-  if (!detection.ok || !detection.platform) throw new EngineError("INVALID_URL", "Paste a valid YouTube, TikTok, Instagram or X video link.", 400);
+  if (!detection.ok || !detection.platform) throw new EngineError("INVALID_URL", "Paste a valid supported video link.", 400);
   const url = detection.url, platform = detection.platform;
   options.signal?.throwIfAborted();
   // The standalone backend owns its requests and avoids retaining large raw metadata.
@@ -195,7 +195,7 @@ export async function dumpJson(input: string, timeoutMs = 75000, options: { sign
 export function invalidateMetadata(url: string): void { cache.delete(url); }
 
 /**
- * Four situations must never be confused (YouTube audit, 13 Oct 2026):
+ * Keep source failures distinct so the localized UI can explain what happened:
  *  - UPSTREAM_BLOCKED     the platform refuses this *server* (anti-bot check, captcha, 403): the video is fine;
  *  - AUTH_REQUIRED        the *video* needs an account (age-restricted, members-only, login wall);
  *  - UNAVAILABLE/PRIVATE  the *video* (or the chosen format) is gone, private or region-restricted;
@@ -213,13 +213,12 @@ export function classifyEngineFailure(code: number | null, stderr: string, platf
   if (/429|rate.limit|too many requests/.test(lower)) {
     return new EngineError("RATE_LIMITED", `${source} is temporarily limiting requests from this server. Please wait a few minutes before trying again.`, 429, detail);
   }
-  // YouTube answers LOGIN_REQUIRED with "Sign in to confirm you're not a bot" to servers it distrusts, for public
-  // videos too. It contains "sign in", so it has to be recognised before the account rule below.
+  // Some sources use "sign in" wording for automated traffic blocks; classify that before account-required errors.
   if (/not a bot|unusual traffic/.test(lower)) {
     return new EngineError("UPSTREAM_BLOCKED", `${source} is refusing automated requests from this server (anti-bot check). The video itself may be public; VidFetch does not bypass this check.`, 503, detail);
   }
   if (/login|log.in|log in|sign in|cookies.*needed|restricted video|registered users/.test(lower)) {
-    return new EngineError("AUTH_REQUIRED", `${source} requires an authorized session for this video. Try a public post; the site operator can configure server-side cookies for content they are permitted to access.`, 401, detail);
+    return new EngineError("AUTH_REQUIRED", `${source} requires an authorized session for this video. VidFetch can process public posts only.`, 401, detail);
   }
   if (/no video|no formats|only images|photo.mode/.test(lower)) {
     return new EngineError("NO_VIDEO", "This post does not contain a downloadable video. Photo-only posts are not supported.", 404, detail);
