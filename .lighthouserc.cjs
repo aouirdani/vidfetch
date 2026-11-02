@@ -17,7 +17,7 @@ module.exports = {
       startServerReadyPattern: 'Ready',
       startServerReadyTimeout: 30000,
       settings: {
-        preset: 'mobile',
+        emulatedFormFactor: 'mobile',
         chromeFlags: '--no-sandbox --headless',
       },
     },
