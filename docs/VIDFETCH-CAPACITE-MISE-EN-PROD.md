@@ -90,6 +90,11 @@ ssh -t debian@15.235.127.165 'sudo python3 /usr/local/libexec/vidfetch-ci/guard-
 ssh -t debian@15.235.127.165 'sudo bash /usr/local/libexec/vidfetch-ci/12-engine-release.sh rollback'
 ssh -t debian@15.235.127.165 'sudo /usr/local/libexec/vidfetch-ci/promote.py status'
 ssh -t debian@15.235.127.165 'sudo python3 /usr/local/libexec/vidfetch-ci/guard-update.py list'
+# Attendu : release précédente vérifiée, downloads fermés et garde propre. Si le service était public avant
+# l'incident et que les vérifications sont vertes, le rouvrir comme à l'étape 7 puis accepter web.env.
+ssh -t debian@15.235.127.165 'sudo bash /usr/local/libexec/vidfetch-ci/11-downloads.sh open'
+ssh -t debian@15.235.127.165 'sudo python3 /usr/local/libexec/vidfetch-ci/guard-update.py accept /etc/vidfetch/web.env'
+ssh -t debian@15.235.127.165 'sudo python3 /usr/local/libexec/vidfetch-ci/guard-update.py list'
 ```
 
 Après l'étape 6, les pushes main suivants peuvent utiliser le workflow normal : les moteurs de leur archive et le manifeste frontend sont désormais alignés. Le rollback remet aussi l'ancien pointeur frontend et restaure le garde d'avant l'opération; il ne supprime aucune release. Les archives de CI, les releases et les sauvegardes restent conservées pour diagnostic. Ne pas exécuter en présence de transferts actifs : `check`/`apply` refuse les connexions gateway et processus média en cours.
