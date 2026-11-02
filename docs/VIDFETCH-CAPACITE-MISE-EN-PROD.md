@@ -60,19 +60,33 @@ ssh -t debian@15.235.127.165 "sudo bash /usr/local/libexec/vidfetch-ci/12-engine
 # met à jour le garde, teste les services et lance son rollback automatique si une vérification échoue.
 ssh -t debian@15.235.127.165 'sudo bash /usr/local/libexec/vidfetch-ci/11-downloads.sh close'
 # Attendu : downloads.available=false et ready=0 avant toute activation.
+ssh -t debian@15.235.127.165 'sudo python3 /usr/local/libexec/vidfetch-ci/guard-update.py accept /etc/vidfetch/web.env'
+# Attendu : web.env=ready=0 accepté.
+ssh -t debian@15.235.127.165 'sudo python3 /usr/local/libexec/vidfetch-ci/guard-update.py list'
+# Attendu : « 0 differing » avant l'application.
 ssh -t debian@15.235.127.165 "sudo bash /usr/local/libexec/vidfetch-ci/12-engine-release.sh apply '$RELEASE_SHA' '$ARCHIVE_SHA256'"
 # Attendu : « APPLIED », chemins de sauvegarde et hashes des deux bundles, « guard=clean ».
 
-# 6. Contrôler l'état une fois encore, puis vérifier la santé publique depuis le VPS.
+# 6. Contrôler l'état après application. Les téléchargements restent fermés pendant l'activation.
 ssh -t debian@15.235.127.165 'sudo /usr/local/libexec/vidfetch-ci/promote.py status'
 ssh -t debian@15.235.127.165 'sudo python3 /usr/local/libexec/vidfetch-ci/guard-update.py list'
 curl --fail --silent --show-error https://vidfetch.app/api/health
 curl --fail --silent --show-error -I https://vidfetch.app/
-# Attendu : release = RELEASE_SHA, frontend.ready et downloads.available true, zéro différence
-# de garde, accueil HTTP 200. Contrôler aussi title/robots/canonical/hreflang en HTML si besoin.
+# Attendu : release = RELEASE_SHA, ready=0 et downloads.available=false, zéro différence de garde,
+# services sains et accueil HTTP 200. Contrôler aussi title/robots/canonical/hreflang en HTML.
 
-# 7. En cas d'anomalie après une application confirmée, lancer le rollback explicite puis contrôler
-# les mêmes health/status et le garde. Le script refuse un rollback devenu obsolète.
+# 7. Si le service public était ouvert avant l'opération, le rétablir seulement après les contrôles verts.
+# Cette commande refait les prérequis publics puis remet ready=1; accepter cette valeur dans le garde.
+ssh -t debian@15.235.127.165 'sudo bash /usr/local/libexec/vidfetch-ci/11-downloads.sh open'
+# Attendu : downloads.available=true; en cas de prérequis manquant le script reste fermé.
+ssh -t debian@15.235.127.165 'sudo python3 /usr/local/libexec/vidfetch-ci/guard-update.py accept /etc/vidfetch/web.env'
+ssh -t debian@15.235.127.165 'sudo python3 /usr/local/libexec/vidfetch-ci/guard-update.py list'
+# Attendu : ready=1 et « 0 differing ».
+
+# 8. En cas d'anomalie, fermer les téléchargements, accepter la fermeture, puis lancer le rollback.
+# Le script refuse un rollback devenu obsolète.
+ssh -t debian@15.235.127.165 'sudo bash /usr/local/libexec/vidfetch-ci/11-downloads.sh close'
+ssh -t debian@15.235.127.165 'sudo python3 /usr/local/libexec/vidfetch-ci/guard-update.py accept /etc/vidfetch/web.env'
 ssh -t debian@15.235.127.165 'sudo bash /usr/local/libexec/vidfetch-ci/12-engine-release.sh rollback'
 ssh -t debian@15.235.127.165 'sudo /usr/local/libexec/vidfetch-ci/promote.py status'
 ssh -t debian@15.235.127.165 'sudo python3 /usr/local/libexec/vidfetch-ci/guard-update.py list'
