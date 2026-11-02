@@ -244,3 +244,17 @@ test("real metadata runner is abortable, bounds output and cleans the process gr
     await eventually(async () => pids.every(pid => { try { process.kill(pid, 0); return false; } catch { return true; } }));
   } finally { delete process.env.VIDFETCH_TEST_METADATA_MODE; delete process.env.VIDFETCH_TEST_PID_LOG; }
 });
+test("an upstream automated-traffic refusal reaches the client as a server-side block, not a login requirement", async () => {
+  process.env.YTDLP_PATH = fake; process.env.VIDFETCH_TEST_METADATA_MODE = "automated-traffic-block";
+  // Real metadata runner (process spawn, stderr capture, classification) behind the real HTTP handler.
+  const b = await setup({ engine: { dumpJson: (url, timeout, options) => dumpJson(url, timeout, { ...options, cache: false }) } });
+  try {
+    const url = "https://www.tiktok.com/@fixture/video/7059698374567611694";
+    await assert.rejects(dumpJson(url, 2000, { cache: false }), { code: "UPSTREAM_BLOCKED", status: 503 });
+    const response = await b.post("/api/fetch-info", { url });
+    assert.equal(response.status, 503);
+    const body = await response.json();
+    assert.equal(body.ok, false); assert.equal(body.code, "UPSTREAM_BLOCKED");
+    assert.doesNotMatch(body.error, /cookie|sign in|authorized session/i);
+  } finally { delete process.env.VIDFETCH_TEST_METADATA_MODE; await b.shutdown(); }
+});

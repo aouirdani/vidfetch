@@ -18,6 +18,8 @@ await cp('.next/standalone', join(out, 'app'), { recursive: true, dereference: t
 await cp('public', join(out, 'app/public'), { recursive: true });
 await cp('.next/static', join(out, 'app/.next/static'), { recursive: true });
 await cp('content/guides', join(out, 'app/content/guides'), { recursive: true });
+await mkdir(join(out, 'tools'));
+await cp('scripts/ovh/daily-capacity-report.mjs', join(out, 'tools/daily-capacity-report.mjs'));
 await mkdir(join(out, 'backend'));
 run(process.execPath, ['backend/ovh/build.mjs', join(out, 'backend/vidfetch-ovh.cjs')]);
 run(process.execPath, ['backend/gateway/build.mjs', join(out, 'backend/vidfetch-gateway.cjs')]);

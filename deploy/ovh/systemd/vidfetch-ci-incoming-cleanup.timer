@@ -1,0 +1,11 @@
+[Unit]
+Description=Weekly safe cleanup of VidFetch CI incoming archives
+
+[Timer]
+OnCalendar=Sun *-*-* 03:30:00 UTC
+Persistent=true
+RandomizedDelaySec=15m
+Unit=vidfetch-ci-incoming-cleanup.service
+
+[Install]
+WantedBy=timers.target

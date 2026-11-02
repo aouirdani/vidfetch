@@ -3,7 +3,8 @@
 # The only switch that offers downloads to the public, and its exact reverse. ready and the CI profile always move
 # together, so the CI promoter keeps checking what is really served:
 #   open   requires the confirmed public dl.vidfetch.app (10-dl-confirm.sh), the Turnstile and signing secrets in
-#          web.env (install-web-secrets.sh) and the public-downloads-aware CI helper; installs the public-downloads
+#          web.env (install-web-secrets.sh), the public-downloads-aware CI helper, and an engine and gateway in service
+#          that are exactly those of the active frontend release (no older gateway behind a newer frontend); installs the public-downloads
 #          profile, then ready=1 (frontend restart only), then checks the real origin. Any failed check closes again.
 #   close  ready=0 first (no new grant from that instant), then the public profile; checks the origin.
 # It never touches the network, Caddy, the engine or the gateway. The guard then needs:
@@ -14,7 +15,7 @@ take_lock
 HERE=$(dirname "$0")
 frontend_health() { $CURL -s -m 10 http://127.0.0.1:3001/api/health 2>/dev/null || true; }
 close_now() {
-  bash "$HERE/set-ready.sh" 0 >/dev/null || log "WARNING: set-ready.sh 0 failed: check $WEB_ENV and $WEB_UNIT by hand"
+  VM_DOWNLOADS_LOCK_HELD=1 bash "$HERE/set-ready.sh" 0 >/dev/null || log "WARNING: set-ready.sh 0 failed: check $WEB_ENV and $WEB_UNIT by hand"
   write_public_profile public || log "WARNING: could not put back the public CI profile"
 }
 if [ "$ACTION" = close ]; then
@@ -33,10 +34,11 @@ if why=$(public_dl_table_problem); then die "live table: $why"; fi
 grep -q "^PUBLIC_DL_PROFILE = {'profile': 'public-downloads'," "$CI_HELPER" 2>/dev/null || die "the installed CI helper does not know the public-downloads profile: 09-ci-helper.sh install first"
 for n in TURNSTILE_SITE_KEY TURNSTILE_SECRET_KEY VIDFETCH_ACCESS_SIGNING_KEY; do grep -q "^$n=." "$WEB_ENV" || die "$n missing from $WEB_ENV: install-web-secrets.sh first"; done
 [ "$(sed -n 's/^VIDFETCH_MEDIA_ORIGIN=//p' "$WEB_ENV" | tail -n1)" = https://dl.vidfetch.app ] || die "VIDFETCH_MEDIA_ORIGIN must be https://dl.vidfetch.app in $WEB_ENV"
+if why=$(release_drift); then die "the engine and gateway in service are not those of the active frontend release ($why): finish 08-gateway.sh upgrade (or roll the frontend back) first; nothing changed"; fi
 if out=$(dl_public); then :; else printf '%s\n' "$out" >&2; die "dl.vidfetch.app is not as expected: nothing changed"; fi
 # --- profile first (it also accepts ready=0), then ready; any failed check closes again
 write_public_profile public-downloads || die "could not install the public-downloads CI profile: nothing else changed"
-bash "$HERE/set-ready.sh" 1 >/dev/null || { close_now; die "set-ready.sh 1 failed: closed again"; }
+VM_DOWNLOADS_LOCK_HELD=1 bash "$HERE/set-ready.sh" 1 >/dev/null || { close_now; die "set-ready.sh 1 failed: closed again"; }
 fails=0
 for i in 1 2 3 4 5 6 7 8 9 10; do grep -q '"downloads":{"available":true}' <<< "$(frontend_health)" && break; sleep 2; done
 grep -q '"downloads":{"available":true}' <<< "$(frontend_health)" || { echo "  the frontend does not report downloads available" >&2; fails=1; }

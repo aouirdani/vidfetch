@@ -153,7 +153,7 @@ try {
     await page.addInitScript(() => { window.turnstile = { render(element, options) { window.__fixtureLanguage = options.language; setTimeout(() => options.callback('fixture-challenge'), 0); return 'fixture'; }, remove() {}, reset() {} }; });
     await context.route('**/api/download-access', route => route.fulfill({ json: route.request().method() === 'GET' ? { available: true, siteKey: 'fixture-public-key' } : { ok: true, grant: 'fixture-grant', expiresAt: Date.now() + 120000 } }));
     await context.route('**/api/fetch-info', route => { requests.push(new URL(route.request().url()).pathname); return route.fulfill({ json: { ok: true, engine: { ffmpeg: true, ytDlp: 'fixture' }, info: { platform: 'tiktok', platformVideoId: 'fixture', url: 'https://www.tiktok.com/@pokemonlife22/video/7059698374567611694', title: 'VidFetch', thumbnail: null, durationLabel: '00:33', viewCount: 12, uploader: 'VidFetch', formats: [video, second, audio], videoFormats: [video, second], audioFormats: [audio] } } }); });
-    await context.route(/\/download-helper\?lang=/, route => { assert.equal(new URL(route.request().url()).searchParams.get('lang'), locale); const helper = downloadHelper([base], locale); return route.fulfill({ contentType: 'text/html', headers: { 'Content-Security-Policy': helper.csp }, body: helper.html }); });
+    let helperLoads = 0; await context.route(/\/download-helper\?lang=/, route => { helperLoads++; assert.equal(new URL(route.request().url()).searchParams.get('lang'), locale); const helper = downloadHelper([base], locale); return route.fulfill({ contentType: 'text/html', headers: { 'Content-Security-Policy': helper.csp }, body: helper.html }); });
     await context.route('**/auth/transfer', route => route.fulfill({ json: { ok: true } }));
     await context.route(/\/api\/download(?:\?|$)/, route => {
       const request = route.request(), url = new URL(request.url()); requests.push(url.pathname);
@@ -175,12 +175,16 @@ try {
     const radios = page.getByRole('radiogroup').getByRole('radio'); await radios.first().focus(); await page.keyboard.press(locale === 'ar' ? 'ArrowLeft' : 'ArrowRight'); await radios.nth(1).getAttribute('aria-checked').then(value => assert.equal(value, 'true'));
     assert.match(await radios.nth(1).textContent(), /720p/);
     await page.getByRole('tab', { name: new RegExp(d.audio) }).click();
-    const popupPromise = page.waitForEvent('popup'); await page.getByRole('button', { name: new RegExp('^' + d.download + ' ') }).click(); const popup = await popupPromise;
-    const file = await popup.waitForEvent('download'); const saved = resolve(`../ui-transfer-${locale}-${process.pid}.mp3`); await file.saveAs(saved); assert.deepEqual(readFileSync(saved), attachment);
-    await page.getByText(d.saved.replace('{size}',formatSize(attachment.length)),{exact:true}).last().waitFor({state:'visible'});
+    // The helper runs in a hidden frame of the page: the file is saved without any tab or popup.
+    let popups = 0; context.on('page', () => { popups++; });
+    const downloadPromise = page.waitForEvent('download'); await page.getByRole('button', { name: new RegExp('^' + d.download + ' ') }).click();
+    const file = await downloadPromise; const saved = resolve(`../ui-transfer-${locale}-${process.pid}.bin`); await file.saveAs(saved); assert.deepEqual(readFileSync(saved), attachment);
+    assert.equal(popups, 0, `${locale}: no tab or popup`); assert.equal(helperLoads, 1, `${locale}: the gateway helper ran once`); assert.equal(new URL(page.url()).pathname, path, `${locale}: the page stays where it was`);
+    await page.locator('p:not(.sr-only)').filter({ hasText: d.saved.replace('{size}', formatSize(attachment.length)) }).waitFor();
     if (['en','fr','ar','id'].includes(locale)) await page.screenshot({ path: `docs/ux/after/download-${locale}-mobile.png` });
+    assert.equal(await page.locator('iframe[src*="/download-helper?lang="][sandbox="allow-scripts allow-same-origin allow-downloads"]').count(), 0, `${locale}: helper frame removed once the transfer completed`);
     assert.ok(requests.every(path => /^\/api\/(fetch-info|download)$/.test(path)));
-    assert.deepEqual(errors, [], locale); await popup.close();
+    assert.deepEqual(errors, [], locale);
     await page.goto(base + path); await page.waitForLoadState('networkidle');
     const sent = []; page.on('request', request => { if (new URL(request.url()).pathname.startsWith('/api/') || /challenges\.cloudflare\.com/.test(request.url())) sent.push(request.url()); });
     await page.getByRole('textbox', { name: d.videoLink }).fill('https://youtu.be/aqz-KE-bpKQ');
@@ -190,7 +194,8 @@ try {
     assert.deepEqual(sent, [], `${locale}: a YouTube link sends nothing`);
     assert.equal(await page.getByRole('button', { name: 'YouTube', exact: true }).count(), 0, `${locale}: no YouTube example`);
     for (const name of ['TikTok', 'Instagram']) assert.equal(await page.getByRole('button', { name, exact: true }).count(), 0, `${locale}: no example button that starts a download`);
-    const missing = await page.goto(base + '/' + (roots[i] ? roots[i] + '/' : '') + 'missing-page'); assert.equal(missing.status(), 404, locale);
+    const missingPath = (roots[i] ? '/' + roots[i] + '/' : '/') + 'missing-page';
+    const missing = await page.goto(base + missingPath); assert.equal(missing.status(), 404, locale);
     assert.doesNotMatch(await missing.text(), /adsbygoogle/, `${locale}: no AdSense tag on a 404`);
     assert.equal(await page.locator('html').getAttribute('lang'), locale);
     await page.getByRole('heading', { name: d.notFoundTitle }).waitFor();
@@ -212,7 +217,7 @@ try {
     const video = { ...audio, id: 'v1', label: '720p', kind: 'video', ext: 'mp4', width: 720, height: 1280, fps: 30, vcodec: 'h264', acodec: 'aac', bitrateKbps: null };
     await context.route('**/api/download-access', route => route.fulfill({ json: route.request().method() === 'GET' ? { available: true, siteKey: 'fixture-public-key' } : { ok: true, grant: 'fixture-grant', expiresAt: Date.now() + 120000 } }));
     await context.route('**/api/fetch-info', route => route.fulfill({ json: { ok: true, engine: { ffmpeg: true, ytDlp: 'fixture' }, info: { platform: 'tiktok', platformVideoId: 'fixture', url: 'https://www.tiktok.com/@pokemonlife22/video/7059698374567611694', title: 'VidFetch', thumbnail: null, durationLabel: '00:33', viewCount: 12, uploader: 'VidFetch', formats: [video, audio], videoFormats: [video], audioFormats: [audio] } } }));
-    await context.route(/\/download-helper\?lang=/, route => { const helper = downloadHelper([base], locale); return route.fulfill({ contentType: 'text/html', headers: { 'Content-Security-Policy': helper.csp }, body: helper.html }); });
+    let helperLoads = 0; await context.route(/\/download-helper\?lang=/, route => { helperLoads++; const helper = downloadHelper([base], locale); return route.fulfill({ contentType: 'text/html', headers: { 'Content-Security-Policy': helper.csp }, body: helper.html }); });
     await context.route('**/auth/transfer', route => route.fulfill({ json: { ok: true } }));
     await context.route(/\/api\/download(?:\?|$)/, route => {
       const request = route.request(), url = new URL(request.url());
@@ -225,17 +230,21 @@ try {
     await page.getByRole('tab', { name: new RegExp(d.video) }).waitFor(); await page.getByRole('tab', { name: new RegExp(d.audio) }).waitFor();
     if (['en','fr','ar','id'].includes(locale) && kind === 'video') await page.screenshot({ path: `docs/ux/after/formats-${locale}-mobile.png` });
     if (kind === 'audio') await page.getByRole('tab', { name: new RegExp(d.audio) }).click();
-    const popupPromise = page.waitForEvent('popup'); await page.getByRole('button', { name: new RegExp('^' + d.download + ' ') }).click(); const popup = await popupPromise;
-    const file = await popup.waitForEvent('download'); const saved = resolve(`../ui-transfer-${kind}-${locale}-${process.pid}.${kind === 'video' ? 'mp4' : 'mp3'}`); await file.saveAs(saved); assert.deepEqual(readFileSync(saved), attachment, path);
+    let popups = 0; context.on('page', () => { popups++; });
+    const downloadPromise = page.waitForEvent('download'); await page.getByRole('button', { name: new RegExp('^' + d.download + ' ') }).click();
+    const file = await downloadPromise; const saved = resolve(`../ui-transfer-${kind}-${locale}-${process.pid}.${kind === 'video' ? 'mp4' : 'mp3'}`); await file.saveAs(saved); assert.deepEqual(readFileSync(saved), attachment, path);
     await page.getByText(d.saved.replace('{size}',formatSize(attachment.length)),{exact:true}).last().waitFor({state:'visible'});
     if (['en','fr','ar','id'].includes(locale) && kind === 'video') await page.screenshot({ path: `docs/ux/after/download-${locale}-video-mobile.png` });
     assert.deepEqual(posted.map(body => [Object.keys(body).sort().join(','), body.type, body.format_id]), [['format_id,type,url', kind, kind === 'audio' ? 'mp3' : 'v1']], path);
-    assert.deepEqual(errors, [], path); await popup.close();
+    assert.equal(popups, 0, `${path}: no popup`); assert.equal(helperLoads, 1, `${path}: helper frame loaded once`);
+    assert.equal(new URL(page.url()).pathname, path, `${path}: page stays open`);
+    assert.equal(await page.locator('iframe[src*="/download-helper?lang="][sandbox="allow-scripts allow-same-origin allow-downloads"]').count(), 0, `${path}: helper frame is removed after completion`);
+    assert.deepEqual(errors, [], path);
     await context.route('**/api/fetch-info',route => route.fulfill({status:429,json:{ok:false,code:'QUOTA_EXCEEDED'}}));
     await page.goto(base + encodeURI(path));
     await page.getByRole('textbox',{name:d.videoLink}).fill('https://www.tiktok.com/@pokemonlife22/video/7059698374567611694');
     await page.getByRole('button',{name:d.extract,exact:true}).click();
-    await page.getByRole('alert').filter({hasText:d.rateLimited}).waitFor();
+    await page.getByRole('alert').filter({hasText:d.quotaReached}).waitFor();
     if (['en','fr','ar','id'].includes(locale) && kind === 'video') await page.screenshot({ path: `docs/ux/after/quota-${locale}-mobile.png` });
     await context.close();
   }

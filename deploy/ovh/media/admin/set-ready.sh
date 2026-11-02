@@ -5,9 +5,15 @@
 V=${1:?0|1}; F=${2:-/etc/vidfetch/web.env}; [[ "$V" =~ ^[01]$ ]] || die "0 or 1"
 [ -f "$F" ] && [ ! -L "$F" ] && [ "$(stat -c %u "$F")" = 0 ] || die "unsafe file"
 if [ "$V" = 1 ]; then
+  # Serialize direct opens against 11-downloads.sh and an engine/gateway release. Closing stays available as recovery.
+  [ "${VM_DOWNLOADS_LOCK_HELD:-0}" = 1 ] || take_lock
+  WEB_ENV=$F
   [ -f /etc/vidfetch/ci-media-test-profile.json ] || die "install the CI media-test profile first (06-profile.sh)"
   for n in TURNSTILE_SITE_KEY TURNSTILE_SECRET_KEY VIDFETCH_ACCESS_SIGNING_KEY VIDFETCH_MEDIA_ORIGIN; do grep -q "^$n=" "$F" || die "$n missing from $F"; done
   [ "$(ci_profile_name)" != public ] || log "NOTE: public CI profile: CI deploys and rollback checks refuse while READY=1 (downloads must be reported closed); use 11-downloads.sh open|close for a public opening"
+  # Even when called directly (not through 11-downloads.sh): downloads never open in front of an engine or gateway
+  # that is not the active release's. 0 is never blocked: closing must always be possible.
+  if why=$(release_drift); then die "the engine and gateway in service are not those of the active frontend release ($why): nothing changed"; fi
 fi
 cp -p "$F" "$F.bak.$(date -u +%Y%m%dT%H%M%SZ)"
 T=$(mktemp "${F:?}.new.XXXXXX"); trap 'rm -f -- "${T:?}"' EXIT

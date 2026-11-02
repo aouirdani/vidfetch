@@ -79,14 +79,14 @@ describe("priority platform pages: copy", () => {
   });
 
   it("states only limits that the engine and the gateway enforce", () => {
-    const engine = source("backend/server.ts"), gateway = source("backend/gateway/main.ts"), ledger = source("backend/gateway/ledger.ts");
+    const engine = source("backend/server.ts"), gateway = source("backend/gateway/main.ts");
     for (const { entry, locale, copy } of written) {
       const all = text(copy);
-      if (/256\s?(MB|Mo)/.test(all)) { assert.match(engine, /maxBytes: 256 \* 1024 \* 1024/); assert.match(gateway, /VIDFETCH_PUBLIC_MAX_MIB",onPi\?16:256,1,256/); }
+      if (/256\s?(MB|Mo)/.test(all)) { assert.match(engine, /maxBytes: 256 \* 1024 \* 1024/); assert.match(gateway, /mib\("VIDFETCH_PUBLIC_MAX_MIB",onPi\?16:256,256\)/); }
       if (/30 minut/.test(all)) assert.match(engine, /maxDuration: 30 \* 60/);
       if (/10 minut/.test(all)) assert.match(engine, /operationMs: 10 \* 60 \* 1000/);
       if (/192 kbps/.test(all)) assert.match(engine, /"-b:a", "192k"/);
-      if (/\b8 (downloads|téléchargements|descargas)\b/.test(all)) assert.match(ledger, /index === 2 \? 100 : 8/);
+      if (/\b8 (downloads|téléchargements|descargas)\b/.test(all)) assert.match(gateway, /identityOps:bounded\("VIDFETCH_QUOTA_IDENTITY_OPS_DAY",8/);
       assert.ok(!/\d+\s?(GB|Go)\b/.test(all) || /1 Gio|1 GB/.test(all), `${entry.id}/${locale}: undocumented size`);
     }
   });

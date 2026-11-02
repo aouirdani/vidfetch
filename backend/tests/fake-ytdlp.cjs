@@ -4,6 +4,10 @@ const { spawn } = require('node:child_process');
 if (process.argv.includes('--version')) { console.log('test-engine'); process.exit(0); }
 if (process.env.VIDFETCH_TEST_PID_LOG) appendFileSync(process.env.VIDFETCH_TEST_PID_LOG, `${process.pid}\n`);
 if (process.argv.includes('--dump-json')) {
+  if (process.env.VIDFETCH_TEST_METADATA_MODE === 'automated-traffic-block') {
+    process.stderr.write('ERROR: [tiktok] fixture: Sign in to confirm you are not a bot.\n');
+    process.exit(1);
+  }
   if (process.env.VIDFETCH_TEST_METADATA_MODE === 'hang') {
     setInterval(() => {}, 1000); return;
   }

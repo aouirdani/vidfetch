@@ -1,6 +1,6 @@
 # Résultat final — mission VidFetch
 
-État établi le 1 novembre 2026 à partir du dépôt, des builds locaux et des statuts GitHub disponibles. Les pourcentages ci-dessous mesurent la réalisation technique du périmètre demandé, pas une probabilité de succès commercial.
+État établi le 2 novembre 2026 à partir du dépôt, des builds locaux, des statuts GitHub et des contrôles HTTP disponibles. Les pourcentages ci-dessous mesurent la réalisation technique du périmètre demandé, pas une probabilité de succès commercial.
 
 ## Architecture
 
@@ -10,12 +10,12 @@ Le site est une application Next.js App Router rendue côté serveur/statique. L
 
 | Pilier | Avant | État atteint | Preuve / réserve |
 |---|---:|---:|---|
-| Plateformes | TikTok disponible; Instagram/X annoncés sans garantie | **55 %** | TikTok conservé; Instagram/X et 4 plateformes candidates demeurent verrouillés. Aucun contournement ni test de plateforme sans média autorisé. Voir PR [#30](https://github.com/aouirdani/vidfetch/pull/30). |
+| Plateformes | TikTok disponible; Instagram/X annoncés sans garantie | **55 %** | TikTok conservé; Instagram/X et 4 plateformes candidates demeurent verrouillés. Aucun contournement ni test de plateforme sans média autorisé. PR [#30](https://github.com/aouirdani/vidfetch/pull/30) déployée; routes candidates absentes du rendu et du sitemap. |
 | Formats | TikTok MP4/MP3 | **90 %** | MP3/M4A, compression, coupe et GIF locaux sont inclus dans les 32 pages de la PR #24 fusionnée. Sorties et confidentialité contrôlées avec fixtures; compatibilité réelle des téléphones non certifiée. |
-| Capacité | Quotas et concurrence fixes; pas de mesure | **45 %** | Variables, réservation, file, métriques anonymes et banc isolé préparés dans PR #26. Pas d'application serveur ni de mesure VPS : impossible de promettre plusieurs centaines d'usagers/jour. |
-| UI/UX | Parcours initial | **75 %** | Navigation mobile et captures/audit dans PR [#27](https://github.com/aouirdani/vidfetch/pull/27), build vert. PR non fusionnée à cause du verrou de déploiement. |
-| SEO | Blog exclu, peu de pages localisées | **90 %** | Blog indexable, contenus TikTok dans 8 langues, outils locaux et contrôle SEO. PR #29 durcit encore le CI; vérifications locales passent, CI GitHub en cours. Aucun chiffre d'impressions n'est garanti. |
-| Exploitation | Déploiement frontend automatique | **55 %** | CI, tests de fumée, documentation de capacité, kit de lancement et procédure de vérification ajoutés. Le déploiement des releases contenant moteur/passerelle est bloqué par le garde de promotion; pas d'accès SSH/sudo pour le résoudre. |
+| Capacité | Quotas et concurrence fixes; pas de mesure | **50 %** | Capacité configurable, réservation, file, métriques anonymes et banc isolé préparés dans la PR non fusionnée `feat/capacity-v2`. La validation locale ne remplace pas une mesure OVH; impossible de promettre plusieurs centaines d'usagers/jour. |
+| UI/UX | Parcours initial | **75 %** | Navigation mobile, états et captures/audit de PR [#27](https://github.com/aouirdani/vidfetch/pull/27) sont intégrés à `main` et servis en production. Captures Playwright, pas de téléphones physiques. |
+| SEO | Blog exclu, peu de pages localisées | **90 %** | Blog indexable, contenus TikTok dans 8 langues, outils locaux et contrôle SEO renforcé via PR #29 et #32. Les déploiements #33/#30 sont servis; aucun chiffre d'impressions n'est garanti. |
+| Exploitation | Déploiement frontend automatique | **45 %** | CI et kit de lancement sont en place. Le dernier déploiement docs-only (#28) n'a pas atteint la production : le transfert a été refusé car le stockage d'archives CI dépasse 700 Mio. La PR non fusionnée #34 fournit un chemin administrateur; CI complète et simulation Debian/systemd passent. Pas d'accès SSH/sudo pour diagnostiquer/nettoyer le VPS. |
 
 Les pourcentages ne s'additionnent pas et ne représentent pas un score du site. Ils indiquent le niveau de réalisation par rapport au périmètre de chaque pilier.
 
@@ -25,17 +25,34 @@ Les pourcentages ne s'additionnent pas et ne représentent pas un score du site.
 - PR #26 (`feat/capacity`) a été fusionnée en `a906a4969fba1dc3ecea6a0797bd0b27998856f1`, mais le run de déploiement `41334481660` a refusé l'archive : « Engine/gateway artifact changed; separate administrator review required ». La santé publique observée indiquait encore la release précédente `3a4f929a7c35b4fe416bf0ec540880c9ed7ffbb9`. Aucun changement backend n'a été promu. L'accès SSH non interactif est refusé; aucune commande sudo serveur n'a été exécutée.
 - Le revert #31 (`revert: capacity until admin session`) a depuis été fusionné en `31f51121735aacbfee99c29dadee1440b693b734`. Son CI push/deploy `41343004391` a réussi. `/api/health` en production confirme ce commit comme actif, sans rollback; l'ancienne release `3a4f929` n'est donc plus active.
 - La parité préalable a été contrôlée sur les archives CI exactes : les hashes moteur et passerelle de la release `3a4f929` et de l'archive candidate PR #31 sont identiques. Le code #26 a été retiré de `main`; capacité v2 n'est pas active.
-- PR #29 a été rebasée sur ce `main` post-revert (commit de rebase local `29b3d836`) et est en attente de push/checks GitHub. Lint, typecheck et tests Node passent localement (**191/191**; le test de rapport capacité de #26 a disparu avec le revert). PR #27 (UI/UX), #30 (candidats verrouillés) et #28 (kit de lancement) restent ouvertes et seront traitées dans cet ordre après #29. Leurs anciens checks ne valent pas après leur prochain rebase.
+- PR #29 a été fusionnée après correction de parité avec le gateway (#32). PR #27 et PR #30 ont été fusionnées dans l'ordre, puis #28 (kit de lancement) fusionnée en `e46c909`. CI build de #28 verte, mais deploy `41422094642` a échoué avant promotion avec `Upload storage bound reached`; aucun rollback ne s'est produit. La santé publique reste sur `6bc01461736d89522d7585de5c3bcf42f03c210a` (PR #30), ce qui signifie que #28 est documentaire et n'a aucun changement runtime à vérifier en production.
+- La capacité v2 est préparée sur `feat/capacity-v2` avec la capacité de #26 et le nouvel outil administrateur `12-engine-release.sh`. PR [#34](https://github.com/aouirdani/vidfetch/pull/34), CI complète [run 41429583375](https://github.com/aouirdani/vidfetch/actions/runs/41429583375) verte, test d'intégration systemd isolé réussi. Elle reste non fusionnée comme demandé; l'opération serveur attend une revue et une fenêtre administrateur. Procédure : `docs/VIDFETCH-CAPACITE-MISE-EN-PROD.md`.
 - Aucun accès Cloudflare ou Search Console n'est configuré; aucun cache CDN n'a été purgé.
+
+### Revue d'intégration de la PR #34 (2 novembre 2026)
+
+- Les changements utiles des PR #7, #15 et #17 sont repris sur `feat/capacity-v2` : erreurs amont distinguées dans l'interface localisée, téléchargement via cadre caché, et rollback frontal refusé si les téléchargements sont ouverts et la release incompatible.
+- De #16, seuls les contrôles de cohérence des processus, la fermeture requise pendant les changements de passerelle et le verrou partagé sont conservés. L'autre voie d'activation est exclue : `12-engine-release.sh` reste l'unique transaction pour mettre à niveau moteur, passerelle et frontend ensemble.
+- La procédure opérateur utilise `debian@15.235.127.165`, transfère vers `/var/tmp`, et appelle `sudo install`, `sudo systemctl` ou `sudo bash`; aucun login root n'est requis. L'accès réel SSH/sudo n'est pas disponible ici, donc la procédure a été contrôlée statiquement, pas exécutée sur le VPS.
+- Elle ferme explicitement les téléchargements avant `apply`, accepte `web.env` dans le garde, puis vérifie l'état fermé attendu. Après santé vérifiée, elle propose la réouverture contrôlée et l'acceptation du nouvel état; elle ne prétend plus que l'application transactionnelle rouvre elle-même le service.
+- YouTube reste bloqué. Le cas d'erreur importé de #7 est maintenant une fixture synthétique TikTok générique; aucune reconnaissance, route ou capacité YouTube n'a été ajoutée.
+- Le test Python de rollback vérifie maintenant aussi qu'un verrou de téléchargement actif fait refuser l'opération sans déplacer le pointeur; le test Debian/systemd vérifie le refus d'`apply` avec `ready=1`.
+- Les PR #6, #7, #15, #16 et #17 sont fermées avec un commentaire renvoyant vers #34. Les commentaires précisent que YouTube reste bloqué et que l'activation alternative de #16 n'est pas reprise.
+- Sur la révision de revue, les validations locales passent (Node 193/193, backend 18/18, OVH Python 105 avec 16 ignorés, `seo-check` 82 URL, `test:i18n` 97 pages, lint, typecheck, build Webpack, `test:vercel -- --browser`, `smoke:browser`, gateway 6/6, outils locaux/OPFS, test systemd engine-release). Le build habituel `npm run build` via Turbopack échoue localement avec `Operation not permitted` en lançant un processus; le build Webpack termine. Le statut CI de la tête actuelle est disponible sur [les checks de la PR #34](https://github.com/aouirdani/vidfetch/pull/34/checks); la PR reste non fusionnée.
+- La CI du commit `54b6b3a` a révélé un test de l'installateur de rollback trop lié à l'indentation de son helper. Le contrôle est corrigé et son test conteneurisé passe 30/30; le run CI complet doit être vert sur le nouveau commit avant fusion.
 
 ## Résultats de validation disponibles
 
 - Phase 1 : rapports de CI indiqués dans `TOOLS-CHANGES.md`; builds, lint, typage, tests des outils et du backend documentés. Profils Playwright Chromium/WebKit et données de mémoire disponibles; aucun iPhone ou téléphone Android matériel testé.
-- Phase 2 : banc synthétique local **7/7**, pic observé autour de **85,6 Mio RSS** pour sa fixture; ce résultat n'est ni un test VPS ni une projection d'utilisateurs quotidiens. Réglages de production non appliqués.
+- Phase 2 : banc synthétique local **7/7**, pic observé **85,05 Mio RSS** pour sa fixture de **396 790 octets**; ce résultat n'est ni un test VPS ni une projection d'utilisateurs quotidiens. Réglages de production non appliqués. Script `12-engine-release.sh` vérifié par systemd simulé : check, application, idempotence et rollback.
 - Phase 3 : PR #27 build réussi. Les captures avant/après et mesures sont dans `docs/ux/` de cette branche; tests sur dimensions Playwright, pas sur appareils physiques.
 - Phase 4 : dans `feat/platform-audit`, `npm run lint`, `npm run typecheck`, `npm test` **192/192**, `npm run test:i18n` (**97 pages**, 8 langues) passent. Les candidats n'apparaissent ni dans le sitemap ni dans le rendu. Le vérificateur réel n'a pas été lancé.
-- Phase 5 : avant le revert, `feat/seo-debt` avait lint, typecheck, `npm test` **192/192**, `test:i18n` (**97 pages**, 8 langues), build OVH, Vercel/browser smoke et `seo-check` (**82 URL**, zéro orpheline, HTML max **200 290 octets**) au vert. Après rebase post-revert, lint/typecheck et `npm test` **191/191** repassent en local; CI GitHub complète encore à faire.
+- Phase 5 : sur cette branche, lint, typecheck, `npm test` **193/193**, `test:i18n` (**97 pages**, 8 langues), build OVH, Vercel/browser smoke, `seo-check` (**82 URL**, zéro orpheline, HTML sous **524 288 octets**) et vérifications i18n passent. Turbopack local a échoué avec `Operation not permitted` sur une ouverture de port; build local Webpack et build OVH Linux CI passent. CI GitHub PR #34 complète verte : [run 41429583375](https://github.com/aouirdani/vidfetch/actions/runs/41429583375), incluant le test systemd, Caddy public, SEO et navigateurs. Le job deploy est skipped, comme prévu pour une PR.
 - Phase 6 : textes préparés dans `docs/launch/` seulement; aucun compte tiers n'a été utilisé et rien n'a été publié.
+
+## Mise à jour opérationnelle — rétention des archives CI (PR #34)
+
+La PR #34 ajoute un service d'administration qui déplace les anciennes archives de réception dans `/var/backups`, sans les supprimer. Il partage le verrou de `dispatch.py`, puis le verrou de promotion; il garde la release active et les trois archives les plus récentes, et ignore les fichiers de moins de 30 minutes. Un timer systemd hebdomadaire l'exécute et journald conserve ses messages. Le rapport quotidien de capacité signale les dossiers dépassant 500 MiB. Contrôles locaux : lint/typecheck, 193 tests Node, 68 tests Python réussis et 15 ignorés car Docker opt-in; le test Debian/systemd dédié confirme le timer, journald et six déplacements dans un conteneur jetable. La CI complète de PR #34 sur `b3bb16d` est verte : [run 41459799306](https://github.com/aouirdani/vidfetch/actions/runs/41459799306), déploiement ignoré comme attendu. Ni l'installation VPS ni un déplacement réel n'ont été exécutés, faute d'accès root. La procédure opérateur se trouve dans `docs/VIDFETCH-CAPACITE-MISE-EN-PROD.md`.
 
 ## URL nouvelles ou modifiées
 
@@ -88,18 +105,19 @@ Les mesures LCP/CLS/TBT et taille JS comparatives sont conservées dans `TOOLS-C
 
 ## Actions restant au propriétaire
 
-1. **Capacité v2 sur OVH — temps à estimer par l'administrateur** : relire la future PR `feat/capacity-v2` et son script d'administration, exécuter uniquement sa procédure documentée après revue root, puis confirmer `sudo /usr/local/libexec/vidfetch-ci/promote.py status`. Ne pas annoncer de hausse de capacité avant mesure VPS. Le déploiement frontend normal fonctionne à nouveau après le revert.
-2. **Capacité VPS — 1–2 h en heures creuses** : exécuter le banc isolé décrit dans `docs/VIDFETCH-CAPACITE.md`, surveiller RAM et erreurs, choisir le profil normal réellement mesuré, configurer le fichier d'environnement, redémarrer avec retour arrière et vérifier le statut. Activer l'alerte avec un canal HTTPS administré.
-3. **Téléphones — 1–2 h par modèle** : suivre le protocole de `TOOLS-CHANGES.md` sur iPhone Safari 26 et Android Chrome avec vidéos caméra 30 s, 2 min et 5 min en 1080p/4K, dont HEVC iPhone; vérifier sortie dans Photos/Galerie/WhatsApp et noter temps, mémoire/espace et erreurs.
-4. **Relecture native — variable** : faire relire en priorité arabe et indonésien, puis portugais, les phrases signalées dans `docs/RELECTURE-NATIVE.md` et `TOOLS-CHANGES.md` avant de considérer le contenu final.
-5. **Instagram/X — aucun délai estimable avant fourniture des médias** : placer uniquement des liens dont les droits sont établis dans `operator/authorized-links.txt`, puis suivre `docs/PUBLISH-INSTAGRAM-X.md`. Ne pas ouvrir de gate sur une simple détection ou une erreur évitée.
-6. **Cloudflare — 5–10 min après un déploiement réussi** : purger les pages modifiées, le sitemap et les assets locaux; aucun accès API n'était disponible dans cette mission.
-7. **Search Console — 10–20 min après déploiement** : inspecter les URL des nouveaux outils et articles, soumettre `https://vidfetch.app/sitemap.xml` et demander l'indexation prioritaire des 32 outils locaux puis des 12 pages TikTok ajoutées. Aucun compte GSC n'était accessible.
-8. **Lancement — selon le calendrier du propriétaire** : publier manuellement les éléments préparés dans `docs/launch/` avec les comptes officiels. Rien n'a été diffusé au nom du propriétaire.
+1. **VPS — 15–30 min d'inspection admin, puis fenêtre de changement** : examiner l'espace de `/var/lib/vidfetch-deploy/ci-incoming` (le transfert CI a signalé une limite de 700 Mio), conserver les preuves utiles, puis libérer de l'espace selon la politique opérateur. Ne pas supprimer à l'aveugle les archives/release. Vérifier `promote.py status` et le garde avant de rétablir tout déploiement. #28 est documentaire; le frontend actuellement servi reste sain.
+2. **Capacité v2 — 30–60 min de revue admin + fenêtre de changement** : relire la PR non fusionnée `feat/capacity-v2`, vérifier son CI et son test systemd, fusionner seulement après les critères habituels, puis suivre `docs/VIDFETCH-CAPACITE-MISE-EN-PROD.md` pour installer les bundles avec sauvegarde/rollback. Ne pas annoncer de hausse de capacité avant mesure VPS.
+3. **Capacité VPS — 1–2 h en heures creuses** : exécuter le banc isolé décrit dans `docs/VIDFETCH-CAPACITE.md`, surveiller RAM et erreurs, configurer les quotas seulement après mesure, et activer un canal d'alerte HTTPS administré.
+4. **Téléphones — 1–2 h par modèle** : suivre le protocole de `TOOLS-CHANGES.md` sur iPhone Safari 26 et Android Chrome avec vidéos caméra 30 s, 2 min et 5 min en 1080p/4K, dont HEVC iPhone; vérifier Photos/Galerie/WhatsApp.
+5. **Relecture native — variable** : faire relire en priorité arabe, indonésien et portugais les phrases signalées dans `docs/RELECTURE-NATIVE.md` et `TOOLS-CHANGES.md`.
+6. **Instagram/X — selon fourniture des médias** : fournir uniquement des liens autorisés dans `operator/authorized-links.txt`, puis suivre `docs/PUBLISH-INSTAGRAM-X.md`. Les gates restent fermées jusque-là.
+7. **Cloudflare — 5–10 min après un déploiement réussi** : purger les pages modifiées, le sitemap et les assets; aucun accès API n'était disponible.
+8. **Search Console — 10–20 min après le déploiement des pages concernées** : inspecter les nouvelles URL, soumettre `https://vidfetch.app/sitemap.xml` et demander l'indexation prioritaire des 32 outils locaux et des 12 pages TikTok ajoutées. Aucun compte GSC n'était accessible.
+9. **Lancement — selon le calendrier du propriétaire** : publier manuellement les brouillons dans `docs/launch/` avec les comptes officiels.
 
 ## Revue critique et décisions
 
 - Le garde d'intégrité des bundles moteur/passerelle est une vraie condition de déploiement, pas un échec à contourner. Aucun fichier protégé, secret, compte de plateforme, configuration active Caddy ou Cloudflare n'a été modifié.
 - La vérification Instagram/X n'a pas été exécutée faute de lien autorisé disponible; les gates restent fermées. Vague 2 est du contenu de préparation interne et ne prétend à aucun support.
 - Aucun changement YouTube n'a été réalisé; les routes restent bloquées.
-- Le CI push/deploy post-revert est vert. Les PR #27–#30 n'ont pas été fusionnées; les checks de leurs têtes devront être verts après rebase et avant chaque fusion.
+- Les déploiements #31, #32, #33 et #30 ont réussi; l'unique échec postérieur est le transfert #28 pour dépassement de stockage, sans activation ni rollback. Il faut un accès admin pour examiner l'espace d'upload du VPS avant toute nouvelle tentative de transfert.

@@ -1,0 +1,17 @@
+[Unit]
+Description=Safely archive old VidFetch CI incoming releases
+After=local-fs.target
+ConditionPathIsDirectory=/var/lib/vidfetch-deploy/ci-incoming
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+ExecStart=/usr/bin/python3 /usr/local/libexec/vidfetch-ci/13-clean-ci-incoming.py
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+StandardOutput=journal
+StandardError=journal

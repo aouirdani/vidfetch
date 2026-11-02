@@ -14,13 +14,14 @@ import { interpolate, LANGUAGES } from "@/i18n/config";
 import { errorMessage } from "@/i18n/errors";
 import type { Messages } from "@/i18n/dictionaries";
 import { localizedFormatLabel } from "@/i18n/formats";
+import { toolPath } from "@/local-tools/catalogue";
 
 function formatLabel(f: MediaFormat, d: Messages) {
   return localizedFormatLabel(f, d);
 }
 
 type Props = { info: MediaInfo; engine: EngineStatus; onReset: () => void };
-type Notice = { text: string; tone: "info" | "success" | "error" };
+type Notice = { text: string; tone: "info" | "success" | "error"; code?:string };
 type Stage = "idle" | "preparing" | "streaming";
 
 
@@ -77,6 +78,7 @@ export function VideoCard({ info, engine, onReset }: Props) {
   const frameRef = useRef<HTMLIFrameElement>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const requestRef = useRef<AbortController | null>(null);
+  const channelRef = useRef<ReturnType<typeof openSecureTransfer>>(undefined);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const optionRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const mounted = useRef(true);
@@ -93,8 +95,14 @@ export function VideoCard({ info, engine, onReset }: Props) {
     mounted.current = true;
     // Move focus to the result so keyboard and screen-reader users land on it.
     headingRef.current?.focus({ preventScroll: true });
-    return () => { mounted.current = false; requestRef.current?.abort(); if (timerRef.current) clearTimeout(timerRef.current); };
+    return () => { mounted.current = false; requestRef.current?.abort(); channelRef.current?.close(); if (timerRef.current) clearTimeout(timerRef.current); };
   }, []);
+
+  /** Stops a preparation or a queue wait; a file the browser is already saving is left to the browser. */
+  function cancelPreparation() {
+    requestRef.current?.abort();
+    channelRef.current?.close();
+  }
 
   /** Roving focus so the quality list behaves like a native radio group. */
   const onOptionKeyDown = useCallback((event: React.KeyboardEvent, index: number) => {
@@ -123,13 +131,13 @@ export function VideoCard({ info, engine, onReset }: Props) {
     requestRef.current = controller;
     let channel: ReturnType<typeof openSecureTransfer>;
     try {
-      channel = openSecureTransfer(locale);
-      const ready = await postJson<DownloadResponse>("/api/download", { url: info.url, format_id: activeFormat.id, type: activeFormat.kind }, controller.signal,notice=>{
+      channel = channelRef.current = openSecureTransfer(locale);
+      const ready = await postJson<DownloadResponse>("/api/download", { url: info.url, format_id: activeFormat.id, type: activeFormat.kind, expectedBytes: activeFormat.filesize ?? undefined }, controller.signal,notice=>{
         if(channel&&!channel.isOpen()){controller.abort();return;}
         if(mounted.current)setNotice({tone:"info",text:interpolate(d.waiting, { position: notice.position, seconds: Math.ceil(notice.estimatedWaitMs/1000) }) + " " + d.keepOpen});
       });
       if (!mounted.current) { channel?.close(); return; }
-      if (!ready.ok) throw new Error(errorMessage(ready.code, d));
+      if (!ready.ok) throw new DownloadClientError(ready.code, errorMessage(ready.code, d));
       if (channel) await channel.start(ready.token);
       else {
         const anchor = document.createElement("a");
@@ -152,11 +160,13 @@ export function VideoCard({ info, engine, onReset }: Props) {
           if (!status.ok) throw new Error(errorMessage(status.code, d));
           setBytes(status.bytes);
           if (status.status === "completed") {
+            channel?.close();
             setStage("idle");
             setNotice({ tone: "success", text: interpolate(d.saved, { size: formatBytes(status.bytes) ?? d.yourFile }) });
             return;
           }
           if (["failed", "aborted", "expired"].includes(status.status)) {
+            channel?.close();
             setStage("idle");
             setNotice({ tone: "error", text: d.transferStopped });
             return;
@@ -166,6 +176,7 @@ export function VideoCard({ info, engine, onReset }: Props) {
           if (!mounted.current) return;
           retries++;
           if (retries >= 3) {
+            channel?.close();
             setStage("idle");
             setNotice({ tone: "info", text: d.statusStopped });
             return;
@@ -180,7 +191,8 @@ export function VideoCard({ info, engine, onReset }: Props) {
       if (!mounted.current) return;
       setStage("idle");
       if(controller.signal.aborted){setNotice({tone:"info",text:d.waitingCancelled});return;}
-      setNotice({ tone: "error", text: error instanceof DownloadClientError ? errorMessage(error.code, d) : error instanceof Error && Object.values(d).includes(error.message) ? error.message : d.operationFailed });
+      const code=error instanceof DownloadClientError?error.code:undefined;
+      setNotice({ tone: "error", text: code ? errorMessage(code, d) : error instanceof Error && Object.values(d).includes(error.message) ? error.message : d.operationFailed, code });
     }
   }
 
@@ -192,7 +204,7 @@ export function VideoCard({ info, engine, onReset }: Props) {
           if (document?.contentType === "application/json") {
             const response = JSON.parse(document.body.textContent ?? "{}") as { error?: string; code?: string };
             if (response.error) {
-              setNotice({ tone: "error", text: errorMessage(response.code, d) });
+              setNotice({ tone: "error", text: errorMessage(response.code, d), code:response.code });
               setStage("idle");
               if (timerRef.current) clearTimeout(timerRef.current);
             }
@@ -300,6 +312,7 @@ export function VideoCard({ info, engine, onReset }: Props) {
                 {notice.tone === "success" ? <CircleCheck className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />
                   : <CircleAlert className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />}
                 {notice.text}
+                {notice.code === "QUOTA_EXCEEDED" && <a href={toolPath(locale,"compress")} className="ms-1 font-semibold underline underline-offset-4">{d.localToolsCta}</a>}
               </p>
             )}
 
@@ -308,6 +321,12 @@ export function VideoCard({ info, engine, onReset }: Props) {
               {busy ? <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden /> : <Download className="h-4 w-4 transition-transform group-hover:translate-y-0.5" aria-hidden />}
               {stage === "preparing" ? d.preparing : stage === "streaming" ? d.downloading : <>{d.download}{activeFormat && <> <bdi dir="ltr">{formatLabel(activeFormat, d)}</bdi></>}</>}
             </button>
+            {stage === "preparing" && (
+              <button type="button" onClick={cancelPreparation}
+                className="mx-auto block text-xs font-medium text-slate-300 underline-offset-4 transition hover:text-white hover:underline">
+                {d.cancel}
+              </button>
+            )}
             <p className="text-center text-[11px] text-slate-400">
               {d.transferFooter}
             </p>
