@@ -99,3 +99,11 @@ Date affichée en Europe/Paris. Les commits de la branche de travail ne devienne
 - Le build a été fait avec Webpack car Turbopack ne démarre pas dans cet environnement (`EPERM` sur son socket interne). Aucun matériel iPhone/Android ni score PSI post-déploiement n'est accessible ici. La production n'a pas été modifiée.
 - Revue des polices : désactiver le préchargement d'Onest pour ne précharger que Bricolage a produit sur une passe mobile CLS 0,171 et Performance 88. Le préchargement est rétabli pour préserver CLS 0 sur la configuration mesurée; la consigne de précharger uniquement la fonte du H1 reste à résoudre proprement.
 - Décision : pas de fusion ni de déploiement tant que le LCP n'est pas réduit sous 1,8 s et que Performance arabe n'atteint pas 95. La CI Lighthouse constitue un garde-fou de régression et signale actuellement ces deux écarts; résultat complet à joindre à la PR pour correction ciblée.
+
+## 2026-11-02 — PR #35, correction polices et seuils révisés
+
+- Remplacement d'Onest et de la fonte arabe web par les piles système. Bricolage Grotesque 800 est servi en deux WOFF2 Latin/Latin-ext sous OFL, `font-display: optional`, via `next/font/local` avec fallback métrique; le lien de préchargement n'est rendu que hors `/ar`. Contrôle réseau Lighthouse : une fonte sur les pages latines, aucune sur l'arabe.
+- CI Lighthouse et `scripts/ui-v2/assert-budgets.mjs` utilisent les médianes des trois passes; seuils révisés : P95, A11y/BP/SEO100, LCP ≤2 500 ms et baseline+150, CLS≤0,02, TBT≤100. CSS ≤ baseline +6 Ko gzip.
+- Build OVH local, lint, typecheck, `seo-check` (82 URL), `test:i18n` (97 pages / 8 langues), tests Node (192/192) passent. Captures `docs/ui-v2/after/` régénérées.
+- Lighthouse mobile médian : Performance 97–98; A11y/BP/SEO100; CLS0. LCP relative échoue FR (2 496 ms, +160), ID (2 495 ms, +306), MP3 (2 493 ms, +155), blog (2 495 ms, +157). TBT échoue ID (115 ms). Accueil EN et arabe passent ces budgets. CSS inline 12 913 B gzip (+2 629 B versus 10 284 B baseline), JS 162 011 B, WOFF2 latins 32 340 B. Aucune scène 3D n'est candidate LCP.
+- La CI de l'ancien commit a échoué sur Lighthouse; aucune production n'a été modifiée. PR #35 reste brouillon et NO-GO tant que les quatre dépassements LCP relatif et le TBT ID ne sont pas corrigés. PSI production et appareil physique non testés.

@@ -22,7 +22,7 @@
   --color-slate-200: #10163a;
   --color-slate-300: #3f4668;
   --color-slate-400: #4a5072;
-  --font-sans: var(--font-body), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
   --animate-rise: rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
   --animate-indeterminate: indeterminate 1.3s ease-in-out infinite;
@@ -50,7 +50,7 @@ html {
 body {
   background-color: #eef1f8;
   color: #10163a;
-  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -148,12 +148,26 @@ input[type="url"] { text-align: left; direction: ltr; }
 
 /* VidFetch v2: a single light visual system shared by every route and locale. */
 body { background: #eef1f8; color: #10163a; }
-body, input, button, select, textarea { font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif; }
-@font-face { font-family: VidFetchArabic; src: url("/fonts/noto-kufi-arabic.woff2") format("woff2"); font-display: swap; font-weight: 400 600; }
-@font-face { font-family: VidFetchArabicFallback; src: local("Arial"); ascent-override: 128.2%; descent-override: 61.5%; line-gap-override: 0%; size-adjust: 100%; }
-html[lang="ar"] body { font-family: VidFetchArabic, VidFetchArabicFallback, var(--font-body), sans-serif; }
-h1, h2, h3, h4, .brand-wordmark { font-family: var(--font-heading), var(--font-body), sans-serif; }
-.font-heading { font-family: var(--font-heading), sans-serif; }
+body, input, button, select, textarea { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("/fonts/bricolage-grotesque-latin-800.woff2") format("woff2");
+  font-display: optional;
+  font-style: normal;
+  font-weight: 800;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("/fonts/bricolage-grotesque-latin-ext-800.woff2") format("woff2");
+  font-display: optional;
+  font-style: normal;
+  font-weight: 800;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+html:not([lang="ar"]) h1, html:not([lang="ar"]) h2, html:not([lang="ar"]) h3, html:not([lang="ar"]) h4, html:not([lang="ar"]) .brand-wordmark { font-family: "Bricolage Grotesque", var(--font-heading), system-ui, sans-serif; }
+html:not([lang="ar"]) .font-heading { font-family: "Bricolage Grotesque", var(--font-heading), system-ui, sans-serif; }
+html[lang="ar"] h1, html[lang="ar"] h2, html[lang="ar"] h3, html[lang="ar"] h4, html[lang="ar"] .brand-wordmark, html[lang="ar"] .font-heading, html[lang="ar"] .hero-token strong { font-family: "Geeza Pro", "Noto Sans Arabic", "Segoe UI", Tahoma, sans-serif; letter-spacing: 0; }
 h1, h2 { color: #10163a; font-weight: 800; letter-spacing: -.035em; text-wrap: balance; }
 h2 { letter-spacing: -.03em; }
 p { font-size: 1.0625rem; line-height: 1.55; }
@@ -225,7 +239,7 @@ button:not(:disabled), summary, a { cursor: pointer; }
 .hero-token-audio { top: 54%; transform: translate3d(3.5rem, 1rem, 2.5rem) rotateY(-18deg) scale(.92); }
 .hero-token-icon { display: grid; width: 2.5rem; height: 2.5rem; flex: 0 0 auto; place-items: center; border-radius: .75rem; background: #2f5bff; color: #fff; }
 .hero-token-audio .hero-token-icon { background: #ffc233; color: #10163a; }
-.hero-token strong { display: block; font-family: var(--font-heading), sans-serif; font-size: 1.2rem; font-weight: 800; }
+.hero-token strong { display: block; font-family: "Bricolage Grotesque", var(--font-heading), sans-serif; font-size: 1.2rem; font-weight: 800; }
 .hero-token small { display: block; color: #4a5072; font-size: .8rem; }
 .hero-card-caption { position: absolute; inset: 1rem auto auto 1rem; padding: .35rem .7rem; border-radius: 999px; background: rgb(255 255 255 / 20%); color: #fff; font-size: .75rem; font-weight: 600; }
 .hero-card-play { position: absolute; top: 51%; left: 50%; display: grid; width: 3.75rem; aspect-ratio: 1; place-items: center; border-radius: 50%; background: #fff; color: #131b4d; transform: translate(-50%, -50%); }
@@ -254,7 +268,7 @@ button:not(:disabled), summary, a { cursor: pointer; }
 .local-tool-page > h1 { margin-block: .75rem 1.5rem; font-size: clamp(2.625rem, 5vw, 3.5rem); line-height: 1; }
 .platform-hero-grid:not(:has(.hero-scene)) { grid-template-columns: minmax(0, 1fr); }
 .platform-hero-grid { margin-block: 2rem 4rem; }
-h1.font-semibold, h1.font-serif { font-family: var(--font-heading), var(--font-body), sans-serif; font-size: clamp(2.625rem, 5vw, 3.5rem); font-weight: 800; line-height: 1; }
+html:not([lang="ar"]) h1.font-semibold, html:not([lang="ar"]) h1.font-serif { font-family: "Bricolage Grotesque", var(--font-heading), system-ui, sans-serif; font-size: clamp(2.625rem, 5vw, 3.5rem); font-weight: 800; line-height: 1; }
 h2.text-2xl, h2.text-3xl { font-size: clamp(1.75rem, 4vw, 2.75rem); font-weight: 800; line-height: 1.05; }
 .guide-prose h2 { margin: 2.5rem 0 1rem; font-size: 1.55rem; line-height: 1.3; font-weight: 800; }
 .guide-prose h3 { color: #10163a; }
