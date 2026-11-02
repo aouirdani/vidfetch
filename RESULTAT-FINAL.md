@@ -38,6 +38,10 @@ Les pourcentages ne s'additionnent pas et ne représentent pas un score du site.
 - Phase 5 : sur cette branche, lint, typecheck, `npm test` **193/193**, `test:i18n` (**97 pages**, 8 langues), build OVH, Vercel/browser smoke, `seo-check` (**82 URL**, zéro orpheline, HTML sous **524 288 octets**) et vérifications i18n passent. Turbopack local a échoué avec `Operation not permitted` sur une ouverture de port; build local Webpack et build OVH Linux CI passent. CI GitHub PR #34 complète verte : [run 41429583375](https://github.com/aouirdani/vidfetch/actions/runs/41429583375), incluant le test systemd, Caddy public, SEO et navigateurs. Le job deploy est skipped, comme prévu pour une PR.
 - Phase 6 : textes préparés dans `docs/launch/` seulement; aucun compte tiers n'a été utilisé et rien n'a été publié.
 
+## Mise à jour opérationnelle — rétention des archives CI (PR #34)
+
+La PR #34 ajoute un service d'administration qui déplace les anciennes archives de réception dans `/var/backups`, sans les supprimer. Il partage le verrou de `dispatch.py`, puis le verrou de promotion; il garde la release active et les trois archives les plus récentes, et ignore les fichiers de moins de 30 minutes. Un timer systemd hebdomadaire l'exécute et journald conserve ses messages. Le rapport quotidien de capacité signale les dossiers dépassant 500 MiB. Contrôles locaux : lint/typecheck, 193 tests Node, 68 tests Python réussis et 15 ignorés car Docker opt-in; le test Debian/systemd dédié confirme le timer, journald et six déplacements dans un conteneur jetable. La CI complète de PR #34 est à suivre après le push. Ni l'installation VPS ni un déplacement réel n'ont été exécutés, faute d'accès root. La procédure opérateur se trouve dans `docs/VIDFETCH-CAPACITE-MISE-EN-PROD.md`.
+
 ## URL nouvelles ou modifiées
 
 Les pages sont rendues sur le domaine nu HTTPS. Les chemins ci-dessous sont les URL canoniques; le sitemap les publie avec leurs hreflang.

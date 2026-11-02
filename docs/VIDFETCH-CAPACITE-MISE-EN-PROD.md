@@ -72,8 +72,64 @@ sudo python3 /usr/local/libexec/vidfetch-ci/guard-update.py list
 
 Après l'étape 6, les pushes main suivants peuvent utiliser le workflow normal : les moteurs de leur archive et le manifeste frontend sont désormais alignés. Le rollback remet aussi l'ancien pointeur frontend et restaure le garde d'avant l'opération; il ne supprime aucune release. Les archives de CI, les releases et les sauvegardes restent conservées pour diagnostic. Ne pas exécuter en présence de transferts actifs : `check`/`apply` refuse les connexions gateway et processus média en cours.
 
+## Installer le nettoyage hebdomadaire des archives entrantes
+
+Cette installation ne lance pas le nettoyage immédiatement. Le service hebdomadaire prend d'abord le même verrou `/var/lib/vidfetch-deploy/ci-incoming/.lock` que `dispatch.py`, puis le verrou du store utilisé par `promote.py`. Il déplace atomiquement les anciennes archives vers `/var/backups/vidfetch-ci-incoming-<date>`; il conserve toujours la release active et les trois archives les plus récentes, ignore toute archive âgée de moins de 30 minutes et ne touche pas aux fichiers temporaires. Un déplacement inter-filesystems est refusé. Le timer s'exécute le dimanche vers 03:30 UTC avec un délai aléatoire maximal de 15 minutes. Tous les messages sont dans le journal systemd.
+
+Après fusion de la PR, depuis un checkout synchronisé avec `origin/main`, copier-coller cette séquence complète. Contrôler la ligne « Attendu » après chaque étape avant de continuer :
+
+```sh
+scp deploy/ovh/media/admin/13-clean-ci-incoming.py deploy/ovh/systemd/vidfetch-ci-incoming-cleanup.service deploy/ovh/systemd/vidfetch-ci-incoming-cleanup.timer root@15.235.127.165:/var/tmp/
+# Attendu : les trois fichiers versionnés sont transférés au VPS.
+
+ssh root@15.235.127.165 'bash -s' <<'REMOTE'
+set -eu
+# Attendu : session root; une erreur interrompt le reste de la séquence.
+
+install -o root -g root -m 0755 /var/tmp/13-clean-ci-incoming.py /usr/local/libexec/vidfetch-ci/13-clean-ci-incoming.py
+# Attendu : script installé root:root, exécutable.
+
+install -o root -g root -m 0644 /var/tmp/vidfetch-ci-incoming-cleanup.service /etc/systemd/system/vidfetch-ci-incoming-cleanup.service
+# Attendu : unité oneshot installée.
+
+install -o root -g root -m 0644 /var/tmp/vidfetch-ci-incoming-cleanup.timer /etc/systemd/system/vidfetch-ci-incoming-cleanup.timer
+# Attendu : timer hebdomadaire installé.
+
+systemd-analyze verify /etc/systemd/system/vidfetch-ci-incoming-cleanup.service /etc/systemd/system/vidfetch-ci-incoming-cleanup.timer
+# Attendu : aucune erreur de syntaxe ou de dépendance systemd.
+
+systemctl daemon-reload
+# Attendu : systemd a rechargé les unités sans erreur.
+
+systemctl enable --now vidfetch-ci-incoming-cleanup.timer
+# Attendu : lien d'activation créé et timer démarré; aucun archivage immédiat.
+
+systemctl is-enabled vidfetch-ci-incoming-cleanup.timer && systemctl is-active vidfetch-ci-incoming-cleanup.timer
+# Attendu : enabled puis active.
+
+systemctl list-timers --all vidfetch-ci-incoming-cleanup.timer
+# Attendu : prochaine échéance hebdomadaire affichée.
+
+systemctl start vidfetch-ci-incoming-cleanup.service
+# Attendu : commande terminée sans erreur; aucun transfert concurrent n'a été interrompu.
+
+journalctl -u vidfetch-ci-incoming-cleanup.service -n 20 --no-pager
+# Attendu : ligne « complete » ou « skipped: dispatcher holds ... »; si déplacement, elle nomme
+# le dossier daté et le nombre d'archives déplacées. Le SHA actif est conservé.
+
+find /var/backups -maxdepth 2 -type f -path '/var/backups/vidfetch-ci-incoming-*/*' -printf '%p %s bytes\n'
+# Attendu : les archives déplacées restent présentes sous une sauvegarde datée; rien n'est effacé.
+
+du -sh /var/lib/vidfetch-deploy/ci-incoming
+# Attendu : taille résiduelle. Le rapport quotidien déclenche ci_incoming_storage_above_500_mib
+# au-delà de 500 MiB.
+REMOTE
+# Attendu : code de sortie zéro; une réponse non nulle nécessite d'inspecter journald avant toute relance.
+```
+
 ### Éléments encore à vérifier par l'administrateur
 
 - Confirmer le dossier de réception et les valeurs d'archive du run précis avant la copie; l'accès SSH/root n'est pas disponible dans l'environnement de développement.
 - Contrôler la commande `status`, la santé de Caddy/DNS et l'état des trois services après application. Le script vérifie loopback et l'apex TLS depuis le VPS, mais ce rapport ne peut pas certifier l'état du VPS.
+- Installer et lancer le timer de nettoyage avec la séquence ci-dessus; la procédure et le déplacement n'ont pas été exécutés sur le VPS depuis cet environnement.
 - La capacité proposée dans cette branche n'est pas activée en production avant cette opération. Mesurer ensuite les compteurs et la RAM réelle avant d'annoncer une capacité quotidienne supérieure.
