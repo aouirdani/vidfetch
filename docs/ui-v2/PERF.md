@@ -43,7 +43,7 @@ Pour chaque page, les assertions sont :
 - LCP PR ≤ LCP main +150 ms ; TBT PR ≤ TBT main +50 ms.
 - Le budget de police, JS initial, CSS inline gzip et les exclusions de la scène 3D comme candidat LCP restent vérifiés sur la PR.
 
-Le run `41524693765` était le dernier run avant la comparaison main/PR et avant le retrait du script AdSense. Le run `41533804636` a bien collecté 18 rapports par build, mais le comparateur n'a reconnu aucun rapport : il cherchait `lhr-*.json` alors que LHCI produit des fichiers `*.report.json`. Le motif est corrigé ; le run échoué ne fournit pas de mesures exploitables pour la décision de fusion.
+Le run `41524693765` était le dernier run avant la comparaison main/PR et avant le retrait du script AdSense. Le run `41533804636` a bien collecté 18 rapports par build, mais le comparateur ne les a pas reconnus : il cherchait `lhr-*.json` au lieu de `*.report.json`. Ce motif est corrigé. Le run `41538516075` a ensuite comparé les rapports ; il échoue le budget LCP de `/` (médiane PR **2 722 ms**, `main` **2 428 ms**, delta **+294 ms**, maximum autorisé +150 ms). Les autres routes ne sont pas imprimées avant le premier échec dans ce run ; la prochaine exécution affichera l'ensemble des six médianes et conservera les JSON LHCI pour analyse.
 
 Le H1 demeure le candidat LCP sur les pages d’accueil, TikTok et blog ; sur l’outil MP3, le candidat est le bloc de texte d’état initial. Aucun rapport ne désigne `.hero-scene`, `.hero-card` ni `.hero-token` comme candidat LCP. La scène décorative reste `aria-hidden` et n’est pas animée au chargement du texte.
 

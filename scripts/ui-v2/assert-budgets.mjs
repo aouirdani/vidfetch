@@ -76,12 +76,21 @@ for (const [pathname, assets] of assetsByRoute) {
   assert.ok(assets.cssGzip <= maxCssGzip, `${pathname}: inline CSS exceeds baseline + 6 KB gzip`);
 }
 
-for (const path of routes) {
+const comparisons = routes.map(path => {
   const main = baseline.get(path), candidate = pr.get(path);
-  const mainPerf = median(main.performance), prPerf = median(candidate.performance);
-  const mainLcp = median(main.lcp), prLcp = median(candidate.lcp);
-  const mainTbt = median(main.tbt), prTbt = median(candidate.tbt);
-  const prCls = median(candidate.cls);
+  return {
+    path,
+    mainPerf: median(main.performance), prPerf: median(candidate.performance),
+    mainLcp: median(main.lcp), prLcp: median(candidate.lcp),
+    mainTbt: median(main.tbt), prTbt: median(candidate.tbt), prCls: median(candidate.cls),
+    candidate,
+  };
+});
+for (const { path, mainPerf, prPerf, mainLcp, prLcp, mainTbt, prTbt, prCls } of comparisons) {
+  console.log(`${path}: Performance ${Math.round(mainPerf * 100)} → ${Math.round(prPerf * 100)} (floor 90, drop max 2); LCP ${Math.round(mainLcp)} → ${Math.round(prLcp)} ms (delta max +150); CLS ${prCls.toFixed(3)}; TBT ${Math.round(mainTbt)} → ${Math.round(prTbt)} ms (delta max +50)`);
+}
+
+for (const { path, mainPerf, prPerf, mainLcp, prLcp, mainTbt, prTbt, prCls, candidate } of comparisons) {
   for (const category of ['accessibility', 'best-practices', 'seo']) {
     assert.equal(median(candidate[category]), 1, `${path}: PR median ${category} must be 100`);
   }
@@ -90,5 +99,4 @@ for (const path of routes) {
   assert.ok(prCls <= 0.02, `${path}: PR median CLS ${prCls} exceeds 0.02`);
   assert.ok(prLcp <= mainLcp + 150, `${path}: PR median LCP ${Math.round(prLcp)} ms exceeds main +150 ms (${Math.round(mainLcp)} ms)`);
   assert.ok(prTbt <= mainTbt + 50, `${path}: PR median TBT ${Math.round(prTbt)} ms exceeds main +50 ms (${Math.round(mainTbt)} ms)`);
-  console.log(`${path}: Performance ${Math.round(mainPerf * 100)} → ${Math.round(prPerf * 100)} (floor 90, drop max 2); LCP ${Math.round(mainLcp)} → ${Math.round(prLcp)} ms (delta max +150); CLS ${prCls.toFixed(3)}; TBT ${Math.round(mainTbt)} → ${Math.round(prTbt)} ms (delta max +50)`);
 }

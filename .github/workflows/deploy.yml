@@ -103,6 +103,16 @@ jobs:
           VIDFETCH_LHCI_SERVER="build/releases/${VIDFETCH_RELEASE}/app/server.js" \
           npx --yes @lhci/cli@0.15.1 autorun --config=.lighthouserc.cjs
           node scripts/ui-v2/assert-budgets.mjs .lighthouseci-main .lighthouseci-pr "build/releases/${VIDFETCH_RELEASE}/app/.next/server/app"
+      - name: Preserve Lighthouse reports for diagnosis
+        if: always()
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        with:
+          name: lighthouse-main-pr-${{ github.sha }}
+          path: |
+            .lighthouseci-main/*.report.json
+            .lighthouseci-pr/*.report.json
+          if-no-files-found: ignore
+          retention-days: 7
       - name: Local conversion fixtures and privacy checks
         run: npm run test:local-tools
       - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
