@@ -1,6 +1,6 @@
 # Résultat final — mission VidFetch
 
-État établi le 1 novembre 2026 à partir du dépôt, des builds locaux et des statuts GitHub disponibles. Les pourcentages ci-dessous mesurent la réalisation technique du périmètre demandé, pas une probabilité de succès commercial.
+État établi le 2 novembre 2026 à partir du dépôt, des builds locaux et des statuts GitHub disponibles. Les pourcentages ci-dessous mesurent la réalisation technique du périmètre demandé, pas une probabilité de succès commercial.
 
 ## Architecture
 
@@ -13,7 +13,7 @@ Le site est une application Next.js App Router rendue côté serveur/statique. L
 | Plateformes | TikTok disponible; Instagram/X annoncés sans garantie | **55 %** | TikTok conservé; Instagram/X et 4 plateformes candidates demeurent verrouillés. Aucun contournement ni test de plateforme sans média autorisé. Voir PR [#30](https://github.com/aouirdani/vidfetch/pull/30). |
 | Formats | TikTok MP4/MP3 | **90 %** | MP3/M4A, compression, coupe et GIF locaux sont inclus dans les 32 pages de la PR #24 fusionnée. Sorties et confidentialité contrôlées avec fixtures; compatibilité réelle des téléphones non certifiée. |
 | Capacité | Quotas et concurrence fixes; pas de mesure | **45 %** | Variables, réservation, file, métriques anonymes et banc isolé préparés dans PR #26. Pas d'application serveur ni de mesure VPS : impossible de promettre plusieurs centaines d'usagers/jour. |
-| UI/UX | Parcours initial | **75 %** | Navigation mobile et captures/audit dans PR [#27](https://github.com/aouirdani/vidfetch/pull/27), build vert. PR non fusionnée à cause du verrou de déploiement. |
+| UI/UX | Parcours initial | **75 % en production** | PR #35 retire le script AdSense non approuvé (meta éditeur conservée, chargeur différé désactivé) et compare désormais les médianes Lighthouse de `main` et de la PR dans le même job Linux. Les précédentes mesures locales ne valent pas validation; nouvelle CI comparative en attente. La PR reste en brouillon, rien n’est déployé. Voir `docs/ui-v2/PERF.md`. |
 | SEO | Blog exclu, peu de pages localisées | **90 %** | Blog indexable, contenus TikTok dans 8 langues, outils locaux et contrôle SEO. PR #29 durcit encore le CI; vérifications locales passent, CI GitHub en cours. Aucun chiffre d'impressions n'est garanti. |
 | Exploitation | Déploiement frontend automatique | **55 %** | CI, tests de fumée, documentation de capacité, kit de lancement et procédure de vérification ajoutés. Le déploiement des releases contenant moteur/passerelle est bloqué par le garde de promotion; pas d'accès SSH/sudo pour le résoudre. |
 
@@ -36,6 +36,7 @@ Les pourcentages ne s'additionnent pas et ne représentent pas un score du site.
 - Phase 4 : dans `feat/platform-audit`, `npm run lint`, `npm run typecheck`, `npm test` **192/192**, `npm run test:i18n` (**97 pages**, 8 langues) passent. Les candidats n'apparaissent ni dans le sitemap ni dans le rendu. Le vérificateur réel n'a pas été lancé.
 - Phase 5 : avant le revert, `feat/seo-debt` avait lint, typecheck, `npm test` **192/192**, `test:i18n` (**97 pages**, 8 langues), build OVH, Vercel/browser smoke et `seo-check` (**82 URL**, zéro orpheline, HTML max **200 290 octets**) au vert. Après rebase post-revert, lint/typecheck et `npm test` **191/191** repassent en local; CI GitHub complète encore à faire.
 - Phase 6 : textes préparés dans `docs/launch/` seulement; aucun compte tiers n'a été utilisé et rien n'a été publié.
+- UI v2 (#35) : build OVH local, lint, typecheck, `npm test` **192/192**, `test:i18n` (**97 pages**, 8 langues) et `seo-check` (**82 URL**) passent. Les mesures Lighthouse locales respectent les seuils : P **97–98**, A11y/BP/SEO **100**, CLS **0**, LCP **2 348–2 496 ms**, TBT maximum **115 ms**. Toutefois, le workflow CI Linux `41524693765` a échoué sur Lighthouse : P **89–90** pour cinq pages, LCP **2 549–2 694 ms** sur les six, TBT **314–338 ms** sur cinq. Pas de fusion ni de déploiement. JS **162 011 B**, CSS gzip **12 913 B** (baseline +2 629 B; plafond +6 000), Bricolage Latin/Latin-ext **32 340 B**, aucune police web en arabe. Voir le diagnostic et la suite NO-GO dans `docs/ui-v2/PERF.md`.
 
 ## URL nouvelles ou modifiées
 

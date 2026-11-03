@@ -148,13 +148,15 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
 
       {waiting&&<p role="status" className="mx-auto mt-4 max-w-3xl text-sm text-slate-300">{waiting}</p>}
       <form onSubmit={(event) => { event.preventDefault(); if (!loading) void submit(); }}
-        className={clsx("mx-auto w-full max-w-3xl", compact ? "mt-7" : "mt-8")}>
+        data-ready={result ? "true" : "false"}
+        className={clsx("fetch-form mx-auto w-full max-w-3xl", compact ? "mt-7" : "mt-8")}>
+        <label htmlFor="vidfetch-url">{d.videoLink}</label>
         <div className={clsx("flex flex-col gap-2 rounded-2xl p-2 ring-1 transition-colors duration-200 sm:flex-row sm:items-center",
           "glass-strong shadow-[0_24px_70px_-40px_rgba(34,211,238,0.2)]",
           invalid ? "ring-amber-400/40" : detection.ok ? "ring-cyan-400/50" : "ring-white/10 focus-within:ring-cyan-400/50")}>
           <div className="flex flex-1 items-center gap-2.5 px-2">
             <Link2 className={clsx("h-5 w-5 shrink-0 transition-colors", detection.ok ? "text-cyan-300" : "text-slate-400")} aria-hidden />
-            <input ref={inputRef} value={value} onChange={(event) => { setValue(event.target.value); if (error) setError(null); }}
+            <input id="vidfetch-url" ref={inputRef} value={value} onChange={(event) => { setValue(event.target.value); if (error) setError(null); }}
               type="url" inputMode="url" autoComplete="off" spellCheck={false} maxLength={4096} enterKeyHint="go"
               placeholder={d.placeholder} aria-label={d.videoLink} dir="ltr" aria-describedby="url-help" aria-invalid={invalid}
               className="h-12 w-full min-w-0 bg-transparent text-[15px] text-white placeholder:text-slate-400 focus:outline-none" />
