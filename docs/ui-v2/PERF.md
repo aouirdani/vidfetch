@@ -43,7 +43,18 @@ Pour chaque page, les assertions sont :
 - LCP PR ≤ LCP main +150 ms ; TBT PR ≤ TBT main +50 ms.
 - Le budget de police, JS initial, CSS inline gzip et les exclusions de la scène 3D comme candidat LCP restent vérifiés sur la PR.
 
-Le run `41524693765` était le dernier run avant la comparaison main/PR et avant le retrait du script AdSense. Le run `41533804636` a bien collecté 18 rapports par build, mais le comparateur ne les a pas reconnus : il cherchait `lhr-*.json` au lieu de `*.report.json`. Ce motif est corrigé. Le run `41538516075` a ensuite comparé les rapports ; il échoue le budget LCP de `/` (médiane PR **2 722 ms**, `main` **2 428 ms**, delta **+294 ms**, maximum autorisé +150 ms). Les autres routes ne sont pas imprimées avant le premier échec dans ce run ; la prochaine exécution affichera l'ensemble des six médianes et conservera les JSON LHCI pour analyse.
+Le run `41524693765` était le dernier run avant la comparaison main/PR et avant le retrait du script AdSense. Le run `41533804636` a bien collecté 18 rapports par build, mais le comparateur ne les a pas reconnus : il cherchait `lhr-*.json` au lieu de `*.report.json`. Ce motif est corrigé. Le run `41538516075` a échoué au LCP de `/` (PR **2 722 ms**, `main` **2 428 ms**, delta **+294 ms**). Le run `41542713148` a ensuite affiché les médianes complètes :
+
+| Page | Perf. main → PR | LCP main → PR | TBT main → PR | Verdict budget LCP |
+|---|---:|---:|---:|---|
+| `/` | 94 → 96 | 1 820 → 2 676 ms | 261 → 142 ms | ❌ (+856 ms) |
+| `/fr` | 92 → 96 | 2 357 → 2 660 ms | 285 → 150 ms | ❌ (+303 ms) |
+| `/id/download-video-tiktok` | 91 → 97 | 2 475 → 2 264 ms | 295 → 142 ms | ✅ (−211 ms) |
+| `/video-to-mp3` | 99 → 95 | 1 962 → 2 753 ms | 66 → 142 ms | ❌ (+791 ms) |
+| `/blog/why-cant-i-save-tiktok` | 93 → 99 | 2 312 → 2 113 ms | 271 → 71 ms | ✅ (−199 ms) |
+| `/ar` | 94 → 95 | 1 959 → 2 604 ms | 275 → 144 ms | ❌ (+645 ms) |
+
+Performance, CLS et TBT respectent les budgets, mais quatre pages échouent au LCP comparatif. Le rapport ne contient pas les traces d’audit nécessaires pour identifier le candidat et la chaîne critique ; les JSON LHCI n'ont pas été archivés, car `upload-artifact` exclut les chemins cachés par défaut. Le workflow active maintenant `include-hidden-files` afin que le prochain run permette un diagnostic fondé sur les rapports.
 
 Le H1 demeure le candidat LCP sur les pages d’accueil, TikTok et blog ; sur l’outil MP3, le candidat est le bloc de texte d’état initial. Aucun rapport ne désigne `.hero-scene`, `.hero-card` ni `.hero-token` comme candidat LCP. La scène décorative reste `aria-hidden` et n’est pas animée au chargement du texte.
 
