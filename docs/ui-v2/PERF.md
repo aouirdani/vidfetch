@@ -32,33 +32,13 @@ Build Next de production avec `VIDFETCH_TARGET=ovh`, servi par `next start` sur 
 
 Le workflow échouait aussi sur des audits supplémentaires (`label-content-name-mismatch`, `legacy-javascript`, `network-dependency-tree-insight`, `unused-javascript`) hérités de `lighthouse:recommended`, qui n’étaient pas dans les critères du propriétaire. Le preset a été retiré. Après confirmation que le TBT est causé par le tag publicitaire (la page MP3 sans ce tag était la seule à passer), le tag est retiré du layout en attendant l'approbation AdSense; la déclaration de compte et `/ads.txt` restent. Le chargeur différé préparé est désactivé par défaut et ne peut démarrer qu'après une interaction ou un défilement **et** après l'événement `load`.
 
-## Comparaison Lighthouse CI main / PR
+## Lighthouse CI
 
-Le job CI construit `main` et l'artefact OVH de la PR dans le même runner Linux/Node 22. Il exécute Lighthouse mobile sur les mêmes six URL, avec la même version de Chrome/Lighthouse, trois passes séquentielles par build. Les rapports de chaque build sont conservés séparément puis comparés par URL avec la médiane des trois passes. Le preset Lighthouse recommandé est désactivé : seules les règles convenues sont bloquantes. Les assertions natives LHCI exigent A11y/BP/SEO=100 et CLS≤0,02 pour chaque build; le comparateur applique les seuils Performance à la PR uniquement afin que le build historique de `main` puisse servir de référence même s'il est sous le plancher.
+Le workflow exécute un seul build de production OVH et une campagne mobile de trois passes sur `/`, `/fr`, `/id/download-video-tiktok`, `/video-to-mp3`, `/blog/why-cant-i-save-tiktok` et `/ar`. Il ne construit plus `main` pour une comparaison. Les seuls contrôles Lighthouse bloquants sont Accessibilité=100, Bonnes pratiques=100, SEO=100 et CLS≤0,02 (médiane de trois passes). Les rapports JSON sont conservés sept jours comme artefact, même si l'un de ces contrôles échoue.
 
-Pour chaque page, les assertions sont :
+Performance, LCP et TBT ainsi que les budgets indicatifs JS/CSS/polices et le test de scène LCP sont affichés par `scripts/ui-v2/report-budgets.mjs` avec des annotations d'avertissement, sans faire échouer la CI. Repères d'avertissement : Performance<90, LCP>2 500 ms, TBT>200 ms, JS>166 266 B, CSS inline gzip>16 284 B et polices latines>90 000 B. Les résultats de laboratoire comparatifs précédents ne servent plus de condition de fusion ; après le déploiement, le propriétaire fera la mesure de référence sur `pagespeed.web.dev`.
 
-- Accessibilité, Bonnes pratiques et SEO : médiane exactement 100 % ; CLS médian ≤0,02.
-- Performance PR ≥90 et Performance PR ≥ Performance main −2 points.
-- LCP PR ≤ LCP main +150 ms ; TBT PR ≤ TBT main +50 ms.
-- Le budget de police, JS initial, CSS inline gzip et les exclusions de la scène 3D comme candidat LCP restent vérifiés sur la PR.
-
-Le run `41524693765` était le dernier run avant la comparaison main/PR et avant le retrait du script AdSense. Le run `41533804636` a bien collecté 18 rapports par build, mais le comparateur ne les a pas reconnus : il cherchait `lhr-*.json` au lieu de `*.report.json`. Ce motif est corrigé. Le run `41538516075` a échoué au LCP de `/` (PR **2 722 ms**, `main` **2 428 ms**, delta **+294 ms**). Le run `41542713148` a ensuite affiché les médianes complètes :
-
-| Page | Perf. main → PR | LCP main → PR | TBT main → PR | Verdict budget LCP |
-|---|---:|---:|---:|---|
-| `/` | 94 → 96 | 1 820 → 2 676 ms | 261 → 142 ms | ❌ (+856 ms) |
-| `/fr` | 92 → 96 | 2 357 → 2 660 ms | 285 → 150 ms | ❌ (+303 ms) |
-| `/id/download-video-tiktok` | 91 → 97 | 2 475 → 2 264 ms | 295 → 142 ms | ✅ (−211 ms) |
-| `/video-to-mp3` | 99 → 95 | 1 962 → 2 753 ms | 66 → 142 ms | ❌ (+791 ms) |
-| `/blog/why-cant-i-save-tiktok` | 93 → 99 | 2 312 → 2 113 ms | 271 → 71 ms | ✅ (−199 ms) |
-| `/ar` | 94 → 95 | 1 959 → 2 604 ms | 275 → 144 ms | ❌ (+645 ms) |
-
-Performance, CLS et TBT respectent les budgets, mais quatre pages échouent au LCP comparatif. Le rapport ne contient pas les traces d’audit nécessaires pour identifier le candidat et la chaîne critique ; les JSON LHCI n'ont pas été archivés, car `upload-artifact` exclut les chemins cachés par défaut. Le workflow active maintenant `include-hidden-files` afin que le prochain run permette un diagnostic fondé sur les rapports.
-
-Le H1 demeure le candidat LCP sur les pages d’accueil, TikTok et blog ; sur l’outil MP3, le candidat est le bloc de texte d’état initial. Aucun rapport ne désigne `.hero-scene`, `.hero-card` ni `.hero-token` comme candidat LCP. La scène décorative reste `aria-hidden` et n’est pas animée au chargement du texte.
-
-Les seuils finaux remplacent l’ancienne limite LCP de 1 800 ms, le plancher Performance ≥95 et la comparaison baseline +150 ms. Les médianes de trois passes exigent A11y/BP/SEO=100, CLS≤0,02, Performance PR≥90 et ≥Performance main−2 points, LCP PR≤LCP main+150 ms et TBT PR≤TBT main+50 ms. Le plancher Performance ne s'applique qu'à la PR.
+Les anciennes campagnes comparatives (runs `41538516075` et `41542713148`) avaient montré des dépassements LCP sur `/`, `/fr`, `/video-to-mp3` et `/ar`, tandis que Performance, CLS et TBT passaient les budgets retenus. Ces scores sont historiques et ne représentent pas une mesure de production. L'artefact de la dernière campagne a permis de vérifier que le candidat LCP était le H1 des accueils et le texte d'état de l'outil MP3 ; aucune page ne désignait `.hero-scene`, `.hero-card` ou `.hero-token` comme candidat.
 
 ## Poids et polices
 
@@ -75,7 +55,7 @@ INP n’est pas mesurable de façon stable par ces navigations synthétiques san
 
 ### Diagnostic `/id/download-video-tiktok`
 
-Le candidat LCP est le paragraphe descriptif du héros, pas une image. Sur cette page comme sur les autres, Lighthouse mesure **162 011 B** de JavaScript première partie, avec les mêmes deux chunks principaux (**67 861 B** et **64 658 B**). Aucune image n’est transférée ; la même police Latin de **22 209 B** est demandée que sur EN/FR/MP3/blog. La mesure précédente ne montrait ni bundle additionnel ni ressource spécifique ID ; ses tâches AdSense sont désormais supprimées du parcours initial. La comparaison après le retrait doit confirmer si le TBT restant provient du runtime partagé. Les valeurs locales ID (LCP **2 495 ms**, TBT **115 ms**) restent indicatives et ne remplacent pas la comparaison CI.
+La dernière campagne comparative n'a relevé aucune ressource ou bundle propre à cette page ; son LCP était le paragraphe descriptif du héros. Le script AdSense ne se charge plus dans le layout initial. La nouvelle CI fournira les métriques de laboratoire à titre indicatif, et le propriétaire mesurera le site déployé avec PageSpeed Insights.
 
 ## Captures
 

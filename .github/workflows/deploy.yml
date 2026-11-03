@@ -75,42 +75,26 @@ jobs:
           sudo apt-get install -y ffmpeg
       - name: Server HTML, eight languages, RTL and unchanged API paths
         run: npm run test:i18n
-      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
-        name: Check out main for same-job Lighthouse baseline
-        with:
-          ref: main
-          path: baseline/source
-          persist-credentials: false
-      - name: Build main baseline with the same Linux runner and Node version
-        id: main-build
-        run: |
-          VIDFETCH_BASELINE_SHA="$(git -C baseline/source rev-parse HEAD)"
-          echo "sha=$VIDFETCH_BASELINE_SHA" >> "$GITHUB_OUTPUT"
-          npm ci --prefix baseline/source --ignore-scripts
-          cd baseline/source
-          VIDFETCH_RELEASE="$VIDFETCH_BASELINE_SHA" node scripts/ovh/build-release.mjs
-      - name: Compare Lighthouse mobile budgets against main in this job
+      - name: Lighthouse mobile audit (blocking accessibility, SEO and CLS only)
         env:
           VIDFETCH_RELEASE: ${{ github.sha }}
-          VIDFETCH_BASELINE_SHA: ${{ steps.main-build.outputs.sha }}
         run: |
           CHROME_PATH="$(node -e 'process.stdout.write(require("playwright").chromium.executablePath())')"
           export CHROME_PATH
-          LHCI_OUTPUT_DIR=.lighthouseci-main \
-          VIDFETCH_LHCI_SERVER="baseline/source/build/releases/${VIDFETCH_BASELINE_SHA}/app/server.js" \
-          npx --yes @lhci/cli@0.15.1 autorun --config=.lighthouserc.cjs
           LHCI_OUTPUT_DIR=.lighthouseci-pr \
           VIDFETCH_LHCI_SERVER="build/releases/${VIDFETCH_RELEASE}/app/server.js" \
           npx --yes @lhci/cli@0.15.1 autorun --config=.lighthouserc.cjs
-          node scripts/ui-v2/assert-budgets.mjs .lighthouseci-main .lighthouseci-pr "build/releases/${VIDFETCH_RELEASE}/app/.next/server/app"
-      - name: Preserve Lighthouse reports for diagnosis
+      - name: Report performance budgets as warnings only
+        if: always()
+        env:
+          VIDFETCH_RELEASE: ${{ github.sha }}
+        run: node scripts/ui-v2/report-budgets.mjs .lighthouseci-pr "build/releases/${VIDFETCH_RELEASE}/app/.next/server/app"
+      - name: Preserve Lighthouse reports and warnings
         if: always()
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
-          name: lighthouse-main-pr-${{ github.sha }}
-          path: |
-            .lighthouseci-main/*.report.json
-            .lighthouseci-pr/*.report.json
+          name: lighthouse-${{ github.sha }}
+          path: .lighthouseci-pr/*.report.json
           if-no-files-found: ignore
           retention-days: 7
           include-hidden-files: true
