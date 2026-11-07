@@ -7,6 +7,14 @@ import { hasUnfinishedFields } from "./publisher";
 
 export type Guide = { id: string; locale: Locale; slug: string; title: string; seoTitle?: string; publicationRequested?: boolean; description: string; category: string; created: string; updated: string; published: string | null; status: "ready" | "review" | "draft"; review?: { linguistic: "pending" | "approved"; technical: "pending" | "approved"; reviewer: string | null; reviewedAt: string | null }; sourceSha256?: string; sourceBodySha256?: string; related: string[]; sources: { title: string; url: string }[]; body: string; minutes: number };
 const catalogues = new Map<Locale, Guide[]>();
+const publicationFields = new WeakMap<Guide, { body: string; metadata: string; unfinished: boolean }>();
+function unfinishedGuide(guide: Guide) {
+  const { body, ...metadata } = guide, signature = JSON.stringify(metadata), cached = publicationFields.get(guide);
+  if (cached?.body === body && cached.metadata === signature) return cached.unfinished;
+  const unfinished = hasUnfinishedFields(body) || hasUnfinishedFields(metadata);
+  publicationFields.set(guide, { body, metadata: signature, unfinished });
+  return unfinished;
+}
 export function guides(locale: Locale = "en"): Guide[] {
   const cached = catalogues.get(locale); if (cached) return cached;
   const directory = join(process.cwd(), "content/guides", ...(locale === "en" ? [] : [locale]));
@@ -26,7 +34,7 @@ export function guides(locale: Locale = "en"): Guide[] {
 }
 export function guideFor(slug: string, locale: Locale = "en") { return guides(locale).find(guide => guide.slug === slug); }
 export function isReviewedGuide(guide: Guide) {
-  if (!guide || guide.status !== "ready" || hasUnfinishedFields(guide)) return false;
+  if (!guide || guide.status !== "ready" || unfinishedGuide(guide)) return false;
   if (guide.locale === "en") return true;
   const original = guides().find(g => g.id === guide.id);
   const currentSource = original ? createHash("sha256").update(original.body).digest("hex") : undefined;
