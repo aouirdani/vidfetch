@@ -85,7 +85,8 @@ try {
     assert.equal(response.headers.get('content-security-policy'),null,`${url}: no application enforcing CSP`);
     assert.doesNotMatch(response.headers.get('x-robots-tag')??'',/noindex|nofollow|none|nosnippet|noarchive|unavailable_after|max-snippet:\s*0/i,url);
     const html=await response.text(), htmlBytes=Buffer.byteLength(html); await dom.setContent(html,{waitUntil:'domcontentloaded'});
-    assert.match(html,/<!--email_off--><a href="mailto:abuse@vidfetch\.app">/,`${url}: unobfuscated abuse mailto`);
+    // Cloudflare consumes email_off comments while leaving the protected mailto in its public HTML.
+    assert.match(html,/<a href="mailto:abuse@vidfetch\.app">/,`${url}: unobfuscated abuse mailto`);
     assert.doesNotMatch(html,/<a[^>]+href="\/cdn-cgi\/l\/email-protection/,`${url}: no obfuscated internal email link`);
     const data=await dom.evaluate(()=>({
       title:document.title, description:document.querySelector('meta[name=description]')?.content,

@@ -3,7 +3,7 @@ import { test } from "node:test";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import configuration from "../next.config";
-import { AbuseLink } from "../src/components/AbuseLink";
+import { AbuseLink, ContactText } from "../src/components/AbuseLink";
 import { dictionary } from "../src/i18n/dictionaries";
 import { articlePath, LANGUAGES, LOCALES } from "../src/i18n/config";
 import { guideSchema, isPublishedGuide } from "../src/lib/guides";
@@ -11,6 +11,7 @@ import { homeGuides, tiktokGuides, TIKTOK_GUIDE_IDS } from "../src/lib/guide-lin
 import { localizedMetadata } from "../src/lib/localized-seo";
 import { languageAlternates, resolvePage } from "../src/lib/site-pages";
 import { platformLinks } from "../src/lib/platform-pages";
+import { withOfficialContacts } from "../src/lib/contact";
 
 test("the three TikTok guides have eight published equivalents and links to both local tools", () => {
   for (const locale of LOCALES) {
@@ -55,6 +56,21 @@ test("abuse mailto remains server-rendered inside Cloudflare's opt-out, with esc
   }
   const untrustedLabel = renderToStaticMarkup(createElement(AbuseLink, { label: '<img src=x onerror="alert(1)">' }));
   assert.doesNotMatch(untrustedLabel, /<img/);
+});
+
+test("plain legal contact paragraphs are protected too, in all eight languages", () => {
+  for (const locale of LOCALES) {
+    const d = withOfficialContacts(dictionary(locale));
+    for (const key of ["notice1", "privacy6", "report1"] as const) {
+      const html = renderToStaticMarkup(createElement(ContactText, { text: d[key] }));
+      assert.match(html, /<!--email_off-->/);
+      assert.match(html, /<!--\/email_off-->/);
+      assert.doesNotMatch(html, /<a|email-protection/);
+      assert.match(html, /@vidfetch\.app/);
+    }
+  }
+  assert.doesNotMatch(renderToStaticMarkup(createElement(ContactText, { text: '<img src=x> abuse@vidfetch.app' })), /<img/);
+  assert.equal(renderToStaticMarkup(createElement(ContactText, { text: "No contact here" })), "No contact here");
 });
 
 test("the application adds security headers with an observational CSP compatible with local media and Turnstile", async () => {
