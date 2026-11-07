@@ -154,3 +154,20 @@ Date affichée en Europe/Paris. Les commits de la branche de travail ne devienne
 - Le contrôle HTTP public avant activation a confirmé trois autres ancres Cloudflare dans `/legal`, générées à partir des adresses textuelles legal/privacy/abuse. Le correctif du seul footer aurait laissé huit pages légales signalées.
 - Même exclusion Cloudflare appliquée aux paragraphes contenant nos adresses publiques, avec échappement du texte et sans lien HTTP technique. Les tests couvrent les 24 paragraphes de contact des huit langues et l’échappement HTML. Aucun réglage Cloudflare ou serveur modifié. Validation et bilan public de ce complément à suivre.
 - HTTP public après PR #38 : Cloudflare consomme les commentaires `email_off`, mais conserve bien le mailto en clair et ne génère plus d’ancre technique sur l’accueil. `seo-check` contrôle donc le lien final plutôt que la conservation des commentaires ; les tests du composant vérifient séparément le balisage envoyé à Cloudflare.
+
+
+## 2026-11-07 — Vague SEO 3, bilan de production
+
+- PR #38 fusionnée après CI verte `42319792700`, activation main `42354097509` validée. Complément des contacts légaux PR #39 fusionné après CI verte `42360231821`, activation finale `42362083325`. Release publique finale : `7a8da1996057a18c63b27bbe1289555b87ec2b99`.
+- Vérification publique : 106 URL, aucun orphelin, canonical/hreflang/OG/JSON-LD et sitemap cohérents ; HSTS, SAMEORIGIN, Referrer-Policy et CSP Report-Only vérifiés dans les réponses. Le mailto est lisible sans JavaScript et aucun lien technique Cloudflare ne subsiste dans ce périmètre.
+- Chromium mobile : 24 pages principales, trois guides locaux chacune, sept OG alternatives, pas de débordement. Conversion MP3 synthétique réussie (49083 octets, 2.038617 s), worker/service worker actifs, zéro envoi de média ou requête tierce pendant la conversion. Sélecteur natif de fichier remplacé par le parcours téléchargement pour ce test headless.
+- Audit OpenSEO de suivi non exécuté : HTTP 401 sur whoami/list_projects et sur le dry-run. Reconnexion demandée ; aucun audit créé ni crédit consommé. Paramètres gratuits préparés (render_mode=off, use_fallback=false). Rapport initial complété avec vérifications publiques, mesures CI et ce blocage ; dernier score OpenSEO disponible : 9/100 sur l'état du 06/11.
+- Coût OpenSEO cumulé inchangé : 0,61 USD / 2 USD. Pas de nouveau lookup payant, de soumission manuelle Google/IndexNow ni d'activation du backend/gateway.
+
+## 2026-11-07 — PR #37, crawl OpenSEO final terminé
+
+- Connexion rétablie : `whoami` et `list_projects` réussissent ; projet VidFetch existant `0289621d-1d2e-411b-b57b-df52dc7f5515` réutilisé. Le blocage HTTP 401 décrit dans le bilan précédent est levé.
+- Dry-run confirmé à 0 USD, puis audit `9fd43d17-a430-43d8-8b37-8ec459462392` terminé entre 12:02:33.308 et 12:03:19.817 UTC. `max_pages=1000`, `render_mode=off`, `use_fallback=false`, aucune troncature, aucun rendu/proxy payant. Release publique vérifiée : `7a8da1996057a18c63b27bbe1289555b87ec2b99`.
+- Résultat OpenSEO : **100/100**, 114 URL en 2xx, 106 pages HTML indexables et 106 entrées sitemap, zéro 4xx/5xx, zéro critique/warning. Les 82 alertes de liens internes Cloudflare sont supprimées ; la cible technique n'est plus découverte (`missing`, sans prétendre qu'elle répond désormais 200). Alertes HSTS et clickjacking supprimées.
+- Les 20 observations `info` sont détaillées dans le rapport : 13 changements éditoriaux attendus, cinq URL arabes signalées pour leur encodage, absence de CSP bloquante malgré Report-Only confirmé, absence de llms.txt. Aucun gain Google ni nouveau score Lighthouse déduit de ce crawl.
+- Coût du crawl terminé : **0 USD** ; coût de mission inchangé à **0,61 USD / 2 USD**. Rapport et journal complétés dans la PR #37 ; contrôle documentaire `git diff --check`, aucun changement applicatif ni déploiement.
