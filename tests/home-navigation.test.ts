@@ -67,7 +67,7 @@ describe("navigation", () => {
       assert.equal(sitePages().some(p => p.locale === locale && p.identity.kind === "blog"), has, locale);
     }
     for (const file of ["src/components/Header.tsx", "src/components/Footer.tsx"]) {
-      for (const link of source(file).match(/<Link href=\{sectionPath\(locale, "blog"\)\}[^>]*>/g) ?? []) {
+      for (const link of source(file).match(/<(?:Link|a) href=\{sectionPath\(locale, "blog"\)\}[^>]*>/g) ?? []) {
         const at = source(file).indexOf(link);
         assert.match(source(file).slice(Math.max(0, at - 40), at), /(guides|availableGuides\(locale\)\.length > 0) && $/, `${file}: ${link}`);
       }
