@@ -146,3 +146,10 @@ Date affichée en Europe/Paris. Les commits de la branche de travail ne devienne
 - En-têtes applicatifs : HSTS (un an), SAMEORIGIN, Referrer-Policy et CSP Report-Only. Les sources Turnstile, workers blob, WebAssembly et service worker même origine sont prévues ; aucune CSP bloquante ajoutée.
 - Validation à ce stade : lint, typecheck et 196/196 tests Node réussis ; contrôle de sortie sans secret réussi. Le build Turbopack local reste empêché par une ouverture de port interdite ; build OVH local Webpack et seo-check sur 106 URL réussis, sans orphelines ; contrôle Turbopack Linux à effectuer par la CI. Les huit langues passent sur 106 pages, avec 24 transferts simulés ; les outils locaux passent avec 26 sorties ffprobe et huit sorties OPFS. Les nouveaux guides portent la date de publication du 07/11, jour de cette livraison. PR #38 ouverte ; pas encore de fusion ni de déploiement pour cette vague.
 - Après CI entièrement verte : revue du diff, fusion, contrôle de l’activation OVH et des 106 URL publiques ; audit OpenSEO avec rendu et proxy payants désactivés. Le bilan de production et son audit seront ajoutés au rapport, sans nouvel appel payant.
+
+
+## 2026-11-07 — Vague SEO 3, complément contacts légaux
+
+- PR #38 fusionnée après CI verte `42319792700` ; main `f092735` en cours de validation/déploiement (`42354097509`).
+- Le contrôle HTTP public avant activation a confirmé trois autres ancres Cloudflare dans `/legal`, générées à partir des adresses textuelles legal/privacy/abuse. Le correctif du seul footer aurait laissé huit pages légales signalées.
+- Même exclusion Cloudflare appliquée aux paragraphes contenant nos adresses publiques, avec échappement du texte et sans lien HTTP technique. Les tests couvrent les 24 paragraphes de contact des huit langues et l’échappement HTML. Aucun réglage Cloudflare ou serveur modifié. Validation et bilan public de ce complément à suivre.
