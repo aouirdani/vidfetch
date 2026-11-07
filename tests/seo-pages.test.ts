@@ -256,10 +256,10 @@ describe("site-wide claims", () => {
   it("dates each page by its last substantial change in the sitemap and its structured data", () => {
     const lastmod = Object.fromEntries(sitemap().map(e => [decodeURIComponent(new URL(e.url).pathname), new Date(e.lastModified!).toISOString().slice(0, 10)]));
     for (const path of ["/tiktok-video-downloader", "/tiktok-to-mp3", "/fr/telecharger-video-tiktok", "/fr/tiktok-en-mp3"]) assert.equal(lastmod[path], "2026-11-06", path);
-    // Guide links changed the homes on 06/11; the unchanged legal pages keep their own date.
+    // Guide links changed the homes on 06/11; verified legal/privacy content was revised on 07/11.
     for (const path of ["/", "/fr"]) assert.equal(lastmod[path], "2026-11-06", path);
     for (const path of ["/es", "/ar"]) assert.equal(lastmod[path], "2026-11-06", path);
-    for (const path of ["/legal", "/fr/mentions-legales"]) assert.equal(lastmod[path], "2026-10-30", path);
+    for (const path of ["/legal", "/fr/mentions-legales"]) assert.equal(lastmod[path], "2026-11-07", path);
     assert.equal(Object.keys(lastmod).length, 106);
   });
 
