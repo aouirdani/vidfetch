@@ -1,0 +1,1522 @@
+{
+  "en": {
+    "about": {
+      "slug": "about",
+      "title": "About VidFetch",
+      "description": "Who operates VidFetch, what the service does, and how server downloads differ from private browser tools.",
+      "sections": [
+        {
+          "heading": "Publisher and purpose",
+          "paragraphs": [
+            "Publisher: {name}. Country: {country}. Launch date: {launched}.",
+            "VidFetch helps you save authorised TikTok videos and work with video files you already own. Keep the original and check any new copy before using or sharing it."
+          ]
+        },
+        {
+          "heading": "Two different workflows",
+          "paragraphs": [
+            "The TikTok downloader sends a public video link to the server for analysis and preparation. TikTok is the only platform verified for this service. Availability depends on permissions, the source and service limits.",
+            "Video to MP3/M4A, compression, trimming and GIF creation process a file you select in your browser. The media file is not uploaded. The browser downloads the processing code from VidFetch."
+          ]
+        },
+        {
+          "heading": "Boundaries",
+          "paragraphs": [
+            "No YouTube service, watermark removal or bypass of creator download restrictions is offered. A public post does not automatically grant permission to save or redistribute it.",
+            "The local tools do not offer cropping, audio normalisation, synchronisation repair or metadata removal. Format and memory support vary by browser. Contact, privacy, terms, copyright and editorial information are linked below when published."
+          ]
+        }
+      ]
+    },
+    "contact": {
+      "slug": "contact",
+      "title": "Contact VidFetch",
+      "description": "Contact the operator about help, press, copyright or privacy without submitting a file through a form.",
+      "sections": [
+        {
+          "heading": "Choose the subject",
+          "paragraphs": [
+            "General help and press: {legal}. Privacy: {privacy}. Copyright and abuse: {abuse}.",
+            "Response time: {responseTime}. Include the page address, your browser and the error message. Do not send passwords, private links or a confidential media file."
+          ]
+        },
+        {
+          "heading": "Email only",
+          "paragraphs": [
+            "This page has no contact form and does not store a submitted message. Your email provider and the receiving mailbox process any email you choose to send.",
+            "For a rights report, include the source URL, the concern and evidence that you own the rights or act for the rights holder."
+          ]
+        }
+      ]
+    },
+    "privacy": {
+      "slug": "privacy",
+      "title": "VidFetch privacy policy",
+      "description": "How VidFetch handles public links, security identifiers, cookies and temporary browser files while ads remain inactive.",
+      "sections": [
+        {
+          "heading": "Operator and contact",
+          "paragraphs": [
+            "The operator responsible for this service is {name}, in {country}. Privacy requests: {privacy}."
+          ]
+        },
+        {
+          "heading": "Public links and local files",
+          "paragraphs": [
+            "For a TikTok download, the public link and selected format reach the server and the source platform. They are used to analyse and deliver that requested video, subject to access checks.",
+            "Files selected in the local MP3/M4A, compressor, trimmer and GIF tools remain on your device. Engine files are fetched from VidFetch; the selected recording is not sent to a conversion server."
+          ]
+        },
+        {
+          "heading": "Security cookies and identifiers",
+          "paragraphs": [
+            "No VidFetch user account or public profile is required. Download authorisation uses a Secure, HttpOnly, SameSite=Strict cookie, __Host-vidfetch-access, with a 30-minute lifetime. The single-transfer cookie expires with its short-lived ticket. These are access controls, not advertising cookies.",
+            "The server receives an IP address to route and secure requests. The gateway derives a keyed identifier for rate limits and quotas; its quota database does not store the raw IP, source URL or video title. Browser signing keys and API grants stay in memory."
+          ]
+        },
+        {
+          "heading": "Application retention",
+          "paragraphs": [
+            "Unused gateway tickets default to 55 seconds; transfer status defaults to 30 minutes, with expired entries removed during cleanup. Quota counters expire at the UTC day boundary and are deleted on the next cleanup. Anti-replay proof records expire after 90 seconds.",
+            "The application does not provide a permanent public media library. Temporary processing resources are released when an operation ends, fails or expires. Downloaded files you save remain on your device until you remove them."
+          ]
+        },
+        {
+          "heading": "Browser storage",
+          "paragraphs": [
+            "A local conversion may write a temporary output into origin-private file storage (OPFS). It is deleted after its download stream finishes or is cancelled, when you discard it, or during later cleanup after an interrupted visit. A downloaded copy is separate from that temporary.",
+            "A scoped service worker assists local downloads. Browser caching and site storage may retain the worker and engine assets. You can clear site data in your browser; doing so can interrupt a current local operation."
+          ]
+        },
+        {
+          "heading": "Infrastructure and verification",
+          "paragraphs": [
+            "Cloudflare delivers the site and processes network requests. The download verification flow uses Cloudflare Turnstile; its widget contacts Cloudflare and the server verifies the challenge token.",
+            "The versioned Caddy configuration disables access logging and filters sensitive request fields from operational errors. Infrastructure log retention, including hosting and Cloudflare settings: {infrastructureRetention}. Do not interpret an example retention file as proof of a live setting."
+          ]
+        },
+        {
+          "heading": "Advertising",
+          "paragraphs": [
+            "The site may display Google AdSense advertisements in the future; they are not active today. No AdSense advertising script or consent message is activated by this change. Before ads are enabled, the notice and consent configuration must reflect the actual data use."
+          ]
+        },
+        {
+          "heading": "Your rights",
+          "paragraphs": [
+            "Where the GDPR applies, you may request access, correction, deletion, restriction or portability, and object where applicable. Write to {privacy} with enough context to identify the request, without sending unnecessary personal data. You may complain to the competent data protection authority.",
+            "Requests concerning a video hosted on TikTok should also be directed to the source platform. Deleting a local file from your device is under your control."
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "slug": "terms",
+      "title": "VidFetch terms of use",
+      "description": "Permitted uses, source restrictions and practical limits for TikTok downloads and local video tools.",
+      "sections": [
+        {
+          "heading": "Authorised use",
+          "paragraphs": [
+            "Use content you own, that is appropriately licensed, or that you have permission to save and edit. Public visibility does not transfer copyright or permission to redistribute.",
+            "Do not bypass a creator’s download restrictions, login requirements or other access controls. Automated abuse, excessive requests and attempts to overload the service are prohibited."
+          ]
+        },
+        {
+          "heading": "Service limits",
+          "paragraphs": [
+            "TikTok is the only verified platform. YouTube and watermark removal are not offered. Downloads are not guaranteed; source availability, format support, duration and capacity limits apply.",
+            "Current gateway defaults limit downloads to 8 operations and 1 GiB per IP/temporary identity per UTC day, with 100 operations and 4 GiB globally. A transfer is capped at 256 MiB and a video at 30 minutes. A busy or exhausted service may refuse a request.",
+            "Local tools have separate device-dependent limits, displayed on their pages and checked before processing. Their input limit is not a guarantee of available RAM or output storage. Do not leave the tab during a conversion; check the result before deleting the source."
+          ]
+        },
+        {
+          "heading": "Responsibility and governing law",
+          "paragraphs": [
+            "You remain responsible for permissions and for checking a copy before sharing or replacing an original. VidFetch claims no rights in your media. No particular output, availability or uninterrupted operation is guaranteed, subject to applicable mandatory obligations.",
+            "Operator: {name}. Governing law: {jurisdiction}. Contact: {legal}."
+          ]
+        }
+      ]
+    },
+    "copyright": {
+      "slug": "copyright",
+      "title": "Copyright and rights reports",
+      "description": "Report a rights concern about use of VidFetch and distinguish this service from the platform hosting the original.",
+      "sections": [
+        {
+          "heading": "What VidFetch provides",
+          "paragraphs": [
+            "VidFetch is not a permanent public video host or a catalogue of copied videos. A requested download may pass through server processing; local tools process files on the user’s device. The source video remains hosted by its platform.",
+            "Only save or edit content you own or have permission to use. A working download link is not proof of permission."
+          ]
+        },
+        {
+          "heading": "Send a report",
+          "paragraphs": [
+            "Email {abuse} with your contact details, the original platform URL, any relevant VidFetch page or transfer context, a description of the concern and evidence of ownership or authority. Do not send sensitive identity documents unless a necessary verification is requested.",
+            "Processing time: {copyrightTime}. The operator can review access to the service and relevant operational information; removal of the original at TikTok must be requested from TikTok. No guaranteed removal of a third-party publication is promised."
+          ]
+        }
+      ]
+    },
+    "editorial": {
+      "slug": "editorial-policy",
+      "title": "VidFetch editorial policy",
+      "description": "How this guide series uses sources, reproducible tool checks and transparent authorship without invented experience.",
+      "sections": [
+        {
+          "heading": "Purpose and authorship",
+          "paragraphs": [
+            "Guides answer a concrete media question and distinguish a file you own from a public platform link. They must describe only functions the service actually offers.",
+            "Author: {author}. Human review status: {review}. AI tools assist research, drafting and code. A generated suggestion is not treated as a verified fact or a personal experience."
+          ]
+        },
+        {
+          "heading": "Evidence and updates",
+          "paragraphs": [
+            "Application limits and menu paths must be checked against official documentation with a consultation date. Menus, limits and browser support can change.",
+            "A guide that uses a VidFetch tool must record a real run with generated or authorised test files, the input/output sizes and duration, the format, relevant fallback, and screenshots of VidFetch only. Results describe that test, not universal compatibility."
+          ]
+        },
+        {
+          "heading": "Corrections",
+          "paragraphs": [
+            "Keep the source recording and reusable test evidence. Publish an update date when the content is checked or changed; do not invent a launch date, a test result or a human review.",
+            "Report an error to {legal} with the guide URL and the correction you propose. Content with unresolved publisher or author fields remains unpublished."
+          ]
+        }
+      ]
+    }
+  },
+  "fr": {
+    "about": {
+      "slug": "a-propos",
+      "title": "À propos de VidFetch",
+      "description": "L’éditeur, la mission et les différences entre téléchargement TikTok sur serveur et outils vidéo sur votre appareil.",
+      "sections": [
+        {
+          "heading": "Éditeur et mission",
+          "paragraphs": [
+            "Éditeur : {name}. Pays : {country}. Date de lancement : {launched}.",
+            "VidFetch aide à enregistrer des vidéos TikTok autorisées et à travailler sur vos propres fichiers vidéo. Gardez l’original et contrôlez chaque nouvelle copie avant de la partager."
+          ]
+        },
+        {
+          "heading": "Deux fonctionnements",
+          "paragraphs": [
+            "Le téléchargeur TikTok transmet un lien public au serveur pour analyser et préparer la vidéo. TikTok est la seule plateforme vérifiée pour ce service. Le résultat dépend des autorisations, de la source et des limites du service.",
+            "Les outils vidéo vers MP3/M4A, compression, découpe et GIF traitent le fichier choisi dans votre navigateur, sans l’envoyer. Le navigateur télécharge le moteur depuis VidFetch."
+          ]
+        },
+        {
+          "heading": "Limites",
+          "paragraphs": [
+            "Aucun service YouTube, retrait de filigrane ou contournement des restrictions de téléchargement du créateur n’est proposé. Une publication publique ne donne pas automatiquement le droit de l’enregistrer ou de la redistribuer.",
+            "Les outils locaux ne proposent ni recadrage, ni normalisation audio, ni resynchronisation, ni suppression des métadonnées. Le navigateur détermine les formats utilisables. Les pages Contact, Confidentialité, Conditions, Droits d’auteur et Politique éditoriale sont liées ci-dessous lorsqu’elles sont publiées."
+          ]
+        }
+      ]
+    },
+    "contact": {
+      "slug": "contact",
+      "title": "Contacter VidFetch",
+      "description": "Aide, presse, droits d’auteur ou confidentialité : contacter l’éditeur par email, sans formulaire de dépôt de fichier.",
+      "sections": [
+        {
+          "heading": "Choisir le sujet",
+          "paragraphs": [
+            "Aide générale et presse : {legal}. Confidentialité : {privacy}. Droits d’auteur et abus : {abuse}.",
+            "Délai de réponse : {responseTime}. Indiquez la page, le navigateur et le message d’erreur. N’envoyez ni mot de passe, ni lien privé, ni fichier confidentiel."
+          ]
+        },
+        {
+          "heading": "Contact par email",
+          "paragraphs": [
+            "Cette page ne contient aucun formulaire et ne stocke pas de message soumis. Si vous écrivez, votre fournisseur de messagerie et la boîte de réception traitent cet email.",
+            "Pour un signalement, fournissez l’URL source, la description du problème et les éléments établissant vos droits ou votre mandat."
+          ]
+        }
+      ]
+    },
+    "privacy": {
+      "slug": "confidentialite",
+      "title": "Confidentialité de VidFetch",
+      "description": "Liens publics, identifiants de sécurité, cookies et fichiers temporaires locaux : les traitements de VidFetch sans publicité active.",
+      "sections": [
+        {
+          "heading": "Éditeur et contact",
+          "paragraphs": [
+            "Le responsable du service est {name}, situé en {country}. Pour la confidentialité : {privacy}."
+          ]
+        },
+        {
+          "heading": "Liens et fichiers",
+          "paragraphs": [
+            "Pour télécharger depuis TikTok, le lien public et le format choisi sont transmis au serveur et à la plateforme source pour analyser et fournir la vidéo demandée, avec contrôles d’accès.",
+            "Les vidéos choisies dans les outils MP3/M4A, compression, découpe et GIF restent sur votre appareil. Le moteur vient de VidFetch ; votre enregistrement n’est pas envoyé à un serveur de conversion."
+          ]
+        },
+        {
+          "heading": "Sécurité et cookies",
+          "paragraphs": [
+            "Aucun compte ni profil public VidFetch n’est requis. L’autorisation de téléchargement utilise le cookie __Host-vidfetch-access, Secure, HttpOnly et SameSite=Strict, pendant 30 minutes. Le cookie d’un transfert expire avec son ticket de courte durée. Ce sont des contrôles d’accès, pas des cookies publicitaires.",
+            "Le serveur reçoit l’adresse IP pour acheminer et sécuriser la requête. La passerelle en dérive un identifiant à clé pour les limites et quotas ; sa base de quotas ne conserve ni IP brute, ni URL source, ni titre. Les clés de signature du navigateur et les jetons API restent en mémoire."
+          ]
+        },
+        {
+          "heading": "Conservation applicative",
+          "paragraphs": [
+            "Par défaut, un ticket inutilisé expire après 55 secondes et un état de transfert après 30 minutes ; le nettoyage supprime les entrées expirées. Les compteurs de quotas expirent à la fin du jour UTC, puis sont supprimés au prochain nettoyage. Les preuves anti-rejeu expirent après 90 secondes.",
+            "Le service ne fournit pas de bibliothèque publique permanente de vidéos. Les ressources de traitement temporaires sont libérées après fin, échec ou expiration. Les fichiers téléchargés sur votre appareil y restent jusqu’à leur suppression par vous."
+          ]
+        },
+        {
+          "heading": "Stockage du navigateur",
+          "paragraphs": [
+            "Une conversion locale peut écrire son résultat temporaire dans OPFS, espace privé du site. Il est supprimé à la fin ou à l’annulation du flux de téléchargement, lorsque vous abandonnez le résultat, ou lors d’un nettoyage ultérieur après interruption. La copie téléchargée est distincte.",
+            "Un service worker de portée limitée aide au téléchargement local. Le cache et le stockage du navigateur peuvent conserver ce worker et les fichiers du moteur. Effacer les données du site peut interrompre une opération en cours."
+          ]
+        },
+        {
+          "heading": "Infrastructure et vérification",
+          "paragraphs": [
+            "Cloudflare distribue le site et traite des requêtes réseau. La vérification du téléchargement utilise Turnstile : le widget contacte Cloudflare et le serveur valide le jeton.",
+            "La configuration Caddy versionnée désactive les journaux d’accès et filtre les champs sensibles des erreurs opérationnelles. Durée vérifiée des journaux d’infrastructure, hébergement et Cloudflare compris : {infrastructureRetention}. Un fichier exemple n’établit pas un réglage actif."
+          ]
+        },
+        {
+          "heading": "Publicité",
+          "paragraphs": [
+            "Le site pourra afficher des annonces Google AdSense ; elles ne sont pas actives aujourd’hui. Cette modification n’active aucun script publicitaire AdSense ni message de consentement. Avant leur activation, cette notice et le consentement devront refléter les traitements réels."
+          ]
+        },
+        {
+          "heading": "Vos droits",
+          "paragraphs": [
+            "Lorsque le RGPD s’applique, vous pouvez demander accès, rectification, effacement, limitation ou portabilité, et vous opposer selon les conditions applicables. Écrivez à {privacy} avec le contexte nécessaire, sans données personnelles superflues. Vous pouvez saisir l’autorité de protection des données compétente.",
+            "Une demande concernant l’original hébergé par TikTok doit aussi être adressée à cette plateforme. Vous gardez le contrôle des fichiers locaux de votre appareil."
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "slug": "conditions-utilisation",
+      "title": "Conditions d’utilisation de VidFetch",
+      "description": "Usages autorisés, restrictions des sources et limites concrètes du téléchargement TikTok et des outils vidéo locaux.",
+      "sections": [
+        {
+          "heading": "Utilisation autorisée",
+          "paragraphs": [
+            "Utilisez vos contenus, des contenus correctement licenciés ou ceux dont l’enregistrement et la modification sont autorisés. La visibilité publique ne transfère ni droit d’auteur ni autorisation de redistribution.",
+            "Ne contournez ni restriction de téléchargement d’un créateur, ni connexion exigée, ni contrôle d’accès. Les abus automatisés, requêtes excessives et tentatives de surcharge sont interdits."
+          ]
+        },
+        {
+          "heading": "Limites du service",
+          "paragraphs": [
+            "TikTok est la seule plateforme vérifiée. YouTube et le retrait de filigrane ne sont pas proposés. Aucun téléchargement n’est garanti ; disponibilité, formats, durée et capacité limitent le service.",
+            "Les valeurs actuelles de la passerelle limitent à 8 opérations et 1 Gio par IP/identité temporaire et par jour UTC, et à 100 opérations et 4 Gio globalement. Un transfert est limité à 256 Mio et une vidéo à 30 minutes. Le service peut refuser une requête si sa capacité ou un quota est atteint.",
+            "Les outils locaux ont leurs propres limites selon l’appareil, affichées et contrôlées avant traitement. La limite d’entrée ne garantit ni RAM ni stockage disponible. Gardez l’onglet ouvert et vérifiez le résultat avant de supprimer la source."
+          ]
+        },
+        {
+          "heading": "Responsabilité et droit applicable",
+          "paragraphs": [
+            "Vous êtes responsable des autorisations et du contrôle des copies avant partage ou remplacement de l’original. VidFetch ne revendique aucun droit sur vos médias. Aucun résultat, accès continu ou disponibilité particulière n’est garanti, sous réserve des obligations impératives applicables.",
+            "Éditeur : {name}. Droit applicable : {jurisdiction}. Contact : {legal}."
+          ]
+        }
+      ]
+    },
+    "copyright": {
+      "slug": "droits-auteur",
+      "title": "Droits d’auteur et signalements",
+      "description": "Signaler un usage de VidFetch et distinguer le service de la plateforme qui héberge la vidéo originale.",
+      "sections": [
+        {
+          "heading": "Rôle du service",
+          "paragraphs": [
+            "VidFetch ne fournit ni hébergement public permanent ni catalogue de copies vidéo. Un téléchargement demandé peut être traité sur le serveur ; les outils locaux travaillent sur l’appareil. La source reste hébergée par sa plateforme.",
+            "N’enregistrez et ne modifiez que des contenus vous appartenant ou autorisés. Un lien fonctionnel ne prouve pas une autorisation."
+          ]
+        },
+        {
+          "heading": "Procédure de signalement",
+          "paragraphs": [
+            "Écrivez à {abuse} avec vos coordonnées, l’URL originale, la page VidFetch ou le contexte du transfert, le problème et les preuves de droits ou de mandat. N’envoyez pas de documents d’identité sensibles sans demande de vérification nécessaire.",
+            "Délai de traitement : {copyrightTime}. L’éditeur peut examiner l’accès au service et les informations opérationnelles pertinentes ; le retrait de l’original sur TikTok doit être demandé à TikTok. Aucun retrait garanti d’une publication tierce n’est promis."
+          ]
+        }
+      ]
+    },
+    "editorial": {
+      "slug": "politique-editoriale",
+      "title": "Politique éditoriale de VidFetch",
+      "description": "Sources, essais reproductibles et transparence sur l’auteur et les outils d’IA employés pour cette série de guides.",
+      "sections": [
+        {
+          "heading": "Objectif et auteur",
+          "paragraphs": [
+            "Les guides répondent à une question concrète et distinguent fichier personnel et lien public. Ils doivent décrire uniquement les fonctions réellement proposées.",
+            "Auteur : {author}. Statut de relecture humaine : {review}. Des outils d’IA assistent la recherche, la rédaction et le code. Une suggestion générée ne constitue ni un fait vérifié ni une expérience personnelle."
+          ]
+        },
+        {
+          "heading": "Preuves et mises à jour",
+          "paragraphs": [
+            "Les limites et chemins de menus d’applications tierces doivent être vérifiés dans leur documentation officielle, avec date de consultation. Menus, plafonds et compatibilité peuvent changer.",
+            "Un guide utilisant un outil VidFetch doit consigner un essai réel sur fichier généré ou autorisé, les tailles et durées, le format obtenu, un éventuel repli et des captures de VidFetch seulement. Le résultat décrit cet essai, pas une compatibilité universelle."
+          ]
+        },
+        {
+          "heading": "Corrections",
+          "paragraphs": [
+            "Conserver la source et les preuves réutilisables. Afficher une date lorsque le guide est vérifié ou modifié ; ne pas inventer lancement, résultat de test ou relecture humaine.",
+            "Signalez une erreur à {legal} avec l’URL du guide et la correction proposée. Un contenu dont les champs éditeur ou auteur restent à compléter n’est pas publié."
+          ]
+        }
+      ]
+    }
+  },
+  "es": {
+    "about": {
+      "slug": "acerca-de",
+      "title": "Acerca de VidFetch",
+      "description": "Quién publica VidFetch y cómo se distinguen las descargas TikTok del procesamiento de archivos en el navegador.",
+      "sections": [
+        {
+          "heading": "Editor y propósito",
+          "paragraphs": [
+            "Editor: {name}. País: {country}. Fecha de lanzamiento: {launched}.",
+            "VidFetch ayuda a guardar vídeos TikTok autorizados y a trabajar con archivos propios. Conserva el original y revisa cada copia antes de compartirla."
+          ]
+        },
+        {
+          "heading": "Dos procesos",
+          "paragraphs": [
+            "El descargador envía un enlace público de TikTok al servidor para analizar y preparar el vídeo. TikTok es la única plataforma verificada. El resultado depende de permisos, disponibilidad y límites.",
+            "Los conversores MP3/M4A, compresor, recortador temporal y creador de GIF procesan el archivo elegido en tu navegador, sin subirlo. El motor se descarga desde VidFetch."
+          ]
+        },
+        {
+          "heading": "Límites",
+          "paragraphs": [
+            "No se ofrece YouTube, eliminación de marcas de agua ni evasión de restricciones del creador. Que una publicación sea pública no concede permiso para descargarla o redistribuirla.",
+            "No hay recorte del encuadre, normalización de audio, resincronización ni eliminación de metadatos. La compatibilidad depende del navegador. Las páginas de contacto, privacidad, condiciones, derechos y política editorial aparecen abajo cuando están publicadas."
+          ]
+        }
+      ]
+    },
+    "contact": {
+      "slug": "contacto",
+      "title": "Contacto de VidFetch",
+      "description": "Ayuda, prensa, derechos de autor y privacidad por correo electrónico, sin formulario para enviar archivos.",
+      "sections": [
+        {
+          "heading": "Motivo del mensaje",
+          "paragraphs": [
+            "Ayuda y prensa: {legal}. Privacidad: {privacy}. Derechos y abuso: {abuse}.",
+            "Plazo de respuesta: {responseTime}. Incluye página, navegador y error. No envíes contraseñas, enlaces privados ni grabaciones confidenciales."
+          ]
+        },
+        {
+          "heading": "Solo correo",
+          "paragraphs": [
+            "Esta página no tiene formulario ni almacena mensajes enviados. Tu proveedor de correo y el buzón receptor procesan el email que decidas enviar.",
+            "Para denunciar, facilita la URL original, el problema y pruebas de tus derechos o representación."
+          ]
+        }
+      ]
+    },
+    "privacy": {
+      "slug": "privacidad",
+      "title": "Privacidad en VidFetch",
+      "description": "Enlaces, identificadores de seguridad, cookies y archivos temporales: tratamiento de datos sin anuncios activos.",
+      "sections": [
+        {
+          "heading": "Responsable",
+          "paragraphs": [
+            "Responsable del servicio: {name}, en {country}. Contacto de privacidad: {privacy}."
+          ]
+        },
+        {
+          "heading": "Enlaces y archivos",
+          "paragraphs": [
+            "Una descarga TikTok transmite el enlace público y el formato al servidor y a la plataforma de origen para analizar y entregar el vídeo solicitado, con controles de acceso.",
+            "Los archivos elegidos para MP3/M4A, compresión, corte y GIF permanecen en tu dispositivo. Se descarga el motor de VidFetch, pero la grabación no se envía a un servidor de conversión."
+          ]
+        },
+        {
+          "heading": "Acceso y cookies",
+          "paragraphs": [
+            "No se necesita cuenta ni perfil público. La cookie de autorización __Host-vidfetch-access es Secure, HttpOnly y SameSite=Strict y dura 30 minutos. La cookie de transferencia caduca con su ticket breve. No son cookies publicitarias.",
+            "El servidor recibe la IP para atender y proteger la solicitud. La pasarela deriva un identificador con clave para cuotas; su base no guarda IP sin transformar, URL fuente ni título. Claves del navegador y permisos API permanecen en memoria."
+          ]
+        },
+        {
+          "heading": "Conservación",
+          "paragraphs": [
+            "Por defecto, los tickets sin usar caducan a los 55 segundos y los estados de transferencia a los 30 minutos; las entradas caducadas se eliminan durante la limpieza. Los contadores diarios vencen al terminar el día UTC y se borran en la siguiente limpieza. Las pruebas contra repetición vencen a los 90 segundos.",
+            "No existe biblioteca pública permanente de vídeos. Los recursos temporales se liberan al terminar, fallar o caducar la operación. La copia descargada permanece en tu dispositivo hasta que la borres."
+          ]
+        },
+        {
+          "heading": "Navegador",
+          "paragraphs": [
+            "El resultado local puede guardarse temporalmente en OPFS. Se elimina al finalizar o cancelar el flujo de descarga, al descartar el resultado o en una limpieza posterior tras una interrupción. La copia descargada es independiente.",
+            "Un service worker de alcance limitado ayuda con las descargas locales. Caché y almacenamiento pueden conservar el motor y el worker. Borrar datos del sitio puede interrumpir una operación."
+          ]
+        },
+        {
+          "heading": "Infraestructura",
+          "paragraphs": [
+            "Cloudflare distribuye el sitio y procesa solicitudes de red. Turnstile verifica el acceso de descarga: el widget contacta con Cloudflare y el servidor valida el token.",
+            "La configuración Caddy versionada desactiva registros de acceso y filtra campos sensibles en errores operativos. Conservación verificada de registros de infraestructura, alojamiento y Cloudflare: {infrastructureRetention}. Una configuración de ejemplo no prueba el ajuste activo."
+          ]
+        },
+        {
+          "heading": "Publicidad",
+          "paragraphs": [
+            "El sitio podrá mostrar anuncios Google AdSense; hoy no están activos. Este cambio no activa scripts AdSense ni mensajes de consentimiento. Antes de activarlos, aviso y consentimiento deberán reflejar el tratamiento real."
+          ]
+        },
+        {
+          "heading": "Derechos",
+          "paragraphs": [
+            "Cuando sea aplicable el RGPD, puedes solicitar acceso, rectificación, supresión, limitación o portabilidad, y oponerte según corresponda. Escribe a {privacy} con contexto suficiente, sin datos innecesarios. Puedes reclamar ante la autoridad competente.",
+            "Solicita también a TikTok cualquier retirada del original alojado allí. Tú controlas el borrado de archivos locales."
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "slug": "condiciones-uso",
+      "title": "Condiciones de uso de VidFetch",
+      "description": "Usos autorizados, restricciones de la fuente y límites de las descargas TikTok y herramientas locales.",
+      "sections": [
+        {
+          "heading": "Permisos",
+          "paragraphs": [
+            "Usa contenido propio, con licencia adecuada o cuyo guardado y edición estén autorizados. La visibilidad pública no transfiere derechos ni permiso de redistribución.",
+            "No eludas restricciones de descarga, acceso o inicio de sesión. Se prohíben abuso automatizado, solicitudes excesivas e intentos de sobrecarga."
+          ]
+        },
+        {
+          "heading": "Límites",
+          "paragraphs": [
+            "TikTok es la única plataforma verificada. No se ofrece YouTube ni eliminación de marcas. No hay descarga garantizada: influyen fuente, formatos, duración y capacidad.",
+            "La pasarela limita actualmente a 8 operaciones y 1 GiB por IP/identidad temporal y día UTC; globalmente, 100 operaciones y 4 GiB. Cada transferencia admite hasta 256 MiB y el vídeo hasta 30 minutos. Puede rechazarse una solicitud por cuota o capacidad.",
+            "Las herramientas locales tienen límites propios por dispositivo, mostrados y comprobados antes de procesar. El límite de entrada no garantiza RAM ni espacio de salida. Mantén abierta la pestaña y revisa antes de borrar el original."
+          ]
+        },
+        {
+          "heading": "Responsabilidad",
+          "paragraphs": [
+            "Eres responsable de los permisos y de comprobar la copia antes de compartirla. VidFetch no reclama derechos sobre tus medios. No se garantiza un resultado, disponibilidad o continuidad concretos, sin perjuicio de obligaciones imperativas aplicables.",
+            "Editor: {name}. Derecho aplicable: {jurisdiction}. Contacto: {legal}."
+          ]
+        }
+      ]
+    },
+    "copyright": {
+      "slug": "derechos-autor",
+      "title": "Derechos de autor y avisos",
+      "description": "Cómo señalar un problema de derechos y distinguir VidFetch de la plataforma que aloja el vídeo original.",
+      "sections": [
+        {
+          "heading": "Función del servicio",
+          "paragraphs": [
+            "VidFetch no aloja una biblioteca pública permanente ni un catálogo de vídeos copiados. Una descarga solicitada puede pasar por procesamiento del servidor; las herramientas locales actúan en el dispositivo. El original sigue en su plataforma.",
+            "Guarda y edita solo contenido propio o autorizado. Un enlace funcional no demuestra permiso."
+          ]
+        },
+        {
+          "heading": "Enviar un aviso",
+          "paragraphs": [
+            "Escribe a {abuse} con contacto, URL original, página VidFetch o contexto de transferencia, descripción y prueba de derechos o representación. No envíes documentos de identidad sensibles sin una verificación necesaria.",
+            "Plazo de tratamiento: {copyrightTime}. El editor puede examinar acceso e información operativa relevante; pide a TikTok retirar el original. No se promete la retirada garantizada de publicaciones ajenas."
+          ]
+        }
+      ]
+    },
+    "editorial": {
+      "slug": "politica-editorial",
+      "title": "Política editorial de VidFetch",
+      "description": "Fuentes, pruebas reproducibles, autoría y transparencia sobre el uso de IA en esta serie de guías.",
+      "sections": [
+        {
+          "heading": "Objetivo y autoría",
+          "paragraphs": [
+            "Las guías resuelven una pregunta concreta y distinguen archivos propios de enlaces públicos. Deben describir solo funciones existentes.",
+            "Autor: {author}. Estado de revisión humana: {review}. Se usan herramientas de IA para investigación, redacción y código. Una sugerencia generada no es un hecho comprobado ni experiencia personal."
+          ]
+        },
+        {
+          "heading": "Pruebas",
+          "paragraphs": [
+            "Los límites y rutas de menús de terceros deben contrastarse con documentación oficial fechada. Menús, límites y compatibilidad cambian.",
+            "Una guía que utiliza VidFetch debe registrar una ejecución real con archivos generados o autorizados, tamaños, duración, formato, posibles alternativas y capturas solo de VidFetch. Un ensayo no prueba compatibilidad universal."
+          ]
+        },
+        {
+          "heading": "Correcciones",
+          "paragraphs": [
+            "Conservar originales y pruebas reutilizables. Mostrar la fecha al verificar o cambiar contenido; nunca inventar fechas, resultados o revisiones.",
+            "Comunica errores a {legal} con URL y corrección propuesta. Los contenidos con datos pendientes de editor o autor permanecen sin publicar."
+          ]
+        }
+      ]
+    }
+  },
+  "pt-BR": {
+    "about": {
+      "slug": "sobre",
+      "title": "Sobre o VidFetch",
+      "description": "Quem publica o VidFetch e a diferença entre baixar TikTok pelo servidor e trabalhar com vídeos no navegador.",
+      "sections": [
+        {
+          "heading": "Editor e objetivo",
+          "paragraphs": [
+            "Editor: {name}. País: {country}. Data de lançamento: {launched}.",
+            "O VidFetch ajuda a salvar vídeos autorizados do TikTok e trabalhar com arquivos próprios. Guarde o original e confira a nova cópia antes de compartilhar."
+          ]
+        },
+        {
+          "heading": "Dois fluxos",
+          "paragraphs": [
+            "O baixador envia um link público do TikTok ao servidor para análise e preparação. TikTok é a única plataforma verificada; permissões, fonte e limites determinam a disponibilidade.",
+            "MP3/M4A, compressão, corte e GIF processam o arquivo escolhido no navegador, sem enviá-lo. O navegador baixa o motor do próprio VidFetch."
+          ]
+        },
+        {
+          "heading": "Limites",
+          "paragraphs": [
+            "Não há serviço YouTube, remoção de marca-d’água nem desvio das restrições de download do criador. Uma publicação pública não concede automaticamente autorização para baixar ou redistribuir.",
+            "Não há recorte do enquadramento, normalização de áudio, ressincronização ou remoção de metadados. O navegador determina a compatibilidade. Contato, privacidade, termos, direitos autorais e política editorial aparecem abaixo quando publicados."
+          ]
+        }
+      ]
+    },
+    "contact": {
+      "slug": "contato",
+      "title": "Contato do VidFetch",
+      "description": "Ajuda, imprensa, direitos autorais e privacidade por email, sem formulário de envio de arquivos.",
+      "sections": [
+        {
+          "heading": "Assunto",
+          "paragraphs": [
+            "Ajuda e imprensa: {legal}. Privacidade: {privacy}. Direitos e abuso: {abuse}.",
+            "Prazo de resposta: {responseTime}. Informe página, navegador e mensagem de erro. Não envie senha, link privado ou gravação confidencial."
+          ]
+        },
+        {
+          "heading": "Email",
+          "paragraphs": [
+            "Esta página não tem formulário nem armazena mensagens enviadas. Seu provedor de email e a caixa de destino processam a mensagem que você decidir mandar.",
+            "Para um aviso de direitos, inclua URL original, problema e comprovação de direitos ou representação."
+          ]
+        }
+      ]
+    },
+    "privacy": {
+      "slug": "privacidade",
+      "title": "Privacidade no VidFetch",
+      "description": "Links públicos, identificadores de segurança, cookies e arquivos temporários locais, sem anúncios ativos.",
+      "sections": [
+        {
+          "heading": "Responsável",
+          "paragraphs": [
+            "Responsável pelo serviço: {name}, em {country}. Privacidade: {privacy}."
+          ]
+        },
+        {
+          "heading": "Links e arquivos",
+          "paragraphs": [
+            "Ao baixar TikTok, o link público e o formato chegam ao servidor e à plataforma de origem para análise e entrega solicitadas, com controles de acesso.",
+            "Arquivos dos conversores MP3/M4A, compressor, cortador e GIF ficam no aparelho. O motor é baixado do VidFetch; sua gravação não é enviada a um servidor de conversão."
+          ]
+        },
+        {
+          "heading": "Segurança",
+          "paragraphs": [
+            "Não é necessário criar conta ou perfil público. O cookie __Host-vidfetch-access, Secure, HttpOnly e SameSite=Strict, autoriza downloads por 30 minutos. O cookie de transferência expira com seu ticket curto. Não são cookies publicitários.",
+            "O servidor recebe o IP para encaminhar e proteger pedidos. A passagem de download deriva um identificador com chave para quotas; o banco não guarda IP bruto, URL ou título. Chaves do navegador e autorizações API ficam na memória."
+          ]
+        },
+        {
+          "heading": "Retenção",
+          "paragraphs": [
+            "Por padrão, tickets não usados expiram em 55 segundos e estados de transferência em 30 minutos; entradas vencidas são apagadas na limpeza. Contadores diários vencem no fim do dia UTC e são removidos na próxima limpeza. Provas contra repetição expiram em 90 segundos.",
+            "Não existe biblioteca pública permanente de vídeos. Recursos temporários são liberados ao concluir, falhar ou expirar a operação. Cópias baixadas ficam no aparelho até você apagá-las."
+          ]
+        },
+        {
+          "heading": "Navegador",
+          "paragraphs": [
+            "Uma saída local pode ser temporariamente gravada em OPFS. Ela é apagada após conclusão ou cancelamento do fluxo de download, descarte do resultado ou limpeza posterior a uma interrupção. A cópia baixada é independente.",
+            "Um service worker de escopo limitado ajuda o download local. Cache e armazenamento podem reter o motor e o worker. Limpar dados do site pode interromper uma operação."
+          ]
+        },
+        {
+          "heading": "Infraestrutura",
+          "paragraphs": [
+            "Cloudflare distribui o site e processa requisições de rede. O widget Turnstile contata Cloudflare para verificação; o servidor valida o token.",
+            "A configuração Caddy versionada desativa logs de acesso e filtra campos sensíveis de erros operacionais. Retenção verificada dos logs de infraestrutura, hospedagem e Cloudflare: {infrastructureRetention}. Um exemplo de configuração não comprova um ajuste ativo."
+          ]
+        },
+        {
+          "heading": "Anúncios",
+          "paragraphs": [
+            "O site poderá exibir anúncios Google AdSense; eles não estão ativos hoje. Esta alteração não ativa script AdSense nem mensagem de consentimento. Antes da ativação, aviso e consentimento devem refletir o tratamento real."
+          ]
+        },
+        {
+          "heading": "Direitos",
+          "paragraphs": [
+            "Quando o RGPD for aplicável, você poderá pedir acesso, correção, exclusão, restrição ou portabilidade, e se opor conforme as condições aplicáveis. Escreva a {privacy} com o contexto necessário, sem dados excessivos. Pode reclamar à autoridade competente.",
+            "Solicite também ao TikTok a remoção do original hospedado lá. Você controla os arquivos locais do aparelho."
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "slug": "termos-de-uso",
+      "title": "Termos de uso do VidFetch",
+      "description": "Usos permitidos, restrições das fontes e limites dos downloads TikTok e ferramentas locais.",
+      "sections": [
+        {
+          "heading": "Permissões",
+          "paragraphs": [
+            "Use conteúdo próprio, licenciado adequadamente ou cujo salvamento e edição tenham autorização. Visibilidade pública não transfere direitos ou permissão de redistribuição.",
+            "Não contorne restrições de download, login ou controles de acesso. Abuso automatizado, pedidos excessivos e sobrecarga são proibidos."
+          ]
+        },
+        {
+          "heading": "Limites",
+          "paragraphs": [
+            "TikTok é a única plataforma verificada. YouTube e remoção de marcas não são oferecidos. Download não é garantido: fonte, formatos, duração e capacidade interferem.",
+            "Os padrões atuais limitam a 8 operações e 1 GiB por IP/identidade temporária por dia UTC; globalmente, 100 operações e 4 GiB. Uma transferência tem até 256 MiB e o vídeo até 30 minutos. Capacidade ou quota podem impedir o pedido.",
+            "Ferramentas locais têm limites próprios por aparelho, exibidos e conferidos antes de processar. Entrada aceita não garante RAM ou armazenamento. Mantenha a aba aberta e confira a saída antes de excluir o original."
+          ]
+        },
+        {
+          "heading": "Responsabilidade",
+          "paragraphs": [
+            "Você cuida das permissões e confere a cópia antes de compartilhar. VidFetch não reivindica direitos sobre seus arquivos. Não há garantia de resultado, disponibilidade ou continuidade específicos, respeitadas obrigações legais imperativas.",
+            "Editor: {name}. Direito aplicável: {jurisdiction}. Contato: {legal}."
+          ]
+        }
+      ]
+    },
+    "copyright": {
+      "slug": "direitos-autorais",
+      "title": "Direitos autorais e denúncias",
+      "description": "Como comunicar um problema de direitos e distinguir o serviço da plataforma que hospeda o vídeo original.",
+      "sections": [
+        {
+          "heading": "Papel do serviço",
+          "paragraphs": [
+            "VidFetch não é uma biblioteca pública permanente nem catálogo de vídeos copiados. Downloads solicitados podem passar pelo servidor; ferramentas locais trabalham no aparelho. O original permanece na plataforma de origem.",
+            "Salve e edite apenas conteúdo próprio ou autorizado. Um link funcionando não comprova autorização."
+          ]
+        },
+        {
+          "heading": "Comunicação",
+          "paragraphs": [
+            "Escreva a {abuse} com contato, URL original, página VidFetch ou contexto do download, descrição e prova de direitos ou representação. Não envie documento de identidade sensível sem verificação necessária.",
+            "Prazo de tratamento: {copyrightTime}. O editor pode examinar acesso e dados operacionais pertinentes; solicite ao TikTok a remoção do original. Não há promessa de retirada garantida de conteúdo de terceiros."
+          ]
+        }
+      ]
+    },
+    "editorial": {
+      "slug": "politica-editorial",
+      "title": "Política editorial do VidFetch",
+      "description": "Fontes, testes reproduzíveis e transparência sobre autoria e IA nesta série de guias.",
+      "sections": [
+        {
+          "heading": "Objetivo e autoria",
+          "paragraphs": [
+            "Guias respondem a uma questão concreta, distinguindo arquivo pessoal de link público. Só devem descrever funções disponíveis.",
+            "Autor: {author}. Situação da revisão humana: {review}. Ferramentas de IA auxiliam pesquisa, redação e código. Sugestão gerada não é fato verificado nem experiência pessoal."
+          ]
+        },
+        {
+          "heading": "Evidências",
+          "paragraphs": [
+            "Limites e caminhos de menus de terceiros exigem documentação oficial com data de consulta. Menus, limites e compatibilidade podem mudar.",
+            "Guia com ferramenta VidFetch deve registrar execução real em arquivo gerado ou autorizado, tamanhos, duração, formato, eventual alternativa e capturas somente do VidFetch. Um teste não garante compatibilidade universal."
+          ]
+        },
+        {
+          "heading": "Correções",
+          "paragraphs": [
+            "Guarde fonte e evidência reutilizável. Mostre data de verificação ou alteração; não invente lançamento, resultado ou revisão.",
+            "Envie correções a {legal}, indicando URL e proposta. Conteúdo com campos pendentes de editor ou autor não é publicado."
+          ]
+        }
+      ]
+    }
+  },
+  "id": {
+    "about": {
+      "slug": "tentang",
+      "title": "Tentang VidFetch",
+      "description": "Penerbit, tujuan, serta perbedaan unduhan TikTok di server dan pengolahan video di browser Anda.",
+      "sections": [
+        {
+          "heading": "Penerbit dan tujuan",
+          "paragraphs": [
+            "Penerbit: {name}. Negara: {country}. Tanggal peluncuran: {launched}.",
+            "VidFetch membantu menyimpan video TikTok yang diizinkan dan mengolah file video milik Anda. Simpan sumber asli dan periksa salinan sebelum membagikannya."
+          ]
+        },
+        {
+          "heading": "Dua alur",
+          "paragraphs": [
+            "Pengunduh mengirim tautan publik TikTok ke server untuk dianalisis dan disiapkan. TikTok adalah satu-satunya platform terverifikasi. Izin, sumber, dan batas layanan menentukan hasil.",
+            "Alat MP3/M4A, kompresi, pemotongan durasi, dan GIF mengolah file pilihan di browser tanpa mengunggahnya. Mesin pengolah diunduh dari VidFetch."
+          ]
+        },
+        {
+          "heading": "Batas",
+          "paragraphs": [
+            "Tidak ada layanan YouTube, penghapus watermark, atau cara melewati pembatasan unduhan kreator. Postingan publik tidak otomatis memberi izin menyimpan atau menyebarkan ulang.",
+            "Alat lokal tidak menyediakan pemotongan bingkai, normalisasi audio, perbaikan sinkronisasi, atau penghapusan metadata. Dukungan bergantung pada browser. Halaman kontak, privasi, ketentuan, hak cipta, dan editorial ditautkan di bawah jika sudah terbit."
+          ]
+        }
+      ]
+    },
+    "contact": {
+      "slug": "kontak",
+      "title": "Hubungi VidFetch",
+      "description": "Bantuan, pers, hak cipta, dan privasi melalui email tanpa formulir pengiriman file.",
+      "sections": [
+        {
+          "heading": "Pilih topik",
+          "paragraphs": [
+            "Bantuan dan pers: {legal}. Privasi: {privacy}. Hak cipta dan penyalahgunaan: {abuse}.",
+            "Waktu tanggapan: {responseTime}. Sertakan alamat halaman, browser, dan pesan kesalahan. Jangan kirim kata sandi, tautan privat, atau rekaman rahasia."
+          ]
+        },
+        {
+          "heading": "Hanya email",
+          "paragraphs": [
+            "Halaman ini tidak memiliki formulir dan tidak menyimpan pesan kiriman. Penyedia email dan kotak surat penerima memproses email yang Anda kirim.",
+            "Untuk laporan hak cipta, sertakan URL asli, masalah, serta bukti hak atau kewenangan Anda."
+          ]
+        }
+      ]
+    },
+    "privacy": {
+      "slug": "privasi",
+      "title": "Privasi VidFetch",
+      "description": "Penggunaan tautan publik, pengenal keamanan, cookie, dan file sementara lokal tanpa iklan aktif.",
+      "sections": [
+        {
+          "heading": "Pengelola",
+          "paragraphs": [
+            "Pengelola layanan: {name}, di {country}. Pertanyaan privasi: {privacy}."
+          ]
+        },
+        {
+          "heading": "Tautan dan file",
+          "paragraphs": [
+            "Untuk unduhan TikTok, tautan publik dan format dikirim ke server serta platform sumber untuk analisis dan pengiriman yang diminta, dengan pemeriksaan akses.",
+            "File untuk MP3/M4A, kompresi, pemotongan, dan GIF tetap di perangkat. Browser mengambil mesin dari VidFetch, bukan mengirim rekaman ke server konversi."
+          ]
+        },
+        {
+          "heading": "Keamanan",
+          "paragraphs": [
+            "Tidak memerlukan akun atau profil publik VidFetch. Cookie otorisasi __Host-vidfetch-access memakai Secure, HttpOnly, SameSite=Strict dan berlaku 30 menit. Cookie transfer berakhir bersama tiket singkatnya. Ini bukan cookie iklan.",
+            "Server menerima IP untuk menyalurkan dan melindungi permintaan. Gateway membentuk pengenal berkunci untuk kuota; basis datanya tidak menyimpan IP mentah, URL sumber, atau judul. Kunci browser dan izin API berada di memori."
+          ]
+        },
+        {
+          "heading": "Penyimpanan aplikasi",
+          "paragraphs": [
+            "Secara bawaan, tiket yang tidak digunakan berakhir dalam 55 detik dan status transfer dalam 30 menit; entri kedaluwarsa dihapus saat pembersihan. Penghitung harian berakhir pada pergantian hari UTC lalu dihapus pada pembersihan berikutnya. Bukti antipengulangan berakhir setelah 90 detik.",
+            "Layanan bukan perpustakaan video publik permanen. Sumber daya sementara dilepas saat proses selesai, gagal, atau kedaluwarsa. Salinan unduhan tetap di perangkat sampai Anda menghapusnya."
+          ]
+        },
+        {
+          "heading": "Browser",
+          "paragraphs": [
+            "Hasil lokal dapat ditulis sementara ke OPFS. File sementara dihapus setelah aliran unduhan selesai atau dibatalkan, saat hasil dibuang, atau pada pembersihan kunjungan berikutnya setelah gangguan. Salinan yang telah diunduh terpisah.",
+            "Service worker dengan cakupan terbatas membantu unduhan lokal. Cache dan penyimpanan browser dapat menyimpan mesin dan worker. Menghapus data situs dapat mengganggu proses aktif."
+          ]
+        },
+        {
+          "heading": "Infrastruktur",
+          "paragraphs": [
+            "Cloudflare menyajikan situs dan memproses permintaan jaringan. Widget Turnstile menghubungi Cloudflare dan server memverifikasi tokennya untuk akses unduhan.",
+            "Konfigurasi Caddy yang disimpan di repositori menonaktifkan log akses dan menyaring bidang sensitif pada kesalahan operasional. Retensi log infrastruktur, hosting dan Cloudflare yang terverifikasi: {infrastructureRetention}. Contoh konfigurasi bukan bukti pengaturan aktif."
+          ]
+        },
+        {
+          "heading": "Iklan",
+          "paragraphs": [
+            "Situs mungkin menampilkan iklan Google AdSense di masa depan; saat ini belum aktif. Perubahan ini tidak mengaktifkan skrip AdSense atau pesan persetujuan. Sebelum aktivasi, pemberitahuan dan persetujuan harus sesuai pemrosesan yang nyata."
+          ]
+        },
+        {
+          "heading": "Hak Anda",
+          "paragraphs": [
+            "Jika GDPR berlaku, Anda dapat meminta akses, perbaikan, penghapusan, pembatasan atau portabilitas, serta mengajukan keberatan sesuai ketentuannya. Hubungi {privacy} dengan konteks yang diperlukan tanpa data berlebihan. Anda dapat mengadu ke otoritas perlindungan data yang berwenang.",
+            "Permintaan menghapus video asli di TikTok juga harus diajukan ke TikTok. Penghapusan file lokal berada dalam kendali Anda."
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "slug": "ketentuan-penggunaan",
+      "title": "Ketentuan penggunaan VidFetch",
+      "description": "Penggunaan yang diizinkan, pembatasan sumber, dan batas unduhan TikTok serta alat video lokal.",
+      "sections": [
+        {
+          "heading": "Izin",
+          "paragraphs": [
+            "Gunakan konten milik sendiri, berlisensi tepat, atau yang diizinkan untuk disimpan dan diedit. Akses publik tidak mengalihkan hak cipta atau izin penyebaran ulang.",
+            "Jangan melewati pembatasan unduhan, login, atau kontrol akses. Penyalahgunaan otomatis, permintaan berlebihan, dan upaya membebani layanan dilarang."
+          ]
+        },
+        {
+          "heading": "Batas layanan",
+          "paragraphs": [
+            "TikTok satu-satunya platform terverifikasi. Tidak ada YouTube atau penghapusan watermark. Unduhan tidak dijamin karena sumber, format, durasi, dan kapasitas membatasinya.",
+            "Bawaan gateway membatasi 8 operasi dan 1 GiB per IP/identitas sementara per hari UTC; secara global 100 operasi dan 4 GiB. Satu transfer dibatasi 256 MiB dan video 30 menit. Permintaan dapat ditolak karena kuota atau kapasitas.",
+            "Alat lokal memiliki batas berbeda menurut perangkat yang ditampilkan dan diperiksa sebelum pengolahan. Batas input bukan jaminan RAM atau ruang hasil. Biarkan tab terbuka dan periksa hasil sebelum menghapus sumber."
+          ]
+        },
+        {
+          "heading": "Tanggung jawab",
+          "paragraphs": [
+            "Anda bertanggung jawab atas izin dan pemeriksaan salinan sebelum dibagikan. VidFetch tidak mengklaim hak atas media Anda. Hasil, ketersediaan, atau operasi berkelanjutan tertentu tidak dijamin, dengan tetap mengikuti kewajiban hukum yang berlaku.",
+            "Penerbit: {name}. Hukum yang berlaku: {jurisdiction}. Kontak: {legal}."
+          ]
+        }
+      ]
+    },
+    "copyright": {
+      "slug": "hak-cipta",
+      "title": "Hak cipta dan pelaporan",
+      "description": "Melaporkan masalah hak cipta serta membedakan VidFetch dari platform yang menyimpan video asli.",
+      "sections": [
+        {
+          "heading": "Peran layanan",
+          "paragraphs": [
+            "VidFetch bukan perpustakaan publik permanen atau katalog video salinan. Unduhan dapat melalui pemrosesan server; alat lokal bekerja di perangkat. Video asli tetap di platform sumber.",
+            "Simpan dan edit hanya konten milik sendiri atau berizin. Tautan yang berfungsi bukan bukti izin."
+          ]
+        },
+        {
+          "heading": "Kirim laporan",
+          "paragraphs": [
+            "Email {abuse} dengan kontak, URL asli, halaman VidFetch atau konteks transfer, uraian masalah dan bukti hak atau kewenangan. Jangan kirim dokumen identitas sensitif tanpa permintaan verifikasi yang diperlukan.",
+            "Waktu penanganan: {copyrightTime}. Pengelola dapat meninjau akses dan informasi operasional terkait; penghapusan asli di TikTok harus diminta ke TikTok. Penghapusan publikasi pihak lain tidak dijamin."
+          ]
+        }
+      ]
+    },
+    "editorial": {
+      "slug": "kebijakan-editorial",
+      "title": "Kebijakan editorial VidFetch",
+      "description": "Sumber, pengujian yang dapat diulang, serta keterbukaan mengenai penulis dan penggunaan AI dalam seri panduan.",
+      "sections": [
+        {
+          "heading": "Tujuan dan penulis",
+          "paragraphs": [
+            "Panduan menjawab pertanyaan spesifik dan membedakan file pribadi dari tautan publik. Hanya fungsi yang benar-benar tersedia yang boleh dijelaskan.",
+            "Penulis: {author}. Status peninjauan manusia: {review}. Alat AI membantu riset, penulisan, dan kode. Saran yang dihasilkan bukan fakta terverifikasi atau pengalaman pribadi."
+          ]
+        },
+        {
+          "heading": "Bukti",
+          "paragraphs": [
+            "Batas dan jalur menu aplikasi pihak ketiga wajib diperiksa pada dokumentasi resmi dengan tanggal akses. Menu, batas, dan dukungan browser dapat berubah.",
+            "Panduan yang memakai VidFetch wajib mencatat proses nyata memakai file uji buatan atau berizin, ukuran, durasi, format, pilihan pengganti jika ada, serta tangkapan VidFetch saja. Satu pengujian bukan jaminan kompatibilitas universal."
+          ]
+        },
+        {
+          "heading": "Perbaikan",
+          "paragraphs": [
+            "Simpan sumber dan bukti yang dapat digunakan ulang. Tampilkan tanggal saat konten diperiksa atau diubah; jangan mengarang tanggal peluncuran, hasil uji, atau peninjauan manusia.",
+            "Kirim koreksi ke {legal} dengan URL panduan dan usulan perbaikan. Konten dengan informasi penerbit atau penulis yang belum lengkap tidak diterbitkan."
+          ]
+        }
+      ]
+    }
+  },
+  "de": {
+    "about": {
+      "slug": "ueber-uns",
+      "title": "Über VidFetch",
+      "description": "Herausgeber, Zweck und der Unterschied zwischen TikTok-Downloads auf dem Server und lokalen Browserwerkzeugen.",
+      "sections": [
+        {
+          "heading": "Herausgeber und Zweck",
+          "paragraphs": [
+            "Herausgeber: {name}. Land: {country}. Startdatum: {launched}.",
+            "VidFetch hilft, erlaubte TikTok-Videos zu speichern und eigene Videodateien zu bearbeiten. Originale aufbewahren und jede neue Kopie vor dem Teilen prüfen."
+          ]
+        },
+        {
+          "heading": "Zwei Abläufe",
+          "paragraphs": [
+            "Der TikTok-Downloader sendet einen öffentlichen Videolink zur Analyse und Vorbereitung an den Server. Nur TikTok ist als Plattform überprüft. Berechtigungen, Quelle und Grenzen bestimmen die Verfügbarkeit.",
+            "MP3/M4A, Komprimierung, zeitlicher Zuschnitt und GIF-Erstellung verarbeiten ausgewählte Dateien im Browser ohne Upload. Der Browser lädt den Verarbeitungscode von VidFetch."
+          ]
+        },
+        {
+          "heading": "Grenzen",
+          "paragraphs": [
+            "Kein YouTube-Dienst, keine Wasserzeichenentfernung und keine Umgehung von Downloadbeschränkungen des Urhebers. Öffentlich sichtbar bedeutet nicht automatisch zum Speichern oder Weiterverbreiten freigegeben.",
+            "Kein Bildbeschnitt, keine Audionormalisierung, Synchronisationsreparatur oder Metadatenentfernung. Formate hängen vom Browser ab. Kontakt, Datenschutz, Bedingungen, Urheberrecht und Redaktion sind unten verlinkt, sobald veröffentlicht."
+          ]
+        }
+      ]
+    },
+    "contact": {
+      "slug": "kontakt",
+      "title": "Kontakt mit VidFetch",
+      "description": "Hilfe, Presse, Urheberrecht und Datenschutz per E-Mail, ohne Formular zum Hochladen von Dateien.",
+      "sections": [
+        {
+          "heading": "Anliegen",
+          "paragraphs": [
+            "Hilfe und Presse: {legal}. Datenschutz: {privacy}. Urheberrecht und Missbrauch: {abuse}.",
+            "Antwortzeit: {responseTime}. Seite, Browser und Fehlermeldung angeben. Keine Passwörter, privaten Links oder vertraulichen Aufnahmen senden."
+          ]
+        },
+        {
+          "heading": "Nur E-Mail",
+          "paragraphs": [
+            "Diese Seite hat kein Kontaktformular und speichert keine eingereichten Nachrichten. Ihr E-Mail-Anbieter und das empfangende Postfach verarbeiten eine von Ihnen gesendete E-Mail.",
+            "Bei einer Meldung die Original-URL, das Anliegen und Nachweise über Rechte oder Vertretungsbefugnis angeben."
+          ]
+        }
+      ]
+    },
+    "privacy": {
+      "slug": "datenschutz",
+      "title": "Datenschutz bei VidFetch",
+      "description": "Öffentliche Links, Sicherheitskennungen, Cookies und temporäre lokale Dateien bei derzeit inaktiver Werbung.",
+      "sections": [
+        {
+          "heading": "Verantwortlicher",
+          "paragraphs": [
+            "Verantwortlicher für den Dienst: {name}, in {country}. Datenschutzanfragen: {privacy}."
+          ]
+        },
+        {
+          "heading": "Links und Dateien",
+          "paragraphs": [
+            "Für TikTok-Downloads gelangen öffentlicher Link und Format an Server und Quellplattform zur gewünschten Analyse und Auslieferung mit Zugriffskontrollen.",
+            "Dateien für MP3/M4A, Komprimierung, Schnitt und GIF bleiben auf Ihrem Gerät. Der Browser lädt den Code von VidFetch, nicht Ihre Aufnahme auf einen Konvertierungsserver."
+          ]
+        },
+        {
+          "heading": "Sicherheit",
+          "paragraphs": [
+            "Kein VidFetch-Konto oder öffentliches Profil erforderlich. Das Autorisierungs-Cookie __Host-vidfetch-access ist Secure, HttpOnly und SameSite=Strict und gilt 30 Minuten. Das Transfer-Cookie endet mit seinem kurzlebigen Ticket. Es handelt sich nicht um Werbe-Cookies.",
+            "Der Server erhält die IP zur Übermittlung und Absicherung. Das Gateway leitet eine schlüsselgebundene Kennung für Quoten ab; seine Datenbank enthält keine rohe IP, Quell-URL oder Videotitel. Browserschlüssel und API-Freigaben bleiben im Arbeitsspeicher."
+          ]
+        },
+        {
+          "heading": "Speicherung",
+          "paragraphs": [
+            "Standardmäßig verfallen ungenutzte Tickets nach 55 Sekunden und Transferzustände nach 30 Minuten; abgelaufene Einträge werden bereinigt. Tageszähler verfallen am Ende des UTC-Tages und werden bei der nächsten Bereinigung gelöscht. Wiedergabeschutz-Nachweise verfallen nach 90 Sekunden.",
+            "Es gibt keine dauerhafte öffentliche Videobibliothek. Temporäre Verarbeitung wird bei Abschluss, Fehler oder Ablauf freigegeben. Gespeicherte Downloads verbleiben auf Ihrem Gerät, bis Sie sie löschen."
+          ]
+        },
+        {
+          "heading": "Browserdaten",
+          "paragraphs": [
+            "Eine lokale Ausgabe kann vorübergehend in OPFS liegen. Sie wird nach Abschluss oder Abbruch des Downloadstreams, beim Verwerfen oder bei späterer Bereinigung nach einer Unterbrechung entfernt. Die heruntergeladene Kopie ist davon unabhängig.",
+            "Ein Service Worker mit begrenztem Geltungsbereich unterstützt lokale Downloads. Browsercache und Website-Speicher können Worker und Engine-Dateien behalten. Das Löschen von Websitedaten kann einen laufenden Vorgang unterbrechen."
+          ]
+        },
+        {
+          "heading": "Infrastruktur",
+          "paragraphs": [
+            "Cloudflare liefert die Website aus und verarbeitet Netzwerkanfragen. Das Turnstile-Widget kontaktiert Cloudflare; der Server prüft sein Token für den Downloadzugriff.",
+            "Die versionierte Caddy-Konfiguration deaktiviert Zugriffsprotokolle und filtert sensible Felder aus Betriebsfehlern. Verifizierte Speicherdauer der Infrastrukturprotokolle einschließlich Hosting und Cloudflare: {infrastructureRetention}. Eine Beispieldatei belegt keine aktive Einstellung."
+          ]
+        },
+        {
+          "heading": "Werbung",
+          "paragraphs": [
+            "Die Website kann künftig Google-AdSense-Anzeigen schalten; derzeit sind sie nicht aktiv. Diese Änderung aktiviert weder AdSense-Skript noch Einwilligungsnachricht. Vor einer Aktivierung müssen Information und Einwilligung die tatsächliche Verarbeitung abbilden."
+          ]
+        },
+        {
+          "heading": "Ihre Rechte",
+          "paragraphs": [
+            "Soweit die DSGVO gilt, können Sie Auskunft, Berichtigung, Löschung, Einschränkung oder Übertragbarkeit beantragen und gegebenenfalls widersprechen. Schreiben Sie mit notwendigem Kontext, ohne überflüssige Daten, an {privacy}. Eine Beschwerde bei der zuständigen Aufsichtsbehörde ist möglich.",
+            "Die Entfernung eines bei TikTok gespeicherten Originals auch dort beantragen. Lokale Dateien auf Ihrem Gerät kontrollieren Sie selbst."
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "slug": "nutzungsbedingungen",
+      "title": "Nutzungsbedingungen für VidFetch",
+      "description": "Erlaubte Nutzung, Quellbeschränkungen und tatsächliche Grenzen von TikTok-Downloads und lokalen Videowerkzeugen.",
+      "sections": [
+        {
+          "heading": "Erlaubte Nutzung",
+          "paragraphs": [
+            "Nur eigene, passend lizenzierte oder zum Speichern und Bearbeiten freigegebene Inhalte verwenden. Öffentliche Sichtbarkeit überträgt keine Urheber- oder Verbreitungsrechte.",
+            "Downloadbeschränkungen, Anmeldung und Zugriffskontrollen nicht umgehen. Automatisierter Missbrauch, übermäßige Anfragen und Überlastungsversuche sind untersagt."
+          ]
+        },
+        {
+          "heading": "Grenzen",
+          "paragraphs": [
+            "Nur TikTok ist überprüft. YouTube und Wasserzeichenentfernung werden nicht angeboten. Ein Download ist nicht garantiert; Quelle, Formate, Dauer und Kapazität begrenzen ihn.",
+            "Aktuelle Gateway-Standardwerte: 8 Vorgänge und 1 GiB je IP/temporärer Identität und UTC-Tag, global 100 Vorgänge und 4 GiB. Maximal 256 MiB je Transfer und 30 Minuten Videodauer. Quoten oder Kapazität können eine Anfrage verhindern.",
+            "Lokale Werkzeuge haben geräteabhängige, vorab angezeigte und geprüfte Grenzen. Die Eingabegrenze garantiert weder RAM noch Ausgabespeicher. Tab offen lassen und Ergebnis vor dem Löschen der Quelle prüfen."
+          ]
+        },
+        {
+          "heading": "Verantwortung",
+          "paragraphs": [
+            "Sie verantworten Berechtigungen und prüfen Kopien vor Weitergabe oder Ersatz des Originals. VidFetch beansprucht keine Medienrechte. Bestimmte Ergebnisse, Verfügbarkeit oder unterbrechungsfreier Betrieb werden vorbehaltlich zwingender Pflichten nicht garantiert.",
+            "Herausgeber: {name}. Anwendbares Recht: {jurisdiction}. Kontakt: {legal}."
+          ]
+        }
+      ]
+    },
+    "copyright": {
+      "slug": "urheberrecht",
+      "title": "Urheberrecht und Meldungen",
+      "description": "Rechtebedenken melden und VidFetch von der Plattform unterscheiden, die das Originalvideo bereitstellt.",
+      "sections": [
+        {
+          "heading": "Rolle des Dienstes",
+          "paragraphs": [
+            "VidFetch ist keine dauerhafte öffentliche Videobibliothek und kein Katalog von Kopien. Angeforderte Downloads können serverseitig verarbeitet werden; lokale Werkzeuge arbeiten auf dem Gerät. Das Original bleibt bei seiner Quellplattform.",
+            "Nur eigene oder erlaubte Inhalte speichern und bearbeiten. Ein funktionierender Link beweist keine Erlaubnis."
+          ]
+        },
+        {
+          "heading": "Meldung",
+          "paragraphs": [
+            "An {abuse} schreiben: Kontaktdaten, Original-URL, betroffene VidFetch-Seite oder Transferkontext, Anliegen und Nachweis der Rechte oder Befugnis. Sensible Ausweise nur bei erforderlicher Verifikation auf Nachfrage senden.",
+            "Bearbeitungszeit: {copyrightTime}. Der Betreiber kann Dienstzugriff und relevante Betriebsdaten prüfen; die Entfernung des TikTok-Originals ist dort zu beantragen. Keine garantierte Entfernung fremder Veröffentlichungen."
+          ]
+        }
+      ]
+    },
+    "editorial": {
+      "slug": "redaktionsrichtlinie",
+      "title": "Redaktionsrichtlinie von VidFetch",
+      "description": "Quellen, reproduzierbare Prüfungen sowie Transparenz über Autorenschaft und KI in dieser Ratgeberreihe.",
+      "sections": [
+        {
+          "heading": "Zweck und Autorenschaft",
+          "paragraphs": [
+            "Ratgeber beantworten eine konkrete Medienfrage und unterscheiden eigene Dateien von öffentlichen Links. Nur vorhandene Funktionen beschreiben.",
+            "Autor: {author}. Stand menschlicher Prüfung: {review}. KI-Werkzeuge unterstützen Recherche, Text und Code. Ein generierter Vorschlag ist weder überprüfte Tatsache noch persönliche Erfahrung."
+          ]
+        },
+        {
+          "heading": "Nachweise",
+          "paragraphs": [
+            "Grenzen und Menüpfade fremder Anwendungen anhand offizieller Dokumentation mit Abrufdatum prüfen. Menüs, Grenzen und Browserunterstützung können sich ändern.",
+            "Ratgeber mit VidFetch-Werkzeug müssen einen tatsächlichen Lauf mit erzeugter oder erlaubter Testdatei, Größen, Dauer, Format, mögliche Ausweichformate und ausschließlich VidFetch-Screenshots dokumentieren. Ein Test beweist keine universelle Kompatibilität."
+          ]
+        },
+        {
+          "heading": "Korrekturen",
+          "paragraphs": [
+            "Originale und wiederverwendbare Nachweise behalten. Prüf- oder Änderungsdatum anzeigen; Startdatum, Ergebnisse oder menschliche Prüfung nicht erfinden.",
+            "Fehler mit Ratgeber-URL und Korrekturvorschlag an {legal} melden. Inhalte mit offenen Herausgeber- oder Autorenfeldern bleiben unveröffentlicht."
+          ]
+        }
+      ]
+    }
+  },
+  "it": {
+    "about": {
+      "slug": "chi-siamo",
+      "title": "Informazioni su VidFetch",
+      "description": "Editore, finalità e differenza tra download TikTok sul server e strumenti video nel browser.",
+      "sections": [
+        {
+          "heading": "Editore e finalità",
+          "paragraphs": [
+            "Editore: {name}. Paese: {country}. Data di lancio: {launched}.",
+            "VidFetch aiuta a salvare video TikTok autorizzati e a lavorare sui propri file. Conserva l’originale e controlla ogni nuova copia prima di condividerla."
+          ]
+        },
+        {
+          "heading": "Due percorsi",
+          "paragraphs": [
+            "Il downloader invia un link pubblico TikTok al server per analisi e preparazione. TikTok è l’unica piattaforma verificata. Permessi, fonte e limiti determinano la disponibilità.",
+            "MP3/M4A, compressione, taglio temporale e GIF elaborano nel browser il file selezionato, senza inviarlo. Il browser scarica il motore da VidFetch."
+          ]
+        },
+        {
+          "heading": "Limiti",
+          "paragraphs": [
+            "Non sono offerti YouTube, rimozione di filigrane o aggiramento delle restrizioni di download del creatore. La visibilità pubblica non autorizza automaticamente salvataggio e redistribuzione.",
+            "Nessun ritaglio dell’inquadratura, normalizzazione audio, risincronizzazione o rimozione dei metadati. La compatibilità dipende dal browser. Contatti, privacy, condizioni, diritto d’autore e politica editoriale sono collegati sotto quando pubblicati."
+          ]
+        }
+      ]
+    },
+    "contact": {
+      "slug": "contatti",
+      "title": "Contatti di VidFetch",
+      "description": "Assistenza, stampa, diritto d’autore e privacy via email, senza modulo per inviare file.",
+      "sections": [
+        {
+          "heading": "Argomento",
+          "paragraphs": [
+            "Assistenza e stampa: {legal}. Privacy: {privacy}. Diritti e abusi: {abuse}.",
+            "Tempo di risposta: {responseTime}. Indica pagina, browser e messaggio d’errore. Non inviare password, link privati o registrazioni riservate."
+          ]
+        },
+        {
+          "heading": "Solo email",
+          "paragraphs": [
+            "Questa pagina non ha moduli e non conserva messaggi inviati. Il tuo fornitore email e la casella ricevente elaborano l’email che scegli di inviare.",
+            "Per una segnalazione indica URL originale, problema e prova dei diritti o del mandato."
+          ]
+        }
+      ]
+    },
+    "privacy": {
+      "slug": "privacy",
+      "title": "Privacy di VidFetch",
+      "description": "Link pubblici, identificatori di sicurezza, cookie e file temporanei locali, con pubblicità attualmente disattivata.",
+      "sections": [
+        {
+          "heading": "Responsabile",
+          "paragraphs": [
+            "Responsabile del servizio: {name}, in {country}. Richieste privacy: {privacy}."
+          ]
+        },
+        {
+          "heading": "Link e file",
+          "paragraphs": [
+            "Per un download TikTok, link pubblico e formato raggiungono server e piattaforma fonte per l’analisi e la consegna richieste, con controlli d’accesso.",
+            "I file per MP3/M4A, compressione, taglio e GIF restano sul dispositivo. Il motore arriva da VidFetch; la registrazione non viene inviata a un server di conversione."
+          ]
+        },
+        {
+          "heading": "Sicurezza",
+          "paragraphs": [
+            "Non occorrono account o profilo pubblico. Il cookie __Host-vidfetch-access è Secure, HttpOnly, SameSite=Strict e dura 30 minuti. Il cookie di trasferimento scade con il relativo ticket breve. Non sono cookie pubblicitari.",
+            "Il server riceve l’IP per instradare e proteggere le richieste. Il gateway ricava un identificatore con chiave per le quote; il database non conserva IP grezzi, URL fonte o titoli. Chiavi del browser e autorizzazioni API restano in memoria."
+          ]
+        },
+        {
+          "heading": "Conservazione",
+          "paragraphs": [
+            "Per impostazione predefinita i ticket inutilizzati scadono dopo 55 secondi e gli stati dei trasferimenti dopo 30 minuti; le voci scadute vengono rimosse durante la pulizia. I contatori giornalieri scadono a fine giornata UTC e vengono eliminati alla pulizia successiva. Le prove anti-riutilizzo scadono dopo 90 secondi.",
+            "Non esiste una libreria video pubblica permanente. Le risorse temporanee vengono liberate a fine operazione, errore o scadenza. Le copie scaricate restano sul dispositivo finché non le elimini."
+          ]
+        },
+        {
+          "heading": "Browser",
+          "paragraphs": [
+            "Un risultato locale può essere scritto temporaneamente in OPFS. Viene eliminato al termine o all’annullamento del flusso di download, scartando il risultato o con una successiva pulizia dopo un’interruzione. La copia scaricata è separata.",
+            "Un service worker con ambito limitato aiuta i download locali. Cache e memoria del sito possono conservare motore e worker. Cancellare i dati del sito può interrompere un’operazione."
+          ]
+        },
+        {
+          "heading": "Infrastruttura",
+          "paragraphs": [
+            "Cloudflare distribuisce il sito e tratta richieste di rete. Il widget Turnstile contatta Cloudflare; il server convalida il token per autorizzare i download.",
+            "La configurazione Caddy versionata disattiva i log d’accesso e filtra campi sensibili dagli errori operativi. Conservazione verificata dei log di infrastruttura, hosting e Cloudflare: {infrastructureRetention}. Un file d’esempio non dimostra un’impostazione attiva."
+          ]
+        },
+        {
+          "heading": "Pubblicità",
+          "paragraphs": [
+            "Il sito potrà mostrare annunci Google AdSense; oggi non sono attivi. Questa modifica non attiva script AdSense né messaggi di consenso. Prima dell’attivazione, informativa e consenso dovranno corrispondere al trattamento reale."
+          ]
+        },
+        {
+          "heading": "Diritti",
+          "paragraphs": [
+            "Quando si applica il GDPR, puoi richiedere accesso, rettifica, cancellazione, limitazione o portabilità, e opporti nei casi previsti. Scrivi a {privacy} con il contesto necessario, senza dati superflui. Puoi rivolgerti all’autorità competente.",
+            "Chiedi anche a TikTok la rimozione dell’originale ospitato lì. I file locali restano sotto il tuo controllo."
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "slug": "condizioni-uso",
+      "title": "Condizioni d’uso di VidFetch",
+      "description": "Usi consentiti, restrizioni della fonte e limiti pratici dei download TikTok e degli strumenti locali.",
+      "sections": [
+        {
+          "heading": "Permessi",
+          "paragraphs": [
+            "Usa contenuti tuoi, con licenza adeguata o autorizzati per salvataggio e modifica. La visibilità pubblica non trasferisce diritti o autorizzazione a ridistribuire.",
+            "Non aggirare restrizioni di download, login o accesso. Abusi automatizzati, richieste eccessive e tentativi di sovraccarico sono vietati."
+          ]
+        },
+        {
+          "heading": "Limiti",
+          "paragraphs": [
+            "TikTok è l’unica piattaforma verificata. YouTube e rimozione di filigrane non sono offerti. Nessun download è garantito: fonte, formati, durata e capacità possono impedirlo.",
+            "Valori attuali del gateway: 8 operazioni e 1 GiB per IP/identità temporanea al giorno UTC; globalmente 100 operazioni e 4 GiB. Fino a 256 MiB per trasferimento e 30 minuti per video. Quote e capacità possono bloccare una richiesta.",
+            "Gli strumenti locali hanno limiti per dispositivo, mostrati e verificati prima dell’elaborazione. Il limite di ingresso non garantisce RAM o spazio di uscita. Lascia aperta la scheda e controlla prima di eliminare l’originale."
+          ]
+        },
+        {
+          "heading": "Responsabilità",
+          "paragraphs": [
+            "Sei responsabile dei permessi e della verifica delle copie prima di condividerle. VidFetch non rivendica diritti sui tuoi media. Risultati, disponibilità o continuità specifici non sono garantiti, fatti salvi gli obblighi inderogabili applicabili.",
+            "Editore: {name}. Diritto applicabile: {jurisdiction}. Contatto: {legal}."
+          ]
+        }
+      ]
+    },
+    "copyright": {
+      "slug": "diritto-autore",
+      "title": "Diritto d’autore e segnalazioni",
+      "description": "Segnalare un problema di diritti e distinguere VidFetch dalla piattaforma che ospita il video originale.",
+      "sections": [
+        {
+          "heading": "Ruolo del servizio",
+          "paragraphs": [
+            "VidFetch non offre una libreria pubblica permanente o un catalogo di copie. I download richiesti possono essere elaborati sul server; gli strumenti locali lavorano sul dispositivo. L’originale resta sulla propria piattaforma.",
+            "Salva e modifica solo contenuti tuoi o autorizzati. Un link funzionante non dimostra il permesso."
+          ]
+        },
+        {
+          "heading": "Segnalazione",
+          "paragraphs": [
+            "Scrivi a {abuse} con contatto, URL originale, pagina VidFetch o contesto del trasferimento, descrizione e prova dei diritti o del mandato. Non inviare documenti d’identità sensibili senza una necessaria richiesta di verifica.",
+            "Tempo di trattamento: {copyrightTime}. L’editore può esaminare accesso e informazioni operative pertinenti; chiedi a TikTok la rimozione dell’originale. Non si garantisce la rimozione di pubblicazioni altrui."
+          ]
+        }
+      ]
+    },
+    "editorial": {
+      "slug": "politica-editoriale",
+      "title": "Politica editoriale di VidFetch",
+      "description": "Fonti, prove riproducibili e trasparenza su autori e strumenti IA in questa serie di guide.",
+      "sections": [
+        {
+          "heading": "Finalità e autore",
+          "paragraphs": [
+            "Le guide rispondono a una domanda concreta distinguendo file propri e link pubblici. Devono descrivere solo funzioni disponibili.",
+            "Autore: {author}. Stato della revisione umana: {review}. Strumenti IA assistono ricerca, scrittura e codice. Un suggerimento generato non è un fatto verificato né esperienza personale."
+          ]
+        },
+        {
+          "heading": "Prove",
+          "paragraphs": [
+            "Limiti e percorsi di menu di terzi vanno verificati sulla documentazione ufficiale con data di consultazione. Menu, limiti e compatibilità possono cambiare.",
+            "Una guida che usa VidFetch deve registrare un’esecuzione reale con file generati o autorizzati, dimensioni, durata, formato, eventuali alternative e schermate soltanto di VidFetch. Un test non garantisce compatibilità universale."
+          ]
+        },
+        {
+          "heading": "Correzioni",
+          "paragraphs": [
+            "Conserva fonte e prove riutilizzabili. Mostra data di verifica o modifica; non inventare lancio, risultati o revisione umana.",
+            "Invia errori a {legal} con URL e correzione proposta. I contenuti con dati di editore o autore incompleti restano non pubblicati."
+          ]
+        }
+      ]
+    }
+  },
+  "ar": {
+    "about": {
+      "slug": "من-نحن",
+      "title": "نبذة عن VidFetch",
+      "description": "الناشر وهدف الخدمة والفرق بين تنزيل تيك توك عبر الخادم ومعالجة ملفات الفيديو داخل المتصفح.",
+      "sections": [
+        {
+          "heading": "الناشر والهدف",
+          "paragraphs": [
+            "الناشر: {name}. البلد: {country}. تاريخ الإطلاق: {launched}.",
+            "يساعد VidFetch على حفظ فيديوهات تيك توك المصرح بها والعمل على ملفاتك الخاصة. احتفظ بالأصل وافحص النسخة الجديدة قبل استخدامها أو مشاركتها."
+          ]
+        },
+        {
+          "heading": "مساران مختلفان",
+          "paragraphs": [
+            "يرسل تنزيل تيك توك رابط فيديو عامًا إلى الخادم لتحليله وتجهيزه. تيك توك هو المنصة الوحيدة التي تم التحقق منها. يتوقف التوفر على الأذونات والمصدر وحدود الخدمة.",
+            "تعمل أدوات MP3/M4A والضغط والقص الزمني وGIF على الملف الذي تختاره داخل المتصفح دون رفعه. ينزل المتصفح ملفات المحرك من VidFetch."
+          ]
+        },
+        {
+          "heading": "حدود الخدمة",
+          "paragraphs": [
+            "لا توجد خدمة يوتيوب أو إزالة علامة مائية أو تجاوز لقيود التنزيل التي يضعها المنشئ. ظهور المنشور للعامة لا يمنح تلقائيًا إذن حفظه أو إعادة نشره.",
+            "لا توفر الأدوات اقتصاص إطار الصورة أو تسوية الصوت أو إصلاح المزامنة أو حذف البيانات الوصفية. يعتمد دعم الصيغ على المتصفح. تظهر روابط الاتصال والخصوصية والشروط وحقوق النشر والسياسة التحريرية أدناه عند نشرها."
+          ]
+        }
+      ]
+    },
+    "contact": {
+      "slug": "اتصل-بنا",
+      "title": "التواصل مع VidFetch",
+      "description": "المساعدة والصحافة وحقوق النشر والخصوصية عبر البريد، دون نموذج لإرسال الملفات.",
+      "sections": [
+        {
+          "heading": "موضوع الرسالة",
+          "paragraphs": [
+            "المساعدة والصحافة: {legal}. الخصوصية: {privacy}. الحقوق والإساءة: {abuse}.",
+            "مدة الرد: {responseTime}. أرسل عنوان الصفحة والمتصفح ورسالة الخطأ. لا ترسل كلمة مرور أو رابطًا خاصًا أو تسجيلًا سريًا."
+          ]
+        },
+        {
+          "heading": "البريد فقط",
+          "paragraphs": [
+            "لا تحتوي الصفحة على نموذج ولا تخزن رسائل مرسلة. يعالج مزود بريدك وصندوق الاستقبال أي رسالة تختار إرسالها.",
+            "لبلاغ حقوق النشر أرفق الرابط الأصلي ووصف المشكلة ودليل ملكيتك أو تفويضك."
+          ]
+        }
+      ]
+    },
+    "privacy": {
+      "slug": "الخصوصية",
+      "title": "خصوصية VidFetch",
+      "description": "الروابط العامة ومعرفات الأمان وملفات الارتباط والملفات المحلية المؤقتة مع عدم تفعيل الإعلانات حاليًا.",
+      "sections": [
+        {
+          "heading": "المسؤول",
+          "paragraphs": [
+            "المسؤول عن الخدمة: {name}، في {country}. للاستفسارات: {privacy}."
+          ]
+        },
+        {
+          "heading": "الروابط والملفات",
+          "paragraphs": [
+            "عند طلب تنزيل تيك توك يصل الرابط العام والصيغة إلى الخادم ومنصة المصدر لتحليل الفيديو وتسليمه مع فحوص الوصول.",
+            "تبقى ملفات MP3/M4A والضغط والقص وGIF على جهازك. يجلب المتصفح المحرك من VidFetch ولا يرسل التسجيل إلى خادم تحويل."
+          ]
+        },
+        {
+          "heading": "الأمان",
+          "paragraphs": [
+            "لا يلزم حساب VidFetch أو ملف شخصي عام. يستخدم تصريح التنزيل ملف __Host-vidfetch-access بخصائص Secure وHttpOnly وSameSite=Strict لمدة 30 دقيقة. ينتهي ملف الارتباط الخاص بالنقل مع تذكرته القصيرة. ليست هذه ملفات إعلانات.",
+            "يتلقى الخادم عنوان IP لتوجيه الطلب وحمايته. تشتق البوابة معرفًا بمفتاح للحصص؛ لا تخزن قاعدة الحصص عنوان IP الخام أو رابط المصدر أو عنوان الفيديو. تبقى مفاتيح المتصفح وتصاريح API في الذاكرة."
+          ]
+        },
+        {
+          "heading": "الاحتفاظ",
+          "paragraphs": [
+            "افتراضيًا تنتهي التذكرة غير المستخدمة بعد 55 ثانية وحالة النقل بعد 30 دقيقة، وتحذف السجلات المنتهية أثناء التنظيف. تنتهي عدادات الحصص بنهاية يوم UTC ثم تحذف في التنظيف التالي. تنتهي أدلة منع إعادة الطلب بعد 90 ثانية.",
+            "لا توجد مكتبة فيديو عامة دائمة. تحرر موارد المعالجة المؤقتة عند الإكمال أو الفشل أو الانتهاء. تبقى النسخ التي نزلتها على جهازك حتى تحذفها."
+          ]
+        },
+        {
+          "heading": "تخزين المتصفح",
+          "paragraphs": [
+            "قد يحفظ الناتج المحلي مؤقتًا في OPFS. يحذف بعد اكتمال تدفق التنزيل أو إلغائه، أو عند تجاهل الناتج، أو في تنظيف لاحق بعد انقطاع الزيارة. النسخة التي نزلتها منفصلة عن هذا المؤقت.",
+            "يساعد عامل خدمة محدود النطاق في التنزيل المحلي. قد يحتفظ مخزن المتصفح وذاكرته المؤقتة بالعامل وملفات المحرك. قد يؤدي مسح بيانات الموقع إلى قطع عملية جارية."
+          ]
+        },
+        {
+          "heading": "البنية التحتية",
+          "paragraphs": [
+            "تقدم Cloudflare الموقع وتعالج طلبات الشبكة. تتصل أداة Turnstile بها للتحقق، ويفحص الخادم الرمز للسماح بالتنزيل.",
+            "تعطل إعدادات Caddy المحفوظة في المستودع سجل الوصول وترشح الحقول الحساسة من الأخطاء التشغيلية. مدة حفظ سجلات البنية التحتية والاستضافة وCloudflare المتحقق منها: {infrastructureRetention}. ملف المثال ليس دليلًا على إعداد فعال."
+          ]
+        },
+        {
+          "heading": "الإعلانات",
+          "paragraphs": [
+            "قد يعرض الموقع إعلانات Google AdSense مستقبلًا؛ وهي غير نشطة اليوم. لا يفعل هذا التغيير برنامج الإعلانات أو رسالة الموافقة. يجب تحديث الإشعار وإعداد الموافقة ليعكسا المعالجة الفعلية قبل التفعيل."
+          ]
+        },
+        {
+          "heading": "حقوقك",
+          "paragraphs": [
+            "عند انطباق GDPR يمكنك طلب الوصول والتصحيح والحذف والتقييد والنقل، والاعتراض حسب الشروط المعمول بها. راسل {privacy} بالسياق اللازم دون بيانات زائدة. يمكنك الشكوى إلى سلطة حماية البيانات المختصة.",
+            "اطلب إزالة الأصل الموجود على تيك توك من تلك المنصة أيضًا. أنت تتحكم في حذف ملفات جهازك المحلية."
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "slug": "شروط-الاستخدام",
+      "title": "شروط استخدام VidFetch",
+      "description": "الاستخدام المسموح وقيود المصادر والحدود الفعلية لتنزيل تيك توك وأدوات الفيديو المحلية.",
+      "sections": [
+        {
+          "heading": "الأذونات",
+          "paragraphs": [
+            "استخدم محتواك أو محتوى بترخيص مناسب أو بإذن للحفظ والتعديل. الإتاحة العامة لا تنقل حقوق النشر أو إذن إعادة التوزيع.",
+            "لا تتجاوز قيود التنزيل أو تسجيل الدخول أو ضوابط الوصول. يمنع سوء الاستخدام الآلي والطلبات المفرطة ومحاولات إثقال الخدمة."
+          ]
+        },
+        {
+          "heading": "الحدود",
+          "paragraphs": [
+            "تيك توك وحده متحقق منه. لا يوتيوب ولا إزالة علامات مائية. التنزيل غير مضمون ويتأثر بالمصدر والصيغة والمدة والسعة.",
+            "القيم الحالية للبوابة: 8 عمليات و1 GiB لكل IP أو هوية مؤقتة في يوم UTC، و100 عملية و4 GiB إجمالًا. يبلغ حد النقل 256 MiB ومدة الفيديو 30 دقيقة. قد تمنع الحصة أو السعة الطلب.",
+            "للأدوات المحلية حدود حسب الجهاز تعرض وتفحص قبل المعالجة. حد الإدخال لا يضمن ذاكرة RAM أو مساحة الناتج. أبق التبويب مفتوحًا وافحص الناتج قبل حذف المصدر."
+          ]
+        },
+        {
+          "heading": "المسؤولية",
+          "paragraphs": [
+            "أنت مسؤول عن الأذونات وفحص النسخ قبل المشاركة. لا يطالب VidFetch بحقوق في وسائطك. لا يضمن نتيجة أو توفرًا أو تشغيلًا متواصلًا بعينه، مع مراعاة الالتزامات الإلزامية المعمول بها.",
+            "الناشر: {name}. القانون الواجب التطبيق: {jurisdiction}. الاتصال: {legal}."
+          ]
+        }
+      ]
+    },
+    "copyright": {
+      "slug": "حقوق-النشر",
+      "title": "حقوق النشر والبلاغات",
+      "description": "الإبلاغ عن مشكلة حقوق وتمييز دور VidFetch عن المنصة التي تستضيف الفيديو الأصلي.",
+      "sections": [
+        {
+          "heading": "دور الخدمة",
+          "paragraphs": [
+            "ليس VidFetch مكتبة فيديو عامة دائمة أو فهرسًا لنسخ الفيديو. قد تمر التنزيلات المطلوبة بمعالجة الخادم؛ وتعمل الأدوات المحلية على الجهاز. يبقى الأصل في منصة المصدر.",
+            "احفظ وعدل محتواك أو المحتوى المصرح به فقط. عمل الرابط لا يثبت الإذن."
+          ]
+        },
+        {
+          "heading": "إرسال بلاغ",
+          "paragraphs": [
+            "راسل {abuse} ببيانات الاتصال والرابط الأصلي وصفحة VidFetch أو سياق النقل ووصف المشكلة وإثبات الحقوق أو التفويض. لا ترسل وثائق هوية حساسة دون طلب تحقق ضروري.",
+            "مدة المعالجة: {copyrightTime}. يستطيع الناشر فحص الوصول للخدمة والمعلومات التشغيلية ذات الصلة؛ أما حذف الأصل من تيك توك فيطلب من تيك توك. لا توجد وعود بإزالة منشور لطرف ثالث على نحو مضمون."
+          ]
+        }
+      ]
+    },
+    "editorial": {
+      "slug": "السياسة-التحريرية",
+      "title": "السياسة التحريرية لـ VidFetch",
+      "description": "المصادر والاختبارات القابلة للتكرار والشفافية حول المؤلف واستخدام الذكاء الاصطناعي في سلسلة الأدلة.",
+      "sections": [
+        {
+          "heading": "الهدف والمؤلف",
+          "paragraphs": [
+            "تجيب الأدلة عن سؤال محدد وتميز الملف الشخصي من الرابط العام. يجب ألا تصف إلا الوظائف المتاحة فعلًا.",
+            "المؤلف: {author}. حالة المراجعة البشرية: {review}. تساعد أدوات الذكاء الاصطناعي في البحث والكتابة والبرمجة. الاقتراح المولد ليس حقيقة متحققة أو تجربة شخصية."
+          ]
+        },
+        {
+          "heading": "الأدلة",
+          "paragraphs": [
+            "يجب التحقق من حدود وتفاصيل قوائم التطبيقات الأخرى في وثائقها الرسمية مع تاريخ الاطلاع. قد تتغير القوائم والحدود ودعم المتصفحات.",
+            "يلزم للدليل الذي يستخدم VidFetch تسجيل تجربة فعلية بملفات مولدة أو مأذون بها، والأحجام والمدة والصيغة وأي بديل ولقطات VidFetch فقط. لا تضمن تجربة واحدة توافقًا عامًا."
+          ]
+        },
+        {
+          "heading": "التصحيح",
+          "paragraphs": [
+            "احتفظ بالمصدر وأدلة قابلة لإعادة الاستخدام. اعرض تاريخ الفحص أو التعديل ولا تختلق إطلاقًا أو نتيجة اختبار أو مراجعة بشرية.",
+            "أرسل الأخطاء إلى {legal} مع رابط الدليل والتصحيح المقترح. لا ينشر المحتوى الذي لا تزال بيانات ناشره أو مؤلفه ناقصة."
+          ]
+        }
+      ]
+    }
+  }
+}

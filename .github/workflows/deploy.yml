@@ -75,7 +75,7 @@ jobs:
           sudo apt-get install -y ffmpeg
       - name: Server HTML, eight languages, RTL and unchanged API paths
         run: npm run test:i18n
-      - name: Lighthouse mobile audit (blocking accessibility, SEO and CLS only)
+      - name: Lighthouse mobile audit (performance >=95, other categories 100, CLS <=0.02)
         env:
           VIDFETCH_RELEASE: ${{ github.sha }}
         run: |

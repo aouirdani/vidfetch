@@ -5,6 +5,7 @@ import { localeForSegments } from "@/i18n/config";
 import { resolvePage, sitePages } from "@/lib/site-pages";
 import { localizedMetadata } from "@/lib/localized-seo";
 import { HomeView, BlogView, ArticleView, LegalView, PlatformView } from "@/views/SiteViews";
+import { TrustView } from "@/views/TrustView";
 export function generateStaticParams() { return sitePages().map(page => ({ segments: page.path.split("/").filter(Boolean) })); }
 export async function generateMetadata({ params }: { params: Promise<{ segments?: string[] }> }) {
   const segments = (await params).segments ?? [], page = resolvePage(segments);
@@ -15,6 +16,7 @@ export async function generateMetadata({ params }: { params: Promise<{ segments?
 export default async function Page({ params }: { params: Promise<{ segments?: string[] }> }) {
   const page = resolvePage((await params).segments ?? []); if (!page) notFound();
   switch (page.identity.kind) {
+    case "trust": return <TrustView page={page} />;
     case "local-tool": return <LocalToolView page={page}/>;
     case "home": return <HomeView page={page} />;
     case "blog": return <BlogView page={page} />;

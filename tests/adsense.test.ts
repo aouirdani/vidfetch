@@ -32,6 +32,6 @@ test("the privacy notice accurately says ads are not currently displayed in all 
   // (the contact addresses of the same dictionary are moved to vidfetch.app first: tests/home-navigation.test.ts)
   assert.match(readFileSync("src/app/(site)/[[...segments]]/layout.tsx", "utf8"), /messages=\{\{ \.\.\.withOfficialContacts\(d\), privacy1: ADVERTISING_PRIVACY\[locale\] \}\}/);
   const legal = readFileSync("src/views/SiteViews.tsx", "utf8");
-  assert.match(legal, /items: \[ADVERTISING_PRIVACY\[page\.locale\], d\.privacy2,/);
+  assert.match(legal, /items: verifiedPrivacySummary\(page\.locale\)/);
   assert.doesNotMatch(legal, /d\.privacy1\b/);
 });
