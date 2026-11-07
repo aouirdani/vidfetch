@@ -154,3 +154,11 @@ Date affichée en Europe/Paris. Les commits de la branche de travail ne devienne
 - Le contrôle HTTP public avant activation a confirmé trois autres ancres Cloudflare dans `/legal`, générées à partir des adresses textuelles legal/privacy/abuse. Le correctif du seul footer aurait laissé huit pages légales signalées.
 - Même exclusion Cloudflare appliquée aux paragraphes contenant nos adresses publiques, avec échappement du texte et sans lien HTTP technique. Les tests couvrent les 24 paragraphes de contact des huit langues et l’échappement HTML. Aucun réglage Cloudflare ou serveur modifié. Validation et bilan public de ce complément à suivre.
 - HTTP public après PR #38 : Cloudflare consomme les commentaires `email_off`, mais conserve bien le mailto en clair et ne génère plus d’ancre technique sur l’accueil. `seo-check` contrôle donc le lien final plutôt que la conservation des commentaires ; les tests du composant vérifient séparément le balisage envoyé à Cloudflare.
+
+
+## 2026-11-07 — Pages de confiance et guides, PR 1 en préparation
+
+- Plan PR #40 accepté avec revue : G17 TikTok 9:16 ; G25 remplacé par split video into parts, US/en 480/D14, adéquation 3. Rangs figés pour les deux lots de guides. Mots-clés des dix traductions France/fr vérifiés ; données nulles/absentes distinguées. Coût de ces appels : 0,12 USD sous deux budgets de 0,50 USD.
+- Question groupée adressée au propriétaire avant la PR sur identité, pays, droit, lancement, auteur, relecture et délais. À ce stade sans réponse : 48 sources de confiance préparées, mais aucune publiée ; champs conservés et exclus des routes/menus/sitemap. Les guides à signature incomplète devront eux aussi rester non publiés.
+- /legal et équivalents restent indexables ; résumé de confidentialité fondé sur le code, durées des journaux d’infrastructure laissées à compléter. CMP Google préparée et désactivée ; éléments AdSense protégés inchangés.
+- Build local, lint, typecheck, tests du verrou/CMP et seo-check sur 106 URL réussis. Contrôles CI et production à suivre, aucun succès anticipé. SHA-256 moteur fa0d3d4e15a5a45ca0deb2b35e7ba03adc95c31b87500378068121f291c42287 et passerelle 0fa1404530c272b76aaec9aee18125660e8561c744e4ccc1fbb9c7dbee9850e5 identiques à l’archive publique 7a8da19.

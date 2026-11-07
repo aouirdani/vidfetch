@@ -104,3 +104,13 @@ Les mesures LCP/CLS/TBT et taille JS comparatives sont conservées dans `TOOLS-C
 - La vérification Instagram/X n'a pas été exécutée faute de lien autorisé disponible; les gates restent fermées. Vague 2 est du contenu de préparation interne et ne prétend à aucun support.
 - Aucun changement YouTube n'a été réalisé; les routes restent bloquées.
 - Le CI push/deploy post-revert est vert. Les PR #27–#30 n'ont pas été fusionnées; les checks de leurs têtes devront être verts après rebase et avant chaque fusion.
+
+## 7 novembre 2026 — Renforcement AdSense et SEO (en cours)
+
+Le plan de trente guides est validé et corrigé suivant la revue du propriétaire : G17 cible `tiktok aspect ratio` ; G25 devient `split video into parts` (480/mois, difficulté 14, outil local de découpe). Les dix traductions françaises ont été mesurées en France/fr. Coût OpenSEO de ces corrections : **0,12 USD**, sous les budgets distincts de 0,50 USD chacun.
+
+Les 48 sources des pages de confiance sont préparées dans huit langues, avec résolution, métadonnées, schémas, maillage et verrou de publication. Les données d’éditeur, auteur, relecture et délais ne sont pas inventées : tant que les champs demandés restent sans réponse, les pages correspondantes ne sont pas publiques. Les 106 URL existantes et leurs URL légales sont conservées.
+
+La CMP Google est préparée et désactivée. `ads.txt`, le compte AdSense dans le HTML et `ADSENSE_DEFERRED_LOADING_ENABLED=false` restent inchangés. Les SHA-256 des deux bundles reconstruits correspondent à l’archive de production.
+
+Les trois PR, leurs CI, les démonstrations des guides, les captures, les publications possibles et les vérifications en production sont suivies dans [le rapport détaillé](docs/seo/RAPPORT-PAGES-ET-GUIDES.md). Cette première version est un état d’avancement ; elle n’annonce pas encore de guides publiés ni de nouvel audit de production.

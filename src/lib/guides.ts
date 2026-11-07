@@ -3,6 +3,7 @@ import { createHash } from "node:crypto";
 import { join } from "node:path";
 import { SITE, OG_IMAGE } from "./seo";
 import { articlePath, type Locale } from "../i18n/config";
+import { hasUnfinishedFields } from "./publisher";
 
 export type Guide = { id: string; locale: Locale; slug: string; title: string; seoTitle?: string; publicationRequested?: boolean; description: string; category: string; created: string; updated: string; published: string | null; status: "ready" | "review" | "draft"; review?: { linguistic: "pending" | "approved"; technical: "pending" | "approved"; reviewer: string | null; reviewedAt: string | null }; sourceSha256?: string; sourceBodySha256?: string; related: string[]; sources: { title: string; url: string }[]; body: string; minutes: number };
 const catalogues = new Map<Locale, Guide[]>();
@@ -25,7 +26,7 @@ export function guides(locale: Locale = "en"): Guide[] {
 }
 export function guideFor(slug: string, locale: Locale = "en") { return guides(locale).find(guide => guide.slug === slug); }
 export function isReviewedGuide(guide: Guide) {
-  if (guide.status !== "ready") return false;
+  if (!guide || guide.status !== "ready" || hasUnfinishedFields(guide)) return false;
   if (guide.locale === "en") return true;
   const original = guides().find(g => g.id === guide.id);
   const currentSource = original ? createHash("sha256").update(original.body).digest("hex") : undefined;

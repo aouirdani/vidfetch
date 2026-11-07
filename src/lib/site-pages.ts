@@ -3,7 +3,8 @@ import type {LocalToolId} from "../local-tools/limits";
 import { LANGUAGES, LOCALES, articlePath, homePath, localeForSegments, sectionPath, type Locale } from "../i18n/config";
 import { availableGuides, guides, isPublishedGuide } from "./guides";
 import { availablePlatformPages, platformPagePath } from "./platform-pages";
-export type PageIdentity = {kind:"local-tool";id:LocalToolId} | { kind: "home" } | { kind: "blog" } | { kind: "legal" } | { kind: "guide"; id: string } | { kind: "platform"; id: string };
+import { availableTrustPages, trustPath, type TrustId } from "./trust-pages";
+export type PageIdentity = {kind:"trust";id:TrustId} | {kind:"local-tool";id:LocalToolId} | { kind: "home" } | { kind: "blog" } | { kind: "legal" } | { kind: "guide"; id: string } | { kind: "platform"; id: string };
 export type SitePage = { locale: Locale; identity: PageIdentity; path: string; indexable: boolean };
 function canIndex(identity: PageIdentity, locale: Locale) {
   if (identity.kind === "platform") return availablePlatformPages(locale).some(entry => entry.id === identity.id);
@@ -12,6 +13,7 @@ function canIndex(identity: PageIdentity, locale: Locale) {
   return true;
 }
 export function equivalentPath(identity: PageIdentity, locale: Locale): string | undefined {
+  if (identity.kind === "trust") return trustPath(locale, identity.id);
   if (identity.kind === "local-tool") return toolPath(locale,identity.id);
   if (identity.kind === "home") return homePath(locale);
   if (identity.kind === "legal") return sectionPath(locale, "legal");
@@ -35,6 +37,7 @@ export function resolvePage(segments: readonly string[] = []): SitePage | undefi
   if (!rest.length) identity = { kind: "home" };
   else if (rest.length === 1 && rest[0] === LANGUAGES[locale].blog && availableGuides(locale).length) identity = { kind: "blog" };
   else if (rest.length === 1 && rest[0] === LANGUAGES[locale].legal) identity = { kind: "legal" };
+  else if (rest.length === 1 && availableTrustPages(locale).some(p => p.slug === rest[0])) identity = { kind: "trust", id: availableTrustPages(locale).find(p => p.slug === rest[0])!.id };
   else if (rest.length === 2 && rest[0] === LANGUAGES[locale].blog) {
     const guide = availableGuides(locale).find(g => g.slug === rest[1]);
     if (!guide) return undefined;
@@ -48,7 +51,7 @@ export function resolvePage(segments: readonly string[] = []): SitePage | undefi
 }
 export function sitePages(): SitePage[] {
   return LOCALES.flatMap(locale => {
-    const identities: PageIdentity[] = [...TOOL_IDS.map(id=>({kind:"local-tool" as const,id})),{ kind: "home" }, ...(availableGuides(locale).length ? [{ kind: "blog" as const }] : []), { kind: "legal" },
+    const identities: PageIdentity[] = [...availableTrustPages(locale).map(p => ({kind:"trust" as const,id:p.id})),...TOOL_IDS.map(id=>({kind:"local-tool" as const,id})),{ kind: "home" }, ...(availableGuides(locale).length ? [{ kind: "blog" as const }] : []), { kind: "legal" },
       ...availableGuides(locale).map(g => ({ kind: "guide" as const, id: g.id })),
       ...availablePlatformPages(locale).map(entry => ({ kind: "platform" as const, id: entry.id }))];
     return identities.map(identity => ({ locale, identity, path: equivalentPath(identity, locale)!, indexable: canIndex(identity, locale) }));
