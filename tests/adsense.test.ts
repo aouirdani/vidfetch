@@ -1,3 +1,4 @@
+import { clientMessages } from "../src/i18n/client-messages";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
@@ -27,10 +28,11 @@ test("the privacy notice accurately says ads are not currently displayed in all 
     assert.match(ADVERTISING_PRIVACY[locale], /currently|actuellement|actualmente|no momento|saat ini|derzeit|al momento|حاليًا/i, locale);
     assert.doesNotMatch(ADVERTISING_PRIVACY[locale], /shows ads|affiche des annonces|muestra anuncios servidos|exibe anúncios veiculados|menampilkan iklan yang disajikan|zeigt Anzeigen, die von|mostra annunci forniti|يعرض الموقع إعلانات تقدمها/i, locale);
     assert.notEqual(ADVERTISING_PRIVACY[locale], dictionaries[locale].privacy1, locale);
+    assert.equal(clientMessages({ ...dictionaries[locale], privacy1: ADVERTISING_PRIVACY[locale] }).privacy1, ADVERTISING_PRIVACY[locale], locale);
   }
   // the dictionary sent to the browser carries the same notice, not the old claim
   // (the contact addresses of the same dictionary are moved to vidfetch.app first: tests/home-navigation.test.ts)
-  assert.match(readFileSync("src/app/(site)/[[...segments]]/layout.tsx", "utf8"), /messages=\{\{ \.\.\.withOfficialContacts\(d\), privacy1: ADVERTISING_PRIVACY\[locale\] \}\}/);
+  assert.match(readFileSync("src/app/(site)/[[...segments]]/layout.tsx", "utf8"), /messages=\{clientMessages\(\{ \.\.\.withOfficialContacts\(d\), privacy1: ADVERTISING_PRIVACY\[locale\] \}\)\}/);
   const legal = readFileSync("src/views/SiteViews.tsx", "utf8");
   assert.match(legal, /items: verifiedPrivacySummary\(page\.locale\)/);
   assert.doesNotMatch(legal, /d\.privacy1\b/);

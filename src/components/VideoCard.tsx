@@ -12,7 +12,7 @@ import { DownloadClientError } from "@/lib/secure-client";
 import { useI18n } from "@/i18n/context";
 import { interpolate, LANGUAGES } from "@/i18n/config";
 import { errorMessage } from "@/i18n/errors";
-import type { Messages } from "@/i18n/dictionaries";
+import type { ClientMessages as Messages } from "@/i18n/client-messages";
 import { localizedFormatLabel } from "@/i18n/formats";
 
 function formatLabel(f: MediaFormat, d: Messages) {

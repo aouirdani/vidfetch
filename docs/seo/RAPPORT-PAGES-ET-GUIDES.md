@@ -93,6 +93,12 @@ URL nouvelles à soumettre à Google : **aucune pour le moment**. Ne pas soumett
 
 Les budgets sont par étape complète, pas répétés à chaque appel. Aucun appel payant supplémentaire n’est nécessaire pour les chiffres retenus. Les crawls de suivi utiliseront `render_mode=off`, `use_fallback=false` et seront consignés après leur achèvement.
 
+### Correction Lighthouse avant fusion de la PR 1
+
+Le run 42377588512 a validé les tests, les contrôles de release, seo-check et test:i18n, puis échoué sur les médianes P94 (FR/ID) et P93 (AR). Les autres catégories sont à 100 et CLS à 0. Le nouveau commit transmet seulement les 62 libellés nécessaires aux composants interactifs (159 auparavant), conserve le texte complet des pages sur le serveur et diffère la mise en page du pied de page hors écran. Aucun seuil n’est abaissé, aucun job relancé à l’identique. Les ajustements de types ne changent pas les bundles backend ; leurs SHA-256 reconstruits restent ceux consignés ci-dessus. Résultat du nouveau run à consigner après exécution.
+
+Le run42409386772 a de nouveau validé les contrôles fonctionnels/SEO/i18n mais échoué sur P94 EN/AR (les quatre autres routes P95). Correction suivante : liens HTML natifs dans l’en-tête/pied de page et suppression des préchargements automatiques de contenu. Cela réduit le nombre de composants de navigation hydratés et les requêtes RSC spéculatives. Test local Lighthouse12.6.1 AR :98/100/100/100, CLS0, zéro préchargement RSC ; ce résultat webpack ne remplace pas le contrôle Turbopack Linux du nouveau commit. Aucun déploiement ni retour arrière à ce stade.
+
 ## Lot 2 préparé — rangs 1 à 15
 
 Quinze guides anglais originaux sont rédigés et accompagnés de résultats réellement téléchargés depuis le site public. **Tous restent en brouillon : auteur non renseigné et page À propos indisponible.** Aucun de leurs chemins n’est annoncé comme publié. Le moteur de rendu accepte désormais procédures, tableaux et captures locales WebP avec dimensions fixes et chargement différé. Les pages outils relieront les guides correspondants dès leur publication autorisée et complète ; aucun lien de navigation vers une page indisponible.
