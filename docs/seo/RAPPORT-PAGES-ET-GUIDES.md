@@ -92,3 +92,7 @@ URL nouvelles à soumettre à Google : **aucune pour le moment**. Ne pas soumett
 | **Mission actuelle hors plan historique** | **0,50 + 0,50 USD** | **0 USD** | **0,12 USD** |
 
 Les budgets sont par étape complète, pas répétés à chaque appel. Aucun appel payant supplémentaire n’est nécessaire pour les chiffres retenus. Les crawls de suivi utiliseront `render_mode=off`, `use_fallback=false` et seront consignés après leur achèvement.
+
+### Correction Lighthouse avant fusion de la PR 1
+
+Le run 42377588512 a validé les tests, les contrôles de release, seo-check et test:i18n, puis échoué sur les médianes P94 (FR/ID) et P93 (AR). Les autres catégories sont à 100 et CLS à 0. Le nouveau commit transmet seulement les 61 libellés nécessaires aux composants interactifs (159 auparavant), conserve le texte complet des pages sur le serveur et diffère la mise en page du pied de page hors écran. Aucun seuil n’est abaissé, aucun job relancé à l’identique. Les ajustements de types ne changent pas les bundles backend ; leurs SHA-256 reconstruits restent ceux consignés ci-dessus. Résultat du nouveau run à consigner après exécution.
