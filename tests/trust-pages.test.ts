@@ -34,7 +34,7 @@ test("all 48 source pages are complete structures with six distinct localized sl
   }
 });
 test("a ready/requested guide cannot bypass the visible-placeholder publication guard", () => {
-  const original = guides()[0];
+  const original = guides().find(g => g.id === "720p-1080p-4k")!;
   assert.equal(isReviewedGuide({ ...original, status: "ready", body: `${original.body}\n[À COMPLÉTER : auteur]`, publicationRequested: true }), false);
 });
 test("Google CMP is disabled and rejects missing or untrusted activation URLs", () => {

@@ -4,8 +4,10 @@ import { join } from "node:path";
 import { SITE, OG_IMAGE } from "./seo";
 import { articlePath, type Locale } from "../i18n/config";
 import { hasUnfinishedFields } from "./publisher";
+import { trustPath } from "./trust-pages";
 
-export type Guide = { id: string; locale: Locale; slug: string; title: string; seoTitle?: string; publicationRequested?: boolean; description: string; category: string; created: string; updated: string; published: string | null; status: "ready" | "review" | "draft"; review?: { linguistic: "pending" | "approved"; technical: "pending" | "approved"; reviewer: string | null; reviewedAt: string | null }; sourceSha256?: string; sourceBodySha256?: string; related: string[]; sources: { title: string; url: string }[]; body: string; minutes: number };
+export type GuideImage = { src: string; alt: string; width: number; height: number; caption?: string };
+export type Guide = { author?: string; series?: string; planId?: string; planRank?: number; tool?: string; images?: GuideImage[]; wordCount?: number; id: string; locale: Locale; slug: string; title: string; seoTitle?: string; publicationRequested?: boolean; description: string; category: string; created: string; updated: string; published: string | null; status: "ready" | "review" | "draft"; review?: { linguistic: "pending" | "approved"; technical: "pending" | "approved"; reviewer: string | null; reviewedAt: string | null }; sourceSha256?: string; sourceBodySha256?: string; related: string[]; sources: { title: string; url: string; accessed?: string }[]; body: string; minutes: number };
 const catalogues = new Map<Locale, Guide[]>();
 const publicationFields = new WeakMap<Guide, { body: string; metadata: string; unfinished: boolean }>();
 function unfinishedGuide(guide: Guide) {
@@ -35,6 +37,7 @@ export function guides(locale: Locale = "en"): Guide[] {
 export function guideFor(slug: string, locale: Locale = "en") { return guides(locale).find(guide => guide.slug === slug); }
 export function isReviewedGuide(guide: Guide) {
   if (!guide || guide.status !== "ready" || unfinishedGuide(guide)) return false;
+  if (guide.series === "adsense-2026-11" && (!guide.author?.trim() || !trustPath(guide.locale, "about"))) return false;
   if (guide.locale === "en") return true;
   const original = guides().find(g => g.id === guide.id);
   const currentSource = original ? createHash("sha256").update(original.body).digest("hex") : undefined;
@@ -48,7 +51,7 @@ export function guideSchema(guide: Guide) {
   return { "@type": "BlogPosting", "@id": `${url}#article`, headline: guide.title,
     description: guide.description, url, mainEntityOfPage: url,
     dateCreated: guide.created, dateModified: guide.updated, ...(guide.published ? { datePublished: guide.published } : {}),
-    author: { "@type": "Organization", name: SITE.name, url: SITE.url }, publisher: { "@id": `${SITE.url}/#organization` },
+    author: guide.author ? { "@type": "Person", name: guide.author, ...(trustPath(guide.locale, "about") ? { url: new URL(trustPath(guide.locale, "about")!, SITE.url).href } : {}) } : { "@type": "Organization", name: SITE.name, url: SITE.url }, publisher: { "@id": `${SITE.url}/#organization` },
     image: `${SITE.url}${OG_IMAGE.url}`, inLanguage: guide.locale, articleSection: guide.category,
   };
 }

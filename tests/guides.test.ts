@@ -1,12 +1,12 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { guides, guideFor, guideSchema, headingId } from "../src/lib/guides";
+import { guides, availableGuides, guideFor, guideSchema, headingId } from "../src/lib/guides";
 import { SITE, jsonLdGraph } from "../src/lib/seo";
 
-test("ten complete guides have unique metadata, real dates and resolvable internal links", () => {
-  const all = guides(); assert.equal(all.length, 13);
-  assert.equal(new Set(all.map(a => a.title)).size, 13);
-  assert.equal(new Set(all.map(a => a.description)).size, 13);
+test("published baseline and prepared guides have unique metadata, real dates and resolvable internal links", () => {
+  const all = guides(); assert.equal(availableGuides("en").filter(g => !g.series).length, 13);
+  assert.equal(new Set(all.map(a => a.title)).size, all.length);
+  assert.equal(new Set(all.map(a => a.description)).size, all.length);
   for (const a of all) {
     assert.ok(a.body.split(/\s+/).length >= 380, a.slug);
     const today = new Date().toISOString().slice(0, 10);
@@ -17,7 +17,7 @@ test("ten complete guides have unique metadata, real dates and resolvable intern
     for (const match of a.body.matchAll(/\]\(\/blog\/([a-z0-9-]+)\)/g)) assert.ok(guideFor(match[1]), match[1]);
     const ids = [...a.body.matchAll(/^## (.+)$/gm)].map(m => headingId(m[1]));
     assert.equal(new Set(ids).size, ids.length);
-    assert.ok(ids.length >= 5);
+    assert.ok(ids.length >= (a.series ? 3 : 5), a.slug);
     assert.doesNotMatch(a.body, /TODO|lorem ipsum|placeholder/i);
     assert.equal(guideSchema(a).url, `https://vidfetch.app/blog/${a.slug}`);
   }

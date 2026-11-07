@@ -61,8 +61,19 @@ try {
   const platformAlternates = Object.fromEntries(canonicalPaths.filter(path => /tiktok/.test(path) && !/blog|guides/.test(path)).map(path => [path, [...locales, 'x-default']]));
   const alternatesOf = new Map();
   assert.doesNotMatch(sitemap, /youtube|\/api\//);
-  const englishGuides = (await import('node:fs/promises')).readdir('content/guides');
-  const guidePaths = (await englishGuides).filter(name => name.endsWith('.md')).map(name => '/blog/' + name.slice(0, -3));
+  const guideModule = join(mediaFixtureDir, 'guide-catalogue.mjs');
+  writeFileSync(guideModule, (await build({ entryPoints: ['src/lib/guides.ts'], bundle: true, platform: 'node', format: 'esm', write: false })).outputFiles[0].text);
+  const { guides: allGuides, availableGuides } = await import(pathToFileURL(guideModule).href);
+  const guidePaths = availableGuides('en').map(guide => '/blog/' + guide.slug);
+  for (const locale of locales) {
+    const prefix = blogs[locales.indexOf(locale)];
+    const ready = new Set(availableGuides(locale).map(guide => guide.id));
+    for (const guide of allGuides(locale).filter(guide => guide.series === 'adsense-2026-11' && !ready.has(guide.id))) {
+      const path = '/' + prefix + '/' + guide.slug;
+      assert.equal((await fetch(base + path)).status, 404, 'Unpublished guide stays unavailable: ' + path);
+      assert.ok(!canonicalPaths.includes(path), 'Draft absent from sitemap: ' + path);
+    }
+  }
   const paths = [...new Set([...canonicalPaths, ...blogs.map(path => '/' + path), ...guidePaths].map(path => new URL(path, base).pathname))];
   const allPaths = new Set(paths.map(path => decodeURI(path)));
   for (const path of paths) {

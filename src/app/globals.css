@@ -309,3 +309,10 @@ summary { color: #10163a; }
   .hero-scene-float, .hero-scene.has-entered .hero-card { animation: none !important; }
   .hero-card, .hero-token { transition: none !important; will-change: auto; }
 }
+
+.guide-prose ol { list-style: decimal; padding-inline-start: 1.5rem; margin-block: 1.25rem; }
+.guide-prose figure { margin-block: 2rem; }
+.guide-prose figcaption { color: #515a78; font-size: .875rem; margin-top: .5rem; }
+.guide-table { max-width: 100%; overflow-x: auto; margin-block: 1.5rem; }
+.guide-table table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.guide-table th, .guide-table td { padding: .65rem; border-bottom: 1px solid #d5dbee; text-align: start; vertical-align: top; }
