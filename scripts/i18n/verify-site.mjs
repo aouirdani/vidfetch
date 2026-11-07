@@ -22,15 +22,23 @@ function formatSize(bytes) {
   return `${value>=100||index===0?Math.round(value):value.toFixed(1)} ${units[index]}`;
 }
 let mediaFixtureDir, fixtureVideoBytes, fixtureAudioBytes;
-const reserve = createServer();
-await new Promise((resolve, reject) => { reserve.once('error', reject); reserve.listen(0, '127.0.0.1', resolve); });
-const port = reserve.address().port;
-await new Promise(resolve => reserve.close(resolve));
-const base = `http://127.0.0.1:${port}`;
-const server = spawn(process.execPath, ['node_modules/next/dist/bin/next', 'start', '--hostname', '127.0.0.1', '--port', String(port)], {
-  detached: true, stdio: ['ignore', 'pipe', 'pipe'], env: { ...process.env, VIDFETCH_TARGET: 'ovh', VIDFETCH_CONNECTION_READY: '0', DATABASE_URL: '', TURNSTILE_SECRET_KEY: '', VIDFETCH_ACCESS_SIGNING_KEY: '', NEXT_TELEMETRY_DISABLED: '1' },
-});
-let serverLog = ''; for (const stream of [server.stdout, server.stderr]) stream.on('data', data => { serverLog += data; });
+const externalBase = process.env.VIDFETCH_I18N_BASE_URL;
+let port, server;
+if (externalBase) {
+  const target = new URL(externalBase);
+  assert.ok(target.protocol === 'http:' && ['127.0.0.1','localhost'].includes(target.hostname) && target.pathname === '/' && !target.search && !target.hash && !target.username && !target.password, 'External i18n fixtures require a loopback HTTP origin');
+  port = Number(target.port || 80);
+} else {
+  const reserve = createServer();
+  await new Promise((resolve, reject) => { reserve.once('error', reject); reserve.listen(0, '127.0.0.1', resolve); });
+  port = reserve.address().port;
+  await new Promise(resolve => reserve.close(resolve));
+  server = spawn(process.execPath, ['node_modules/next/dist/bin/next', 'start', '--hostname', '127.0.0.1', '--port', String(port)], {
+    detached: true, stdio: ['ignore', 'pipe', 'pipe'], env: { ...process.env, VIDFETCH_TARGET: 'ovh', VIDFETCH_CONNECTION_READY: '0', DATABASE_URL: '', TURNSTILE_SECRET_KEY: '', VIDFETCH_ACCESS_SIGNING_KEY: '', NEXT_TELEMETRY_DISABLED: '1' },
+  });
+}
+const base = externalBase ? new URL(externalBase).origin : `http://127.0.0.1:${port}`;
+let serverLog = ''; for (const stream of [server?.stdout, server?.stderr].filter(Boolean)) stream.on('data', data => { serverLog += data; });
 let browser;
 const evidence = { port, serverPages: 0, locales: [], checks: [], publicNetworkUsed: false };
 try {
@@ -256,7 +264,7 @@ try {
 } finally {
   await browser?.close();
   if(mediaFixtureDir)rmSync(mediaFixtureDir,{recursive:true,force:true});
-  if (server.exitCode === null && server.signalCode === null) try { process.kill(-server.pid, 'SIGTERM'); } catch {}
-  await new Promise(resolve => { if (server.exitCode !== null || server.signalCode !== null) resolve(); else { server.once('exit', resolve); setTimeout(() => { if (server.exitCode === null && server.signalCode === null) try { process.kill(-server.pid, 'SIGKILL'); } catch {} resolve(); }, 5000).unref(); } });
+  if (server && server.exitCode === null && server.signalCode === null) try { process.kill(-server.pid, 'SIGTERM'); } catch {}
+  if (server) await new Promise(resolve => { if (server.exitCode !== null || server.signalCode !== null) resolve(); else { server.once('exit', resolve); setTimeout(() => { if (server.exitCode === null && server.signalCode === null) try { process.kill(-server.pid, 'SIGKILL'); } catch {} resolve(); }, 5000).unref(); } });
   writeFileSync('../local-next-server.log', serverLog);
 }
