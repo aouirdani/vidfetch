@@ -99,6 +99,14 @@ Le run 42377588512 a validé les tests, les contrôles de release, seo-check et 
 
 Le run42409386772 a de nouveau validé les contrôles fonctionnels/SEO/i18n mais échoué sur P94 EN/AR (les quatre autres routes P95). Correction suivante : liens HTML natifs dans l’en-tête/pied de page et suppression des préchargements automatiques de contenu. Cela réduit le nombre de composants de navigation hydratés et les requêtes RSC spéculatives. Test local Lighthouse12.6.1 AR :98/100/100/100, CLS0, zéro préchargement RSC ; ce résultat webpack ne remplace pas le contrôle Turbopack Linux du nouveau commit. Aucun déploiement ni retour arrière à ce stade.
 
+### Séparation des modules vérifiée sur Linux
+
+Le run42418980472 n’a pas permis la fusion : EN94, FR93, ID92, audio94, AR93 en médiane ; aucun déploiement. L’analyse a identifié du code des outils locaux dans le JavaScript initial de l’accueil. La [documentation Next.js sur le chargement différé](https://nextjs.org/docs/app/guides/lazy-loading) explique que l’import dynamique depuis un composant serveur ne fournit pas cette séparation automatique. Les nouvelles frontières client gardent le rendu serveur et séparent les composants interactifs. L’analyse Tailwind est limitée au frontend ([documentation des sources](https://tailwindcss.com/docs/detecting-classes-in-source-files)) ; CSS local63758→61279octets.
+
+Reproduction sous Linux avec Node22.23.3, dépendances du package-lock et Turbopack : Lighthouse12.6.1 donne AR100/100/100/100 (LCP1,424s) et outil audio99/100/100/100 (LCP2,134s), CLS0 dans les deux cas. Ce sont deux mesures locales du build Linux, pas le résultat de la CI à venir. seo-check passe sur les106URL et test:i18n vérifie les huit langues, les transferts et les limites API sur ce même build. Le sélecteur de fichiers figure encore dans le HTML sans JavaScript. L’option de test `VIDFETCH_I18N_BASE_URL` accepte uniquement une origine HTTP de boucle locale pour reproduire ce contrôle sans démarrer un second serveur.
+
+La date générale de /legal et le lastmod des pages de confiance utilisent leur révision du7novembre, indépendamment de la date des licences logicielles. Le lastmod du blog repose sur les guides publiés admissibles, pas sur les brouillons.
+
 ## Lot 2 préparé — rangs 1 à 15
 
 Quinze guides anglais originaux sont rédigés et accompagnés de résultats réellement téléchargés depuis le site public. **Tous restent en brouillon : auteur non renseigné et page À propos indisponible.** Aucun de leurs chemins n’est annoncé comme publié. Le moteur de rendu accepte désormais procédures, tableaux et captures locales WebP avec dimensions fixes et chargement différé. Les pages outils relieront les guides correspondants dès leur publication autorisée et complète ; aucun lien de navigation vers une page indisponible.

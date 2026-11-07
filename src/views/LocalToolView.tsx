@@ -1,7 +1,6 @@
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
 import messages from '@/local-tools/messages.json';
-const LocalMediaTool=dynamic(()=>import('@/components/LocalMediaTool').then(m=>m.LocalMediaTool));
+import {LocalMediaToolIsland as LocalMediaTool} from '@/components/LocalMediaToolIsland';
 import {toolCopy,toolLinks,TOOL_GUIDES,TOOLS_LABEL,toolPageUpdated,ENGLISH_GUIDE_NOTE} from '@/local-tools/catalogue';
 import {dictionary} from '@/i18n/dictionaries';
 import {articlePath,homePath} from '@/i18n/config';
