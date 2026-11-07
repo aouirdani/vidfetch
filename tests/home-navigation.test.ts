@@ -168,6 +168,6 @@ describe("contact addresses: vidfetch.app only", () => {
     }
     for (const file of ["src/components/Footer.tsx", "src/lib/seo.ts", "src/views/SiteViews.tsx", "src/app/(site)/[[...segments]]/layout.tsx", "src/server/unavailable-api.ts", "src/server/local-api/health.ts"]) assert.doesNotMatch(source(file), /vidfetch\.io/, file);
     assert.match(source("src/views/SiteViews.tsx"), /const d = withOfficialContacts\(dictionary\(page\.locale\)\);/);
-    assert.match(source("src/app/(site)/[[...segments]]/layout.tsx"), /messages=\{\{ \.\.\.withOfficialContacts\(d\), privacy1: ADVERTISING_PRIVACY\[locale\] \}\}/);
+    assert.match(source("src/app/(site)/[[...segments]]/layout.tsx"), /messages=\{clientMessages\(\{ \.\.\.withOfficialContacts\(d\), privacy1: ADVERTISING_PRIVACY\[locale\] \}\)\}/);
   });
 });
