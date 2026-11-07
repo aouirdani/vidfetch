@@ -6829,5 +6829,67 @@
         "note": "Count/duration is15; rounded GIF frame delays affect a reported rate."
       }
     }
+  },
+  "keyframeInspection": {
+    "firstDecodedSourceCounterBoth": "00:00:00.300",
+    "copyDecodedFrames": 73,
+    "preciseDecodedFrames": 72,
+    "packetStarts": {
+      "keyframe-copy": [
+        {
+          "pts_time": "-0.300000",
+          "dts_time": "-0.366667",
+          "flags": "KD_"
+        },
+        {
+          "pts_time": "-0.166667",
+          "dts_time": "-0.333333",
+          "flags": "_D_"
+        },
+        {
+          "pts_time": "-0.233333",
+          "dts_time": "-0.300000",
+          "flags": "_D_"
+        },
+        {
+          "pts_time": "-0.266667",
+          "dts_time": "-0.266667",
+          "flags": "_D_"
+        },
+        {
+          "pts_time": "-0.200000",
+          "dts_time": "-0.233333",
+          "flags": "_D_"
+        }
+      ],
+      "keyframe-precise": [
+        {
+          "pts_time": "0.000000",
+          "dts_time": "0.000000",
+          "flags": "K__"
+        },
+        {
+          "pts_time": "0.033333",
+          "dts_time": "0.033333",
+          "flags": "___"
+        },
+        {
+          "pts_time": "0.066667",
+          "dts_time": "0.066667",
+          "flags": "___"
+        },
+        {
+          "pts_time": "0.100000",
+          "dts_time": "0.100000",
+          "flags": "___"
+        },
+        {
+          "pts_time": "0.133333",
+          "dts_time": "0.133333",
+          "flags": "___"
+        }
+      ]
+    },
+    "interpretation": "Copy retains negative-PTS discarded decoding material but the inspected FFmpeg presentation starts at requested0.3; do not claim every copy visibly starts at prior keyframe."
   }
 }

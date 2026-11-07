@@ -31,6 +31,11 @@
       "title": "FFmpeg: ffprobe stream inspection",
       "url": "https://ffmpeg.org/ffprobe.html",
       "accessed": "2026-11-07"
+    },
+    {
+      "title": "FFmpeg: key and discard packet flags",
+      "url": "https://raw.githubusercontent.com/FFmpeg/FFmpeg/master/libavcodec/packet.h",
+      "accessed": "2026-11-07"
     }
   ],
   "images": [
@@ -54,7 +59,7 @@
     "market": "us",
     "language": "en"
   },
-  "wordCount": 910
+  "wordCount": 1052
 }
 ---
 A video keyframe provides a decoding point that does not need the same earlier picture history as dependent frames. That is why a fast copy-mode cut and a newly encoded cut can behave differently around your selected start. Use precise re-encoding when the boundary matters, and inspect the saved result rather than assuming a decimal input guarantees an exact frame.
@@ -85,6 +90,10 @@ Both outputs were MP4 with H.264 video. The sizes differ because one keeps encod
 ![The precise trim result for the same requested interval](/guides/lab/keyframe-precise.webp)
 
 We inspected the downloaded streams with ffprobe. The slightly different durations do not, on their own, establish the exact first source frame presented by either file. They also do not prove a particular keyframe spacing. Those conclusions require inspecting frame timestamps and decoded content, not subtracting a duration from the source length.
+
+We checked the first decoded frame as well: both exports displayed the source pattern’s 0.300-second counter in FFmpeg. Packet inspection explained why that did not make the methods identical. The copy output began with a key packet at a negative presentation timestamp of −0.300 seconds, marked for discard; the precise output began with a newly encoded key packet at 0.000. The copy thus retained earlier decoding material while presenting the requested beginning in this player. It would be wrong to claim that copy mode always visibly starts at the previous keyframe.
+
+The decoded counts also differed: 73 video frames in the copy, compared with 72 in the precise result. This is evidence about these files, not a guarantee of identical handling in every player. It strengthens the reason to check presentation and not infer it from packet timestamps or container duration alone.
 
 This distinction prevents a common false demonstration: a result being 0.03 seconds longer does not mean its visible start is exactly 0.03 seconds earlier. Audio padding, container timing and frame intervals can all affect the reported duration.
 
