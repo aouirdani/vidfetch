@@ -10,11 +10,11 @@ import { chromium } from 'playwright';
 import ffmpegStatic from 'ffmpeg-static';
 const locales = ['en', 'fr', 'es', 'pt-BR', 'id', 'de', 'it', 'ar'];
 const roots = ['', 'fr', 'es', 'pt', 'id', 'de', 'it', 'ar'];
-// Only English has guides to show: the other guide indexes are not pages (404), never an empty "being reviewed" page.
-const blogs = ['blog', 'fr/guides'];
+// Each language now has the three published TikTok guides and a real guide index.
+const blogs = ['blog', 'fr/guides', 'es/guias', 'pt/guias', 'id/panduan', 'de/ratgeber', 'it/guide', 'ar/أدلة'];
 const preparedCatalogue=JSON.parse(readFileSync('content/platforms/catalogue.json','utf8'));
 const closedPreparedPaths=preparedCatalogue.filter(e=>['instagram-video','x-video'].includes(e.id)||['facebook','reddit','vimeo','dailymotion'].includes(e.platform)).flatMap(e=>locales.map((l,i)=>'/'+[roots[i],e.slugs[l]].filter(Boolean).join('/')));
-const removedPages = [...closedPreparedPaths,'/es/guias', '/pt/guias', '/id/panduan', '/de/ratgeber', '/it/guide', '/ar/أدلة', '/youtube-video-downloader', '/instagram-reels-downloader', '/twitter-video-downloader'];
+const removedPages = [...closedPreparedPaths,'/youtube-video-downloader', '/instagram-reels-downloader', '/twitter-video-downloader'];
 const dictionaries = Object.fromEntries(locales.map(l => [l, JSON.parse(readFileSync(`src/i18n/messages/${l}.json`, 'utf8'))]));
 function formatSize(bytes) {
   const units=['B','KB','MB','GB','TB']; let value=bytes,index=0;
@@ -63,7 +63,7 @@ try {
   assert.doesNotMatch(sitemap, /youtube|\/api\//);
   const englishGuides = (await import('node:fs/promises')).readdir('content/guides');
   const guidePaths = (await englishGuides).filter(name => name.endsWith('.md')).map(name => '/blog/' + name.slice(0, -3));
-  const paths = [...canonicalPaths, ...blogs.map(path => '/' + path), ...guidePaths];
+  const paths = [...new Set([...canonicalPaths, ...blogs.map(path => '/' + path), ...guidePaths].map(path => new URL(path, base).pathname))];
   const allPaths = new Set(paths.map(path => decodeURI(path)));
   for (const path of paths) {
     const response = await fetch(base + path); assert.equal(response.status, 200, path);

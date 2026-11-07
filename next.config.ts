@@ -6,6 +6,7 @@ import { spawnSync } from "node:child_process";
 import { resolve } from "node:path";
 import { isLocalEngineHosting } from "./src/lib/deployment";
 import { publicGatewayOrigin } from "./src/lib/gateway-origin";
+import { applicationSecurityHeaders } from "./src/lib/security-headers";
 
 /**
  * Build targets share one codebase:
@@ -82,14 +83,11 @@ export default function configuration(phase: string): NextConfig {
       inlineCss: true,
     },
     // Static exports have no server to run headers(); Pages reads `out/_headers` instead,
-    // which `scripts/build-pages.mjs` writes with the same values.
+    // which `scripts/build-pages.mjs` writes separately for that export target.
     ...(isPagesBuild ? {} : {
       async headers() {
         return [
-          { source: "/:path*", headers: [
-            { key: "X-Content-Type-Options", value: "nosniff" },
-            { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          ] },
+          { source: "/:path*", headers: applicationSecurityHeaders(gateway) },
           { source: "/_next/:path*", headers: [{ key: "X-Robots-Tag", value: "noindex" }] },
           { source: "/:file(favicon.ico|icon.svg|og-image.jpg|og-image-v2.jpg|og-image-v3.jpg)", headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }] },
           { source: "/:path(sitemap.xml|robots.txt|manifest.webmanifest)", headers: [{ key: "Cache-Control", value: "public, max-age=3600, stale-while-revalidate=86400" }] },

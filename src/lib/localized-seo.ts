@@ -7,20 +7,23 @@ import { CONTENT_UPDATED, OG_IMAGE, SITE } from "./seo";
 import { homeCopy } from "./home-copy";
 import { availablePlatformPages, approvedPlatformCopy } from "./platform-pages";
 import { languageAlternates, type SitePage } from "./site-pages";
+import { BLOG_TITLES } from "./guide-links";
 export function localizedMetadata(page: SitePage): Metadata {
   const d = dictionary(page.locale), identity = page.identity, kind = identity.kind;
   const guide = identity.kind === "guide" ? guides(page.locale).find(g => g.id === identity.id) : undefined;
   const approved = identity.kind === "platform" ? availablePlatformPages(page.locale).find(entry => entry.id === identity.id) : undefined;
   const platformCopy = identity.kind==="local-tool" ? toolCopy(page.locale,identity.id) : approved && approvedPlatformCopy(approved, page.locale);
   // Only approved platform pages resolve (site-pages), so a platform page always has its own copy.
-  const title = guide ? `${guide.seoTitle ?? guide.title} | VidFetch` : platformCopy ? `${platformCopy.title} | VidFetch` : kind === "home" ? homeCopy(page.locale).title : kind === "blog" ? (page.locale === "en" ? "TikTok, Video & Audio Guides | VidFetch" : "Guides TikTok, vidéo et audio | VidFetch") : `${page.locale === "de" ? "Impressum, Datenschutz und Nutzungsregeln" : d.legalTitle} | VidFetch`;
+  const title = guide ? `${guide.seoTitle ?? guide.title} | VidFetch` : platformCopy ? `${platformCopy.title} | VidFetch` : kind === "home" ? homeCopy(page.locale).title : kind === "blog" ? `${BLOG_TITLES[page.locale]} | VidFetch` : `${page.locale === "de" ? "Impressum, Datenschutz und Nutzungsregeln" : d.legalTitle} | VidFetch`;
   const description = guide?.description ?? platformCopy?.description ?? (kind === "home" ? homeCopy(page.locale).description : kind === "blog" ? d.blogMetaDescription : d.legalDescription);
   const url = new URL(page.path, SITE.url).href;
+  const languages = languageAlternates(page);
+  const alternateLocale = [...new Set(Object.keys(languages).filter(l => l !== page.locale && l !== "x-default").map(l => LANGUAGES[l as Locale].og))];
   return { title: { absolute: title }, description,
-    alternates: { canonical: url, ...(page.indexable ? { languages: languageAlternates(page) } : {}) },
+    alternates: { canonical: url, ...(page.indexable ? { languages } : {}) },
     robots: { index: page.indexable, follow: true },
     openGraph: { type: guide ? "article" : "website", url, title, description, siteName: SITE.name, locale: LANGUAGES[page.locale].og,
-      alternateLocale: Object.keys(languageAlternates(page)).filter(l => l !== page.locale && l !== "x-default").map(l => LANGUAGES[l as Locale].og), images: [{ ...OG_IMAGE, alt: title }] },
+      alternateLocale, images: [{ ...OG_IMAGE, alt: title }] },
     twitter: { card: "summary_large_image", title, description, images: [{ url: OG_IMAGE.url, alt: title }] },
   };
 }

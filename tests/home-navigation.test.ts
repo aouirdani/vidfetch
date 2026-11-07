@@ -63,7 +63,7 @@ describe("navigation", () => {
   it("never links an empty guide index: Guides appears only in a language with guides to show", () => {
     for (const locale of LOCALES) {
       const has = availableGuides(locale).length > 0;
-      assert.equal(has, ["en", "fr"].includes(locale), locale);
+      assert.equal(has, true, locale);
       assert.equal(sitePages().some(p => p.locale === locale && p.identity.kind === "blog"), has, locale);
     }
     for (const file of ["src/components/Header.tsx", "src/components/Footer.tsx"]) {
@@ -104,7 +104,7 @@ describe("TikTok pages: practical sections", () => {
       for (const locale of ["en", "fr"] as const) {
         const copy = approvedPlatformCopy(entry, locale)!;
         assert.ok(copy.details && copy.details.length >= 3, `${entry.id}/${locale}`);
-        assert.equal(copy.updated, "2026-10-27");
+        assert.equal(copy.updated, "2026-11-06");
         for (const section of copy.details) {
           headings.push(section.heading); paragraphs.push(...section.paragraphs);
           assert.ok(section.heading.length >= 12 && section.heading.length <= 70, section.heading);

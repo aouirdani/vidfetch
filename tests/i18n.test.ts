@@ -27,8 +27,8 @@ for (const locale of LOCALES) {
     for (const path of [homePath(locale), sectionPath(locale, "legal")]) {
       assert.equal(resolvePage(path.split("/").filter(Boolean))?.locale, locale);
     }
-    // a guide index exists only in a language with guides to show (English today), never as an empty page
-    assert.equal(resolvePage(sectionPath(locale, "blog").split("/").filter(Boolean))?.identity.kind, ["en", "fr"].includes(locale) ? "blog" : undefined);
+    // The three TikTok articles now make every localized guide index a real page.
+    assert.equal(resolvePage(sectionPath(locale, "blog").split("/").filter(Boolean))?.identity.kind, "blog");
     assert.equal(resolvePage([LANGUAGES[locale].prefix, "api", "download"]), undefined);
     assert.equal(resolvePage([LANGUAGES[locale].prefix, "does-not-exist"]), undefined);
     assert.doesNotMatch(interpolate(d.waiting, { position: 2, seconds: 90 }), /\{\w+\}/);
@@ -66,18 +66,18 @@ test("sitemap contains exactly published canonical equivalents and excludes unve
   const entries = sitemap();
   assert.equal(entries.length, sitePages().filter(p => p.indexable).length);
   assert.equal(new Set(entries.map(p => p.url)).size, entries.length);
-  assert.equal(entries.length, 82);   // 8 homes + 8 legal + 4 approved TikTok pages (en video, en MP3, fr video, fr MP3)
+  assert.equal(entries.length, 106);   // 8 homes + 8 legal + 16 TikTok + 32 local tools + 8 indexes + 34 articles
   for (const entry of entries) {
     const parts = new URL(entry.url).pathname.split("/").filter(Boolean).map(decodeURIComponent);
     assert.ok(resolvePage(parts)?.indexable);
     const tiktok = { "/tiktok-video-downloader": [...LOCALES, "x-default"], "/fr/telecharger-video-tiktok": [...LOCALES, "x-default"], "/tiktok-to-mp3": [...LOCALES, "x-default"], "/fr/tiktok-en-mp3": [...LOCALES, "x-default"] } as Record<string, string[]>;
     const path = new URL(entry.url).pathname;
     if (tiktok[path]) assert.deepEqual(Object.keys(entry.alternates?.languages ?? {}).sort(), tiktok[path].sort(), path);
-    else assert.equal(Object.keys(entry.alternates?.languages ?? {}).length, /\/(?:blog|fr\/guides)(?:\/|$)/.test(entry.url) ? (entry.alternates?.languages?.fr ? 3 : 2) : 9);
+    else assert.deepEqual(entry.alternates?.languages, languageAlternates(resolvePage(parts)!));
     assert.ok(entry.lastModified instanceof Date && entry.lastModified <= new Date());
     assert.doesNotMatch(entry.url, /youtube|api\//);
   }
-  assert.equal(sitePages().filter(p => p.identity.kind === "guide").length, 16);
+  assert.equal(sitePages().filter(p => p.identity.kind === "guide").length, 34);
   assert.ok(sitePages().filter(p => p.identity.kind === "guide").every(p => p.indexable));
   assert.equal(sitePages().filter(p => p.identity.kind === "platform" && p.indexable).length, 16);
 });

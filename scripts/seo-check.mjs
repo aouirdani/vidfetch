@@ -78,8 +78,15 @@ try {
     assert.ok(path==='/' || !path.endsWith('/'),`${url}: slash policy`);
     assert.ok(allowed(path),`${url}: blocked by robots`);
     const response=await request(path); assert.equal(response.status,200,url);
+    assert.match(response.headers.get('strict-transport-security')??'', /max-age=31536000/i, `${url}: HSTS`);
+    assert.match(response.headers.get('x-frame-options')??'', /SAMEORIGIN/i, `${url}: frame protection`);
+    assert.equal(response.headers.get('referrer-policy'),'strict-origin-when-cross-origin',`${url}: referrer policy`);
+    assert.ok(response.headers.get('content-security-policy-report-only'),`${url}: CSP report-only`);
+    assert.equal(response.headers.get('content-security-policy'),null,`${url}: no application enforcing CSP`);
     assert.doesNotMatch(response.headers.get('x-robots-tag')??'',/noindex|nofollow|none|nosnippet|noarchive|unavailable_after|max-snippet:\s*0/i,url);
     const html=await response.text(), htmlBytes=Buffer.byteLength(html); await dom.setContent(html,{waitUntil:'domcontentloaded'});
+    assert.match(html,/<!--email_off--><a href="mailto:abuse@vidfetch\.app">/,`${url}: unobfuscated abuse mailto`);
+    assert.doesNotMatch(html,/<a[^>]+href="\/cdn-cgi\/l\/email-protection/,`${url}: no obfuscated internal email link`);
     const data=await dom.evaluate(()=>({
       title:document.title, description:document.querySelector('meta[name=description]')?.content,
       robots:[...document.querySelectorAll('meta[name=robots]')].map(n=>n.content),

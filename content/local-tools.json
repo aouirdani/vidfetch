@@ -216,11 +216,18 @@
   },
   "fr": {
     "audio": {
-      "title": "Convertir une vidéo en MP3 ou M4A",
-      "description": "Convertir une vidéo en MP3 sans envoi. Jusqu’à 200 Mio / 5 min sur mobile ou 1 Gio / 20 min sur ordinateur. Selon codecs et sortie.",
-      "heading": "Convertir une vidéo en MP3 ou M4A",
-      "intro": "Récupérez le son d’une vidéo qui vous appartient. Choisissez un MP3 compatible avec de nombreux lecteurs, ou conservez une piste AAC existante dans un fichier M4A. Votre vidéo source reste intacte.",
+      "title": "Convertir une vidéo en MP3 dans votre navigateur",
+      "description": "Convertissez une vidéo en MP3 sur votre appareil, sans envoi de fichier. Choisissez le débit et retrouvez le son dans Fichiers ou Téléchargements.",
+      "heading": "Convertir une vidéo en MP3 dans votre navigateur",
+      "intro": "Convertissez une vidéo en MP3 à partir d’un fichier déjà enregistré sur votre appareil. Choisissez 128, 192 ou 320 kbps selon l’usage, puis téléchargez la piste audio sans envoyer la vidéo sur un serveur. L’original reste intact. Le M4A reste disponible pour copier une piste AAC existante sans la réencoder.",
       "sections": [
+        {
+          "heading": "Passer du fichier vidéo au MP3",
+          "paragraphs": [
+            "Choisissez une vidéo autorisée, sélectionnez MP3 puis un débit et lancez la conversion. Gardez cet onglet ouvert jusqu’à la fin. Téléchargez ensuite le résultat et retrouvez-le dans Fichiers ou Téléchargements.",
+            "Vérifiez la durée et écoutez le début et la fin. Le MP3 conserve le mélange sonore sans séparer voix et musique. Sans piste audio ou avec un codec non pris en charge, le fichier attendu ne peut pas être produit."
+          ]
+        },
         {
           "heading": "Choisir le format sonore adapté",
           "paragraphs": [
