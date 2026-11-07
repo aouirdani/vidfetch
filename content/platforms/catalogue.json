@@ -151,9 +151,9 @@
           }
         ],
         "relatedGuides": [
-          "video-format-smartphone",
-          "reduce-video-size",
-          "video-download-fails"
+          "why-cant-i-save-tiktok",
+          "save-tiktok-sound-mp3",
+          "save-tiktok-phone-gallery"
         ],
         "sections": {
           "steps": "How to download a TikTok video",
@@ -190,7 +190,7 @@
             ]
           }
         ],
-        "updated": "2026-10-27",
+        "updated": "2026-11-06",
         "publishedAt": "2026-10-21"
       },
       "fr": {
@@ -253,9 +253,9 @@
           }
         ],
         "relatedGuides": [
-          "video-format-smartphone",
-          "reduce-video-size",
-          "video-download-fails"
+          "why-cant-i-save-tiktok",
+          "save-tiktok-sound-mp3",
+          "save-tiktok-phone-gallery"
         ],
         "sections": {
           "steps": "Comment télécharger une vidéo TikTok",
@@ -292,7 +292,7 @@
             ]
           }
         ],
-        "updated": "2026-10-27",
+        "updated": "2026-11-06",
         "publishedAt": "2026-10-21"
       },
       "id": {
@@ -330,7 +330,11 @@
             "answer": "Tidak perlu akun VidFetch dan alat ini gratis. Batas 256 MiB, 30 menit, kuota, serta ketersediaan sumber tetap berlaku."
           }
         ],
-        "relatedGuides": [],
+        "relatedGuides": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-sound-mp3",
+          "save-tiktok-phone-gallery"
+        ],
         "details": [
           {
             "heading": "Menemukan file di iPhone dan Android",
@@ -376,7 +380,7 @@
           "formats": "Tautan yang diterima dan batasnya",
           "faq": "Pertanyaan yang sering ditanyakan"
         },
-        "updated": "2026-10-29",
+        "updated": "2026-11-06",
         "publishedAt": "2026-10-29"
       },
       "pt-BR": {
@@ -414,7 +418,11 @@
             "answer": "Sim, sem conta no VidFetch. Continuam valendo os limites de 256 MiB e 30 minutos, as cotas e as restrições da fonte."
           }
         ],
-        "relatedGuides": [],
+        "relatedGuides": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-sound-mp3",
+          "save-tiktok-phone-gallery"
+        ],
         "details": [
           {
             "heading": "Onde o arquivo fica no iPhone",
@@ -463,7 +471,7 @@
           "formats": "Links aceitos e limites",
           "faq": "Dúvidas frequentes"
         },
-        "updated": "2026-10-29",
+        "updated": "2026-11-06",
         "publishedAt": "2026-10-29"
       },
       "es": {
@@ -501,7 +509,11 @@
             "answer": "VidFetch es gratis y no requiere cuenta. Se mantienen los límites de 256 MiB y 30 minutos, las cuotas y las restricciones del origen."
           }
         ],
-        "relatedGuides": [],
+        "relatedGuides": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-sound-mp3",
+          "save-tiktok-phone-gallery"
+        ],
         "details": [
           {
             "heading": "Guardar en un iPhone",
@@ -550,7 +562,7 @@
           "formats": "Enlaces admitidos y límites",
           "faq": "Preguntas frecuentes"
         },
-        "updated": "2026-10-29",
+        "updated": "2026-11-06",
         "publishedAt": "2026-10-29"
       },
       "de": {
@@ -588,7 +600,11 @@
             "answer": "VidFetch ist kostenlos und benötigt kein Konto. Die Grenzen von 256 MiB und 30 Minuten sowie Kontingente und Quellenbeschränkungen bleiben bestehen."
           }
         ],
-        "relatedGuides": [],
+        "relatedGuides": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-sound-mp3",
+          "save-tiktok-phone-gallery"
+        ],
         "details": [
           {
             "heading": "Auf dem iPhone die richtige Ablage finden",
@@ -640,7 +656,7 @@
           "formats": "Unterstützte Links und Grenzen",
           "faq": "Häufige Fragen"
         },
-        "updated": "2026-10-29",
+        "updated": "2026-11-06",
         "publishedAt": "2026-10-29"
       },
       "it": {
@@ -678,7 +694,11 @@
             "answer": "Sì, non serve un account VidFetch. Restano i limiti di 256 MiB e 30 minuti, le quote e le restrizioni della fonte."
           }
         ],
-        "relatedGuides": [],
+        "relatedGuides": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-sound-mp3",
+          "save-tiktok-phone-gallery"
+        ],
         "details": [
           {
             "heading": "Trovare il risultato su iPhone",
@@ -728,7 +748,7 @@
           "formats": "Link accettati e limiti",
           "faq": "Domande frequenti"
         },
-        "updated": "2026-10-29",
+        "updated": "2026-11-06",
         "publishedAt": "2026-10-29"
       },
       "ar": {
@@ -766,7 +786,11 @@
             "answer": "الأداة مجانية ولا تتطلب حساب VidFetch. تبقى حدود 256 MiB و30 دقيقة وحصص الاستخدام وقيود المصدر سارية."
           }
         ],
-        "relatedGuides": [],
+        "relatedGuides": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-sound-mp3",
+          "save-tiktok-phone-gallery"
+        ],
         "details": [
           {
             "heading": "العثور على الملف في آيفون",
@@ -818,7 +842,7 @@
           "formats": "الروابط المقبولة والحدود",
           "faq": "أسئلة شائعة"
         },
-        "updated": "2026-10-29",
+        "updated": "2026-11-06",
         "publishedAt": "2026-10-29"
       }
     }
@@ -920,9 +944,9 @@
           }
         ],
         "relatedGuides": [
-          "video-to-audio",
-          "mp3-vs-m4a",
-          "video-download-fails"
+          "why-cant-i-save-tiktok",
+          "save-tiktok-sound-mp3",
+          "save-tiktok-phone-gallery"
         ],
         "sections": {
           "steps": "How to convert a TikTok to MP3",
@@ -952,7 +976,7 @@
             ]
           }
         ],
-        "updated": "2026-10-27",
+        "updated": "2026-11-06",
         "publishedAt": "2026-10-21"
       },
       "fr": {
@@ -1002,7 +1026,11 @@
             "answer": "Oui. VidFetch est gratuit, sans compte à créer ni application à installer ; seul le nombre de téléchargements par jour est limité."
           }
         ],
-        "relatedGuides": [],
+        "relatedGuides": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-sound-mp3",
+          "save-tiktok-phone-gallery"
+        ],
         "sections": {
           "steps": "Comment convertir un TikTok en MP3",
           "formats": "Ce que contient le MP3 et ses limites",
@@ -1031,7 +1059,7 @@
             ]
           }
         ],
-        "updated": "2026-10-27",
+        "updated": "2026-11-06",
         "publishedAt": "2026-10-22"
       },
       "id": {
@@ -1069,7 +1097,11 @@
             "answer": "Tidak perlu akun VidFetch dan alat ini gratis. Batas 256 MiB, 30 menit, kuota, serta ketersediaan sumber tetap berlaku."
           }
         ],
-        "relatedGuides": [],
+        "relatedGuides": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-sound-mp3",
+          "save-tiktok-phone-gallery"
+        ],
         "details": [
           {
             "heading": "Menemukan file di iPhone dan Android",
@@ -1114,7 +1146,7 @@
           "formats": "Tautan yang diterima dan batasnya",
           "faq": "Pertanyaan yang sering ditanyakan"
         },
-        "updated": "2026-10-29",
+        "updated": "2026-11-06",
         "publishedAt": "2026-10-29"
       },
       "pt-BR": {
@@ -1152,7 +1184,11 @@
             "answer": "Sim, sem conta no VidFetch. Continuam valendo os limites de 256 MiB e 30 minutos, as cotas e as restrições da fonte."
           }
         ],
-        "relatedGuides": [],
+        "relatedGuides": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-sound-mp3",
+          "save-tiktok-phone-gallery"
+        ],
         "details": [
           {
             "heading": "Onde o arquivo fica no iPhone",
@@ -1200,15 +1236,15 @@
           "formats": "Links aceitos e limites",
           "faq": "Dúvidas frequentes"
         },
-        "updated": "2026-10-29",
+        "updated": "2026-11-06",
         "publishedAt": "2026-10-29"
       },
       "es": {
         "status": "ready",
-        "title": "TikTok a MP3: descargar el audio del vídeo",
+        "title": "Descargar audio de videos de TikTok en MP3",
         "description": "TikTok a MP3 gratis y sin cuenta. Pega el enlace de compartir de la app para guardar el audio. Límite de 256 MiB y 30 minutos; se aplican cuotas.",
-        "heading": "TikTok a MP3 para escuchar el audio sin conexión",
-        "intro": "Si solo necesitas escuchar una explicación, convertir TikTok a MP3 evita guardar también las imágenes. VidFetch toma la pista sonora de un vídeo público y la convierte en un archivo MP3 a 192 kbps. El resultado conserva las voces, la música y los efectos que ya estaban mezclados. No busca la canción original en un catálogo ni separa instrumentos. Escucha primero la publicación para confirmar que contiene el audio que quieres y que puedes guardarlo.",
+        "heading": "Descargar el audio de un video de TikTok en MP3",
+        "intro": "Para descargar el audio de un video de TikTok en MP3, pega el enlace de una publicación pública que tengas permiso para guardar. VidFetch convierte su pista sonora a MP3 a 192 kbps: conserva las voces, la música y los efectos que ya estaban mezclados. No recupera la canción completa ni separa instrumentos. Procesa un video por solicitud, sin cuenta, con límites de 256 MiB y 30 minutos y las cuotas del servicio.",
         "instructions": [
           "Copia el enlace de un vídeo público con sonido que tengas permiso para conservar. No utilices la página general de una canción.",
           "Pega el enlace, analiza la publicación y abre Audio. Selecciona MP3 para obtener una conversión real de la pista sonora.",
@@ -1226,8 +1262,12 @@
         ],
         "faqs": [
           {
-            "question": "¿Se puede descargar sin marca de agua?",
-            "answer": "VidFetch guarda el vídeo tal como lo proporciona la plataforma y no elimina marcas de agua incrustadas en la imagen. No garantiza un resultado sin marca."
+            "question": "¿Cómo descargar un video de TikTok en MP3?",
+            "answer": "Copia el enlace del video público autorizado, pégalo y espera el análisis. Abre Audio y elige MP3. Deja la pestaña abierta hasta terminar y comprueba la duración del archivo."
+          },
+          {
+            "question": "¿Puedo descargar videos de TikTok en MP3 por lotes?",
+            "answer": "No. Cada solicitud procesa un video individual. Se aplican cuotas, una cola y límites de trabajos simultáneos; abrir varias pestañas no los elimina."
           },
           {
             "question": "¿El MP3 contiene solo la canción?",
@@ -1238,7 +1278,11 @@
             "answer": "VidFetch es gratis y no requiere cuenta. Se mantienen los límites de 256 MiB y 30 minutos, las cuotas y las restricciones del origen."
           }
         ],
-        "relatedGuides": [],
+        "relatedGuides": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-sound-mp3",
+          "save-tiktok-phone-gallery"
+        ],
         "details": [
           {
             "heading": "Guardar en un iPhone",
@@ -1286,7 +1330,7 @@
           "formats": "Enlaces admitidos y límites",
           "faq": "Preguntas frecuentes"
         },
-        "updated": "2026-10-29",
+        "updated": "2026-11-06",
         "publishedAt": "2026-10-29"
       },
       "de": {
@@ -1324,7 +1368,11 @@
             "answer": "VidFetch ist kostenlos und benötigt kein Konto. Die Grenzen von 256 MiB und 30 Minuten sowie Kontingente und Quellenbeschränkungen bleiben bestehen."
           }
         ],
-        "relatedGuides": [],
+        "relatedGuides": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-sound-mp3",
+          "save-tiktok-phone-gallery"
+        ],
         "details": [
           {
             "heading": "Auf dem iPhone die richtige Ablage finden",
@@ -1375,7 +1423,7 @@
           "formats": "Unterstützte Links und Grenzen",
           "faq": "Häufige Fragen"
         },
-        "updated": "2026-10-29",
+        "updated": "2026-11-06",
         "publishedAt": "2026-10-29"
       },
       "it": {
@@ -1413,7 +1461,11 @@
             "answer": "Sì, non serve un account VidFetch. Restano i limiti di 256 MiB e 30 minuti, le quote e le restrizioni della fonte."
           }
         ],
-        "relatedGuides": [],
+        "relatedGuides": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-sound-mp3",
+          "save-tiktok-phone-gallery"
+        ],
         "details": [
           {
             "heading": "Trovare il risultato su iPhone",
@@ -1464,7 +1516,7 @@
           "formats": "Link accettati e limiti",
           "faq": "Domande frequenti"
         },
-        "updated": "2026-10-29",
+        "updated": "2026-11-06",
         "publishedAt": "2026-10-29"
       },
       "ar": {
@@ -1502,7 +1554,11 @@
             "answer": "الأداة مجانية ولا تتطلب حساب VidFetch. تبقى حدود 256 MiB و30 دقيقة وحصص الاستخدام وقيود المصدر سارية."
           }
         ],
-        "relatedGuides": [],
+        "relatedGuides": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-sound-mp3",
+          "save-tiktok-phone-gallery"
+        ],
         "details": [
           {
             "heading": "العثور على الملف في آيفون",
@@ -1552,7 +1608,7 @@
           "formats": "الروابط المقبولة والحدود",
           "faq": "أسئلة شائعة"
         },
-        "updated": "2026-10-29",
+        "updated": "2026-11-06",
         "publishedAt": "2026-10-29"
       }
     }

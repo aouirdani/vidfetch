@@ -8,6 +8,7 @@ export const SLUGS:Record<Locale,string[]>={
 export const TOOLS_LABEL:Record<Locale,string>={en:'Local tools',fr:'Outils locaux',es:'Herramientas locales','pt-BR':'Ferramentas locais',id:'Alat lokal',de:'Lokale Werkzeuge',it:'Strumenti locali',ar:'أدوات محلية'};
 export const LICENSE_LABEL:Record<Locale,string>={en:'Software licenses',fr:'Licences logicielles',es:'Licencias de software','pt-BR':'Licenças de software',id:'Lisensi perangkat lunak',de:'Softwarelizenzen',it:'Licenze software',ar:'تراخيص البرامج'};
 export const TOOL_UPDATED='2026-10-31';
+export function toolPageUpdated(locale:Locale,id:LocalToolId){return locale==='fr'&&id==='audio'?'2026-11-06':TOOL_UPDATED;}
 export const LICENSE_UPDATED='2026-10-30';
 export function toolCopy(locale:Locale,id:LocalToolId):ToolCopy{
  const copy=content[locale][id],mobile=toolLimits(id,'mobile'),desktop=toolLimits(id,'desktop');
