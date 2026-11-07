@@ -1,6 +1,6 @@
 # Audit OpenSEO — vidfetch.app — 6 novembre 2026
 
-> Les sections initiales ci-dessous décrivent la photographie du 6 novembre. Le [bilan de production de la vague SEO 3](#résultat-de-la-vague-seo-3--vérification-du-7-novembre-2026) détaille les changements livrés et les nouveaux contrôles du 7 novembre.
+> Les sections initiales ci-dessous décrivent la photographie du 6 novembre. Le [bilan de production de la vague SEO 3](#résultat-de-la-vague-seo-3--vérification-du-7-novembre-2026) détaille les changements livrés et les nouveaux contrôles du 7 novembre. Le [crawl OpenSEO final](#audit-openseo-final--7-novembre-2026) est terminé : **100/100, 114 URL explorées, 106 pages indexables, aucune alerte critique ou warning**, pour 0 USD supplémentaire.
 
 ## Résumé
 
@@ -541,16 +541,45 @@ Médianes de trois passes mobiles du run PR #38 `42319792700`, artefact `lightho
 
 Les critères bloquants du workflow sont verts. Performance/LCP/TBT restent des avertissements, conformément aux critères retenus avant cette vague ; aucun seuil n'a été abaissé pour la fusion. Le LCP CI autour de 2,7 s est conservé ici comme observation.
 
-### Audit OpenSEO gratuit de suivi — accès à rétablir
+### Audit OpenSEO final — 7 novembre 2026
 
-Le 07/11, le serveur MCP OpenSEO local répond **HTTP 401** à `whoami`, `list_projects` et au `dry_run` de `start_site_audit`. La présence de la clé configurée dans l'environnement a été vérifiée sans afficher sa valeur. La nouvelle vérification après déploiement est elle aussi refusée. Le service demande une connexion OAuth ou une clé OpenSEO valide. La reconnexion a été demandée ; aucune réponse de rétablissement n'était disponible au moment de ce bilan.
+Les premières tentatives du 07/11 répondaient HTTP 401. La nouvelle vérification réussit : `whoami` confirme la connexion et `list_projects` retrouve le projet existant `vidfetch` (`0289621d-1d2e-411b-b57b-df52dc7f5515`). Aucun projet ni réglage de marché n'a été modifié. Le dry-run de `start_site_audit` renvoie `costUsd=0` et une estimation minimale/maximale de 0 USD avant le lancement réel.
 
-Paramètres préparés : projet `0289621d-1d2e-411b-b57b-df52dc7f5515`, `start_url=https://vidfetch.app`, `max_pages=1000`, `render_mode=off`, `use_fallback=false`, `dry_run=true` avant toute exécution. **Aucun audit de suivi n'a été créé**, aucun rendu ni proxy payant n'a été lancé. Après reconnexion, refaire le dry-run, confirmer le coût gratuit, lancer le crawl sans rendu/fallback puis consigner son identifiant, sa couverture, son score et ses alertes.
+Audit final **`9fd43d17-a430-43d8-8b37-8ec459462392`**, statut `completed`, comparé par OpenSEO à l'audit initial `7f4163ed-f97b-43f3-830e-ec3931609482`. Créé à **12:02:31.975 UTC**, démarré à **12:02:33.308 UTC**, terminé à **12:03:19.817 UTC** le 07/11/2026 (horodatages de l'objet audit). Paramètres : `start_url=https://vidfetch.app`, `max_pages=1000`, `render_mode=off`, `renderJs=false`, `use_fallback=false`, liens externes contrôlés. Aucun rendu ni déblocage proxy ; `costUsd=0`, `budgetReached=false`, `truncated=false`, arrêt `completed`.
 
-Le contrôle public indépendant vérifie 106 URL et l'absence de liens internes cassés ou de pages orphelines. Il ne remplace pas un résultat OpenSEO : le dernier score OpenSEO disponible demeure **9/100 sur l'état du 06/11**, avec 91 URL explorées et 82 indexables. Aucun score amélioré ni disparition d'alertes dans OpenSEO n'est revendiqué avant son nouveau crawl.
+La réponse publique de `/api/health` vérifiée pendant le crawl annonce toujours la release **`7a8da1996057a18c63b27bbe1289555b87ec2b99`**. Les résultats ci-dessous proviennent de `get_site_audit`, des **20 lignes complètes** de `get_audit_issues` (`limit=1000`, `offset=0`) et de `get_audit_links` filtré sur les liens internes 4xx (`total=0`, `linksKept=true`).
 
-Le suivi ne mesure pas encore un gain de position ou d'indexation. Les chiffres Search Console de l'audit restent ceux du 07/10–03/11. Les 404 des plateformes verrouillées et les exclusions techniques robots.txt restent intentionnelles.
+| Mesure OpenSEO | Audit initial du 06/11 | Audit final du 07/11 |
+| --- | --- | --- |
+| Score technique brut | 9/100 | **100/100** |
+| URL explorées | 91 | **114**, toutes en 2xx |
+| Pages HTML indexables / entrées sitemap | 82 / 82 | **106 / 106** |
+| Réponses 4xx / 5xx | 1 / 0 | **0 / 0** |
+| Alertes critiques | 84 lignes | **0** |
+| Alertes `warning` | — | **0** |
+| `broken-internal-link` sur pages indexables | 82 | **0**, 82 suppressions confirmées dans le diff |
+| `missing-hsts` / `missing-x-frame-options` | 1 / 1 | **0 / 0**, une suppression de chaque alerte par origine |
+
+Robots et sitemap sont trouvés ; 2 054 liens ont une cible explorée, aucun lien n'est laissé non exploré. Le crawl vérifie aussi 11 ressources et 21 liens externes. Aucun échec réseau, blocage robots, ralentissement imposé ou limitation serveur n'est signalé. Le passage HTTP vers HTTPS reste une redirection 308. La cible technique `/cdn-cgi/l/email-protection` n'est plus découverte : les anciennes lignes `page-404` et `broken-page` sont classées **`missing=1` chacune**, et non comme une URL désormais réparée en 200. Le contrôle public précédent sur 106 URL sans liens cassés ni orphelines concorde avec ce crawl.
+
+#### Observations informatives restantes
+
+OpenSEO conserve **20 lignes `info`**, réparties ci-dessous ; plusieurs lignes peuvent concerner la même page. Le score 100/100 n'implique donc pas l'absence de toute observation.
+
+| Type | Lignes | Périmètre et interprétation |
+| --- | --- | --- |
+| `word-count-changed` | 6 | Accueils `/ar`, `/de`, `/es`, `/id`, `/it`, `/pt` : augmentation du texte visible, cohérente avec les blocs Guides livrés. |
+| `h1-changed` | 4 | `/blog`, `/fr/guides`, `/fr/convertir-video-en-mp3`, `/es/tiktok-a-mp3` : changements éditoriaux attendus. |
+| `title-changed` | 2 | Pages MP3 FR et ES ci-dessus : titres attendus après la vague. |
+| `meta-description-changed` | 1 | `/fr/convertir-video-en-mp3` : changement attendu. |
+| `url-uppercase` | 5 | Pages arabes : `/ar/أدلة`, ses trois guides (`hifz-sawt-tiktok-mp3`, `hifz-video-tiktok-fi-almaarad`, `limadha-la-yumkin-hifz-video-tiktok`) et `/ar/الشروط-والخصوصية`. Les majuscules sont celles de l'encodage `%D8…`/`%D9…`, pas une variante de casse latine : même faux positif probable que dans l'audit initial, étendu aux quatre nouvelles URL arabes. |
+| `missing-content-security-policy` | 1 | Observation par origine, échantillonnée sur `/`. Le contrôle HTTP à 12:03:35 UTC confirme `Content-Security-Policy-Report-Only`, HSTS et SAMEORIGIN. Une CSP bloquante reste absente : le mode Report-Only est celui livré et ne fait pas disparaître cette observation. |
+| `llms-txt-missing` | 1 | `/llms.txt` reste absent ; aucune causalité avec l'indexation Google n'est établie. |
+
+Ce suivi mesure l'état technique public, sans établir de gain de position ou d'indexation Google. Les tableaux Search Console et les mesures Lighthouse du rapport conservent leurs périodes et environnements d'origine ; aucun nouveau contrôle Lighthouse payant ni inspection Google manuelle n'a été demandé. Les 404 des plateformes verrouillées et les exclusions techniques robots.txt restent intentionnelles et hors du périmètre indexable crawlé.
 
 ### Coût cumulé
 
-Audit initial et recherches du 06/11 : **0,61 USD**. Cette vague et ses contrôles locaux/CI : **0 USD de crédits OpenSEO supplémentaires**. Les tentatives MCP ont été refusées avant création d'audit. Total consommé de la mission : **0,61 USD sur 2 USD autorisés**. Aucun nouveau lookup de mots-clés, SERP ou Lighthouse payant n'a été lancé.
+Audit initial et recherches du 06/11 : **0,61 USD**. Cette vague, ses contrôles locaux/CI et le crawl final du 07/11 : **0 USD de crédits OpenSEO supplémentaires** (`costUsd=0` confirmé après achèvement). Total consommé de la mission : **0,61 USD sur 2 USD autorisés**. `get_usage` couvre tout le compte et plusieurs projets : son cumul mensuel de 1,64 USD n'est pas le coût de cette mission. Aucun nouveau lookup de mots-clés, SERP ou Lighthouse payant n'a été lancé.
+
+Livraison du complément : rapport et `docs/MISSION-LOG.md` uniquement dans la PR #37 ; vérification documentaire par `git diff --check`, sans changement applicatif ni déploiement.
