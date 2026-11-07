@@ -1,5 +1,7 @@
 # Audit OpenSEO — vidfetch.app — 6 novembre 2026
 
+> Les sections initiales ci-dessous décrivent la photographie du 6 novembre. Le [bilan de production de la vague SEO 3](#résultat-de-la-vague-seo-3--vérification-du-7-novembre-2026) détaille les changements livrés et les nouveaux contrôles du 7 novembre.
+
 ## Résumé
 
 - Connexion OpenSEO vérifiée par `whoami` et `list_projects` ; projet existant réutilisé.
@@ -11,7 +13,7 @@
 - Inventaire Google : 64 indexées, 18 non indexées ; neuf anciens verdicts `noindex` précèdent les mises à jour.
 - Lighthouse mobile : performance 99–100, accessibilité/bonnes pratiques/SEO 100 ; CLS nul.
 - Sept mots-clés étudiés dans les pays demandés, avec dix résultats organiques chacun.
-- Coût total : **0,61 USD sur 2 USD autorisés** ; cette PR ne contient que ce rapport.
+- Coût total : **0,61 USD sur 2 USD autorisés** ; le livrable initial était ce rapport seul.
 
 ## Périmètre et méthode
 
@@ -499,3 +501,56 @@ Branche : `docs/seo-audit-2026-11-06`. Diff attendu par rapport à `main` : le s
 La vague `feat/seo-wave-3` utilise cet audit comme état initial. Elle ajoute les trois guides TikTok en id/pt-BR/es, puis en de/it/ar pour assurer le bloc Guides dans les huit langues : 18 adaptations, 24 nouveaux chemins avec les six index locaux, soit 106 URL attendues. Les 70 autres traductions en revue restent non publiées. Les pages MP3 ES et FR, le maillage local, le lien d’abus non obfusqué et les en-têtes applicatifs sont renforcés. Le HTML initial de l’accueil contenait déjà les sept OG locales alternatives : leur contrôle est étendu, sans présenter ce constat comme une panne corrigée.
 
 À cette étape, la validation locale comprend 196 tests Node réussis, lint, typecheck, build OVH local Webpack et seo-check sur 106 URL sans orphelines. La CI Linux, la fusion, la vérification publique et le nouvel audit OpenSEO gratuit restent à effectuer. Aucun résultat après déploiement n’est revendiqué ici. Le coût de la mission d’audit initial reste 0,61 USD ; le crawl de suivi sera exécuté sans rendu ni proxy payants.
+
+
+## Résultat de la vague SEO 3 — vérification du 7 novembre 2026
+
+La [PR #38](https://github.com/aouirdani/vidfetch/pull/38) a été fusionnée après la [CI complète verte](https://github.com/aouirdani/vidfetch/actions/runs/42319792700), puis activée par le [run main 42354097509](https://github.com/aouirdani/vidfetch/actions/runs/42354097509), release `f09273569ca7b94859f413d24211d35faf83cbd9`.
+
+Un contrôle HTTP a ensuite confirmé que Cloudflare transformait aussi les adresses écrites en texte dans les pages légales. La [PR #39](https://github.com/aouirdani/vidfetch/pull/39) étend donc l'exclusion à ces paragraphes. Elle est fusionnée après la [CI verte du complément](https://github.com/aouirdani/vidfetch/actions/runs/42360231821) et activée par le [run main 42362083325](https://github.com/aouirdani/vidfetch/actions/runs/42362083325). Release publique vérifiée : `7a8da1996057a18c63b27bbe1289555b87ec2b99`.
+
+### Changements livrés
+
+- Les trois guides TikTok existent dans les huit langues : neuf adaptations id/pt-BR/es demandées pour les grands marchés, plus neuf en de/it/ar pour fournir le bloc Guides local sur chacun des huit accueils. Total : 18 nouveaux articles, six nouveaux index de guides et 106 URL indexables. Les 70 autres traductions en revue restent fermées.
+- Slugs locaux, BlogPosting, hreflang réciproque, sitemap et liens MP4/MP3 locaux ; trois guides depuis chaque accueil et chaque page TikTok. Les guides FR renvoient aussi vers le convertisseur MP3 local.
+- Texte et FAQ MP3 espagnols renforcés pour les requêtes observées ; title/H1 français alignés et étapes pratiques ajoutées, sans changement des formats ni des limites du moteur.
+- Mailto de signalement présent dans le HTML initial ; adresses légales protégées elles aussi. Cloudflare consomme les commentaires `email_off` après traitement : le contrôle public vérifie donc le lien final et l'absence d'ancres techniques.
+- En-têtes applicatifs HSTS, SAMEORIGIN, Referrer-Policy et CSP uniquement Report-Only. La politique déclare les sources Turnstile, workers et WebAssembly ; la conversion locale et son téléchargement sont vérifiés en production. Les transferts TikTok de la CI utilisent des réponses simulées, sans téléchargement d'un média tiers pour cet audit.
+- Les OG alternatives suivent exactement les versions existantes : sept autres locales pour les pages proposées dans les huit langues. Ces sept balises existaient déjà sur l'accueil avant la vague ; leur contrôle a été renforcé.
+
+### Vérification publique
+
+Contrôle navigateur : `2026-11-07T11:34:40.317Z`. L'API publique annonce la release attendue, le frontend prêt et les téléchargements disponibles, comme avant la vague. Le vérificateur SEO a parcouru **106 URL publiques**, sans JavaScript pour l'analyse du HTML : HTTP 200, indexabilité, canonical, hreflang réciproque, OG, sitemap, FAQ/JSON-LD, liens internes et absence de pages orphelines. Les en-têtes et le mailto brut sont contrôlés sur chaque URL ; aucune ancre `/cdn-cgi/l/email-protection` ne subsiste dans ce périmètre.
+
+Dans Chromium à 390 px, les huit accueils et seize pages TikTok ont chacun trois guides locaux, sept OG alternatives et aucun débordement horizontal. Une vidéo synthétique de deux secondes a été convertie en MP3 et téléchargée via le parcours navigateur : **49083 octets**, durée **2.038617 s**, zéro requête d'envoi de média ou vers un tiers pendant la conversion. L'enregistrement du service worker de téléchargement est actif ; sa portée reste `/local-media/download/` et ne couvre pas la page de conversion. Le sélecteur natif de sauvegarde a été désactivé dans ce test headless pour exercer le téléchargement navigateur.
+
+La validation locale et la CI couvrent aussi les huit langues/RTL, 24 transferts simulés, 26 sorties locales vérifiées par ffprobe et huit sorties OPFS. Les tests des contacts couvrent les 24 paragraphes publics des huit langues et l'échappement HTML. Aucun changement du gateway ou des moteurs n'a été livré.
+
+### Lighthouse CI déjà exécuté, sans nouvel appel OpenSEO payant
+
+Médianes de trois passes mobiles du run PR #38 `42319792700`, artefact `lighthouse-0e690b56c77a3c844d3db5197d44747a32eeb97f`. Ces mesures Linux CI ne sont pas directement comparables à la mesure OpenSEO unitaire de l'audit initial.
+
+| Page | Performance | Accessibilité | Bonnes pratiques | SEO | LCP médian ms | TBT médian ms | CLS |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `/` | 94 | 100 | 100 | 100 | 2702 | 162 | 0 |
+| `/ar` | 94 | 100 | 100 | 100 | 2717 | 192 | 0 |
+| `/blog/why-cant-i-save-tiktok` | 95 | 100 | 100 | 100 | 2704 | 126.5 | 0 |
+| `/fr` | 95 | 100 | 100 | 100 | 2720 | 143 | 0 |
+| `/id/download-video-tiktok` | 95 | 100 | 100 | 100 | 2715 | 145.5 | 0 |
+| `/video-to-mp3` | 96 | 100 | 100 | 100 | 2717 | 123.5 | 0 |
+
+Les critères bloquants du workflow sont verts. Performance/LCP/TBT restent des avertissements, conformément aux critères retenus avant cette vague ; aucun seuil n'a été abaissé pour la fusion. Le LCP CI autour de 2,7 s est conservé ici comme observation.
+
+### Audit OpenSEO gratuit de suivi — accès à rétablir
+
+Le 07/11, le serveur MCP OpenSEO local répond **HTTP 401** à `whoami`, `list_projects` et au `dry_run` de `start_site_audit`. La présence de la clé configurée dans l'environnement a été vérifiée sans afficher sa valeur. La nouvelle vérification après déploiement est elle aussi refusée. Le service demande une connexion OAuth ou une clé OpenSEO valide. La reconnexion a été demandée ; aucune réponse de rétablissement n'était disponible au moment de ce bilan.
+
+Paramètres préparés : projet `0289621d-1d2e-411b-b57b-df52dc7f5515`, `start_url=https://vidfetch.app`, `max_pages=1000`, `render_mode=off`, `use_fallback=false`, `dry_run=true` avant toute exécution. **Aucun audit de suivi n'a été créé**, aucun rendu ni proxy payant n'a été lancé. Après reconnexion, refaire le dry-run, confirmer le coût gratuit, lancer le crawl sans rendu/fallback puis consigner son identifiant, sa couverture, son score et ses alertes.
+
+Le contrôle public indépendant vérifie 106 URL et l'absence de liens internes cassés ou de pages orphelines. Il ne remplace pas un résultat OpenSEO : le dernier score OpenSEO disponible demeure **9/100 sur l'état du 06/11**, avec 91 URL explorées et 82 indexables. Aucun score amélioré ni disparition d'alertes dans OpenSEO n'est revendiqué avant son nouveau crawl.
+
+Le suivi ne mesure pas encore un gain de position ou d'indexation. Les chiffres Search Console de l'audit restent ceux du 07/10–03/11. Les 404 des plateformes verrouillées et les exclusions techniques robots.txt restent intentionnelles.
+
+### Coût cumulé
+
+Audit initial et recherches du 06/11 : **0,61 USD**. Cette vague et ses contrôles locaux/CI : **0 USD de crédits OpenSEO supplémentaires**. Les tentatives MCP ont été refusées avant création d'audit. Total consommé de la mission : **0,61 USD sur 2 USD autorisés**. Aucun nouveau lookup de mots-clés, SERP ou Lighthouse payant n'a été lancé.
