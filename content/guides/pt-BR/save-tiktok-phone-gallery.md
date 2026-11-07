@@ -4,8 +4,8 @@
   "description": "O TikTok baixado não aparece na galeria? Localize o MP4 em Arquivos ou Downloads, teste a reprodução e importe quando o aparelho permitir.",
   "category": "TikTok",
   "created": "2026-11-06",
-  "updated": "2026-11-06",
-  "published": "2026-11-06",
+  "updated": "2026-11-07",
+  "published": "2026-11-07",
   "status": "ready",
   "related": [
     "why-cant-i-save-tiktok",

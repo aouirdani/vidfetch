@@ -4,8 +4,8 @@
   "description": "Prüfe Freigaben, Links, Dienstlimits und unvollständige Downloads. So erkennst du, ob das TikTok-Video fehlt oder nur nicht in der Galerie auftaucht.",
   "category": "TikTok",
   "created": "2026-11-06",
-  "updated": "2026-11-06",
-  "published": "2026-11-06",
+  "updated": "2026-11-07",
+  "published": "2026-11-07",
   "status": "ready",
   "related": [
     "save-tiktok-sound-mp3",

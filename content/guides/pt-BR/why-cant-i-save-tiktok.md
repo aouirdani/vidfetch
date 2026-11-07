@@ -4,8 +4,8 @@
   "description": "Veja se a falha ao salvar um TikTok está na permissão, no link, nos limites do serviço ou no arquivo que ainda não apareceu na galeria.",
   "category": "TikTok",
   "created": "2026-11-06",
-  "updated": "2026-11-06",
-  "published": "2026-11-06",
+  "updated": "2026-11-07",
+  "published": "2026-11-07",
   "status": "ready",
   "related": [
     "save-tiktok-sound-mp3",

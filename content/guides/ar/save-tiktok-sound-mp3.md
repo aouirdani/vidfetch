@@ -4,8 +4,8 @@
   "description": "احفظ المسار الصوتي لفيديو تيك توك عام ومسموح بصيغة MP3، وافهم الجودة وحدود التحويل ثم اعثر على الملف في هاتفك.",
   "category": "TikTok",
   "created": "2026-11-06",
-  "updated": "2026-11-06",
-  "published": "2026-11-06",
+  "updated": "2026-11-07",
+  "published": "2026-11-07",
   "status": "ready",
   "related": [
     "why-cant-i-save-tiktok",

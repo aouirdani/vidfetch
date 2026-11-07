@@ -4,8 +4,8 @@
   "description": "Encuentra un MP4 de TikTok descargado en iPhone o Android, comprueba que está completo e impórtalo a la galería cuando el formato sea compatible.",
   "category": "TikTok",
   "created": "2026-11-06",
-  "updated": "2026-11-06",
-  "published": "2026-11-06",
+  "updated": "2026-11-07",
+  "published": "2026-11-07",
   "status": "ready",
   "related": [
     "why-cant-i-save-tiktok",

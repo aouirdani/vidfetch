@@ -4,8 +4,8 @@
   "description": "Salva la traccia di un video TikTok pubblico in MP3. Scegli il link corretto, verifica qualità e durata e trova il file sul telefono.",
   "category": "TikTok",
   "created": "2026-11-06",
-  "updated": "2026-11-06",
-  "published": "2026-11-06",
+  "updated": "2026-11-07",
+  "published": "2026-11-07",
   "status": "ready",
   "related": [
     "why-cant-i-save-tiktok",

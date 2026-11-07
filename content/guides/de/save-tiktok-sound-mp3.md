@@ -4,8 +4,8 @@
   "description": "Speichere die Tonspur eines erlaubten öffentlichen TikTok-Videos als MP3. Prüfe Audioqualität, Dauer und Speicherort auf deinem Handy.",
   "category": "TikTok",
   "created": "2026-11-06",
-  "updated": "2026-11-06",
-  "published": "2026-11-06",
+  "updated": "2026-11-07",
+  "published": "2026-11-07",
   "status": "ready",
   "related": [
     "why-cant-i-save-tiktok",

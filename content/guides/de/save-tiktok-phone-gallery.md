@@ -4,8 +4,8 @@
   "description": "Finde heruntergeladene TikTok-MP4-Dateien auf iPhone und Android. Prüfe die Wiedergabe und importiere sie in eine kompatible Galerie.",
   "category": "TikTok",
   "created": "2026-11-06",
-  "updated": "2026-11-06",
-  "published": "2026-11-06",
+  "updated": "2026-11-07",
+  "published": "2026-11-07",
   "status": "ready",
   "related": [
     "why-cant-i-save-tiktok",

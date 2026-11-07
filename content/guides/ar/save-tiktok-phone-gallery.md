@@ -4,8 +4,8 @@
   "description": "اعثر على MP4 تيك توك الذي نزلته في iPhone أو Android، وتحقق من اكتماله ثم أضفه إلى الصور أو المعرض عندما يدعم الجهاز صيغته.",
   "category": "TikTok",
   "created": "2026-11-06",
-  "updated": "2026-11-06",
-  "published": "2026-11-06",
+  "updated": "2026-11-07",
+  "published": "2026-11-07",
   "status": "ready",
   "related": [
     "why-cant-i-save-tiktok",

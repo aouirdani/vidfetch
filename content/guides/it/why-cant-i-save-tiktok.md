@@ -4,8 +4,8 @@
   "description": "Controlla permessi, link, limiti e download interrotti. Scopri se il video TikTok non si scarica oppure è già sul telefono ma fuori dalla galleria.",
   "category": "TikTok",
   "created": "2026-11-06",
-  "updated": "2026-11-06",
-  "published": "2026-11-06",
+  "updated": "2026-11-07",
+  "published": "2026-11-07",
   "status": "ready",
   "related": [
     "save-tiktok-sound-mp3",

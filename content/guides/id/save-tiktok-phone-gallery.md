@@ -4,8 +4,8 @@
   "description": "MP4 TikTok sudah terunduh tetapi belum terlihat di galeri? Temukan file di iPhone atau Android, periksa pemutaran, lalu impor jika didukung.",
   "category": "TikTok",
   "created": "2026-11-06",
-  "updated": "2026-11-06",
-  "published": "2026-11-06",
+  "updated": "2026-11-07",
+  "published": "2026-11-07",
   "status": "ready",
   "related": [
     "why-cant-i-save-tiktok",

@@ -4,8 +4,8 @@
   "description": "تحقق من إذن صاحب الفيديو والرابط وحدود الخدمة واكتمال التنزيل، واعرف هل الملف مفقود فعلاً أم لم يظهر في معرض الهاتف بعد.",
   "category": "TikTok",
   "created": "2026-11-06",
-  "updated": "2026-11-06",
-  "published": "2026-11-06",
+  "updated": "2026-11-07",
+  "published": "2026-11-07",
   "status": "ready",
   "related": [
     "save-tiktok-sound-mp3",

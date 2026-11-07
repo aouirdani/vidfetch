@@ -4,8 +4,8 @@
   "description": "Simpan audio video TikTok publik sebagai MP3: pilih tautan yang tepat, pahami kualitas suara, lalu temukan file di iPhone atau Android.",
   "category": "TikTok",
   "created": "2026-11-06",
-  "updated": "2026-11-06",
-  "published": "2026-11-06",
+  "updated": "2026-11-07",
+  "published": "2026-11-07",
   "status": "ready",
   "related": [
     "why-cant-i-save-tiktok",

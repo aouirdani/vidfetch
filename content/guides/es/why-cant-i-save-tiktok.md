@@ -4,8 +4,8 @@
   "description": "Revisa permisos, enlaces, límites y descargas incompletas de TikTok. Distingue un fallo real de un MP4 que todavía no aparece en tu galería.",
   "category": "TikTok",
   "created": "2026-11-06",
-  "updated": "2026-11-06",
-  "published": "2026-11-06",
+  "updated": "2026-11-07",
+  "published": "2026-11-07",
   "status": "ready",
   "related": [
     "save-tiktok-sound-mp3",

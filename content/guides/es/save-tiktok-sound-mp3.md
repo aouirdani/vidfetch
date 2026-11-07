@@ -4,8 +4,8 @@
   "description": "Guarda el sonido de un video público de TikTok como MP3. Elige el enlace correcto, entiende la calidad y localiza el archivo en tu celular.",
   "category": "TikTok",
   "created": "2026-11-06",
-  "updated": "2026-11-06",
-  "published": "2026-11-06",
+  "updated": "2026-11-07",
+  "published": "2026-11-07",
   "status": "ready",
   "related": [
     "why-cant-i-save-tiktok",
