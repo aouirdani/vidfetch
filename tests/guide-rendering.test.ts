@@ -11,7 +11,8 @@ test('guide tables and procedures use semantic markup; only declared local image
  const html=renderToStaticMarkup(createElement(GuideBody,{body,locale:'en',images:[{src:'/guides/lab/test.webp',alt:'A local test interface',width:390,height:844}]}));
  assert.match(html,/<ol><li>Choose the source<\/li><li>Save the result<\/li><\/ol>/);
  assert.match(html,/<table><thead><tr><th scope="col">Setting/);
- assert.match(html,/loading="lazy"[^>]*width="390"[^>]*height="844"/);
+ const image=html.match(/<img [^>]+>/)![0];
+ assert.match(image,/loading="lazy"/);assert.match(image,/width="390"/);assert.match(image,/height="844"/);
  assert.equal((html.match(/<img /g)??[]).length,1);
  assert.doesNotMatch(html,/<script>|src="https:\/\/example.com/);
  assert.match(html,/&lt;script&gt;/);

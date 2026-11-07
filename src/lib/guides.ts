@@ -52,6 +52,6 @@ export function guideSchema(guide: Guide) {
     description: guide.description, url, mainEntityOfPage: url,
     dateCreated: guide.created, dateModified: guide.updated, ...(guide.published ? { datePublished: guide.published } : {}),
     author: guide.author ? { "@type": "Person", name: guide.author, ...(trustPath(guide.locale, "about") ? { url: new URL(trustPath(guide.locale, "about")!, SITE.url).href } : {}) } : { "@type": "Organization", name: SITE.name, url: SITE.url }, publisher: { "@id": `${SITE.url}/#organization` },
-    image: `${SITE.url}${OG_IMAGE.url}`, inLanguage: guide.locale, articleSection: guide.category,
+    image: guide.images?.length ? guide.images.map(image => `${SITE.url}${image.src}`) : `${SITE.url}${OG_IMAGE.url}`, inLanguage: guide.locale, articleSection: guide.category,
   };
 }

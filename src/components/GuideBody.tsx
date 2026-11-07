@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import type { GuideImage } from "@/lib/guides";
 import type { ReactNode } from "react";
 import { type Locale, articlePath } from "@/i18n/config";
@@ -33,7 +32,7 @@ export function GuideBody({ body, locale = "en", images = [] }: { body: string; 
     if (picture) {
       const asset = images.find(image => image.src === picture[2] && image.alt === picture[1]);
       if (!asset || !/^\/guides\/lab\/[a-z0-9-]+\.(webp|avif)$/.test(asset.src) || !Number.isInteger(asset.width) || !Number.isInteger(asset.height) || asset.width < 1 || asset.height < 1 || asset.width > 5000 || asset.height > 5000) return <p key={i}>{picture[1]}</p>;
-      return <figure key={i}><Image src={asset.src} alt={asset.alt} width={asset.width} height={asset.height} loading="lazy" unoptimized className="h-auto max-w-full rounded-xl border border-slate-200" />{asset.caption && <figcaption>{asset.caption}</figcaption>}</figure>;
+      return <figure key={i}><picture><source srcSet={asset.src} type={asset.src.endsWith(".avif") ? "image/avif" : "image/webp"} /><img src={asset.src} alt={asset.alt} width={asset.width} height={asset.height} loading="lazy" decoding="async" className="h-auto max-w-full rounded-xl border border-slate-200" /></picture>{asset.caption && <figcaption>{asset.caption}</figcaption>}</figure>;
     }
     const lines = block.split("\n");
     if (lines.length >= 2 && lines.every(line => line.startsWith("|")) && /^\|(?:\s*:?-+:?\s*\|)+$/.test(lines[1])) {
