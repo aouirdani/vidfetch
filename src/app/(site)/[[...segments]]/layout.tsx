@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Suspense } from "react";
 import localFont from "next/font/local";
 import "../../globals.css";
 import { Header } from "@/components/Header";
@@ -44,7 +45,7 @@ export default async function SiteLayout({ children, params }: { children: React
     <I18nProvider locale={locale} messages={clientMessages({ ...withOfficialContacts(d), privacy1: ADVERTISING_PRIVACY[locale] })}>
       <a href="#main" className="skip-link sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-[100] focus:rounded-xl focus:px-4 focus:py-2 focus:text-sm">{d.skip}</a>
       <div className="pointer-events-none fixed inset-0 -z-10 aurora" aria-hidden /><div className="pointer-events-none fixed inset-0 -z-10 grid-lines" aria-hidden />
-      <div className="flex min-h-dvh flex-col"><Header locale={locale} identity={identity} /><main id="main" className="flex-1">{children}</main><Footer locale={locale} /></div>
+      <div className="flex min-h-dvh flex-col"><Suspense><Header locale={locale} identity={identity} /></Suspense><main id="main" className="flex-1"><Suspense>{children}</Suspense></main><Suspense><Footer locale={locale} /></Suspense></div>
     </I18nProvider>
   </body></html>;
 }

@@ -172,3 +172,8 @@ Date affichée en Europe/Paris. Les commits de la branche de travail ne devienne
 - Lot guides 1–15 préparé : 15 sources EN, 23 captures UI WebP, mesures publiques contrôlées, rendu des tableaux/procédures/images et refus de publication sans auteur/À propos. Tous en brouillon tant que les informations demandées ne sont pas fournies. Tests ciblés8/8 ; build, lint, typecheck verts. PR à ouvrir après fusion et vérification de la PR1.
 
 - Validation locale du lot1 terminée :203/203tests complets, seo-check106URL, i18n8langues et15brouillons404. Complément G19 : première image présentée0,300s dans les deux modes, paquets de référence à PTS négatif conservés en copie ; preuve détaillée ajoutée sans affirmer que la copie commence toujours visiblement à l’image clé précédente.
+- Le run42425986465 a signalé un seul test unitaire obsolète : il attendait encore le30octobre pour /legal après sa révision réelle du7novembre. Attente mise à jour, autres dates inchangées ; nouveau commit sans re-run. Les contrôles Linux fonctionnels et mesures de séparation des modules restent ceux consignés ci-dessus.
+
+### 2026-11-08 — Hydratation et validation PR 1
+
+Le run 42427153089 passe les contrôles fonctionnels, SEO et i18n, mais échoue sur Lighthouse (médianes 92–94 ; autres catégories 100, CLS 0). Aucune fusion ni activation en production. Les mêmes fichiers réseau et réglages Lighthouse donnent 99–100 dans le build Linux local ; le rapport CI montre notamment une tâche React de 251 ms contre 77 ms localement. Nouvelle correction : frontières Suspense SSR pour séparer en-tête, contenu, pied de page et formulaire, et liens HTML natifs dans les vues éditoriales. Seuils Lighthouse inchangés. Vérification avant commit : lint, typecheck et 54 tests ciblés réussis.

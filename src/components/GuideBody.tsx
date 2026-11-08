@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { GuideImage } from "@/lib/guides";
 import type { ReactNode } from "react";
 import { type Locale, articlePath } from "@/i18n/config";
@@ -15,8 +14,8 @@ function inline(text: string, locale: Locale): ReactNode[] {
       if (href.startsWith("/") && !href.startsWith("//")) {
         const id = /^\/blog\/([a-z0-9-]+)$/.exec(href)?.[1];
         const guide = id ? availableGuides(locale).find(g => g.id === id) : undefined;
-        if (!guide) return resolvePage(href.split("/").filter(Boolean)) ? <Link key={i} href={href} prefetch={false}>{label}</Link> : label;
-        return <Link key={i} href={articlePath(locale, guide.slug)} prefetch={false}>{label}</Link>;
+        if (!guide) return resolvePage(href.split("/").filter(Boolean)) ? <a key={i} href={href}>{label}</a> : label;
+        return <a key={i} href={articlePath(locale, guide.slug)}>{label}</a>;
       }
       if (href.startsWith("https://")) return <a key={i} href={href} rel="noopener noreferrer">{label}</a>;
       return label;
