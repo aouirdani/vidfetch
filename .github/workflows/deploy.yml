@@ -44,7 +44,6 @@ jobs:
       - run: npm run test:backend
       - run: node backend/gateway/run-tests.mjs
       - run: node backend/gateway/run-load.mjs
-      - run: python3 -m unittest discover -s deploy/ovh/tests -v
       - run: npm run check:release
       - name: Install Chromium for browser smoke checks
         run: npx playwright install --with-deps chromium
@@ -100,6 +99,8 @@ jobs:
           include-hidden-files: true
       - name: Local conversion fixtures and privacy checks
         run: npm run test:local-tools
+      # Keep this required suite after the performance gate for faster failure feedback.
+      - run: python3 -m unittest discover -s deploy/ovh/tests -v
       - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
           name: release-${{ github.sha }}
