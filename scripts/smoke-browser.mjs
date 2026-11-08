@@ -25,6 +25,11 @@ try {
     const response=await page.goto(base+path,{waitUntil:'domcontentloaded'});
     assert.equal(response.status(),200,path);
     assert.equal(await page.locator('h1').count(),1,path);
+    assert.equal(await page.locator('h1').isVisible(),true,`${path}: heading visible without JavaScript`);
+    if(['/', '/fr', '/id', '/ar'].includes(path)){
+      await page.locator('#faq').scrollIntoViewIfNeeded();
+      assert.equal(await page.locator('#faq').isVisible(),true,`${path}: FAQ visible without JavaScript`);
+    }
     assert.ok((await page.title()).trim(),`${path}: title`);
     assert.ok((await page.locator('main').innerText()).trim().length>100,`${path}: SSR main text`);
     assert.ok(await page.locator('form').count()||await page.locator('input[type=file]').count(),`${path}: expected tool form`);
