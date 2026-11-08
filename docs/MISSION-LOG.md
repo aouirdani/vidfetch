@@ -186,3 +186,9 @@ Le fournisseur i18n est limité au formulaire de téléchargement et ses résult
 Le run 42530438280 valide les tests, le smoke sans JavaScript, Caddy et les 106 URL SEO, puis détecte un contexte manquant sur la page 404 localisée. Le fournisseur est rétabli uniquement autour du contenu 404 (le composant not-found utilise useI18n), sans le réintroduire sur les pages indexables. Nouveau commit, aucun re-run. Les 203 tests du lot complet de guides passent localement après les changements précédents.
 
 Les huit 404 localisées passent sur le build Linux corrigé, ainsi que les dix pages SSR et trois parcours interactifs. La suite Python complète des déploiements (environ 12 minutes) est déplacée après Lighthouse dans le même job CI ; elle reste obligatoire avant la publication de l’archive et toute activation. Cette modification raccourcit le retour sur un échec Lighthouse, sans supprimer de contrôle ni changer les seuils.
+
+### 8 novembre 2026 — Comparaison du compilateur
+
+Le run 42532490308 passe les tests, le smoke SSR, Caddy, les 106 URL SEO et les huit langues/404. Les médianes Lighthouse sont EN 96, FR 95, ID 94, audio 96, guide 97, AR 94 ; A11y/BP/SEO 100 et CLS 0. Les deux routes à 94 bloquent la fusion ; aucun déploiement.
+
+Le build utilise maintenant le [mode Webpack officiellement supporté par Next.js](https://nextjs.org/docs/app/getting-started/installation), sans changer la version de Next ni les seuils. Sur le build Linux avec CSS partagée : dix pages SSR/FAQ sans JavaScript, trois parcours interactifs et huit 404 localisées passent. Lighthouse local AR : 99/100/100/100, LCP 2,204 s, TBT 30 ms, CLS 0. Ce résultat local ne remplace pas la CI à venir. Les deux bundles backend reconstruits conservent exactement leurs SHA-256 de production respectifs. Aucun changement de dépendance ou de fichier de verrouillage.
