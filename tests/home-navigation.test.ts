@@ -67,7 +67,7 @@ describe("navigation", () => {
       assert.equal(sitePages().some(p => p.locale === locale && p.identity.kind === "blog"), has, locale);
     }
     for (const file of ["src/components/Header.tsx", "src/components/Footer.tsx"]) {
-      for (const link of source(file).match(/<Link href=\{sectionPath\(locale, "blog"\)\}[^>]*>/g) ?? []) {
+      for (const link of source(file).match(/<(?:Link|a) href=\{sectionPath\(locale, "blog"\)\}[^>]*>/g) ?? []) {
         const at = source(file).indexOf(link);
         assert.match(source(file).slice(Math.max(0, at - 40), at), /(guides|availableGuides\(locale\)\.length > 0) && $/, `${file}: ${link}`);
       }
@@ -168,6 +168,6 @@ describe("contact addresses: vidfetch.app only", () => {
     }
     for (const file of ["src/components/Footer.tsx", "src/lib/seo.ts", "src/views/SiteViews.tsx", "src/app/(site)/[[...segments]]/layout.tsx", "src/server/unavailable-api.ts", "src/server/local-api/health.ts"]) assert.doesNotMatch(source(file), /vidfetch\.io/, file);
     assert.match(source("src/views/SiteViews.tsx"), /const d = withOfficialContacts\(dictionary\(page\.locale\)\);/);
-    assert.match(source("src/app/(site)/[[...segments]]/layout.tsx"), /messages=\{\{ \.\.\.withOfficialContacts\(d\), privacy1: ADVERTISING_PRIVACY\[locale\] \}\}/);
+    assert.match(source("src/components/FetchFormSection.tsx"), /messages=\{clientMessages\(\{ \.\.\.withOfficialContacts\(d\), privacy1: ADVERTISING_PRIVACY\[locale\] \}\)\}/);
   });
 });

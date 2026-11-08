@@ -90,6 +90,7 @@ try {
     assert.doesNotMatch(html,/<a[^>]+href="\/cdn-cgi\/l\/email-protection/,`${url}: no obfuscated internal email link`);
     const data=await dom.evaluate(()=>({
       title:document.title, description:document.querySelector('meta[name=description]')?.content,
+      sourceLinks:document.querySelectorAll('[data-guide-sources] a[href^="https://"]').length,
       robots:[...document.querySelectorAll('meta[name=robots]')].map(n=>n.content),
       h1:[...document.querySelectorAll('h1')].map(n=>n.textContent.trim()),
       main:(() => { const main=document.querySelector('main')?.cloneNode(true); if(!main)return ''; main.querySelectorAll('script,style,template,form').forEach(n=>n.remove()); const walker=document.createTreeWalker(main,NodeFilter.SHOW_TEXT); const parts=[]; while(walker.nextNode())parts.push(walker.currentNode.textContent); return parts.join(' ').replace(/\s+/g,' ').trim(); })(),lang:document.documentElement.lang,dir:document.documentElement.dir,
@@ -112,6 +113,8 @@ try {
     assert.ok(data.canonicalAbsolute,`${url}: relative canonical`);
     assert.deepEqual(data.canonical,[url],`${url}: canonical`);
     assert.ok(data.main?.length>100,`${url}: main content missing without JavaScript`);
+    assert.doesNotMatch(data.main, /\[À\s+COMPLÉTER\s*:/iu, `${url}: unfinished visible publisher/author field`);
+    if(data.json.flatMap(g=>g['@graph']??[g]).some(n=>n['@type']==='BlogPosting')) assert.ok(data.sourceLinks>0,`${url}: guide sources missing`);
     assert.equal(data.alternates['x-default'],data.alternates.en,`${url}: x-default must be English`);
     assert.ok(data.alternates['x-default'],`${url}: x-default missing`);
     assert.equal(data.alternates[data.lang],url,`${url}: html lang/self hreflang`);
@@ -139,7 +142,7 @@ try {
       seen.set(value,url);
     }
   };
-  unique('title'); unique('h1');
+  unique('title'); unique('description'); unique('h1');
   const incoming = new Map(urls.map(url=>[url,0]));
   for(const [source,data] of pages) for(const href of data.links.filter(h=>h?.startsWith('/')&&!h.startsWith('//'))) {
     const target=new URL(href,origin); target.hash=''; target.search='';

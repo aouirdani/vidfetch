@@ -1,10 +1,36 @@
 # Plan de 30 guides — validation OpenSEO du 7 novembre 2026
 
-**Statut : proposition pour revue du propriétaire, aucune rédaction autorisée à ce stade.** Trente sujets distincts sont retenus au stade du plan après mesure et remplacement des candidats faibles ou incompatibles. Leur rang est un ordre de travail proposé ; les identifiants G01–G30 restent stables pour la revue. La rédaction, les tests de procédures, les captures, les traductions et les pages de confiance du prompt 2 attendent cette revue.
+**Statut : plan validé par le propriétaire avec les modifications de la section Revue appliquée ci-dessous.** Trente sujets distincts sont retenus au stade du plan après mesure et remplacement des candidats faibles ou incompatibles. Leur rang est un ordre de travail proposé ; les identifiants G01–G30 restent stables pour la revue. La réalisation suit les trois PR demandées ; les contenus dont les informations d’auteur/éditeur restent à compléter ne sont pas publiés.
 
 Marché des métriques : **États-Unis (`us`, `locationCode=2840`), anglais (`en`)**, projet existant `0289621d-1d2e-411b-b57b-df52dc7f5515`. Mesures MCP OpenSEO du 07/11/2026, entre **12:29:13 et 12:31:46 UTC**. Base de code : `7a8da1996057a18c63b27bbe1289555b87ec2b99` (`origin/main`). Aucun guide ni fichier applicatif modifié. **Coût de cette étape : 0,51 USD / 1,50 USD**, indépendant du budget de l’audit précédent.
 
 ## Méthode et limites des mesures
+
+### Revue appliquée — 7 novembre 2026
+
+La revue du propriétaire prime sur le classement initial : **les rangs restent figés**, PR 2 = rangs 1–15, PR 3 = rangs 16–30. Les scores de G17/G25 sont actualisés sans déplacer les lots. Le coût et les mesures du plan initial sont conservés comme historique ; le présent complément est compté séparément.
+
+- **G17** : principal `tiktok aspect ratio`, US/en, **2 400/mois, difficulté 1**, données OpenSEO déjà mesurées le 07/11. Slug `tiktok-aspect-ratio`. Guide de géométrie et format 9:16, avec 16:9/1:1/4:5 ; G29 conserve le diagnostic des bandes noires, aucun recadrage annoncé.
+- **G25** : `audio clipping` est retiré. Remplacement mesuré `split video into parts`, US/en, **480/mois, difficulté 14**, adéquation **3** avec `/trim-video`. Mesure à `2026-11-07T12:58:56.356Z`. Variante `how to split video into parts` : 390/D20 ; générique `split video` : 720/D17, conservé comme secondaire. Une vidéo originale donne plusieurs fichiers par opérations successives ; ce n’est ni un lot automatique ni une simple copie du tutoriel de coupe G18. La démonstration décidera si cette distinction justifie une page ou une fusion.
+- Recherche G25 : dry-run gratuit, puis un appel plafonné à **0,04 USD**, coût **0,04 USD / 0,50 USD** autorisé. Treize formulations mesurées, aucune recherche sans dry-run.
+- **Traductions FR imposées**, sans substitution : G18, G10, G01, G11, G12, G30, G02, G16, G19, G17. Deux lots OpenSEO France/fr, chacun précédé de son dry-run, coût total **0,08 USD / 0,50 USD** autorisé ; plafonds réels cumulés 0,08 USD. Horodatages : `12:58:56.366Z` et `13:10:27.268Z` le 07/11/2026.
+
+| ID | Requête FR mesurée retenue / repère | Volume France /mois | Difficulté | Titre proposé pour la traduction | Slug français |
+| --- | --- | --- | --- | --- | --- |
+| G18 | couper une vidéo iphone | 720 | 0 | Couper une vidéo sur iPhone et Android | couper-video-telephone |
+| G10 | compresser vidéo iphone | 210 | 0 | Compresser une vidéo sur téléphone | compresser-video-telephone |
+| G01 | extraire son video iphone | 170 | 0 | Extraire le son d’une vidéo sur iPhone | extraire-son-video-iphone |
+| G11 | convertir mov en mp4 | 4 400 | 0 | Convertir un MOV en MP4 : méthode locale | convertir-mov-mp4 |
+| G12 | créer un gif à partir d'une vidéo | 590 | 0 | Créer un GIF à partir d’une vidéo | creer-gif-video |
+| G30 | mov vs mp4 | 90 | 0 | MOV ou MP4 : quelle copie conserver ? | mov-ou-mp4 |
+| G02 | convertir enregistrement écran en mp3 | ND | ND | Convertir une capture vidéo en MP3 | enregistrement-ecran-mp3 |
+| G16 | 30 fps ou 60 fps | 50 | 27 | Vidéo à 30 ou 60 images par seconde | video-30-ou-60-fps |
+| G19 | image clé | 390 | 4 | Images clés vidéo : comprendre la coupe | images-cles-video |
+| G17 | format vidéo tiktok | 480 | 0 | Format TikTok : ratio 9:16 et alternatives | format-video-tiktok |
+
+Toutes ces données sont **France/fr**, pas les volumes américains. Une réponse de volume 0 est distincte de ND : `extraire audio vidéo iphone` et `extraire le son d'une vidéo iphone` sont retournés à **0**, alors que les formulations sans accents ci-dessus ont des estimations non nulles ; ne pas les additionner. Pour G02, la formulation spécifique n’est pas retournée ; le repère générique `convertir vidéo en mp3` est à 2 400/D0 mais **ce n’est pas le volume de la capture écran**. La traduction est maintenue parce qu’elle est expressément demandée, sans lui inventer de demande mesurée. `image clé` est un terme large, pas un volume garanti pour l’intention précise du guide. La requête GIF FR est classée transactionnelle ; le guide montrera la procédure et renverra à l’outil existant.
+
+Les regroupements restent autorisés si une démonstration n’apporte pas de matière originale : les signaler dans le rapport plutôt que produire une page mince.
 
 `keyword_metrics` a mesuré les 30 candidats, puis deux lots de 80 et 59 variantes/remplacements choisis après lecture des premiers résultats et des suggestions. `keyword_ideas` a exploré dix graines, 30 résultats maximum par graine, avec le même marché. Chaque appel facturable a été précédé de son dry-run gratuit. Aucun clickstream, `refresh=true`, SERP ou audit payant supplémentaire.
 
@@ -14,7 +40,7 @@ L’intention ci-dessous reprend OpenSEO : **I** informationnelle, **T** transac
 
 Le tri est reproductible : `score = 40 × min(log10(volume + 1) / 5, 1) + 25 × (1 − difficulté / 100) + 10 × adéquation + bonus GSC`. Adéquation **3** : usage direct d’une commande existante ou démonstration directement liée ; **2** : explication/diagnostic utile sans fonction de correction promise ; **1** : parcours natif TikTok, lien produit contextuel seulement. Le bonus GSC vaut **0 pour les 30 sujets** : aucun signal exact EN/US attribuable à une nouvelle page. Un signal dans une autre langue ou déjà capté par un guide n’est pas transformé en preuve de demande américaine. À égalité : volume, puis identifiant.
 
-## Les 30 sujets, triés par opportunité
+## Ordre de livraison validé — rangs figés pour les PR 2 et 3
 
 Le slug est proposé sous `/blog/`. Les codes GSC renvoient au tableau Search Console plus bas : **0** aucun signal proche exploitable, **A** famille audio indirecte dans la lecture mondiale, **G** famille GIF indirecte dans la lecture mondiale, **T** thème TikTok déjà couvert par un guide existant. Ces trois derniers codes ne constituent pas un bonus de classement.
 
@@ -44,11 +70,11 @@ Le slug est proposé sous `/blog/`. Les codes GSC renvoient au tableau Search Co
 | 22 · G24 | 67.2 | audio out of sync with video | 590 | 0 | I | 2 / 0 | `audio-video-sync` | [/trim-video](https://vidfetch.app/trim-video) |
 | 23 · G15 | 63.8 | how to reduce video resolution | 210 | 39 | I | 3 / 0 | `reduce-video-resolution` | [/compress-video](https://vidfetch.app/compress-video) |
 | 24 · G21 | 63.2 | video metadata | 390 | 10 | I | 2 / 0 | `read-video-metadata` | [/video-to-mp3](https://vidfetch.app/video-to-mp3) |
-| 25 · G17 | 61.9 | video aspect ratio | 720 | 24 | I | 2 / 0 | `video-aspect-ratio` | [/compress-video](https://vidfetch.app/compress-video) |
+| 25 · G17 | 71.8 | tiktok aspect ratio | 2 400 | 1 | I | 2 / 0 | `tiktok-aspect-ratio` | [/compress-video](https://vidfetch.app/compress-video) |
 | 26 · G28 | 61.2 | how to save tiktok draft to camera roll | 1 900 | 0 | I | 1 / T | `save-tiktok-draft` | [/tiktok-video-downloader](https://vidfetch.app/tiktok-video-downloader) |
 | 27 · G26 | 59.8 | video file corrupted | 260 | 18 | I | 2 / 0 | `corrupted-video-file` | [/trim-video](https://vidfetch.app/trim-video) |
 | 28 · G04 | 59.7 | sample rate vs bitrate | 140 | 10 | I | 2 / A | `sample-rate-vs-bitrate` | [/video-to-mp3](https://vidfetch.app/video-to-mp3) |
-| 29 · G25 | 58.5 | audio clipping | 2 900 | 57 | I | 2 / A | `audio-clipping` | [/video-to-mp3](https://vidfetch.app/video-to-mp3) |
+| 29 · G25 | 73.0 | split video into parts | 480 | 14 | I | 3 / 0 | `split-video-into-parts` | [/trim-video](https://vidfetch.app/trim-video) |
 | 30 · G27 | 52.8 | how to download tiktok data | 320 | 9 | I | 1 / T | `download-tiktok-account-data` | [/tiktok-video-downloader](https://vidfetch.app/tiktok-video-downloader) |
 
 ## Angle distinct et limites pour chaque sujet
@@ -79,11 +105,11 @@ Ces lignes sont des spécifications éditoriales, pas des guides rédigés. Les 
 - **G24** — Diagnostiquer un décalage déjà présent ou constaté après coupe par comparaison temporelle. Aucun curseur de resynchronisation ni réparation automatique à annoncer.
 - **G15** — Manipulation des plafonds de dimensions sur une même vidéo, relevé des pixels obtenus et absence d’agrandissement. Tutoriel mesuré ; renvoyer les définitions à 720p-1080p-4k et le budget de débit à bitrate-vs-resolution.
 - **G21** — Lire conteneur, codec, pistes, débit et durée d’un fichier sans le modifier. Inclure how to check video codec ici ; VidFetch n’est pas un inspecteur complet ni un effaceur de métadonnées.
-- **G17** — Géométrie 16:9/9:16 et pixels ; intégrer le cas TikTok vertical ici. Outil conservant les proportions, sans recadrage ni canevas sur mesure ; ne pas refaire le diagnostic des bandes de G29.
+- **G17** — Format et ratio des vidéos TikTok (9:16), avec 16:9, 1:1 et 4:5 pour comparer la géométrie. Aucun recadrage promis ; G29 diagnostique les bandes déjà encodées ou ajoutées par le lecteur, sans refaire cette explication des formats.
 - **G28** — Sauvegarde native avant publication et limites des brouillons, sur son propre contenu. Revalider la procédure officielle avant rédaction ; pas de récupération privée, pas de publication provisoire comme détour, VidFetch n’accède pas aux brouillons.
 - **G26** — Distinguer fichier local tronqué/structure illisible et incompatibilité, garder une copie. Diagnostic de fichier, séparé des échecs réseau/quotas de video-download-fails ; aucune réparation garantie.
 - **G04** — Distinguer fréquence d’échantillonnage et débit avec lecture des pistes ; inclure 44,1/48 kHz ici. Ne pas promettre un réglage de fréquence dans l’interface.
-- **G25** — Distinguer saturation de la source et qualité d’encodage sur un signal synthétique. Pas de normaliseur, de restauration du signal écrêté ni de traitement vocal ; sujet de référence, difficulté élevée assumée.
+- **G25** — Découper une vidéo personnelle en plusieurs fichiers par sélections successives et sauvegardes distinctes. Réinitialiser/réouvrir le même original si nécessaire ; aucun lot ni découpage automatique. G18 reste une seule coupe mobile, G19 explique les images clés. Démontrer deux sorties et leur couverture temporelle avant de conserver une page séparée.
 - **G27** — Export natif de données de son propre compte : ce qui est documenté et limites de l’archive. Le lien vers l’outil est contextuel pour une vidéo publique autorisée distincte ; VidFetch n’exporte aucun compte ni brouillon.
 
 ## Décision sur chacun des 30 candidats initiaux
@@ -192,4 +218,4 @@ Les dix graines : download my own tiktok videos ; how to allow downloads on tikt
 
 Les 30 + 80 + 59 formulations soumises comprennent des recouvrements ; ce ne sont pas 169 sujets ou volumes uniques à additionner. Les chiffres retenus et les 30 décisions initiales sont transcrits dans ce fichier. Les réponses brutes restent dans les preuves locales de session, sans ajout d’autre fichier à la PR.
 
-Contrôles du livrable : 30 identifiants/slugs uniques, toutes les requêtes principales présentes dans une réponse OpenSEO US/en, classement recalculé, coûts et plafonds additionnés, absence de collision avec les 13 slugs EN existants, pages outils de destination existantes et `git diff --check`. **PR documentaire avec ce seul fichier, sans fusion ; prompt 2 en attente de la revue du propriétaire.**
+Contrôles du livrable : 30 identifiants/slugs uniques, toutes les requêtes principales présentes dans une réponse OpenSEO US/en, classement recalculé, coûts et plafonds additionnés, absence de collision avec les 13 slugs EN existants, pages outils de destination existantes et `git diff --check`. Le plan initial a fait l’objet de la PR #40. Cette révision accompagne la PR des pages de confiance, sans publication automatique des contenus incomplets.

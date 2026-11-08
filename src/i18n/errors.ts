@@ -1,6 +1,6 @@
 import type { Messages } from "./dictionaries";
 /** Translate presentation only; API codes, enums and response shapes stay stable. */
-export function errorMessage(code: string | undefined, messages: Messages): string {
+export function errorMessage(code: string | undefined, messages: Pick<Messages, "backendUnavailable" | "expired" | "invalidLink" | "limitError" | "noFormats" | "operationFailed" | "popupBlocked" | "rateLimited" | "restricted" | "timeoutError">): string {
   if (code === "POPUP_BLOCKED") return messages.popupBlocked;
   if (/FORMAT|NO_STREAM/.test(code ?? "")) return messages.noFormats;
   if (/UNAVAILABLE|ENGINE_MISSING|MAINTENANCE/.test(code ?? "")) return messages.backendUnavailable;

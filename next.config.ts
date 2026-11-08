@@ -77,10 +77,9 @@ export default function configuration(phase: string): NextConfig {
     experimental: {
       // Rewrites icon imports to per-icon modules instead of the barrel file.
       optimizePackageImports: ["lucide-react"],
-      // Inlines the stylesheet: first paint no longer waits on a second request.
-      // Measured on throttled mobile: FCP/LCP 688ms -> 264ms. Next also repeats the
-      // CSS inside the RSC payload, costing ~22KB extra wire, which the paint win repays.
-      inlineCss: true,
+      // Keep CSS in a shared stylesheet. Inlining duplicates it in the RSC payload
+      // and increases HTML parsing and bootstrap work on slower mobile CPUs.
+      inlineCss: false,
     },
     // Static exports have no server to run headers(); Pages reads `out/_headers` instead,
     // which `scripts/build-pages.mjs` writes separately for that export target.

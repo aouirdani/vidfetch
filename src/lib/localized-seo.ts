@@ -8,14 +8,16 @@ import { homeCopy } from "./home-copy";
 import { availablePlatformPages, approvedPlatformCopy } from "./platform-pages";
 import { languageAlternates, type SitePage } from "./site-pages";
 import { BLOG_TITLES } from "./guide-links";
+import { availableTrustPages, LEGAL_TITLES } from "./trust-pages";
 export function localizedMetadata(page: SitePage): Metadata {
   const d = dictionary(page.locale), identity = page.identity, kind = identity.kind;
   const guide = identity.kind === "guide" ? guides(page.locale).find(g => g.id === identity.id) : undefined;
+  const trust = identity.kind === "trust" ? availableTrustPages(page.locale).find(p => p.id === identity.id) : undefined;
   const approved = identity.kind === "platform" ? availablePlatformPages(page.locale).find(entry => entry.id === identity.id) : undefined;
   const platformCopy = identity.kind==="local-tool" ? toolCopy(page.locale,identity.id) : approved && approvedPlatformCopy(approved, page.locale);
   // Only approved platform pages resolve (site-pages), so a platform page always has its own copy.
-  const title = guide ? `${guide.seoTitle ?? guide.title} | VidFetch` : platformCopy ? `${platformCopy.title} | VidFetch` : kind === "home" ? homeCopy(page.locale).title : kind === "blog" ? `${BLOG_TITLES[page.locale]} | VidFetch` : `${page.locale === "de" ? "Impressum, Datenschutz und Nutzungsregeln" : d.legalTitle} | VidFetch`;
-  const description = guide?.description ?? platformCopy?.description ?? (kind === "home" ? homeCopy(page.locale).description : kind === "blog" ? d.blogMetaDescription : d.legalDescription);
+  const title = trust ? `${trust.title} | VidFetch` : guide ? `${guide.seoTitle ?? guide.title} | VidFetch` : platformCopy ? `${platformCopy.title} | VidFetch` : kind === "home" ? homeCopy(page.locale).title : kind === "blog" ? `${BLOG_TITLES[page.locale]} | VidFetch` : `${LEGAL_TITLES[page.locale]} | VidFetch`;
+  const description = trust?.description ?? guide?.description ?? platformCopy?.description ?? (kind === "home" ? homeCopy(page.locale).description : kind === "blog" ? d.blogMetaDescription : d.legalDescription);
   const url = new URL(page.path, SITE.url).href;
   const languages = languageAlternates(page);
   const alternateLocale = [...new Set(Object.keys(languages).filter(l => l !== page.locale && l !== "x-default").map(l => LANGUAGES[l as Locale].og))];
