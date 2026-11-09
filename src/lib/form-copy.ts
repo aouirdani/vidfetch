@@ -1,28 +1,47 @@
 import type { Locale } from "../i18n/config";
 
-/**
- * Lines under the link form, centred on TikTok: the platform validated on our hosting. Kept out of src/i18n/messages
- * (compiled into the download gateway) and out of the home copy, so the browser only receives these few strings.
- * English and French only: the other languages keep the published dictionary line (supportedHint) until a native
- * speaker has reviewed a new version. The TikTok pages exist in English and French only.
- */
+/** Localized form hints stay outside the dictionaries embedded in the gateway. */
 export type FormCopy = {
-  /** Every page but the TikTok pages: TikTok works, Instagram and X are not verified yet, YouTube is unavailable. */
+  /** State the verified platform and the unavailable platform explicitly. */
   supportedHint: string;
-  /** The TikTok pages. */
+  /** A public TikTok link or its share message; no access to an account or drafts. */
   tiktokHint: string;
 };
 
-/** Shapes of the TikTok links the form accepts, shown as text after the dictionary's "Links look like" label. */
+/** Link shapes, shown as text; they never submit a download automatically. */
 export const TIKTOK_LINK_SHAPES = ["tiktok.com/@…/video/…", "vm.tiktok.com/…", "tiktok.com/t/…"] as const;
 
-export const FORM_COPY: Partial<Record<Locale, FormCopy>> = {
+export const FORM_COPY: Record<Locale, FormCopy> = {
   en: {
-    supportedHint: "Works with public TikTok video links. Instagram and X links are accepted but not verified yet; YouTube is unavailable.",
+    supportedHint: "TikTok is the only platform verified here. YouTube is unavailable.",
     tiktokHint: "Paste the link of a public TikTok video, or the whole share message copied from the app.",
   },
   fr: {
-    supportedHint: "Fonctionne avec les liens de vidéos TikTok publiques. Les liens Instagram et X sont acceptés mais pas encore vérifiés ; YouTube n'est pas disponible.",
-    tiktokHint: "Collez le lien d'une vidéo TikTok publique, ou tout le message de partage copié depuis l'application.",
+    supportedHint: "TikTok est la seule plateforme vérifiée ici. YouTube n’est pas disponible.",
+    tiktokHint: "Collez le lien d’une vidéo TikTok publique, ou tout le message de partage copié depuis l’application.",
+  },
+  es: {
+    supportedHint: "TikTok es la única plataforma verificada aquí. YouTube no está disponible.",
+    tiktokHint: "Pega el enlace de un vídeo público de TikTok o el mensaje completo que has copiado al compartirlo desde la aplicación.",
+  },
+  "pt-BR": {
+    supportedHint: "TikTok é a única plataforma verificada aqui. YouTube não está disponível.",
+    tiktokHint: "Cole o link de um vídeo público do TikTok ou a mensagem completa copiada ao compartilhar pelo aplicativo.",
+  },
+  id: {
+    supportedHint: "TikTok adalah satu-satunya platform yang telah diverifikasi di sini. YouTube tidak tersedia.",
+    tiktokHint: "Tempel tautan video TikTok publik atau seluruh pesan berbagi yang disalin dari aplikasi.",
+  },
+  de: {
+    supportedHint: "TikTok ist hier die einzige verifizierte Plattform. YouTube ist nicht verfügbar.",
+    tiktokHint: "Füge den Link zu einem öffentlichen TikTok-Video oder die gesamte aus der App kopierte Teilenachricht ein.",
+  },
+  it: {
+    supportedHint: "TikTok è l’unica piattaforma verificata qui. YouTube non è disponibile.",
+    tiktokHint: "Incolla il link di un video pubblico di TikTok o l’intero messaggio di condivisione copiato dall’app.",
+  },
+  ar: {
+    supportedHint: "TikTok هي المنصة الوحيدة التي تم التحقق منها هنا. YouTube غير متاح.",
+    tiktokHint: "ألصق رابط فيديو TikTok عام، أو رسالة المشاركة كاملةً كما نُسخت من التطبيق.",
   },
 };

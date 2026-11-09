@@ -17,8 +17,8 @@ import { detectPlatform } from "../src/lib/platforms";
 const source = (file: string) => readFileSync(file, "utf8");
 const banned = /\b(best|fastest|unlimited|guaranteed|100\s?%)\b|illimit|garanti|le meilleur|el mejor|ilimitad|watermark|filigrane|marca d'água|wasserzeichen/i;
 
-// New wording is published only where it was reviewed (English, French); the other languages keep the dictionaries.
-const REVIEWED = ["en", "fr"] as const;
+// Every locale explicitly distinguishes the verified service from unavailable YouTube.
+const REVIEWED = LOCALES;
 
 describe("home pages: TikTok search intent", () => {
   it("has distinct localized metadata and a useful format-specific heading", () => {
@@ -77,7 +77,7 @@ describe("navigation", () => {
 });
 
 describe("the link form", () => {
-  it("states TikTok as the verified platform (English, French) and shows link shapes, not example buttons", () => {
+  it("states TikTok as the verified platform in all languages and shows link shapes, not example buttons", () => {
     for (const locale of REVIEWED) {
       const copy = FORM_COPY[locale]!;
       assert.match(copy.supportedHint, /TikTok/, locale); assert.match(copy.supportedHint, /YouTube/, locale);
