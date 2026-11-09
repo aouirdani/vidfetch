@@ -205,3 +205,5 @@ Nouveau commit de correction : les titres mobiles utilisent les polices système
 ### 9 novembre — Clarté des formulaires dans les huit langues
 
 La revue du lot relève six anciens supportedHint qui citaient YouTube sans préciser son indisponibilité. FORM_COPY couvre maintenant les huit langues : TikTok est la seule plateforme vérifiée, YouTube est indisponible ; les pages TikTok décrivent seulement le lien public ou le message de partage. Ces libellés restent hors des dictionnaires partagés ; aucun avis de relecture humaine n’est ajouté. Douze tests ciblés passent, et la passerelle reconstruite conserve exactement son SHA-256 de production. Les informations d’éditeur/auteur restent à compléter, les nouveaux guides restent non publiés.
+
+Les deux libellés du formulaire sont sélectionnés côté serveur pour la langue courante, au lieu d’embarquer les huit copies dans le navigateur. Le vieux supportedHint de dictionnaire n’est plus transmis au client. Douze tests ciblés et le typage passent ; la passerelle reconstruite conserve son SHA-256 exact.

@@ -13,7 +13,7 @@ import { errorMessage } from "@/i18n/errors";
 import { DownloadAccess } from "./DownloadAccess";
 import { detectPlatform, PLATFORM_META, type Platform } from "@/lib/platforms";
 import { YOUTUBE_NOTICE } from "@/lib/youtube-notice";
-import { FORM_COPY, TIKTOK_LINK_SHAPES } from "@/lib/form-copy";
+import { TIKTOK_LINK_SHAPES, type FormCopy } from "@/lib/form-copy";
 
 // The result card is only needed after a successful extraction.
 const VideoCard = dynamic(() => import("./VideoCard").then((module) => module.VideoCard), {
@@ -38,7 +38,7 @@ function sharedLink(): string | null {
   return null;
 }
 
-export function FetchForm({ compact = false, platform }: { compact?: boolean; platform?: Platform }) {
+export function FetchForm({ compact = false, platform, formCopy }: { compact?: boolean; platform?: Platform; formCopy: FormCopy }) {
   const { messages: d, locale } = useI18n();
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
@@ -58,9 +58,8 @@ export function FetchForm({ compact = false, platform }: { compact?: boolean; pl
   const canSubmit = detection.ok && !youtube && !loading;
   // On a platform page, show that platform's link shape rather than a generic one.
   const hint = PLATFORM_META[platform ?? "tiktok"].examples[0] ?? PLATFORM_META.tiktok.examples[0];
-  // TikTok is the platform validated on our hosting: the TikTok pages speak only of TikTok links. A language without
-  // reviewed form copy keeps the published dictionary line.
-  const form = FORM_COPY[locale], supported = (platform === "tiktok" ? form?.tiktokHint : form?.supportedHint) ?? d.supportedHint;
+  // The server sends the two hints for this page language only.
+  const supported = platform === "tiktok" ? formCopy.tiktokHint : formCopy.supportedHint;
 
   useEffect(() => () => requestRef.current?.abort(), []);
   useEffect(() => {

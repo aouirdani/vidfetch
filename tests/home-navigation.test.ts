@@ -89,7 +89,8 @@ describe("the link form", () => {
     assert.equal(samples.length, TIKTOK_LINK_SHAPES.length);
     for (const url of samples) assert.equal(detectPlatform(url).platform, "tiktok", url);
     const form = source("src/components/FetchForm.tsx");
-    assert.match(form, /\(platform === "tiktok" \? form\?\.tiktokHint : form\?\.supportedHint\) \?\? d\.supportedHint/);
+    assert.match(form, /platform === "tiktok" \? formCopy\.tiktokHint : formCopy\.supportedHint/);
+    assert.match(source("src/components/FetchFormSection.tsx"), /formCopy=\{FORM_COPY\[locale\]\}/);
     // the label before the link shapes is the dictionary's existing "Links look like"
     assert.match(form, /<span>\{d\.linkExample\}\{" "\}<\/span>/);
     // the only submit buttons are Extract and Retry (the user's own link): no button submits a link written in the code
