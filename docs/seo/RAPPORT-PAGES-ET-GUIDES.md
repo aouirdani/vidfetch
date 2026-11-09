@@ -143,3 +143,9 @@ Le fournisseur i18n est limité au formulaire de téléchargement et ses résult
 Le run 42532490308 passe les tests, le smoke SSR, Caddy, les 106 URL SEO et les huit langues/404. Les médianes Lighthouse sont EN 96, FR 95, ID 94, audio 96, guide 97, AR 94 ; A11y/BP/SEO 100 et CLS 0. Les deux routes à 94 bloquent la fusion ; aucun déploiement.
 
 Le build utilise maintenant le [mode Webpack officiellement supporté par Next.js](https://nextjs.org/docs/app/getting-started/installation), sans changer la version de Next ni les seuils. Sur le build Linux avec CSS partagée : dix pages SSR/FAQ sans JavaScript, trois parcours interactifs et huit 404 localisées passent. Lighthouse local AR : 99/100/100/100, LCP 2,204 s, TBT 30 ms, CLS 0. Ce résultat local ne remplace pas la CI à venir. Les deux bundles backend reconstruits conservent exactement leurs SHA-256 de production respectifs. Aucun changement de dépendance ou de fichier de verrouillage.
+
+### Détail des appels payants OpenSEO
+
+Les trois réponses réelles facturent chacune 0,04 USD : 13 formulations US/en pour G25, puis 24 et 17 formulations France/fr. Chaque appel a été précédé de son dry-run et plafonné à 0,04 USD ; les deux lots français partagent le budget global de 0,50 USD. Total de mission 0,12 USD ; 0,63 USD avec le plan initial. Voir [le registre des coûts](evidence/2026-11-09-openseo-cost-ledger.json). Les contrôles de connexion et simulations de crawl sont gratuits ; les crawls réels de phase seront ajoutés après leurs déploiements vérifiés.
+
+Preuves avant fusion de la PR #41 : [18 audits Lighthouse](evidence/2026-11-08-pr1-lighthouse.json), [comparaison de l’archive CI aux bundles de production](evidence/2026-11-08-pr1-artifact-proof.json). Le run de main et sa correction sont suivis dans le journal ; ces fichiers ne prétendent pas constituer une vérification de production.

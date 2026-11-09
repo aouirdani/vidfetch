@@ -1,0 +1,41 @@
+{
+  "chargedCalls": [
+    {
+      "tool": "keyword_metrics",
+      "purpose": "French translation keywords",
+      "country": "fr",
+      "language": "fr",
+      "keywords": 17,
+      "dryRunBeforeCharge": true,
+      "maxCostUsd": 0.04,
+      "costUsd": 0.04,
+      "evidenceFile": "keyword_metrics-510970ac6e.json"
+    },
+    {
+      "tool": "keyword_metrics",
+      "purpose": "G25 replacement",
+      "country": "us",
+      "language": "en",
+      "keywords": 13,
+      "dryRunBeforeCharge": true,
+      "maxCostUsd": 0.04,
+      "costUsd": 0.04,
+      "evidenceFile": "keyword_metrics-a9f26aa85a.json"
+    },
+    {
+      "tool": "keyword_metrics",
+      "purpose": "French translation keywords",
+      "country": "fr",
+      "language": "fr",
+      "keywords": 24,
+      "dryRunBeforeCharge": true,
+      "maxCostUsd": 0.04,
+      "costUsd": 0.04,
+      "evidenceFile": "keyword_metrics-15769d4005.json"
+    }
+  ],
+  "missionPaidCostUsd": 0.12,
+  "historicalPlanCostUsd": 0.51,
+  "cumulativePaidCostUsd": 0.63,
+  "missionAuditCosts": []
+}

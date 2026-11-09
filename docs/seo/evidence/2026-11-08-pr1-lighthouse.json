@@ -1,0 +1,96 @@
+{
+  "run": 42534045962,
+  "head": "2f809b8dcd837e4984492e35a5c007f8e26b804c",
+  "routes": [
+    {
+      "url": "http://127.0.0.1:4173/id/download-video-tiktok",
+      "runs": [
+        97,
+        97,
+        95
+      ],
+      "medians": {
+        "performance": 97,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "clsMax": 0
+    },
+    {
+      "url": "http://127.0.0.1:4173/",
+      "runs": [
+        96,
+        96,
+        95
+      ],
+      "medians": {
+        "performance": 96,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "clsMax": 0
+    },
+    {
+      "url": "http://127.0.0.1:4173/fr",
+      "runs": [
+        97,
+        97,
+        96
+      ],
+      "medians": {
+        "performance": 97,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "clsMax": 0
+    },
+    {
+      "url": "http://127.0.0.1:4173/ar",
+      "runs": [
+        96,
+        96,
+        96
+      ],
+      "medians": {
+        "performance": 96,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "clsMax": 0
+    },
+    {
+      "url": "http://127.0.0.1:4173/blog/why-cant-i-save-tiktok",
+      "runs": [
+        97,
+        97,
+        97
+      ],
+      "medians": {
+        "performance": 97,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "clsMax": 0
+    },
+    {
+      "url": "http://127.0.0.1:4173/video-to-mp3",
+      "runs": [
+        97,
+        96,
+        95
+      ],
+      "medians": {
+        "performance": 96,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "clsMax": 0
+    }
+  ]
+}
