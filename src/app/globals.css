@@ -23,6 +23,7 @@
   --color-slate-300: #3f4668;
   --color-slate-400: #4a5072;
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-heading: "Bricolage Grotesque", system-ui, sans-serif;
 
   --animate-rise: rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
   --animate-indeterminate: indeterminate 1.3s ease-in-out infinite;
@@ -308,4 +309,12 @@ summary { color: #10163a; }
 @media (prefers-reduced-motion: reduce) {
   .hero-scene-float, .hero-scene.has-entered .hero-card { animation: none !important; }
   .hero-card, .hero-token { transition: none !important; will-change: auto; }
+}
+
+/* Native mobile headings avoid downloading a display font on constrained devices.
+   Desktop keeps the same self-hosted Bricolage faces; Arabic keeps its own stack. */
+@media (max-width: 767px) {
+  html:not([lang="ar"]) :is(h1, h2, h3, h4, .brand-wordmark, .font-heading, .hero-token strong) {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
 }
