@@ -1,4 +1,5 @@
 import { FetchFormIsland } from "./FetchFormIsland";
+import { FORM_COPY } from "@/lib/form-copy";
 import { I18nProvider } from "@/i18n/context";
 import { dictionary } from "@/i18n/dictionaries";
 import { clientMessages } from "@/i18n/client-messages";
@@ -11,5 +12,5 @@ import type { Platform } from "@/lib/platforms";
 // surrounding navigation do not need a client provider or its serialized labels.
 export function FetchFormSection({ locale, ...props }: { locale: Locale; compact?: boolean; platform?: Platform }) {
   const d = dictionary(locale);
-  return <I18nProvider locale={locale} messages={clientMessages({ ...withOfficialContacts(d), privacy1: ADVERTISING_PRIVACY[locale] })}><FetchFormIsland {...props} /></I18nProvider>;
+  return <I18nProvider locale={locale} messages={clientMessages({ ...withOfficialContacts(d), privacy1: ADVERTISING_PRIVACY[locale] })}><FetchFormIsland {...props} formCopy={FORM_COPY[locale]} /></I18nProvider>;
 }

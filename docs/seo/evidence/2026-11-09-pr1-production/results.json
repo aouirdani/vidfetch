@@ -1,0 +1,177 @@
+{
+  "phase": "pr1",
+  "startedAt": "2026-11-09T08:11:41.342Z",
+  "expectedRelease": "eef2a305ae928b10ea0523975d35d552ba9a5e6f",
+  "checks": [
+    {
+      "path": "/blog/why-cant-i-save-tiktok",
+      "status": 200,
+      "sitemap": true
+    },
+    {
+      "path": "/blog/save-tiktok-sound-mp3",
+      "status": 200,
+      "sitemap": true
+    },
+    {
+      "path": "/blog/save-tiktok-phone-gallery",
+      "status": 200,
+      "sitemap": true
+    },
+    {
+      "path": "/blog/backup-your-videos",
+      "status": 200,
+      "sitemap": true
+    },
+    {
+      "path": "/blog/video-format-smartphone",
+      "status": 200,
+      "sitemap": true
+    }
+  ],
+  "mobile": [
+    {
+      "path": "/",
+      "title": "TikTok Downloader – Save MP4 or MP3 | VidFetch",
+      "canonical": "https://vidfetch.app/",
+      "robots": "index, follow",
+      "h1": 1,
+      "overflow": false,
+      "ads": false,
+      "cmp": false,
+      "alternates": {
+        "en": "https://vidfetch.app/",
+        "fr": "https://vidfetch.app/fr",
+        "es": "https://vidfetch.app/es",
+        "pt-BR": "https://vidfetch.app/pt",
+        "id": "https://vidfetch.app/id",
+        "de": "https://vidfetch.app/de",
+        "it": "https://vidfetch.app/it",
+        "ar": "https://vidfetch.app/ar",
+        "x-default": "https://vidfetch.app/"
+      },
+      "screenshot": "home.webp"
+    },
+    {
+      "path": "/fr",
+      "title": "Téléchargeur TikTok – MP4 et MP3 | VidFetch",
+      "canonical": "https://vidfetch.app/fr",
+      "robots": "index, follow",
+      "h1": 1,
+      "overflow": false,
+      "ads": false,
+      "cmp": false,
+      "alternates": {
+        "en": "https://vidfetch.app/",
+        "fr": "https://vidfetch.app/fr",
+        "es": "https://vidfetch.app/es",
+        "pt-BR": "https://vidfetch.app/pt",
+        "id": "https://vidfetch.app/id",
+        "de": "https://vidfetch.app/de",
+        "it": "https://vidfetch.app/it",
+        "ar": "https://vidfetch.app/ar",
+        "x-default": "https://vidfetch.app/"
+      },
+      "screenshot": "fr.webp"
+    },
+    {
+      "path": "/ar",
+      "title": "تحميل تيك توك – فيديو MP4 وصوت MP3 | VidFetch",
+      "canonical": "https://vidfetch.app/ar",
+      "robots": "index, follow",
+      "h1": 1,
+      "overflow": false,
+      "ads": false,
+      "cmp": false,
+      "alternates": {
+        "en": "https://vidfetch.app/",
+        "fr": "https://vidfetch.app/fr",
+        "es": "https://vidfetch.app/es",
+        "pt-BR": "https://vidfetch.app/pt",
+        "id": "https://vidfetch.app/id",
+        "de": "https://vidfetch.app/de",
+        "it": "https://vidfetch.app/it",
+        "ar": "https://vidfetch.app/ar",
+        "x-default": "https://vidfetch.app/"
+      },
+      "screenshot": "ar.webp"
+    },
+    {
+      "path": "/legal",
+      "title": "Legal information | VidFetch",
+      "canonical": "https://vidfetch.app/legal",
+      "robots": "index, follow",
+      "h1": 1,
+      "overflow": false,
+      "ads": false,
+      "cmp": false,
+      "alternates": {
+        "en": "https://vidfetch.app/legal",
+        "fr": "https://vidfetch.app/fr/mentions-legales",
+        "es": "https://vidfetch.app/es/aviso-legal",
+        "pt-BR": "https://vidfetch.app/pt/termos-e-privacidade",
+        "id": "https://vidfetch.app/id/ketentuan-dan-privasi",
+        "de": "https://vidfetch.app/de/rechtliches",
+        "it": "https://vidfetch.app/it/note-legali",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%B4%D8%B1%D9%88%D8%B7-%D9%88%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/legal"
+      },
+      "screenshot": "legal.webp"
+    },
+    {
+      "path": "/blog/backup-your-videos",
+      "title": "Back up your videos and verify the copies | VidFetch",
+      "canonical": "https://vidfetch.app/blog/backup-your-videos",
+      "robots": "index, follow",
+      "h1": 1,
+      "overflow": false,
+      "ads": false,
+      "cmp": false,
+      "alternates": {
+        "en": "https://vidfetch.app/blog/backup-your-videos",
+        "x-default": "https://vidfetch.app/blog/backup-your-videos"
+      },
+      "screenshot": "blog-backup-your-videos.webp"
+    }
+  ],
+  "drafts": [
+    {
+      "path": "/about",
+      "status": 404,
+      "sitemap": false
+    },
+    {
+      "path": "/contact",
+      "status": 404,
+      "sitemap": false
+    },
+    {
+      "path": "/privacy",
+      "status": 404,
+      "sitemap": false
+    },
+    {
+      "path": "/terms",
+      "status": 404,
+      "sitemap": false
+    },
+    {
+      "path": "/editorial-policy",
+      "status": 404,
+      "sitemap": false
+    }
+  ],
+  "health": {
+    "ok": true,
+    "service": "VidFetch",
+    "frontend": {
+      "ready": true
+    },
+    "release": "eef2a305ae928b10ea0523975d35d552ba9a5e6f",
+    "downloads": {
+      "available": true
+    }
+  },
+  "sitemapPages": 106,
+  "completedAt": "2026-11-09T08:11:52.470Z"
+}

@@ -82,7 +82,7 @@ test("sitemap contains exactly published canonical equivalents and excludes unve
   assert.equal(sitePages().filter(p => p.identity.kind === "platform" && p.indexable).length, 16);
 });
 test("article publication rejects review, missing dates and future dates; Unicode anchors survive", () => {
-  const original = guides()[0];
+  const original = guides().find(g => g.id === "720p-1080p-4k")!;
   assert.equal(isPublishedGuide(original), true);
   assert.equal(isPublishedGuide({ ...original, status: "review", published: "2026-10-12" }), false);
   assert.equal(isPublishedGuide({ ...original, published: "2999-01-01" }), false);
@@ -100,7 +100,7 @@ test("seventy complete translations retain provenance and remain unavailable pen
   for (const locale of LOCALES.filter(l => l !== "en")) {
     const translations = guides(locale).filter(g => g.status === "review");
     assert.equal(translations.length, 10, locale);
-    assert.deepEqual(translations.map(g => g.id).sort(), guides().filter(g => !g.id.startsWith("save-tiktok") && g.id !== "why-cant-i-save-tiktok").map(g => g.id).sort());
+    assert.deepEqual(translations.map(g => g.id).sort(), guides().filter(g => !g.series && !g.id.startsWith("save-tiktok") && g.id !== "why-cant-i-save-tiktok").map(g => g.id).sort());
     assert.equal(new Set(translations.map(g => g.slug)).size, 10);
     assert.equal(new Set(translations.map(g => g.title)).size, 10);
     assert.equal(new Set(translations.map(g => g.description)).size, 10);

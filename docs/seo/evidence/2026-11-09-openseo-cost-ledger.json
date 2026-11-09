@@ -1,0 +1,51 @@
+{
+  "chargedCalls": [
+    {
+      "tool": "keyword_metrics",
+      "purpose": "French translation keywords",
+      "country": "fr",
+      "language": "fr",
+      "keywords": 17,
+      "dryRunBeforeCharge": true,
+      "maxCostUsd": 0.04,
+      "costUsd": 0.04,
+      "evidenceFile": "keyword_metrics-510970ac6e.json"
+    },
+    {
+      "tool": "keyword_metrics",
+      "purpose": "G25 replacement",
+      "country": "us",
+      "language": "en",
+      "keywords": 13,
+      "dryRunBeforeCharge": true,
+      "maxCostUsd": 0.04,
+      "costUsd": 0.04,
+      "evidenceFile": "keyword_metrics-a9f26aa85a.json"
+    },
+    {
+      "tool": "keyword_metrics",
+      "purpose": "French translation keywords",
+      "country": "fr",
+      "language": "fr",
+      "keywords": 24,
+      "dryRunBeforeCharge": true,
+      "maxCostUsd": 0.04,
+      "costUsd": 0.04,
+      "evidenceFile": "keyword_metrics-15769d4005.json"
+    }
+  ],
+  "missionPaidCostUsd": 0.12,
+  "historicalPlanCostUsd": 0.51,
+  "cumulativePaidCostUsd": 0.63,
+  "missionAuditCosts": [
+    {
+      "phase": 1,
+      "auditId": "7e4470c3-3b0e-41c0-bcb8-2aa743722796",
+      "release": "eef2a305ae928b10ea0523975d35d552ba9a5e6f",
+      "finishedAt": "2026-11-09T08:14:12.243Z",
+      "costUsd": 0,
+      "renderedPages": 0,
+      "proxyUnblockedPages": 0
+    }
+  ]
+}

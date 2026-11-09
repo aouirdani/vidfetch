@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict';
+import {checkGuideContent} from './check-guide-content.mjs';
+await checkGuideContent();
 import { spawn } from 'node:child_process';
 import { createServer } from 'node:net';
 import { chromium } from 'playwright';
@@ -91,6 +93,8 @@ try {
     const data=await dom.evaluate(()=>({
       title:document.title, description:document.querySelector('meta[name=description]')?.content,
       sourceLinks:document.querySelectorAll('[data-guide-sources] a[href^="https://"]').length,
+      missionGuide:!!document.querySelector('article[data-guide-series="adsense-2026-11"]'),
+      bodyLinks:document.querySelectorAll('.guide-prose a[href^="/"]').length,
       robots:[...document.querySelectorAll('meta[name=robots]')].map(n=>n.content),
       h1:[...document.querySelectorAll('h1')].map(n=>n.textContent.trim()),
       main:(() => { const main=document.querySelector('main')?.cloneNode(true); if(!main)return ''; main.querySelectorAll('script,style,template,form').forEach(n=>n.remove()); const walker=document.createTreeWalker(main,NodeFilter.SHOW_TEXT); const parts=[]; while(walker.nextNode())parts.push(walker.currentNode.textContent); return parts.join(' ').replace(/\s+/g,' ').trim(); })(),lang:document.documentElement.lang,dir:document.documentElement.dir,
@@ -114,7 +118,8 @@ try {
     assert.deepEqual(data.canonical,[url],`${url}: canonical`);
     assert.ok(data.main?.length>100,`${url}: main content missing without JavaScript`);
     assert.doesNotMatch(data.main, /\[À\s+COMPLÉTER\s*:/iu, `${url}: unfinished visible publisher/author field`);
-    if(data.json.flatMap(g=>g['@graph']??[g]).some(n=>n['@type']==='BlogPosting')) assert.ok(data.sourceLinks>0,`${url}: guide sources missing`);
+    if(data.json.flatMap(g=>g['@graph']??[g]).some(n=>n['@type']==='BlogPosting')) assert.ok(data.sourceLinks>=2,`${url}: guide sources missing`);
+    if(data.missionGuide) assert.ok(data.bodyLinks>=2 && data.bodyLinks<=4,`${url}: expected 2–4 actually rendered contextual links`);
     assert.equal(data.alternates['x-default'],data.alternates.en,`${url}: x-default must be English`);
     assert.ok(data.alternates['x-default'],`${url}: x-default missing`);
     assert.equal(data.alternates[data.lang],url,`${url}: html lang/self hreflang`);
