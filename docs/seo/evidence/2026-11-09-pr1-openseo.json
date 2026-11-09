@@ -1,0 +1,466 @@
+{
+  "id": "7e4470c3-3b0e-41c0-bcb8-2aa743722796",
+  "projectId": "0289621d-1d2e-411b-b57b-df52dc7f5515",
+  "trigger": "manual",
+  "startUrl": "https://vidfetch.app",
+  "maxPages": 1000,
+  "renderJs": false,
+  "renderMode": "off",
+  "useFallback": false,
+  "maxCostUsd": null,
+  "options": {
+    "exclude": [],
+    "include": [],
+    "checkExternalLinks": true
+  },
+  "status": "completed",
+  "pagesCrawled": 114,
+  "healthScore": 100,
+  "aiScore": 95,
+  "summary": {
+    "diff": {
+      "url-uppercase": {
+        "new": 0,
+        "added": 0,
+        "before": 5,
+        "missing": 0,
+        "removed": 0
+      },
+      "llms-txt-missing": {
+        "new": 0,
+        "added": 0,
+        "before": 1,
+        "missing": 0,
+        "removed": 0
+      },
+      "h1-changed:indexable": {
+        "new": 0,
+        "added": 8,
+        "before": 4,
+        "missing": 0,
+        "removed": 4
+      },
+      "title-changed:indexable": {
+        "new": 0,
+        "added": 8,
+        "before": 2,
+        "missing": 0,
+        "removed": 2
+      },
+      "word-count-changed:indexable": {
+        "new": 0,
+        "added": 8,
+        "before": 6,
+        "missing": 0,
+        "removed": 6
+      },
+      "missing-content-security-policy": {
+        "new": 0,
+        "added": 0,
+        "before": 1,
+        "missing": 0,
+        "removed": 0
+      },
+      "meta-description-changed:indexable": {
+        "new": 0,
+        "added": 0,
+        "before": 1,
+        "missing": 0,
+        "removed": 1
+      }
+    },
+    "pace": {
+      "peak": 6,
+      "final": 6,
+      "start": 2,
+      "slowdowns": 0
+    },
+    "paid": {
+      "rendered": 0,
+      "unblocked": 0,
+      "unavailable": null,
+      "budgetReached": false
+    },
+    "sitemaps": [
+      "https://vidfetch.app/sitemap.xml"
+    ],
+    "startUrl": "https://vidfetch.app/",
+    "htmlPages": 106,
+    "httpProbe": {
+      "url": "http://vidfetch.app/",
+      "status": 308,
+      "finalUrl": "https://vidfetch.app/",
+      "redirectsToHttps": true
+    },
+    "issueRows": {
+      "url-uppercase": 5,
+      "llms-txt-missing": 1,
+      "h1-changed:indexable": 8,
+      "title-changed:indexable": 8,
+      "word-count-changed:indexable": 8,
+      "missing-content-security-policy": 1
+    },
+    "startedAt": "2026-11-09T08:13:27.666Z",
+    "truncated": false,
+    "durationMs": 43634,
+    "finishedAt": "2026-11-09T08:14:11.300Z",
+    "linkStatus": {
+      "crawled": 2054,
+      "uncrawled": 0,
+      "robotsBlocked": 0
+    },
+    "pagesTotal": 114,
+    "healthScore": 100,
+    "issuesTotal": 31,
+    "pagesFailed": 0,
+    "sitemapUrls": 106,
+    "ttfbBuckets": {
+      "fast": 106,
+      "slow": 0,
+      "medium": 0,
+      "tooSlow": 0
+    },
+    "contentTypes": {
+      "js": 7,
+      "css": 1,
+      "html": 106,
+      "other": 8
+    },
+    "issuesByType": {
+      "h1-changed": 8,
+      "title-changed": 8,
+      "url-uppercase": 5,
+      "llms-txt-missing": 1,
+      "word-count-changed": 8,
+      "missing-content-security-policy": 1
+    },
+    "llmsTxtFound": false,
+    "pagesBlocked": 0,
+    "pagesCrawled": 114,
+    "urlsExcluded": 0,
+    "finalStartUrl": "https://vidfetch.app/",
+    "searchConsole": {
+      "period": {
+        "endDate": "2026-11-06",
+        "startDate": "2026-10-10"
+      },
+      "connected": true
+    },
+    "statusByDepth": {
+      "0": {
+        "2xx": 1,
+        "3xx": 0,
+        "4xx": 0,
+        "5xx": 0,
+        "none": 0
+      },
+      "1": {
+        "2xx": 18,
+        "3xx": 0,
+        "4xx": 0,
+        "5xx": 0,
+        "none": 0
+      },
+      "2": {
+        "2xx": 95,
+        "3xx": 0,
+        "4xx": 0,
+        "5xx": 0,
+        "none": 0
+      }
+    },
+    "statusClasses": {
+      "2xx": 114,
+      "3xx": 0,
+      "4xx": 0,
+      "5xx": 0,
+      "none": 0
+    },
+    "stoppedReason": "completed",
+    "indexablePages": 106,
+    "robotsTxtFound": true,
+    "urlsDiscovered": 114,
+    "urlsWithErrors": 0,
+    "issuesBySeverity": {
+      "info": 31,
+      "warning": 0,
+      "critical": 0
+    },
+    "pagesRateLimited": 0,
+    "resourcesChecked": 8,
+    "aiDiscoverability": {
+      "bots": [
+        {
+          "owner": "OpenAI",
+          "token": "OAI-SearchBot",
+          "allowed": true,
+          "purpose": "search",
+          "allowedPct": 100
+        },
+        {
+          "owner": "OpenAI",
+          "token": "ChatGPT-User",
+          "allowed": true,
+          "purpose": "user",
+          "allowedPct": 100
+        },
+        {
+          "owner": "OpenAI",
+          "token": "GPTBot",
+          "allowed": true,
+          "purpose": "training",
+          "allowedPct": 100
+        },
+        {
+          "owner": "Anthropic",
+          "token": "Claude-SearchBot",
+          "allowed": true,
+          "purpose": "search",
+          "allowedPct": 100
+        },
+        {
+          "owner": "Anthropic",
+          "token": "Claude-User",
+          "allowed": true,
+          "purpose": "user",
+          "allowedPct": 100
+        },
+        {
+          "owner": "Anthropic",
+          "token": "ClaudeBot",
+          "allowed": true,
+          "purpose": "training",
+          "allowedPct": 100
+        },
+        {
+          "owner": "Perplexity",
+          "token": "PerplexityBot",
+          "allowed": true,
+          "purpose": "search",
+          "allowedPct": 100
+        },
+        {
+          "owner": "Perplexity",
+          "token": "Perplexity-User",
+          "allowed": true,
+          "purpose": "user",
+          "allowedPct": 100
+        },
+        {
+          "owner": "Google",
+          "token": "Googlebot",
+          "allowed": true,
+          "purpose": "search",
+          "allowedPct": 100
+        },
+        {
+          "owner": "Google",
+          "token": "Google-Extended",
+          "allowed": true,
+          "purpose": "training",
+          "allowedPct": 100
+        },
+        {
+          "owner": "Microsoft",
+          "token": "Bingbot",
+          "allowed": true,
+          "purpose": "search",
+          "allowedPct": 100
+        },
+        {
+          "owner": "DuckDuckGo",
+          "token": "DuckAssistBot",
+          "allowed": true,
+          "purpose": "user",
+          "allowedPct": 100
+        },
+        {
+          "owner": "Mistral",
+          "token": "MistralAI-User",
+          "allowed": true,
+          "purpose": "user",
+          "allowedPct": 100
+        },
+        {
+          "owner": "Apple",
+          "token": "Applebot-Extended",
+          "allowed": true,
+          "purpose": "training",
+          "allowedPct": 100
+        },
+        {
+          "owner": "Common Crawl",
+          "token": "CCBot",
+          "allowed": true,
+          "purpose": "training",
+          "allowedPct": 100
+        },
+        {
+          "owner": "Meta",
+          "token": "meta-externalagent",
+          "allowed": true,
+          "purpose": "training",
+          "allowedPct": 100
+        }
+      ],
+      "score": 95,
+      "speed": 100,
+      "llmsTxt": false,
+      "botAccess": 100,
+      "readability": 100
+    },
+    "avgResponseTimeMs": 134,
+    "urlsWithoutErrors": 114,
+    "pagesRobotsBlocked": 0,
+    "externalLinksChecked": 21
+  },
+  "previousAuditId": "9fd43d17-a430-43d8-8b37-8ec459462392",
+  "costUsd": 0,
+  "phase": null,
+  "attempts": 0,
+  "error": null,
+  "createdAt": "2026-11-09T08:13:26.933Z",
+  "heartbeatAt": "2026-11-09T08:14:11.278Z",
+  "startedAt": "2026-11-09T08:13:27.660Z",
+  "finishedAt": "2026-11-09T08:14:12.243Z",
+  "project": {
+    "id": "0289621d-1d2e-411b-b57b-df52dc7f5515",
+    "name": "vidfetch",
+    "domain": "vidfetch.app"
+  },
+  "previous": {
+    "id": "9fd43d17-a430-43d8-8b37-8ec459462392",
+    "createdAt": "2026-11-07T12:02:31.975Z",
+    "healthScore": 100,
+    "aiScore": 95,
+    "pagesCrawled": 114
+  },
+  "issueGroups": [
+    {
+      "type": "h1-changed",
+      "severity": "info",
+      "indexable": true,
+      "count": 8,
+      "urls": 8,
+      "new": 0,
+      "added": 8,
+      "key": "h1-changed:indexable",
+      "title": "H1 tag changed",
+      "description": "The H1 of this indexable page differs from the previous audit.",
+      "howToFix": "Nothing to fix if the change was intended. Watch the page’s rankings.",
+      "category": "Changes",
+      "isChange": true,
+      "before": 4,
+      "removed": 4,
+      "missing": 0
+    },
+    {
+      "type": "title-changed",
+      "severity": "info",
+      "indexable": true,
+      "count": 8,
+      "urls": 8,
+      "new": 0,
+      "added": 8,
+      "key": "title-changed:indexable",
+      "title": "Title tag changed",
+      "description": "The title of this indexable page differs from the previous audit.",
+      "howToFix": "Nothing to fix if the change was intended. Watch the page’s rankings and click-through rate.",
+      "category": "Changes",
+      "isChange": true,
+      "before": 2,
+      "removed": 2,
+      "missing": 0
+    },
+    {
+      "type": "word-count-changed",
+      "severity": "info",
+      "indexable": true,
+      "count": 8,
+      "urls": 8,
+      "new": 0,
+      "added": 8,
+      "key": "word-count-changed:indexable",
+      "title": "Word count changed",
+      "description": "The amount of visible text on this indexable page changed by at least 10% since the previous audit.",
+      "howToFix": "Nothing to fix if the change was intended. A large drop can mean content failed to load.",
+      "category": "Changes",
+      "isChange": true,
+      "before": 6,
+      "removed": 6,
+      "missing": 0
+    },
+    {
+      "type": "url-uppercase",
+      "severity": "info",
+      "indexable": null,
+      "count": 5,
+      "urls": 5,
+      "new": 0,
+      "added": 0,
+      "key": "url-uppercase",
+      "title": "URL contains uppercase letters",
+      "description": "URLs are case-sensitive, so uppercase paths invite duplicate URLs and broken links.",
+      "howToFix": "Use lowercase URLs and redirect uppercase variants to them.",
+      "category": "Internal pages",
+      "isChange": false,
+      "before": 5,
+      "removed": 0,
+      "missing": 0
+    },
+    {
+      "type": "llms-txt-missing",
+      "severity": "info",
+      "indexable": null,
+      "count": 1,
+      "urls": 1,
+      "new": 0,
+      "added": 0,
+      "key": "llms-txt-missing",
+      "title": "No llms.txt",
+      "description": "The site has no /llms.txt, the emerging file that points AI assistants to the pages that matter.",
+      "howToFix": "Publish /llms.txt listing your key pages with one-line summaries.",
+      "category": "AI search",
+      "isChange": false,
+      "before": 1,
+      "removed": 0,
+      "missing": 0
+    },
+    {
+      "type": "missing-content-security-policy",
+      "severity": "info",
+      "indexable": null,
+      "count": 1,
+      "urls": 1,
+      "new": 0,
+      "added": 0,
+      "key": "missing-content-security-policy",
+      "title": "Missing Content-Security-Policy header",
+      "description": "No CSP header is sent. Reported once per origin.",
+      "howToFix": "Add a Content-Security-Policy header, starting in report-only mode.",
+      "category": "Security",
+      "isChange": false,
+      "before": 1,
+      "removed": 0,
+      "missing": 0
+    },
+    {
+      "type": "meta-description-changed",
+      "indexable": true,
+      "severity": "info",
+      "count": 0,
+      "urls": 0,
+      "new": 0,
+      "added": 0,
+      "key": "meta-description-changed:indexable",
+      "title": "Meta description changed",
+      "description": "The meta description of this indexable page differs from the previous audit.",
+      "howToFix": "Nothing to fix if the change was intended. Watch the page’s click-through rate.",
+      "category": "Changes",
+      "isChange": true,
+      "before": 1,
+      "removed": 1,
+      "missing": 0
+    }
+  ]
+}

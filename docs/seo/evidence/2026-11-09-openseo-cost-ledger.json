@@ -37,5 +37,15 @@
   "missionPaidCostUsd": 0.12,
   "historicalPlanCostUsd": 0.51,
   "cumulativePaidCostUsd": 0.63,
-  "missionAuditCosts": []
+  "missionAuditCosts": [
+    {
+      "phase": 1,
+      "auditId": "7e4470c3-3b0e-41c0-bcb8-2aa743722796",
+      "release": "eef2a305ae928b10ea0523975d35d552ba9a5e6f",
+      "finishedAt": "2026-11-09T08:14:12.243Z",
+      "costUsd": 0,
+      "renderedPages": 0,
+      "proxyUnblockedPages": 0
+    }
+  ]
 }

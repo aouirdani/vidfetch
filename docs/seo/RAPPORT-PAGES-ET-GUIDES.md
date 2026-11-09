@@ -68,16 +68,30 @@ Référence : archive du run main `42362083325`, release `7a8da1996057a18c63b27b
 
 Les archives CI seront comparées à nouveau avant chaque fusion. Aucun changement dans `src/i18n/messages`, le garde ENGINE_FILES, les moteurs ou la passerelle. Les nouvelles chaînes de page sont dans `content/trust-pages.json` et les libellés hors des dictionnaires partagés.
 
-## Validation de PR 1 — en cours
+## Validation de PR 1 — CI et production vérifiées
 
-- Lint et typage locaux passent ; quatre tests spécifiques vérifient le verrou de publication, les 48 structures localisées et l’inactivité/refus de configuration CMP.
-- Build OVH local Webpack réussi. Le lien local de dépendances entraîne un avertissement de tracing standalone sur macOS ; la CI Linux installe ses dépendances dans son propre checkout et produit l’archive de déploiement.
-- `seo-check` vérifie 106 URL, sans orphelines, canonical/hreflang/OG cohérents et aucun champ à compléter visible. Le contrôle est étendu aux descriptions uniques, aux sources de guides et aux champs visibles.
-- test:i18n passe sur 106 pages et huit langues, avec transferts simulés. Lighthouse local accueil, trois passes : performance 94/98/97, médiane 97 ; A11y/BP/SEO100 et CLS0. La première passe isolée à 94 est conservée, sans la présenter comme un résultat passant. La CI doit encore valider les six routes sous le garde strict P95. Tests complets, CI, revue de l’archive et production : résultats à compléter après exécution. Aucun succès CI ou déploiement n’est anticipé ici.
+PR [#41](https://github.com/aouirdani/vidfetch/pull/41) fusionnée en `24e59b7`, après [CI de PR entièrement verte](https://github.com/aouirdani/vidfetch/actions/runs/42534045962) et comparaison des deux bundles de l’archive exacte. Son premier run main a échoué sur FR P94 avant déploiement. Le nouveau commit `eef2a30` utilise les polices système sur mobile et garde Bricolage sur ordinateur ; aucun job n’a été relancé à l’identique. [CI main et déploiement verts](https://github.com/aouirdani/vidfetch/actions/runs/42538063318), activation le 9 novembre à 00:29:55 UTC. Aucun retour arrière de production.
+
+| Route CI du main déployé | Performance médiane | A11y / bonnes pratiques / SEO | CLS maximal |
+| --- | --- | --- | --- |
+| `/` | 96 | 100 / 100 / 100 | 0 |
+| `/fr` | 95 | 100 / 100 / 100 | 0 |
+| `/id/download-video-tiktok` | 96 | 100 / 100 / 100 | 0 |
+| `/video-to-mp3` | 95 | 100 / 100 / 100 | 0 |
+| `/blog/why-cant-i-save-tiktok` | 97 | 100 / 100 / 100 | 0 |
+| `/ar` | 95 | 100 / 100 / 100 | 0 |
+
+Les valeurs sont les médianes de trois passes ; quelques mesures isolées sont à 94 et sont conservées dans [les relevés](evidence/2026-11-09-pr1-main-lighthouse.json). Les dix-huit passes ont les trois autres catégories à 100 et CLS0. Les pages encore non publiées ne sont pas présentées comme mesurées en production.
+
+Le contrôle public `seo-check` passe sur les 106 URL : HTTP200, index/follow, canonical, hreflang réciproques, titres/descriptions uniques, sources et absence d’orphelines/champs visibles. Cinq guides existants, cinq URL de brouillons404 et cinq vues mobiles passent ; courriel légal en clair, aucune annonce active ni CMP. Les vues FR/AR ont aussi été inspectées visuellement. [Résultats et captures](evidence/2026-11-09-pr1-production/results.json). Le sitemap reste à 106 URL ; les 48 pages de confiance sont non publiées.
+
+La [preuve d’archive du main déployé](evidence/2026-11-09-pr1-main-artifact-proof.json) confirme les mêmes SHA-256 moteur/passerelle que la production initiale. L’archive `release-eef2a305ae928b10ea0523975d35d552ba9a5e6f.tgz` a pour SHA-256 `6859e46bda0eab4c8dcc434762597cc56fe5dd944eb3d809ef3523e9b481b521`.
+
+Audit OpenSEO gratuit terminé le 9 novembre à08:14:12UTC : **100/100**,114 pages parcourues,106 indexables,0 critique,0 avertissement,31 informations. Les24 changements intentionnels H1/titre/volume de texte concernent les huit pages légales ; les sept autres informations portent sur cinq URL signalées pour leur casse, llms.txt et la CSP en mode report-only. Aucun traitement payant. [Audit complet](evidence/2026-11-09-pr1-openseo.json), ID `7e4470c3-3b0e-41c0-bcb8-2aa743722796`, coût **0 USD**.
 
 ## Guides, traductions et indexation
 
-À ce stade : **aucun nouveau guide publié**, aucun nouveau guide rédigé dans PR 1, aucune traduction publiée, aucun sujet fusionné après démonstration. Le plan révisé précise les trente sujets, leur ordre et les dix traductions imposées. Les expériences réelles, captures et inventaires de mots/sources seront ajoutés dans PR 2 et PR 3.
+**Aucun nouveau guide n’est publié.** La PR1 ne contient pas de guide nouveau ; le premier lot ci-dessous prépare les quinze rangs suivants en brouillon, avec mesures, captures et sources. Les traductions et les fusions du dernier lot seront consignées dans PR3. Les informations d’auteur/éditeur demandées restent absentes.
 
 URL nouvelles à soumettre à Google : **aucune pour le moment**. Ne pas soumettre les pages non publiées ; aucune soumission automatique ou manuelle n’a été faite. Un ordre par lots de dix au maximum sera proposé seulement pour des URL effectivement publiées et vérifiées.
 
@@ -88,7 +102,8 @@ URL nouvelles à soumettre à Google : **aucune pour le moment**. Ne pas soumett
 | Plan initial PR #40, historique | 1,50 USD | Avant chaque appel | 0,51 USD |
 | Remplacement G25, US/en, 13 formulations | 0,50 USD | 0 USD | 0,04 USD |
 | Dix traductions, France/fr, 24 + 17 formulations | 0,50 USD | 0 USD | 0,08 USD |
-| Crawls gratuits après les trois fusions | Sans rendu ni proxy | À vérifier à chaque crawl | Pas encore lancés |
+| Crawl gratuit après PR1 | Sans rendu ni proxy | 0 USD | 0 USD ; terminé, 100/100 |
+| Crawls gratuits après PR2 et PR3 | Sans rendu ni proxy | À vérifier à chaque crawl | À exécuter après leurs déploiements |
 | **Mission actuelle hors plan historique** | **0,50 + 0,50 USD** | **0 USD** | **0,12 USD** |
 
 Les budgets sont par étape complète, pas répétés à chaque appel. Aucun appel payant supplémentaire n’est nécessaire pour les chiffres retenus. Les crawls de suivi utiliseront `render_mode=off`, `use_fallback=false` et seront consignés après leur achèvement.
@@ -146,6 +161,6 @@ Le build utilise maintenant le [mode Webpack officiellement supporté par Next.j
 
 ### Détail des appels payants OpenSEO
 
-Les trois réponses réelles facturent chacune 0,04 USD : 13 formulations US/en pour G25, puis 24 et 17 formulations France/fr. Chaque appel a été précédé de son dry-run et plafonné à 0,04 USD ; les deux lots français partagent le budget global de 0,50 USD. Total de mission 0,12 USD ; 0,63 USD avec le plan initial. Voir [le registre des coûts](evidence/2026-11-09-openseo-cost-ledger.json). Les contrôles de connexion et simulations de crawl sont gratuits ; les crawls réels de phase seront ajoutés après leurs déploiements vérifiés.
+Les trois réponses réelles facturent chacune 0,04 USD : 13 formulations US/en pour G25, puis 24 et 17 formulations France/fr. Chaque appel a été précédé de son dry-run et plafonné à 0,04 USD ; les deux lots français partagent le budget global de 0,50 USD. Total de mission 0,12 USD ; 0,63 USD avec le plan initial. Voir [le registre des coûts](evidence/2026-11-09-openseo-cost-ledger.json). Les contrôles de connexion et simulations de crawl sont gratuits ; le premier crawl réel est terminé et facturé0USD ; les deux suivants seront ajoutés après leurs déploiements vérifiés.
 
 Preuves avant fusion de la PR #41 : [18 audits Lighthouse](evidence/2026-11-08-pr1-lighthouse.json), [comparaison de l’archive CI aux bundles de production](evidence/2026-11-08-pr1-artifact-proof.json). Le run de main et sa correction sont suivis dans le journal ; ces fichiers ne prétendent pas constituer une vérification de production.

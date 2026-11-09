@@ -1,0 +1,16 @@
+{
+  "verifiedAt": "2026-11-09T08:12:33.863625+00:00",
+  "ciRunId": 42538063318,
+  "sourceHead": "eef2a305ae928b10ea0523975d35d552ba9a5e6f",
+  "archiveRelease": "eef2a305ae928b10ea0523975d35d552ba9a5e6f",
+  "archiveName": "release-eef2a305ae928b10ea0523975d35d552ba9a5e6f.tgz",
+  "archiveSha256": "6859e46bda0eab4c8dcc434762597cc56fe5dd944eb3d809ef3523e9b481b521",
+  "platform": "linux-x64",
+  "node": "v22.23.3",
+  "productionBaselineRelease": "7a8da1996057a18c63b27bbe1289555b87ec2b99",
+  "bundleHashes": {
+    "backend/vidfetch-ovh.cjs": "fa0d3d4e15a5a45ca0deb2b35e7ba03adc95c31b87500378068121f291c42287",
+    "backend/vidfetch-gateway.cjs": "0fa1404530c272b76aaec9aee18125660e8561c744e4ccc1fbb9c7dbee9850e5"
+  },
+  "protectedBundlesMatch": true
+}

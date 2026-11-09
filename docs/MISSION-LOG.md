@@ -207,3 +207,9 @@ Nouveau commit de correction : les titres mobiles utilisent les polices système
 La revue du lot relève six anciens supportedHint qui citaient YouTube sans préciser son indisponibilité. FORM_COPY couvre maintenant les huit langues : TikTok est la seule plateforme vérifiée, YouTube est indisponible ; les pages TikTok décrivent seulement le lien public ou le message de partage. Ces libellés restent hors des dictionnaires partagés ; aucun avis de relecture humaine n’est ajouté. Douze tests ciblés passent, et la passerelle reconstruite conserve exactement son SHA-256 de production. Les informations d’éditeur/auteur restent à compléter, les nouveaux guides restent non publiés.
 
 Les deux libellés du formulaire sont sélectionnés côté serveur pour la langue courante, au lieu d’embarquer les huit copies dans le navigateur. Le vieux supportedHint de dictionnaire n’est plus transmis au client. Douze tests ciblés et le typage passent ; la passerelle reconstruite conserve son SHA-256 exact.
+
+### 9 novembre — Phase 1 déployée et auditée
+
+Main `eef2a305ae928b10ea0523975d35d552ba9a5e6f` déployé à00:29:55UTC, CI42538063318 entièrement verte. SEO public106URL, cinq guides existants, cinq brouillons404 et cinq vues mobiles passent ; contacts en clair, index/follow/canonical/hreflang corrects, aucune annonce active ni CMP. Les bundles de l’archive déployée conservent leurs SHA de production. Lighthouse main : médianes95–97, autres catégories100,CLS0 ; les passes isolées94 sont conservées. Zéro retour arrière réel.
+
+OpenSEO audit7e4470c3-3b0e-41c0-bcb8-2aa743722796 terminé à08:14:12UTC : santé100/100,114pages parcourues,106indexables,0critique,0avertissement,31informations (dont24changements prévus sur les pages légales), coût0USD, rendu/proxy désactivés. Preuves sous docs/seo/evidence/2026-11-09-pr1-*. Le lot suivant peut maintenant être ouvert ; ses quinze guides restent non publiés faute d’auteur et d’À propos publiable. Aucun envoi à Google.
