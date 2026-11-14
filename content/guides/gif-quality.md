@@ -70,7 +70,9 @@
     "market": "us",
     "language": "en"
   },
-  "wordCount": 910
+  "wordCount": 910,
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 GIF quality depends on the source, output dimensions, sampled motion and palette conversion. Increasing width can preserve smaller shapes, but it cannot make GIF preserve every color in a photographic video. Start with a short clear scene, compare the downloaded animation at its intended display size and keep the original video.

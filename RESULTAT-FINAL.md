@@ -1,8 +1,270 @@
+## État corrigé : conservation intégrale de la production
+
+**La PR #44 ne dépublie aucun guide existant.** Les 34 guides déjà publics portent `legacyPublished: true` et conservent leurs dates de première publication, leurs contenus, URL, canonical, hreflang, liens et entrées de sitemap. Leur liste est fermée dans `content/legacy-published-guides.json` ; les nouveaux fichiers et la série `adsense-2026-11` ne peuvent pas s’y inscrire.
+
+Sans relecture humaine datée, leur signature indique seulement « Rédigé avec l’aide d’outils d’IA », localisée dans les huit langues, et leur BlogPosting garde un author Organization. Une relecture explicitement fournie permettra le passage au format Person/À propos et à la date de relecture, sans changer la date de première publication. La commande de publication préserve aussi cette date historique. Aucun champ de relecture réel n’a été rempli.
+
+Le contrat **tests/fixtures/public-indexing-expected.json** fige les 106 URL de la release de production eef2a30. Les tests bloquants vérifient leur maintien dans le sitemap et leurs canonical/hreflang ; seo-check vérifie aussi leurs réponses HTTP 200 index,follow. Les 34 corps de texte et métadonnées d’origine sont comparés à la même référence. La branche contient à nouveau **154 URL indexables : les 106 existantes et 48 pages de confiance** ; les huit index de guides restent accessibles.
+
+Validation locale corrigée : build, lint/typecheck, 211 tests sous Node 22, SEO 154 URL avec conservation explicite des 106, et i18n huit langues réussis. Les tests du passage au format relu utilisent uniquement des fixtures en mémoire ; aucun nom/date n’est ajouté aux sources. [Preuve locale](docs/seo/evidence/2026-11-14-legacy-retention-local.json).
+
+PR #43 corrigée dans le commit afe2a51 : À propos et la politique éditoriale datent la règle des **nouveaux guides au 14 novembre 2026**, et distinguent la relecture progressive des anciens, dans les huit langues. [CI 43584206008](https://github.com/aouirdani/vidfetch/actions/runs/43584206008) verte. Nouvelle CI de #44 à contrôler sur le commit de conservation avant toute fusion ; les anciens résultats de #44 ne valident pas cette correction.
+
+Les anciennes propositions de fermeture de 34 guides et les mesures sur 112 URL, conservées plus bas comme historique de travail, sont **abandonnées** et ne décrivent plus la branche. Aucun guide n’a été retiré en production. Aucune PR fusionnée ; confirmation des e-mails toujours attendue ; zéro dépense OpenSEO et zéro soumission à Google pendant cette correction.
+
+---
+
 ## Correction du périmètre éditorial — avant toute fusion
 
 La politique applicable aux **nouveaux guides depuis le 14 novembre 2026** est distinguée des guides déjà publiés, qui sont relus progressivement. À propos et la politique éditoriale portent ce texte dans les huit langues. Aucune relecture des anciens guides n’est attestée par cette politique.
 
 La demande de correction impose de conserver les 34 guides existants et les 106 URL actuelles, indexables, avec leurs URL, contenus, canonical et hreflang. Le verrou de la PR #44 sera limité aux nouveaux guides ; la signature des anciens sans preuve de relecture indiquera seulement l’aide IA, avec un author Organization. Aucune réception de test e-mail confirmée ; aucune fusion autorisée à ce stade. Les résultats de CI antérieurs concernent le commit précédent ; une nouvelle CI doit valider cette correction.
+
+---
+
+## Contrôles consolidés du 14 novembre — publication toujours en attente
+
+PR #43, commit ae78e46 : [CI 43579679947](https://github.com/aouirdani/vidfetch/actions/runs/43579679947) **entièrement verte**. Tests, backend/passerelle, contrôles de release et Caddy, SEO 154 URL, i18n huit langues, Lighthouse, conversions locales et suite complète des déploiements réussis. 204 tests locaux Node 22 également réussis. Captures : 48 pages de confiance et huit mentions, menus mobile/ordinateur et absence de ligne d’adresse postale vérifiés.
+
+Lighthouse CI : 24 mesures, trois par route ; Performance médiane 97–99, A11y/Best Practices/SEO 100 partout et CLS 0. Performance, LCP et TBT sont des avertissements ; les quatre autres seuils restent bloquants. [Mesures](docs/seo/evidence/2026-11-14-trust-lighthouse.json).
+
+[Archive CI exacte vérifiée](docs/seo/evidence/2026-11-14-trust-artifact-proof.json), Linux x64/Node 22.23.3, release 2ea0c28c9094b25dd57f7258f7889c11c10d13d1 : SHA-256 c462185e8f7f6f739ea87ec1e914be2f53bba550edd2fd670f2ef6aabf6b77b7. Les deux bundles correspondent chacun à sa référence (moteur fa0d3d4e… ; passerelle 0fa14045…). ENGINE_FILES, Caddy et AdSense inchangés. Aucune fusion, activation ou vérification post-déploiement revendiquée ; zéro retour arrière. La confirmation de réception sur contact@, legal@, privacy@ et abuse@ reste absente.
+
+PR #44 reste en brouillon, sans guide publié. Validation locale finale : 205 tests Node 22, build, lint/typecheck, SEO 112 URL et i18n réussis ; CI de cette branche suivie séparément. Les 144 prévisualisations privées ont été ouvertes en mobile : 200, un seul H1, images accessibles et aucun débordement horizontal. Aucune case de relecture cochée, aucun reviewedBy/reviewedAt renseigné dans les 119 sources.
+
+G27 est maintenant un texte de travail sourcé, après consultation du rendu officiel TikTok le 14 novembre. Les étapes ont pu être vérifiées dans la documentation, **pas par un export réel du compte de l’éditeur**. Les 30 sujets du plan disposent d’un brouillon ; G27 attend cet essai réel et sa relecture, comme les autres guides attendent leur propre validation datée. Les anciennes mentions « source inaccessible / fiche non rédigée » plus bas sont des jalons antérieurs, remplacés par ce point.
+
+OpenSEO gratuit : 0 USD de dry-run, 0 USD de crawl, 0 USD de lecture des résultats et problèmes ; cumul de cette reprise **0 USD**. Les 24 warnings concernent le même ancien lien officiel TikTok, noté DNS par le robot : cela ne prouve pas 24 pannes distinctes. Le crawl reste celui de la production antérieure, 100/100 et zéro critique. Accès GSC expiré/révoqué signalé, aucune nouvelle position obtenue, aucune soumission à Google. L’ancien coût historique de 0,12 USD reste distinct.
+
+---
+
+## File d’indexation manuelle — maximum10URL/jour
+
+Liste proposée, non soumise. J1 est le premier jour **après fusion et vérifications publiques réussies** : cette file ne doit pas démarrer aujourd’hui sur des pages encore absentes. Les futurs guides relus TikTok/galerie, puis audio et espagnol, passent en tête après publication réelle et prennent la place d’autres URL du jour sans dépasser10. Aucun guide non relu dans cette liste.
+
+| Jour relatif | URL à soumettre manuellement après publication | État |
+|---|---|---|
+| J1 | https://vidfetch.app/fr/a-propos | en attente de publication/contrôle |
+| J1 | https://vidfetch.app/about | en attente de publication/contrôle |
+| J1 | https://vidfetch.app/fr/contact | en attente de publication/contrôle |
+| J1 | https://vidfetch.app/contact | en attente de publication/contrôle |
+| J1 | https://vidfetch.app/fr/politique-editoriale | en attente de publication/contrôle |
+| J1 | https://vidfetch.app/editorial-policy | en attente de publication/contrôle |
+| J1 | https://vidfetch.app/fr/mentions-legales | en attente de publication/contrôle |
+| J1 | https://vidfetch.app/legal | en attente de publication/contrôle |
+| J1 | https://vidfetch.app/es/acerca-de | en attente de publication/contrôle |
+| J1 | https://vidfetch.app/es/contacto | en attente de publication/contrôle |
+| J2 | https://vidfetch.app/es/politica-editorial | en attente de publication/contrôle |
+| J2 | https://vidfetch.app/es/aviso-legal | en attente de publication/contrôle |
+| J2 | https://vidfetch.app/pt/sobre | en attente de publication/contrôle |
+| J2 | https://vidfetch.app/pt/contato | en attente de publication/contrôle |
+| J2 | https://vidfetch.app/pt/politica-editorial | en attente de publication/contrôle |
+| J2 | https://vidfetch.app/pt/termos-e-privacidade | en attente de publication/contrôle |
+| J2 | https://vidfetch.app/fr/confidentialite | en attente de publication/contrôle |
+| J2 | https://vidfetch.app/fr/conditions-utilisation | en attente de publication/contrôle |
+| J2 | https://vidfetch.app/fr/droits-auteur | en attente de publication/contrôle |
+| J2 | https://vidfetch.app/privacy | en attente de publication/contrôle |
+| J3 | https://vidfetch.app/terms | en attente de publication/contrôle |
+| J3 | https://vidfetch.app/copyright | en attente de publication/contrôle |
+| J3 | https://vidfetch.app/es/privacidad | en attente de publication/contrôle |
+| J3 | https://vidfetch.app/es/condiciones-uso | en attente de publication/contrôle |
+| J3 | https://vidfetch.app/es/derechos-autor | en attente de publication/contrôle |
+| J3 | https://vidfetch.app/pt/privacidade | en attente de publication/contrôle |
+| J3 | https://vidfetch.app/pt/termos-de-uso | en attente de publication/contrôle |
+| J3 | https://vidfetch.app/pt/direitos-autorais | en attente de publication/contrôle |
+| J3 | https://vidfetch.app/id/tentang | en attente de publication/contrôle |
+| J3 | https://vidfetch.app/id/kontak | en attente de publication/contrôle |
+| J4 | https://vidfetch.app/id/kebijakan-editorial | en attente de publication/contrôle |
+| J4 | https://vidfetch.app/id/ketentuan-dan-privasi | en attente de publication/contrôle |
+| J4 | https://vidfetch.app/id/privasi | en attente de publication/contrôle |
+| J4 | https://vidfetch.app/id/ketentuan-penggunaan | en attente de publication/contrôle |
+| J4 | https://vidfetch.app/id/hak-cipta | en attente de publication/contrôle |
+| J4 | https://vidfetch.app/de/ueber-uns | en attente de publication/contrôle |
+| J4 | https://vidfetch.app/de/kontakt | en attente de publication/contrôle |
+| J4 | https://vidfetch.app/de/redaktionsrichtlinie | en attente de publication/contrôle |
+| J4 | https://vidfetch.app/de/rechtliches | en attente de publication/contrôle |
+| J4 | https://vidfetch.app/de/datenschutz | en attente de publication/contrôle |
+| J5 | https://vidfetch.app/de/nutzungsbedingungen | en attente de publication/contrôle |
+| J5 | https://vidfetch.app/de/urheberrecht | en attente de publication/contrôle |
+| J5 | https://vidfetch.app/it/chi-siamo | en attente de publication/contrôle |
+| J5 | https://vidfetch.app/it/contatti | en attente de publication/contrôle |
+| J5 | https://vidfetch.app/it/politica-editoriale | en attente de publication/contrôle |
+| J5 | https://vidfetch.app/it/note-legali | en attente de publication/contrôle |
+| J5 | https://vidfetch.app/it/privacy | en attente de publication/contrôle |
+| J5 | https://vidfetch.app/it/condizioni-uso | en attente de publication/contrôle |
+| J5 | https://vidfetch.app/it/diritto-autore | en attente de publication/contrôle |
+| J5 | https://vidfetch.app/ar/%D9%85%D9%86-%D9%86%D8%AD%D9%86 | en attente de publication/contrôle |
+| J6 | https://vidfetch.app/ar/%D8%A7%D8%AA%D8%B5%D9%84-%D8%A8%D9%86%D8%A7 | en attente de publication/contrôle |
+| J6 | https://vidfetch.app/ar/%D8%A7%D9%84%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9-%D8%A7%D9%84%D8%AA%D8%AD%D8%B1%D9%8A%D8%B1%D9%8A%D8%A9 | en attente de publication/contrôle |
+| J6 | https://vidfetch.app/ar/%D8%A7%D9%84%D8%B4%D8%B1%D9%88%D8%B7-%D9%88%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9 | en attente de publication/contrôle |
+| J6 | https://vidfetch.app/ar/%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9 | en attente de publication/contrôle |
+| J6 | https://vidfetch.app/ar/%D8%B4%D8%B1%D9%88%D8%B7-%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85 | en attente de publication/contrôle |
+| J6 | https://vidfetch.app/ar/%D8%AD%D9%82%D9%88%D9%82-%D8%A7%D9%84%D9%86%D8%B4%D8%B1 | en attente de publication/contrôle |
+
+---
+
+## Verrou et relecture — état de la seconde branche, 14 novembre 2026
+
+Branche technique dépendante de la PR#43 ; aucune publication de guide autorisée ni effectuée. `reviewedBy` et `reviewedAt` sont ajoutés vides (null) aux119fichiers du checkout, sans nom/date inférés. Pour les nouveaux guides uniquement, `status=published`, `reviewedBy=Aymane Ouirdani`, une date calendaire réelle passée et des dates de création/publication/modification cohérentes ouvrent une route, un sitemap et des liens entrants. Les 34 guides historiques sont conservés grâce à leur marqueur fermé et à leur vraie date de publication. Les traductions conservent leur contrôle de provenance. Le seo-check échoue si un guide demande la publication sans ces preuves.
+
+L’approche initiale qui fermait 34 guides et huit index a été abandonnée avant toute fusion : les 34 guides et leurs huit index restent publics et indexables. La branche corrigée contient 154 URL, dont les 106 URL antérieures. Les prévisualisations privées complètent les pages existantes sans les remplacer. Les dates historiques de première publication sont conservées dans les fichiers et ne sont pas présentées comme de nouvelles publications.
+
+Signature localisée et BlogPosting Person/À propos prêts pour les futurs guides confirmés ; aucune signature de relecture n’est affichée pour un brouillon. L’ancienne commande qui inventait une date de relecture à partir de la date système est désactivée. Le script de publication refuse un lot de plus de5guides et exige les preuves existantes.
+
+Dossier de relecture : [RELECTURE-GUIDES.md](docs/seo/RELECTURE-GUIDES.md),144fiches couvrant les30sujets du plan, les10FR préparées et le catalogue antérieur.29textes EN du plan sont rédigés ; G27 reste une fiche de travail à compléter après vérification officielle et essai du compte de l’éditeur. Parmi ces textes,15EN sont déjà dans main et14EN+10FR proviennent uniquement de la branche locale non fusionnée d6b6812. Aucune PR ne publiera plus de5guides.
+
+Validation locale : build, seo-check112URL et i18n huit langues réussis ;82tests ciblés réussis avant l’ajout du test de conservation de date historique, corrigé et revalidé. Suite complète locale finale :205tests réussis sous Node22. CI de cette branche à consigner. Le contrôle de publication vérifie les dates impossibles/futures, les noms, les anciens flags et la provenance.
+
+OpenSEO : aucun nouvel appel payant, coût de cette reprise0USD. Le crawl gratuit de production reste une baseline, pas une preuve de déploiement de ces branches. Aucune soumission à Google. La file manuelle de10URL/jour démarrera avec les guides relus prioritaires seulement après leur publication réelle.
+
+### Inventaire par guide et langue
+
+| Langue / guide | Plan | État de travail | Présence dans main | Publication par cette mission |
+|---|---|---|---|---|
+| ar/720p-1080p-4k | — | en attente de relecture | oui | non |
+| ar/backup-your-videos | — | en attente de relecture | oui | non |
+| ar/bitrate-vs-resolution | — | en attente de relecture | oui | non |
+| ar/h264-h265-av1 | — | en attente de relecture | oui | non |
+| ar/mp3-vs-m4a | — | en attente de relecture | oui | non |
+| ar/mp4-vs-webm | — | en attente de relecture | oui | non |
+| ar/reduce-video-size | — | en attente de relecture | oui | non |
+| ar/save-tiktok-phone-gallery | — | publié historiquement ; relecture en attente | oui | non |
+| ar/save-tiktok-sound-mp3 | — | publié historiquement ; relecture en attente | oui | non |
+| ar/video-download-fails | — | en attente de relecture | oui | non |
+| ar/video-format-smartphone | — | en attente de relecture | oui | non |
+| ar/video-to-audio | — | en attente de relecture | oui | non |
+| ar/why-cant-i-save-tiktok | — | publié historiquement ; relecture en attente | oui | non |
+| de/720p-1080p-4k | — | en attente de relecture | oui | non |
+| de/backup-your-videos | — | en attente de relecture | oui | non |
+| de/bitrate-vs-resolution | — | en attente de relecture | oui | non |
+| de/h264-h265-av1 | — | en attente de relecture | oui | non |
+| de/mp3-vs-m4a | — | en attente de relecture | oui | non |
+| de/mp4-vs-webm | — | en attente de relecture | oui | non |
+| de/reduce-video-size | — | en attente de relecture | oui | non |
+| de/save-tiktok-phone-gallery | — | publié historiquement ; relecture en attente | oui | non |
+| de/save-tiktok-sound-mp3 | — | publié historiquement ; relecture en attente | oui | non |
+| de/video-download-fails | — | en attente de relecture | oui | non |
+| de/video-format-smartphone | — | en attente de relecture | oui | non |
+| de/video-to-audio | — | en attente de relecture | oui | non |
+| de/why-cant-i-save-tiktok | — | publié historiquement ; relecture en attente | oui | non |
+| en/720p-1080p-4k | — | publié historiquement ; relecture en attente | oui | non |
+| en/backup-your-videos | — | publié historiquement ; relecture en attente | oui | non |
+| en/bitrate-vs-resolution | — | publié historiquement ; relecture en attente | oui | non |
+| en/h264-h265-av1 | — | publié historiquement ; relecture en attente | oui | non |
+| en/mp3-vs-m4a | — | publié historiquement ; relecture en attente | oui | non |
+| en/mp4-vs-webm | — | publié historiquement ; relecture en attente | oui | non |
+| en/reduce-video-size | — | publié historiquement ; relecture en attente | oui | non |
+| en/save-tiktok-phone-gallery | — | publié historiquement ; relecture en attente | oui | non |
+| en/save-tiktok-sound-mp3 | — | publié historiquement ; relecture en attente | oui | non |
+| en/video-download-fails | — | publié historiquement ; relecture en attente | oui | non |
+| en/video-format-smartphone | — | publié historiquement ; relecture en attente | oui | non |
+| en/video-to-audio | — | publié historiquement ; relecture en attente | oui | non |
+| en/why-cant-i-save-tiktok | — | publié historiquement ; relecture en attente | oui | non |
+| en/trim-video-phone | G18 | brouillon | oui | non |
+| en/compress-video-phone | G10 | brouillon | oui | non |
+| en/extract-audio-phone | G01 | brouillon | oui | non |
+| en/mov-to-mp4 | G11 | brouillon | oui | non |
+| en/compress-video-discord | G07 | brouillon | oui | non |
+| en/screen-recording-to-mp3 | G02 | brouillon | oui | non |
+| en/video-keyframes | G19 | brouillon | oui | non |
+| en/make-gif-from-video | G12 | brouillon | oui | non |
+| en/video-compression-artifacts | G20 | brouillon | oui | non |
+| en/gif-frame-rate | G14 | brouillon | oui | non |
+| en/mono-vs-stereo | G05 | brouillon | oui | non |
+| en/mov-vs-mp4 | G30 | brouillon | oui | non |
+| en/choose-mp3-bitrate | G03 | brouillon | oui | non |
+| en/gif-quality | G13 | brouillon | oui | non |
+| en/video-black-bars | G29 | brouillon | oui | non |
+| en/compress-video-email | G08 | brouillon | non — bibliothèque locale | non |
+| en/30-vs-60-fps | G16 | brouillon | non — bibliothèque locale | non |
+| en/compress-video-whatsapp | G09 | brouillon | non — bibliothèque locale | non |
+| en/cbr-vs-vbr | G06 | brouillon | non — bibliothèque locale | non |
+| en/unsupported-video-codec | G22 | brouillon | non — bibliothèque locale | non |
+| en/video-no-audio | G23 | brouillon | non — bibliothèque locale | non |
+| en/audio-video-sync | G24 | brouillon | non — bibliothèque locale | non |
+| en/reduce-video-resolution | G15 | brouillon | non — bibliothèque locale | non |
+| en/read-video-metadata | G21 | brouillon | non — bibliothèque locale | non |
+| en/tiktok-aspect-ratio | G17 | brouillon | non — bibliothèque locale | non |
+| en/save-tiktok-draft | G28 | brouillon | non — bibliothèque locale | non |
+| en/corrupted-video-file | G26 | brouillon | non — bibliothèque locale | non |
+| en/sample-rate-vs-bitrate | G04 | brouillon | non — bibliothèque locale | non |
+| en/split-video-into-parts | G25 | brouillon | non — bibliothèque locale | non |
+| en/download-tiktok-account-data | G27 | brouillon — essai réel et relecture à effectuer | non — bibliothèque locale | non |
+| es/720p-1080p-4k | — | en attente de relecture | oui | non |
+| es/backup-your-videos | — | en attente de relecture | oui | non |
+| es/bitrate-vs-resolution | — | en attente de relecture | oui | non |
+| es/h264-h265-av1 | — | en attente de relecture | oui | non |
+| es/mp3-vs-m4a | — | en attente de relecture | oui | non |
+| es/mp4-vs-webm | — | en attente de relecture | oui | non |
+| es/reduce-video-size | — | en attente de relecture | oui | non |
+| es/save-tiktok-phone-gallery | — | publié historiquement ; relecture en attente | oui | non |
+| es/save-tiktok-sound-mp3 | — | publié historiquement ; relecture en attente | oui | non |
+| es/video-download-fails | — | en attente de relecture | oui | non |
+| es/video-format-smartphone | — | en attente de relecture | oui | non |
+| es/video-to-audio | — | en attente de relecture | oui | non |
+| es/why-cant-i-save-tiktok | — | publié historiquement ; relecture en attente | oui | non |
+| fr/720p-1080p-4k | — | en attente de relecture | oui | non |
+| fr/backup-your-videos | — | en attente de relecture | oui | non |
+| fr/bitrate-vs-resolution | — | en attente de relecture | oui | non |
+| fr/h264-h265-av1 | — | en attente de relecture | oui | non |
+| fr/mp3-vs-m4a | — | en attente de relecture | oui | non |
+| fr/mp4-vs-webm | — | en attente de relecture | oui | non |
+| fr/reduce-video-size | — | en attente de relecture | oui | non |
+| fr/save-tiktok-phone-gallery | — | publié historiquement ; relecture en attente | oui | non |
+| fr/save-tiktok-sound-mp3 | — | publié historiquement ; relecture en attente | oui | non |
+| fr/video-download-fails | — | en attente de relecture | oui | non |
+| fr/video-format-smartphone | — | en attente de relecture | oui | non |
+| fr/video-to-audio | — | en attente de relecture | oui | non |
+| fr/why-cant-i-save-tiktok | — | publié historiquement ; relecture en attente | oui | non |
+| fr/trim-video-phone | G18 | brouillon | non — bibliothèque locale | non |
+| fr/compress-video-phone | G10 | brouillon | non — bibliothèque locale | non |
+| fr/extract-audio-phone | G01 | brouillon | non — bibliothèque locale | non |
+| fr/mov-to-mp4 | G11 | brouillon | non — bibliothèque locale | non |
+| fr/screen-recording-to-mp3 | G02 | brouillon | non — bibliothèque locale | non |
+| fr/video-keyframes | G19 | brouillon | non — bibliothèque locale | non |
+| fr/make-gif-from-video | G12 | brouillon | non — bibliothèque locale | non |
+| fr/mov-vs-mp4 | G30 | brouillon | non — bibliothèque locale | non |
+| fr/30-vs-60-fps | G16 | brouillon | non — bibliothèque locale | non |
+| fr/tiktok-aspect-ratio | G17 | brouillon | non — bibliothèque locale | non |
+| id/720p-1080p-4k | — | en attente de relecture | oui | non |
+| id/backup-your-videos | — | en attente de relecture | oui | non |
+| id/bitrate-vs-resolution | — | en attente de relecture | oui | non |
+| id/h264-h265-av1 | — | en attente de relecture | oui | non |
+| id/mp3-vs-m4a | — | en attente de relecture | oui | non |
+| id/mp4-vs-webm | — | en attente de relecture | oui | non |
+| id/reduce-video-size | — | en attente de relecture | oui | non |
+| id/save-tiktok-phone-gallery | — | publié historiquement ; relecture en attente | oui | non |
+| id/save-tiktok-sound-mp3 | — | publié historiquement ; relecture en attente | oui | non |
+| id/video-download-fails | — | en attente de relecture | oui | non |
+| id/video-format-smartphone | — | en attente de relecture | oui | non |
+| id/video-to-audio | — | en attente de relecture | oui | non |
+| id/why-cant-i-save-tiktok | — | publié historiquement ; relecture en attente | oui | non |
+| it/720p-1080p-4k | — | en attente de relecture | oui | non |
+| it/backup-your-videos | — | en attente de relecture | oui | non |
+| it/bitrate-vs-resolution | — | en attente de relecture | oui | non |
+| it/h264-h265-av1 | — | en attente de relecture | oui | non |
+| it/mp3-vs-m4a | — | en attente de relecture | oui | non |
+| it/mp4-vs-webm | — | en attente de relecture | oui | non |
+| it/reduce-video-size | — | en attente de relecture | oui | non |
+| it/save-tiktok-phone-gallery | — | publié historiquement ; relecture en attente | oui | non |
+| it/save-tiktok-sound-mp3 | — | publié historiquement ; relecture en attente | oui | non |
+| it/video-download-fails | — | en attente de relecture | oui | non |
+| it/video-format-smartphone | — | en attente de relecture | oui | non |
+| it/video-to-audio | — | en attente de relecture | oui | non |
+| it/why-cant-i-save-tiktok | — | publié historiquement ; relecture en attente | oui | non |
+| pt-BR/720p-1080p-4k | — | en attente de relecture | oui | non |
+| pt-BR/backup-your-videos | — | en attente de relecture | oui | non |
+| pt-BR/bitrate-vs-resolution | — | en attente de relecture | oui | non |
+| pt-BR/h264-h265-av1 | — | en attente de relecture | oui | non |
+| pt-BR/mp3-vs-m4a | — | en attente de relecture | oui | non |
+| pt-BR/mp4-vs-webm | — | en attente de relecture | oui | non |
+| pt-BR/reduce-video-size | — | en attente de relecture | oui | non |
+| pt-BR/save-tiktok-phone-gallery | — | publié historiquement ; relecture en attente | oui | non |
+| pt-BR/save-tiktok-sound-mp3 | — | publié historiquement ; relecture en attente | oui | non |
+| pt-BR/video-download-fails | — | en attente de relecture | oui | non |
+| pt-BR/video-format-smartphone | — | en attente de relecture | oui | non |
+| pt-BR/video-to-audio | — | en attente de relecture | oui | non |
+| pt-BR/why-cant-i-save-tiktok | — | publié historiquement ; relecture en attente | oui | non |
 
 ---
 

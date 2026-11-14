@@ -33,7 +33,9 @@
       "url": "https://www.ffmpeg.org/ffmpeg.html"
     }
   ],
-  "sourceBodySha256": "f4906bd34cbb2478a943ff7a3989c3c8fbc6581aec9325a27a3b64d21e9dcff5"
+  "sourceBodySha256": "f4906bd34cbb2478a943ff7a3989c3c8fbc6581aec9325a27a3b64d21e9dcff5",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Resolusi menunjukkan jumlah piksel bingkai. Bitrate menunjukkan banyaknya data per detik. Keduanya tidak saling menggantikan: resolusi tinggi dengan data terlalu sedikit dapat terlihat lebih buruk daripada resolusi rendah yang dikodekan baik. Durasi juga diperlukan untuk menghitung ukuran seluruh berkas.

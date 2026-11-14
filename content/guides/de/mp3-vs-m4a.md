@@ -33,7 +33,9 @@
       "url": "https://github.com/macosforge/alac"
     }
   ],
-  "sourceBodySha256": "f025b11c35a95867d7016d89b3b61e59af99c75dcc309845925192870056b058"
+  "sourceBodySha256": "f025b11c35a95867d7016d89b3b61e59af99c75dcc309845925192870056b058",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 MP3 ist nützlich, wenn ein Gerät oder Arbeitsablauf es verlangt. Funktioniert eine M4A-Datei bereits, vermeidest du durch Behalten eine unnötige Konvertierung. M4A bezeichnet einen Container mit beispielsweise verlustbehaftetem AAC oder verlustfreiem ALAC. Die Endung allein beschreibt nicht die Klangqualität.

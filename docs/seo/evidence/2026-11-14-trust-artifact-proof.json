@@ -1,0 +1,15 @@
+{
+  "verifiedAt": "2026-11-14",
+  "ciRunId": 43579679947,
+  "sourceHead": "ae78e467b0644037abc6496cd85fa8aaf2ec681d",
+  "archiveRelease": "2ea0c28c9094b25dd57f7258f7889c11c10d13d1",
+  "archiveSha256": "c462185e8f7f6f739ea87ec1e914be2f53bba550edd2fd670f2ef6aabf6b77b7",
+  "platform": "linux-x64",
+  "node": "v22.23.3",
+  "scope": "successful PR artifact; not deployed",
+  "bundles": {
+    "backend/vidfetch-ovh.cjs": "fa0d3d4e15a5a45ca0deb2b35e7ba03adc95c31b87500378068121f291c42287",
+    "backend/vidfetch-gateway.cjs": "0fa1404530c272b76aaec9aee18125660e8561c744e4ccc1fbb9c7dbee9850e5"
+  },
+  "protectedBundlesMatch": true
+}

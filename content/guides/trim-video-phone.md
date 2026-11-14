@@ -58,7 +58,9 @@
     "market": "us",
     "language": "en"
   },
-  "wordCount": 909
+  "wordCount": 909,
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 To trim a video on an iPhone or Android phone, select the portion you want to keep and save it as a new file. VidFetch’s browser trimmer can do this for a compatible video already on your device; use precise re-encoding when the visible start and end matter more than copying the existing encoded tracks. Keep the original until you have checked the downloaded clip.

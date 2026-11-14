@@ -1,0 +1,20 @@
+{
+  "checkedAt": "2026-11-14T18:36:30.510270+00:00",
+  "scope": "local corrected branches; not a deployment",
+  "baselineRelease": "eef2a305ae928b10ea0523975d35d552ba9a5e6f",
+  "retainedProductionUrls": 106,
+  "retainedLegacyGuides": 34,
+  "currentIndexableUrls": 154,
+  "httpSeoCheck": "PASS: all 154 sitemap URLs; baseline 106 return 200 index,follow and preserve canonical/hreflang",
+  "sourceRetentionTests": "PASS: 34 original bodies, metadata and dates match frozen production snapshot",
+  "legacyBylines": "PASS: eight locales; AI assistance only, Organization author; reviewed transition tested only in memory",
+  "localTests": {
+    "nodeMajor": 22,
+    "passed": 211,
+    "failed": 0
+  },
+  "baselineFixtureSha256": "eec1db76c1e84a586fb3ff29bb876f5a047882c20701ad7994e80031974f9a90",
+  "noHumanReviewWritten": true,
+  "mailboxConfirmation": "still pending",
+  "productionDeployment": false
+}

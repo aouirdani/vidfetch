@@ -54,7 +54,9 @@
     "market": "us",
     "language": "en"
   },
-  "wordCount": 787
+  "wordCount": 787,
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Video compression artifacts are visible changes introduced when an encoder represents a picture with less information than the source. Blocks, ringing near edges and disappearing texture can be clues, but blur or noise already present in the original is a different problem. Compare the original and saved copy at the same time and display size before blaming the latest conversion.

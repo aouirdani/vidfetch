@@ -33,7 +33,9 @@
       "url": "https://github.com/macosforge/alac"
     }
   ],
-  "sourceBodySha256": "f025b11c35a95867d7016d89b3b61e59af99c75dcc309845925192870056b058"
+  "sourceBodySha256": "f025b11c35a95867d7016d89b3b61e59af99c75dcc309845925192870056b058",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 MP3 berguna jika perangkat atau aplikasi memang memerlukannya. Jika M4A sudah dapat diputar, menyimpannya menghindari konversi yang tidak perlu. M4A adalah label kontainer yang bisa berisi AAC dengan kehilangan informasi atau ALAC tanpa kehilangan informasi. Nama berkas saja tidak cukup untuk menilai mutu rekaman.

@@ -33,7 +33,9 @@
       "url": "https://www.ffmpeg.org/ffmpeg-filters.html"
     }
   ],
-  "sourceBodySha256": "dba01726de86733b72c99239c660ee5205fead72fe2ff3d33c30f6ff0d3b45e9"
+  "sourceBodySha256": "dba01726de86733b72c99239c660ee5205fead72fe2ff3d33c30f6ff0d3b45e9",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Eine kleinere Videodatei enthält weniger Daten. Kürzen, Bitrate senken und Auflösung ändern sind unterschiedliche Entscheidungen. Arbeite an einer Kopie und teste eine typische Szene. Es gibt keine Einstellung, die für jede Quelle gleiche Qualität bei erheblich weniger Speicher garantiert.

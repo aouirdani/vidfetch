@@ -22,7 +22,10 @@
       "url": "https://www.ffmpeg.org/ffmpeg.html"
     }
   ],
-  "seoTitle": "Bitrate vs resolution: video quality and size"
+  "seoTitle": "Bitrate vs resolution: video quality and size",
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "legacyPublished": true
 }
 ---
 Resolution describes how many pixels a frame contains. Bitrate describes how much data is used per second. Both affect a video, but they are not interchangeable. A high-resolution file with too little data for its scene can look worse than a lower-resolution file with a more suitable encoding. Duration is the other essential number when estimating size.

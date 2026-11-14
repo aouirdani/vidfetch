@@ -21,7 +21,10 @@
       "title": "yt-dlp: project documentation",
       "url": "https://github.com/yt-dlp/yt-dlp#readme"
     }
-  ]
+  ],
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "legacyPublished": true
 }
 ---
 A failed video download can come from the source platform, the preparation service or the connection to your device. Start by checking whether the video is still accessible and whether you are allowed to save it. Do not assume that a playable web page guarantees anonymous download access from a server.

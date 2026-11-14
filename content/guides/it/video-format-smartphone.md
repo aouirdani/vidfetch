@@ -33,7 +33,9 @@
       "url": "https://developer.apple.com/av-foundation/"
     }
   ],
-  "sourceBodySha256": "86cafb861e20c2547aaccbc2ef47ac4f1d4d6f6c7d510492f18f9360c3b799c6"
+  "sourceBodySha256": "86cafb861e20c2547aaccbc2ef47ac4f1d4d6f6c7d510492f18f9360c3b799c6",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Per guardare un video sul telefono, scegli una combinazione supportata dal dispositivo e dall’applicazione. MP4 con H.264 comune e AAC è spesso pratico. Profilo, risoluzione e versione del sistema restano importanti. Prova un file prima di scaricare molti video grandi.

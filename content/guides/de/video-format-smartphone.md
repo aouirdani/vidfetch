@@ -33,7 +33,9 @@
       "url": "https://developer.apple.com/av-foundation/"
     }
   ],
-  "sourceBodySha256": "86cafb861e20c2547aaccbc2ef47ac4f1d4d6f6c7d510492f18f9360c3b799c6"
+  "sourceBodySha256": "86cafb861e20c2547aaccbc2ef47ac4f1d4d6f6c7d510492f18f9360c3b799c6",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Wähle für ein Handyvideo eine Kombination, die Gerät und Wiedergabe-App unterstützen. MP4 mit üblichem H.264 und AAC ist oft eine praktische Basis. Codec-Profil, Auflösung und Betriebssystemversion bleiben wichtig. Teste eine Datei, bevor du viele große Videos herunterlädst.

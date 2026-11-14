@@ -33,7 +33,9 @@
       "url": "https://developer.apple.com/av-foundation/"
     }
   ],
-  "sourceBodySha256": "86cafb861e20c2547aaccbc2ef47ac4f1d4d6f6c7d510492f18f9360c3b799c6"
+  "sourceBodySha256": "86cafb861e20c2547aaccbc2ef47ac4f1d4d6f6c7d510492f18f9360c3b799c6",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Pour lire une vidéo sur un téléphone, choisissez une combinaison acceptée par l’appareil et l’application. MP4 avec H.264 et AAC est souvent une base pratique, mais le profil, la résolution et la version du système comptent aussi. Testez un fichier avant de télécharger plusieurs grandes vidéos.

@@ -66,7 +66,7 @@ test("sitemap contains exactly published canonical equivalents and excludes unve
   const entries = sitemap();
   assert.equal(entries.length, sitePages().filter(p => p.indexable).length);
   assert.equal(new Set(entries.map(p => p.url)).size, entries.length);
-  assert.equal(entries.length, 154);   // Previous 106 routes plus 48 trust pages
+  assert.equal(entries.length, 154);   // 106 production routes plus 48 trust pages
   for (const entry of entries) {
     const parts = new URL(entry.url).pathname.split("/").filter(Boolean).map(decodeURIComponent);
     assert.ok(resolvePage(parts)?.indexable);
@@ -84,9 +84,9 @@ test("sitemap contains exactly published canonical equivalents and excludes unve
 test("article publication rejects review, missing dates and future dates; Unicode anchors survive", () => {
   const original = guides().find(g => g.id === "720p-1080p-4k")!;
   assert.equal(isPublishedGuide(original), true);
-  assert.equal(isPublishedGuide({ ...original, status: "review", published: "2026-10-12" }), false);
-  assert.equal(isPublishedGuide({ ...original, published: "2999-01-01" }), false);
-  assert.equal(isPublishedGuide({ ...original, published: "2026-10-12" }), true);
+  assert.equal(isPublishedGuide({ ...original, legacyPublished: false, status: "review", published: "2026-10-12" }), false);
+  assert.equal(isPublishedGuide({ ...original, legacyPublished: false, published: "2999-01-01" }), false);
+  assert.equal(isPublishedGuide({ ...original, published: original.published }), true);
   assert.notEqual(headingId("اختيار الصيغة"), "");
   assert.notEqual(headingId("اختيار الصيغة"), headingId("حفظ النسخة"));
 });

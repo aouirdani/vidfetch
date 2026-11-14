@@ -52,7 +52,9 @@
     "market": "us",
     "language": "en"
   },
-  "wordCount": 899
+  "wordCount": 899,
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 To compress a video for Discord, first check the attachment limit that applies to your account, then create and inspect a smaller copy before uploading it. VidFetch can compress a compatible local recording in your browser, but it cannot send the attachment or guarantee that Discord will accept a particular result. Keep some space below the stated limit rather than aiming at the last byte.

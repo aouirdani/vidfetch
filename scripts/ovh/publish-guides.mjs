@@ -5,13 +5,15 @@ if (!process.argv.includes('--confirmed-publication')) throw Error('Confirm actu
 const args = process.argv.slice(2), option = name => args.find(a => a.startsWith(`--${name}=`))?.slice(name.length + 3);
 const locale = option('locale') ?? 'en', selected = option('id');
 const ids = selected ? [selected] : (await readdir('content/guides')).filter(file => file.endsWith('.md')).map(file => file.slice(0, -3));
+if (ids.length > 5) throw Error('A batch may contain at most five guides');
 const plans = [];
 for (const id of ids) {
   const guide = await record(locale, id); assertReviewed(guide.meta, locale);
   if (guide.meta.created > today()) throw Error('Future guide');
   if (locale !== 'en' && guide.meta.sourceBodySha256 !== hashBody((await record('en', id)).body)) throw Error('Translation source changed');
-  if (guide.meta.published) continue;
-  guide.meta.published = today(); guide.meta.updated = today(); plans.push(guide);
+  if (guide.meta.status === "published" && guide.meta.published) continue;
+  guide.meta.status = "published";
+  guide.meta.published ??= today(); guide.meta.updated = today(); plans.push(guide);
 }
 // Validate every selected guide before writing. Each change gets a distinct backup.
 for (const guide of plans) await save(guide);

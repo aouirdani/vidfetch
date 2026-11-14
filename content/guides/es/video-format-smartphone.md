@@ -33,7 +33,9 @@
       "url": "https://developer.apple.com/av-foundation/"
     }
   ],
-  "sourceBodySha256": "86cafb861e20c2547aaccbc2ef47ac4f1d4d6f6c7d510492f18f9360c3b799c6"
+  "sourceBodySha256": "86cafb861e20c2547aaccbc2ef47ac4f1d4d6f6c7d510492f18f9360c3b799c6",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Para ver un vídeo en un móvil, busca una combinación compatible con el aparato y la aplicación. MP4 con H.264 habitual y AAC suele ser una base práctica. También importan perfil, resolución y versión del sistema. Prueba un archivo antes de descargar muchos vídeos grandes.

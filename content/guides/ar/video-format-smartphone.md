@@ -33,7 +33,9 @@
       "url": "https://developer.apple.com/av-foundation/"
     }
   ],
-  "sourceBodySha256": "86cafb861e20c2547aaccbc2ef47ac4f1d4d6f6c7d510492f18f9360c3b799c6"
+  "sourceBodySha256": "86cafb861e20c2547aaccbc2ef47ac4f1d4d6f6c7d510492f18f9360c3b799c6",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 لمشاهدة فيديو على الهاتف، اختر مجموعة تدعمها قدرات الجهاز والتطبيق. كثيرًا ما يكون MP4 مع H.264 المعتاد وAAC نقطة عملية. ويظل ملف تعريف الترميز والدقة وإصدار النظام مهمًا. اختبر ملفًا واحدًا قبل تنزيل مجموعة من الفيديوهات الكبيرة.
