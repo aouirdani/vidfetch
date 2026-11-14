@@ -224,3 +224,8 @@ SEO local154URL réussi, licences200/noindex et autres réponses contrôlées. S
 OpenSEO dry-run et crawl gratuit,0USD chacun : audit ec3b93eb-b0a1-41fd-a7a8-c1c936c21c24,100/100,24warnings externes,7infos,0critique. Il porte sur la production antérieure. Accès GSC expiré/révoqué signalé ; aucune soumission ni dépense payante. Dernier main échoué uniquement sur Performance arabe94 avant déploiement ; zéro rollback de cette mission.
 
 Fusion interdite tant que l’éditeur n’a pas confirmé réception des tests contact@,legal@,privacy@,abuse@. Pas de reviewedBy/reviewedAt renseignés, pas de déclaration de relecture humaine. CI complète, revue critique finale et vérification post-déploiement à consigner.
+
+
+## Correction demandée avant fusion — 14 novembre 2026
+
+PR #43 : À propos et politique éditoriale datent désormais la règle des nouveaux guides au 14 novembre 2026 et indiquent la relecture progressive des guides antérieurs, dans les huit langues. Le texte ne certifie aucune relecture historique. La PR #44 doit préserver les 34 guides et l’intégralité des 106 URL de production. Aucun e-mail confirmé, aucune fusion ou publication effectuée. Nouvelle CI sur ce commit requise ; les preuves ae78e46 restent historiques.

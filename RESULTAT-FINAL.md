@@ -1,3 +1,11 @@
+## Correction du périmètre éditorial — avant toute fusion
+
+La politique applicable aux **nouveaux guides depuis le 14 novembre 2026** est distinguée des guides déjà publiés, qui sont relus progressivement. À propos et la politique éditoriale portent ce texte dans les huit langues. Aucune relecture des anciens guides n’est attestée par cette politique.
+
+La demande de correction impose de conserver les 34 guides existants et les 106 URL actuelles, indexables, avec leurs URL, contenus, canonical et hreflang. Le verrou de la PR #44 sera limité aux nouveaux guides ; la signature des anciens sans preuve de relecture indiquera seulement l’aide IA, avec un author Organization. Aucune réception de test e-mail confirmée ; aucune fusion autorisée à ce stade. Les résultats de CI antérieurs concernent le commit précédent ; une nouvelle CI doit valider cette correction.
+
+---
+
 ## Mission éditeur — 14 novembre 2026 : état courant
 
 Cette section remplace les anciens champs « à compléter » et les anciennes conditions Performance. Elle décrit une PR préparée, pas une publication en production. La fusion attend la confirmation explicite de réception des e-mails de test aux quatre adresses. Aucun test e-mail envoyé par l’agent.
