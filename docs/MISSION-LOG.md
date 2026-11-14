@@ -229,3 +229,10 @@ Fusion interdite tant que l’éditeur n’a pas confirmé réception des tests 
 ## Correction demandée avant fusion — 14 novembre 2026
 
 PR #43 : À propos et politique éditoriale datent désormais la règle des nouveaux guides au 14 novembre 2026 et indiquent la relecture progressive des guides antérieurs, dans les huit langues. Le texte ne certifie aucune relecture historique. La PR #44 doit préserver les 34 guides et l’intégralité des 106 URL de production. Aucun e-mail confirmé, aucune fusion ou publication effectuée. Nouvelle CI sur ce commit requise ; les preuves ae78e46 restent historiques.
+
+## 2026-11-14 — Correctif du menu avant #44
+
+- Demande de l’éditeur : nouvelle PR depuis main e2a9fe0, aucune modification de #44 avant validation publique. Les quatre e-mails de test sont confirmés. #43 déployée, mais menu mobile partiellement hors écran ; arrêt conservé pour #44.
+- Panneau mobile fixed/inset-x-3, hauteur disponible dvh sous l’en-tête mesuré, défilement vertical interne, liens sans troncature, section de confiance distincte dans huit langues ; focus visible et Échap. Menu Outils ordinateur aligné au début logique. Débordement du seul visuel décoratif contenu à 320 px.
+- Test Playwright bloquant : 16 cas mobiles, 8 menus ordinateur, 216 clics réels ; focus/Échap, rectangles des libellés, largeur du document vérifiés. Avant/après EN et AR à 390 px : docs/seo/evidence/2026-11-14-mobile-menu/. Lint, typage, build OVH, 205 tests et seo-check 154 URL passent localement. CI/Lighthouse et contrôle public à suivre.
+- Revue critique : contenu et liens restent SSR dans des disclosures natifs ; le contrôleur ajoute uniquement la position mesurée et la fermeture clavier. Aucun retrait de contenu pour les scores. Pas de modification des contenus, URL, ads.txt, meta AdSense, chargeur différé, moteurs ou dictionnaires partagés. Vérifier les deux SHA-256 de l’artefact CI avant fusion. Aucun OpenSEO payant, aucune soumission Google.

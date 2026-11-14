@@ -1,3 +1,15 @@
+## Correctif du menu mobile — préparation depuis main e2a9fe0
+
+Les e-mails de test aux quatre adresses ont été confirmés par l’éditeur. La PR #43 est fusionnée et déployée (`e2a9fe05e90cfe3c521ac89d4fe2bf9dd3540310`) : 48 pages de confiance publiques, six par langue (en, fr, es, pt-BR, id, de, it, ar), plus les 106 URL historiques et les 34 guides conservés. Le contrôle a révélé un menu mobile hors écran ; #44 est restée en brouillon, sans fusion. Les sections plus anciennes ci-dessous décrivent les états antérieurs.
+
+Le correctif séparé ancre le panneau à l’écran (marges 12 px, hauteur disponible en dvh après mesure de l’en-tête), conserve le défilement interne et regroupe À propos/Contact. Échap ferme les menus et restitue le focus visible. Le menu Outils ordinateur est aligné au début logique pour tenir dans l’écran lorsque l’en-tête revient à la ligne. Le visuel décoratif mobile est contenu dans son bloc à 320 px. Aucun contenu de page, URL, guide, moteur ou élément AdSense modifié.
+
+Validation locale : lint, typage, build OVH, 205 tests Node, seo-check 154 URL et test:i18n huit langues réussis. Test Playwright bloquant ajouté à la CI : 16 cas mobiles aux quatre largeurs demandées, 8 menus Outils/Légal à 1280 px ; 216 liens réellement cliqués, rectangles complets des libellés, défilement interne, absence de débordement horizontal, focus et Échap contrôlés. [Captures et mesures avant/après à 390 px](docs/seo/evidence/2026-11-14-mobile-menu/README.md). CI complète et Lighthouse du correctif restent à obtenir avant fusion ; contrôle public requis avant toute mise à jour de #44.
+
+Aucun nouveau guide publié ou déclaré relu. Les 30 guides de la série restent en attente de relecture humaine ; aucune donnée reviewedBy/reviewedAt remplie. OpenSEO : aucun appel supplémentaire, coût de ce correctif 0 USD. Aucune URL soumise à Google ; liste manuelle et limite de dix par jour conservées dans le rapport.
+
+---
+
 ## Correction du périmètre éditorial — avant toute fusion
 
 La politique applicable aux **nouveaux guides depuis le 14 novembre 2026** est distinguée des guides déjà publiés, qui sont relus progressivement. À propos et la politique éditoriale portent ce texte dans les huit langues. Aucune relecture des anciens guides n’est attestée par cette politique.
