@@ -79,7 +79,7 @@ try {
     assert.equal(new URL(url).origin,origin,url); const path=new URL(url).pathname;
     assert.ok(path==='/' || !path.endsWith('/'),`${url}: slash policy`);
     assert.ok(allowed(path),`${url}: blocked by robots`);
-    const response=await request(path); assert.equal(response.status,200,url);
+    const response=await request(path); assert.equal(response.status,200,url); assert.doesNotMatch(response.headers.get('x-robots-tag') ?? '', /noindex/i, `${url}: accidental header noindex`);
     assert.match(response.headers.get('strict-transport-security')??'', /max-age=31536000/i, `${url}: HSTS`);
     assert.match(response.headers.get('x-frame-options')??'', /SAMEORIGIN/i, `${url}: frame protection`);
     assert.equal(response.headers.get('referrer-policy'),'strict-origin-when-cross-origin',`${url}: referrer policy`);
@@ -163,7 +163,10 @@ try {
     for(const href of data.links.filter(h=>h?.startsWith('/') && !h.startsWith('//'))) {
       const target=new URL(href,origin); target.hash=''; target.search='';
       if(/^\/local-media\/generated\/(licenses\/(mediabunny|mp3-encoder|lame|gifenc|emscripten|musl|compiler-rt)\.txt|corresponding-source\.tar\.gz)$/.test(target.pathname)) {
-        assert.equal((await request(target.pathname)).status,200,`license/source asset ${target.pathname}`);
+        const asset = await request(target.pathname);
+        assert.equal(asset.status,200,`license/source asset ${target.pathname}`);
+        if (/^\/local-media\/generated\/licenses\/[^/]+\.txt$/.test(target.pathname)) assert.equal(asset.headers.get('x-robots-tag'), 'noindex', target.pathname);
+        else assert.doesNotMatch(asset.headers.get('x-robots-tag') ?? '', /noindex/i, target.pathname);
       } else assert.ok(pages.has(target.href),`${url}: internal content link outside sitemap: ${target.href}`);
     }
     if(new URL(url).pathname!=='/') { const other=await request(new URL(url).pathname+'/'); assert.equal(other.status,301,`${url}: trailing slash status`); assert.equal(new URL(other.headers.get('location'),base).pathname,new URL(url).pathname); }

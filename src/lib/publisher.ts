@@ -1,14 +1,23 @@
-/** Values must be supplied by the publisher; missing facts prevent the affected pages from publishing. */
+/** Publisher-confirmed facts. Hosting and contact changes belong in this file only. */
 export const PUBLISHER = {
-  name: "[À COMPLÉTER : nom public de l’éditeur ou entité]",
-  country: "[À COMPLÉTER : pays de l’éditeur]",
-  jurisdiction: "[À COMPLÉTER : droit applicable]",
-  launched: "[À COMPLÉTER : date de lancement]",
-  author: "[À COMPLÉTER : auteur]",
-  review: "[À COMPLÉTER : existence et identité d’une relecture humaine]",
-  responseTime: "[À COMPLÉTER : délai de réponse réaliste]",
-  copyrightTime: "[À COMPLÉTER : délai de traitement des signalements]",
-  infrastructureRetention: "[À COMPLÉTER : durée de conservation vérifiée des journaux d’infrastructure]",
+  name: "Aymane Ouirdani",
+  publicationDirector: "Aymane Ouirdani",
+  country: "France",
+  countryCode: "FR",
+  launched: "2026-10",
+  postalAddress: "",
+  contacts: {
+    contact: "contact@vidfetch.app",
+    legal: "legal@vidfetch.app",
+    privacy: "privacy@vidfetch.app",
+    abuse: "abuse@vidfetch.app",
+  },
+  host: {
+    name: "OVH SAS",
+    address: "2 rue Kellermann, 59100 Roubaix, France",
+    phone: "1007 (+33 9 72 10 10 07)",
+  },
+  distribution: "Cloudflare",
 } as const;
 
 export function hasUnfinishedFields(value: unknown): boolean {

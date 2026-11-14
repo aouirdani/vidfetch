@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PLATFORM_META, type Platform } from "./platforms";
+import { PUBLISHER } from "./publisher";
 
 export const SITE = {
   name: "VidFetch",
@@ -7,7 +8,7 @@ export const SITE = {
   url: "https://vidfetch.app",
   tagline: "Your videos, a link away",
   locale: "en_US",
-  email: "support@vidfetch.app",
+  email: PUBLISHER.contacts.contact,
 } as const;
 
 /** Stable content revision date for dateModified; bump when page copy changes. */
@@ -129,6 +130,7 @@ type JsonLd = Record<string, unknown>;
 export function organisationSchema(): JsonLd {
   return {
     "@type": "Organization", "@id": `${SITE.url}/#organization`, name: SITE.name, url: SITE.url,
+    email: PUBLISHER.contacts.contact, founder: { "@type": "Person", name: PUBLISHER.name },
     description: "VidFetch is a free web application that saves public videos as MP4 or their soundtrack as MP3 from a link, with no account.",
     logo: { "@type": "ImageObject", url: `${SITE.url}${OG_IMAGE.url}`, width: OG_IMAGE.width, height: OG_IMAGE.height },
     contactPoint: [{ "@type": "ContactPoint", contactType: "customer support", email: SITE.email, availableLanguage: ["English"] }],

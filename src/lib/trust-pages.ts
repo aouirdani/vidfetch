@@ -7,7 +7,7 @@ export const TRUST_IDS = ["about", "contact", "privacy", "terms", "copyright", "
 export type TrustId = typeof TRUST_IDS[number];
 export type TrustSection = { heading: string; paragraphs: string[] };
 export type TrustPage = { id: TrustId; slug: string; title: string; description: string; sections: TrustSection[] };
-export const TRUST_UPDATED = "2026-11-07";
+export const TRUST_UPDATED = "2026-11-14";
 const rendered = new Map<Locale, TrustPage[]>();
 const published = new Map<Locale, TrustPage[]>();
 export const LEGAL_TITLES: Record<Locale, string> = {
@@ -18,9 +18,10 @@ export const LEGAL_TITLES: Record<Locale, string> = {
 export function verifiedPrivacySummary(locale: Locale) {
   return trustPages(locale).find(p => p.id === "privacy")!.sections.flatMap(s => s.paragraphs).filter(p => !hasUnfinishedFields(p));
 }
-export function trustPages(locale: Locale, values: Record<string, string> = PUBLISHER): TrustPage[] {
+export function trustPages(locale: Locale, values = PUBLISHER): TrustPage[] {
   if (values === PUBLISHER && rendered.has(locale)) return rendered.get(locale)!;
-  const replace = (text: string) => text.replace(/\{(\w+)\}/g, (_, key: string) => values[key] ?? CONTACTS[key as keyof typeof CONTACTS] ?? `[À COMPLÉTER : ${key}]`);
+  const fields: Record<string, string> = { name: values.name, country: new Intl.DisplayNames([locale], { type: "region" }).of(PUBLISHER.countryCode)!, launched: new Intl.DateTimeFormat(locale, { month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(`${values.launched}-01`)), ...CONTACTS };
+  const replace = (text: string) => text.replace(/\{(\w+)\}/g, (_, key: string) => fields[key] ?? `[À COMPLÉTER : ${key}]`);
   const pages = TRUST_IDS.map(id => {
     const entry = copy[locale][id];
     return { id, ...entry, sections: entry.sections.map(section => ({ heading: replace(section.heading), paragraphs: section.paragraphs.map(replace) })) };

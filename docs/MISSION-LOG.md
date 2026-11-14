@@ -213,3 +213,14 @@ Les deux libellés du formulaire sont sélectionnés côté serveur pour la lang
 Main `eef2a305ae928b10ea0523975d35d552ba9a5e6f` déployé à00:29:55UTC, CI42538063318 entièrement verte. SEO public106URL, cinq guides existants, cinq brouillons404 et cinq vues mobiles passent ; contacts en clair, index/follow/canonical/hreflang corrects, aucune annonce active ni CMP. Les bundles de l’archive déployée conservent leurs SHA de production. Lighthouse main : médianes95–97, autres catégories100,CLS0 ; les passes isolées94 sont conservées. Zéro retour arrière réel.
 
 OpenSEO audit7e4470c3-3b0e-41c0-bcb8-2aa743722796 terminé à08:14:12UTC : santé100/100,114pages parcourues,106indexables,0critique,0avertissement,31informations (dont24changements prévus sur les pages légales), coût0USD, rendu/proxy désactivés. Preuves sous docs/seo/evidence/2026-11-09-pr1-*. Le lot suivant peut maintenant être ouvert ; ses quinze guides restent non publiés faute d’auteur et d’À propos publiable. Aucun envoi à Google.
+
+
+## 14 novembre 2026 — Reprise éditeur réel (PR 1, avant fusion)
+
+Reprise de #41/#42 déjà fusionnées depuis un worktree isolé. Éditeur et hébergeur centralisés ; adresse postale vide masquée ; contact général et trois contacts spécialisés préservés et exclus de l’obfuscation.48pages complètes en8langues, mentions légales complétées, aucune juridiction/rétention/délai de retrait inventé. Performance/LCP/TBT avertissements ; A11y/BP/SEO100/CLS≤0,02 restent bloquants. Aucun diff moteur/passerelle/dictionnaires/AdSense/Caddy/ENGINE_FILES.
+
+SEO local154URL réussi, licences200/noindex et autres réponses contrôlées. SHA-256 locaux : moteur fa0d3d4e15a5a45ca0deb2b35e7ba03adc95c31b87500378068121f291c42287 ; passerelle 0fa1404530c272b76aaec9aee18125660e8561c744e4ccc1fbb9c7dbee9850e5 (références respectives conservées ; ces deux programmes ont des hashes distincts). Archive CI exacte à vérifier avant fusion.
+
+OpenSEO dry-run et crawl gratuit,0USD chacun : audit ec3b93eb-b0a1-41fd-a7a8-c1c936c21c24,100/100,24warnings externes,7infos,0critique. Il porte sur la production antérieure. Accès GSC expiré/révoqué signalé ; aucune soumission ni dépense payante. Dernier main échoué uniquement sur Performance arabe94 avant déploiement ; zéro rollback de cette mission.
+
+Fusion interdite tant que l’éditeur n’a pas confirmé réception des tests contact@,legal@,privacy@,abuse@. Pas de reviewedBy/reviewedAt renseignés, pas de déclaration de relecture humaine. CI complète, revue critique finale et vérification post-déploiement à consigner.

@@ -21,7 +21,7 @@ test("unfinished trust content never resolves publicly or enters the sitemap/nav
   }
 });
 test("all 48 source pages are complete structures with six distinct localized slugs", () => {
-  const confirmed = Object.fromEntries(Object.keys(PUBLISHER).map(k => [k, "Confirmed test value"]));
+  const confirmed = PUBLISHER;
   for (const locale of LOCALES) {
     const pages = trustPages(locale, confirmed);
     assert.equal(new Set(pages.map(p => p.slug)).size, TRUST_IDS.length);
@@ -43,4 +43,18 @@ test("Google CMP is disabled and rejects missing or untrusted activation URLs", 
   assert.throws(() => certifiedCmpSource(true, null));
   assert.throws(() => certifiedCmpSource(true, "https://example.com/consent.js"));
   assert.equal(certifiedCmpSource(true, "https://fundingchoicesmessages.google.com/i/test"), "https://fundingchoicesmessages.google.com/i/test");
+});
+
+test("confirmed pages expose real identity and contacts, with reciprocal equivalents", () => {
+  for (const locale of LOCALES) {
+    assert.equal(availableTrustPages(locale).length, 6);
+    for (const page of availableTrustPages(locale)) {
+      const route = resolvePage(proposedTrustPath(locale, page.id).split('/').filter(Boolean));
+      assert.equal(route?.indexable, true);
+      assert.doesNotMatch(JSON.stringify(page), /\{\w+\}|\[À COMPLÉTER/);
+    }
+    const contact = JSON.stringify(trustPages(locale).find(p => p.id === 'contact'));
+    for (const address of Object.values(PUBLISHER.contacts)) assert.ok(contact.includes(address));
+    assert.ok(JSON.stringify(trustPages(locale).find(p => p.id === 'about')).includes(PUBLISHER.name));
+  }
 });

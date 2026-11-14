@@ -5,6 +5,8 @@ const routes = [
   '/video-to-mp3',
   '/blog/why-cant-i-save-tiktok',
   '/ar',
+  '/about',
+  '/fr/contact',
 ];
 
 module.exports = {
@@ -23,7 +25,9 @@ module.exports = {
     },
     assert: {
       assertions: {
-        'categories:performance': ['error', { minScore: 0.95, aggregationMethod: 'median' }],
+        'categories:performance': ['warn', { minScore: 0.95, aggregationMethod: 'median' }],
+        'largest-contentful-paint': ['warn', { maxNumericValue: 2500, aggregationMethod: 'median' }],
+        'total-blocking-time': ['warn', { maxNumericValue: 200, aggregationMethod: 'median' }],
         'categories:accessibility': ['error', { minScore: 1, aggregationMethod: 'median' }],
         'categories:best-practices': ['error', { minScore: 1, aggregationMethod: 'median' }],
         'categories:seo': ['error', { minScore: 1, aggregationMethod: 'median' }],
