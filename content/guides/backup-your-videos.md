@@ -24,7 +24,8 @@
   ],
   "seoTitle": "Back up your videos and verify the copies",
   "reviewedBy": null,
-  "reviewedAt": null
+  "reviewedAt": null,
+  "legacyPublished": true
 }
 ---
 A useful video backup preserves your original files and gives you a working copy when the primary storage fails. Start with material you own or are authorized to retain. Keep more than one independent copy, record where it is stored and test that you can restore and play it. A synchronized folder alone is not proof of a recoverable archive.

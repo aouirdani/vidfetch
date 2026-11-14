@@ -24,7 +24,8 @@
   ],
   "seoTitle": "Reduce video size without needless quality loss",
   "reviewedBy": null,
-  "reviewedAt": null
+  "reviewedAt": null,
+  "legacyPublished": true
 }
 ---
 To make a video smaller, reduce the amount of data it carries. Shortening a clip, choosing a lower bitrate or reducing resolution can help, but each choice serves a different purpose. Work on a copy and check a representative scene before converting a whole collection. There is no setting that guarantees the same quality at a much smaller size for every source.

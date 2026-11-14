@@ -252,3 +252,12 @@ Les24warnings OpenSEO sont le même lien officiel TikTok signalé DNS dans24guid
 ## Correction demandée avant fusion — 14 novembre 2026
 
 PR #43 : À propos et politique éditoriale datent désormais la règle des nouveaux guides au 14 novembre 2026 et indiquent la relecture progressive des guides antérieurs, dans les huit langues. Le texte ne certifie aucune relecture historique. La PR #44 doit préserver les 34 guides et l’intégralité des 106 URL de production. Aucun e-mail confirmé, aucune fusion ou publication effectuée. Nouvelle CI sur ce commit requise ; les preuves ae78e46 restent historiques.
+
+
+## Correction de conservation des guides — avant fusion
+
+Les 34 guides publics de la release eef2a30 sont explicitement legacyPublished avec leurs vraies dates, jamais dépubliés par la garde de relecture. Registre fermé : aucun nouveau guide/série adsense ne peut s’y ajouter par un simple flag. 106 URL figées dans tests/fixtures/public-indexing-expected.json ; 34 corps/métadonnées/dates/canonical/hreflang comparés à la production. seo-check bloquant : 154 URL, dont les 106 existantes, 200 index,follow et canonical/hreflang identiques. Les huit index de guides demeurent publics.
+
+Signature héritée : aide IA seulement, dans les huit langues, sans auteur Person ni date de relecture ; JSON-LD Organization. Après une relecture explicite, signature complète et Person, avec première date de publication conservée (y compris dans la commande manuelle). Aucun reviewedBy/reviewedAt rempli. Les essais de transition sont des fixtures en mémoire uniquement.
+
+Build, lint/typecheck, 211 tests Node22, seo-check154/106 et i18n huit langues réussis localement. Les résultats précédents sur112URL correspondent à une approche abandonnée et non déployée. Nouvelle CI sur ce correctif requise. #43 : texte daté des nouveaux guides dans huit langues, commit afe2a51, CI43584206008 verte. Aucun e-mail confirmé, aucune fusion de PR, aucun déploiement, aucune dépense OpenSEO supplémentaire et aucun envoi à Google.

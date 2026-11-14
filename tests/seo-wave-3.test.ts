@@ -6,23 +6,23 @@ import configuration from "../next.config";
 import { AbuseLink, ContactText } from "../src/components/AbuseLink";
 import { dictionary } from "../src/i18n/dictionaries";
 import { articlePath, LANGUAGES, LOCALES } from "../src/i18n/config";
-import { guides, isPublishedGuide } from "../src/lib/guides";
+import { guides, isPublishedGuide, isReviewedGuide, guideSchema } from "../src/lib/guides";
 import { homeGuides, tiktokGuides, TIKTOK_GUIDE_IDS } from "../src/lib/guide-links";
 import { localizedMetadata } from "../src/lib/localized-seo";
 import { resolvePage } from "../src/lib/site-pages";
 import { withOfficialContacts } from "../src/lib/contact";
 
-test("the TikTok guides retain their local tool content but require a publisher-confirmed review", () => {
+test("the legacy TikTok guides remain published without claiming a publisher-confirmed review", () => {
   for (const locale of LOCALES) {
-    assert.equal(homeGuides(locale).length, 0, locale);
-    assert.equal(tiktokGuides(locale).length, 0, locale);
+    assert.equal(homeGuides(locale).length, 3, locale);
+    assert.equal(tiktokGuides(locale).length, 3, locale);
     for (const id of TIKTOK_GUIDE_IDS) {
       const guide = guides(locale).find(g => g.id === id)!;
       assert.ok(guide);
-      assert.equal(isPublishedGuide(guide), false);
-      assert.equal(resolvePage(articlePath(locale, guide.slug).split('/').filter(Boolean)), undefined);
-      assert.equal(guide.reviewedBy, null);
-      assert.equal(guide.reviewedAt, null);
+      assert.equal(isPublishedGuide(guide), true);
+      assert.equal(resolvePage(articlePath(locale, guide.slug).split('/').filter(Boolean))?.indexable, true);
+      assert.equal(guide.legacyPublished, true);
+      assert.equal(guideSchema(guide).author['@type'], isReviewedGuide(guide) ? 'Person' : 'Organization');
     }
   }
 });
@@ -34,7 +34,7 @@ test("Open Graph includes all other existing versions, with no duplicates or unr
     assert.ok(Array.isArray(alternatives));
     assert.deepEqual(alternatives.slice().sort(), LOCALES.filter(l => l !== locale).map(l => LANGUAGES[l].og).sort());
   }
-  assert.equal(resolvePage(["blog", "mp4-vs-webm"]), undefined);
+  assert.deepEqual(localizedMetadata(resolvePage(["blog", "mp4-vs-webm"])!).openGraph?.alternateLocale, []);
 });
 
 test("abuse mailto remains server-rendered inside Cloudflare's opt-out, with escaped labels", () => {

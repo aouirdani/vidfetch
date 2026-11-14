@@ -23,7 +23,8 @@
     }
   ],
   "reviewedBy": null,
-  "reviewedAt": null
+  "reviewedAt": null,
+  "legacyPublished": true
 }
 ---
 Choose MP3 when broad playback compatibility is your main requirement. Keep an existing M4A if it already plays where you need it: converting it to MP3 does not improve its original sound. M4A is a container label, while MP3 usually identifies MPEG audio compression. An M4A can contain lossy AAC or lossless ALAC, so the filename alone is not enough to judge quality.

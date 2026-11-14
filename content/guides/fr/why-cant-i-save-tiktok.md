@@ -30,7 +30,8 @@
   "publicationRequested": true,
   "sourceBodySha256": "7ec46eabb9ec38a0de443b0d11b57d94e7ba34d182f4e62c1beef48ef1bba24a",
   "reviewedBy": null,
-  "reviewedAt": null
+  "reviewedAt": null,
+  "legacyPublished": true
 }
 ---
 

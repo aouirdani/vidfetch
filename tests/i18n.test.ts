@@ -28,7 +28,7 @@ for (const locale of LOCALES) {
       assert.equal(resolvePage(path.split("/").filter(Boolean))?.locale, locale);
     }
     // The three TikTok articles now make every localized guide index a real page.
-    assert.equal(resolvePage(sectionPath(locale, "blog").split("/").filter(Boolean))?.identity.kind, undefined);
+    assert.equal(resolvePage(sectionPath(locale, "blog").split("/").filter(Boolean))?.identity.kind, "blog");
     assert.equal(resolvePage([LANGUAGES[locale].prefix, "api", "download"]), undefined);
     assert.equal(resolvePage([LANGUAGES[locale].prefix, "does-not-exist"]), undefined);
     assert.doesNotMatch(interpolate(d.waiting, { position: 2, seconds: 90 }), /\{\w+\}/);
@@ -51,7 +51,7 @@ for (const locale of LOCALES) {
     assert.equal([...home.matchAll(/hreflang=/gi)].length, 8);
     const article = renderToStaticMarkup(createElement(LanguageSelector, { locale, identity: { kind: "guide", id: "mp4-vs-webm" } }));
     for (const target of LOCALES.filter(l => l !== "en")) assert.ok(article.includes(`href="${homePath(target)}"`));
-    assert.ok(article.includes('href="/"'));
+    assert.ok(article.includes('href="/blog/mp4-vs-webm"'));
   });
   test(`${locale}: download helper preserves auth boundaries and localized messages`, () => {
     const helper = downloadHelper(["https://vidfetch.app"], locale);
@@ -66,7 +66,7 @@ test("sitemap contains exactly published canonical equivalents and excludes unve
   const entries = sitemap();
   assert.equal(entries.length, sitePages().filter(p => p.indexable).length);
   assert.equal(new Set(entries.map(p => p.url)).size, entries.length);
-  assert.equal(entries.length, 112);   // 8 homes + 8 legal + 16 TikTok + 32 local tools + 48 trust pages
+  assert.equal(entries.length, 154);   // 106 production routes plus 48 trust pages
   for (const entry of entries) {
     const parts = new URL(entry.url).pathname.split("/").filter(Boolean).map(decodeURIComponent);
     assert.ok(resolvePage(parts)?.indexable);
@@ -77,16 +77,16 @@ test("sitemap contains exactly published canonical equivalents and excludes unve
     assert.ok(entry.lastModified instanceof Date && entry.lastModified <= new Date());
     assert.doesNotMatch(entry.url, /youtube|api\//);
   }
-  assert.equal(sitePages().filter(p => p.identity.kind === "guide").length, 0);
+  assert.equal(sitePages().filter(p => p.identity.kind === "guide").length, 34);
   assert.ok(sitePages().filter(p => p.identity.kind === "guide").every(p => p.indexable));
   assert.equal(sitePages().filter(p => p.identity.kind === "platform" && p.indexable).length, 16);
 });
 test("article publication rejects review, missing dates and future dates; Unicode anchors survive", () => {
   const original = guides().find(g => g.id === "720p-1080p-4k")!;
-  assert.equal(isPublishedGuide(original), false);
-  assert.equal(isPublishedGuide({ ...original, status: "review", published: "2026-10-12" }), false);
-  assert.equal(isPublishedGuide({ ...original, published: "2999-01-01" }), false);
-  assert.equal(isPublishedGuide({ ...original, published: "2026-10-12" }), false);
+  assert.equal(isPublishedGuide(original), true);
+  assert.equal(isPublishedGuide({ ...original, legacyPublished: false, status: "review", published: "2026-10-12" }), false);
+  assert.equal(isPublishedGuide({ ...original, legacyPublished: false, published: "2999-01-01" }), false);
+  assert.equal(isPublishedGuide({ ...original, published: original.published }), true);
   assert.notEqual(headingId("اختيار الصيغة"), "");
   assert.notEqual(headingId("اختيار الصيغة"), headingId("حفظ النسخة"));
 });

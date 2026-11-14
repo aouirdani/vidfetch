@@ -4,10 +4,11 @@ import { join } from "node:path";
 import { SITE, OG_IMAGE } from "./seo";
 import { articlePath, type Locale } from "../i18n/config";
 import { hasUnfinishedFields, PUBLISHER } from "./publisher";
+import legacyPublished from "../../content/legacy-published-guides.json";
 import { trustPath } from "./trust-pages";
 
 export type GuideImage = { src: string; alt: string; width: number; height: number; caption?: string };
-export type Guide = { reviewedBy?: string | null; reviewedAt?: string | null; author?: string; series?: string; planId?: string; planRank?: number; tool?: string; images?: GuideImage[]; wordCount?: number; id: string; locale: Locale; slug: string; title: string; seoTitle?: string; publicationRequested?: boolean; description: string; category: string; created: string; updated: string; published: string | null; status: "published" | "ready" | "review" | "draft"; review?: { linguistic: "pending" | "approved"; technical: "pending" | "approved"; reviewer: string | null; reviewedAt: string | null }; sourceSha256?: string; sourceBodySha256?: string; related: string[]; sources: { title: string; url: string; accessed?: string }[]; body: string; minutes: number };
+export type Guide = { legacyPublished?: boolean; reviewedBy?: string | null; reviewedAt?: string | null; author?: string; series?: string; planId?: string; planRank?: number; tool?: string; images?: GuideImage[]; wordCount?: number; id: string; locale: Locale; slug: string; title: string; seoTitle?: string; publicationRequested?: boolean; description: string; category: string; created: string; updated: string; published: string | null; status: "published" | "ready" | "review" | "draft"; review?: { linguistic: "pending" | "approved"; technical: "pending" | "approved"; reviewer: string | null; reviewedAt: string | null }; sourceSha256?: string; sourceBodySha256?: string; related: string[]; sources: { title: string; url: string; accessed?: string }[]; body: string; minutes: number };
 const catalogues = new Map<Locale, Guide[]>();
 const publicationFields = new WeakMap<Guide, { body: string; metadata: string; unfinished: boolean }>();
 function unfinishedGuide(guide: Guide) {
@@ -43,15 +44,23 @@ export function isRealPastDate(value: unknown): value is string {
 }
 export function isReviewedGuide(guide: Guide) {
   if (!guide || guide.reviewedBy !== PUBLISHER.name || !isRealPastDate(guide.reviewedAt) || unfinishedGuide(guide)) return false;
+  if (!isRealPastDate(guide.created) || !isRealPastDate(guide.updated) || guide.reviewedAt < guide.created || guide.reviewedAt > guide.updated) return false;
   if (!trustPath(guide.locale, "about")) return false;
   if (guide.locale === "en") return true;
   const original = guides().find(g => g.id === guide.id);
   return !!original && createHash("sha256").update(original.body).digest("hex") === guide.sourceBodySha256;
 }
+/** Closed list of the 34 guides already public before this policy. New files cannot opt into it. */
+export function isLegacyPublishedGuide(guide: Guide) {
+  if (!guide || guide.legacyPublished !== true || guide.series) return false;
+  const prior = (legacyPublished as Record<string, { path: string; published: string }>)[`${guide.locale}/${guide.id}`];
+  return !!prior && guide.published === prior.published && articlePath(guide.locale, guide.slug) === prior.path;
+}
 export function isPublishedGuide(guide: Guide) {
+  if (isLegacyPublishedGuide(guide)) return true;
   return !!guide && guide.status === "published" && isReviewedGuide(guide)
     && isRealPastDate(guide.created) && isRealPastDate(guide.published) && isRealPastDate(guide.updated)
-    && guide.created <= guide.published && guide.created <= guide.reviewedAt! && guide.published <= guide.updated && guide.reviewedAt! <= guide.updated;
+    && guide.created <= guide.published && guide.published <= guide.updated;
 }
 export function availableGuides(locale: Locale) { return guides(locale).filter(isPublishedGuide); }
 export const headingId = (title: string) => title.toLowerCase().normalize("NFKD").replace(/\p{M}/gu, "").replace(/[^\p{L}\p{N}]+/gu, "-").replace(/^-|-$/g, "");

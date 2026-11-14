@@ -4,7 +4,7 @@ import { guides, availableGuides, guideFor, guideSchema, headingId } from "../sr
 import { SITE, jsonLdGraph } from "../src/lib/seo";
 
 test("published baseline and prepared guides have unique metadata, real dates and resolvable internal links", () => {
-  const all = guides(); assert.equal(availableGuides("en").length, 0);
+  const all = guides(); assert.equal(availableGuides("en").length, 13);
   assert.equal(new Set(all.map(a => a.title)).size, all.length);
   assert.equal(new Set(all.map(a => a.description)).size, all.length);
   for (const a of all) {
@@ -35,7 +35,7 @@ test("human publication gate rejects bypasses and invalid calendar dates in ever
   for (const locale of ['en', 'fr', 'es'] as const) {
     const original = guides(locale).find(g => g.id === 'save-tiktok-phone-gallery')!;
     // In-memory fixture only: these values never enter the guide files.
-    const good = { ...original, status: 'published' as const, reviewedBy: 'Aymane Ouirdani', reviewedAt: '2026-11-07', published: '2026-11-08', updated: '2026-11-08' };
+    const good = { ...original, legacyPublished: false, status: 'published' as const, reviewedBy: 'Aymane Ouirdani', reviewedAt: '2026-11-07', published: '2026-11-08', updated: '2026-11-08' };
     assert.equal(isPublishedGuide(good), true, locale);
     const schema = guideSchema(good);
     assert.equal(schema.author['@type'], 'Person');

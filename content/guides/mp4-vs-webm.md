@@ -24,7 +24,8 @@
   ],
   "seoTitle": "MP4 vs WebM: choosing a video format",
   "reviewedBy": null,
-  "reviewedAt": null
+  "reviewedAt": null,
+  "legacyPublished": true
 }
 ---
 MP4 is a sensible starting point when you need a file to play across many devices. WebM can suit web delivery when you know the receiving browser supports its contents. Neither extension, by itself, tells you the image quality. Check the video codec, audio codec and the device that will play the file.

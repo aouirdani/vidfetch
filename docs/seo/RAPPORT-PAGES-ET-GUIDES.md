@@ -1,3 +1,19 @@
+## État corrigé : conservation intégrale de la production
+
+**La PR #44 ne dépublie aucun guide existant.** Les 34 guides déjà publics portent `legacyPublished: true` et conservent leurs dates de première publication, leurs contenus, URL, canonical, hreflang, liens et entrées de sitemap. Leur liste est fermée dans `content/legacy-published-guides.json` ; les nouveaux fichiers et la série `adsense-2026-11` ne peuvent pas s’y inscrire.
+
+Sans relecture humaine datée, leur signature indique seulement « Rédigé avec l’aide d’outils d’IA », localisée dans les huit langues, et leur BlogPosting garde un author Organization. Une relecture explicitement fournie permettra le passage au format Person/À propos et à la date de relecture, sans changer la date de première publication. La commande de publication préserve aussi cette date historique. Aucun champ de relecture réel n’a été rempli.
+
+Le contrat **tests/fixtures/public-indexing-expected.json** fige les 106 URL de la release de production eef2a30. Les tests bloquants vérifient leur maintien dans le sitemap et leurs canonical/hreflang ; seo-check vérifie aussi leurs réponses HTTP 200 index,follow. Les 34 corps de texte et métadonnées d’origine sont comparés à la même référence. La branche contient à nouveau **154 URL indexables : les 106 existantes et 48 pages de confiance** ; les huit index de guides restent accessibles.
+
+Validation locale corrigée : build, lint/typecheck, 211 tests sous Node 22, SEO 154 URL avec conservation explicite des 106, et i18n huit langues réussis. Les tests du passage au format relu utilisent uniquement des fixtures en mémoire ; aucun nom/date n’est ajouté aux sources. [Preuve locale](evidence/2026-11-14-legacy-retention-local.json).
+
+PR #43 corrigée dans le commit afe2a51 : À propos et la politique éditoriale datent la règle des **nouveaux guides au 14 novembre 2026**, et distinguent la relecture progressive des anciens, dans les huit langues. [CI 43584206008](https://github.com/aouirdani/vidfetch/actions/runs/43584206008) verte. Nouvelle CI de #44 à contrôler sur le commit de conservation avant toute fusion ; les anciens résultats de #44 ne valident pas cette correction.
+
+Les anciennes propositions de fermeture de 34 guides et les mesures sur 112 URL, conservées plus bas comme historique de travail, sont **abandonnées** et ne décrivent plus la branche. Aucun guide n’a été retiré en production. Aucune PR fusionnée ; confirmation des e-mails toujours attendue ; zéro dépense OpenSEO et zéro soumission à Google pendant cette correction.
+
+---
+
 ## Correction du périmètre éditorial — avant toute fusion
 
 La politique applicable aux **nouveaux guides depuis le 14 novembre 2026** est distinguée des guides déjà publiés, qui sont relus progressivement. À propos et la politique éditoriale portent ce texte dans les huit langues. Aucune relecture des anciens guides n’est attestée par cette politique.
@@ -89,9 +105,9 @@ Liste proposée, non soumise. J1 est le premier jour **après fusion et vérific
 
 ## Verrou et relecture — état de la seconde branche, 14 novembre 2026
 
-Branche technique dépendante de la PR#43 ; aucune publication de guide autorisée ni effectuée. `reviewedBy` et `reviewedAt` sont ajoutés vides (null) aux119fichiers du checkout, sans nom/date inférés. Seuls `status=published`, `reviewedBy=Aymane Ouirdani`, une date calendaire réelle passée et des dates de création/publication/modification cohérentes ouvrent une route, un sitemap et des liens entrants. Les traductions conservent leur contrôle de provenance. Le seo-check échoue si un guide demande la publication sans ces preuves.
+Branche technique dépendante de la PR#43 ; aucune publication de guide autorisée ni effectuée. `reviewedBy` et `reviewedAt` sont ajoutés vides (null) aux119fichiers du checkout, sans nom/date inférés. Pour les nouveaux guides uniquement, `status=published`, `reviewedBy=Aymane Ouirdani`, une date calendaire réelle passée et des dates de création/publication/modification cohérentes ouvrent une route, un sitemap et des liens entrants. Les 34 guides historiques sont conservés grâce à leur marqueur fermé et à leur vraie date de publication. Les traductions conservent leur contrôle de provenance. Le seo-check échoue si un guide demande la publication sans ces preuves.
 
-Les34guides publics sous l’ancien système sont fermés par ce verrou ; les8index de guides vides le sont aussi. La branche technique aurait112URL indexables contre154dans la PR#43. Leur contenu reste intégralement disponible en prévisualisation privée. Les dates historiques de première publication sont conservées dans les fichiers et ne sont pas présentées comme de nouvelles publications.
+L’approche initiale qui fermait 34 guides et huit index a été abandonnée avant toute fusion : les 34 guides et leurs huit index restent publics et indexables. La branche corrigée contient 154 URL, dont les 106 URL antérieures. Les prévisualisations privées complètent les pages existantes sans les remplacer. Les dates historiques de première publication sont conservées dans les fichiers et ne sont pas présentées comme de nouvelles publications.
 
 Signature localisée et BlogPosting Person/À propos prêts pour les futurs guides confirmés ; aucune signature de relecture n’est affichée pour un brouillon. L’ancienne commande qui inventait une date de relecture à partir de la date système est désactivée. Le script de publication refuse un lot de plus de5guides et exige les preuves existantes.
 
@@ -112,12 +128,12 @@ OpenSEO : aucun nouvel appel payant, coût de cette reprise0USD. Le crawl gratui
 | ar/mp3-vs-m4a | — | en attente de relecture | oui | non |
 | ar/mp4-vs-webm | — | en attente de relecture | oui | non |
 | ar/reduce-video-size | — | en attente de relecture | oui | non |
-| ar/save-tiktok-phone-gallery | — | en attente de relecture | oui | non |
-| ar/save-tiktok-sound-mp3 | — | en attente de relecture | oui | non |
+| ar/save-tiktok-phone-gallery | — | publié historiquement ; relecture en attente | oui | non |
+| ar/save-tiktok-sound-mp3 | — | publié historiquement ; relecture en attente | oui | non |
 | ar/video-download-fails | — | en attente de relecture | oui | non |
 | ar/video-format-smartphone | — | en attente de relecture | oui | non |
 | ar/video-to-audio | — | en attente de relecture | oui | non |
-| ar/why-cant-i-save-tiktok | — | en attente de relecture | oui | non |
+| ar/why-cant-i-save-tiktok | — | publié historiquement ; relecture en attente | oui | non |
 | de/720p-1080p-4k | — | en attente de relecture | oui | non |
 | de/backup-your-videos | — | en attente de relecture | oui | non |
 | de/bitrate-vs-resolution | — | en attente de relecture | oui | non |
@@ -125,25 +141,25 @@ OpenSEO : aucun nouvel appel payant, coût de cette reprise0USD. Le crawl gratui
 | de/mp3-vs-m4a | — | en attente de relecture | oui | non |
 | de/mp4-vs-webm | — | en attente de relecture | oui | non |
 | de/reduce-video-size | — | en attente de relecture | oui | non |
-| de/save-tiktok-phone-gallery | — | en attente de relecture | oui | non |
-| de/save-tiktok-sound-mp3 | — | en attente de relecture | oui | non |
+| de/save-tiktok-phone-gallery | — | publié historiquement ; relecture en attente | oui | non |
+| de/save-tiktok-sound-mp3 | — | publié historiquement ; relecture en attente | oui | non |
 | de/video-download-fails | — | en attente de relecture | oui | non |
 | de/video-format-smartphone | — | en attente de relecture | oui | non |
 | de/video-to-audio | — | en attente de relecture | oui | non |
-| de/why-cant-i-save-tiktok | — | en attente de relecture | oui | non |
-| en/720p-1080p-4k | — | en attente de relecture | oui | non |
-| en/backup-your-videos | — | en attente de relecture | oui | non |
-| en/bitrate-vs-resolution | — | en attente de relecture | oui | non |
-| en/h264-h265-av1 | — | en attente de relecture | oui | non |
-| en/mp3-vs-m4a | — | en attente de relecture | oui | non |
-| en/mp4-vs-webm | — | en attente de relecture | oui | non |
-| en/reduce-video-size | — | en attente de relecture | oui | non |
-| en/save-tiktok-phone-gallery | — | en attente de relecture | oui | non |
-| en/save-tiktok-sound-mp3 | — | en attente de relecture | oui | non |
-| en/video-download-fails | — | en attente de relecture | oui | non |
-| en/video-format-smartphone | — | en attente de relecture | oui | non |
-| en/video-to-audio | — | en attente de relecture | oui | non |
-| en/why-cant-i-save-tiktok | — | en attente de relecture | oui | non |
+| de/why-cant-i-save-tiktok | — | publié historiquement ; relecture en attente | oui | non |
+| en/720p-1080p-4k | — | publié historiquement ; relecture en attente | oui | non |
+| en/backup-your-videos | — | publié historiquement ; relecture en attente | oui | non |
+| en/bitrate-vs-resolution | — | publié historiquement ; relecture en attente | oui | non |
+| en/h264-h265-av1 | — | publié historiquement ; relecture en attente | oui | non |
+| en/mp3-vs-m4a | — | publié historiquement ; relecture en attente | oui | non |
+| en/mp4-vs-webm | — | publié historiquement ; relecture en attente | oui | non |
+| en/reduce-video-size | — | publié historiquement ; relecture en attente | oui | non |
+| en/save-tiktok-phone-gallery | — | publié historiquement ; relecture en attente | oui | non |
+| en/save-tiktok-sound-mp3 | — | publié historiquement ; relecture en attente | oui | non |
+| en/video-download-fails | — | publié historiquement ; relecture en attente | oui | non |
+| en/video-format-smartphone | — | publié historiquement ; relecture en attente | oui | non |
+| en/video-to-audio | — | publié historiquement ; relecture en attente | oui | non |
+| en/why-cant-i-save-tiktok | — | publié historiquement ; relecture en attente | oui | non |
 | en/trim-video-phone | G18 | brouillon | oui | non |
 | en/compress-video-phone | G10 | brouillon | oui | non |
 | en/extract-audio-phone | G01 | brouillon | oui | non |
@@ -181,12 +197,12 @@ OpenSEO : aucun nouvel appel payant, coût de cette reprise0USD. Le crawl gratui
 | es/mp3-vs-m4a | — | en attente de relecture | oui | non |
 | es/mp4-vs-webm | — | en attente de relecture | oui | non |
 | es/reduce-video-size | — | en attente de relecture | oui | non |
-| es/save-tiktok-phone-gallery | — | en attente de relecture | oui | non |
-| es/save-tiktok-sound-mp3 | — | en attente de relecture | oui | non |
+| es/save-tiktok-phone-gallery | — | publié historiquement ; relecture en attente | oui | non |
+| es/save-tiktok-sound-mp3 | — | publié historiquement ; relecture en attente | oui | non |
 | es/video-download-fails | — | en attente de relecture | oui | non |
 | es/video-format-smartphone | — | en attente de relecture | oui | non |
 | es/video-to-audio | — | en attente de relecture | oui | non |
-| es/why-cant-i-save-tiktok | — | en attente de relecture | oui | non |
+| es/why-cant-i-save-tiktok | — | publié historiquement ; relecture en attente | oui | non |
 | fr/720p-1080p-4k | — | en attente de relecture | oui | non |
 | fr/backup-your-videos | — | en attente de relecture | oui | non |
 | fr/bitrate-vs-resolution | — | en attente de relecture | oui | non |
@@ -194,12 +210,12 @@ OpenSEO : aucun nouvel appel payant, coût de cette reprise0USD. Le crawl gratui
 | fr/mp3-vs-m4a | — | en attente de relecture | oui | non |
 | fr/mp4-vs-webm | — | en attente de relecture | oui | non |
 | fr/reduce-video-size | — | en attente de relecture | oui | non |
-| fr/save-tiktok-phone-gallery | — | en attente de relecture | oui | non |
-| fr/save-tiktok-sound-mp3 | — | en attente de relecture | oui | non |
+| fr/save-tiktok-phone-gallery | — | publié historiquement ; relecture en attente | oui | non |
+| fr/save-tiktok-sound-mp3 | — | publié historiquement ; relecture en attente | oui | non |
 | fr/video-download-fails | — | en attente de relecture | oui | non |
 | fr/video-format-smartphone | — | en attente de relecture | oui | non |
 | fr/video-to-audio | — | en attente de relecture | oui | non |
-| fr/why-cant-i-save-tiktok | — | en attente de relecture | oui | non |
+| fr/why-cant-i-save-tiktok | — | publié historiquement ; relecture en attente | oui | non |
 | fr/trim-video-phone | G18 | brouillon | non — bibliothèque locale | non |
 | fr/compress-video-phone | G10 | brouillon | non — bibliothèque locale | non |
 | fr/extract-audio-phone | G01 | brouillon | non — bibliothèque locale | non |
@@ -217,12 +233,12 @@ OpenSEO : aucun nouvel appel payant, coût de cette reprise0USD. Le crawl gratui
 | id/mp3-vs-m4a | — | en attente de relecture | oui | non |
 | id/mp4-vs-webm | — | en attente de relecture | oui | non |
 | id/reduce-video-size | — | en attente de relecture | oui | non |
-| id/save-tiktok-phone-gallery | — | en attente de relecture | oui | non |
-| id/save-tiktok-sound-mp3 | — | en attente de relecture | oui | non |
+| id/save-tiktok-phone-gallery | — | publié historiquement ; relecture en attente | oui | non |
+| id/save-tiktok-sound-mp3 | — | publié historiquement ; relecture en attente | oui | non |
 | id/video-download-fails | — | en attente de relecture | oui | non |
 | id/video-format-smartphone | — | en attente de relecture | oui | non |
 | id/video-to-audio | — | en attente de relecture | oui | non |
-| id/why-cant-i-save-tiktok | — | en attente de relecture | oui | non |
+| id/why-cant-i-save-tiktok | — | publié historiquement ; relecture en attente | oui | non |
 | it/720p-1080p-4k | — | en attente de relecture | oui | non |
 | it/backup-your-videos | — | en attente de relecture | oui | non |
 | it/bitrate-vs-resolution | — | en attente de relecture | oui | non |
@@ -230,12 +246,12 @@ OpenSEO : aucun nouvel appel payant, coût de cette reprise0USD. Le crawl gratui
 | it/mp3-vs-m4a | — | en attente de relecture | oui | non |
 | it/mp4-vs-webm | — | en attente de relecture | oui | non |
 | it/reduce-video-size | — | en attente de relecture | oui | non |
-| it/save-tiktok-phone-gallery | — | en attente de relecture | oui | non |
-| it/save-tiktok-sound-mp3 | — | en attente de relecture | oui | non |
+| it/save-tiktok-phone-gallery | — | publié historiquement ; relecture en attente | oui | non |
+| it/save-tiktok-sound-mp3 | — | publié historiquement ; relecture en attente | oui | non |
 | it/video-download-fails | — | en attente de relecture | oui | non |
 | it/video-format-smartphone | — | en attente de relecture | oui | non |
 | it/video-to-audio | — | en attente de relecture | oui | non |
-| it/why-cant-i-save-tiktok | — | en attente de relecture | oui | non |
+| it/why-cant-i-save-tiktok | — | publié historiquement ; relecture en attente | oui | non |
 | pt-BR/720p-1080p-4k | — | en attente de relecture | oui | non |
 | pt-BR/backup-your-videos | — | en attente de relecture | oui | non |
 | pt-BR/bitrate-vs-resolution | — | en attente de relecture | oui | non |
@@ -243,12 +259,12 @@ OpenSEO : aucun nouvel appel payant, coût de cette reprise0USD. Le crawl gratui
 | pt-BR/mp3-vs-m4a | — | en attente de relecture | oui | non |
 | pt-BR/mp4-vs-webm | — | en attente de relecture | oui | non |
 | pt-BR/reduce-video-size | — | en attente de relecture | oui | non |
-| pt-BR/save-tiktok-phone-gallery | — | en attente de relecture | oui | non |
-| pt-BR/save-tiktok-sound-mp3 | — | en attente de relecture | oui | non |
+| pt-BR/save-tiktok-phone-gallery | — | publié historiquement ; relecture en attente | oui | non |
+| pt-BR/save-tiktok-sound-mp3 | — | publié historiquement ; relecture en attente | oui | non |
 | pt-BR/video-download-fails | — | en attente de relecture | oui | non |
 | pt-BR/video-format-smartphone | — | en attente de relecture | oui | non |
 | pt-BR/video-to-audio | — | en attente de relecture | oui | non |
-| pt-BR/why-cant-i-save-tiktok | — | en attente de relecture | oui | non |
+| pt-BR/why-cant-i-save-tiktok | — | publié historiquement ; relecture en attente | oui | non |
 
 ---
 

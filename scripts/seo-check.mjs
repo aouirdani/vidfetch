@@ -9,6 +9,8 @@ import { request as httpsRequest } from 'node:https';
 import { request as httpRequest } from 'node:http';
 
 const origin = 'https://vidfetch.app';
+const productionBaseline = JSON.parse(readFileSync('tests/fixtures/public-indexing-expected.json', 'utf8'));
+assert.equal(Object.keys(productionBaseline.indexable).length, 106, 'frozen production URL count');
 const maxHtmlBytes = Number(process.env.SEO_CHECK_MAX_HTML_BYTES ?? 512 * 1024);
 assert.ok(Number.isSafeInteger(maxHtmlBytes) && maxHtmlBytes > 0, 'SEO_CHECK_MAX_HTML_BYTES must be a positive integer');
 const localeOg = { en:'en_US',fr:'fr_FR',es:'es_ES','pt-BR':'pt_BR',id:'id_ID',de:'de_DE',it:'it_IT',ar:'ar_AR' };
@@ -57,6 +59,7 @@ try {
   const blocks=[...sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)].map(m=>m[1]);
   const urls=blocks.map(block=>block.match(/<loc>([^<]+)<\/loc>/)[1]);
   assert.ok(urls.length>0); assert.equal(new Set(urls).size,urls.length);
+  for (const [path, expected] of Object.entries(productionBaseline.pages)) assert.ok(urls.includes(expected.canonical), `${path}: production URL removed from sitemap`);
   const robots=await (await request('/robots.txt')).text();
   assert.match(robots,/Sitemap: https:\/\/vidfetch\.app\/sitemap\.xml/);
   // Apply the longest matching Allow/Disallow rule for the wildcard crawler, including * and $.
@@ -93,6 +96,10 @@ try {
     const data=await dom.evaluate(()=>({
       title:document.title, description:document.querySelector('meta[name=description]')?.content,
       sourceLinks:document.querySelectorAll('[data-guide-sources] a[href^="https://"]').length,
+      legacyGuide:document.querySelector('article')?.getAttribute('data-guide-legacy') === 'true',
+      reviewedGuide:document.querySelector('article')?.getAttribute('data-guide-reviewed') === 'true',
+      byline:document.querySelector('[data-guide-byline]')?.textContent,
+      bylineDate:document.querySelector('[data-guide-byline] time')?.getAttribute('datetime'),
       missionGuide:!!document.querySelector('article[data-guide-series="adsense-2026-11"]'),
       bodyLinks:document.querySelectorAll('.guide-prose a[href^="/"]').length,
       bodyHrefs:[...document.querySelectorAll('.guide-prose a[href^="/"]')].map(a=>a.getAttribute('href')),
@@ -121,15 +128,27 @@ try {
     assert.ok(data.main?.length>100,`${url}: main content missing without JavaScript`);
     assert.doesNotMatch(data.main, /\[À\s+COMPLÉTER\s*:/iu, `${url}: unfinished visible publisher/author field`);
     const article = data.json.flatMap(g=>g['@graph']??[g]).find(n=>n['@type']==='BlogPosting');
-    if(article) {
-      assert.ok(data.sourceLinks>=2,`${url}: guide sources missing`);
-      assert.ok(data.description.length<=155,`${url}: guide description exceeds 155`);
-      assert.ok(data.bodyLinks>=2 && data.bodyLinks<=4,`${url}: expected 2–4 actually rendered contextual links`);
+    const retained = productionBaseline.pages[decodeURIComponent(new URL(url).pathname)];
+    if(retained) {
+      assert.equal(response.status,200,`${url}: retained production HTTP status`);
+      assert.ok(data.robots.some(value=>/(?:^|[ ,])index(?:[ ,]|$)/i.test(value) && /(?:^|[ ,])follow(?:[ ,]|$)/i.test(value)),`${url}: retained production index,follow`);
+      assert.deepEqual(data.canonical,[retained.canonical],`${url}: production canonical changed`);
+      assert.deepEqual(data.alternates,retained.hreflang,`${url}: production hreflang changed`);
+    }
+    if(article) assert.ok(data.sourceLinks>=2,`${url}: guide sources missing`);
+    if(article && data.legacyGuide && !data.reviewedGuide) {
+      assert.equal(article.author?.['@type'],'Organization',`${url}: unreviewed legacy author`);
+      assert.ok(data.byline?.trim(),`${url}: legacy AI disclosure missing`);
+      assert.equal(data.bylineDate,undefined,`${url}: legacy page must not claim a review date`);
+    }
+    if(article && (!data.legacyGuide || data.reviewedGuide)) {
+      if(!data.legacyGuide) assert.ok(data.description.length<=155,`${url}: guide description exceeds 155`);
+      if(!data.legacyGuide) assert.ok(data.bodyLinks>=2 && data.bodyLinks<=4,`${url}: expected 2–4 actually rendered contextual links`);
       assert.equal(article.author?.['@type'],'Person',`${url}: author must be a person`);
       assert.equal(article.author?.name,'Aymane Ouirdani',`${url}: exact reviewed author`);
       assert.ok(data.authorHrefs.includes(article.author.url),`${url}: visible author links to About`);
       for(const key of ['datePublished','dateModified']) assert.ok(/^\d{4}-\d{2}-\d{2}$/.test(article[key]) && Number.isFinite(Date.parse(article[key])) && new Date(article[key]).toISOString().slice(0,10)===article[key] && article[key]<=new Date().toISOString().slice(0,10),`${url}: real ${key}`);
-      if(data.lang==='es') for(const target of ['/es/tiktok-a-mp3','/es/descargar-video-tiktok']) assert.ok(data.bodyHrefs.includes(target),`${url}: missing Spanish contextual destination ${target}`);
+      if(!data.legacyGuide && data.lang==='es') for(const target of ['/es/tiktok-a-mp3','/es/descargar-video-tiktok']) assert.ok(data.bodyHrefs.includes(target),`${url}: missing Spanish contextual destination ${target}`);
     }
     if(data.missionGuide) assert.ok(data.bodyLinks>=2 && data.bodyLinks<=4,`${url}: expected 2–4 actually rendered contextual links`);
     assert.equal(data.alternates['x-default'],data.alternates.en,`${url}: x-default must be English`);
@@ -184,7 +203,7 @@ try {
     if(new URL(url).pathname!=='/') { const other=await request(new URL(url).pathname+'/'); assert.equal(other.status,301,`${url}: trailing slash status`); assert.equal(new URL(other.headers.get('location'),base).pathname,new URL(url).pathname); }
   }
   assert.equal((await request('/seo-check-missing-6d18c7')).status,404,'missing URL must return 404');
-  console.log(`SEO CHECK PASS: ${pages.size} URLs; unique titles/H1, <=${maxHtmlBytes} HTML bytes, no orphans, HTTP 200, robots, title/description, canonicals, reciprocal hreflang, lang/RTL, OG, JSON-LD/FAQ, sitemap dates, SSR text, internal links, 301 and 404.`);
+  console.log(`SEO CHECK PASS: ${pages.size} URLs; unique titles/H1, <=${maxHtmlBytes} HTML bytes, no orphans, HTTP 200, robots, title/description, canonicals, reciprocal hreflang, lang/RTL, OG, JSON-LD/FAQ, sitemap dates, SSR text, internal links, 301 and 404; all 106 production URLs retained as HTTP 200 index,follow with unchanged canonical/hreflang.`);
 } finally {
   await browser?.close(); server?.kill('SIGTERM');
 }

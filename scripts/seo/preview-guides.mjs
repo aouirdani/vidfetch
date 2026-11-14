@@ -45,7 +45,7 @@ const server=createServer(async(req,res)=>{
     const guide=match && all.find(g=>g.locale===match[1]&&g.id===match[2]);
     if(!guide){res.statusCode=404;res.end(document('Introuvable','<h1>Introuvable</h1>'));return;}
     const body=renderToStaticMarkup(createElement(GuideBody,{body:guide.body,locale:guide.locale,images:guide.images}));
-    res.end(document(guide.title,'<nav><a href="/">Liste de relecture</a></nav><p class="pending">En attente de relecture humaine · '+escape(guide.locale)+' · '+escape(guide.id)+'</p><h1>'+escape(guide.title)+'</h1><p>'+escape(guide.description)+'</p><p>URL prévue : '+escape(articlePath(guide.locale,guide.slug))+'</p>'+body+'<h2>Sources à vérifier</h2><ul>'+guide.sources.map(s=>'<li><a href="'+escape(s.url)+'">'+escape(s.title)+'</a>'+ (s.accessed?' · '+escape(s.accessed):'')+'</li>').join('')+'</ul>',guide.locale));
+    res.end(document(guide.title,'<nav><a href="/">Liste de relecture</a></nav><p class="pending">En attente de relecture humaine · '+escape(guide.locale)+' · '+escape(guide.id)+(guide.legacyPublished?' · Publication historique conservée : '+escape(guide.published):'')+'</p><h1>'+escape(guide.title)+'</h1><p>'+escape(guide.description)+'</p><p>URL prévue : '+escape(articlePath(guide.locale,guide.slug))+'</p>'+body+'<h2>Sources à vérifier</h2><ul>'+guide.sources.map(s=>'<li><a href="'+escape(s.url)+'">'+escape(s.title)+'</a>'+ (s.accessed?' · '+escape(s.accessed):'')+'</li>').join('')+'</ul>',guide.locale));
   } catch {res.statusCode=404;res.end('Not found');}
 });
-server.listen(port,'127.0.0.1',()=>console.log(`Private guide review: http://127.0.0.1:${port} (${all.length} drafts; source ${source})`));
+server.listen(port,'127.0.0.1',()=>console.log(`Private guide review: http://127.0.0.1:${port} (${all.length} private previews; source ${source})`));

@@ -13,7 +13,7 @@ for (const id of ids) {
   if (locale !== 'en' && guide.meta.sourceBodySha256 !== hashBody((await record('en', id)).body)) throw Error('Translation source changed');
   if (guide.meta.status === "published" && guide.meta.published) continue;
   guide.meta.status = "published";
-  guide.meta.published = today(); guide.meta.updated = today(); plans.push(guide);
+  guide.meta.published ??= today(); guide.meta.updated = today(); plans.push(guide);
 }
 // Validate every selected guide before writing. Each change gets a distinct backup.
 for (const guide of plans) await save(guide);

@@ -16,3 +16,14 @@ export const REVIEW_BYLINE: Record<Locale, string> = {
   it: "Redatto con l’aiuto di strumenti IA, verificato e riletto il",
   ar: "كُتب بمساعدة أدوات الذكاء الاصطناعي، وتم التحقق منه ومراجعته في",
 };
+
+export const AI_ASSISTED_BYLINE: Record<Locale, string> = {
+  en: "Written with the help of AI tools",
+  fr: "Rédigé avec l’aide d’outils d’IA",
+  es: "Redactado con ayuda de herramientas de IA",
+  "pt-BR": "Escrito com a ajuda de ferramentas de IA",
+  id: "Ditulis dengan bantuan alat AI",
+  de: "Mit Hilfe von KI-Werkzeugen verfasst",
+  it: "Redatto con l’aiuto di strumenti di IA",
+  ar: "كُتب بمساعدة أدوات الذكاء الاصطناعي",
+};
