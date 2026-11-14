@@ -1,3 +1,19 @@
+## Contrôles consolidés du 14 novembre — publication toujours en attente
+
+PR #43, commit ae78e46 : [CI 43579679947](https://github.com/aouirdani/vidfetch/actions/runs/43579679947) **entièrement verte**. Tests, backend/passerelle, contrôles de release et Caddy, SEO 154 URL, i18n huit langues, Lighthouse, conversions locales et suite complète des déploiements réussis. 204 tests locaux Node 22 également réussis. Captures : 48 pages de confiance et huit mentions, menus mobile/ordinateur et absence de ligne d’adresse postale vérifiés.
+
+Lighthouse CI : 24 mesures, trois par route ; Performance médiane 97–99, A11y/Best Practices/SEO 100 partout et CLS 0. Performance, LCP et TBT sont des avertissements ; les quatre autres seuils restent bloquants. [Mesures](docs/seo/evidence/2026-11-14-trust-lighthouse.json).
+
+[Archive CI exacte vérifiée](docs/seo/evidence/2026-11-14-trust-artifact-proof.json), Linux x64/Node 22.23.3, release 2ea0c28c9094b25dd57f7258f7889c11c10d13d1 : SHA-256 c462185e8f7f6f739ea87ec1e914be2f53bba550edd2fd670f2ef6aabf6b77b7. Les deux bundles correspondent chacun à sa référence (moteur fa0d3d4e… ; passerelle 0fa14045…). ENGINE_FILES, Caddy et AdSense inchangés. Aucune fusion, activation ou vérification post-déploiement revendiquée ; zéro retour arrière. La confirmation de réception sur contact@, legal@, privacy@ et abuse@ reste absente.
+
+PR #44 reste en brouillon, sans guide publié. Validation locale finale : 205 tests Node 22, build, lint/typecheck, SEO 112 URL et i18n réussis ; CI de cette branche suivie séparément. Les 144 prévisualisations privées ont été ouvertes en mobile : 200, un seul H1, images accessibles et aucun débordement horizontal. Aucune case de relecture cochée, aucun reviewedBy/reviewedAt renseigné dans les 119 sources.
+
+G27 est maintenant un texte de travail sourcé, après consultation du rendu officiel TikTok le 14 novembre. Les étapes ont pu être vérifiées dans la documentation, **pas par un export réel du compte de l’éditeur**. Les 30 sujets du plan disposent d’un brouillon ; G27 attend cet essai réel et sa relecture, comme les autres guides attendent leur propre validation datée. Les anciennes mentions « source inaccessible / fiche non rédigée » plus bas sont des jalons antérieurs, remplacés par ce point.
+
+OpenSEO gratuit : 0 USD de dry-run, 0 USD de crawl, 0 USD de lecture des résultats et problèmes ; cumul de cette reprise **0 USD**. Les 24 warnings concernent le même ancien lien officiel TikTok, noté DNS par le robot : cela ne prouve pas 24 pannes distinctes. Le crawl reste celui de la production antérieure, 100/100 et zéro critique. Accès GSC expiré/révoqué signalé, aucune nouvelle position obtenue, aucune soumission à Google. L’ancien coût historique de 0,12 USD reste distinct.
+
+---
+
 ## File d’indexation manuelle — maximum10URL/jour
 
 Liste proposée, non soumise. J1 est le premier jour **après fusion et vérifications publiques réussies** : cette file ne doit pas démarrer aujourd’hui sur des pages encore absentes. Les futurs guides relus TikTok/galerie, puis audio et espagnol, passent en tête après publication réelle et prennent la place d’autres URL du jour sans dépasser10. Aucun guide non relu dans cette liste.
@@ -71,7 +87,7 @@ Les34guides publics sous l’ancien système sont fermés par ce verrou ; les8in
 
 Signature localisée et BlogPosting Person/À propos prêts pour les futurs guides confirmés ; aucune signature de relecture n’est affichée pour un brouillon. L’ancienne commande qui inventait une date de relecture à partir de la date système est désactivée. Le script de publication refuse un lot de plus de5guides et exige les preuves existantes.
 
-Dossier de relecture : [RELECTURE-GUIDES.md](RELECTURE-GUIDES.md),144fiches couvrant les30sujets du plan, les10FR préparées et le catalogue antérieur.29textes EN du plan sont rédigés ; G27 reste une fiche de travail à compléter après vérification officielle et essai du compte de l’éditeur. Parmi ces textes,15EN sont déjà dans main et14EN+10FR proviennent uniquement de la branche locale non fusionnée d6b6812. Aucune PR ne publiera plus de5guides.
+Dossier de relecture : [RELECTURE-GUIDES.md](docs/seo/RELECTURE-GUIDES.md),144fiches couvrant les30sujets du plan, les10FR préparées et le catalogue antérieur.29textes EN du plan sont rédigés ; G27 reste une fiche de travail à compléter après vérification officielle et essai du compte de l’éditeur. Parmi ces textes,15EN sont déjà dans main et14EN+10FR proviennent uniquement de la branche locale non fusionnée d6b6812. Aucune PR ne publiera plus de5guides.
 
 Validation locale : build, seo-check112URL et i18n huit langues réussis ;82tests ciblés réussis avant l’ajout du test de conservation de date historique, corrigé et revalidé. Suite complète locale finale :205tests réussis sous Node22. CI de cette branche à consigner. Le contrôle de publication vérifie les dates impossibles/futures, les noms, les anciens flags et la provenance.
 
@@ -149,7 +165,7 @@ OpenSEO : aucun nouvel appel payant, coût de cette reprise0USD. Le crawl gratui
 | en/corrupted-video-file | G26 | brouillon | non — bibliothèque locale | non |
 | en/sample-rate-vs-bitrate | G04 | brouillon | non — bibliothèque locale | non |
 | en/split-video-into-parts | G25 | brouillon | non — bibliothèque locale | non |
-| en/download-tiktok-account-data | G27 | brouillon — fiche à compléter | non — bibliothèque locale | non |
+| en/download-tiktok-account-data | G27 | brouillon — essai réel et relecture à effectuer | non — bibliothèque locale | non |
 | es/720p-1080p-4k | — | en attente de relecture | oui | non |
 | es/backup-your-videos | — | en attente de relecture | oui | non |
 | es/bitrate-vs-resolution | — | en attente de relecture | oui | non |

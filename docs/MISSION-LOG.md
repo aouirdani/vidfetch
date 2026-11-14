@@ -238,3 +238,12 @@ Build/SEO112URL/i18n réussis ; tests ciblés82réussis ; suite complète en cou
 Revue critique technique avant ouverture de la branche : aucun ancien flag ne contourne la garde ; dates calendaires et provenance contrôlées ; première date de publication historique préservée ; sources et liens effectifs recontrôlés pour chaque futur guide. seo-check impose2–4liens contextuels, signature Person/À propos et les deux destinations espagnoles. Les prévisualisations échappent le HTML via le même GuideBody, n’écoutent que127.0.0.1 et ne donnent aucune approbation.205tests locaux finaux réussis sous Node22. Les données de relecture du test sont uniquement des fixtures en mémoire/temporaire, jamais les119fichiers sources.
 
 PR#43 : captures mobiles48pages+8mentions et menus réussis ;24mesures Lighthouse CI : Performance médiane97–99, A11y/BP/SEO100,CLS0 ; dernière suite de déploiement encore en cours au moment de cette note. Les captures sont locales, pas une vérification de production. Résultats CI complets et archive à ajouter avant fusion.
+
+
+## 14 novembre — CI des pages de confiance verte, archive contrôlée
+
+PR#43 ae78e46 : run43579679947 entièrement vert, y compris la suite de déploiement.24mesures Lighthouse : médianes97–99, A11y/BP/SEO100,CLS0.48pages+8mentions mobiles et menus validés. Archive2ea0c28c9094b25dd57f7258f7889c11c10d13d1 SHA256 c462185e8f7f6f739ea87ec1e914be2f53bba550edd2fd670f2ef6aabf6b77b7 ; hashes moteur et passerelle inchangés et ENGINE_FILES intact. Aucun blocage technique relevé pour43 ; confirmation des4boîtes e-mail toujours manquante. Aucune fusion ni activation.
+
+PR#44 technique en brouillon :205tests locaux,112URL SEO, i18n et build verts ; CI indépendante encore en cours.144prévisualisations mobiles privées vérifiées (200/H1/images/largeur).G27 a été rédigé depuis le rendu public officiel TikTok (redirection www.tiktok.com/support/faq_detail?id=7543597460594285112&category=web_account), lu le14novembre. Aucun export de compte réel testé ; cette limite est explicite dans le brouillon et le dossier.30textes de travail, toujours0relecture attestée et0nouveau guide publié.
+
+Les24warnings OpenSEO sont le même lien officiel TikTok signalé DNS dans24guides ; pas une preuve de24liens distincts définitivement cassés. Lecture gratuite des problèmes,0USD ; total de reprise0USD. Aucun envoi à Google.
