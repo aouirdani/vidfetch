@@ -1,0 +1,50 @@
+{
+  "capturedAt": "2026-11-14T20:50:24.035Z",
+  "source": "production e2a9fe05e90cfe3c521ac89d4fe2bf9dd3540310",
+  "results": [
+    {
+      "locale": "en",
+      "status": 200,
+      "viewport": 390,
+      "panel": {
+        "x": -173.1875,
+        "y": 103.6875,
+        "width": 256,
+        "height": 512
+      },
+      "dimensions": {
+        "clientHeight": 510,
+        "scrollHeight": 586,
+        "position": "absolute"
+      },
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 113.6875
+      }
+    },
+    {
+      "locale": "ar",
+      "status": 200,
+      "viewport": 390,
+      "panel": {
+        "x": 153.1875,
+        "y": 50,
+        "width": 256,
+        "height": 512
+      },
+      "dimensions": {
+        "clientHeight": 510,
+        "scrollHeight": 606,
+        "position": "absolute"
+      },
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 65
+      }
+    }
+  ]
+}

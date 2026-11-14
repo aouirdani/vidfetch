@@ -52,6 +52,16 @@ jobs:
           npm run build
           npm run test:vercel -- --browser
           npm run smoke:browser
+      - name: Required mobile and desktop navigation (LTR, RTL, keyboard and every link)
+        run: npm run test:navigation
+      - name: Preserve navigation geometry and mobile screenshots
+        if: always()
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        with:
+          name: navigation-${{ github.sha }}
+          path: build/navigation-evidence/
+          if-no-files-found: ignore
+          retention-days: 7
       - name: Linux standalone frontend and checked engines (no production secrets)
         id: archive
         env:
