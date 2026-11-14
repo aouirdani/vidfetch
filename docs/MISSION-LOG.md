@@ -247,3 +247,8 @@ PR#43 ae78e46 : run43579679947 entièrement vert, y compris la suite de déploie
 PR#44 technique en brouillon :205tests locaux,112URL SEO, i18n et build verts ; CI indépendante encore en cours.144prévisualisations mobiles privées vérifiées (200/H1/images/largeur).G27 a été rédigé depuis le rendu public officiel TikTok (redirection www.tiktok.com/support/faq_detail?id=7543597460594285112&category=web_account), lu le14novembre. Aucun export de compte réel testé ; cette limite est explicite dans le brouillon et le dossier.30textes de travail, toujours0relecture attestée et0nouveau guide publié.
 
 Les24warnings OpenSEO sont le même lien officiel TikTok signalé DNS dans24guides ; pas une preuve de24liens distincts définitivement cassés. Lecture gratuite des problèmes,0USD ; total de reprise0USD. Aucun envoi à Google.
+
+
+## Correction demandée avant fusion — 14 novembre 2026
+
+PR #43 : À propos et politique éditoriale datent désormais la règle des nouveaux guides au 14 novembre 2026 et indiquent la relecture progressive des guides antérieurs, dans les huit langues. Le texte ne certifie aucune relecture historique. La PR #44 doit préserver les 34 guides et l’intégralité des 106 URL de production. Aucun e-mail confirmé, aucune fusion ou publication effectuée. Nouvelle CI sur ce commit requise ; les preuves ae78e46 restent historiques.

@@ -1,3 +1,11 @@
+## Correction du périmètre éditorial — avant toute fusion
+
+La politique applicable aux **nouveaux guides depuis le 14 novembre 2026** est distinguée des guides déjà publiés, qui sont relus progressivement. À propos et la politique éditoriale portent ce texte dans les huit langues. Aucune relecture des anciens guides n’est attestée par cette politique.
+
+La demande de correction impose de conserver les 34 guides existants et les 106 URL actuelles, indexables, avec leurs URL, contenus, canonical et hreflang. Le verrou de la PR #44 sera limité aux nouveaux guides ; la signature des anciens sans preuve de relecture indiquera seulement l’aide IA, avec un author Organization. Aucune réception de test e-mail confirmée ; aucune fusion autorisée à ce stade. Les résultats de CI antérieurs concernent le commit précédent ; une nouvelle CI doit valider cette correction.
+
+---
+
 ## Contrôles consolidés du 14 novembre — publication toujours en attente
 
 PR #43, commit ae78e46 : [CI 43579679947](https://github.com/aouirdani/vidfetch/actions/runs/43579679947) **entièrement verte**. Tests, backend/passerelle, contrôles de release et Caddy, SEO 154 URL, i18n huit langues, Lighthouse, conversions locales et suite complète des déploiements réussis. 204 tests locaux Node 22 également réussis. Captures : 48 pages de confiance et huit mentions, menus mobile/ordinateur et absence de ligne d’adresse postale vérifiés.
