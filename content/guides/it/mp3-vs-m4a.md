@@ -33,7 +33,9 @@
       "url": "https://github.com/macosforge/alac"
     }
   ],
-  "sourceBodySha256": "f025b11c35a95867d7016d89b3b61e59af99c75dcc309845925192870056b058"
+  "sourceBodySha256": "f025b11c35a95867d7016d89b3b61e59af99c75dcc309845925192870056b058",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 MP3 è utile quando un dispositivo o programma lo richiede. Se un M4A funziona già, conservarlo evita una conversione inutile. M4A è un contenitore che può ospitare AAC con perdita o ALAC senza perdita. Il nome del file non basta per giudicare la qualità della registrazione.

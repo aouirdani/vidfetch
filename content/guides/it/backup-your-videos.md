@@ -33,7 +33,9 @@
       "url": "https://www.gnu.org/software/coreutils/manual/html_node/cksum-common-options.html"
     }
   ],
-  "sourceBodySha256": "eeaa156218e90692cd5ef5da3042187785f42b7ecb328c5c8b4d0a4b91bceb7b"
+  "sourceBodySha256": "eeaa156218e90692cd5ef5da3042187785f42b7ecb328c5c8b4d0a4b91bceb7b",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Un backup utile conserva i file originali e permette di recuperarli quando lo spazio principale si guasta. Parti da contenuti tuoi o autorizzati. Mantieni copie indipendenti e prova ripristino e riproduzione. Una cartella sincronizzata, da sola, non dimostra che un archivio sia recuperabile.

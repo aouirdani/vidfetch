@@ -33,7 +33,9 @@
       "url": "https://www.ffmpeg.org/ffmpeg-codecs.html#libmp3lame"
     }
   ],
-  "sourceBodySha256": "3b71df668d8d476a1de663b87f59552d6e69c8f343affc02a11abbef74828445"
+  "sourceBodySha256": "3b71df668d8d476a1de663b87f59552d6e69c8f343affc02a11abbef74828445",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Un video può contenere una traccia audio separata. Creare un file sonoro significa copiarla in un contenitore compatibile o ricodificarla, per esempio in MP3. La copia può preservare i dati; la conversione aiuta la compatibilità, non migliora la registrazione. Usa solo contenuti tuoi o autorizzati.

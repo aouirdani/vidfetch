@@ -224,3 +224,17 @@ SEO local154URL réussi, licences200/noindex et autres réponses contrôlées. S
 OpenSEO dry-run et crawl gratuit,0USD chacun : audit ec3b93eb-b0a1-41fd-a7a8-c1c936c21c24,100/100,24warnings externes,7infos,0critique. Il porte sur la production antérieure. Accès GSC expiré/révoqué signalé ; aucune soumission ni dépense payante. Dernier main échoué uniquement sur Performance arabe94 avant déploiement ; zéro rollback de cette mission.
 
 Fusion interdite tant que l’éditeur n’a pas confirmé réception des tests contact@,legal@,privacy@,abuse@. Pas de reviewedBy/reviewedAt renseignés, pas de déclaration de relecture humaine. CI complète, revue critique finale et vérification post-déploiement à consigner.
+
+
+## 14 novembre 2026 — Branche technique de relecture (sans publication)
+
+119guides : reviewedBy/reviewedAt null, aucune relecture attestée. Gate strict published+nom exact+vraie date ; prêt/ancienne approbation/publicationRequested ne suffisent plus.34anciennes pages et8index fermés ;112URL locales contrôlées. Dates de première publication historiques conservées même lors d’une relecture ultérieure ; dateModified doit couvrir la relecture réelle.
+
+Prévisualisation privée 127.0.0.1:4184, boucle locale uniquement, noindex/nofollow/no-store,144fiches.29textes du plan rédigés ;G27 fiche non aboutie (source TikTok actuelle non lisible, aucun test de compte attesté). Anciens essais repris avec leur date et leur portée, pas revendiqués comme relecture humaine. Dossier et inventaire complets dans docs/seo.15EN déjà main ;14EN+10FR seulement dans une bibliothèque depuis la branche locale d6b6812, à reprendre en lots≤5.
+
+Build/SEO112URL/i18n réussis ; tests ciblés82réussis ; suite complète en cours. Aucun changement des fichiers moteur/passerelle/dictionnaires/AdSense/Caddy/ENGINE_FILES.0USD supplémentaire, aucune soumission Google. Fusion des pages de confiance attend encore les4boîtes e-mail ; cette branche ne certifie aucun guide relu.
+
+
+Revue critique technique avant ouverture de la branche : aucun ancien flag ne contourne la garde ; dates calendaires et provenance contrôlées ; première date de publication historique préservée ; sources et liens effectifs recontrôlés pour chaque futur guide. seo-check impose2–4liens contextuels, signature Person/À propos et les deux destinations espagnoles. Les prévisualisations échappent le HTML via le même GuideBody, n’écoutent que127.0.0.1 et ne donnent aucune approbation.205tests locaux finaux réussis sous Node22. Les données de relecture du test sont uniquement des fixtures en mémoire/temporaire, jamais les119fichiers sources.
+
+PR#43 : captures mobiles48pages+8mentions et menus réussis ;24mesures Lighthouse CI : Performance médiane97–99, A11y/BP/SEO100,CLS0 ; dernière suite de déploiement encore en cours au moment de cette note. Les captures sont locales, pas une vérification de production. Résultats CI complets et archive à ajouter avant fusion.

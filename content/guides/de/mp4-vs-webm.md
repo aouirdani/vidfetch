@@ -33,7 +33,9 @@
       "url": "https://www.webmproject.org/docs/container/"
     }
   ],
-  "sourceBodySha256": "dcc784ad61b3b018d19f23a998202d1b4ac2f0a670b2d711dde20557d639a092"
+  "sourceBodySha256": "dcc784ad61b3b018d19f23a998202d1b4ac2f0a670b2d711dde20557d639a092",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 MP4 ist häufig ein sinnvoller Ausgangspunkt für Videos auf verschiedenen Geräten. WebM kann für eine Website passen, wenn die vorgesehenen Browser den Inhalt unterstützen. Die Endung allein garantiert weder Bildqualität noch Wiedergabe. Prüfe Video- und Audiocodec sowie die Anwendung, die die Datei öffnen soll.

@@ -33,7 +33,9 @@
       "url": "https://www.gnu.org/software/coreutils/manual/html_node/cksum-common-options.html"
     }
   ],
-  "sourceBodySha256": "eeaa156218e90692cd5ef5da3042187785f42b7ecb328c5c8b4d0a4b91bceb7b"
+  "sourceBodySha256": "eeaa156218e90692cd5ef5da3042187785f42b7ecb328c5c8b4d0a4b91bceb7b",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Um backup útil mantém seus originais e permite recuperar uma cópia se o armazenamento principal falhar. Comece com material seu ou autorizado. Tenha cópias independentes e teste se consegue restaurar e reproduzir os arquivos. Uma pasta sincronizada não comprova, sozinha, a recuperação de um acervo.

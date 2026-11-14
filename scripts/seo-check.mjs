@@ -95,6 +95,8 @@ try {
       sourceLinks:document.querySelectorAll('[data-guide-sources] a[href^="https://"]').length,
       missionGuide:!!document.querySelector('article[data-guide-series="adsense-2026-11"]'),
       bodyLinks:document.querySelectorAll('.guide-prose a[href^="/"]').length,
+      bodyHrefs:[...document.querySelectorAll('.guide-prose a[href^="/"]')].map(a=>a.getAttribute('href')),
+      authorHrefs:[...document.querySelectorAll('article header a[href]')].map(a=>new URL(a.getAttribute('href'),'https://vidfetch.app').href),
       robots:[...document.querySelectorAll('meta[name=robots]')].map(n=>n.content),
       h1:[...document.querySelectorAll('h1')].map(n=>n.textContent.trim()),
       main:(() => { const main=document.querySelector('main')?.cloneNode(true); if(!main)return ''; main.querySelectorAll('script,style,template,form').forEach(n=>n.remove()); const walker=document.createTreeWalker(main,NodeFilter.SHOW_TEXT); const parts=[]; while(walker.nextNode())parts.push(walker.currentNode.textContent); return parts.join(' ').replace(/\s+/g,' ').trim(); })(),lang:document.documentElement.lang,dir:document.documentElement.dir,
@@ -118,7 +120,17 @@ try {
     assert.deepEqual(data.canonical,[url],`${url}: canonical`);
     assert.ok(data.main?.length>100,`${url}: main content missing without JavaScript`);
     assert.doesNotMatch(data.main, /\[À\s+COMPLÉTER\s*:/iu, `${url}: unfinished visible publisher/author field`);
-    if(data.json.flatMap(g=>g['@graph']??[g]).some(n=>n['@type']==='BlogPosting')) assert.ok(data.sourceLinks>=2,`${url}: guide sources missing`);
+    const article = data.json.flatMap(g=>g['@graph']??[g]).find(n=>n['@type']==='BlogPosting');
+    if(article) {
+      assert.ok(data.sourceLinks>=2,`${url}: guide sources missing`);
+      assert.ok(data.description.length<=155,`${url}: guide description exceeds 155`);
+      assert.ok(data.bodyLinks>=2 && data.bodyLinks<=4,`${url}: expected 2–4 actually rendered contextual links`);
+      assert.equal(article.author?.['@type'],'Person',`${url}: author must be a person`);
+      assert.equal(article.author?.name,'Aymane Ouirdani',`${url}: exact reviewed author`);
+      assert.ok(data.authorHrefs.includes(article.author.url),`${url}: visible author links to About`);
+      for(const key of ['datePublished','dateModified']) assert.ok(/^\d{4}-\d{2}-\d{2}$/.test(article[key]) && Number.isFinite(Date.parse(article[key])) && new Date(article[key]).toISOString().slice(0,10)===article[key] && article[key]<=new Date().toISOString().slice(0,10),`${url}: real ${key}`);
+      if(data.lang==='es') for(const target of ['/es/tiktok-a-mp3','/es/descargar-video-tiktok']) assert.ok(data.bodyHrefs.includes(target),`${url}: missing Spanish contextual destination ${target}`);
+    }
     if(data.missionGuide) assert.ok(data.bodyLinks>=2 && data.bodyLinks<=4,`${url}: expected 2–4 actually rendered contextual links`);
     assert.equal(data.alternates['x-default'],data.alternates.en,`${url}: x-default must be English`);
     assert.ok(data.alternates['x-default'],`${url}: x-default missing`);

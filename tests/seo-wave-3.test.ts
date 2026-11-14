@@ -6,33 +6,23 @@ import configuration from "../next.config";
 import { AbuseLink, ContactText } from "../src/components/AbuseLink";
 import { dictionary } from "../src/i18n/dictionaries";
 import { articlePath, LANGUAGES, LOCALES } from "../src/i18n/config";
-import { guideSchema, isPublishedGuide } from "../src/lib/guides";
+import { guides, isPublishedGuide } from "../src/lib/guides";
 import { homeGuides, tiktokGuides, TIKTOK_GUIDE_IDS } from "../src/lib/guide-links";
 import { localizedMetadata } from "../src/lib/localized-seo";
-import { languageAlternates, resolvePage } from "../src/lib/site-pages";
-import { platformLinks } from "../src/lib/platform-pages";
+import { resolvePage } from "../src/lib/site-pages";
 import { withOfficialContacts } from "../src/lib/contact";
 
-test("the three TikTok guides have eight published equivalents and links to both local tools", () => {
+test("the TikTok guides retain their local tool content but require a publisher-confirmed review", () => {
   for (const locale of LOCALES) {
-    assert.equal(homeGuides(locale).length, 3, locale);
-    assert.deepEqual(tiktokGuides(locale).map(g => g.id).sort(), [...TIKTOK_GUIDE_IDS].sort());
-    for (const guide of tiktokGuides(locale)) {
-      assert.ok(isPublishedGuide(guide));
-      const path = articlePath(locale, guide.slug), page = resolvePage(path.split("/").filter(Boolean))!;
-      assert.equal(page.indexable, true, path);
-      assert.equal(guideSchema(guide).inLanguage, locale);
-      assert.equal(guideSchema(guide).url, new URL(path, "https://vidfetch.app").href);
-      assert.deepEqual(Object.keys(languageAlternates(page)).sort(), [...LOCALES, "x-default"].sort());
-      const metadata = localizedMetadata(page);
-      const alternatives = metadata.openGraph?.alternateLocale;
-      assert.ok(Array.isArray(alternatives));
-      assert.deepEqual(alternatives.slice().sort(), LOCALES.filter(l => l !== locale).map(l => LANGUAGES[l].og).sort());
-      if (!["en", "fr"].includes(locale)) {
-        assert.ok(guide.body.split(/\s+/).length >= 350, path);
-        for (const tool of platformLinks(locale)) assert.ok(guide.body.includes(`](${tool.href})`), `${path} -> ${tool.href}`);
-      }
-      for (const [, href] of guide.body.matchAll(/\]\((\/[^\s)]+)\)/g)) assert.ok(resolvePage(href.split("/").filter(Boolean)), `${path} -> ${href}`);
+    assert.equal(homeGuides(locale).length, 0, locale);
+    assert.equal(tiktokGuides(locale).length, 0, locale);
+    for (const id of TIKTOK_GUIDE_IDS) {
+      const guide = guides(locale).find(g => g.id === id)!;
+      assert.ok(guide);
+      assert.equal(isPublishedGuide(guide), false);
+      assert.equal(resolvePage(articlePath(locale, guide.slug).split('/').filter(Boolean)), undefined);
+      assert.equal(guide.reviewedBy, null);
+      assert.equal(guide.reviewedAt, null);
     }
   }
 });
@@ -44,7 +34,7 @@ test("Open Graph includes all other existing versions, with no duplicates or unr
     assert.ok(Array.isArray(alternatives));
     assert.deepEqual(alternatives.slice().sort(), LOCALES.filter(l => l !== locale).map(l => LANGUAGES[l].og).sort());
   }
-  assert.deepEqual(localizedMetadata(resolvePage(["blog", "mp4-vs-webm"])!).openGraph?.alternateLocale, []);
+  assert.equal(resolvePage(["blog", "mp4-vs-webm"]), undefined);
 });
 
 test("abuse mailto remains server-rendered inside Cloudflare's opt-out, with escaped labels", () => {

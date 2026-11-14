@@ -3,7 +3,7 @@ const routes = [
   '/fr',
   '/id/download-video-tiktok',
   '/video-to-mp3',
-  '/blog/why-cant-i-save-tiktok',
+  '/legal',
   '/ar',
   '/about',
   '/fr/contact',

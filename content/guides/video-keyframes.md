@@ -59,7 +59,9 @@
     "market": "us",
     "language": "en"
   },
-  "wordCount": 1052
+  "wordCount": 1052,
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 A video keyframe provides a decoding point that does not need the same earlier picture history as dependent frames. That is why a fast copy-mode cut and a newly encoded cut can behave differently around your selected start. Use precise re-encoding when the boundary matters, and inspect the saved result rather than assuming a decimal input guarantees an exact frame.

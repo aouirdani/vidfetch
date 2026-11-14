@@ -33,7 +33,9 @@
       "url": "https://github.com/yt-dlp/yt-dlp#readme"
     }
   ],
-  "sourceBodySha256": "06a8912cb5d2ab396082b86362d7df856e32b170afde8313e6e4662338400c42"
+  "sourceBodySha256": "06a8912cb5d2ab396082b86362d7df856e32b170afde8313e6e4662338400c42",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Una descarga puede fallar por la plataforma, el servicio de preparación o tu conexión. Comprueba primero que el vídeo existe y puedes guardarlo. Verlo en una página web no garantiza acceso anónimo desde un servidor, aunque el extractor reconozca su dirección.

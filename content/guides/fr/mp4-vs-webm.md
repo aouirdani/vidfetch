@@ -33,7 +33,9 @@
       "url": "https://www.webmproject.org/docs/container/"
     }
   ],
-  "sourceBodySha256": "dcc784ad61b3b018d19f23a998202d1b4ac2f0a670b2d711dde20557d639a092"
+  "sourceBodySha256": "dcc784ad61b3b018d19f23a998202d1b4ac2f0a670b2d711dde20557d639a092",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Le MP4 est souvent un bon point de départ pour partager une vidéo entre plusieurs appareils. Le WebM convient à certains usages sur le Web, si les navigateurs visés prennent en charge son contenu. L’extension seule ne permet de juger ni la qualité de l’image ni la compatibilité. Regardez aussi les codecs vidéo et audio.

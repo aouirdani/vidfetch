@@ -76,13 +76,13 @@ try {
   for (const locale of locales) {
     const prefix = blogs[locales.indexOf(locale)];
     const ready = new Set(availableGuides(locale).map(guide => guide.id));
-    for (const guide of allGuides(locale).filter(guide => guide.series === 'adsense-2026-11' && !ready.has(guide.id))) {
+    for (const guide of allGuides(locale).filter(guide => !ready.has(guide.id))) {
       const path = '/' + prefix + '/' + guide.slug;
       assert.equal((await fetch(base + path)).status, 404, 'Unpublished guide stays unavailable: ' + path);
       assert.ok(!canonicalPaths.includes(path), 'Draft absent from sitemap: ' + path);
     }
   }
-  const paths = [...new Set([...canonicalPaths, ...blogs.map(path => '/' + path), ...guidePaths].map(path => new URL(path, base).pathname))];
+  const paths = [...new Set([...canonicalPaths, ...guidePaths].map(path => new URL(path, base).pathname))];
   const allPaths = new Set(paths.map(path => decodeURI(path)));
   for (const path of paths) {
     const response = await fetch(base + path); assert.equal(response.status, 200, path);

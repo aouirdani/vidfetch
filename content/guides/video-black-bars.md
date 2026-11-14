@@ -48,7 +48,9 @@
     "market": "us",
     "language": "en"
   },
-  "wordCount": 773
+  "wordCount": 773,
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Black bars can be pixels already encoded into a video or empty space added by a player when the picture and display have different shapes. Check which kind you have before converting. VidFetch can compress or trim a compatible local file, but it has no crop control and does not promise to remove either kind of bar.

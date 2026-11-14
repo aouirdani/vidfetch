@@ -33,7 +33,9 @@
       "url": "https://www.ffmpeg.org/ffmpeg-codecs.html#libmp3lame"
     }
   ],
-  "sourceBodySha256": "3b71df668d8d476a1de663b87f59552d6e69c8f343affc02a11abbef74828445"
+  "sourceBodySha256": "3b71df668d8d476a1de663b87f59552d6e69c8f343affc02a11abbef74828445",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Un vídeo puede contener una pista de sonido independiente. Crear un archivo de audio consiste en copiarla a un contenedor compatible o codificarla a otro formato, como MP3. La copia puede conservar los datos exactos; recodificar puede mejorar compatibilidad, no la calidad original. Usa solo material propio o autorizado.

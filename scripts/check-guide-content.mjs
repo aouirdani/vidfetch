@@ -5,8 +5,8 @@ import sharp from 'sharp';
 
 /** Validate prepared content too: publication gating must not hide authoring errors. */
 export async function checkGuideContent() {
-  const bundle=await build({stdin:{contents:`export {guides,isReviewedGuide} from './src/lib/guides';export {sitePages} from './src/lib/site-pages';export {LOCALES,articlePath} from './src/i18n/config';`,resolveDir:process.cwd()},bundle:true,platform:'node',format:'esm',write:false});
-  const {guides,isReviewedGuide,sitePages,LOCALES,articlePath}=await import('data:text/javascript;base64,'+Buffer.from(bundle.outputFiles[0].text).toString('base64'));
+  const bundle=await build({stdin:{contents:`export {guides,isReviewedGuide,isPublishedGuide} from './src/lib/guides';export {sitePages} from './src/lib/site-pages';export {LOCALES,articlePath} from './src/i18n/config';`,resolveDir:process.cwd()},bundle:true,platform:'node',format:'esm',write:false});
+  const {guides,isReviewedGuide,isPublishedGuide,sitePages,LOCALES,articlePath}=await import('data:text/javascript;base64,'+Buffer.from(bundle.outputFiles[0].text).toString('base64'));
   const paths=new Set(sitePages().map(p=>p.path));
   for(const locale of LOCALES) for(const guide of guides(locale)) paths.add(articlePath(locale,guide.slug));
   let count=0;
@@ -14,6 +14,8 @@ export async function checkGuideContent() {
     const titles=new Set(),descriptions=new Set();
     for(const guide of guides(locale)) {
       for(const [key,seen] of [['title',titles],['description',descriptions]]) {const value=guide[key].trim().toLocaleLowerCase();assert.ok(!seen.has(value),`${locale}/${guide.id}: duplicate ${key}`);seen.add(value);}
+      if (guide.status === 'published') assert.ok(isPublishedGuide(guide), `${locale}/${guide.id}: publication requires Aymane Ouirdani, a real reviewedAt and valid publication/modification dates`);
+      if (!isPublishedGuide(guide)) assert.ok(!sitePages().some(p => p.identity.kind === 'guide' && p.locale === locale && p.identity.id === guide.id), `${locale}/${guide.id}: unreviewed route leaked`);
       if(guide.series!=='adsense-2026-11') continue;
       count++;
       assert.ok(guide.title.length+11<=60,guide.id+': title including brand');

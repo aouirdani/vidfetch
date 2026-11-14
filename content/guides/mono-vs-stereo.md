@@ -54,7 +54,9 @@
     "market": "us",
     "language": "en"
   },
-  "wordCount": 745
+  "wordCount": 745,
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Mono audio has one channel; stereo has two. Two channels can carry different spatial information, but they do not automatically make speech clearer or a recording better. VidFetch’s audio extractor preserves the supported source channel layout in this workflow; it does not offer a mono/stereo switch, voice separation or a way to invent missing channels.

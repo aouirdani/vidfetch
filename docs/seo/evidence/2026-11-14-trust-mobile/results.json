@@ -1,0 +1,343 @@
+{
+  "verifiedAt": "2026-11-14T09:28:45.741Z",
+  "scope": "local preview only; not production or human guide review",
+  "pages": [
+    {
+      "locale": "en",
+      "id": "about",
+      "path": "/about",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "en",
+      "id": "contact",
+      "path": "/contact",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "en",
+      "id": "privacy",
+      "path": "/privacy",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "en",
+      "id": "terms",
+      "path": "/terms",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "en",
+      "id": "copyright",
+      "path": "/copyright",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "en",
+      "id": "editorial",
+      "path": "/editorial-policy",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "fr",
+      "id": "about",
+      "path": "/fr/a-propos",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "fr",
+      "id": "contact",
+      "path": "/fr/contact",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "fr",
+      "id": "privacy",
+      "path": "/fr/confidentialite",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "fr",
+      "id": "terms",
+      "path": "/fr/conditions-utilisation",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "fr",
+      "id": "copyright",
+      "path": "/fr/droits-auteur",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "fr",
+      "id": "editorial",
+      "path": "/fr/politique-editoriale",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "es",
+      "id": "about",
+      "path": "/es/acerca-de",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "es",
+      "id": "contact",
+      "path": "/es/contacto",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "es",
+      "id": "privacy",
+      "path": "/es/privacidad",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "es",
+      "id": "terms",
+      "path": "/es/condiciones-uso",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "es",
+      "id": "copyright",
+      "path": "/es/derechos-autor",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "es",
+      "id": "editorial",
+      "path": "/es/politica-editorial",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "pt-BR",
+      "id": "about",
+      "path": "/pt/sobre",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "pt-BR",
+      "id": "contact",
+      "path": "/pt/contato",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "pt-BR",
+      "id": "privacy",
+      "path": "/pt/privacidade",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "pt-BR",
+      "id": "terms",
+      "path": "/pt/termos-de-uso",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "pt-BR",
+      "id": "copyright",
+      "path": "/pt/direitos-autorais",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "pt-BR",
+      "id": "editorial",
+      "path": "/pt/politica-editorial",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "id",
+      "id": "about",
+      "path": "/id/tentang",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "id",
+      "id": "contact",
+      "path": "/id/kontak",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "id",
+      "id": "privacy",
+      "path": "/id/privasi",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "id",
+      "id": "terms",
+      "path": "/id/ketentuan-penggunaan",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "id",
+      "id": "copyright",
+      "path": "/id/hak-cipta",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "id",
+      "id": "editorial",
+      "path": "/id/kebijakan-editorial",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "de",
+      "id": "about",
+      "path": "/de/ueber-uns",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "de",
+      "id": "contact",
+      "path": "/de/kontakt",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "de",
+      "id": "privacy",
+      "path": "/de/datenschutz",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "de",
+      "id": "terms",
+      "path": "/de/nutzungsbedingungen",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "de",
+      "id": "copyright",
+      "path": "/de/urheberrecht",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "de",
+      "id": "editorial",
+      "path": "/de/redaktionsrichtlinie",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "it",
+      "id": "about",
+      "path": "/it/chi-siamo",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "it",
+      "id": "contact",
+      "path": "/it/contatti",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "it",
+      "id": "privacy",
+      "path": "/it/privacy",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "it",
+      "id": "terms",
+      "path": "/it/condizioni-uso",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "it",
+      "id": "copyright",
+      "path": "/it/diritto-autore",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "it",
+      "id": "editorial",
+      "path": "/it/politica-editoriale",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "ar",
+      "id": "about",
+      "path": "/ar/من-نحن",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "ar",
+      "id": "contact",
+      "path": "/ar/اتصل-بنا",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "ar",
+      "id": "privacy",
+      "path": "/ar/الخصوصية",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "ar",
+      "id": "terms",
+      "path": "/ar/شروط-الاستخدام",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "ar",
+      "id": "copyright",
+      "path": "/ar/حقوق-النشر",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "locale": "ar",
+      "id": "editorial",
+      "path": "/ar/السياسة-التحريرية",
+      "status": 200,
+      "overflow": false
+    }
+  ],
+  "legalLocales": 8
+}

@@ -1,0 +1,81 @@
+{
+  "run": 43579679947,
+  "sourceHead": "ae78e46",
+  "artifactRelease": "2ea0c28c9094b25dd57f7258f7889c11c10d13d1",
+  "scope": "CI; no production deployment",
+  "runsPerRoute": 3,
+  "medians": {
+    "/ar": {
+      "performance": 0.97,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1,
+      "cls": 0,
+      "lcp": 2281.917,
+      "tbt": 113.27074999999991
+    },
+    "/": {
+      "performance": 0.97,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1,
+      "cls": 0,
+      "lcp": 2288.206,
+      "tbt": 117
+    },
+    "/fr": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1,
+      "cls": 0,
+      "lcp": 1822.0682000000002,
+      "tbt": 114.98117500000012
+    },
+    "/id/download-video-tiktok": {
+      "performance": 0.97,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1,
+      "cls": 0,
+      "lcp": 2294.1830999999997,
+      "tbt": 125.20422499999995
+    },
+    "/blog/why-cant-i-save-tiktok": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1,
+      "cls": 0,
+      "lcp": 2120.4851,
+      "tbt": 57.5
+    },
+    "/fr/contact": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1,
+      "cls": 0,
+      "lcp": 1982.5634,
+      "tbt": 61
+    },
+    "/about": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1,
+      "cls": 0,
+      "lcp": 1970.6052999999997,
+      "tbt": 55.499999999999886
+    },
+    "/video-to-mp3": {
+      "performance": 0.97,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1,
+      "cls": 0,
+      "lcp": 2284.1739000000002,
+      "tbt": 117
+    }
+  }
+}

@@ -33,7 +33,9 @@
       "url": "https://developer.apple.com/av-foundation/"
     }
   ],
-  "sourceBodySha256": "86cafb861e20c2547aaccbc2ef47ac4f1d4d6f6c7d510492f18f9360c3b799c6"
+  "sourceBodySha256": "86cafb861e20c2547aaccbc2ef47ac4f1d4d6f6c7d510492f18f9360c3b799c6",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Para assistir no celular, escolha uma combinação aceita pelo aparelho e pelo aplicativo. MP4 com H.264 comum e AAC costuma ser uma referência prática. Perfil, resolução e versão do sistema também importam. Teste um arquivo antes de baixar vários vídeos grandes.

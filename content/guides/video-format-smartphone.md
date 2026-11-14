@@ -21,7 +21,9 @@
       "title": "Apple AVFoundation: audiovisual media",
       "url": "https://developer.apple.com/av-foundation/"
     }
-  ]
+  ],
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 For a video you want to watch on a phone, start with a format the device and playback application support. MP4 with common H.264 video and AAC audio is often a useful compatibility baseline. The exact codec profile, resolution and operating-system version still matter. Test one file before downloading many large videos.

@@ -63,7 +63,7 @@ describe("navigation", () => {
   it("never links an empty guide index: Guides appears only in a language with guides to show", () => {
     for (const locale of LOCALES) {
       const has = availableGuides(locale).length > 0;
-      assert.equal(has, true, locale);
+      assert.equal(has, false, locale);
       assert.equal(sitePages().some(p => p.locale === locale && p.identity.kind === "blog"), has, locale);
     }
     for (const file of ["src/components/Header.tsx", "src/components/Footer.tsx"]) {
@@ -139,7 +139,7 @@ describe("AdSense publisher declaration eligibility", () => {
     assert.equal(showsAds(resolvePage([])), true);
     assert.equal(showsAds(resolvePage(["tiktok-to-mp3"])), true);
     assert.equal(showsAds(resolvePage(["legal"])), false);
-    assert.equal(showsAds(resolvePage(["blog", "mp4-vs-webm"])), true, "an unpublished guide");
+    assert.equal(showsAds(resolvePage(["blog", "mp4-vs-webm"])), false, "an unpublished guide");
     assert.equal(showsAds(resolvePage(["missing-page"])), false);
     assert.equal(showsAds(undefined), false);
   });

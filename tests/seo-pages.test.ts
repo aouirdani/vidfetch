@@ -150,7 +150,7 @@ describe("priority platform pages: publication", () => {
     // an unverified platform has no page at all (404), not even a noindex one that names it
     for (const segments of [["instagram-reels-downloader"], ["twitter-video-downloader"], ["youtube-video-downloader"]]) assert.equal(resolvePage(segments), undefined, segments.join("/"));
     for (const segments of [["es", "descargar-video-instagram"], ["fr", "telecharger-reels-instagram"], ["fr", "telecharger-video-x"], ["tiktok-mp3"]]) assert.equal(resolvePage(segments), undefined, segments.join("/"));
-    assert.equal(sitePages().filter(p => p.indexable).length, 154);
+    assert.equal(sitePages().filter(p => p.indexable).length, 112);
   });
 
   it("once approved: indexable, self-canonical, reciprocal hreflang, in the sitemap, with structured data from the visible copy", () => {
@@ -260,7 +260,7 @@ describe("site-wide claims", () => {
     for (const path of ["/", "/fr"]) assert.equal(lastmod[path], "2026-11-06", path);
     for (const path of ["/es", "/ar"]) assert.equal(lastmod[path], "2026-11-06", path);
     for (const path of ["/legal", "/fr/mentions-legales"]) assert.equal(lastmod[path], "2026-11-14", path);
-    assert.equal(Object.keys(lastmod).length, 154);
+    assert.equal(Object.keys(lastmod).length, 112);
   });
 
   it("gives /fr/tiktok-en-mp3 copy of its own, distinct from the French video page and free of unverified claims", () => {

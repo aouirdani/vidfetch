@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { gzipSync } from 'node:zlib';
 
 const [reportDir = '.lighthouseci-pr', htmlRoot = '.next/server/app'] = process.argv.slice(2);
-const routes = ['/', '/fr', '/id/download-video-tiktok', '/video-to-mp3', '/blog/why-cant-i-save-tiktok', '/ar', '/about', '/fr/contact'];
+const routes = ['/', '/fr', '/id/download-video-tiktok', '/video-to-mp3', '/legal', '/ar', '/about', '/fr/contact'];
 const expectedRuns = 3;
 const median = values => [...values].sort((a, b) => a - b)[Math.floor(values.length / 2)];
 const notes = [];
