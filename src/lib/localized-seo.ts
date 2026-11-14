@@ -9,6 +9,7 @@ import { availablePlatformPages, approvedPlatformCopy } from "./platform-pages";
 import { languageAlternates, type SitePage } from "./site-pages";
 import { BLOG_TITLES } from "./guide-links";
 import { availableTrustPages, LEGAL_TITLES } from "./trust-pages";
+import { PUBLISHER } from "./publisher";
 export function localizedMetadata(page: SitePage): Metadata {
   const d = dictionary(page.locale), identity = page.identity, kind = identity.kind;
   const guide = identity.kind === "guide" ? guides(page.locale).find(g => g.id === identity.id) : undefined;
@@ -32,6 +33,7 @@ export function localizedMetadata(page: SitePage): Metadata {
 export function localizedIdentity(locale: Locale) {
   const d = dictionary(locale), url = new URL(homePath(locale), SITE.url).href;
   return [{ "@type": "Organization", "@id": `${SITE.url}/#organization`, name: SITE.name, url: SITE.url, description: d.footerAbout,
+    email: PUBLISHER.contacts.contact, founder: { "@type": "Person", name: PUBLISHER.name },
     logo: { "@type": "ImageObject", url: `${SITE.url}/icon.svg` } },
   { "@type": "WebSite", "@id": `${url}#website`, name: SITE.name, url, inLanguage: locale, publisher: { "@id": `${SITE.url}/#organization` } }];
 }

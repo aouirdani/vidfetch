@@ -1,3 +1,43 @@
+## Correction du périmètre éditorial — avant toute fusion
+
+La politique applicable aux **nouveaux guides depuis le 14 novembre 2026** est distinguée des guides déjà publiés, qui sont relus progressivement. À propos et la politique éditoriale portent ce texte dans les huit langues. Aucune relecture des anciens guides n’est attestée par cette politique.
+
+La demande de correction impose de conserver les 34 guides existants et les 106 URL actuelles, indexables, avec leurs URL, contenus, canonical et hreflang. Le verrou de la PR #44 sera limité aux nouveaux guides ; la signature des anciens sans preuve de relecture indiquera seulement l’aide IA, avec un author Organization. Aucune réception de test e-mail confirmée ; aucune fusion autorisée à ce stade. Les résultats de CI antérieurs concernent le commit précédent ; une nouvelle CI doit valider cette correction.
+
+---
+
+## Mission éditeur — 14 novembre 2026 : état courant
+
+Cette section remplace les anciens champs « à compléter » et les anciennes conditions Performance. Elle décrit une PR préparée, pas une publication en production. La fusion attend la confirmation explicite de réception des e-mails de test aux quatre adresses. Aucun test e-mail envoyé par l’agent.
+
+- Éditeur/directeur : Aymane Ouirdani, particulier sans statut d’entreprise, France ; lancement octobre 2026. Adresse postale vide et ligne masquée. Éditeur, contacts, hébergeur et diffusion dans `src/lib/publisher.ts`.
+- Six pages par langue prêtes dans la branche ; mentions légales existantes complétées. Menus ordinateur/mobile, footer, sitemap, canonical et hreflang réciproques.
+- Performance/LCP/TBT : warn ; A11y/BP/SEO 100 et CLS ≤ 0,02 : error. Aucun changement d’hydratation.
+- Licences `.txt` : 200 + X-Robots-Tag noindex via Next ; autres pages HTML et archive source sans cet en-tête.
+- Local : build OVH et seo-check 154 URL réussis ; lint, typecheck, tests et i18n en cours de consolidation. CI/Lighthouse de cette PR : en attente du premier push.
+- Production actuelle : dernier main 8fec2b9 bloqué avant déploiement par Performance arabe médiane94 ; dernière CI main déployée eef2a30. Aucun retour arrière déclenché par cette mission.
+- OpenSEO gratuit initial `ec3b93eb-b0a1-41fd-a7a8-c1c936c21c24` terminé le14/11 : 100/100,114ressources,106pages HTML,0critique,24avertissements de liens externes et7informations. Accès Search Console signalé expiré/révoqué par OpenSEO ; aucune nouvelle position revendiquée. Dry-run :0USD ; crawl :0USD ; cumul de cette reprise :0USD. Ancien coût0,12USD conservé dans l’historique.
+- Aucune soumission à Google. Aucun guide nouvellement publié ou déclaré relu. Les anciens guides publics n’ont pas de validation humaine attestée dans cette conversation ; la PR suivante appliquera le verrou demandé à tout le catalogue.
+
+### Pages de confiance prêtes, publication en attente
+
+| Langue | URLs préparées | Publiées par cette mission |
+|---|---|---|
+| en | `/about` · `/contact` · `/privacy` · `/terms` · `/copyright` · `/editorial-policy` | 0 |
+| fr | `/fr/a-propos` · `/fr/contact` · `/fr/confidentialite` · `/fr/conditions-utilisation` · `/fr/droits-auteur` · `/fr/politique-editoriale` | 0 |
+| es | `/es/acerca-de` · `/es/contacto` · `/es/privacidad` · `/es/condiciones-uso` · `/es/derechos-autor` · `/es/politica-editorial` | 0 |
+| pt-BR | `/pt/sobre` · `/pt/contato` · `/pt/privacidade` · `/pt/termos-de-uso` · `/pt/direitos-autorais` · `/pt/politica-editorial` | 0 |
+| id | `/id/tentang` · `/id/kontak` · `/id/privasi` · `/id/ketentuan-penggunaan` · `/id/hak-cipta` · `/id/kebijakan-editorial` | 0 |
+| de | `/de/ueber-uns` · `/de/kontakt` · `/de/datenschutz` · `/de/nutzungsbedingungen` · `/de/urheberrecht` · `/de/redaktionsrichtlinie` | 0 |
+| it | `/it/chi-siamo` · `/it/contatti` · `/it/privacy` · `/it/condizioni-uso` · `/it/diritto-autore` · `/it/politica-editoriale` | 0 |
+| ar | `/ar/من-نحن` · `/ar/اتصل-بنا` · `/ar/الخصوصية` · `/ar/شروط-الاستخدام` · `/ar/حقوق-النشر` · `/ar/السياسة-التحريرية` | 0 |
+
+### Soumissions manuelles proposées, uniquement après fusion et contrôle public
+
+Maximum10URL par jour ; aucune action Google automatisée. J1 : accueil EN/FR, À propos EN/FR, Contact EN/FR, politique éditoriale EN/FR, mentions légales EN/FR. J2 : mêmes pages ES/PT (8URL) et confidentialités EN/FR. J3–J6 : autres pages de confiance par langue,10maximum/jour. Les guides relus prioritaires remplaceront ces URL en tête de file après leur publication réelle. Voir l’inventaire ci-dessus pour les chemins exacts.
+
+---
+
 # Pages de confiance et guides — suivi de réalisation
 
 ## Périmètre et état

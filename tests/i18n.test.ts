@@ -66,7 +66,7 @@ test("sitemap contains exactly published canonical equivalents and excludes unve
   const entries = sitemap();
   assert.equal(entries.length, sitePages().filter(p => p.indexable).length);
   assert.equal(new Set(entries.map(p => p.url)).size, entries.length);
-  assert.equal(entries.length, 106);   // 8 homes + 8 legal + 16 TikTok + 32 local tools + 8 indexes + 34 articles
+  assert.equal(entries.length, 154);   // Previous 106 routes plus 48 trust pages
   for (const entry of entries) {
     const parts = new URL(entry.url).pathname.split("/").filter(Boolean).map(decodeURIComponent);
     assert.ok(resolvePage(parts)?.indexable);

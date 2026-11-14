@@ -25,6 +25,12 @@
             "No YouTube service, watermark removal or bypass of creator download restrictions is offered. A public post does not automatically grant permission to save or redistribute it.",
             "The local tools do not offer cropping, audio normalisation, synchronisation repair or metadata removal. Format and memory support vary by browser. Contact, privacy, terms, copyright and editorial information are linked below when published."
           ]
+        },
+        {
+          "heading": "VidFetch editorial policy",
+          "paragraphs": [
+            "Since 14 November 2026, every new guide is written with the help of AI tools, checked against official sources and real tests, then reviewed by {name} before publication; the review date is displayed. Guides published earlier are being reviewed progressively, and each page indicates its review status."
+          ]
         }
       ]
     },
@@ -36,8 +42,8 @@
         {
           "heading": "Choose the subject",
           "paragraphs": [
-            "General help and press: {legal}. Privacy: {privacy}. Copyright and abuse: {abuse}.",
-            "Response time: {responseTime}. Include the page address, your browser and the error message. Do not send passwords, private links or a confidential media file."
+            "General help: {contact}. Copyright: {abuse}. Personal data: {privacy}. Legal questions: {legal}.",
+            "We aim to reply within a few working days. Include the page address, browser and error message. Do not send passwords, private links or confidential recordings."
           ]
         },
         {
@@ -91,8 +97,7 @@
         {
           "heading": "Infrastructure and verification",
           "paragraphs": [
-            "Cloudflare delivers the site and processes network requests. The download verification flow uses Cloudflare Turnstile; its widget contacts Cloudflare and the server verifies the challenge token.",
-            "The versioned Caddy configuration disables access logging and filters sensitive request fields from operational errors. Infrastructure log retention, including hosting and Cloudflare settings: {infrastructureRetention}. Do not interpret an example retention file as proof of a live setting."
+            "Cloudflare delivers the site and processes network requests. The download verification flow uses Cloudflare Turnstile; its widget contacts Cloudflare and the server verifies the challenge token."
           ]
         },
         {
@@ -134,7 +139,7 @@
           "heading": "Responsibility and governing law",
           "paragraphs": [
             "You remain responsible for permissions and for checking a copy before sharing or replacing an original. VidFetch claims no rights in your media. No particular output, availability or uninterrupted operation is guaranteed, subject to applicable mandatory obligations.",
-            "Operator: {name}. Governing law: {jurisdiction}. Contact: {legal}."
+            "Publisher: {name}. Contact: {legal}."
           ]
         }
       ]
@@ -155,7 +160,7 @@
           "heading": "Send a report",
           "paragraphs": [
             "Email {abuse} with your contact details, the original platform URL, any relevant VidFetch page or transfer context, a description of the concern and evidence of ownership or authority. Do not send sensitive identity documents unless a necessary verification is requested.",
-            "Processing time: {copyrightTime}. The operator can review access to the service and relevant operational information; removal of the original at TikTok must be requested from TikTok. No guaranteed removal of a third-party publication is promised."
+            "The operator can review access to the service and relevant operational information; removal of the original at TikTok must be requested from TikTok. No guaranteed removal of a third-party publication is promised."
           ]
         }
       ]
@@ -169,7 +174,7 @@
           "heading": "Purpose and authorship",
           "paragraphs": [
             "Guides answer a concrete media question and distinguish a file you own from a public platform link. They must describe only functions the service actually offers.",
-            "Author: {author}. Human review status: {review}. AI tools assist research, drafting and code. A generated suggestion is not treated as a verified fact or a personal experience."
+            "Since 14 November 2026, every new guide is written with the help of AI tools, checked against official sources and real tests, then reviewed by {name} before publication; the review date is displayed. Guides published earlier are being reviewed progressively, and each page indicates its review status."
           ]
         },
         {
@@ -183,7 +188,7 @@
           "heading": "Corrections",
           "paragraphs": [
             "Keep the source recording and reusable test evidence. Publish an update date when the content is checked or changed; do not invent a launch date, a test result or a human review.",
-            "Report an error to {legal} with the guide URL and the correction you propose. Content with unresolved publisher or author fields remains unpublished."
+            "Report errors to {contact} with the guide URL and proposed correction. Corrections are checked and the guide is updated."
           ]
         }
       ]
@@ -215,6 +220,12 @@
             "Aucun service YouTube, retrait de filigrane ou contournement des restrictions de téléchargement du créateur n’est proposé. Une publication publique ne donne pas automatiquement le droit de l’enregistrer ou de la redistribuer.",
             "Les outils locaux ne proposent ni recadrage, ni normalisation audio, ni resynchronisation, ni suppression des métadonnées. Le navigateur détermine les formats utilisables. Les pages Contact, Confidentialité, Conditions, Droits d’auteur et Politique éditoriale sont liées ci-dessous lorsqu’elles sont publiées."
           ]
+        },
+        {
+          "heading": "Politique éditoriale de VidFetch",
+          "paragraphs": [
+            "Depuis le 14 novembre 2026, chaque nouveau guide est rédigé avec l’aide d’outils d’IA, vérifié contre des sources officielles et des tests réels, puis relu par {name} avant publication ; la date de relecture est affichée. Les guides publiés auparavant sont relus progressivement, et leur page l’indique."
+          ]
         }
       ]
     },
@@ -226,8 +237,8 @@
         {
           "heading": "Choisir le sujet",
           "paragraphs": [
-            "Aide générale et presse : {legal}. Confidentialité : {privacy}. Droits d’auteur et abus : {abuse}.",
-            "Délai de réponse : {responseTime}. Indiquez la page, le navigateur et le message d’erreur. N’envoyez ni mot de passe, ni lien privé, ni fichier confidentiel."
+            "Aide générale : {contact}. Droits d’auteur : {abuse}. Données personnelles : {privacy}. Questions juridiques : {legal}.",
+            "Nous visons une réponse sous quelques jours ouvrés. Indiquez la page, le navigateur et le message d’erreur. N’envoyez ni mot de passe, ni lien privé, ni enregistrement confidentiel."
           ]
         },
         {
@@ -281,8 +292,7 @@
         {
           "heading": "Infrastructure et vérification",
           "paragraphs": [
-            "Cloudflare distribue le site et traite des requêtes réseau. La vérification du téléchargement utilise Turnstile : le widget contacte Cloudflare et le serveur valide le jeton.",
-            "La configuration Caddy versionnée désactive les journaux d’accès et filtre les champs sensibles des erreurs opérationnelles. Durée vérifiée des journaux d’infrastructure, hébergement et Cloudflare compris : {infrastructureRetention}. Un fichier exemple n’établit pas un réglage actif."
+            "Cloudflare distribue le site et traite des requêtes réseau. La vérification du téléchargement utilise Turnstile : le widget contacte Cloudflare et le serveur valide le jeton."
           ]
         },
         {
@@ -324,7 +334,7 @@
           "heading": "Responsabilité et droit applicable",
           "paragraphs": [
             "Vous êtes responsable des autorisations et du contrôle des copies avant partage ou remplacement de l’original. VidFetch ne revendique aucun droit sur vos médias. Aucun résultat, accès continu ou disponibilité particulière n’est garanti, sous réserve des obligations impératives applicables.",
-            "Éditeur : {name}. Droit applicable : {jurisdiction}. Contact : {legal}."
+            "Éditeur : {name}. Contact : {legal}."
           ]
         }
       ]
@@ -345,7 +355,7 @@
           "heading": "Procédure de signalement",
           "paragraphs": [
             "Écrivez à {abuse} avec vos coordonnées, l’URL originale, la page VidFetch ou le contexte du transfert, le problème et les preuves de droits ou de mandat. N’envoyez pas de documents d’identité sensibles sans demande de vérification nécessaire.",
-            "Délai de traitement : {copyrightTime}. L’éditeur peut examiner l’accès au service et les informations opérationnelles pertinentes ; le retrait de l’original sur TikTok doit être demandé à TikTok. Aucun retrait garanti d’une publication tierce n’est promis."
+            "L’éditeur peut examiner l’accès au service et les informations opérationnelles pertinentes ; le retrait de l’original sur TikTok doit être demandé à TikTok. Aucun retrait garanti d’une publication tierce n’est promis."
           ]
         }
       ]
@@ -359,7 +369,7 @@
           "heading": "Objectif et auteur",
           "paragraphs": [
             "Les guides répondent à une question concrète et distinguent fichier personnel et lien public. Ils doivent décrire uniquement les fonctions réellement proposées.",
-            "Auteur : {author}. Statut de relecture humaine : {review}. Des outils d’IA assistent la recherche, la rédaction et le code. Une suggestion générée ne constitue ni un fait vérifié ni une expérience personnelle."
+            "Depuis le 14 novembre 2026, chaque nouveau guide est rédigé avec l’aide d’outils d’IA, vérifié contre des sources officielles et des tests réels, puis relu par {name} avant publication ; la date de relecture est affichée. Les guides publiés auparavant sont relus progressivement, et leur page l’indique."
           ]
         },
         {
@@ -373,7 +383,7 @@
           "heading": "Corrections",
           "paragraphs": [
             "Conserver la source et les preuves réutilisables. Afficher une date lorsque le guide est vérifié ou modifié ; ne pas inventer lancement, résultat de test ou relecture humaine.",
-            "Signalez une erreur à {legal} avec l’URL du guide et la correction proposée. Un contenu dont les champs éditeur ou auteur restent à compléter n’est pas publié."
+            "Signalez les erreurs à {contact} avec l’URL du guide et la correction proposée. Les corrections sont vérifiées et le guide est mis à jour."
           ]
         }
       ]
@@ -405,6 +415,12 @@
             "No se ofrece YouTube, eliminación de marcas de agua ni evasión de restricciones del creador. Que una publicación sea pública no concede permiso para descargarla o redistribuirla.",
             "No hay recorte del encuadre, normalización de audio, resincronización ni eliminación de metadatos. La compatibilidad depende del navegador. Las páginas de contacto, privacidad, condiciones, derechos y política editorial aparecen abajo cuando están publicadas."
           ]
+        },
+        {
+          "heading": "Política editorial de VidFetch",
+          "paragraphs": [
+            "Desde el 14 de noviembre de 2026, cada nueva guía se redacta con ayuda de herramientas de IA, se verifica con fuentes oficiales y pruebas reales y la revisa {name} antes de publicarla; se muestra la fecha de revisión. Las guías publicadas anteriormente se revisan de forma progresiva y cada página indica su estado de revisión."
+          ]
         }
       ]
     },
@@ -416,8 +432,8 @@
         {
           "heading": "Motivo del mensaje",
           "paragraphs": [
-            "Ayuda y prensa: {legal}. Privacidad: {privacy}. Derechos y abuso: {abuse}.",
-            "Plazo de respuesta: {responseTime}. Incluye página, navegador y error. No envíes contraseñas, enlaces privados ni grabaciones confidenciales."
+            "Ayuda general: {contact}. Derechos de autor: {abuse}. Datos personales: {privacy}. Consultas legales: {legal}.",
+            "Procuramos responder en unos días laborables. Indica la página, navegador y mensaje de error. No envíes contraseñas, enlaces privados ni grabaciones confidenciales."
           ]
         },
         {
@@ -471,8 +487,7 @@
         {
           "heading": "Infraestructura",
           "paragraphs": [
-            "Cloudflare distribuye el sitio y procesa solicitudes de red. Turnstile verifica el acceso de descarga: el widget contacta con Cloudflare y el servidor valida el token.",
-            "La configuración Caddy versionada desactiva registros de acceso y filtra campos sensibles en errores operativos. Conservación verificada de registros de infraestructura, alojamiento y Cloudflare: {infrastructureRetention}. Una configuración de ejemplo no prueba el ajuste activo."
+            "Cloudflare distribuye el sitio y procesa solicitudes de red. Turnstile verifica el acceso de descarga: el widget contacta con Cloudflare y el servidor valida el token."
           ]
         },
         {
@@ -514,7 +529,7 @@
           "heading": "Responsabilidad",
           "paragraphs": [
             "Eres responsable de los permisos y de comprobar la copia antes de compartirla. VidFetch no reclama derechos sobre tus medios. No se garantiza un resultado, disponibilidad o continuidad concretos, sin perjuicio de obligaciones imperativas aplicables.",
-            "Editor: {name}. Derecho aplicable: {jurisdiction}. Contacto: {legal}."
+            "Editor: {name}. Contacto: {legal}."
           ]
         }
       ]
@@ -535,7 +550,7 @@
           "heading": "Enviar un aviso",
           "paragraphs": [
             "Escribe a {abuse} con contacto, URL original, página VidFetch o contexto de transferencia, descripción y prueba de derechos o representación. No envíes documentos de identidad sensibles sin una verificación necesaria.",
-            "Plazo de tratamiento: {copyrightTime}. El editor puede examinar acceso e información operativa relevante; pide a TikTok retirar el original. No se promete la retirada garantizada de publicaciones ajenas."
+            "El editor puede examinar acceso e información operativa relevante; pide a TikTok retirar el original. No se promete la retirada garantizada de publicaciones ajenas."
           ]
         }
       ]
@@ -549,7 +564,7 @@
           "heading": "Objetivo y autoría",
           "paragraphs": [
             "Las guías resuelven una pregunta concreta y distinguen archivos propios de enlaces públicos. Deben describir solo funciones existentes.",
-            "Autor: {author}. Estado de revisión humana: {review}. Se usan herramientas de IA para investigación, redacción y código. Una sugerencia generada no es un hecho comprobado ni experiencia personal."
+            "Desde el 14 de noviembre de 2026, cada nueva guía se redacta con ayuda de herramientas de IA, se verifica con fuentes oficiales y pruebas reales y la revisa {name} antes de publicarla; se muestra la fecha de revisión. Las guías publicadas anteriormente se revisan de forma progresiva y cada página indica su estado de revisión."
           ]
         },
         {
@@ -563,7 +578,7 @@
           "heading": "Correcciones",
           "paragraphs": [
             "Conservar originales y pruebas reutilizables. Mostrar la fecha al verificar o cambiar contenido; nunca inventar fechas, resultados o revisiones.",
-            "Comunica errores a {legal} con URL y corrección propuesta. Los contenidos con datos pendientes de editor o autor permanecen sin publicar."
+            "Comunica errores a {contact} con la URL y la corrección propuesta. Se verifican las correcciones y se actualiza la guía."
           ]
         }
       ]
@@ -595,6 +610,12 @@
             "Não há serviço YouTube, remoção de marca-d’água nem desvio das restrições de download do criador. Uma publicação pública não concede automaticamente autorização para baixar ou redistribuir.",
             "Não há recorte do enquadramento, normalização de áudio, ressincronização ou remoção de metadados. O navegador determina a compatibilidade. Contato, privacidade, termos, direitos autorais e política editorial aparecem abaixo quando publicados."
           ]
+        },
+        {
+          "heading": "Política editorial do VidFetch",
+          "paragraphs": [
+            "Desde 14 de novembro de 2026, cada novo guia é redigido com a ajuda de ferramentas de IA, verificado com fontes oficiais e testes reais e revisado por {name} antes da publicação; a data da revisão é exibida. Os guias publicados anteriormente são revisados aos poucos, e cada página informa o estado da revisão."
+          ]
         }
       ]
     },
@@ -606,8 +627,8 @@
         {
           "heading": "Assunto",
           "paragraphs": [
-            "Ajuda e imprensa: {legal}. Privacidade: {privacy}. Direitos e abuso: {abuse}.",
-            "Prazo de resposta: {responseTime}. Informe página, navegador e mensagem de erro. Não envie senha, link privado ou gravação confidencial."
+            "Ajuda geral: {contact}. Direitos autorais: {abuse}. Dados pessoais: {privacy}. Questões jurídicas: {legal}.",
+            "Procuramos responder em alguns dias úteis. Informe página, navegador e mensagem de erro. Não envie senhas, links privados ou gravações confidenciais."
           ]
         },
         {
@@ -661,8 +682,7 @@
         {
           "heading": "Infraestrutura",
           "paragraphs": [
-            "Cloudflare distribui o site e processa requisições de rede. O widget Turnstile contata Cloudflare para verificação; o servidor valida o token.",
-            "A configuração Caddy versionada desativa logs de acesso e filtra campos sensíveis de erros operacionais. Retenção verificada dos logs de infraestrutura, hospedagem e Cloudflare: {infrastructureRetention}. Um exemplo de configuração não comprova um ajuste ativo."
+            "Cloudflare distribui o site e processa requisições de rede. O widget Turnstile contata Cloudflare para verificação; o servidor valida o token."
           ]
         },
         {
@@ -704,7 +724,7 @@
           "heading": "Responsabilidade",
           "paragraphs": [
             "Você cuida das permissões e confere a cópia antes de compartilhar. VidFetch não reivindica direitos sobre seus arquivos. Não há garantia de resultado, disponibilidade ou continuidade específicos, respeitadas obrigações legais imperativas.",
-            "Editor: {name}. Direito aplicável: {jurisdiction}. Contato: {legal}."
+            "Editor: {name}. Contato: {legal}."
           ]
         }
       ]
@@ -725,7 +745,7 @@
           "heading": "Comunicação",
           "paragraphs": [
             "Escreva a {abuse} com contato, URL original, página VidFetch ou contexto do download, descrição e prova de direitos ou representação. Não envie documento de identidade sensível sem verificação necessária.",
-            "Prazo de tratamento: {copyrightTime}. O editor pode examinar acesso e dados operacionais pertinentes; solicite ao TikTok a remoção do original. Não há promessa de retirada garantida de conteúdo de terceiros."
+            "O editor pode examinar acesso e dados operacionais pertinentes; solicite ao TikTok a remoção do original. Não há promessa de retirada garantida de conteúdo de terceiros."
           ]
         }
       ]
@@ -739,7 +759,7 @@
           "heading": "Objetivo e autoria",
           "paragraphs": [
             "Guias respondem a uma questão concreta, distinguindo arquivo pessoal de link público. Só devem descrever funções disponíveis.",
-            "Autor: {author}. Situação da revisão humana: {review}. Ferramentas de IA auxiliam pesquisa, redação e código. Sugestão gerada não é fato verificado nem experiência pessoal."
+            "Desde 14 de novembro de 2026, cada novo guia é redigido com a ajuda de ferramentas de IA, verificado com fontes oficiais e testes reais e revisado por {name} antes da publicação; a data da revisão é exibida. Os guias publicados anteriormente são revisados aos poucos, e cada página informa o estado da revisão."
           ]
         },
         {
@@ -753,7 +773,7 @@
           "heading": "Correções",
           "paragraphs": [
             "Guarde fonte e evidência reutilizável. Mostre data de verificação ou alteração; não invente lançamento, resultado ou revisão.",
-            "Envie correções a {legal}, indicando URL e proposta. Conteúdo com campos pendentes de editor ou autor não é publicado."
+            "Envie erros para {contact} com a URL e a correção proposta. As correções são verificadas e o guia é atualizado."
           ]
         }
       ]
@@ -785,6 +805,12 @@
             "Tidak ada layanan YouTube, penghapus watermark, atau cara melewati pembatasan unduhan kreator. Postingan publik tidak otomatis memberi izin menyimpan atau menyebarkan ulang.",
             "Alat lokal tidak menyediakan pemotongan bingkai, normalisasi audio, perbaikan sinkronisasi, atau penghapusan metadata. Dukungan bergantung pada browser. Halaman kontak, privasi, ketentuan, hak cipta, dan editorial ditautkan di bawah jika sudah terbit."
           ]
+        },
+        {
+          "heading": "Kebijakan editorial VidFetch",
+          "paragraphs": [
+            "Sejak 14 November 2026, setiap panduan baru ditulis dengan bantuan alat AI, diperiksa berdasarkan sumber resmi dan pengujian nyata, lalu ditinjau oleh {name} sebelum diterbitkan; tanggal peninjauannya ditampilkan. Panduan yang diterbitkan sebelumnya ditinjau secara bertahap, dan setiap halaman menunjukkan status peninjauannya."
+          ]
         }
       ]
     },
@@ -796,8 +822,8 @@
         {
           "heading": "Pilih topik",
           "paragraphs": [
-            "Bantuan dan pers: {legal}. Privasi: {privacy}. Hak cipta dan penyalahgunaan: {abuse}.",
-            "Waktu tanggapan: {responseTime}. Sertakan alamat halaman, browser, dan pesan kesalahan. Jangan kirim kata sandi, tautan privat, atau rekaman rahasia."
+            "Bantuan umum: {contact}. Hak cipta: {abuse}. Data pribadi: {privacy}. Pertanyaan hukum: {legal}.",
+            "Kami mengupayakan balasan dalam beberapa hari kerja. Sertakan halaman, browser dan pesan kesalahan. Jangan kirim kata sandi, tautan privat atau rekaman rahasia."
           ]
         },
         {
@@ -851,8 +877,7 @@
         {
           "heading": "Infrastruktur",
           "paragraphs": [
-            "Cloudflare menyajikan situs dan memproses permintaan jaringan. Widget Turnstile menghubungi Cloudflare dan server memverifikasi tokennya untuk akses unduhan.",
-            "Konfigurasi Caddy yang disimpan di repositori menonaktifkan log akses dan menyaring bidang sensitif pada kesalahan operasional. Retensi log infrastruktur, hosting dan Cloudflare yang terverifikasi: {infrastructureRetention}. Contoh konfigurasi bukan bukti pengaturan aktif."
+            "Cloudflare menyajikan situs dan memproses permintaan jaringan. Widget Turnstile menghubungi Cloudflare dan server memverifikasi tokennya untuk akses unduhan."
           ]
         },
         {
@@ -894,7 +919,7 @@
           "heading": "Tanggung jawab",
           "paragraphs": [
             "Anda bertanggung jawab atas izin dan pemeriksaan salinan sebelum dibagikan. VidFetch tidak mengklaim hak atas media Anda. Hasil, ketersediaan, atau operasi berkelanjutan tertentu tidak dijamin, dengan tetap mengikuti kewajiban hukum yang berlaku.",
-            "Penerbit: {name}. Hukum yang berlaku: {jurisdiction}. Kontak: {legal}."
+            "Penerbit: {name}. Kontak: {legal}."
           ]
         }
       ]
@@ -915,7 +940,7 @@
           "heading": "Kirim laporan",
           "paragraphs": [
             "Email {abuse} dengan kontak, URL asli, halaman VidFetch atau konteks transfer, uraian masalah dan bukti hak atau kewenangan. Jangan kirim dokumen identitas sensitif tanpa permintaan verifikasi yang diperlukan.",
-            "Waktu penanganan: {copyrightTime}. Pengelola dapat meninjau akses dan informasi operasional terkait; penghapusan asli di TikTok harus diminta ke TikTok. Penghapusan publikasi pihak lain tidak dijamin."
+            "Pengelola dapat meninjau akses dan informasi operasional terkait; penghapusan asli di TikTok harus diminta ke TikTok. Penghapusan publikasi pihak lain tidak dijamin."
           ]
         }
       ]
@@ -929,7 +954,7 @@
           "heading": "Tujuan dan penulis",
           "paragraphs": [
             "Panduan menjawab pertanyaan spesifik dan membedakan file pribadi dari tautan publik. Hanya fungsi yang benar-benar tersedia yang boleh dijelaskan.",
-            "Penulis: {author}. Status peninjauan manusia: {review}. Alat AI membantu riset, penulisan, dan kode. Saran yang dihasilkan bukan fakta terverifikasi atau pengalaman pribadi."
+            "Sejak 14 November 2026, setiap panduan baru ditulis dengan bantuan alat AI, diperiksa berdasarkan sumber resmi dan pengujian nyata, lalu ditinjau oleh {name} sebelum diterbitkan; tanggal peninjauannya ditampilkan. Panduan yang diterbitkan sebelumnya ditinjau secara bertahap, dan setiap halaman menunjukkan status peninjauannya."
           ]
         },
         {
@@ -943,7 +968,7 @@
           "heading": "Perbaikan",
           "paragraphs": [
             "Simpan sumber dan bukti yang dapat digunakan ulang. Tampilkan tanggal saat konten diperiksa atau diubah; jangan mengarang tanggal peluncuran, hasil uji, atau peninjauan manusia.",
-            "Kirim koreksi ke {legal} dengan URL panduan dan usulan perbaikan. Konten dengan informasi penerbit atau penulis yang belum lengkap tidak diterbitkan."
+            "Laporkan kesalahan ke {contact} dengan URL panduan dan usulan perbaikan. Perbaikan diperiksa dan panduan diperbarui."
           ]
         }
       ]
@@ -975,6 +1000,12 @@
             "Kein YouTube-Dienst, keine Wasserzeichenentfernung und keine Umgehung von Downloadbeschränkungen des Urhebers. Öffentlich sichtbar bedeutet nicht automatisch zum Speichern oder Weiterverbreiten freigegeben.",
             "Kein Bildbeschnitt, keine Audionormalisierung, Synchronisationsreparatur oder Metadatenentfernung. Formate hängen vom Browser ab. Kontakt, Datenschutz, Bedingungen, Urheberrecht und Redaktion sind unten verlinkt, sobald veröffentlicht."
           ]
+        },
+        {
+          "heading": "Redaktionsrichtlinie von VidFetch",
+          "paragraphs": [
+            "Seit dem 14. November 2026 wird jeder neue Ratgeber mit Hilfe von KI-Werkzeugen verfasst, anhand offizieller Quellen und praktischer Tests überprüft und vor der Veröffentlichung von {name} gegengelesen; das Prüfdatum wird angezeigt. Früher veröffentlichte Ratgeber werden schrittweise überprüft, und die jeweilige Seite gibt den Prüfstatus an."
+          ]
         }
       ]
     },
@@ -986,8 +1017,8 @@
         {
           "heading": "Anliegen",
           "paragraphs": [
-            "Hilfe und Presse: {legal}. Datenschutz: {privacy}. Urheberrecht und Missbrauch: {abuse}.",
-            "Antwortzeit: {responseTime}. Seite, Browser und Fehlermeldung angeben. Keine Passwörter, privaten Links oder vertraulichen Aufnahmen senden."
+            "Allgemeine Hilfe: {contact}. Urheberrecht: {abuse}. Personenbezogene Daten: {privacy}. Rechtliche Fragen: {legal}.",
+            "Wir bemühen uns um eine Antwort innerhalb weniger Werktage. Seite, Browser und Fehlermeldung angeben. Keine Passwörter, privaten Links oder vertraulichen Aufnahmen senden."
           ]
         },
         {
@@ -1041,8 +1072,7 @@
         {
           "heading": "Infrastruktur",
           "paragraphs": [
-            "Cloudflare liefert die Website aus und verarbeitet Netzwerkanfragen. Das Turnstile-Widget kontaktiert Cloudflare; der Server prüft sein Token für den Downloadzugriff.",
-            "Die versionierte Caddy-Konfiguration deaktiviert Zugriffsprotokolle und filtert sensible Felder aus Betriebsfehlern. Verifizierte Speicherdauer der Infrastrukturprotokolle einschließlich Hosting und Cloudflare: {infrastructureRetention}. Eine Beispieldatei belegt keine aktive Einstellung."
+            "Cloudflare liefert die Website aus und verarbeitet Netzwerkanfragen. Das Turnstile-Widget kontaktiert Cloudflare; der Server prüft sein Token für den Downloadzugriff."
           ]
         },
         {
@@ -1084,7 +1114,7 @@
           "heading": "Verantwortung",
           "paragraphs": [
             "Sie verantworten Berechtigungen und prüfen Kopien vor Weitergabe oder Ersatz des Originals. VidFetch beansprucht keine Medienrechte. Bestimmte Ergebnisse, Verfügbarkeit oder unterbrechungsfreier Betrieb werden vorbehaltlich zwingender Pflichten nicht garantiert.",
-            "Herausgeber: {name}. Anwendbares Recht: {jurisdiction}. Kontakt: {legal}."
+            "Herausgeber: {name}. Kontakt: {legal}."
           ]
         }
       ]
@@ -1105,7 +1135,7 @@
           "heading": "Meldung",
           "paragraphs": [
             "An {abuse} schreiben: Kontaktdaten, Original-URL, betroffene VidFetch-Seite oder Transferkontext, Anliegen und Nachweis der Rechte oder Befugnis. Sensible Ausweise nur bei erforderlicher Verifikation auf Nachfrage senden.",
-            "Bearbeitungszeit: {copyrightTime}. Der Betreiber kann Dienstzugriff und relevante Betriebsdaten prüfen; die Entfernung des TikTok-Originals ist dort zu beantragen. Keine garantierte Entfernung fremder Veröffentlichungen."
+            "Der Betreiber kann Dienstzugriff und relevante Betriebsdaten prüfen; die Entfernung des TikTok-Originals ist dort zu beantragen. Keine garantierte Entfernung fremder Veröffentlichungen."
           ]
         }
       ]
@@ -1119,7 +1149,7 @@
           "heading": "Zweck und Autorenschaft",
           "paragraphs": [
             "Ratgeber beantworten eine konkrete Medienfrage und unterscheiden eigene Dateien von öffentlichen Links. Nur vorhandene Funktionen beschreiben.",
-            "Autor: {author}. Stand menschlicher Prüfung: {review}. KI-Werkzeuge unterstützen Recherche, Text und Code. Ein generierter Vorschlag ist weder überprüfte Tatsache noch persönliche Erfahrung."
+            "Seit dem 14. November 2026 wird jeder neue Ratgeber mit Hilfe von KI-Werkzeugen verfasst, anhand offizieller Quellen und praktischer Tests überprüft und vor der Veröffentlichung von {name} gegengelesen; das Prüfdatum wird angezeigt. Früher veröffentlichte Ratgeber werden schrittweise überprüft, und die jeweilige Seite gibt den Prüfstatus an."
           ]
         },
         {
@@ -1133,7 +1163,7 @@
           "heading": "Korrekturen",
           "paragraphs": [
             "Originale und wiederverwendbare Nachweise behalten. Prüf- oder Änderungsdatum anzeigen; Startdatum, Ergebnisse oder menschliche Prüfung nicht erfinden.",
-            "Fehler mit Ratgeber-URL und Korrekturvorschlag an {legal} melden. Inhalte mit offenen Herausgeber- oder Autorenfeldern bleiben unveröffentlicht."
+            "Fehler mit URL und Korrekturvorschlag an {contact} melden. Korrekturen werden geprüft und der Ratgeber aktualisiert."
           ]
         }
       ]
@@ -1165,6 +1195,12 @@
             "Non sono offerti YouTube, rimozione di filigrane o aggiramento delle restrizioni di download del creatore. La visibilità pubblica non autorizza automaticamente salvataggio e redistribuzione.",
             "Nessun ritaglio dell’inquadratura, normalizzazione audio, risincronizzazione o rimozione dei metadati. La compatibilità dipende dal browser. Contatti, privacy, condizioni, diritto d’autore e politica editoriale sono collegati sotto quando pubblicati."
           ]
+        },
+        {
+          "heading": "Politica editoriale di VidFetch",
+          "paragraphs": [
+            "Dal 14 novembre 2026, ogni nuova guida viene redatta con l’aiuto di strumenti di IA, verificata con fonti ufficiali e prove reali, poi riletta da {name} prima della pubblicazione; viene mostrata la data della revisione. Le guide pubblicate in precedenza vengono rilette progressivamente e ogni pagina ne indica lo stato di revisione."
+          ]
         }
       ]
     },
@@ -1176,8 +1212,8 @@
         {
           "heading": "Argomento",
           "paragraphs": [
-            "Assistenza e stampa: {legal}. Privacy: {privacy}. Diritti e abusi: {abuse}.",
-            "Tempo di risposta: {responseTime}. Indica pagina, browser e messaggio d’errore. Non inviare password, link privati o registrazioni riservate."
+            "Assistenza generale: {contact}. Diritti d’autore: {abuse}. Dati personali: {privacy}. Questioni legali: {legal}.",
+            "Cerchiamo di rispondere entro pochi giorni lavorativi. Indica pagina, browser e messaggio d’errore. Non inviare password, link privati o registrazioni riservate."
           ]
         },
         {
@@ -1231,8 +1267,7 @@
         {
           "heading": "Infrastruttura",
           "paragraphs": [
-            "Cloudflare distribuisce il sito e tratta richieste di rete. Il widget Turnstile contatta Cloudflare; il server convalida il token per autorizzare i download.",
-            "La configurazione Caddy versionata disattiva i log d’accesso e filtra campi sensibili dagli errori operativi. Conservazione verificata dei log di infrastruttura, hosting e Cloudflare: {infrastructureRetention}. Un file d’esempio non dimostra un’impostazione attiva."
+            "Cloudflare distribuisce il sito e tratta richieste di rete. Il widget Turnstile contatta Cloudflare; il server convalida il token per autorizzare i download."
           ]
         },
         {
@@ -1274,7 +1309,7 @@
           "heading": "Responsabilità",
           "paragraphs": [
             "Sei responsabile dei permessi e della verifica delle copie prima di condividerle. VidFetch non rivendica diritti sui tuoi media. Risultati, disponibilità o continuità specifici non sono garantiti, fatti salvi gli obblighi inderogabili applicabili.",
-            "Editore: {name}. Diritto applicabile: {jurisdiction}. Contatto: {legal}."
+            "Editore: {name}. Contatto: {legal}."
           ]
         }
       ]
@@ -1295,7 +1330,7 @@
           "heading": "Segnalazione",
           "paragraphs": [
             "Scrivi a {abuse} con contatto, URL originale, pagina VidFetch o contesto del trasferimento, descrizione e prova dei diritti o del mandato. Non inviare documenti d’identità sensibili senza una necessaria richiesta di verifica.",
-            "Tempo di trattamento: {copyrightTime}. L’editore può esaminare accesso e informazioni operative pertinenti; chiedi a TikTok la rimozione dell’originale. Non si garantisce la rimozione di pubblicazioni altrui."
+            "L’editore può esaminare accesso e informazioni operative pertinenti; chiedi a TikTok la rimozione dell’originale. Non si garantisce la rimozione di pubblicazioni altrui."
           ]
         }
       ]
@@ -1309,7 +1344,7 @@
           "heading": "Finalità e autore",
           "paragraphs": [
             "Le guide rispondono a una domanda concreta distinguendo file propri e link pubblici. Devono descrivere solo funzioni disponibili.",
-            "Autore: {author}. Stato della revisione umana: {review}. Strumenti IA assistono ricerca, scrittura e codice. Un suggerimento generato non è un fatto verificato né esperienza personale."
+            "Dal 14 novembre 2026, ogni nuova guida viene redatta con l’aiuto di strumenti di IA, verificata con fonti ufficiali e prove reali, poi riletta da {name} prima della pubblicazione; viene mostrata la data della revisione. Le guide pubblicate in precedenza vengono rilette progressivamente e ogni pagina ne indica lo stato di revisione."
           ]
         },
         {
@@ -1323,7 +1358,7 @@
           "heading": "Correzioni",
           "paragraphs": [
             "Conserva fonte e prove riutilizzabili. Mostra data di verifica o modifica; non inventare lancio, risultati o revisione umana.",
-            "Invia errori a {legal} con URL e correzione proposta. I contenuti con dati di editore o autore incompleti restano non pubblicati."
+            "Segnala errori a {contact} con URL e correzione proposta. Le correzioni vengono verificate e la guida aggiornata."
           ]
         }
       ]
@@ -1355,6 +1390,12 @@
             "لا توجد خدمة يوتيوب أو إزالة علامة مائية أو تجاوز لقيود التنزيل التي يضعها المنشئ. ظهور المنشور للعامة لا يمنح تلقائيًا إذن حفظه أو إعادة نشره.",
             "لا توفر الأدوات اقتصاص إطار الصورة أو تسوية الصوت أو إصلاح المزامنة أو حذف البيانات الوصفية. يعتمد دعم الصيغ على المتصفح. تظهر روابط الاتصال والخصوصية والشروط وحقوق النشر والسياسة التحريرية أدناه عند نشرها."
           ]
+        },
+        {
+          "heading": "السياسة التحريرية لـ VidFetch",
+          "paragraphs": [
+            "اعتبارًا من 14 نوفمبر 2026، يُكتب كل دليل جديد بمساعدة أدوات الذكاء الاصطناعي، ويُتحقق منه بالرجوع إلى مصادر رسمية واختبارات فعلية، ثم يراجعه {name} قبل النشر؛ ويُعرض تاريخ المراجعة. أما الأدلة المنشورة سابقًا فتُراجع تدريجيًا، وتوضح صفحة كل دليل حالة مراجعته."
+          ]
         }
       ]
     },
@@ -1366,8 +1407,8 @@
         {
           "heading": "موضوع الرسالة",
           "paragraphs": [
-            "المساعدة والصحافة: {legal}. الخصوصية: {privacy}. الحقوق والإساءة: {abuse}.",
-            "مدة الرد: {responseTime}. أرسل عنوان الصفحة والمتصفح ورسالة الخطأ. لا ترسل كلمة مرور أو رابطًا خاصًا أو تسجيلًا سريًا."
+            "للمساعدة العامة: {contact}. حقوق النشر: {abuse}. البيانات الشخصية: {privacy}. الأسئلة القانونية: {legal}.",
+            "نسعى للرد خلال بضعة أيام عمل. أرسل عنوان الصفحة والمتصفح ورسالة الخطأ. لا ترسل كلمات مرور أو روابط خاصة أو تسجيلات سرية."
           ]
         },
         {
@@ -1421,8 +1462,7 @@
         {
           "heading": "البنية التحتية",
           "paragraphs": [
-            "تقدم Cloudflare الموقع وتعالج طلبات الشبكة. تتصل أداة Turnstile بها للتحقق، ويفحص الخادم الرمز للسماح بالتنزيل.",
-            "تعطل إعدادات Caddy المحفوظة في المستودع سجل الوصول وترشح الحقول الحساسة من الأخطاء التشغيلية. مدة حفظ سجلات البنية التحتية والاستضافة وCloudflare المتحقق منها: {infrastructureRetention}. ملف المثال ليس دليلًا على إعداد فعال."
+            "تقدم Cloudflare الموقع وتعالج طلبات الشبكة. تتصل أداة Turnstile بها للتحقق، ويفحص الخادم الرمز للسماح بالتنزيل."
           ]
         },
         {
@@ -1464,7 +1504,7 @@
           "heading": "المسؤولية",
           "paragraphs": [
             "أنت مسؤول عن الأذونات وفحص النسخ قبل المشاركة. لا يطالب VidFetch بحقوق في وسائطك. لا يضمن نتيجة أو توفرًا أو تشغيلًا متواصلًا بعينه، مع مراعاة الالتزامات الإلزامية المعمول بها.",
-            "الناشر: {name}. القانون الواجب التطبيق: {jurisdiction}. الاتصال: {legal}."
+            "الناشر: {name}. الاتصال: {legal}."
           ]
         }
       ]
@@ -1485,7 +1525,7 @@
           "heading": "إرسال بلاغ",
           "paragraphs": [
             "راسل {abuse} ببيانات الاتصال والرابط الأصلي وصفحة VidFetch أو سياق النقل ووصف المشكلة وإثبات الحقوق أو التفويض. لا ترسل وثائق هوية حساسة دون طلب تحقق ضروري.",
-            "مدة المعالجة: {copyrightTime}. يستطيع الناشر فحص الوصول للخدمة والمعلومات التشغيلية ذات الصلة؛ أما حذف الأصل من تيك توك فيطلب من تيك توك. لا توجد وعود بإزالة منشور لطرف ثالث على نحو مضمون."
+            "يستطيع الناشر فحص الوصول للخدمة والمعلومات التشغيلية ذات الصلة؛ أما حذف الأصل من تيك توك فيطلب من تيك توك. لا توجد وعود بإزالة منشور لطرف ثالث على نحو مضمون."
           ]
         }
       ]
@@ -1499,7 +1539,7 @@
           "heading": "الهدف والمؤلف",
           "paragraphs": [
             "تجيب الأدلة عن سؤال محدد وتميز الملف الشخصي من الرابط العام. يجب ألا تصف إلا الوظائف المتاحة فعلًا.",
-            "المؤلف: {author}. حالة المراجعة البشرية: {review}. تساعد أدوات الذكاء الاصطناعي في البحث والكتابة والبرمجة. الاقتراح المولد ليس حقيقة متحققة أو تجربة شخصية."
+            "اعتبارًا من 14 نوفمبر 2026، يُكتب كل دليل جديد بمساعدة أدوات الذكاء الاصطناعي، ويُتحقق منه بالرجوع إلى مصادر رسمية واختبارات فعلية، ثم يراجعه {name} قبل النشر؛ ويُعرض تاريخ المراجعة. أما الأدلة المنشورة سابقًا فتُراجع تدريجيًا، وتوضح صفحة كل دليل حالة مراجعته."
           ]
         },
         {
@@ -1513,7 +1553,7 @@
           "heading": "التصحيح",
           "paragraphs": [
             "احتفظ بالمصدر وأدلة قابلة لإعادة الاستخدام. اعرض تاريخ الفحص أو التعديل ولا تختلق إطلاقًا أو نتيجة اختبار أو مراجعة بشرية.",
-            "أرسل الأخطاء إلى {legal} مع رابط الدليل والتصحيح المقترح. لا ينشر المحتوى الذي لا تزال بيانات ناشره أو مؤلفه ناقصة."
+            "أبلغ عن الأخطاء عبر {contact} مع رابط الدليل والتصحيح المقترح. تُفحص التصحيحات ويُحدّث الدليل."
           ]
         }
       ]
