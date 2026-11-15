@@ -202,6 +202,26 @@ button:not(:disabled), summary, a { cursor: pointer; }
 .guide-prose pre { border-color: #dde2f0; background: #f4f6fc; }
 .skip-link { background: #2f5bff; color: #fff; }
 .site-header { border-color: #dde2f0; background: #eef1f8; backdrop-filter: none; }
+
+/* Native disclosures remain usable before JavaScript. The mobile panel's
+   containing block is the full header, never the small Menu button. */
+.mobile-navigation-panel {
+  inset-block-start: 100%;
+  max-block-size: calc(100dvh - 8rem);
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  scroll-padding-block: 1rem;
+}
+.site-header:not([data-menu-position-ready]) .mobile-navigation-panel { position: absolute; }
+.site-header[data-menu-position-ready] .mobile-navigation-panel {
+  inset-block-start: calc(var(--header-menu-top) + .375rem);
+  max-block-size: calc(100dvh - var(--header-menu-top) - 1.125rem);
+}
+.mobile-navigation-panel a {
+  min-block-size: 2.75rem;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
 .brand-mark { display: grid; width: 2.375rem; height: 2.375rem; place-items: center; border-radius: .7rem; background: #2f5bff; color: #fff; transform: rotate(-8deg); }
 .brand-wordmark { color: #10163a; font-size: 1.32rem; font-weight: 800; letter-spacing: -.02em; }
 .home-hero { padding-block: clamp(2.5rem, 6vw, 5rem) 3.5rem; }
@@ -282,7 +302,7 @@ summary { color: #10163a; }
   .hero-copy { max-width: none; }
   .hero-title { max-width: 13ch; font-size: clamp(2.625rem, 10vw, 3.25rem); }
   .hero-description { font-size: 1rem; }
-  .hero-scene { width: min(100%, 23rem); height: 17rem; perspective: 55rem; }
+  .hero-scene { width: min(100%, 23rem); height: 17rem; perspective: 55rem; overflow: clip; }
   .hero-scene::before { inset: 12% 10%; }
   .hero-card { width: 9rem; height: 15.5rem; margin: -7.75rem 0 0 -4.5rem; border-radius: 1.25rem; box-shadow: 0 20px 34px -24px rgb(16 22 58 / 32%); }
   .hero-card-back { transform: rotateY(-26deg) rotateX(10deg) translate3d(3.5rem, -1.25rem, -7.5rem); }

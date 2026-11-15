@@ -1,3 +1,36 @@
+## 15 novembre 2026 — menu corrigé en production ; #44 synchronisée et non fusionnée
+
+La PR [#45](https://github.com/aouirdani/vidfetch/pull/45), créée séparément depuis main, a été fusionnée en `4b2bee42a5b999a3eb2ace2b54fcfa492de5dd62`. La [CI de la PR](https://github.com/aouirdani/vidfetch/actions/runs/43644888787) et la [CI/activation de main](https://github.com/aouirdani/vidfetch/actions/runs/43647657452) sont entièrement vertes. Activation le 14 novembre à 22:50 UTC ; vérifications publiques achevées le 15 novembre. Endpoint public : frontend prêt, téléchargements disponibles, même release. Zéro retour arrière et services protégés inchangés.
+
+**Production vérifiée :** 154 URL en 200 index/follow, dont les 106 URL historiques et les 48 pages de confiance. Canonical/hreflang/sitemap réciproques, pied de page, menus, texte des 34 guides historiques et leurs métadonnées conservés. Aucun nouvel article publié. `ads.txt`, balise `google-adsense-account`, moteur et passerelle inchangés ; chargement AdSense différé toujours désactivé. Les licences restent accessibles en 200/noindex, les autres ressources contrôlées ne reçoivent pas ce noindex.
+
+**Navigation publique :** quatre routes × 320/360/390/414 px, huit menus Outils/Légal à 1280 px, 216 liens réellement cliqués. Panneau et texte complets dans le viewport, défilement interne, document sans débordement horizontal, focus visible et fermeture/restitution du focus par Échap. À 390 px en EN et AR : x=12 à x=378. Les captures après déploiement complètent les captures avant/après du correctif.
+
+**Lighthouse :** 24 mesures sur la PR et 24 sur main ; A11y/BP/SEO 100 partout et CLS 0. Performance/LCP/TBT restent warn. Les archives CI comparées conservent chacun des deux SHA-256 de référence : moteur `fa0d3d4e15a5a45ca0deb2b35e7ba03adc95c31b87500378068121f291c42287`, passerelle `0fa1404530c272b76aaec9aee18125660e8561c744e4ccc1fbb9c7dbee9850e5`. Archive déployée : `e65459a7effe3d0e11e1e1adcee01a7085a04baa4eb86825267622c7784e9e16`.
+
+[Captures et preuves](evidence/2026-11-14-mobile-menu/README.md), [contrôles publics et métadonnées](evidence/2026-11-14-mobile-menu/production/indexing/results.json), [audit de l’archive déployée](evidence/2026-11-14-mobile-menu/production/ci-main-audit.json).
+
+**#44 :** synchronisation depuis ce main seulement après ces contrôles publics réussis ; trois conflits de documentation réunis, aucun conflit de code. Les sources de guides restent identiques à b86cfea : 119 couples reviewedBy/reviewedAt à null, 34 marqueurs historiques, aucune relecture inventée. Le test bloquant de navigation est hérité de main. Validation locale après synchronisation : lint, typage, build OVH, huit tests ciblés de conservation/signature et SEO 154 URL dont les 106 figées réussis. Le push de synchronisation déclenche une CI complète dont le résultat exact reste consultable dans [les contrôles de #44](https://github.com/aouirdani/vidfetch/pull/44/checks). **#44 reste en brouillon, sans fusion ni déploiement.** Le format de signature IA seule/author Organization prévu par #44 pour les anciens guides ne constitue pas une relecture humaine.
+
+Les quatre boîtes e-mail ont été confirmées par l’éditeur. OpenSEO : aucun nouvel appel pour le correctif, coût supplémentaire 0 USD ; audit gratuit historique conservé plus bas, sans nouveau relevé GSC. Aucune soumission à Google. La file manuelle ci-dessous est maintenant disponible après contrôle public, dix URL maximum par jour ; les nouveaux guides attendent une relecture explicitement nommée et datée, puis des lots de cinq maximum.
+
+### Pages de confiance publiées par langue
+
+| Langue | Six pages publiques, vérifiées le 15 novembre |
+|---|---|
+| en | [/about](https://vidfetch.app/about) · [/contact](https://vidfetch.app/contact) · [/privacy](https://vidfetch.app/privacy) · [/terms](https://vidfetch.app/terms) · [/copyright](https://vidfetch.app/copyright) · [/editorial-policy](https://vidfetch.app/editorial-policy) |
+| fr | [/fr/a-propos](https://vidfetch.app/fr/a-propos) · [/fr/contact](https://vidfetch.app/fr/contact) · [/fr/confidentialite](https://vidfetch.app/fr/confidentialite) · [/fr/conditions-utilisation](https://vidfetch.app/fr/conditions-utilisation) · [/fr/droits-auteur](https://vidfetch.app/fr/droits-auteur) · [/fr/politique-editoriale](https://vidfetch.app/fr/politique-editoriale) |
+| es | [/es/acerca-de](https://vidfetch.app/es/acerca-de) · [/es/contacto](https://vidfetch.app/es/contacto) · [/es/privacidad](https://vidfetch.app/es/privacidad) · [/es/condiciones-uso](https://vidfetch.app/es/condiciones-uso) · [/es/derechos-autor](https://vidfetch.app/es/derechos-autor) · [/es/politica-editorial](https://vidfetch.app/es/politica-editorial) |
+| pt-BR | [/pt/sobre](https://vidfetch.app/pt/sobre) · [/pt/contato](https://vidfetch.app/pt/contato) · [/pt/privacidade](https://vidfetch.app/pt/privacidade) · [/pt/termos-de-uso](https://vidfetch.app/pt/termos-de-uso) · [/pt/direitos-autorais](https://vidfetch.app/pt/direitos-autorais) · [/pt/politica-editorial](https://vidfetch.app/pt/politica-editorial) |
+| id | [/id/tentang](https://vidfetch.app/id/tentang) · [/id/kontak](https://vidfetch.app/id/kontak) · [/id/privasi](https://vidfetch.app/id/privasi) · [/id/ketentuan-penggunaan](https://vidfetch.app/id/ketentuan-penggunaan) · [/id/hak-cipta](https://vidfetch.app/id/hak-cipta) · [/id/kebijakan-editorial](https://vidfetch.app/id/kebijakan-editorial) |
+| de | [/de/ueber-uns](https://vidfetch.app/de/ueber-uns) · [/de/kontakt](https://vidfetch.app/de/kontakt) · [/de/datenschutz](https://vidfetch.app/de/datenschutz) · [/de/nutzungsbedingungen](https://vidfetch.app/de/nutzungsbedingungen) · [/de/urheberrecht](https://vidfetch.app/de/urheberrecht) · [/de/redaktionsrichtlinie](https://vidfetch.app/de/redaktionsrichtlinie) |
+| it | [/it/chi-siamo](https://vidfetch.app/it/chi-siamo) · [/it/contatti](https://vidfetch.app/it/contatti) · [/it/privacy](https://vidfetch.app/it/privacy) · [/it/condizioni-uso](https://vidfetch.app/it/condizioni-uso) · [/it/diritto-autore](https://vidfetch.app/it/diritto-autore) · [/it/politica-editoriale](https://vidfetch.app/it/politica-editoriale) |
+| ar | [/ar/من-نحن](https://vidfetch.app/ar/من-نحن) · [/ar/اتصل-بنا](https://vidfetch.app/ar/اتصل-بنا) · [/ar/الخصوصية](https://vidfetch.app/ar/الخصوصية) · [/ar/شروط-الاستخدام](https://vidfetch.app/ar/شروط-الاستخدام) · [/ar/حقوق-النشر](https://vidfetch.app/ar/حقوق-النشر) · [/ar/السياسة-التحريرية](https://vidfetch.app/ar/السياسة-التحريرية) |
+
+Les huit mentions légales existantes restent publiques et ont également été contrôlées. Inventaire et états par guide : RELECTURE-GUIDES.md ; 34 publiés historiquement avec relecture en attente, nouveaux guides non publiés. Les sections suivantes conservent les étapes antérieures et sont remplacées par cet état pour les statuts courants.
+
+---
+
 ## État corrigé : conservation intégrale de la production
 
 **La PR #44 ne dépublie aucun guide existant.** Les 34 guides déjà publics portent `legacyPublished: true` et conservent leurs dates de première publication, leurs contenus, URL, canonical, hreflang, liens et entrées de sitemap. Leur liste est fermée dans `content/legacy-published-guides.json` ; les nouveaux fichiers et la série `adsense-2026-11` ne peuvent pas s’y inscrire.
@@ -10,7 +43,7 @@ Validation locale corrigée : build, lint/typecheck, 211 tests sous Node 22, SEO
 
 PR #43 corrigée dans le commit afe2a51 : À propos et la politique éditoriale datent la règle des **nouveaux guides au 14 novembre 2026**, et distinguent la relecture progressive des anciens, dans les huit langues. [CI 43584206008](https://github.com/aouirdani/vidfetch/actions/runs/43584206008) verte. Nouvelle CI de #44 à contrôler sur le commit de conservation avant toute fusion ; les anciens résultats de #44 ne valident pas cette correction.
 
-Les anciennes propositions de fermeture de 34 guides et les mesures sur 112 URL, conservées plus bas comme historique de travail, sont **abandonnées** et ne décrivent plus la branche. Aucun guide n’a été retiré en production. Aucune PR fusionnée ; confirmation des e-mails toujours attendue ; zéro dépense OpenSEO et zéro soumission à Google pendant cette correction.
+Les anciennes propositions de fermeture de 34 guides et les mesures sur 112 URL, conservées plus bas comme historique de travail, sont **abandonnées** et ne décrivent plus la branche. Aucun guide n’a été retiré en production. État ultérieur : #43 puis #45 fusionnées et déployées ; réception des quatre e-mails confirmée. #44 reste en brouillon et non fusionnée ; aucune relecture de guide attestée, aucune dépense OpenSEO supplémentaire ni soumission à Google.
 
 ---
 
@@ -40,66 +73,66 @@ OpenSEO gratuit : 0 USD de dry-run, 0 USD de crawl, 0 USD de lecture des résult
 
 ## File d’indexation manuelle — maximum10URL/jour
 
-Liste proposée, non soumise. J1 est le premier jour **après fusion et vérifications publiques réussies** : cette file ne doit pas démarrer aujourd’hui sur des pages encore absentes. Les futurs guides relus TikTok/galerie, puis audio et espagnol, passent en tête après publication réelle et prennent la place d’autres URL du jour sans dépasser10. Aucun guide non relu dans cette liste.
+Liste proposée, non soumise. Les pages sont publiées et leur contrôle public a réussi le 15 novembre 2026. J1 sera le premier jour choisi par l’éditeur pour une soumission manuelle, au maximum dix URL par jour. Les futurs guides relus TikTok/galerie, puis audio et espagnol, passent en tête après publication réelle et prennent la place d’autres URL du jour sans dépasser10. Aucun guide non relu dans cette liste.
 
 | Jour relatif | URL à soumettre manuellement après publication | État |
 |---|---|---|
-| J1 | https://vidfetch.app/fr/a-propos | en attente de publication/contrôle |
-| J1 | https://vidfetch.app/about | en attente de publication/contrôle |
-| J1 | https://vidfetch.app/fr/contact | en attente de publication/contrôle |
-| J1 | https://vidfetch.app/contact | en attente de publication/contrôle |
-| J1 | https://vidfetch.app/fr/politique-editoriale | en attente de publication/contrôle |
-| J1 | https://vidfetch.app/editorial-policy | en attente de publication/contrôle |
-| J1 | https://vidfetch.app/fr/mentions-legales | en attente de publication/contrôle |
-| J1 | https://vidfetch.app/legal | en attente de publication/contrôle |
-| J1 | https://vidfetch.app/es/acerca-de | en attente de publication/contrôle |
-| J1 | https://vidfetch.app/es/contacto | en attente de publication/contrôle |
-| J2 | https://vidfetch.app/es/politica-editorial | en attente de publication/contrôle |
-| J2 | https://vidfetch.app/es/aviso-legal | en attente de publication/contrôle |
-| J2 | https://vidfetch.app/pt/sobre | en attente de publication/contrôle |
-| J2 | https://vidfetch.app/pt/contato | en attente de publication/contrôle |
-| J2 | https://vidfetch.app/pt/politica-editorial | en attente de publication/contrôle |
-| J2 | https://vidfetch.app/pt/termos-e-privacidade | en attente de publication/contrôle |
-| J2 | https://vidfetch.app/fr/confidentialite | en attente de publication/contrôle |
-| J2 | https://vidfetch.app/fr/conditions-utilisation | en attente de publication/contrôle |
-| J2 | https://vidfetch.app/fr/droits-auteur | en attente de publication/contrôle |
-| J2 | https://vidfetch.app/privacy | en attente de publication/contrôle |
-| J3 | https://vidfetch.app/terms | en attente de publication/contrôle |
-| J3 | https://vidfetch.app/copyright | en attente de publication/contrôle |
-| J3 | https://vidfetch.app/es/privacidad | en attente de publication/contrôle |
-| J3 | https://vidfetch.app/es/condiciones-uso | en attente de publication/contrôle |
-| J3 | https://vidfetch.app/es/derechos-autor | en attente de publication/contrôle |
-| J3 | https://vidfetch.app/pt/privacidade | en attente de publication/contrôle |
-| J3 | https://vidfetch.app/pt/termos-de-uso | en attente de publication/contrôle |
-| J3 | https://vidfetch.app/pt/direitos-autorais | en attente de publication/contrôle |
-| J3 | https://vidfetch.app/id/tentang | en attente de publication/contrôle |
-| J3 | https://vidfetch.app/id/kontak | en attente de publication/contrôle |
-| J4 | https://vidfetch.app/id/kebijakan-editorial | en attente de publication/contrôle |
-| J4 | https://vidfetch.app/id/ketentuan-dan-privasi | en attente de publication/contrôle |
-| J4 | https://vidfetch.app/id/privasi | en attente de publication/contrôle |
-| J4 | https://vidfetch.app/id/ketentuan-penggunaan | en attente de publication/contrôle |
-| J4 | https://vidfetch.app/id/hak-cipta | en attente de publication/contrôle |
-| J4 | https://vidfetch.app/de/ueber-uns | en attente de publication/contrôle |
-| J4 | https://vidfetch.app/de/kontakt | en attente de publication/contrôle |
-| J4 | https://vidfetch.app/de/redaktionsrichtlinie | en attente de publication/contrôle |
-| J4 | https://vidfetch.app/de/rechtliches | en attente de publication/contrôle |
-| J4 | https://vidfetch.app/de/datenschutz | en attente de publication/contrôle |
-| J5 | https://vidfetch.app/de/nutzungsbedingungen | en attente de publication/contrôle |
-| J5 | https://vidfetch.app/de/urheberrecht | en attente de publication/contrôle |
-| J5 | https://vidfetch.app/it/chi-siamo | en attente de publication/contrôle |
-| J5 | https://vidfetch.app/it/contatti | en attente de publication/contrôle |
-| J5 | https://vidfetch.app/it/politica-editoriale | en attente de publication/contrôle |
-| J5 | https://vidfetch.app/it/note-legali | en attente de publication/contrôle |
-| J5 | https://vidfetch.app/it/privacy | en attente de publication/contrôle |
-| J5 | https://vidfetch.app/it/condizioni-uso | en attente de publication/contrôle |
-| J5 | https://vidfetch.app/it/diritto-autore | en attente de publication/contrôle |
-| J5 | https://vidfetch.app/ar/%D9%85%D9%86-%D9%86%D8%AD%D9%86 | en attente de publication/contrôle |
-| J6 | https://vidfetch.app/ar/%D8%A7%D8%AA%D8%B5%D9%84-%D8%A8%D9%86%D8%A7 | en attente de publication/contrôle |
-| J6 | https://vidfetch.app/ar/%D8%A7%D9%84%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9-%D8%A7%D9%84%D8%AA%D8%AD%D8%B1%D9%8A%D8%B1%D9%8A%D8%A9 | en attente de publication/contrôle |
-| J6 | https://vidfetch.app/ar/%D8%A7%D9%84%D8%B4%D8%B1%D9%88%D8%B7-%D9%88%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9 | en attente de publication/contrôle |
-| J6 | https://vidfetch.app/ar/%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9 | en attente de publication/contrôle |
-| J6 | https://vidfetch.app/ar/%D8%B4%D8%B1%D9%88%D8%B7-%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85 | en attente de publication/contrôle |
-| J6 | https://vidfetch.app/ar/%D8%AD%D9%82%D9%88%D9%82-%D8%A7%D9%84%D9%86%D8%B4%D8%B1 | en attente de publication/contrôle |
+| J1 | https://vidfetch.app/fr/a-propos | publiée et contrôlée ; non soumise |
+| J1 | https://vidfetch.app/about | publiée et contrôlée ; non soumise |
+| J1 | https://vidfetch.app/fr/contact | publiée et contrôlée ; non soumise |
+| J1 | https://vidfetch.app/contact | publiée et contrôlée ; non soumise |
+| J1 | https://vidfetch.app/fr/politique-editoriale | publiée et contrôlée ; non soumise |
+| J1 | https://vidfetch.app/editorial-policy | publiée et contrôlée ; non soumise |
+| J1 | https://vidfetch.app/fr/mentions-legales | publiée et contrôlée ; non soumise |
+| J1 | https://vidfetch.app/legal | publiée et contrôlée ; non soumise |
+| J1 | https://vidfetch.app/es/acerca-de | publiée et contrôlée ; non soumise |
+| J1 | https://vidfetch.app/es/contacto | publiée et contrôlée ; non soumise |
+| J2 | https://vidfetch.app/es/politica-editorial | publiée et contrôlée ; non soumise |
+| J2 | https://vidfetch.app/es/aviso-legal | publiée et contrôlée ; non soumise |
+| J2 | https://vidfetch.app/pt/sobre | publiée et contrôlée ; non soumise |
+| J2 | https://vidfetch.app/pt/contato | publiée et contrôlée ; non soumise |
+| J2 | https://vidfetch.app/pt/politica-editorial | publiée et contrôlée ; non soumise |
+| J2 | https://vidfetch.app/pt/termos-e-privacidade | publiée et contrôlée ; non soumise |
+| J2 | https://vidfetch.app/fr/confidentialite | publiée et contrôlée ; non soumise |
+| J2 | https://vidfetch.app/fr/conditions-utilisation | publiée et contrôlée ; non soumise |
+| J2 | https://vidfetch.app/fr/droits-auteur | publiée et contrôlée ; non soumise |
+| J2 | https://vidfetch.app/privacy | publiée et contrôlée ; non soumise |
+| J3 | https://vidfetch.app/terms | publiée et contrôlée ; non soumise |
+| J3 | https://vidfetch.app/copyright | publiée et contrôlée ; non soumise |
+| J3 | https://vidfetch.app/es/privacidad | publiée et contrôlée ; non soumise |
+| J3 | https://vidfetch.app/es/condiciones-uso | publiée et contrôlée ; non soumise |
+| J3 | https://vidfetch.app/es/derechos-autor | publiée et contrôlée ; non soumise |
+| J3 | https://vidfetch.app/pt/privacidade | publiée et contrôlée ; non soumise |
+| J3 | https://vidfetch.app/pt/termos-de-uso | publiée et contrôlée ; non soumise |
+| J3 | https://vidfetch.app/pt/direitos-autorais | publiée et contrôlée ; non soumise |
+| J3 | https://vidfetch.app/id/tentang | publiée et contrôlée ; non soumise |
+| J3 | https://vidfetch.app/id/kontak | publiée et contrôlée ; non soumise |
+| J4 | https://vidfetch.app/id/kebijakan-editorial | publiée et contrôlée ; non soumise |
+| J4 | https://vidfetch.app/id/ketentuan-dan-privasi | publiée et contrôlée ; non soumise |
+| J4 | https://vidfetch.app/id/privasi | publiée et contrôlée ; non soumise |
+| J4 | https://vidfetch.app/id/ketentuan-penggunaan | publiée et contrôlée ; non soumise |
+| J4 | https://vidfetch.app/id/hak-cipta | publiée et contrôlée ; non soumise |
+| J4 | https://vidfetch.app/de/ueber-uns | publiée et contrôlée ; non soumise |
+| J4 | https://vidfetch.app/de/kontakt | publiée et contrôlée ; non soumise |
+| J4 | https://vidfetch.app/de/redaktionsrichtlinie | publiée et contrôlée ; non soumise |
+| J4 | https://vidfetch.app/de/rechtliches | publiée et contrôlée ; non soumise |
+| J4 | https://vidfetch.app/de/datenschutz | publiée et contrôlée ; non soumise |
+| J5 | https://vidfetch.app/de/nutzungsbedingungen | publiée et contrôlée ; non soumise |
+| J5 | https://vidfetch.app/de/urheberrecht | publiée et contrôlée ; non soumise |
+| J5 | https://vidfetch.app/it/chi-siamo | publiée et contrôlée ; non soumise |
+| J5 | https://vidfetch.app/it/contatti | publiée et contrôlée ; non soumise |
+| J5 | https://vidfetch.app/it/politica-editoriale | publiée et contrôlée ; non soumise |
+| J5 | https://vidfetch.app/it/note-legali | publiée et contrôlée ; non soumise |
+| J5 | https://vidfetch.app/it/privacy | publiée et contrôlée ; non soumise |
+| J5 | https://vidfetch.app/it/condizioni-uso | publiée et contrôlée ; non soumise |
+| J5 | https://vidfetch.app/it/diritto-autore | publiée et contrôlée ; non soumise |
+| J5 | https://vidfetch.app/ar/%D9%85%D9%86-%D9%86%D8%AD%D9%86 | publiée et contrôlée ; non soumise |
+| J6 | https://vidfetch.app/ar/%D8%A7%D8%AA%D8%B5%D9%84-%D8%A8%D9%86%D8%A7 | publiée et contrôlée ; non soumise |
+| J6 | https://vidfetch.app/ar/%D8%A7%D9%84%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9-%D8%A7%D9%84%D8%AA%D8%AD%D8%B1%D9%8A%D8%B1%D9%8A%D8%A9 | publiée et contrôlée ; non soumise |
+| J6 | https://vidfetch.app/ar/%D8%A7%D9%84%D8%B4%D8%B1%D9%88%D8%B7-%D9%88%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9 | publiée et contrôlée ; non soumise |
+| J6 | https://vidfetch.app/ar/%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9 | publiée et contrôlée ; non soumise |
+| J6 | https://vidfetch.app/ar/%D8%B4%D8%B1%D9%88%D8%B7-%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85 | publiée et contrôlée ; non soumise |
+| J6 | https://vidfetch.app/ar/%D8%AD%D9%82%D9%88%D9%82-%D8%A7%D9%84%D9%86%D8%B4%D8%B1 | publiée et contrôlée ; non soumise |
 
 ---
 

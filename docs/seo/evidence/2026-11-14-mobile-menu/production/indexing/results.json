@@ -1,0 +1,3591 @@
+{
+  "phase": "43",
+  "startedAt": "2026-11-15T09:47:34.868Z",
+  "origin": "https://vidfetch.app",
+  "pages": [
+    {
+      "path": "/about",
+      "locale": "en",
+      "status": 200,
+      "trust": "about",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/about",
+      "alternates": {
+        "en": "https://vidfetch.app/about",
+        "fr": "https://vidfetch.app/fr/a-propos",
+        "es": "https://vidfetch.app/es/acerca-de",
+        "pt-BR": "https://vidfetch.app/pt/sobre",
+        "id": "https://vidfetch.app/id/tentang",
+        "de": "https://vidfetch.app/de/ueber-uns",
+        "it": "https://vidfetch.app/it/chi-siamo",
+        "ar": "https://vidfetch.app/ar/%D9%85%D9%86-%D9%86%D8%AD%D9%86",
+        "x-default": "https://vidfetch.app/about"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/contact",
+      "locale": "en",
+      "status": 200,
+      "trust": "contact",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/contact",
+      "alternates": {
+        "en": "https://vidfetch.app/contact",
+        "fr": "https://vidfetch.app/fr/contact",
+        "es": "https://vidfetch.app/es/contacto",
+        "pt-BR": "https://vidfetch.app/pt/contato",
+        "id": "https://vidfetch.app/id/kontak",
+        "de": "https://vidfetch.app/de/kontakt",
+        "it": "https://vidfetch.app/it/contatti",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D8%AA%D8%B5%D9%84-%D8%A8%D9%86%D8%A7",
+        "x-default": "https://vidfetch.app/contact"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/privacy",
+      "locale": "en",
+      "status": 200,
+      "trust": "privacy",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/privacy",
+      "alternates": {
+        "en": "https://vidfetch.app/privacy",
+        "fr": "https://vidfetch.app/fr/confidentialite",
+        "es": "https://vidfetch.app/es/privacidad",
+        "pt-BR": "https://vidfetch.app/pt/privacidade",
+        "id": "https://vidfetch.app/id/privasi",
+        "de": "https://vidfetch.app/de/datenschutz",
+        "it": "https://vidfetch.app/it/privacy",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/privacy"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/terms",
+      "locale": "en",
+      "status": 200,
+      "trust": "terms",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/terms",
+      "alternates": {
+        "en": "https://vidfetch.app/terms",
+        "fr": "https://vidfetch.app/fr/conditions-utilisation",
+        "es": "https://vidfetch.app/es/condiciones-uso",
+        "pt-BR": "https://vidfetch.app/pt/termos-de-uso",
+        "id": "https://vidfetch.app/id/ketentuan-penggunaan",
+        "de": "https://vidfetch.app/de/nutzungsbedingungen",
+        "it": "https://vidfetch.app/it/condizioni-uso",
+        "ar": "https://vidfetch.app/ar/%D8%B4%D8%B1%D9%88%D8%B7-%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85",
+        "x-default": "https://vidfetch.app/terms"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/copyright",
+      "locale": "en",
+      "status": 200,
+      "trust": "copyright",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/copyright",
+      "alternates": {
+        "en": "https://vidfetch.app/copyright",
+        "fr": "https://vidfetch.app/fr/droits-auteur",
+        "es": "https://vidfetch.app/es/derechos-autor",
+        "pt-BR": "https://vidfetch.app/pt/direitos-autorais",
+        "id": "https://vidfetch.app/id/hak-cipta",
+        "de": "https://vidfetch.app/de/urheberrecht",
+        "it": "https://vidfetch.app/it/diritto-autore",
+        "ar": "https://vidfetch.app/ar/%D8%AD%D9%82%D9%88%D9%82-%D8%A7%D9%84%D9%86%D8%B4%D8%B1",
+        "x-default": "https://vidfetch.app/copyright"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/editorial-policy",
+      "locale": "en",
+      "status": 200,
+      "trust": "editorial",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/editorial-policy",
+      "alternates": {
+        "en": "https://vidfetch.app/editorial-policy",
+        "fr": "https://vidfetch.app/fr/politique-editoriale",
+        "es": "https://vidfetch.app/es/politica-editorial",
+        "pt-BR": "https://vidfetch.app/pt/politica-editorial",
+        "id": "https://vidfetch.app/id/kebijakan-editorial",
+        "de": "https://vidfetch.app/de/redaktionsrichtlinie",
+        "it": "https://vidfetch.app/it/politica-editoriale",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9-%D8%A7%D9%84%D8%AA%D8%AD%D8%B1%D9%8A%D8%B1%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/editorial-policy"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/video-to-mp3",
+      "locale": "en",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/video-to-mp3",
+      "alternates": {
+        "en": "https://vidfetch.app/video-to-mp3",
+        "fr": "https://vidfetch.app/fr/convertir-video-en-mp3",
+        "es": "https://vidfetch.app/es/convertir-video-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/converter-video-para-mp3",
+        "id": "https://vidfetch.app/id/konversi-video-ke-mp3",
+        "de": "https://vidfetch.app/de/video-in-mp3-umwandeln",
+        "it": "https://vidfetch.app/it/convertire-video-in-mp3",
+        "ar": "https://vidfetch.app/ar/tahwil-video-ila-mp3",
+        "x-default": "https://vidfetch.app/video-to-mp3"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/compress-video",
+      "locale": "en",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/compress-video",
+      "alternates": {
+        "en": "https://vidfetch.app/compress-video",
+        "fr": "https://vidfetch.app/fr/compresser-video",
+        "es": "https://vidfetch.app/es/comprimir-video",
+        "pt-BR": "https://vidfetch.app/pt/comprimir-video",
+        "id": "https://vidfetch.app/id/kompres-video",
+        "de": "https://vidfetch.app/de/video-komprimieren",
+        "it": "https://vidfetch.app/it/comprimere-video",
+        "ar": "https://vidfetch.app/ar/daght-video",
+        "x-default": "https://vidfetch.app/compress-video"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/trim-video",
+      "locale": "en",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/trim-video",
+      "alternates": {
+        "en": "https://vidfetch.app/trim-video",
+        "fr": "https://vidfetch.app/fr/couper-video",
+        "es": "https://vidfetch.app/es/cortar-video",
+        "pt-BR": "https://vidfetch.app/pt/cortar-video",
+        "id": "https://vidfetch.app/id/potong-video",
+        "de": "https://vidfetch.app/de/video-schneiden",
+        "it": "https://vidfetch.app/it/tagliare-video",
+        "ar": "https://vidfetch.app/ar/qass-video",
+        "x-default": "https://vidfetch.app/trim-video"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/video-to-gif",
+      "locale": "en",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/video-to-gif",
+      "alternates": {
+        "en": "https://vidfetch.app/video-to-gif",
+        "fr": "https://vidfetch.app/fr/video-en-gif",
+        "es": "https://vidfetch.app/es/video-a-gif",
+        "pt-BR": "https://vidfetch.app/pt/video-para-gif",
+        "id": "https://vidfetch.app/id/video-ke-gif",
+        "de": "https://vidfetch.app/de/video-in-gif",
+        "it": "https://vidfetch.app/it/video-in-gif",
+        "ar": "https://vidfetch.app/ar/video-ila-gif",
+        "x-default": "https://vidfetch.app/video-to-gif"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/",
+      "locale": "en",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/",
+      "alternates": {
+        "en": "https://vidfetch.app/",
+        "fr": "https://vidfetch.app/fr",
+        "es": "https://vidfetch.app/es",
+        "pt-BR": "https://vidfetch.app/pt",
+        "id": "https://vidfetch.app/id",
+        "de": "https://vidfetch.app/de",
+        "it": "https://vidfetch.app/it",
+        "ar": "https://vidfetch.app/ar",
+        "x-default": "https://vidfetch.app/"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/blog",
+      "locale": "en",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/blog",
+      "alternates": {
+        "en": "https://vidfetch.app/blog",
+        "fr": "https://vidfetch.app/fr/guides",
+        "es": "https://vidfetch.app/es/guias",
+        "pt-BR": "https://vidfetch.app/pt/guias",
+        "id": "https://vidfetch.app/id/panduan",
+        "de": "https://vidfetch.app/de/ratgeber",
+        "it": "https://vidfetch.app/it/guide",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9",
+        "x-default": "https://vidfetch.app/blog"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/legal",
+      "locale": "en",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/legal",
+      "alternates": {
+        "en": "https://vidfetch.app/legal",
+        "fr": "https://vidfetch.app/fr/mentions-legales",
+        "es": "https://vidfetch.app/es/aviso-legal",
+        "pt-BR": "https://vidfetch.app/pt/termos-e-privacidade",
+        "id": "https://vidfetch.app/id/ketentuan-dan-privasi",
+        "de": "https://vidfetch.app/de/rechtliches",
+        "it": "https://vidfetch.app/it/note-legali",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%B4%D8%B1%D9%88%D8%B7-%D9%88%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/legal"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/blog/720p-1080p-4k",
+      "locale": "en",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/blog/720p-1080p-4k",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/720p-1080p-4k",
+        "x-default": "https://vidfetch.app/blog/720p-1080p-4k"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/blog/backup-your-videos",
+      "locale": "en",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/blog/backup-your-videos",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/backup-your-videos",
+        "x-default": "https://vidfetch.app/blog/backup-your-videos"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/blog/bitrate-vs-resolution",
+      "locale": "en",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/blog/bitrate-vs-resolution",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/bitrate-vs-resolution",
+        "x-default": "https://vidfetch.app/blog/bitrate-vs-resolution"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/blog/h264-h265-av1",
+      "locale": "en",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/blog/h264-h265-av1",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/h264-h265-av1",
+        "x-default": "https://vidfetch.app/blog/h264-h265-av1"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/blog/mp3-vs-m4a",
+      "locale": "en",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/blog/mp3-vs-m4a",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/mp3-vs-m4a",
+        "x-default": "https://vidfetch.app/blog/mp3-vs-m4a"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/blog/mp4-vs-webm",
+      "locale": "en",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/blog/mp4-vs-webm",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/mp4-vs-webm",
+        "x-default": "https://vidfetch.app/blog/mp4-vs-webm"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/blog/reduce-video-size",
+      "locale": "en",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/blog/reduce-video-size",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/reduce-video-size",
+        "x-default": "https://vidfetch.app/blog/reduce-video-size"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/blog/save-tiktok-phone-gallery",
+      "locale": "en",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/blog/save-tiktok-phone-gallery",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/save-tiktok-phone-gallery",
+        "fr": "https://vidfetch.app/fr/guides/enregistrer-tiktok-galerie-iphone-android",
+        "es": "https://vidfetch.app/es/guias/guardar-videos-tiktok-en-galeria",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-video-tiktok-na-galeria",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-video-tiktok-ke-galeri",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-in-galerie-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-video-tiktok-in-galleria",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-video-tiktok-fi-almaarad",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-phone-gallery"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/blog/save-tiktok-sound-mp3",
+      "locale": "en",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/blog/save-tiktok-sound-mp3",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/save-tiktok-sound-mp3",
+        "fr": "https://vidfetch.app/fr/guides/recuperer-son-tiktok-mp3",
+        "es": "https://vidfetch.app/es/guias/guardar-audio-tiktok-en-mp3",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-audio-tiktok-em-mp3",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-suara-tiktok-jadi-mp3",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-ton-als-mp3-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-audio-tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-sawt-tiktok-mp3",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-sound-mp3"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/blog/video-download-fails",
+      "locale": "en",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/blog/video-download-fails",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/video-download-fails",
+        "x-default": "https://vidfetch.app/blog/video-download-fails"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/blog/video-format-smartphone",
+      "locale": "en",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/blog/video-format-smartphone",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/video-format-smartphone",
+        "x-default": "https://vidfetch.app/blog/video-format-smartphone"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/blog/video-to-audio",
+      "locale": "en",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/blog/video-to-audio",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/video-to-audio",
+        "x-default": "https://vidfetch.app/blog/video-to-audio"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/blog/why-cant-i-save-tiktok",
+      "locale": "en",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/blog/why-cant-i-save-tiktok",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/why-cant-i-save-tiktok",
+        "fr": "https://vidfetch.app/fr/guides/pourquoi-impossible-enregistrer-tiktok",
+        "es": "https://vidfetch.app/es/guias/por-que-no-puedo-descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/guias/nao-consigo-baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/panduan/kenapa-video-tiktok-tidak-bisa-disimpan",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-laesst-sich-nicht-speichern",
+        "it": "https://vidfetch.app/it/guide/perche-non-riesco-salvare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/limadha-la-yumkin-hifz-video-tiktok",
+        "x-default": "https://vidfetch.app/blog/why-cant-i-save-tiktok"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/tiktok-video-downloader",
+      "locale": "en",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/tiktok-video-downloader",
+      "alternates": {
+        "en": "https://vidfetch.app/tiktok-video-downloader",
+        "fr": "https://vidfetch.app/fr/telecharger-video-tiktok",
+        "es": "https://vidfetch.app/es/descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/download-video-tiktok",
+        "de": "https://vidfetch.app/de/tiktok-video-herunterladen",
+        "it": "https://vidfetch.app/it/scaricare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/tahmil-video-tiktok",
+        "x-default": "https://vidfetch.app/tiktok-video-downloader"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/tiktok-to-mp3",
+      "locale": "en",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/tiktok-to-mp3",
+      "alternates": {
+        "en": "https://vidfetch.app/tiktok-to-mp3",
+        "fr": "https://vidfetch.app/fr/tiktok-en-mp3",
+        "es": "https://vidfetch.app/es/tiktok-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/tiktok-para-mp3",
+        "id": "https://vidfetch.app/id/tiktok-ke-mp3",
+        "de": "https://vidfetch.app/de/tiktok-zu-mp3",
+        "it": "https://vidfetch.app/it/tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/tiktok-mp3",
+        "x-default": "https://vidfetch.app/tiktok-to-mp3"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/fr/a-propos",
+      "locale": "fr",
+      "status": 200,
+      "trust": "about",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/fr/a-propos",
+      "alternates": {
+        "en": "https://vidfetch.app/about",
+        "fr": "https://vidfetch.app/fr/a-propos",
+        "es": "https://vidfetch.app/es/acerca-de",
+        "pt-BR": "https://vidfetch.app/pt/sobre",
+        "id": "https://vidfetch.app/id/tentang",
+        "de": "https://vidfetch.app/de/ueber-uns",
+        "it": "https://vidfetch.app/it/chi-siamo",
+        "ar": "https://vidfetch.app/ar/%D9%85%D9%86-%D9%86%D8%AD%D9%86",
+        "x-default": "https://vidfetch.app/about"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/fr/contact",
+      "locale": "fr",
+      "status": 200,
+      "trust": "contact",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/fr/contact",
+      "alternates": {
+        "en": "https://vidfetch.app/contact",
+        "fr": "https://vidfetch.app/fr/contact",
+        "es": "https://vidfetch.app/es/contacto",
+        "pt-BR": "https://vidfetch.app/pt/contato",
+        "id": "https://vidfetch.app/id/kontak",
+        "de": "https://vidfetch.app/de/kontakt",
+        "it": "https://vidfetch.app/it/contatti",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D8%AA%D8%B5%D9%84-%D8%A8%D9%86%D8%A7",
+        "x-default": "https://vidfetch.app/contact"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/fr/confidentialite",
+      "locale": "fr",
+      "status": 200,
+      "trust": "privacy",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/fr/confidentialite",
+      "alternates": {
+        "en": "https://vidfetch.app/privacy",
+        "fr": "https://vidfetch.app/fr/confidentialite",
+        "es": "https://vidfetch.app/es/privacidad",
+        "pt-BR": "https://vidfetch.app/pt/privacidade",
+        "id": "https://vidfetch.app/id/privasi",
+        "de": "https://vidfetch.app/de/datenschutz",
+        "it": "https://vidfetch.app/it/privacy",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/privacy"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/fr/conditions-utilisation",
+      "locale": "fr",
+      "status": 200,
+      "trust": "terms",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/fr/conditions-utilisation",
+      "alternates": {
+        "en": "https://vidfetch.app/terms",
+        "fr": "https://vidfetch.app/fr/conditions-utilisation",
+        "es": "https://vidfetch.app/es/condiciones-uso",
+        "pt-BR": "https://vidfetch.app/pt/termos-de-uso",
+        "id": "https://vidfetch.app/id/ketentuan-penggunaan",
+        "de": "https://vidfetch.app/de/nutzungsbedingungen",
+        "it": "https://vidfetch.app/it/condizioni-uso",
+        "ar": "https://vidfetch.app/ar/%D8%B4%D8%B1%D9%88%D8%B7-%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85",
+        "x-default": "https://vidfetch.app/terms"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/fr/droits-auteur",
+      "locale": "fr",
+      "status": 200,
+      "trust": "copyright",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/fr/droits-auteur",
+      "alternates": {
+        "en": "https://vidfetch.app/copyright",
+        "fr": "https://vidfetch.app/fr/droits-auteur",
+        "es": "https://vidfetch.app/es/derechos-autor",
+        "pt-BR": "https://vidfetch.app/pt/direitos-autorais",
+        "id": "https://vidfetch.app/id/hak-cipta",
+        "de": "https://vidfetch.app/de/urheberrecht",
+        "it": "https://vidfetch.app/it/diritto-autore",
+        "ar": "https://vidfetch.app/ar/%D8%AD%D9%82%D9%88%D9%82-%D8%A7%D9%84%D9%86%D8%B4%D8%B1",
+        "x-default": "https://vidfetch.app/copyright"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/fr/politique-editoriale",
+      "locale": "fr",
+      "status": 200,
+      "trust": "editorial",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/fr/politique-editoriale",
+      "alternates": {
+        "en": "https://vidfetch.app/editorial-policy",
+        "fr": "https://vidfetch.app/fr/politique-editoriale",
+        "es": "https://vidfetch.app/es/politica-editorial",
+        "pt-BR": "https://vidfetch.app/pt/politica-editorial",
+        "id": "https://vidfetch.app/id/kebijakan-editorial",
+        "de": "https://vidfetch.app/de/redaktionsrichtlinie",
+        "it": "https://vidfetch.app/it/politica-editoriale",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9-%D8%A7%D9%84%D8%AA%D8%AD%D8%B1%D9%8A%D8%B1%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/editorial-policy"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/fr/convertir-video-en-mp3",
+      "locale": "fr",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/fr/convertir-video-en-mp3",
+      "alternates": {
+        "en": "https://vidfetch.app/video-to-mp3",
+        "fr": "https://vidfetch.app/fr/convertir-video-en-mp3",
+        "es": "https://vidfetch.app/es/convertir-video-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/converter-video-para-mp3",
+        "id": "https://vidfetch.app/id/konversi-video-ke-mp3",
+        "de": "https://vidfetch.app/de/video-in-mp3-umwandeln",
+        "it": "https://vidfetch.app/it/convertire-video-in-mp3",
+        "ar": "https://vidfetch.app/ar/tahwil-video-ila-mp3",
+        "x-default": "https://vidfetch.app/video-to-mp3"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/fr/compresser-video",
+      "locale": "fr",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/fr/compresser-video",
+      "alternates": {
+        "en": "https://vidfetch.app/compress-video",
+        "fr": "https://vidfetch.app/fr/compresser-video",
+        "es": "https://vidfetch.app/es/comprimir-video",
+        "pt-BR": "https://vidfetch.app/pt/comprimir-video",
+        "id": "https://vidfetch.app/id/kompres-video",
+        "de": "https://vidfetch.app/de/video-komprimieren",
+        "it": "https://vidfetch.app/it/comprimere-video",
+        "ar": "https://vidfetch.app/ar/daght-video",
+        "x-default": "https://vidfetch.app/compress-video"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/fr/couper-video",
+      "locale": "fr",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/fr/couper-video",
+      "alternates": {
+        "en": "https://vidfetch.app/trim-video",
+        "fr": "https://vidfetch.app/fr/couper-video",
+        "es": "https://vidfetch.app/es/cortar-video",
+        "pt-BR": "https://vidfetch.app/pt/cortar-video",
+        "id": "https://vidfetch.app/id/potong-video",
+        "de": "https://vidfetch.app/de/video-schneiden",
+        "it": "https://vidfetch.app/it/tagliare-video",
+        "ar": "https://vidfetch.app/ar/qass-video",
+        "x-default": "https://vidfetch.app/trim-video"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/fr/video-en-gif",
+      "locale": "fr",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/fr/video-en-gif",
+      "alternates": {
+        "en": "https://vidfetch.app/video-to-gif",
+        "fr": "https://vidfetch.app/fr/video-en-gif",
+        "es": "https://vidfetch.app/es/video-a-gif",
+        "pt-BR": "https://vidfetch.app/pt/video-para-gif",
+        "id": "https://vidfetch.app/id/video-ke-gif",
+        "de": "https://vidfetch.app/de/video-in-gif",
+        "it": "https://vidfetch.app/it/video-in-gif",
+        "ar": "https://vidfetch.app/ar/video-ila-gif",
+        "x-default": "https://vidfetch.app/video-to-gif"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/fr",
+      "locale": "fr",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/fr",
+      "alternates": {
+        "en": "https://vidfetch.app/",
+        "fr": "https://vidfetch.app/fr",
+        "es": "https://vidfetch.app/es",
+        "pt-BR": "https://vidfetch.app/pt",
+        "id": "https://vidfetch.app/id",
+        "de": "https://vidfetch.app/de",
+        "it": "https://vidfetch.app/it",
+        "ar": "https://vidfetch.app/ar",
+        "x-default": "https://vidfetch.app/"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/fr/guides",
+      "locale": "fr",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/fr/guides",
+      "alternates": {
+        "en": "https://vidfetch.app/blog",
+        "fr": "https://vidfetch.app/fr/guides",
+        "es": "https://vidfetch.app/es/guias",
+        "pt-BR": "https://vidfetch.app/pt/guias",
+        "id": "https://vidfetch.app/id/panduan",
+        "de": "https://vidfetch.app/de/ratgeber",
+        "it": "https://vidfetch.app/it/guide",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9",
+        "x-default": "https://vidfetch.app/blog"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/fr/mentions-legales",
+      "locale": "fr",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/fr/mentions-legales",
+      "alternates": {
+        "en": "https://vidfetch.app/legal",
+        "fr": "https://vidfetch.app/fr/mentions-legales",
+        "es": "https://vidfetch.app/es/aviso-legal",
+        "pt-BR": "https://vidfetch.app/pt/termos-e-privacidade",
+        "id": "https://vidfetch.app/id/ketentuan-dan-privasi",
+        "de": "https://vidfetch.app/de/rechtliches",
+        "it": "https://vidfetch.app/it/note-legali",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%B4%D8%B1%D9%88%D8%B7-%D9%88%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/legal"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/fr/guides/enregistrer-tiktok-galerie-iphone-android",
+      "locale": "fr",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/fr/guides/enregistrer-tiktok-galerie-iphone-android",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/save-tiktok-phone-gallery",
+        "fr": "https://vidfetch.app/fr/guides/enregistrer-tiktok-galerie-iphone-android",
+        "es": "https://vidfetch.app/es/guias/guardar-videos-tiktok-en-galeria",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-video-tiktok-na-galeria",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-video-tiktok-ke-galeri",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-in-galerie-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-video-tiktok-in-galleria",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-video-tiktok-fi-almaarad",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-phone-gallery"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/fr/guides/recuperer-son-tiktok-mp3",
+      "locale": "fr",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/fr/guides/recuperer-son-tiktok-mp3",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/save-tiktok-sound-mp3",
+        "fr": "https://vidfetch.app/fr/guides/recuperer-son-tiktok-mp3",
+        "es": "https://vidfetch.app/es/guias/guardar-audio-tiktok-en-mp3",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-audio-tiktok-em-mp3",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-suara-tiktok-jadi-mp3",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-ton-als-mp3-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-audio-tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-sawt-tiktok-mp3",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-sound-mp3"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/fr/guides/pourquoi-impossible-enregistrer-tiktok",
+      "locale": "fr",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/fr/guides/pourquoi-impossible-enregistrer-tiktok",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/why-cant-i-save-tiktok",
+        "fr": "https://vidfetch.app/fr/guides/pourquoi-impossible-enregistrer-tiktok",
+        "es": "https://vidfetch.app/es/guias/por-que-no-puedo-descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/guias/nao-consigo-baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/panduan/kenapa-video-tiktok-tidak-bisa-disimpan",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-laesst-sich-nicht-speichern",
+        "it": "https://vidfetch.app/it/guide/perche-non-riesco-salvare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/limadha-la-yumkin-hifz-video-tiktok",
+        "x-default": "https://vidfetch.app/blog/why-cant-i-save-tiktok"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/fr/telecharger-video-tiktok",
+      "locale": "fr",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/fr/telecharger-video-tiktok",
+      "alternates": {
+        "en": "https://vidfetch.app/tiktok-video-downloader",
+        "fr": "https://vidfetch.app/fr/telecharger-video-tiktok",
+        "es": "https://vidfetch.app/es/descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/download-video-tiktok",
+        "de": "https://vidfetch.app/de/tiktok-video-herunterladen",
+        "it": "https://vidfetch.app/it/scaricare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/tahmil-video-tiktok",
+        "x-default": "https://vidfetch.app/tiktok-video-downloader"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/fr/tiktok-en-mp3",
+      "locale": "fr",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/fr/tiktok-en-mp3",
+      "alternates": {
+        "en": "https://vidfetch.app/tiktok-to-mp3",
+        "fr": "https://vidfetch.app/fr/tiktok-en-mp3",
+        "es": "https://vidfetch.app/es/tiktok-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/tiktok-para-mp3",
+        "id": "https://vidfetch.app/id/tiktok-ke-mp3",
+        "de": "https://vidfetch.app/de/tiktok-zu-mp3",
+        "it": "https://vidfetch.app/it/tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/tiktok-mp3",
+        "x-default": "https://vidfetch.app/tiktok-to-mp3"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/es/acerca-de",
+      "locale": "es",
+      "status": 200,
+      "trust": "about",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/es/acerca-de",
+      "alternates": {
+        "en": "https://vidfetch.app/about",
+        "fr": "https://vidfetch.app/fr/a-propos",
+        "es": "https://vidfetch.app/es/acerca-de",
+        "pt-BR": "https://vidfetch.app/pt/sobre",
+        "id": "https://vidfetch.app/id/tentang",
+        "de": "https://vidfetch.app/de/ueber-uns",
+        "it": "https://vidfetch.app/it/chi-siamo",
+        "ar": "https://vidfetch.app/ar/%D9%85%D9%86-%D9%86%D8%AD%D9%86",
+        "x-default": "https://vidfetch.app/about"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/es/contacto",
+      "locale": "es",
+      "status": 200,
+      "trust": "contact",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/es/contacto",
+      "alternates": {
+        "en": "https://vidfetch.app/contact",
+        "fr": "https://vidfetch.app/fr/contact",
+        "es": "https://vidfetch.app/es/contacto",
+        "pt-BR": "https://vidfetch.app/pt/contato",
+        "id": "https://vidfetch.app/id/kontak",
+        "de": "https://vidfetch.app/de/kontakt",
+        "it": "https://vidfetch.app/it/contatti",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D8%AA%D8%B5%D9%84-%D8%A8%D9%86%D8%A7",
+        "x-default": "https://vidfetch.app/contact"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/es/privacidad",
+      "locale": "es",
+      "status": 200,
+      "trust": "privacy",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/es/privacidad",
+      "alternates": {
+        "en": "https://vidfetch.app/privacy",
+        "fr": "https://vidfetch.app/fr/confidentialite",
+        "es": "https://vidfetch.app/es/privacidad",
+        "pt-BR": "https://vidfetch.app/pt/privacidade",
+        "id": "https://vidfetch.app/id/privasi",
+        "de": "https://vidfetch.app/de/datenschutz",
+        "it": "https://vidfetch.app/it/privacy",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/privacy"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/es/condiciones-uso",
+      "locale": "es",
+      "status": 200,
+      "trust": "terms",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/es/condiciones-uso",
+      "alternates": {
+        "en": "https://vidfetch.app/terms",
+        "fr": "https://vidfetch.app/fr/conditions-utilisation",
+        "es": "https://vidfetch.app/es/condiciones-uso",
+        "pt-BR": "https://vidfetch.app/pt/termos-de-uso",
+        "id": "https://vidfetch.app/id/ketentuan-penggunaan",
+        "de": "https://vidfetch.app/de/nutzungsbedingungen",
+        "it": "https://vidfetch.app/it/condizioni-uso",
+        "ar": "https://vidfetch.app/ar/%D8%B4%D8%B1%D9%88%D8%B7-%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85",
+        "x-default": "https://vidfetch.app/terms"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/es/derechos-autor",
+      "locale": "es",
+      "status": 200,
+      "trust": "copyright",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/es/derechos-autor",
+      "alternates": {
+        "en": "https://vidfetch.app/copyright",
+        "fr": "https://vidfetch.app/fr/droits-auteur",
+        "es": "https://vidfetch.app/es/derechos-autor",
+        "pt-BR": "https://vidfetch.app/pt/direitos-autorais",
+        "id": "https://vidfetch.app/id/hak-cipta",
+        "de": "https://vidfetch.app/de/urheberrecht",
+        "it": "https://vidfetch.app/it/diritto-autore",
+        "ar": "https://vidfetch.app/ar/%D8%AD%D9%82%D9%88%D9%82-%D8%A7%D9%84%D9%86%D8%B4%D8%B1",
+        "x-default": "https://vidfetch.app/copyright"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/es/politica-editorial",
+      "locale": "es",
+      "status": 200,
+      "trust": "editorial",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/es/politica-editorial",
+      "alternates": {
+        "en": "https://vidfetch.app/editorial-policy",
+        "fr": "https://vidfetch.app/fr/politique-editoriale",
+        "es": "https://vidfetch.app/es/politica-editorial",
+        "pt-BR": "https://vidfetch.app/pt/politica-editorial",
+        "id": "https://vidfetch.app/id/kebijakan-editorial",
+        "de": "https://vidfetch.app/de/redaktionsrichtlinie",
+        "it": "https://vidfetch.app/it/politica-editoriale",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9-%D8%A7%D9%84%D8%AA%D8%AD%D8%B1%D9%8A%D8%B1%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/editorial-policy"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/es/convertir-video-a-mp3",
+      "locale": "es",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/es/convertir-video-a-mp3",
+      "alternates": {
+        "en": "https://vidfetch.app/video-to-mp3",
+        "fr": "https://vidfetch.app/fr/convertir-video-en-mp3",
+        "es": "https://vidfetch.app/es/convertir-video-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/converter-video-para-mp3",
+        "id": "https://vidfetch.app/id/konversi-video-ke-mp3",
+        "de": "https://vidfetch.app/de/video-in-mp3-umwandeln",
+        "it": "https://vidfetch.app/it/convertire-video-in-mp3",
+        "ar": "https://vidfetch.app/ar/tahwil-video-ila-mp3",
+        "x-default": "https://vidfetch.app/video-to-mp3"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/es/comprimir-video",
+      "locale": "es",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/es/comprimir-video",
+      "alternates": {
+        "en": "https://vidfetch.app/compress-video",
+        "fr": "https://vidfetch.app/fr/compresser-video",
+        "es": "https://vidfetch.app/es/comprimir-video",
+        "pt-BR": "https://vidfetch.app/pt/comprimir-video",
+        "id": "https://vidfetch.app/id/kompres-video",
+        "de": "https://vidfetch.app/de/video-komprimieren",
+        "it": "https://vidfetch.app/it/comprimere-video",
+        "ar": "https://vidfetch.app/ar/daght-video",
+        "x-default": "https://vidfetch.app/compress-video"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/es/cortar-video",
+      "locale": "es",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/es/cortar-video",
+      "alternates": {
+        "en": "https://vidfetch.app/trim-video",
+        "fr": "https://vidfetch.app/fr/couper-video",
+        "es": "https://vidfetch.app/es/cortar-video",
+        "pt-BR": "https://vidfetch.app/pt/cortar-video",
+        "id": "https://vidfetch.app/id/potong-video",
+        "de": "https://vidfetch.app/de/video-schneiden",
+        "it": "https://vidfetch.app/it/tagliare-video",
+        "ar": "https://vidfetch.app/ar/qass-video",
+        "x-default": "https://vidfetch.app/trim-video"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/es/video-a-gif",
+      "locale": "es",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/es/video-a-gif",
+      "alternates": {
+        "en": "https://vidfetch.app/video-to-gif",
+        "fr": "https://vidfetch.app/fr/video-en-gif",
+        "es": "https://vidfetch.app/es/video-a-gif",
+        "pt-BR": "https://vidfetch.app/pt/video-para-gif",
+        "id": "https://vidfetch.app/id/video-ke-gif",
+        "de": "https://vidfetch.app/de/video-in-gif",
+        "it": "https://vidfetch.app/it/video-in-gif",
+        "ar": "https://vidfetch.app/ar/video-ila-gif",
+        "x-default": "https://vidfetch.app/video-to-gif"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/es",
+      "locale": "es",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/es",
+      "alternates": {
+        "en": "https://vidfetch.app/",
+        "fr": "https://vidfetch.app/fr",
+        "es": "https://vidfetch.app/es",
+        "pt-BR": "https://vidfetch.app/pt",
+        "id": "https://vidfetch.app/id",
+        "de": "https://vidfetch.app/de",
+        "it": "https://vidfetch.app/it",
+        "ar": "https://vidfetch.app/ar",
+        "x-default": "https://vidfetch.app/"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/es/guias",
+      "locale": "es",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/es/guias",
+      "alternates": {
+        "en": "https://vidfetch.app/blog",
+        "fr": "https://vidfetch.app/fr/guides",
+        "es": "https://vidfetch.app/es/guias",
+        "pt-BR": "https://vidfetch.app/pt/guias",
+        "id": "https://vidfetch.app/id/panduan",
+        "de": "https://vidfetch.app/de/ratgeber",
+        "it": "https://vidfetch.app/it/guide",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9",
+        "x-default": "https://vidfetch.app/blog"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/es/aviso-legal",
+      "locale": "es",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/es/aviso-legal",
+      "alternates": {
+        "en": "https://vidfetch.app/legal",
+        "fr": "https://vidfetch.app/fr/mentions-legales",
+        "es": "https://vidfetch.app/es/aviso-legal",
+        "pt-BR": "https://vidfetch.app/pt/termos-e-privacidade",
+        "id": "https://vidfetch.app/id/ketentuan-dan-privasi",
+        "de": "https://vidfetch.app/de/rechtliches",
+        "it": "https://vidfetch.app/it/note-legali",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%B4%D8%B1%D9%88%D8%B7-%D9%88%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/legal"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/es/guias/guardar-videos-tiktok-en-galeria",
+      "locale": "es",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/es/guias/guardar-videos-tiktok-en-galeria",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/save-tiktok-phone-gallery",
+        "fr": "https://vidfetch.app/fr/guides/enregistrer-tiktok-galerie-iphone-android",
+        "es": "https://vidfetch.app/es/guias/guardar-videos-tiktok-en-galeria",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-video-tiktok-na-galeria",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-video-tiktok-ke-galeri",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-in-galerie-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-video-tiktok-in-galleria",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-video-tiktok-fi-almaarad",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-phone-gallery"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/es/guias/guardar-audio-tiktok-en-mp3",
+      "locale": "es",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/es/guias/guardar-audio-tiktok-en-mp3",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/save-tiktok-sound-mp3",
+        "fr": "https://vidfetch.app/fr/guides/recuperer-son-tiktok-mp3",
+        "es": "https://vidfetch.app/es/guias/guardar-audio-tiktok-en-mp3",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-audio-tiktok-em-mp3",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-suara-tiktok-jadi-mp3",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-ton-als-mp3-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-audio-tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-sawt-tiktok-mp3",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-sound-mp3"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/es/guias/por-que-no-puedo-descargar-video-tiktok",
+      "locale": "es",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/es/guias/por-que-no-puedo-descargar-video-tiktok",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/why-cant-i-save-tiktok",
+        "fr": "https://vidfetch.app/fr/guides/pourquoi-impossible-enregistrer-tiktok",
+        "es": "https://vidfetch.app/es/guias/por-que-no-puedo-descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/guias/nao-consigo-baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/panduan/kenapa-video-tiktok-tidak-bisa-disimpan",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-laesst-sich-nicht-speichern",
+        "it": "https://vidfetch.app/it/guide/perche-non-riesco-salvare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/limadha-la-yumkin-hifz-video-tiktok",
+        "x-default": "https://vidfetch.app/blog/why-cant-i-save-tiktok"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/es/descargar-video-tiktok",
+      "locale": "es",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/es/descargar-video-tiktok",
+      "alternates": {
+        "en": "https://vidfetch.app/tiktok-video-downloader",
+        "fr": "https://vidfetch.app/fr/telecharger-video-tiktok",
+        "es": "https://vidfetch.app/es/descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/download-video-tiktok",
+        "de": "https://vidfetch.app/de/tiktok-video-herunterladen",
+        "it": "https://vidfetch.app/it/scaricare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/tahmil-video-tiktok",
+        "x-default": "https://vidfetch.app/tiktok-video-downloader"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/es/tiktok-a-mp3",
+      "locale": "es",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/es/tiktok-a-mp3",
+      "alternates": {
+        "en": "https://vidfetch.app/tiktok-to-mp3",
+        "fr": "https://vidfetch.app/fr/tiktok-en-mp3",
+        "es": "https://vidfetch.app/es/tiktok-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/tiktok-para-mp3",
+        "id": "https://vidfetch.app/id/tiktok-ke-mp3",
+        "de": "https://vidfetch.app/de/tiktok-zu-mp3",
+        "it": "https://vidfetch.app/it/tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/tiktok-mp3",
+        "x-default": "https://vidfetch.app/tiktok-to-mp3"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/pt/sobre",
+      "locale": "pt-BR",
+      "status": 200,
+      "trust": "about",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/pt/sobre",
+      "alternates": {
+        "en": "https://vidfetch.app/about",
+        "fr": "https://vidfetch.app/fr/a-propos",
+        "es": "https://vidfetch.app/es/acerca-de",
+        "pt-BR": "https://vidfetch.app/pt/sobre",
+        "id": "https://vidfetch.app/id/tentang",
+        "de": "https://vidfetch.app/de/ueber-uns",
+        "it": "https://vidfetch.app/it/chi-siamo",
+        "ar": "https://vidfetch.app/ar/%D9%85%D9%86-%D9%86%D8%AD%D9%86",
+        "x-default": "https://vidfetch.app/about"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/pt/contato",
+      "locale": "pt-BR",
+      "status": 200,
+      "trust": "contact",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/pt/contato",
+      "alternates": {
+        "en": "https://vidfetch.app/contact",
+        "fr": "https://vidfetch.app/fr/contact",
+        "es": "https://vidfetch.app/es/contacto",
+        "pt-BR": "https://vidfetch.app/pt/contato",
+        "id": "https://vidfetch.app/id/kontak",
+        "de": "https://vidfetch.app/de/kontakt",
+        "it": "https://vidfetch.app/it/contatti",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D8%AA%D8%B5%D9%84-%D8%A8%D9%86%D8%A7",
+        "x-default": "https://vidfetch.app/contact"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/pt/privacidade",
+      "locale": "pt-BR",
+      "status": 200,
+      "trust": "privacy",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/pt/privacidade",
+      "alternates": {
+        "en": "https://vidfetch.app/privacy",
+        "fr": "https://vidfetch.app/fr/confidentialite",
+        "es": "https://vidfetch.app/es/privacidad",
+        "pt-BR": "https://vidfetch.app/pt/privacidade",
+        "id": "https://vidfetch.app/id/privasi",
+        "de": "https://vidfetch.app/de/datenschutz",
+        "it": "https://vidfetch.app/it/privacy",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/privacy"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/pt/termos-de-uso",
+      "locale": "pt-BR",
+      "status": 200,
+      "trust": "terms",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/pt/termos-de-uso",
+      "alternates": {
+        "en": "https://vidfetch.app/terms",
+        "fr": "https://vidfetch.app/fr/conditions-utilisation",
+        "es": "https://vidfetch.app/es/condiciones-uso",
+        "pt-BR": "https://vidfetch.app/pt/termos-de-uso",
+        "id": "https://vidfetch.app/id/ketentuan-penggunaan",
+        "de": "https://vidfetch.app/de/nutzungsbedingungen",
+        "it": "https://vidfetch.app/it/condizioni-uso",
+        "ar": "https://vidfetch.app/ar/%D8%B4%D8%B1%D9%88%D8%B7-%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85",
+        "x-default": "https://vidfetch.app/terms"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/pt/direitos-autorais",
+      "locale": "pt-BR",
+      "status": 200,
+      "trust": "copyright",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/pt/direitos-autorais",
+      "alternates": {
+        "en": "https://vidfetch.app/copyright",
+        "fr": "https://vidfetch.app/fr/droits-auteur",
+        "es": "https://vidfetch.app/es/derechos-autor",
+        "pt-BR": "https://vidfetch.app/pt/direitos-autorais",
+        "id": "https://vidfetch.app/id/hak-cipta",
+        "de": "https://vidfetch.app/de/urheberrecht",
+        "it": "https://vidfetch.app/it/diritto-autore",
+        "ar": "https://vidfetch.app/ar/%D8%AD%D9%82%D9%88%D9%82-%D8%A7%D9%84%D9%86%D8%B4%D8%B1",
+        "x-default": "https://vidfetch.app/copyright"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/pt/politica-editorial",
+      "locale": "pt-BR",
+      "status": 200,
+      "trust": "editorial",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/pt/politica-editorial",
+      "alternates": {
+        "en": "https://vidfetch.app/editorial-policy",
+        "fr": "https://vidfetch.app/fr/politique-editoriale",
+        "es": "https://vidfetch.app/es/politica-editorial",
+        "pt-BR": "https://vidfetch.app/pt/politica-editorial",
+        "id": "https://vidfetch.app/id/kebijakan-editorial",
+        "de": "https://vidfetch.app/de/redaktionsrichtlinie",
+        "it": "https://vidfetch.app/it/politica-editoriale",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9-%D8%A7%D9%84%D8%AA%D8%AD%D8%B1%D9%8A%D8%B1%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/editorial-policy"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/pt/converter-video-para-mp3",
+      "locale": "pt-BR",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/pt/converter-video-para-mp3",
+      "alternates": {
+        "en": "https://vidfetch.app/video-to-mp3",
+        "fr": "https://vidfetch.app/fr/convertir-video-en-mp3",
+        "es": "https://vidfetch.app/es/convertir-video-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/converter-video-para-mp3",
+        "id": "https://vidfetch.app/id/konversi-video-ke-mp3",
+        "de": "https://vidfetch.app/de/video-in-mp3-umwandeln",
+        "it": "https://vidfetch.app/it/convertire-video-in-mp3",
+        "ar": "https://vidfetch.app/ar/tahwil-video-ila-mp3",
+        "x-default": "https://vidfetch.app/video-to-mp3"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/pt/comprimir-video",
+      "locale": "pt-BR",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/pt/comprimir-video",
+      "alternates": {
+        "en": "https://vidfetch.app/compress-video",
+        "fr": "https://vidfetch.app/fr/compresser-video",
+        "es": "https://vidfetch.app/es/comprimir-video",
+        "pt-BR": "https://vidfetch.app/pt/comprimir-video",
+        "id": "https://vidfetch.app/id/kompres-video",
+        "de": "https://vidfetch.app/de/video-komprimieren",
+        "it": "https://vidfetch.app/it/comprimere-video",
+        "ar": "https://vidfetch.app/ar/daght-video",
+        "x-default": "https://vidfetch.app/compress-video"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/pt/cortar-video",
+      "locale": "pt-BR",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/pt/cortar-video",
+      "alternates": {
+        "en": "https://vidfetch.app/trim-video",
+        "fr": "https://vidfetch.app/fr/couper-video",
+        "es": "https://vidfetch.app/es/cortar-video",
+        "pt-BR": "https://vidfetch.app/pt/cortar-video",
+        "id": "https://vidfetch.app/id/potong-video",
+        "de": "https://vidfetch.app/de/video-schneiden",
+        "it": "https://vidfetch.app/it/tagliare-video",
+        "ar": "https://vidfetch.app/ar/qass-video",
+        "x-default": "https://vidfetch.app/trim-video"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/pt/video-para-gif",
+      "locale": "pt-BR",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/pt/video-para-gif",
+      "alternates": {
+        "en": "https://vidfetch.app/video-to-gif",
+        "fr": "https://vidfetch.app/fr/video-en-gif",
+        "es": "https://vidfetch.app/es/video-a-gif",
+        "pt-BR": "https://vidfetch.app/pt/video-para-gif",
+        "id": "https://vidfetch.app/id/video-ke-gif",
+        "de": "https://vidfetch.app/de/video-in-gif",
+        "it": "https://vidfetch.app/it/video-in-gif",
+        "ar": "https://vidfetch.app/ar/video-ila-gif",
+        "x-default": "https://vidfetch.app/video-to-gif"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/pt",
+      "locale": "pt-BR",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/pt",
+      "alternates": {
+        "en": "https://vidfetch.app/",
+        "fr": "https://vidfetch.app/fr",
+        "es": "https://vidfetch.app/es",
+        "pt-BR": "https://vidfetch.app/pt",
+        "id": "https://vidfetch.app/id",
+        "de": "https://vidfetch.app/de",
+        "it": "https://vidfetch.app/it",
+        "ar": "https://vidfetch.app/ar",
+        "x-default": "https://vidfetch.app/"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/pt/guias",
+      "locale": "pt-BR",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/pt/guias",
+      "alternates": {
+        "en": "https://vidfetch.app/blog",
+        "fr": "https://vidfetch.app/fr/guides",
+        "es": "https://vidfetch.app/es/guias",
+        "pt-BR": "https://vidfetch.app/pt/guias",
+        "id": "https://vidfetch.app/id/panduan",
+        "de": "https://vidfetch.app/de/ratgeber",
+        "it": "https://vidfetch.app/it/guide",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9",
+        "x-default": "https://vidfetch.app/blog"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/pt/termos-e-privacidade",
+      "locale": "pt-BR",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/pt/termos-e-privacidade",
+      "alternates": {
+        "en": "https://vidfetch.app/legal",
+        "fr": "https://vidfetch.app/fr/mentions-legales",
+        "es": "https://vidfetch.app/es/aviso-legal",
+        "pt-BR": "https://vidfetch.app/pt/termos-e-privacidade",
+        "id": "https://vidfetch.app/id/ketentuan-dan-privasi",
+        "de": "https://vidfetch.app/de/rechtliches",
+        "it": "https://vidfetch.app/it/note-legali",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%B4%D8%B1%D9%88%D8%B7-%D9%88%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/legal"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/pt/guias/salvar-video-tiktok-na-galeria",
+      "locale": "pt-BR",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/pt/guias/salvar-video-tiktok-na-galeria",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/save-tiktok-phone-gallery",
+        "fr": "https://vidfetch.app/fr/guides/enregistrer-tiktok-galerie-iphone-android",
+        "es": "https://vidfetch.app/es/guias/guardar-videos-tiktok-en-galeria",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-video-tiktok-na-galeria",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-video-tiktok-ke-galeri",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-in-galerie-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-video-tiktok-in-galleria",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-video-tiktok-fi-almaarad",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-phone-gallery"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/pt/guias/salvar-audio-tiktok-em-mp3",
+      "locale": "pt-BR",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/pt/guias/salvar-audio-tiktok-em-mp3",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/save-tiktok-sound-mp3",
+        "fr": "https://vidfetch.app/fr/guides/recuperer-son-tiktok-mp3",
+        "es": "https://vidfetch.app/es/guias/guardar-audio-tiktok-en-mp3",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-audio-tiktok-em-mp3",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-suara-tiktok-jadi-mp3",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-ton-als-mp3-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-audio-tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-sawt-tiktok-mp3",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-sound-mp3"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/pt/guias/nao-consigo-baixar-video-tiktok",
+      "locale": "pt-BR",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/pt/guias/nao-consigo-baixar-video-tiktok",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/why-cant-i-save-tiktok",
+        "fr": "https://vidfetch.app/fr/guides/pourquoi-impossible-enregistrer-tiktok",
+        "es": "https://vidfetch.app/es/guias/por-que-no-puedo-descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/guias/nao-consigo-baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/panduan/kenapa-video-tiktok-tidak-bisa-disimpan",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-laesst-sich-nicht-speichern",
+        "it": "https://vidfetch.app/it/guide/perche-non-riesco-salvare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/limadha-la-yumkin-hifz-video-tiktok",
+        "x-default": "https://vidfetch.app/blog/why-cant-i-save-tiktok"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/pt/baixar-video-tiktok",
+      "locale": "pt-BR",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/pt/baixar-video-tiktok",
+      "alternates": {
+        "en": "https://vidfetch.app/tiktok-video-downloader",
+        "fr": "https://vidfetch.app/fr/telecharger-video-tiktok",
+        "es": "https://vidfetch.app/es/descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/download-video-tiktok",
+        "de": "https://vidfetch.app/de/tiktok-video-herunterladen",
+        "it": "https://vidfetch.app/it/scaricare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/tahmil-video-tiktok",
+        "x-default": "https://vidfetch.app/tiktok-video-downloader"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/pt/tiktok-para-mp3",
+      "locale": "pt-BR",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/pt/tiktok-para-mp3",
+      "alternates": {
+        "en": "https://vidfetch.app/tiktok-to-mp3",
+        "fr": "https://vidfetch.app/fr/tiktok-en-mp3",
+        "es": "https://vidfetch.app/es/tiktok-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/tiktok-para-mp3",
+        "id": "https://vidfetch.app/id/tiktok-ke-mp3",
+        "de": "https://vidfetch.app/de/tiktok-zu-mp3",
+        "it": "https://vidfetch.app/it/tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/tiktok-mp3",
+        "x-default": "https://vidfetch.app/tiktok-to-mp3"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/id/tentang",
+      "locale": "id",
+      "status": 200,
+      "trust": "about",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/id/tentang",
+      "alternates": {
+        "en": "https://vidfetch.app/about",
+        "fr": "https://vidfetch.app/fr/a-propos",
+        "es": "https://vidfetch.app/es/acerca-de",
+        "pt-BR": "https://vidfetch.app/pt/sobre",
+        "id": "https://vidfetch.app/id/tentang",
+        "de": "https://vidfetch.app/de/ueber-uns",
+        "it": "https://vidfetch.app/it/chi-siamo",
+        "ar": "https://vidfetch.app/ar/%D9%85%D9%86-%D9%86%D8%AD%D9%86",
+        "x-default": "https://vidfetch.app/about"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/id/kontak",
+      "locale": "id",
+      "status": 200,
+      "trust": "contact",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/id/kontak",
+      "alternates": {
+        "en": "https://vidfetch.app/contact",
+        "fr": "https://vidfetch.app/fr/contact",
+        "es": "https://vidfetch.app/es/contacto",
+        "pt-BR": "https://vidfetch.app/pt/contato",
+        "id": "https://vidfetch.app/id/kontak",
+        "de": "https://vidfetch.app/de/kontakt",
+        "it": "https://vidfetch.app/it/contatti",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D8%AA%D8%B5%D9%84-%D8%A8%D9%86%D8%A7",
+        "x-default": "https://vidfetch.app/contact"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/id/privasi",
+      "locale": "id",
+      "status": 200,
+      "trust": "privacy",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/id/privasi",
+      "alternates": {
+        "en": "https://vidfetch.app/privacy",
+        "fr": "https://vidfetch.app/fr/confidentialite",
+        "es": "https://vidfetch.app/es/privacidad",
+        "pt-BR": "https://vidfetch.app/pt/privacidade",
+        "id": "https://vidfetch.app/id/privasi",
+        "de": "https://vidfetch.app/de/datenschutz",
+        "it": "https://vidfetch.app/it/privacy",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/privacy"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/id/ketentuan-penggunaan",
+      "locale": "id",
+      "status": 200,
+      "trust": "terms",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/id/ketentuan-penggunaan",
+      "alternates": {
+        "en": "https://vidfetch.app/terms",
+        "fr": "https://vidfetch.app/fr/conditions-utilisation",
+        "es": "https://vidfetch.app/es/condiciones-uso",
+        "pt-BR": "https://vidfetch.app/pt/termos-de-uso",
+        "id": "https://vidfetch.app/id/ketentuan-penggunaan",
+        "de": "https://vidfetch.app/de/nutzungsbedingungen",
+        "it": "https://vidfetch.app/it/condizioni-uso",
+        "ar": "https://vidfetch.app/ar/%D8%B4%D8%B1%D9%88%D8%B7-%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85",
+        "x-default": "https://vidfetch.app/terms"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/id/hak-cipta",
+      "locale": "id",
+      "status": 200,
+      "trust": "copyright",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/id/hak-cipta",
+      "alternates": {
+        "en": "https://vidfetch.app/copyright",
+        "fr": "https://vidfetch.app/fr/droits-auteur",
+        "es": "https://vidfetch.app/es/derechos-autor",
+        "pt-BR": "https://vidfetch.app/pt/direitos-autorais",
+        "id": "https://vidfetch.app/id/hak-cipta",
+        "de": "https://vidfetch.app/de/urheberrecht",
+        "it": "https://vidfetch.app/it/diritto-autore",
+        "ar": "https://vidfetch.app/ar/%D8%AD%D9%82%D9%88%D9%82-%D8%A7%D9%84%D9%86%D8%B4%D8%B1",
+        "x-default": "https://vidfetch.app/copyright"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/id/kebijakan-editorial",
+      "locale": "id",
+      "status": 200,
+      "trust": "editorial",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/id/kebijakan-editorial",
+      "alternates": {
+        "en": "https://vidfetch.app/editorial-policy",
+        "fr": "https://vidfetch.app/fr/politique-editoriale",
+        "es": "https://vidfetch.app/es/politica-editorial",
+        "pt-BR": "https://vidfetch.app/pt/politica-editorial",
+        "id": "https://vidfetch.app/id/kebijakan-editorial",
+        "de": "https://vidfetch.app/de/redaktionsrichtlinie",
+        "it": "https://vidfetch.app/it/politica-editoriale",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9-%D8%A7%D9%84%D8%AA%D8%AD%D8%B1%D9%8A%D8%B1%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/editorial-policy"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/id/konversi-video-ke-mp3",
+      "locale": "id",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/id/konversi-video-ke-mp3",
+      "alternates": {
+        "en": "https://vidfetch.app/video-to-mp3",
+        "fr": "https://vidfetch.app/fr/convertir-video-en-mp3",
+        "es": "https://vidfetch.app/es/convertir-video-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/converter-video-para-mp3",
+        "id": "https://vidfetch.app/id/konversi-video-ke-mp3",
+        "de": "https://vidfetch.app/de/video-in-mp3-umwandeln",
+        "it": "https://vidfetch.app/it/convertire-video-in-mp3",
+        "ar": "https://vidfetch.app/ar/tahwil-video-ila-mp3",
+        "x-default": "https://vidfetch.app/video-to-mp3"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/id/kompres-video",
+      "locale": "id",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/id/kompres-video",
+      "alternates": {
+        "en": "https://vidfetch.app/compress-video",
+        "fr": "https://vidfetch.app/fr/compresser-video",
+        "es": "https://vidfetch.app/es/comprimir-video",
+        "pt-BR": "https://vidfetch.app/pt/comprimir-video",
+        "id": "https://vidfetch.app/id/kompres-video",
+        "de": "https://vidfetch.app/de/video-komprimieren",
+        "it": "https://vidfetch.app/it/comprimere-video",
+        "ar": "https://vidfetch.app/ar/daght-video",
+        "x-default": "https://vidfetch.app/compress-video"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/id/potong-video",
+      "locale": "id",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/id/potong-video",
+      "alternates": {
+        "en": "https://vidfetch.app/trim-video",
+        "fr": "https://vidfetch.app/fr/couper-video",
+        "es": "https://vidfetch.app/es/cortar-video",
+        "pt-BR": "https://vidfetch.app/pt/cortar-video",
+        "id": "https://vidfetch.app/id/potong-video",
+        "de": "https://vidfetch.app/de/video-schneiden",
+        "it": "https://vidfetch.app/it/tagliare-video",
+        "ar": "https://vidfetch.app/ar/qass-video",
+        "x-default": "https://vidfetch.app/trim-video"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/id/video-ke-gif",
+      "locale": "id",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/id/video-ke-gif",
+      "alternates": {
+        "en": "https://vidfetch.app/video-to-gif",
+        "fr": "https://vidfetch.app/fr/video-en-gif",
+        "es": "https://vidfetch.app/es/video-a-gif",
+        "pt-BR": "https://vidfetch.app/pt/video-para-gif",
+        "id": "https://vidfetch.app/id/video-ke-gif",
+        "de": "https://vidfetch.app/de/video-in-gif",
+        "it": "https://vidfetch.app/it/video-in-gif",
+        "ar": "https://vidfetch.app/ar/video-ila-gif",
+        "x-default": "https://vidfetch.app/video-to-gif"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/id",
+      "locale": "id",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/id",
+      "alternates": {
+        "en": "https://vidfetch.app/",
+        "fr": "https://vidfetch.app/fr",
+        "es": "https://vidfetch.app/es",
+        "pt-BR": "https://vidfetch.app/pt",
+        "id": "https://vidfetch.app/id",
+        "de": "https://vidfetch.app/de",
+        "it": "https://vidfetch.app/it",
+        "ar": "https://vidfetch.app/ar",
+        "x-default": "https://vidfetch.app/"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/id/panduan",
+      "locale": "id",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/id/panduan",
+      "alternates": {
+        "en": "https://vidfetch.app/blog",
+        "fr": "https://vidfetch.app/fr/guides",
+        "es": "https://vidfetch.app/es/guias",
+        "pt-BR": "https://vidfetch.app/pt/guias",
+        "id": "https://vidfetch.app/id/panduan",
+        "de": "https://vidfetch.app/de/ratgeber",
+        "it": "https://vidfetch.app/it/guide",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9",
+        "x-default": "https://vidfetch.app/blog"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/id/ketentuan-dan-privasi",
+      "locale": "id",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/id/ketentuan-dan-privasi",
+      "alternates": {
+        "en": "https://vidfetch.app/legal",
+        "fr": "https://vidfetch.app/fr/mentions-legales",
+        "es": "https://vidfetch.app/es/aviso-legal",
+        "pt-BR": "https://vidfetch.app/pt/termos-e-privacidade",
+        "id": "https://vidfetch.app/id/ketentuan-dan-privasi",
+        "de": "https://vidfetch.app/de/rechtliches",
+        "it": "https://vidfetch.app/it/note-legali",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%B4%D8%B1%D9%88%D8%B7-%D9%88%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/legal"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/id/panduan/menyimpan-video-tiktok-ke-galeri",
+      "locale": "id",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/id/panduan/menyimpan-video-tiktok-ke-galeri",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/save-tiktok-phone-gallery",
+        "fr": "https://vidfetch.app/fr/guides/enregistrer-tiktok-galerie-iphone-android",
+        "es": "https://vidfetch.app/es/guias/guardar-videos-tiktok-en-galeria",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-video-tiktok-na-galeria",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-video-tiktok-ke-galeri",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-in-galerie-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-video-tiktok-in-galleria",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-video-tiktok-fi-almaarad",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-phone-gallery"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/id/panduan/menyimpan-suara-tiktok-jadi-mp3",
+      "locale": "id",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/id/panduan/menyimpan-suara-tiktok-jadi-mp3",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/save-tiktok-sound-mp3",
+        "fr": "https://vidfetch.app/fr/guides/recuperer-son-tiktok-mp3",
+        "es": "https://vidfetch.app/es/guias/guardar-audio-tiktok-en-mp3",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-audio-tiktok-em-mp3",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-suara-tiktok-jadi-mp3",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-ton-als-mp3-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-audio-tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-sawt-tiktok-mp3",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-sound-mp3"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/id/panduan/kenapa-video-tiktok-tidak-bisa-disimpan",
+      "locale": "id",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/id/panduan/kenapa-video-tiktok-tidak-bisa-disimpan",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/why-cant-i-save-tiktok",
+        "fr": "https://vidfetch.app/fr/guides/pourquoi-impossible-enregistrer-tiktok",
+        "es": "https://vidfetch.app/es/guias/por-que-no-puedo-descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/guias/nao-consigo-baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/panduan/kenapa-video-tiktok-tidak-bisa-disimpan",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-laesst-sich-nicht-speichern",
+        "it": "https://vidfetch.app/it/guide/perche-non-riesco-salvare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/limadha-la-yumkin-hifz-video-tiktok",
+        "x-default": "https://vidfetch.app/blog/why-cant-i-save-tiktok"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/id/download-video-tiktok",
+      "locale": "id",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/id/download-video-tiktok",
+      "alternates": {
+        "en": "https://vidfetch.app/tiktok-video-downloader",
+        "fr": "https://vidfetch.app/fr/telecharger-video-tiktok",
+        "es": "https://vidfetch.app/es/descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/download-video-tiktok",
+        "de": "https://vidfetch.app/de/tiktok-video-herunterladen",
+        "it": "https://vidfetch.app/it/scaricare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/tahmil-video-tiktok",
+        "x-default": "https://vidfetch.app/tiktok-video-downloader"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/id/tiktok-ke-mp3",
+      "locale": "id",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/id/tiktok-ke-mp3",
+      "alternates": {
+        "en": "https://vidfetch.app/tiktok-to-mp3",
+        "fr": "https://vidfetch.app/fr/tiktok-en-mp3",
+        "es": "https://vidfetch.app/es/tiktok-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/tiktok-para-mp3",
+        "id": "https://vidfetch.app/id/tiktok-ke-mp3",
+        "de": "https://vidfetch.app/de/tiktok-zu-mp3",
+        "it": "https://vidfetch.app/it/tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/tiktok-mp3",
+        "x-default": "https://vidfetch.app/tiktok-to-mp3"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/de/ueber-uns",
+      "locale": "de",
+      "status": 200,
+      "trust": "about",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/de/ueber-uns",
+      "alternates": {
+        "en": "https://vidfetch.app/about",
+        "fr": "https://vidfetch.app/fr/a-propos",
+        "es": "https://vidfetch.app/es/acerca-de",
+        "pt-BR": "https://vidfetch.app/pt/sobre",
+        "id": "https://vidfetch.app/id/tentang",
+        "de": "https://vidfetch.app/de/ueber-uns",
+        "it": "https://vidfetch.app/it/chi-siamo",
+        "ar": "https://vidfetch.app/ar/%D9%85%D9%86-%D9%86%D8%AD%D9%86",
+        "x-default": "https://vidfetch.app/about"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/de/kontakt",
+      "locale": "de",
+      "status": 200,
+      "trust": "contact",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/de/kontakt",
+      "alternates": {
+        "en": "https://vidfetch.app/contact",
+        "fr": "https://vidfetch.app/fr/contact",
+        "es": "https://vidfetch.app/es/contacto",
+        "pt-BR": "https://vidfetch.app/pt/contato",
+        "id": "https://vidfetch.app/id/kontak",
+        "de": "https://vidfetch.app/de/kontakt",
+        "it": "https://vidfetch.app/it/contatti",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D8%AA%D8%B5%D9%84-%D8%A8%D9%86%D8%A7",
+        "x-default": "https://vidfetch.app/contact"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/de/datenschutz",
+      "locale": "de",
+      "status": 200,
+      "trust": "privacy",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/de/datenschutz",
+      "alternates": {
+        "en": "https://vidfetch.app/privacy",
+        "fr": "https://vidfetch.app/fr/confidentialite",
+        "es": "https://vidfetch.app/es/privacidad",
+        "pt-BR": "https://vidfetch.app/pt/privacidade",
+        "id": "https://vidfetch.app/id/privasi",
+        "de": "https://vidfetch.app/de/datenschutz",
+        "it": "https://vidfetch.app/it/privacy",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/privacy"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/de/nutzungsbedingungen",
+      "locale": "de",
+      "status": 200,
+      "trust": "terms",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/de/nutzungsbedingungen",
+      "alternates": {
+        "en": "https://vidfetch.app/terms",
+        "fr": "https://vidfetch.app/fr/conditions-utilisation",
+        "es": "https://vidfetch.app/es/condiciones-uso",
+        "pt-BR": "https://vidfetch.app/pt/termos-de-uso",
+        "id": "https://vidfetch.app/id/ketentuan-penggunaan",
+        "de": "https://vidfetch.app/de/nutzungsbedingungen",
+        "it": "https://vidfetch.app/it/condizioni-uso",
+        "ar": "https://vidfetch.app/ar/%D8%B4%D8%B1%D9%88%D8%B7-%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85",
+        "x-default": "https://vidfetch.app/terms"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/de/urheberrecht",
+      "locale": "de",
+      "status": 200,
+      "trust": "copyright",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/de/urheberrecht",
+      "alternates": {
+        "en": "https://vidfetch.app/copyright",
+        "fr": "https://vidfetch.app/fr/droits-auteur",
+        "es": "https://vidfetch.app/es/derechos-autor",
+        "pt-BR": "https://vidfetch.app/pt/direitos-autorais",
+        "id": "https://vidfetch.app/id/hak-cipta",
+        "de": "https://vidfetch.app/de/urheberrecht",
+        "it": "https://vidfetch.app/it/diritto-autore",
+        "ar": "https://vidfetch.app/ar/%D8%AD%D9%82%D9%88%D9%82-%D8%A7%D9%84%D9%86%D8%B4%D8%B1",
+        "x-default": "https://vidfetch.app/copyright"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/de/redaktionsrichtlinie",
+      "locale": "de",
+      "status": 200,
+      "trust": "editorial",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/de/redaktionsrichtlinie",
+      "alternates": {
+        "en": "https://vidfetch.app/editorial-policy",
+        "fr": "https://vidfetch.app/fr/politique-editoriale",
+        "es": "https://vidfetch.app/es/politica-editorial",
+        "pt-BR": "https://vidfetch.app/pt/politica-editorial",
+        "id": "https://vidfetch.app/id/kebijakan-editorial",
+        "de": "https://vidfetch.app/de/redaktionsrichtlinie",
+        "it": "https://vidfetch.app/it/politica-editoriale",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9-%D8%A7%D9%84%D8%AA%D8%AD%D8%B1%D9%8A%D8%B1%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/editorial-policy"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/de/video-in-mp3-umwandeln",
+      "locale": "de",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/de/video-in-mp3-umwandeln",
+      "alternates": {
+        "en": "https://vidfetch.app/video-to-mp3",
+        "fr": "https://vidfetch.app/fr/convertir-video-en-mp3",
+        "es": "https://vidfetch.app/es/convertir-video-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/converter-video-para-mp3",
+        "id": "https://vidfetch.app/id/konversi-video-ke-mp3",
+        "de": "https://vidfetch.app/de/video-in-mp3-umwandeln",
+        "it": "https://vidfetch.app/it/convertire-video-in-mp3",
+        "ar": "https://vidfetch.app/ar/tahwil-video-ila-mp3",
+        "x-default": "https://vidfetch.app/video-to-mp3"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/de/video-komprimieren",
+      "locale": "de",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/de/video-komprimieren",
+      "alternates": {
+        "en": "https://vidfetch.app/compress-video",
+        "fr": "https://vidfetch.app/fr/compresser-video",
+        "es": "https://vidfetch.app/es/comprimir-video",
+        "pt-BR": "https://vidfetch.app/pt/comprimir-video",
+        "id": "https://vidfetch.app/id/kompres-video",
+        "de": "https://vidfetch.app/de/video-komprimieren",
+        "it": "https://vidfetch.app/it/comprimere-video",
+        "ar": "https://vidfetch.app/ar/daght-video",
+        "x-default": "https://vidfetch.app/compress-video"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/de/video-schneiden",
+      "locale": "de",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/de/video-schneiden",
+      "alternates": {
+        "en": "https://vidfetch.app/trim-video",
+        "fr": "https://vidfetch.app/fr/couper-video",
+        "es": "https://vidfetch.app/es/cortar-video",
+        "pt-BR": "https://vidfetch.app/pt/cortar-video",
+        "id": "https://vidfetch.app/id/potong-video",
+        "de": "https://vidfetch.app/de/video-schneiden",
+        "it": "https://vidfetch.app/it/tagliare-video",
+        "ar": "https://vidfetch.app/ar/qass-video",
+        "x-default": "https://vidfetch.app/trim-video"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/de/video-in-gif",
+      "locale": "de",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/de/video-in-gif",
+      "alternates": {
+        "en": "https://vidfetch.app/video-to-gif",
+        "fr": "https://vidfetch.app/fr/video-en-gif",
+        "es": "https://vidfetch.app/es/video-a-gif",
+        "pt-BR": "https://vidfetch.app/pt/video-para-gif",
+        "id": "https://vidfetch.app/id/video-ke-gif",
+        "de": "https://vidfetch.app/de/video-in-gif",
+        "it": "https://vidfetch.app/it/video-in-gif",
+        "ar": "https://vidfetch.app/ar/video-ila-gif",
+        "x-default": "https://vidfetch.app/video-to-gif"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/de",
+      "locale": "de",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/de",
+      "alternates": {
+        "en": "https://vidfetch.app/",
+        "fr": "https://vidfetch.app/fr",
+        "es": "https://vidfetch.app/es",
+        "pt-BR": "https://vidfetch.app/pt",
+        "id": "https://vidfetch.app/id",
+        "de": "https://vidfetch.app/de",
+        "it": "https://vidfetch.app/it",
+        "ar": "https://vidfetch.app/ar",
+        "x-default": "https://vidfetch.app/"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/de/ratgeber",
+      "locale": "de",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/de/ratgeber",
+      "alternates": {
+        "en": "https://vidfetch.app/blog",
+        "fr": "https://vidfetch.app/fr/guides",
+        "es": "https://vidfetch.app/es/guias",
+        "pt-BR": "https://vidfetch.app/pt/guias",
+        "id": "https://vidfetch.app/id/panduan",
+        "de": "https://vidfetch.app/de/ratgeber",
+        "it": "https://vidfetch.app/it/guide",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9",
+        "x-default": "https://vidfetch.app/blog"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/de/rechtliches",
+      "locale": "de",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/de/rechtliches",
+      "alternates": {
+        "en": "https://vidfetch.app/legal",
+        "fr": "https://vidfetch.app/fr/mentions-legales",
+        "es": "https://vidfetch.app/es/aviso-legal",
+        "pt-BR": "https://vidfetch.app/pt/termos-e-privacidade",
+        "id": "https://vidfetch.app/id/ketentuan-dan-privasi",
+        "de": "https://vidfetch.app/de/rechtliches",
+        "it": "https://vidfetch.app/it/note-legali",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%B4%D8%B1%D9%88%D8%B7-%D9%88%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/legal"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/de/ratgeber/tiktok-video-in-galerie-speichern",
+      "locale": "de",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/de/ratgeber/tiktok-video-in-galerie-speichern",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/save-tiktok-phone-gallery",
+        "fr": "https://vidfetch.app/fr/guides/enregistrer-tiktok-galerie-iphone-android",
+        "es": "https://vidfetch.app/es/guias/guardar-videos-tiktok-en-galeria",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-video-tiktok-na-galeria",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-video-tiktok-ke-galeri",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-in-galerie-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-video-tiktok-in-galleria",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-video-tiktok-fi-almaarad",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-phone-gallery"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/de/ratgeber/tiktok-ton-als-mp3-speichern",
+      "locale": "de",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/de/ratgeber/tiktok-ton-als-mp3-speichern",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/save-tiktok-sound-mp3",
+        "fr": "https://vidfetch.app/fr/guides/recuperer-son-tiktok-mp3",
+        "es": "https://vidfetch.app/es/guias/guardar-audio-tiktok-en-mp3",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-audio-tiktok-em-mp3",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-suara-tiktok-jadi-mp3",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-ton-als-mp3-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-audio-tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-sawt-tiktok-mp3",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-sound-mp3"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/de/ratgeber/tiktok-video-laesst-sich-nicht-speichern",
+      "locale": "de",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/de/ratgeber/tiktok-video-laesst-sich-nicht-speichern",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/why-cant-i-save-tiktok",
+        "fr": "https://vidfetch.app/fr/guides/pourquoi-impossible-enregistrer-tiktok",
+        "es": "https://vidfetch.app/es/guias/por-que-no-puedo-descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/guias/nao-consigo-baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/panduan/kenapa-video-tiktok-tidak-bisa-disimpan",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-laesst-sich-nicht-speichern",
+        "it": "https://vidfetch.app/it/guide/perche-non-riesco-salvare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/limadha-la-yumkin-hifz-video-tiktok",
+        "x-default": "https://vidfetch.app/blog/why-cant-i-save-tiktok"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/de/tiktok-video-herunterladen",
+      "locale": "de",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/de/tiktok-video-herunterladen",
+      "alternates": {
+        "en": "https://vidfetch.app/tiktok-video-downloader",
+        "fr": "https://vidfetch.app/fr/telecharger-video-tiktok",
+        "es": "https://vidfetch.app/es/descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/download-video-tiktok",
+        "de": "https://vidfetch.app/de/tiktok-video-herunterladen",
+        "it": "https://vidfetch.app/it/scaricare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/tahmil-video-tiktok",
+        "x-default": "https://vidfetch.app/tiktok-video-downloader"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/de/tiktok-zu-mp3",
+      "locale": "de",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/de/tiktok-zu-mp3",
+      "alternates": {
+        "en": "https://vidfetch.app/tiktok-to-mp3",
+        "fr": "https://vidfetch.app/fr/tiktok-en-mp3",
+        "es": "https://vidfetch.app/es/tiktok-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/tiktok-para-mp3",
+        "id": "https://vidfetch.app/id/tiktok-ke-mp3",
+        "de": "https://vidfetch.app/de/tiktok-zu-mp3",
+        "it": "https://vidfetch.app/it/tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/tiktok-mp3",
+        "x-default": "https://vidfetch.app/tiktok-to-mp3"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/it/chi-siamo",
+      "locale": "it",
+      "status": 200,
+      "trust": "about",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/it/chi-siamo",
+      "alternates": {
+        "en": "https://vidfetch.app/about",
+        "fr": "https://vidfetch.app/fr/a-propos",
+        "es": "https://vidfetch.app/es/acerca-de",
+        "pt-BR": "https://vidfetch.app/pt/sobre",
+        "id": "https://vidfetch.app/id/tentang",
+        "de": "https://vidfetch.app/de/ueber-uns",
+        "it": "https://vidfetch.app/it/chi-siamo",
+        "ar": "https://vidfetch.app/ar/%D9%85%D9%86-%D9%86%D8%AD%D9%86",
+        "x-default": "https://vidfetch.app/about"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/it/contatti",
+      "locale": "it",
+      "status": 200,
+      "trust": "contact",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/it/contatti",
+      "alternates": {
+        "en": "https://vidfetch.app/contact",
+        "fr": "https://vidfetch.app/fr/contact",
+        "es": "https://vidfetch.app/es/contacto",
+        "pt-BR": "https://vidfetch.app/pt/contato",
+        "id": "https://vidfetch.app/id/kontak",
+        "de": "https://vidfetch.app/de/kontakt",
+        "it": "https://vidfetch.app/it/contatti",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D8%AA%D8%B5%D9%84-%D8%A8%D9%86%D8%A7",
+        "x-default": "https://vidfetch.app/contact"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/it/privacy",
+      "locale": "it",
+      "status": 200,
+      "trust": "privacy",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/it/privacy",
+      "alternates": {
+        "en": "https://vidfetch.app/privacy",
+        "fr": "https://vidfetch.app/fr/confidentialite",
+        "es": "https://vidfetch.app/es/privacidad",
+        "pt-BR": "https://vidfetch.app/pt/privacidade",
+        "id": "https://vidfetch.app/id/privasi",
+        "de": "https://vidfetch.app/de/datenschutz",
+        "it": "https://vidfetch.app/it/privacy",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/privacy"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/it/condizioni-uso",
+      "locale": "it",
+      "status": 200,
+      "trust": "terms",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/it/condizioni-uso",
+      "alternates": {
+        "en": "https://vidfetch.app/terms",
+        "fr": "https://vidfetch.app/fr/conditions-utilisation",
+        "es": "https://vidfetch.app/es/condiciones-uso",
+        "pt-BR": "https://vidfetch.app/pt/termos-de-uso",
+        "id": "https://vidfetch.app/id/ketentuan-penggunaan",
+        "de": "https://vidfetch.app/de/nutzungsbedingungen",
+        "it": "https://vidfetch.app/it/condizioni-uso",
+        "ar": "https://vidfetch.app/ar/%D8%B4%D8%B1%D9%88%D8%B7-%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85",
+        "x-default": "https://vidfetch.app/terms"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/it/diritto-autore",
+      "locale": "it",
+      "status": 200,
+      "trust": "copyright",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/it/diritto-autore",
+      "alternates": {
+        "en": "https://vidfetch.app/copyright",
+        "fr": "https://vidfetch.app/fr/droits-auteur",
+        "es": "https://vidfetch.app/es/derechos-autor",
+        "pt-BR": "https://vidfetch.app/pt/direitos-autorais",
+        "id": "https://vidfetch.app/id/hak-cipta",
+        "de": "https://vidfetch.app/de/urheberrecht",
+        "it": "https://vidfetch.app/it/diritto-autore",
+        "ar": "https://vidfetch.app/ar/%D8%AD%D9%82%D9%88%D9%82-%D8%A7%D9%84%D9%86%D8%B4%D8%B1",
+        "x-default": "https://vidfetch.app/copyright"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/it/politica-editoriale",
+      "locale": "it",
+      "status": 200,
+      "trust": "editorial",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/it/politica-editoriale",
+      "alternates": {
+        "en": "https://vidfetch.app/editorial-policy",
+        "fr": "https://vidfetch.app/fr/politique-editoriale",
+        "es": "https://vidfetch.app/es/politica-editorial",
+        "pt-BR": "https://vidfetch.app/pt/politica-editorial",
+        "id": "https://vidfetch.app/id/kebijakan-editorial",
+        "de": "https://vidfetch.app/de/redaktionsrichtlinie",
+        "it": "https://vidfetch.app/it/politica-editoriale",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9-%D8%A7%D9%84%D8%AA%D8%AD%D8%B1%D9%8A%D8%B1%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/editorial-policy"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/it/convertire-video-in-mp3",
+      "locale": "it",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/it/convertire-video-in-mp3",
+      "alternates": {
+        "en": "https://vidfetch.app/video-to-mp3",
+        "fr": "https://vidfetch.app/fr/convertir-video-en-mp3",
+        "es": "https://vidfetch.app/es/convertir-video-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/converter-video-para-mp3",
+        "id": "https://vidfetch.app/id/konversi-video-ke-mp3",
+        "de": "https://vidfetch.app/de/video-in-mp3-umwandeln",
+        "it": "https://vidfetch.app/it/convertire-video-in-mp3",
+        "ar": "https://vidfetch.app/ar/tahwil-video-ila-mp3",
+        "x-default": "https://vidfetch.app/video-to-mp3"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/it/comprimere-video",
+      "locale": "it",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/it/comprimere-video",
+      "alternates": {
+        "en": "https://vidfetch.app/compress-video",
+        "fr": "https://vidfetch.app/fr/compresser-video",
+        "es": "https://vidfetch.app/es/comprimir-video",
+        "pt-BR": "https://vidfetch.app/pt/comprimir-video",
+        "id": "https://vidfetch.app/id/kompres-video",
+        "de": "https://vidfetch.app/de/video-komprimieren",
+        "it": "https://vidfetch.app/it/comprimere-video",
+        "ar": "https://vidfetch.app/ar/daght-video",
+        "x-default": "https://vidfetch.app/compress-video"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/it/tagliare-video",
+      "locale": "it",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/it/tagliare-video",
+      "alternates": {
+        "en": "https://vidfetch.app/trim-video",
+        "fr": "https://vidfetch.app/fr/couper-video",
+        "es": "https://vidfetch.app/es/cortar-video",
+        "pt-BR": "https://vidfetch.app/pt/cortar-video",
+        "id": "https://vidfetch.app/id/potong-video",
+        "de": "https://vidfetch.app/de/video-schneiden",
+        "it": "https://vidfetch.app/it/tagliare-video",
+        "ar": "https://vidfetch.app/ar/qass-video",
+        "x-default": "https://vidfetch.app/trim-video"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/it/video-in-gif",
+      "locale": "it",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/it/video-in-gif",
+      "alternates": {
+        "en": "https://vidfetch.app/video-to-gif",
+        "fr": "https://vidfetch.app/fr/video-en-gif",
+        "es": "https://vidfetch.app/es/video-a-gif",
+        "pt-BR": "https://vidfetch.app/pt/video-para-gif",
+        "id": "https://vidfetch.app/id/video-ke-gif",
+        "de": "https://vidfetch.app/de/video-in-gif",
+        "it": "https://vidfetch.app/it/video-in-gif",
+        "ar": "https://vidfetch.app/ar/video-ila-gif",
+        "x-default": "https://vidfetch.app/video-to-gif"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/it",
+      "locale": "it",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/it",
+      "alternates": {
+        "en": "https://vidfetch.app/",
+        "fr": "https://vidfetch.app/fr",
+        "es": "https://vidfetch.app/es",
+        "pt-BR": "https://vidfetch.app/pt",
+        "id": "https://vidfetch.app/id",
+        "de": "https://vidfetch.app/de",
+        "it": "https://vidfetch.app/it",
+        "ar": "https://vidfetch.app/ar",
+        "x-default": "https://vidfetch.app/"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/it/guide",
+      "locale": "it",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/it/guide",
+      "alternates": {
+        "en": "https://vidfetch.app/blog",
+        "fr": "https://vidfetch.app/fr/guides",
+        "es": "https://vidfetch.app/es/guias",
+        "pt-BR": "https://vidfetch.app/pt/guias",
+        "id": "https://vidfetch.app/id/panduan",
+        "de": "https://vidfetch.app/de/ratgeber",
+        "it": "https://vidfetch.app/it/guide",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9",
+        "x-default": "https://vidfetch.app/blog"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/it/note-legali",
+      "locale": "it",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/it/note-legali",
+      "alternates": {
+        "en": "https://vidfetch.app/legal",
+        "fr": "https://vidfetch.app/fr/mentions-legales",
+        "es": "https://vidfetch.app/es/aviso-legal",
+        "pt-BR": "https://vidfetch.app/pt/termos-e-privacidade",
+        "id": "https://vidfetch.app/id/ketentuan-dan-privasi",
+        "de": "https://vidfetch.app/de/rechtliches",
+        "it": "https://vidfetch.app/it/note-legali",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%B4%D8%B1%D9%88%D8%B7-%D9%88%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/legal"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/it/guide/salvare-video-tiktok-in-galleria",
+      "locale": "it",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/it/guide/salvare-video-tiktok-in-galleria",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/save-tiktok-phone-gallery",
+        "fr": "https://vidfetch.app/fr/guides/enregistrer-tiktok-galerie-iphone-android",
+        "es": "https://vidfetch.app/es/guias/guardar-videos-tiktok-en-galeria",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-video-tiktok-na-galeria",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-video-tiktok-ke-galeri",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-in-galerie-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-video-tiktok-in-galleria",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-video-tiktok-fi-almaarad",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-phone-gallery"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/it/guide/salvare-audio-tiktok-in-mp3",
+      "locale": "it",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/it/guide/salvare-audio-tiktok-in-mp3",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/save-tiktok-sound-mp3",
+        "fr": "https://vidfetch.app/fr/guides/recuperer-son-tiktok-mp3",
+        "es": "https://vidfetch.app/es/guias/guardar-audio-tiktok-en-mp3",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-audio-tiktok-em-mp3",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-suara-tiktok-jadi-mp3",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-ton-als-mp3-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-audio-tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-sawt-tiktok-mp3",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-sound-mp3"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/it/guide/perche-non-riesco-salvare-video-tiktok",
+      "locale": "it",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/it/guide/perche-non-riesco-salvare-video-tiktok",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/why-cant-i-save-tiktok",
+        "fr": "https://vidfetch.app/fr/guides/pourquoi-impossible-enregistrer-tiktok",
+        "es": "https://vidfetch.app/es/guias/por-que-no-puedo-descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/guias/nao-consigo-baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/panduan/kenapa-video-tiktok-tidak-bisa-disimpan",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-laesst-sich-nicht-speichern",
+        "it": "https://vidfetch.app/it/guide/perche-non-riesco-salvare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/limadha-la-yumkin-hifz-video-tiktok",
+        "x-default": "https://vidfetch.app/blog/why-cant-i-save-tiktok"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/it/scaricare-video-tiktok",
+      "locale": "it",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/it/scaricare-video-tiktok",
+      "alternates": {
+        "en": "https://vidfetch.app/tiktok-video-downloader",
+        "fr": "https://vidfetch.app/fr/telecharger-video-tiktok",
+        "es": "https://vidfetch.app/es/descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/download-video-tiktok",
+        "de": "https://vidfetch.app/de/tiktok-video-herunterladen",
+        "it": "https://vidfetch.app/it/scaricare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/tahmil-video-tiktok",
+        "x-default": "https://vidfetch.app/tiktok-video-downloader"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/it/tiktok-in-mp3",
+      "locale": "it",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/it/tiktok-in-mp3",
+      "alternates": {
+        "en": "https://vidfetch.app/tiktok-to-mp3",
+        "fr": "https://vidfetch.app/fr/tiktok-en-mp3",
+        "es": "https://vidfetch.app/es/tiktok-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/tiktok-para-mp3",
+        "id": "https://vidfetch.app/id/tiktok-ke-mp3",
+        "de": "https://vidfetch.app/de/tiktok-zu-mp3",
+        "it": "https://vidfetch.app/it/tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/tiktok-mp3",
+        "x-default": "https://vidfetch.app/tiktok-to-mp3"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/ar/من-نحن",
+      "locale": "ar",
+      "status": 200,
+      "trust": "about",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/ar/%D9%85%D9%86-%D9%86%D8%AD%D9%86",
+      "alternates": {
+        "en": "https://vidfetch.app/about",
+        "fr": "https://vidfetch.app/fr/a-propos",
+        "es": "https://vidfetch.app/es/acerca-de",
+        "pt-BR": "https://vidfetch.app/pt/sobre",
+        "id": "https://vidfetch.app/id/tentang",
+        "de": "https://vidfetch.app/de/ueber-uns",
+        "it": "https://vidfetch.app/it/chi-siamo",
+        "ar": "https://vidfetch.app/ar/%D9%85%D9%86-%D9%86%D8%AD%D9%86",
+        "x-default": "https://vidfetch.app/about"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/ar/اتصل-بنا",
+      "locale": "ar",
+      "status": 200,
+      "trust": "contact",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/ar/%D8%A7%D8%AA%D8%B5%D9%84-%D8%A8%D9%86%D8%A7",
+      "alternates": {
+        "en": "https://vidfetch.app/contact",
+        "fr": "https://vidfetch.app/fr/contact",
+        "es": "https://vidfetch.app/es/contacto",
+        "pt-BR": "https://vidfetch.app/pt/contato",
+        "id": "https://vidfetch.app/id/kontak",
+        "de": "https://vidfetch.app/de/kontakt",
+        "it": "https://vidfetch.app/it/contatti",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D8%AA%D8%B5%D9%84-%D8%A8%D9%86%D8%A7",
+        "x-default": "https://vidfetch.app/contact"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/ar/الخصوصية",
+      "locale": "ar",
+      "status": 200,
+      "trust": "privacy",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9",
+      "alternates": {
+        "en": "https://vidfetch.app/privacy",
+        "fr": "https://vidfetch.app/fr/confidentialite",
+        "es": "https://vidfetch.app/es/privacidad",
+        "pt-BR": "https://vidfetch.app/pt/privacidade",
+        "id": "https://vidfetch.app/id/privasi",
+        "de": "https://vidfetch.app/de/datenschutz",
+        "it": "https://vidfetch.app/it/privacy",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/privacy"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/ar/شروط-الاستخدام",
+      "locale": "ar",
+      "status": 200,
+      "trust": "terms",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/ar/%D8%B4%D8%B1%D9%88%D8%B7-%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85",
+      "alternates": {
+        "en": "https://vidfetch.app/terms",
+        "fr": "https://vidfetch.app/fr/conditions-utilisation",
+        "es": "https://vidfetch.app/es/condiciones-uso",
+        "pt-BR": "https://vidfetch.app/pt/termos-de-uso",
+        "id": "https://vidfetch.app/id/ketentuan-penggunaan",
+        "de": "https://vidfetch.app/de/nutzungsbedingungen",
+        "it": "https://vidfetch.app/it/condizioni-uso",
+        "ar": "https://vidfetch.app/ar/%D8%B4%D8%B1%D9%88%D8%B7-%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85",
+        "x-default": "https://vidfetch.app/terms"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/ar/حقوق-النشر",
+      "locale": "ar",
+      "status": 200,
+      "trust": "copyright",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/ar/%D8%AD%D9%82%D9%88%D9%82-%D8%A7%D9%84%D9%86%D8%B4%D8%B1",
+      "alternates": {
+        "en": "https://vidfetch.app/copyright",
+        "fr": "https://vidfetch.app/fr/droits-auteur",
+        "es": "https://vidfetch.app/es/derechos-autor",
+        "pt-BR": "https://vidfetch.app/pt/direitos-autorais",
+        "id": "https://vidfetch.app/id/hak-cipta",
+        "de": "https://vidfetch.app/de/urheberrecht",
+        "it": "https://vidfetch.app/it/diritto-autore",
+        "ar": "https://vidfetch.app/ar/%D8%AD%D9%82%D9%88%D9%82-%D8%A7%D9%84%D9%86%D8%B4%D8%B1",
+        "x-default": "https://vidfetch.app/copyright"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/ar/السياسة-التحريرية",
+      "locale": "ar",
+      "status": 200,
+      "trust": "editorial",
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9-%D8%A7%D9%84%D8%AA%D8%AD%D8%B1%D9%8A%D8%B1%D9%8A%D8%A9",
+      "alternates": {
+        "en": "https://vidfetch.app/editorial-policy",
+        "fr": "https://vidfetch.app/fr/politique-editoriale",
+        "es": "https://vidfetch.app/es/politica-editorial",
+        "pt-BR": "https://vidfetch.app/pt/politica-editorial",
+        "id": "https://vidfetch.app/id/kebijakan-editorial",
+        "de": "https://vidfetch.app/de/redaktionsrichtlinie",
+        "it": "https://vidfetch.app/it/politica-editoriale",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9-%D8%A7%D9%84%D8%AA%D8%AD%D8%B1%D9%8A%D8%B1%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/editorial-policy"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/ar/tahwil-video-ila-mp3",
+      "locale": "ar",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/ar/tahwil-video-ila-mp3",
+      "alternates": {
+        "en": "https://vidfetch.app/video-to-mp3",
+        "fr": "https://vidfetch.app/fr/convertir-video-en-mp3",
+        "es": "https://vidfetch.app/es/convertir-video-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/converter-video-para-mp3",
+        "id": "https://vidfetch.app/id/konversi-video-ke-mp3",
+        "de": "https://vidfetch.app/de/video-in-mp3-umwandeln",
+        "it": "https://vidfetch.app/it/convertire-video-in-mp3",
+        "ar": "https://vidfetch.app/ar/tahwil-video-ila-mp3",
+        "x-default": "https://vidfetch.app/video-to-mp3"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/ar/daght-video",
+      "locale": "ar",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/ar/daght-video",
+      "alternates": {
+        "en": "https://vidfetch.app/compress-video",
+        "fr": "https://vidfetch.app/fr/compresser-video",
+        "es": "https://vidfetch.app/es/comprimir-video",
+        "pt-BR": "https://vidfetch.app/pt/comprimir-video",
+        "id": "https://vidfetch.app/id/kompres-video",
+        "de": "https://vidfetch.app/de/video-komprimieren",
+        "it": "https://vidfetch.app/it/comprimere-video",
+        "ar": "https://vidfetch.app/ar/daght-video",
+        "x-default": "https://vidfetch.app/compress-video"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/ar/qass-video",
+      "locale": "ar",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/ar/qass-video",
+      "alternates": {
+        "en": "https://vidfetch.app/trim-video",
+        "fr": "https://vidfetch.app/fr/couper-video",
+        "es": "https://vidfetch.app/es/cortar-video",
+        "pt-BR": "https://vidfetch.app/pt/cortar-video",
+        "id": "https://vidfetch.app/id/potong-video",
+        "de": "https://vidfetch.app/de/video-schneiden",
+        "it": "https://vidfetch.app/it/tagliare-video",
+        "ar": "https://vidfetch.app/ar/qass-video",
+        "x-default": "https://vidfetch.app/trim-video"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/ar/video-ila-gif",
+      "locale": "ar",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/ar/video-ila-gif",
+      "alternates": {
+        "en": "https://vidfetch.app/video-to-gif",
+        "fr": "https://vidfetch.app/fr/video-en-gif",
+        "es": "https://vidfetch.app/es/video-a-gif",
+        "pt-BR": "https://vidfetch.app/pt/video-para-gif",
+        "id": "https://vidfetch.app/id/video-ke-gif",
+        "de": "https://vidfetch.app/de/video-in-gif",
+        "it": "https://vidfetch.app/it/video-in-gif",
+        "ar": "https://vidfetch.app/ar/video-ila-gif",
+        "x-default": "https://vidfetch.app/video-to-gif"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/ar",
+      "locale": "ar",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/ar",
+      "alternates": {
+        "en": "https://vidfetch.app/",
+        "fr": "https://vidfetch.app/fr",
+        "es": "https://vidfetch.app/es",
+        "pt-BR": "https://vidfetch.app/pt",
+        "id": "https://vidfetch.app/id",
+        "de": "https://vidfetch.app/de",
+        "it": "https://vidfetch.app/it",
+        "ar": "https://vidfetch.app/ar",
+        "x-default": "https://vidfetch.app/"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/ar/أدلة",
+      "locale": "ar",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9",
+      "alternates": {
+        "en": "https://vidfetch.app/blog",
+        "fr": "https://vidfetch.app/fr/guides",
+        "es": "https://vidfetch.app/es/guias",
+        "pt-BR": "https://vidfetch.app/pt/guias",
+        "id": "https://vidfetch.app/id/panduan",
+        "de": "https://vidfetch.app/de/ratgeber",
+        "it": "https://vidfetch.app/it/guide",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9",
+        "x-default": "https://vidfetch.app/blog"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/ar/الشروط-والخصوصية",
+      "locale": "ar",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%B4%D8%B1%D9%88%D8%B7-%D9%88%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9",
+      "alternates": {
+        "en": "https://vidfetch.app/legal",
+        "fr": "https://vidfetch.app/fr/mentions-legales",
+        "es": "https://vidfetch.app/es/aviso-legal",
+        "pt-BR": "https://vidfetch.app/pt/termos-e-privacidade",
+        "id": "https://vidfetch.app/id/ketentuan-dan-privasi",
+        "de": "https://vidfetch.app/de/rechtliches",
+        "it": "https://vidfetch.app/it/note-legali",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%B4%D8%B1%D9%88%D8%B7-%D9%88%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/legal"
+      },
+      "adsense": [],
+      "byline": null
+    },
+    {
+      "path": "/ar/أدلة/hifz-video-tiktok-fi-almaarad",
+      "locale": "ar",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-video-tiktok-fi-almaarad",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/save-tiktok-phone-gallery",
+        "fr": "https://vidfetch.app/fr/guides/enregistrer-tiktok-galerie-iphone-android",
+        "es": "https://vidfetch.app/es/guias/guardar-videos-tiktok-en-galeria",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-video-tiktok-na-galeria",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-video-tiktok-ke-galeri",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-in-galerie-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-video-tiktok-in-galleria",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-video-tiktok-fi-almaarad",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-phone-gallery"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/ar/أدلة/hifz-sawt-tiktok-mp3",
+      "locale": "ar",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-sawt-tiktok-mp3",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/save-tiktok-sound-mp3",
+        "fr": "https://vidfetch.app/fr/guides/recuperer-son-tiktok-mp3",
+        "es": "https://vidfetch.app/es/guias/guardar-audio-tiktok-en-mp3",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-audio-tiktok-em-mp3",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-suara-tiktok-jadi-mp3",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-ton-als-mp3-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-audio-tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-sawt-tiktok-mp3",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-sound-mp3"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/ar/أدلة/limadha-la-yumkin-hifz-video-tiktok",
+      "locale": "ar",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": true,
+      "canonical": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/limadha-la-yumkin-hifz-video-tiktok",
+      "alternates": {
+        "en": "https://vidfetch.app/blog/why-cant-i-save-tiktok",
+        "fr": "https://vidfetch.app/fr/guides/pourquoi-impossible-enregistrer-tiktok",
+        "es": "https://vidfetch.app/es/guias/por-que-no-puedo-descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/guias/nao-consigo-baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/panduan/kenapa-video-tiktok-tidak-bisa-disimpan",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-laesst-sich-nicht-speichern",
+        "it": "https://vidfetch.app/it/guide/perche-non-riesco-salvare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/limadha-la-yumkin-hifz-video-tiktok",
+        "x-default": "https://vidfetch.app/blog/why-cant-i-save-tiktok"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/ar/tahmil-video-tiktok",
+      "locale": "ar",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/ar/tahmil-video-tiktok",
+      "alternates": {
+        "en": "https://vidfetch.app/tiktok-video-downloader",
+        "fr": "https://vidfetch.app/fr/telecharger-video-tiktok",
+        "es": "https://vidfetch.app/es/descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/download-video-tiktok",
+        "de": "https://vidfetch.app/de/tiktok-video-herunterladen",
+        "it": "https://vidfetch.app/it/scaricare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/tahmil-video-tiktok",
+        "x-default": "https://vidfetch.app/tiktok-video-downloader"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    },
+    {
+      "path": "/ar/tiktok-mp3",
+      "locale": "ar",
+      "status": 200,
+      "trust": null,
+      "historicalGuide": false,
+      "canonical": "https://vidfetch.app/ar/tiktok-mp3",
+      "alternates": {
+        "en": "https://vidfetch.app/tiktok-to-mp3",
+        "fr": "https://vidfetch.app/fr/tiktok-en-mp3",
+        "es": "https://vidfetch.app/es/tiktok-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/tiktok-para-mp3",
+        "id": "https://vidfetch.app/id/tiktok-ke-mp3",
+        "de": "https://vidfetch.app/de/tiktok-zu-mp3",
+        "it": "https://vidfetch.app/it/tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/tiktok-mp3",
+        "x-default": "https://vidfetch.app/tiktok-to-mp3"
+      },
+      "adsense": [
+        "ca-pub-7903460199253248"
+      ],
+      "byline": null
+    }
+  ],
+  "mobile": [
+    "/about",
+    "/contact",
+    "/privacy",
+    "/terms",
+    "/copyright",
+    "/editorial-policy",
+    "/fr/a-propos",
+    "/fr/contact",
+    "/fr/confidentialite",
+    "/fr/conditions-utilisation",
+    "/fr/droits-auteur",
+    "/fr/politique-editoriale",
+    "/es/acerca-de",
+    "/es/contacto",
+    "/es/privacidad",
+    "/es/condiciones-uso",
+    "/es/derechos-autor",
+    "/es/politica-editorial",
+    "/pt/sobre",
+    "/pt/contato",
+    "/pt/privacidade",
+    "/pt/termos-de-uso",
+    "/pt/direitos-autorais",
+    "/pt/politica-editorial",
+    "/id/tentang",
+    "/id/kontak",
+    "/id/privasi",
+    "/id/ketentuan-penggunaan",
+    "/id/hak-cipta",
+    "/id/kebijakan-editorial",
+    "/de/ueber-uns",
+    "/de/kontakt",
+    "/de/datenschutz",
+    "/de/nutzungsbedingungen",
+    "/de/urheberrecht",
+    "/de/redaktionsrichtlinie",
+    "/it/chi-siamo",
+    "/it/contatti",
+    "/it/privacy",
+    "/it/condizioni-uso",
+    "/it/diritto-autore",
+    "/it/politica-editoriale",
+    "/ar/من-نحن",
+    "/ar/اتصل-بنا",
+    "/ar/الخصوصية",
+    "/ar/شروط-الاستخدام",
+    "/ar/حقوق-النشر",
+    "/ar/السياسة-التحريرية"
+  ],
+  "menus": [
+    {
+      "locale": "en",
+      "width": 390,
+      "about": "/about",
+      "contact": "/contact"
+    },
+    {
+      "locale": "en",
+      "width": 1440,
+      "about": "/about",
+      "contact": "/contact"
+    },
+    {
+      "locale": "fr",
+      "width": 390,
+      "about": "/fr/a-propos",
+      "contact": "/fr/contact"
+    },
+    {
+      "locale": "fr",
+      "width": 1440,
+      "about": "/fr/a-propos",
+      "contact": "/fr/contact"
+    },
+    {
+      "locale": "es",
+      "width": 390,
+      "about": "/es/acerca-de",
+      "contact": "/es/contacto"
+    },
+    {
+      "locale": "es",
+      "width": 1440,
+      "about": "/es/acerca-de",
+      "contact": "/es/contacto"
+    },
+    {
+      "locale": "pt-BR",
+      "width": 390,
+      "about": "/pt/sobre",
+      "contact": "/pt/contato"
+    },
+    {
+      "locale": "pt-BR",
+      "width": 1440,
+      "about": "/pt/sobre",
+      "contact": "/pt/contato"
+    },
+    {
+      "locale": "id",
+      "width": 390,
+      "about": "/id/tentang",
+      "contact": "/id/kontak"
+    },
+    {
+      "locale": "id",
+      "width": 1440,
+      "about": "/id/tentang",
+      "contact": "/id/kontak"
+    },
+    {
+      "locale": "de",
+      "width": 390,
+      "about": "/de/ueber-uns",
+      "contact": "/de/kontakt"
+    },
+    {
+      "locale": "de",
+      "width": 1440,
+      "about": "/de/ueber-uns",
+      "contact": "/de/kontakt"
+    },
+    {
+      "locale": "it",
+      "width": 390,
+      "about": "/it/chi-siamo",
+      "contact": "/it/contatti"
+    },
+    {
+      "locale": "it",
+      "width": 1440,
+      "about": "/it/chi-siamo",
+      "contact": "/it/contatti"
+    },
+    {
+      "locale": "ar",
+      "width": 390,
+      "about": "/ar/من-نحن",
+      "contact": "/ar/اتصل-بنا"
+    },
+    {
+      "locale": "ar",
+      "width": 1440,
+      "about": "/ar/من-نحن",
+      "contact": "/ar/اتصل-بنا"
+    }
+  ],
+  "drafts": [],
+  "licenses": [
+    {
+      "path": "/local-media/generated/licenses/mediabunny.txt",
+      "status": 200,
+      "robots": "noindex"
+    },
+    {
+      "path": "/local-media/generated/licenses/mp3-encoder.txt",
+      "status": 200,
+      "robots": "noindex"
+    },
+    {
+      "path": "/local-media/generated/licenses/lame.txt",
+      "status": 200,
+      "robots": "noindex"
+    },
+    {
+      "path": "/local-media/generated/licenses/gifenc.txt",
+      "status": 200,
+      "robots": "noindex"
+    },
+    {
+      "path": "/local-media/generated/licenses/emscripten.txt",
+      "status": 200,
+      "robots": "noindex"
+    },
+    {
+      "path": "/local-media/generated/licenses/musl.txt",
+      "status": 200,
+      "robots": "noindex"
+    },
+    {
+      "path": "/local-media/generated/licenses/compiler-rt.txt",
+      "status": 200,
+      "robots": "noindex"
+    }
+  ],
+  "adsTxtSha256": "54eef6edfabebbdfe22bcdb88e42601347d74c421bd329fe60698c64a18e49d0",
+  "finishedAt": "2026-11-15T09:48:20.375Z",
+  "success": true,
+  "historicalUrlsRetained": 106,
+  "newTrustPages": 48,
+  "historicalGuides": 34
+}
