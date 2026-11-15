@@ -33,7 +33,9 @@
       "url": "https://www.ffmpeg.org/ffmpeg.html"
     }
   ],
-  "sourceBodySha256": "f4906bd34cbb2478a943ff7a3989c3c8fbc6581aec9325a27a3b64d21e9dcff5"
+  "sourceBodySha256": "f4906bd34cbb2478a943ff7a3989c3c8fbc6581aec9325a27a3b64d21e9dcff5",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 La résolution indique le nombre de pixels d’une image. Le débit décrit les données utilisées chaque seconde. Ces critères ne sont pas interchangeables : une grande image trop compressée peut sembler moins propre qu’une image plus petite bien encodée. La durée est indispensable pour estimer la taille finale.

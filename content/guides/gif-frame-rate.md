@@ -59,7 +59,9 @@
     "market": "us",
     "language": "en"
   },
-  "wordCount": 717
+  "wordCount": 717,
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 GIF frame rate describes how often the image changes, but the saved animation is timed through frame delays. More frames can make motion smoother and increase size; they cannot add detail missing from the source. Choose a rate by watching the actual downloaded loop, especially when a short action or label must remain understandable.

@@ -48,7 +48,9 @@
     "market": "us",
     "language": "en"
   },
-  "wordCount": 937
+  "wordCount": 937,
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 To extract audio from a video on an iPhone or Android phone, open a compatible video file in VidFetch’s local audio tool and save an MP3 copy, or copy an existing AAC track into M4A. The selected recording stays on your device. If the video has no audio track or the browser cannot decode its codec, choosing an audio filename cannot create a usable soundtrack.

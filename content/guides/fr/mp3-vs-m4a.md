@@ -33,7 +33,9 @@
       "url": "https://github.com/macosforge/alac"
     }
   ],
-  "sourceBodySha256": "f025b11c35a95867d7016d89b3b61e59af99c75dcc309845925192870056b058"
+  "sourceBodySha256": "f025b11c35a95867d7016d89b3b61e59af99c75dcc309845925192870056b058",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Choisissez MP3 lorsqu’un appareil ou un logiciel l’exige. Si votre M4A fonctionne déjà, le conserver évite une conversion inutile. M4A désigne un conteneur, qui peut contenir de l’AAC avec perte ou de l’ALAC sans perte. L’extension ne suffit donc pas à évaluer la qualité sonore.

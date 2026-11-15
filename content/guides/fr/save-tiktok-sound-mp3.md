@@ -28,7 +28,10 @@
   ],
   "slug": "recuperer-son-tiktok-mp3",
   "publicationRequested": true,
-  "sourceBodySha256": "e201ccd38de9db48f607e7fe68ea048e4d256b1d8aedc1a69f34991ea5061096"
+  "sourceBodySha256": "e201ccd38de9db48f607e7fe68ea048e4d256b1d8aedc1a69f34991ea5061096",
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "legacyPublished": true
 }
 ---
 

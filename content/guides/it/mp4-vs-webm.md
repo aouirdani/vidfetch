@@ -33,7 +33,9 @@
       "url": "https://www.webmproject.org/docs/container/"
     }
   ],
-  "sourceBodySha256": "dcc784ad61b3b018d19f23a998202d1b4ac2f0a670b2d711dde20557d639a092"
+  "sourceBodySha256": "dcc784ad61b3b018d19f23a998202d1b4ac2f0a670b2d711dde20557d639a092",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 MP4 è spesso un punto di partenza pratico per riprodurre un video su dispositivi diversi. WebM può essere adatto a un sito se conosci il supporto dei browser destinatari. L’estensione non garantisce qualità o riproduzione. Controlla codec video, codec audio e applicazione che dovrà aprire il file.

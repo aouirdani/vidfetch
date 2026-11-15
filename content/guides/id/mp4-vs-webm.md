@@ -33,7 +33,9 @@
       "url": "https://www.webmproject.org/docs/container/"
     }
   ],
-  "sourceBodySha256": "dcc784ad61b3b018d19f23a998202d1b4ac2f0a670b2d711dde20557d639a092"
+  "sourceBodySha256": "dcc784ad61b3b018d19f23a998202d1b4ac2f0a670b2d711dde20557d639a092",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 MP4 sering menjadi pilihan awal yang praktis untuk memutar video di beragam perangkat. WebM dapat cocok untuk situs jika browser tujuan mendukung isinya. Ekstensi saja tidak menjamin kualitas gambar maupun keberhasilan pemutaran. Periksa codec video, codec audio, dan aplikasi yang akan membuka berkas tersebut.

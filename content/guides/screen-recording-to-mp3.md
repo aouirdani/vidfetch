@@ -48,7 +48,9 @@
     "market": "us",
     "language": "en"
   },
-  "wordCount": 913
+  "wordCount": 913,
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 To turn a screen recording into MP3, select the local video in VidFetch’s audio extractor, choose an MP3 bitrate and download the audio result. The recording must already contain a decodable audio track. Extraction cannot recover a microphone that was not recorded, recreate muted application audio or restore sound that a platform removed.

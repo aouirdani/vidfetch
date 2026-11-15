@@ -24,12 +24,21 @@ test("editorial commands require review and actual-publication confirmation; cha
     assert.notEqual(run("scripts/ovh/publish-guides.mjs", []).status, 0);
     assert.notEqual(run("scripts/ovh/publish-guides.mjs", ["--confirmed-publication", "--locale=fr", `--id=${id}`]).status, 0);
     assert.equal(readFileSync(file, "utf8"), initial);
-    assert.equal(run("scripts/i18n/review-guide.mjs", ["--locale=fr", `--id=${id}`, "--reviewer=fixture-reviewer", "--confirm-linguistic-review", "--confirm-technical-review"]).status, 0);
+    assert.notEqual(run("scripts/i18n/review-guide.mjs", ["--locale=fr", `--id=${id}`, "--reviewer=fixture-reviewer", "--confirm-linguistic-review", "--confirm-technical-review"]).status, 0);
+    assert.equal(readFileSync(file, "utf8"), initial);
+    // Synthetic fixture evidence: no source guide is approved by this test.
+    write(file, { status: "review", created: today, published: null, reviewedBy: "Aymane Ouirdani", reviewedAt: today, sourceBodySha256: createHash("sha256").update(body).digest("hex") }, "Texte ".repeat(260));
     let metadata = JSON.parse(readFileSync(file, "utf8").split("---\n")[1]);
-    assert.equal(metadata.status, "ready"); assert.equal(metadata.published, null);
+    assert.equal(metadata.status, "review"); assert.equal(metadata.published, null);
     assert.equal(run("scripts/ovh/publish-guides.mjs", ["--confirmed-publication", "--locale=fr", `--id=${id}`]).status, 0);
     metadata = JSON.parse(readFileSync(file, "utf8").split("---\n")[1]); assert.equal(metadata.published, today);
-    assert.equal(readdirSync(join(directory, "backend/backups")).length, 2);
+    assert.equal(readdirSync(join(directory, "backend/backups")).length, 1);
+    // A reviewed legacy record keeps its real first publication date on migration.
+    write(file, { ...metadata, status: "ready", legacyPublished: true, created: "2026-10-01", published: "2026-10-29" }, "Texte ".repeat(260));
+    assert.equal(run("scripts/ovh/publish-guides.mjs", ["--confirmed-publication", "--locale=fr", `--id=${id}`]).status, 0);
+    metadata = JSON.parse(readFileSync(file, "utf8").split("---\n")[1]);
+    assert.equal(metadata.published, "2026-10-29");
+    assert.equal(metadata.reviewedAt, today, "the command never manufactures a review date");
     write(join(directory, "content/guides", id + ".md"), { status: "ready", created: today }, body + " Changed.");
     assert.notEqual(run("scripts/ovh/publish-guides.mjs", ["--confirmed-publication", "--locale=fr", `--id=${id}`]).status, 0);
   } finally { rmSync(directory, { recursive: true, force: true }); }

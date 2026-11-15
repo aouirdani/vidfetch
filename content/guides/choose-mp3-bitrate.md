@@ -60,7 +60,9 @@
     "market": "us",
     "language": "en"
   },
-  "wordCount": 790
+  "wordCount": 790,
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 MP3 bitrate is the amount of encoded audio data allocated per second. In VidFetch you can compare 128, 192 and 320 kbps on the same supported source; a larger number creates a larger file but cannot restore information already lost in the original. Choose by listening to the content you need, then checking size and compatibility.

@@ -33,7 +33,9 @@
       "url": "https://www.ffmpeg.org/ffmpeg-filters.html"
     }
   ],
-  "sourceBodySha256": "dba01726de86733b72c99239c660ee5205fead72fe2ff3d33c30f6ff0d3b45e9"
+  "sourceBodySha256": "dba01726de86733b72c99239c660ee5205fead72fe2ff3d33c30f6ff0d3b45e9",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Ridurre un video significa diminuire i dati che contiene. Tagliare una parte inutile, abbassare il bitrate e ridurre la risoluzione sono decisioni diverse. Lavora su una copia e prova una scena rappresentativa. Nessuna impostazione garantisce identica qualità e molto meno spazio per ogni fonte.

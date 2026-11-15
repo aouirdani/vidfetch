@@ -33,7 +33,9 @@
       "url": "https://www.ffmpeg.org/ffmpeg-codecs.html#libmp3lame"
     }
   ],
-  "sourceBodySha256": "3b71df668d8d476a1de663b87f59552d6e69c8f343affc02a11abbef74828445"
+  "sourceBodySha256": "3b71df668d8d476a1de663b87f59552d6e69c8f343affc02a11abbef74828445",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Um vídeo pode conter uma faixa de áudio independente. Criar um arquivo de som significa copiá-la para um contêiner compatível ou codificá-la em outro formato, como MP3. A cópia pode preservar os dados; a conversão pode ajudar a compatibilidade, mas não melhora a fonte. Use apenas conteúdo próprio ou autorizado.

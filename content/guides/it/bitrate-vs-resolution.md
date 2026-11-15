@@ -33,7 +33,9 @@
       "url": "https://www.ffmpeg.org/ffmpeg.html"
     }
   ],
-  "sourceBodySha256": "f4906bd34cbb2478a943ff7a3989c3c8fbc6581aec9325a27a3b64d21e9dcff5"
+  "sourceBodySha256": "f4906bd34cbb2478a943ff7a3989c3c8fbc6581aec9325a27a3b64d21e9dcff5",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 La risoluzione indica i pixel di ogni immagine. Il bitrate indica dati al secondo. Non sono intercambiabili: un’immagine grande con troppo pochi dati può apparire peggiore di una piccola ben codificata. La durata è essenziale per stimare la dimensione dell’intero file.

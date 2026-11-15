@@ -33,7 +33,9 @@
       "url": "https://www.ffmpeg.org/ffmpeg-filters.html"
     }
   ],
-  "sourceBodySha256": "dba01726de86733b72c99239c660ee5205fead72fe2ff3d33c30f6ff0d3b45e9"
+  "sourceBodySha256": "dba01726de86733b72c99239c660ee5205fead72fe2ff3d33c30f6ff0d3b45e9",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Réduire une vidéo consiste à diminuer les données qu’elle contient. Couper une partie inutile, diminuer le débit ou choisir une résolution adaptée sont trois décisions différentes. Travaillez sur une copie et testez une scène représentative. Aucun réglage ne garantit une réduction importante avec une qualité identique pour toutes les sources.

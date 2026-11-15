@@ -33,7 +33,9 @@
       "url": "https://github.com/yt-dlp/yt-dlp#readme"
     }
   ],
-  "sourceBodySha256": "06a8912cb5d2ab396082b86362d7df856e32b170afde8313e6e4662338400c42"
+  "sourceBodySha256": "06a8912cb5d2ab396082b86362d7df856e32b170afde8313e6e4662338400c42",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Unduhan dapat gagal karena platform, layanan persiapan, atau koneksi perangkat. Pastikan video masih ada dan Anda diizinkan menyimpannya. Halaman yang dapat diputar di browser tidak menjamin akses anonim dari server, meski alamatnya dikenali oleh ekstraktor.

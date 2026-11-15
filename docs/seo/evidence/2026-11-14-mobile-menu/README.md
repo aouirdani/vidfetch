@@ -10,3 +10,9 @@ Après : build local de la branche corrective depuis ce même main. `navigation.
 - [Avant arabe](before-ar-390.webp) · [Après arabe](after-ar-390.webp) · [Section confiance arabe](after-ar-390-trust.webp)
 
 Le workflow exécute `npm run test:navigation` comme étape bloquante et conserve le JSON et les captures dans un artefact distinct. Les résultats CI/Lighthouse exacts sont attachés à la PR. Le contrôle public après déploiement sera consigné lors de la mise à jour de #44 depuis main ; cette PR ne modifie pas #44.
+
+## Production — contrôle du 15 novembre 2026
+
+#45 fusionnée et déployée en 4b2bee42a5b999a3eb2ace2b54fcfa492de5dd62. [Navigation publique](production/navigation/navigation.json) : tous les 16 cas mobiles et huit menus ordinateur passent, 216 clics réels. EN et AR à 390 px : x=12 à x=378, document de largeur390. [Après production EN](production/navigation/after-en-390-trust.webp) · [Après production AR](production/navigation/after-ar-390-trust.webp).
+
+[Indexation publique](production/indexing/results.json) : 106URL historiques+48pages de confiance en200 index/follow, canonical/hreflang/sitemap corrects, 34corps de guides conservés, ads.txt et meta AdSense identiques. [Activation](production/deployment.json), [santé publique](production/health.json), [CI PR](production/ci-pr-audit.json), [CI main](production/ci-main-audit.json) : deux bundles intacts ; 24rapports par CI, A11y/BP/SEO100 et CLS0. La fin du texte de préparation ci-dessus est désormais résolue par ces preuves. #44 est synchronisée depuis main uniquement après ce succès et reste non fusionnée.

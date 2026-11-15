@@ -48,7 +48,9 @@
     "market": "us",
     "language": "en"
   },
-  "wordCount": 778
+  "wordCount": 778,
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 MOV and MP4 are containers that can hold encoded video and audio tracks. Choosing between them is not the same as choosing picture quality: the codec, settings and content of those tracks matter. Keep the original recording and make a separate delivery copy when a recipient needs a different container or a more compatible encoding.

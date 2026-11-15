@@ -1,0 +1,138 @@
+{
+  "en/720p-1080p-4k": {
+    "path": "/blog/720p-1080p-4k",
+    "published": "2026-10-29"
+  },
+  "en/backup-your-videos": {
+    "path": "/blog/backup-your-videos",
+    "published": "2026-10-29"
+  },
+  "en/bitrate-vs-resolution": {
+    "path": "/blog/bitrate-vs-resolution",
+    "published": "2026-10-29"
+  },
+  "en/h264-h265-av1": {
+    "path": "/blog/h264-h265-av1",
+    "published": "2026-10-29"
+  },
+  "en/mp3-vs-m4a": {
+    "path": "/blog/mp3-vs-m4a",
+    "published": "2026-10-29"
+  },
+  "en/mp4-vs-webm": {
+    "path": "/blog/mp4-vs-webm",
+    "published": "2026-10-29"
+  },
+  "en/reduce-video-size": {
+    "path": "/blog/reduce-video-size",
+    "published": "2026-10-29"
+  },
+  "en/save-tiktok-phone-gallery": {
+    "path": "/blog/save-tiktok-phone-gallery",
+    "published": "2026-10-29"
+  },
+  "en/save-tiktok-sound-mp3": {
+    "path": "/blog/save-tiktok-sound-mp3",
+    "published": "2026-10-29"
+  },
+  "en/video-download-fails": {
+    "path": "/blog/video-download-fails",
+    "published": "2026-10-29"
+  },
+  "en/video-format-smartphone": {
+    "path": "/blog/video-format-smartphone",
+    "published": "2026-10-29"
+  },
+  "en/video-to-audio": {
+    "path": "/blog/video-to-audio",
+    "published": "2026-10-29"
+  },
+  "en/why-cant-i-save-tiktok": {
+    "path": "/blog/why-cant-i-save-tiktok",
+    "published": "2026-10-29"
+  },
+  "fr/save-tiktok-phone-gallery": {
+    "path": "/fr/guides/enregistrer-tiktok-galerie-iphone-android",
+    "published": "2026-10-29"
+  },
+  "fr/save-tiktok-sound-mp3": {
+    "path": "/fr/guides/recuperer-son-tiktok-mp3",
+    "published": "2026-10-29"
+  },
+  "fr/why-cant-i-save-tiktok": {
+    "path": "/fr/guides/pourquoi-impossible-enregistrer-tiktok",
+    "published": "2026-10-29"
+  },
+  "es/save-tiktok-phone-gallery": {
+    "path": "/es/guias/guardar-videos-tiktok-en-galeria",
+    "published": "2026-11-07"
+  },
+  "es/save-tiktok-sound-mp3": {
+    "path": "/es/guias/guardar-audio-tiktok-en-mp3",
+    "published": "2026-11-07"
+  },
+  "es/why-cant-i-save-tiktok": {
+    "path": "/es/guias/por-que-no-puedo-descargar-video-tiktok",
+    "published": "2026-11-07"
+  },
+  "pt-BR/save-tiktok-phone-gallery": {
+    "path": "/pt/guias/salvar-video-tiktok-na-galeria",
+    "published": "2026-11-07"
+  },
+  "pt-BR/save-tiktok-sound-mp3": {
+    "path": "/pt/guias/salvar-audio-tiktok-em-mp3",
+    "published": "2026-11-07"
+  },
+  "pt-BR/why-cant-i-save-tiktok": {
+    "path": "/pt/guias/nao-consigo-baixar-video-tiktok",
+    "published": "2026-11-07"
+  },
+  "id/save-tiktok-phone-gallery": {
+    "path": "/id/panduan/menyimpan-video-tiktok-ke-galeri",
+    "published": "2026-11-07"
+  },
+  "id/save-tiktok-sound-mp3": {
+    "path": "/id/panduan/menyimpan-suara-tiktok-jadi-mp3",
+    "published": "2026-11-07"
+  },
+  "id/why-cant-i-save-tiktok": {
+    "path": "/id/panduan/kenapa-video-tiktok-tidak-bisa-disimpan",
+    "published": "2026-11-07"
+  },
+  "de/save-tiktok-phone-gallery": {
+    "path": "/de/ratgeber/tiktok-video-in-galerie-speichern",
+    "published": "2026-11-07"
+  },
+  "de/save-tiktok-sound-mp3": {
+    "path": "/de/ratgeber/tiktok-ton-als-mp3-speichern",
+    "published": "2026-11-07"
+  },
+  "de/why-cant-i-save-tiktok": {
+    "path": "/de/ratgeber/tiktok-video-laesst-sich-nicht-speichern",
+    "published": "2026-11-07"
+  },
+  "it/save-tiktok-phone-gallery": {
+    "path": "/it/guide/salvare-video-tiktok-in-galleria",
+    "published": "2026-11-07"
+  },
+  "it/save-tiktok-sound-mp3": {
+    "path": "/it/guide/salvare-audio-tiktok-in-mp3",
+    "published": "2026-11-07"
+  },
+  "it/why-cant-i-save-tiktok": {
+    "path": "/it/guide/perche-non-riesco-salvare-video-tiktok",
+    "published": "2026-11-07"
+  },
+  "ar/save-tiktok-phone-gallery": {
+    "path": "/ar/أدلة/hifz-video-tiktok-fi-almaarad",
+    "published": "2026-11-07"
+  },
+  "ar/save-tiktok-sound-mp3": {
+    "path": "/ar/أدلة/hifz-sawt-tiktok-mp3",
+    "published": "2026-11-07"
+  },
+  "ar/why-cant-i-save-tiktok": {
+    "path": "/ar/أدلة/limadha-la-yumkin-hifz-video-tiktok",
+    "published": "2026-11-07"
+  }
+}

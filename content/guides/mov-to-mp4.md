@@ -48,7 +48,9 @@
     "market": "us",
     "language": "en"
   },
-  "wordCount": 912
+  "wordCount": 912,
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 To convert a MOV to MP4 with VidFetch, choose the local compressor and use a source that your browser can decode and encode into H.264/AAC. This makes a new delivery copy; it is not a universal repair or a guarantee that every MOV will become MP4. If the interface indicates WebM instead, the browser has selected a different supported output, and changing its filename will not turn it into MP4.

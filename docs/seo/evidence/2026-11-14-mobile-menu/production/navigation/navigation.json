@@ -1,0 +1,920 @@
+{
+  "capturedAt": "2026-11-15T09:46:19.179Z",
+  "release": "4b2bee42a5b999a3eb2ace2b54fcfa492de5dd62",
+  "base": "https://vidfetch.app",
+  "success": true,
+  "results": [
+    {
+      "path": "/",
+      "viewport": {
+        "width": 320,
+        "height": 700
+      },
+      "menu": "[data-mobile-navigation-panel]",
+      "dimensions": {
+        "left": 12,
+        "right": 308,
+        "top": 120,
+        "bottom": 688,
+        "width": 320,
+        "height": 700,
+        "scrollWidth": 320,
+        "panelScrollWidth": 294,
+        "panelClientWidth": 294,
+        "scrollHeight": 719,
+        "clientHeight": 566,
+        "position": "fixed",
+        "headerBottom": 113.6875
+      },
+      "clicked": [
+        "/#extractor",
+        "/tiktok-video-downloader",
+        "/tiktok-to-mp3",
+        "/video-to-mp3",
+        "/compress-video",
+        "/trim-video",
+        "/video-to-gif",
+        "/#how-it-works",
+        "/#faq",
+        "/blog",
+        "/about",
+        "/contact"
+      ],
+      "scrolled": true,
+      "keyboard": "visible focus; Escape closes and restores trigger"
+    },
+    {
+      "path": "/fr",
+      "viewport": {
+        "width": 320,
+        "height": 700
+      },
+      "menu": "[data-mobile-navigation-panel]",
+      "dimensions": {
+        "left": 12,
+        "right": 308,
+        "top": 120,
+        "bottom": 688,
+        "width": 320,
+        "height": 700,
+        "scrollWidth": 320,
+        "panelScrollWidth": 294,
+        "panelClientWidth": 294,
+        "scrollHeight": 743,
+        "clientHeight": 566,
+        "position": "fixed",
+        "headerBottom": 113.6875
+      },
+      "clicked": [
+        "/fr#extractor",
+        "/fr/telecharger-video-tiktok",
+        "/fr/tiktok-en-mp3",
+        "/fr/convertir-video-en-mp3",
+        "/fr/compresser-video",
+        "/fr/couper-video",
+        "/fr/video-en-gif",
+        "/fr#how-it-works",
+        "/fr#faq",
+        "/fr/guides",
+        "/fr/a-propos",
+        "/fr/contact"
+      ],
+      "scrolled": true,
+      "keyboard": "visible focus; Escape closes and restores trigger"
+    },
+    {
+      "path": "/ar",
+      "viewport": {
+        "width": 320,
+        "height": 700
+      },
+      "menu": "[data-mobile-navigation-panel]",
+      "dimensions": {
+        "left": 12,
+        "right": 308,
+        "top": 120,
+        "bottom": 688,
+        "width": 320,
+        "height": 700,
+        "scrollWidth": 320,
+        "panelScrollWidth": 294,
+        "panelClientWidth": 294,
+        "scrollHeight": 743,
+        "clientHeight": 566,
+        "position": "fixed",
+        "headerBottom": 113.6875
+      },
+      "clicked": [
+        "/ar#extractor",
+        "/ar/tahmil-video-tiktok",
+        "/ar/tiktok-mp3",
+        "/ar/tahwil-video-ila-mp3",
+        "/ar/daght-video",
+        "/ar/qass-video",
+        "/ar/video-ila-gif",
+        "/ar#how-it-works",
+        "/ar#faq",
+        "/ar/أدلة",
+        "/ar/من-نحن",
+        "/ar/اتصل-بنا"
+      ],
+      "scrolled": true,
+      "keyboard": "visible focus; Escape closes and restores trigger"
+    },
+    {
+      "path": "/blog/why-cant-i-save-tiktok",
+      "viewport": {
+        "width": 320,
+        "height": 700
+      },
+      "menu": "[data-mobile-navigation-panel]",
+      "dimensions": {
+        "left": 12,
+        "right": 308,
+        "top": 120,
+        "bottom": 688,
+        "width": 320,
+        "height": 700,
+        "scrollWidth": 320,
+        "panelScrollWidth": 294,
+        "panelClientWidth": 294,
+        "scrollHeight": 719,
+        "clientHeight": 566,
+        "position": "fixed",
+        "headerBottom": 113.6875
+      },
+      "clicked": [
+        "/#extractor",
+        "/tiktok-video-downloader",
+        "/tiktok-to-mp3",
+        "/video-to-mp3",
+        "/compress-video",
+        "/trim-video",
+        "/video-to-gif",
+        "/#how-it-works",
+        "/#faq",
+        "/blog",
+        "/about",
+        "/contact"
+      ],
+      "scrolled": true,
+      "keyboard": "visible focus; Escape closes and restores trigger"
+    },
+    {
+      "path": "/",
+      "viewport": {
+        "width": 360,
+        "height": 700
+      },
+      "menu": "[data-mobile-navigation-panel]",
+      "dimensions": {
+        "left": 12,
+        "right": 348,
+        "top": 120,
+        "bottom": 688,
+        "width": 360,
+        "height": 700,
+        "scrollWidth": 360,
+        "panelScrollWidth": 334,
+        "panelClientWidth": 334,
+        "scrollHeight": 719,
+        "clientHeight": 566,
+        "position": "fixed",
+        "headerBottom": 113.6875
+      },
+      "clicked": [
+        "/#extractor",
+        "/tiktok-video-downloader",
+        "/tiktok-to-mp3",
+        "/video-to-mp3",
+        "/compress-video",
+        "/trim-video",
+        "/video-to-gif",
+        "/#how-it-works",
+        "/#faq",
+        "/blog",
+        "/about",
+        "/contact"
+      ],
+      "scrolled": true,
+      "keyboard": "visible focus; Escape closes and restores trigger"
+    },
+    {
+      "path": "/fr",
+      "viewport": {
+        "width": 360,
+        "height": 700
+      },
+      "menu": "[data-mobile-navigation-panel]",
+      "dimensions": {
+        "left": 12,
+        "right": 348,
+        "top": 120,
+        "bottom": 688,
+        "width": 360,
+        "height": 700,
+        "scrollWidth": 360,
+        "panelScrollWidth": 334,
+        "panelClientWidth": 334,
+        "scrollHeight": 731,
+        "clientHeight": 566,
+        "position": "fixed",
+        "headerBottom": 113.6875
+      },
+      "clicked": [
+        "/fr#extractor",
+        "/fr/telecharger-video-tiktok",
+        "/fr/tiktok-en-mp3",
+        "/fr/convertir-video-en-mp3",
+        "/fr/compresser-video",
+        "/fr/couper-video",
+        "/fr/video-en-gif",
+        "/fr#how-it-works",
+        "/fr#faq",
+        "/fr/guides",
+        "/fr/a-propos",
+        "/fr/contact"
+      ],
+      "scrolled": true,
+      "keyboard": "visible focus; Escape closes and restores trigger"
+    },
+    {
+      "path": "/ar",
+      "viewport": {
+        "width": 360,
+        "height": 700
+      },
+      "menu": "[data-mobile-navigation-panel]",
+      "dimensions": {
+        "left": 12,
+        "right": 348,
+        "top": 120,
+        "bottom": 688,
+        "width": 360,
+        "height": 700,
+        "scrollWidth": 360,
+        "panelScrollWidth": 334,
+        "panelClientWidth": 334,
+        "scrollHeight": 719,
+        "clientHeight": 566,
+        "position": "fixed",
+        "headerBottom": 113.6875
+      },
+      "clicked": [
+        "/ar#extractor",
+        "/ar/tahmil-video-tiktok",
+        "/ar/tiktok-mp3",
+        "/ar/tahwil-video-ila-mp3",
+        "/ar/daght-video",
+        "/ar/qass-video",
+        "/ar/video-ila-gif",
+        "/ar#how-it-works",
+        "/ar#faq",
+        "/ar/أدلة",
+        "/ar/من-نحن",
+        "/ar/اتصل-بنا"
+      ],
+      "scrolled": true,
+      "keyboard": "visible focus; Escape closes and restores trigger"
+    },
+    {
+      "path": "/blog/why-cant-i-save-tiktok",
+      "viewport": {
+        "width": 360,
+        "height": 700
+      },
+      "menu": "[data-mobile-navigation-panel]",
+      "dimensions": {
+        "left": 12,
+        "right": 348,
+        "top": 120,
+        "bottom": 688,
+        "width": 360,
+        "height": 700,
+        "scrollWidth": 360,
+        "panelScrollWidth": 334,
+        "panelClientWidth": 334,
+        "scrollHeight": 719,
+        "clientHeight": 566,
+        "position": "fixed",
+        "headerBottom": 113.6875
+      },
+      "clicked": [
+        "/#extractor",
+        "/tiktok-video-downloader",
+        "/tiktok-to-mp3",
+        "/video-to-mp3",
+        "/compress-video",
+        "/trim-video",
+        "/video-to-gif",
+        "/#how-it-works",
+        "/#faq",
+        "/blog",
+        "/about",
+        "/contact"
+      ],
+      "scrolled": true,
+      "keyboard": "visible focus; Escape closes and restores trigger"
+    },
+    {
+      "path": "/",
+      "viewport": {
+        "width": 390,
+        "height": 700
+      },
+      "menu": "[data-mobile-navigation-panel]",
+      "dimensions": {
+        "left": 12,
+        "right": 378,
+        "top": 120,
+        "bottom": 688,
+        "width": 390,
+        "height": 700,
+        "scrollWidth": 390,
+        "panelScrollWidth": 364,
+        "panelClientWidth": 364,
+        "scrollHeight": 719,
+        "clientHeight": 566,
+        "position": "fixed",
+        "headerBottom": 113.6875
+      },
+      "clicked": [
+        "/#extractor",
+        "/tiktok-video-downloader",
+        "/tiktok-to-mp3",
+        "/video-to-mp3",
+        "/compress-video",
+        "/trim-video",
+        "/video-to-gif",
+        "/#how-it-works",
+        "/#faq",
+        "/blog",
+        "/about",
+        "/contact"
+      ],
+      "scrolled": true,
+      "keyboard": "visible focus; Escape closes and restores trigger"
+    },
+    {
+      "path": "/fr",
+      "viewport": {
+        "width": 390,
+        "height": 700
+      },
+      "menu": "[data-mobile-navigation-panel]",
+      "dimensions": {
+        "left": 12,
+        "right": 378,
+        "top": 120,
+        "bottom": 688,
+        "width": 390,
+        "height": 700,
+        "scrollWidth": 390,
+        "panelScrollWidth": 364,
+        "panelClientWidth": 364,
+        "scrollHeight": 731,
+        "clientHeight": 566,
+        "position": "fixed",
+        "headerBottom": 113.6875
+      },
+      "clicked": [
+        "/fr#extractor",
+        "/fr/telecharger-video-tiktok",
+        "/fr/tiktok-en-mp3",
+        "/fr/convertir-video-en-mp3",
+        "/fr/compresser-video",
+        "/fr/couper-video",
+        "/fr/video-en-gif",
+        "/fr#how-it-works",
+        "/fr#faq",
+        "/fr/guides",
+        "/fr/a-propos",
+        "/fr/contact"
+      ],
+      "scrolled": true,
+      "keyboard": "visible focus; Escape closes and restores trigger"
+    },
+    {
+      "path": "/ar",
+      "viewport": {
+        "width": 390,
+        "height": 700
+      },
+      "menu": "[data-mobile-navigation-panel]",
+      "dimensions": {
+        "left": 12,
+        "right": 378,
+        "top": 71,
+        "bottom": 688,
+        "width": 390,
+        "height": 700,
+        "scrollWidth": 390,
+        "panelScrollWidth": 364,
+        "panelClientWidth": 364,
+        "scrollHeight": 719,
+        "clientHeight": 615,
+        "position": "fixed",
+        "headerBottom": 65
+      },
+      "clicked": [
+        "/ar#extractor",
+        "/ar/tahmil-video-tiktok",
+        "/ar/tiktok-mp3",
+        "/ar/tahwil-video-ila-mp3",
+        "/ar/daght-video",
+        "/ar/qass-video",
+        "/ar/video-ila-gif",
+        "/ar#how-it-works",
+        "/ar#faq",
+        "/ar/أدلة",
+        "/ar/من-نحن",
+        "/ar/اتصل-بنا"
+      ],
+      "scrolled": true,
+      "keyboard": "visible focus; Escape closes and restores trigger"
+    },
+    {
+      "path": "/blog/why-cant-i-save-tiktok",
+      "viewport": {
+        "width": 390,
+        "height": 700
+      },
+      "menu": "[data-mobile-navigation-panel]",
+      "dimensions": {
+        "left": 12,
+        "right": 378,
+        "top": 120,
+        "bottom": 688,
+        "width": 390,
+        "height": 700,
+        "scrollWidth": 390,
+        "panelScrollWidth": 364,
+        "panelClientWidth": 364,
+        "scrollHeight": 719,
+        "clientHeight": 566,
+        "position": "fixed",
+        "headerBottom": 113.6875
+      },
+      "clicked": [
+        "/#extractor",
+        "/tiktok-video-downloader",
+        "/tiktok-to-mp3",
+        "/video-to-mp3",
+        "/compress-video",
+        "/trim-video",
+        "/video-to-gif",
+        "/#how-it-works",
+        "/#faq",
+        "/blog",
+        "/about",
+        "/contact"
+      ],
+      "scrolled": true,
+      "keyboard": "visible focus; Escape closes and restores trigger"
+    },
+    {
+      "path": "/",
+      "viewport": {
+        "width": 414,
+        "height": 700
+      },
+      "menu": "[data-mobile-navigation-panel]",
+      "dimensions": {
+        "left": 12,
+        "right": 402,
+        "top": 71,
+        "bottom": 688,
+        "width": 414,
+        "height": 700,
+        "scrollWidth": 414,
+        "panelScrollWidth": 388,
+        "panelClientWidth": 388,
+        "scrollHeight": 719,
+        "clientHeight": 615,
+        "position": "fixed",
+        "headerBottom": 65
+      },
+      "clicked": [
+        "/#extractor",
+        "/tiktok-video-downloader",
+        "/tiktok-to-mp3",
+        "/video-to-mp3",
+        "/compress-video",
+        "/trim-video",
+        "/video-to-gif",
+        "/#how-it-works",
+        "/#faq",
+        "/blog",
+        "/about",
+        "/contact"
+      ],
+      "scrolled": true,
+      "keyboard": "visible focus; Escape closes and restores trigger"
+    },
+    {
+      "path": "/fr",
+      "viewport": {
+        "width": 414,
+        "height": 700
+      },
+      "menu": "[data-mobile-navigation-panel]",
+      "dimensions": {
+        "left": 12,
+        "right": 402,
+        "top": 120,
+        "bottom": 688,
+        "width": 414,
+        "height": 700,
+        "scrollWidth": 414,
+        "panelScrollWidth": 388,
+        "panelClientWidth": 388,
+        "scrollHeight": 719,
+        "clientHeight": 566,
+        "position": "fixed",
+        "headerBottom": 113.6875
+      },
+      "clicked": [
+        "/fr#extractor",
+        "/fr/telecharger-video-tiktok",
+        "/fr/tiktok-en-mp3",
+        "/fr/convertir-video-en-mp3",
+        "/fr/compresser-video",
+        "/fr/couper-video",
+        "/fr/video-en-gif",
+        "/fr#how-it-works",
+        "/fr#faq",
+        "/fr/guides",
+        "/fr/a-propos",
+        "/fr/contact"
+      ],
+      "scrolled": true,
+      "keyboard": "visible focus; Escape closes and restores trigger"
+    },
+    {
+      "path": "/ar",
+      "viewport": {
+        "width": 414,
+        "height": 700
+      },
+      "menu": "[data-mobile-navigation-panel]",
+      "dimensions": {
+        "left": 12,
+        "right": 402,
+        "top": 71,
+        "bottom": 688,
+        "width": 414,
+        "height": 700,
+        "scrollWidth": 414,
+        "panelScrollWidth": 388,
+        "panelClientWidth": 388,
+        "scrollHeight": 719,
+        "clientHeight": 615,
+        "position": "fixed",
+        "headerBottom": 65
+      },
+      "clicked": [
+        "/ar#extractor",
+        "/ar/tahmil-video-tiktok",
+        "/ar/tiktok-mp3",
+        "/ar/tahwil-video-ila-mp3",
+        "/ar/daght-video",
+        "/ar/qass-video",
+        "/ar/video-ila-gif",
+        "/ar#how-it-works",
+        "/ar#faq",
+        "/ar/أدلة",
+        "/ar/من-نحن",
+        "/ar/اتصل-بنا"
+      ],
+      "scrolled": true,
+      "keyboard": "visible focus; Escape closes and restores trigger"
+    },
+    {
+      "path": "/blog/why-cant-i-save-tiktok",
+      "viewport": {
+        "width": 414,
+        "height": 700
+      },
+      "menu": "[data-mobile-navigation-panel]",
+      "dimensions": {
+        "left": 12,
+        "right": 402,
+        "top": 71,
+        "bottom": 688,
+        "width": 414,
+        "height": 700,
+        "scrollWidth": 414,
+        "panelScrollWidth": 388,
+        "panelClientWidth": 388,
+        "scrollHeight": 719,
+        "clientHeight": 615,
+        "position": "fixed",
+        "headerBottom": 65
+      },
+      "clicked": [
+        "/#extractor",
+        "/tiktok-video-downloader",
+        "/tiktok-to-mp3",
+        "/video-to-mp3",
+        "/compress-video",
+        "/trim-video",
+        "/video-to-gif",
+        "/#how-it-works",
+        "/#faq",
+        "/blog",
+        "/about",
+        "/contact"
+      ],
+      "scrolled": true,
+      "keyboard": "visible focus; Escape closes and restores trigger"
+    },
+    {
+      "path": "/",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "menu": "[data-header-tools-panel]",
+      "dimensions": {
+        "left": 88,
+        "right": 344,
+        "top": 103.6875,
+        "bottom": 273.6875,
+        "width": 1280,
+        "height": 900,
+        "scrollWidth": 1280,
+        "panelScrollWidth": 254,
+        "panelClientWidth": 254,
+        "scrollHeight": 168,
+        "clientHeight": 168,
+        "position": "absolute",
+        "headerBottom": 113.6875
+      },
+      "clicked": [
+        "/video-to-mp3",
+        "/compress-video",
+        "/trim-video",
+        "/video-to-gif"
+      ],
+      "scrolled": false,
+      "keyboard": "visible focus; Escape closes and restores trigger"
+    },
+    {
+      "path": "/",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "menu": "[data-header-legal-panel]",
+      "dimensions": {
+        "left": 75.203125,
+        "right": 331.203125,
+        "top": 103.6875,
+        "bottom": 201.6875,
+        "width": 1280,
+        "height": 900,
+        "scrollWidth": 1280,
+        "panelScrollWidth": 254,
+        "panelClientWidth": 254,
+        "scrollHeight": 96,
+        "clientHeight": 96,
+        "position": "absolute",
+        "headerBottom": 113.6875
+      },
+      "clicked": [
+        "/about",
+        "/contact"
+      ],
+      "scrolled": false,
+      "keyboard": "visible focus; Escape closes and restores trigger"
+    },
+    {
+      "path": "/fr",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "menu": "[data-header-tools-panel]",
+      "dimensions": {
+        "left": 88,
+        "right": 344,
+        "top": 103.6875,
+        "bottom": 313.6875,
+        "width": 1280,
+        "height": 900,
+        "scrollWidth": 1280,
+        "panelScrollWidth": 254,
+        "panelClientWidth": 254,
+        "scrollHeight": 208,
+        "clientHeight": 208,
+        "position": "absolute",
+        "headerBottom": 113.6875
+      },
+      "clicked": [
+        "/fr/convertir-video-en-mp3",
+        "/fr/compresser-video",
+        "/fr/couper-video",
+        "/fr/video-en-gif"
+      ],
+      "scrolled": false,
+      "keyboard": "visible focus; Escape closes and restores trigger"
+    },
+    {
+      "path": "/fr",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "menu": "[data-header-legal-panel]",
+      "dimensions": {
+        "left": 166.15625,
+        "right": 422.15625,
+        "top": 103.6875,
+        "bottom": 201.6875,
+        "width": 1280,
+        "height": 900,
+        "scrollWidth": 1280,
+        "panelScrollWidth": 254,
+        "panelClientWidth": 254,
+        "scrollHeight": 96,
+        "clientHeight": 96,
+        "position": "absolute",
+        "headerBottom": 113.6875
+      },
+      "clicked": [
+        "/fr/a-propos",
+        "/fr/contact"
+      ],
+      "scrolled": false,
+      "keyboard": "visible focus; Escape closes and restores trigger"
+    },
+    {
+      "path": "/ar",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "menu": "[data-header-tools-panel]",
+      "dimensions": {
+        "left": 936,
+        "right": 1192,
+        "top": 103.6875,
+        "bottom": 273.6875,
+        "width": 1280,
+        "height": 900,
+        "scrollWidth": 1280,
+        "panelScrollWidth": 254,
+        "panelClientWidth": 254,
+        "scrollHeight": 168,
+        "clientHeight": 168,
+        "position": "absolute",
+        "headerBottom": 113.6875
+      },
+      "clicked": [
+        "/ar/tahwil-video-ila-mp3",
+        "/ar/daght-video",
+        "/ar/qass-video",
+        "/ar/video-ila-gif"
+      ],
+      "scrolled": false,
+      "keyboard": "visible focus; Escape closes and restores trigger"
+    },
+    {
+      "path": "/ar",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "menu": "[data-header-legal-panel]",
+      "dimensions": {
+        "left": 942.703125,
+        "right": 1198.703125,
+        "top": 103.6875,
+        "bottom": 201.6875,
+        "width": 1280,
+        "height": 900,
+        "scrollWidth": 1280,
+        "panelScrollWidth": 254,
+        "panelClientWidth": 254,
+        "scrollHeight": 96,
+        "clientHeight": 96,
+        "position": "absolute",
+        "headerBottom": 113.6875
+      },
+      "clicked": [
+        "/ar/من-نحن",
+        "/ar/اتصل-بنا"
+      ],
+      "scrolled": false,
+      "keyboard": "visible focus; Escape closes and restores trigger"
+    },
+    {
+      "path": "/blog/why-cant-i-save-tiktok",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "menu": "[data-header-tools-panel]",
+      "dimensions": {
+        "left": 88,
+        "right": 344,
+        "top": 103.6875,
+        "bottom": 273.6875,
+        "width": 1280,
+        "height": 900,
+        "scrollWidth": 1280,
+        "panelScrollWidth": 254,
+        "panelClientWidth": 254,
+        "scrollHeight": 168,
+        "clientHeight": 168,
+        "position": "absolute",
+        "headerBottom": 113.6875
+      },
+      "clicked": [
+        "/video-to-mp3",
+        "/compress-video",
+        "/trim-video",
+        "/video-to-gif"
+      ],
+      "scrolled": false,
+      "keyboard": "visible focus; Escape closes and restores trigger"
+    },
+    {
+      "path": "/blog/why-cant-i-save-tiktok",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "menu": "[data-header-legal-panel]",
+      "dimensions": {
+        "left": 75.203125,
+        "right": 331.203125,
+        "top": 103.6875,
+        "bottom": 201.6875,
+        "width": 1280,
+        "height": 900,
+        "scrollWidth": 1280,
+        "panelScrollWidth": 254,
+        "panelClientWidth": 254,
+        "scrollHeight": 96,
+        "clientHeight": 96,
+        "position": "absolute",
+        "headerBottom": 113.6875
+      },
+      "clicked": [
+        "/about",
+        "/contact"
+      ],
+      "scrolled": false,
+      "keyboard": "visible focus; Escape closes and restores trigger"
+    },
+    {
+      "locale": "en",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "dimensions": {
+        "left": 12,
+        "right": 378,
+        "top": 120,
+        "bottom": 832,
+        "width": 390,
+        "height": 844,
+        "scrollWidth": 390,
+        "panelScrollWidth": 364,
+        "panelClientWidth": 364,
+        "scrollHeight": 719,
+        "clientHeight": 710,
+        "position": "fixed",
+        "headerBottom": 113.6875
+      },
+      "screenshot": "after-en-390.webp",
+      "trustScreenshot": "after-en-390-trust.webp"
+    },
+    {
+      "locale": "ar",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "dimensions": {
+        "left": 12,
+        "right": 378,
+        "top": 71,
+        "bottom": 792,
+        "width": 390,
+        "height": 844,
+        "scrollWidth": 390,
+        "panelScrollWidth": 364,
+        "panelClientWidth": 364,
+        "scrollHeight": 719,
+        "clientHeight": 719,
+        "position": "fixed",
+        "headerBottom": 65
+      },
+      "screenshot": "after-ar-390.webp",
+      "trustScreenshot": "after-ar-390-trust.webp"
+    }
+  ]
+}

@@ -33,7 +33,9 @@
       "url": "https://www.ffmpeg.org/ffmpeg-filters.html"
     }
   ],
-  "sourceBodySha256": "dba01726de86733b72c99239c660ee5205fead72fe2ff3d33c30f6ff0d3b45e9"
+  "sourceBodySha256": "dba01726de86733b72c99239c660ee5205fead72fe2ff3d33c30f6ff0d3b45e9",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Mengecilkan video berarti mengurangi data yang dikandungnya. Memotong bagian tidak diperlukan, menurunkan bitrate, dan mengubah resolusi adalah keputusan berbeda. Kerjakan salinan dan uji adegan representatif. Tidak ada pengaturan yang menjamin kualitas identik dengan ukuran jauh lebih kecil untuk semua sumber.

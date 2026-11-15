@@ -33,7 +33,9 @@
       "url": "https://www.gnu.org/software/coreutils/manual/html_node/cksum-common-options.html"
     }
   ],
-  "sourceBodySha256": "eeaa156218e90692cd5ef5da3042187785f42b7ecb328c5c8b4d0a4b91bceb7b"
+  "sourceBodySha256": "eeaa156218e90692cd5ef5da3042187785f42b7ecb328c5c8b4d0a4b91bceb7b",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Una copia de seguridad útil conserva originales y permite recuperarlos si falla el almacenamiento principal. Empieza con material propio o autorizado. Mantén copias independientes y prueba que puedes restaurarlas y reproducirlas. Una carpeta sincronizada no demuestra por sí sola que exista un archivo recuperable.

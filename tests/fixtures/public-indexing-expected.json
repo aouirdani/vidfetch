@@ -1,0 +1,2786 @@
+{
+  "_comment": "Immutable baseline of the 106 production sitemap URLs, prior to the publisher mission. Additions belong in the deployment fixture, never in this retention contract.",
+  "hreflang": {
+    "all": [
+      "ar",
+      "de",
+      "en",
+      "es",
+      "fr",
+      "id",
+      "it",
+      "pt-BR",
+      "x-default"
+    ],
+    "en-fr": [
+      "en",
+      "fr",
+      "x-default"
+    ],
+    "en": [
+      "en",
+      "x-default"
+    ]
+  },
+  "indexable": {
+    "/": "all",
+    "/blog": "all",
+    "/legal": "all",
+    "/blog/720p-1080p-4k": "en",
+    "/blog/backup-your-videos": "en",
+    "/blog/bitrate-vs-resolution": "en",
+    "/blog/h264-h265-av1": "en",
+    "/blog/mp3-vs-m4a": "en",
+    "/blog/mp4-vs-webm": "en",
+    "/blog/reduce-video-size": "en",
+    "/blog/save-tiktok-phone-gallery": "all",
+    "/blog/save-tiktok-sound-mp3": "all",
+    "/blog/video-download-fails": "en",
+    "/blog/video-format-smartphone": "en",
+    "/blog/video-to-audio": "en",
+    "/blog/why-cant-i-save-tiktok": "all",
+    "/tiktok-video-downloader": "all",
+    "/tiktok-to-mp3": "all",
+    "/fr": "all",
+    "/fr/guides": "all",
+    "/fr/mentions-legales": "all",
+    "/fr/guides/enregistrer-tiktok-galerie-iphone-android": "all",
+    "/fr/guides/recuperer-son-tiktok-mp3": "all",
+    "/fr/guides/pourquoi-impossible-enregistrer-tiktok": "all",
+    "/fr/telecharger-video-tiktok": "all",
+    "/fr/tiktok-en-mp3": "all",
+    "/es": "all",
+    "/es/aviso-legal": "all",
+    "/es/descargar-video-tiktok": "all",
+    "/es/tiktok-a-mp3": "all",
+    "/pt": "all",
+    "/pt/termos-e-privacidade": "all",
+    "/pt/baixar-video-tiktok": "all",
+    "/pt/tiktok-para-mp3": "all",
+    "/id": "all",
+    "/id/ketentuan-dan-privasi": "all",
+    "/id/download-video-tiktok": "all",
+    "/id/tiktok-ke-mp3": "all",
+    "/de": "all",
+    "/de/rechtliches": "all",
+    "/de/tiktok-video-herunterladen": "all",
+    "/de/tiktok-zu-mp3": "all",
+    "/it": "all",
+    "/it/note-legali": "all",
+    "/it/scaricare-video-tiktok": "all",
+    "/it/tiktok-in-mp3": "all",
+    "/ar": "all",
+    "/ar/الشروط-والخصوصية": "all",
+    "/ar/tahmil-video-tiktok": "all",
+    "/ar/tiktok-mp3": "all",
+    "/video-to-mp3": "all",
+    "/compress-video": "all",
+    "/trim-video": "all",
+    "/video-to-gif": "all",
+    "/fr/convertir-video-en-mp3": "all",
+    "/fr/compresser-video": "all",
+    "/fr/couper-video": "all",
+    "/fr/video-en-gif": "all",
+    "/es/convertir-video-a-mp3": "all",
+    "/es/comprimir-video": "all",
+    "/es/cortar-video": "all",
+    "/es/video-a-gif": "all",
+    "/pt/converter-video-para-mp3": "all",
+    "/pt/comprimir-video": "all",
+    "/pt/cortar-video": "all",
+    "/pt/video-para-gif": "all",
+    "/id/konversi-video-ke-mp3": "all",
+    "/id/kompres-video": "all",
+    "/id/potong-video": "all",
+    "/id/video-ke-gif": "all",
+    "/de/video-in-mp3-umwandeln": "all",
+    "/de/video-komprimieren": "all",
+    "/de/video-schneiden": "all",
+    "/de/video-in-gif": "all",
+    "/it/convertire-video-in-mp3": "all",
+    "/it/comprimere-video": "all",
+    "/it/tagliare-video": "all",
+    "/it/video-in-gif": "all",
+    "/ar/tahwil-video-ila-mp3": "all",
+    "/ar/daght-video": "all",
+    "/ar/qass-video": "all",
+    "/ar/video-ila-gif": "all",
+    "/es/guias": "all",
+    "/es/guias/por-que-no-puedo-descargar-video-tiktok": "all",
+    "/es/guias/guardar-audio-tiktok-en-mp3": "all",
+    "/es/guias/guardar-videos-tiktok-en-galeria": "all",
+    "/pt/guias": "all",
+    "/pt/guias/nao-consigo-baixar-video-tiktok": "all",
+    "/pt/guias/salvar-audio-tiktok-em-mp3": "all",
+    "/pt/guias/salvar-video-tiktok-na-galeria": "all",
+    "/id/panduan": "all",
+    "/id/panduan/kenapa-video-tiktok-tidak-bisa-disimpan": "all",
+    "/id/panduan/menyimpan-suara-tiktok-jadi-mp3": "all",
+    "/id/panduan/menyimpan-video-tiktok-ke-galeri": "all",
+    "/de/ratgeber": "all",
+    "/de/ratgeber/tiktok-video-laesst-sich-nicht-speichern": "all",
+    "/de/ratgeber/tiktok-ton-als-mp3-speichern": "all",
+    "/de/ratgeber/tiktok-video-in-galerie-speichern": "all",
+    "/it/guide": "all",
+    "/it/guide/perche-non-riesco-salvare-video-tiktok": "all",
+    "/it/guide/salvare-audio-tiktok-in-mp3": "all",
+    "/it/guide/salvare-video-tiktok-in-galleria": "all",
+    "/ar/أدلة": "all",
+    "/ar/أدلة/limadha-la-yumkin-hifz-video-tiktok": "all",
+    "/ar/أدلة/hifz-sawt-tiktok-mp3": "all",
+    "/ar/أدلة/hifz-video-tiktok-fi-almaarad": "all"
+  },
+  "noindex": [],
+  "localAssets": {
+    "/local-media/generated/engine.js": null,
+    "/local-media/generated/mp3.js": null,
+    "/local-media/generated/lame.wasm": "application/wasm",
+    "/local-media/generated/corresponding-source.tar.gz": null,
+    "/local-media/generated/licenses/mediabunny.txt": null,
+    "/local-media/generated/licenses/mp3-encoder.txt": null,
+    "/local-media/generated/licenses/lame.txt": null,
+    "/local-media/generated/licenses/gifenc.txt": null,
+    "/local-media/generated/licenses/emscripten.txt": null,
+    "/local-media/generated/licenses/musl.txt": null,
+    "/local-media/generated/licenses/compiler-rt.txt": null,
+    "/local-media/download/sw.js": null
+  },
+  "sourceRelease": "eef2a305ae928b10ea0523975d35d552ba9a5e6f",
+  "pages": {
+    "/video-to-mp3": {
+      "canonical": "https://vidfetch.app/video-to-mp3",
+      "hreflang": {
+        "en": "https://vidfetch.app/video-to-mp3",
+        "fr": "https://vidfetch.app/fr/convertir-video-en-mp3",
+        "es": "https://vidfetch.app/es/convertir-video-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/converter-video-para-mp3",
+        "id": "https://vidfetch.app/id/konversi-video-ke-mp3",
+        "de": "https://vidfetch.app/de/video-in-mp3-umwandeln",
+        "it": "https://vidfetch.app/it/convertire-video-in-mp3",
+        "ar": "https://vidfetch.app/ar/tahwil-video-ila-mp3",
+        "x-default": "https://vidfetch.app/video-to-mp3"
+      }
+    },
+    "/compress-video": {
+      "canonical": "https://vidfetch.app/compress-video",
+      "hreflang": {
+        "en": "https://vidfetch.app/compress-video",
+        "fr": "https://vidfetch.app/fr/compresser-video",
+        "es": "https://vidfetch.app/es/comprimir-video",
+        "pt-BR": "https://vidfetch.app/pt/comprimir-video",
+        "id": "https://vidfetch.app/id/kompres-video",
+        "de": "https://vidfetch.app/de/video-komprimieren",
+        "it": "https://vidfetch.app/it/comprimere-video",
+        "ar": "https://vidfetch.app/ar/daght-video",
+        "x-default": "https://vidfetch.app/compress-video"
+      }
+    },
+    "/trim-video": {
+      "canonical": "https://vidfetch.app/trim-video",
+      "hreflang": {
+        "en": "https://vidfetch.app/trim-video",
+        "fr": "https://vidfetch.app/fr/couper-video",
+        "es": "https://vidfetch.app/es/cortar-video",
+        "pt-BR": "https://vidfetch.app/pt/cortar-video",
+        "id": "https://vidfetch.app/id/potong-video",
+        "de": "https://vidfetch.app/de/video-schneiden",
+        "it": "https://vidfetch.app/it/tagliare-video",
+        "ar": "https://vidfetch.app/ar/qass-video",
+        "x-default": "https://vidfetch.app/trim-video"
+      }
+    },
+    "/video-to-gif": {
+      "canonical": "https://vidfetch.app/video-to-gif",
+      "hreflang": {
+        "en": "https://vidfetch.app/video-to-gif",
+        "fr": "https://vidfetch.app/fr/video-en-gif",
+        "es": "https://vidfetch.app/es/video-a-gif",
+        "pt-BR": "https://vidfetch.app/pt/video-para-gif",
+        "id": "https://vidfetch.app/id/video-ke-gif",
+        "de": "https://vidfetch.app/de/video-in-gif",
+        "it": "https://vidfetch.app/it/video-in-gif",
+        "ar": "https://vidfetch.app/ar/video-ila-gif",
+        "x-default": "https://vidfetch.app/video-to-gif"
+      }
+    },
+    "/": {
+      "canonical": "https://vidfetch.app/",
+      "hreflang": {
+        "en": "https://vidfetch.app/",
+        "fr": "https://vidfetch.app/fr",
+        "es": "https://vidfetch.app/es",
+        "pt-BR": "https://vidfetch.app/pt",
+        "id": "https://vidfetch.app/id",
+        "de": "https://vidfetch.app/de",
+        "it": "https://vidfetch.app/it",
+        "ar": "https://vidfetch.app/ar",
+        "x-default": "https://vidfetch.app/"
+      }
+    },
+    "/blog": {
+      "canonical": "https://vidfetch.app/blog",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog",
+        "fr": "https://vidfetch.app/fr/guides",
+        "es": "https://vidfetch.app/es/guias",
+        "pt-BR": "https://vidfetch.app/pt/guias",
+        "id": "https://vidfetch.app/id/panduan",
+        "de": "https://vidfetch.app/de/ratgeber",
+        "it": "https://vidfetch.app/it/guide",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9",
+        "x-default": "https://vidfetch.app/blog"
+      }
+    },
+    "/legal": {
+      "canonical": "https://vidfetch.app/legal",
+      "hreflang": {
+        "en": "https://vidfetch.app/legal",
+        "fr": "https://vidfetch.app/fr/mentions-legales",
+        "es": "https://vidfetch.app/es/aviso-legal",
+        "pt-BR": "https://vidfetch.app/pt/termos-e-privacidade",
+        "id": "https://vidfetch.app/id/ketentuan-dan-privasi",
+        "de": "https://vidfetch.app/de/rechtliches",
+        "it": "https://vidfetch.app/it/note-legali",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%B4%D8%B1%D9%88%D8%B7-%D9%88%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/legal"
+      }
+    },
+    "/blog/720p-1080p-4k": {
+      "canonical": "https://vidfetch.app/blog/720p-1080p-4k",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/720p-1080p-4k",
+        "x-default": "https://vidfetch.app/blog/720p-1080p-4k"
+      }
+    },
+    "/blog/backup-your-videos": {
+      "canonical": "https://vidfetch.app/blog/backup-your-videos",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/backup-your-videos",
+        "x-default": "https://vidfetch.app/blog/backup-your-videos"
+      }
+    },
+    "/blog/bitrate-vs-resolution": {
+      "canonical": "https://vidfetch.app/blog/bitrate-vs-resolution",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/bitrate-vs-resolution",
+        "x-default": "https://vidfetch.app/blog/bitrate-vs-resolution"
+      }
+    },
+    "/blog/h264-h265-av1": {
+      "canonical": "https://vidfetch.app/blog/h264-h265-av1",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/h264-h265-av1",
+        "x-default": "https://vidfetch.app/blog/h264-h265-av1"
+      }
+    },
+    "/blog/mp3-vs-m4a": {
+      "canonical": "https://vidfetch.app/blog/mp3-vs-m4a",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/mp3-vs-m4a",
+        "x-default": "https://vidfetch.app/blog/mp3-vs-m4a"
+      }
+    },
+    "/blog/mp4-vs-webm": {
+      "canonical": "https://vidfetch.app/blog/mp4-vs-webm",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/mp4-vs-webm",
+        "x-default": "https://vidfetch.app/blog/mp4-vs-webm"
+      }
+    },
+    "/blog/reduce-video-size": {
+      "canonical": "https://vidfetch.app/blog/reduce-video-size",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/reduce-video-size",
+        "x-default": "https://vidfetch.app/blog/reduce-video-size"
+      }
+    },
+    "/blog/save-tiktok-phone-gallery": {
+      "canonical": "https://vidfetch.app/blog/save-tiktok-phone-gallery",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/save-tiktok-phone-gallery",
+        "fr": "https://vidfetch.app/fr/guides/enregistrer-tiktok-galerie-iphone-android",
+        "es": "https://vidfetch.app/es/guias/guardar-videos-tiktok-en-galeria",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-video-tiktok-na-galeria",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-video-tiktok-ke-galeri",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-in-galerie-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-video-tiktok-in-galleria",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-video-tiktok-fi-almaarad",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-phone-gallery"
+      }
+    },
+    "/blog/save-tiktok-sound-mp3": {
+      "canonical": "https://vidfetch.app/blog/save-tiktok-sound-mp3",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/save-tiktok-sound-mp3",
+        "fr": "https://vidfetch.app/fr/guides/recuperer-son-tiktok-mp3",
+        "es": "https://vidfetch.app/es/guias/guardar-audio-tiktok-en-mp3",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-audio-tiktok-em-mp3",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-suara-tiktok-jadi-mp3",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-ton-als-mp3-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-audio-tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-sawt-tiktok-mp3",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-sound-mp3"
+      }
+    },
+    "/blog/video-download-fails": {
+      "canonical": "https://vidfetch.app/blog/video-download-fails",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/video-download-fails",
+        "x-default": "https://vidfetch.app/blog/video-download-fails"
+      }
+    },
+    "/blog/video-format-smartphone": {
+      "canonical": "https://vidfetch.app/blog/video-format-smartphone",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/video-format-smartphone",
+        "x-default": "https://vidfetch.app/blog/video-format-smartphone"
+      }
+    },
+    "/blog/video-to-audio": {
+      "canonical": "https://vidfetch.app/blog/video-to-audio",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/video-to-audio",
+        "x-default": "https://vidfetch.app/blog/video-to-audio"
+      }
+    },
+    "/blog/why-cant-i-save-tiktok": {
+      "canonical": "https://vidfetch.app/blog/why-cant-i-save-tiktok",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/why-cant-i-save-tiktok",
+        "fr": "https://vidfetch.app/fr/guides/pourquoi-impossible-enregistrer-tiktok",
+        "es": "https://vidfetch.app/es/guias/por-que-no-puedo-descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/guias/nao-consigo-baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/panduan/kenapa-video-tiktok-tidak-bisa-disimpan",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-laesst-sich-nicht-speichern",
+        "it": "https://vidfetch.app/it/guide/perche-non-riesco-salvare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/limadha-la-yumkin-hifz-video-tiktok",
+        "x-default": "https://vidfetch.app/blog/why-cant-i-save-tiktok"
+      }
+    },
+    "/tiktok-video-downloader": {
+      "canonical": "https://vidfetch.app/tiktok-video-downloader",
+      "hreflang": {
+        "en": "https://vidfetch.app/tiktok-video-downloader",
+        "fr": "https://vidfetch.app/fr/telecharger-video-tiktok",
+        "es": "https://vidfetch.app/es/descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/download-video-tiktok",
+        "de": "https://vidfetch.app/de/tiktok-video-herunterladen",
+        "it": "https://vidfetch.app/it/scaricare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/tahmil-video-tiktok",
+        "x-default": "https://vidfetch.app/tiktok-video-downloader"
+      }
+    },
+    "/tiktok-to-mp3": {
+      "canonical": "https://vidfetch.app/tiktok-to-mp3",
+      "hreflang": {
+        "en": "https://vidfetch.app/tiktok-to-mp3",
+        "fr": "https://vidfetch.app/fr/tiktok-en-mp3",
+        "es": "https://vidfetch.app/es/tiktok-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/tiktok-para-mp3",
+        "id": "https://vidfetch.app/id/tiktok-ke-mp3",
+        "de": "https://vidfetch.app/de/tiktok-zu-mp3",
+        "it": "https://vidfetch.app/it/tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/tiktok-mp3",
+        "x-default": "https://vidfetch.app/tiktok-to-mp3"
+      }
+    },
+    "/fr/convertir-video-en-mp3": {
+      "canonical": "https://vidfetch.app/fr/convertir-video-en-mp3",
+      "hreflang": {
+        "en": "https://vidfetch.app/video-to-mp3",
+        "fr": "https://vidfetch.app/fr/convertir-video-en-mp3",
+        "es": "https://vidfetch.app/es/convertir-video-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/converter-video-para-mp3",
+        "id": "https://vidfetch.app/id/konversi-video-ke-mp3",
+        "de": "https://vidfetch.app/de/video-in-mp3-umwandeln",
+        "it": "https://vidfetch.app/it/convertire-video-in-mp3",
+        "ar": "https://vidfetch.app/ar/tahwil-video-ila-mp3",
+        "x-default": "https://vidfetch.app/video-to-mp3"
+      }
+    },
+    "/fr/compresser-video": {
+      "canonical": "https://vidfetch.app/fr/compresser-video",
+      "hreflang": {
+        "en": "https://vidfetch.app/compress-video",
+        "fr": "https://vidfetch.app/fr/compresser-video",
+        "es": "https://vidfetch.app/es/comprimir-video",
+        "pt-BR": "https://vidfetch.app/pt/comprimir-video",
+        "id": "https://vidfetch.app/id/kompres-video",
+        "de": "https://vidfetch.app/de/video-komprimieren",
+        "it": "https://vidfetch.app/it/comprimere-video",
+        "ar": "https://vidfetch.app/ar/daght-video",
+        "x-default": "https://vidfetch.app/compress-video"
+      }
+    },
+    "/fr/couper-video": {
+      "canonical": "https://vidfetch.app/fr/couper-video",
+      "hreflang": {
+        "en": "https://vidfetch.app/trim-video",
+        "fr": "https://vidfetch.app/fr/couper-video",
+        "es": "https://vidfetch.app/es/cortar-video",
+        "pt-BR": "https://vidfetch.app/pt/cortar-video",
+        "id": "https://vidfetch.app/id/potong-video",
+        "de": "https://vidfetch.app/de/video-schneiden",
+        "it": "https://vidfetch.app/it/tagliare-video",
+        "ar": "https://vidfetch.app/ar/qass-video",
+        "x-default": "https://vidfetch.app/trim-video"
+      }
+    },
+    "/fr/video-en-gif": {
+      "canonical": "https://vidfetch.app/fr/video-en-gif",
+      "hreflang": {
+        "en": "https://vidfetch.app/video-to-gif",
+        "fr": "https://vidfetch.app/fr/video-en-gif",
+        "es": "https://vidfetch.app/es/video-a-gif",
+        "pt-BR": "https://vidfetch.app/pt/video-para-gif",
+        "id": "https://vidfetch.app/id/video-ke-gif",
+        "de": "https://vidfetch.app/de/video-in-gif",
+        "it": "https://vidfetch.app/it/video-in-gif",
+        "ar": "https://vidfetch.app/ar/video-ila-gif",
+        "x-default": "https://vidfetch.app/video-to-gif"
+      }
+    },
+    "/fr": {
+      "canonical": "https://vidfetch.app/fr",
+      "hreflang": {
+        "en": "https://vidfetch.app/",
+        "fr": "https://vidfetch.app/fr",
+        "es": "https://vidfetch.app/es",
+        "pt-BR": "https://vidfetch.app/pt",
+        "id": "https://vidfetch.app/id",
+        "de": "https://vidfetch.app/de",
+        "it": "https://vidfetch.app/it",
+        "ar": "https://vidfetch.app/ar",
+        "x-default": "https://vidfetch.app/"
+      }
+    },
+    "/fr/guides": {
+      "canonical": "https://vidfetch.app/fr/guides",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog",
+        "fr": "https://vidfetch.app/fr/guides",
+        "es": "https://vidfetch.app/es/guias",
+        "pt-BR": "https://vidfetch.app/pt/guias",
+        "id": "https://vidfetch.app/id/panduan",
+        "de": "https://vidfetch.app/de/ratgeber",
+        "it": "https://vidfetch.app/it/guide",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9",
+        "x-default": "https://vidfetch.app/blog"
+      }
+    },
+    "/fr/mentions-legales": {
+      "canonical": "https://vidfetch.app/fr/mentions-legales",
+      "hreflang": {
+        "en": "https://vidfetch.app/legal",
+        "fr": "https://vidfetch.app/fr/mentions-legales",
+        "es": "https://vidfetch.app/es/aviso-legal",
+        "pt-BR": "https://vidfetch.app/pt/termos-e-privacidade",
+        "id": "https://vidfetch.app/id/ketentuan-dan-privasi",
+        "de": "https://vidfetch.app/de/rechtliches",
+        "it": "https://vidfetch.app/it/note-legali",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%B4%D8%B1%D9%88%D8%B7-%D9%88%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/legal"
+      }
+    },
+    "/fr/guides/enregistrer-tiktok-galerie-iphone-android": {
+      "canonical": "https://vidfetch.app/fr/guides/enregistrer-tiktok-galerie-iphone-android",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/save-tiktok-phone-gallery",
+        "fr": "https://vidfetch.app/fr/guides/enregistrer-tiktok-galerie-iphone-android",
+        "es": "https://vidfetch.app/es/guias/guardar-videos-tiktok-en-galeria",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-video-tiktok-na-galeria",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-video-tiktok-ke-galeri",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-in-galerie-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-video-tiktok-in-galleria",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-video-tiktok-fi-almaarad",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-phone-gallery"
+      }
+    },
+    "/fr/guides/recuperer-son-tiktok-mp3": {
+      "canonical": "https://vidfetch.app/fr/guides/recuperer-son-tiktok-mp3",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/save-tiktok-sound-mp3",
+        "fr": "https://vidfetch.app/fr/guides/recuperer-son-tiktok-mp3",
+        "es": "https://vidfetch.app/es/guias/guardar-audio-tiktok-en-mp3",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-audio-tiktok-em-mp3",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-suara-tiktok-jadi-mp3",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-ton-als-mp3-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-audio-tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-sawt-tiktok-mp3",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-sound-mp3"
+      }
+    },
+    "/fr/guides/pourquoi-impossible-enregistrer-tiktok": {
+      "canonical": "https://vidfetch.app/fr/guides/pourquoi-impossible-enregistrer-tiktok",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/why-cant-i-save-tiktok",
+        "fr": "https://vidfetch.app/fr/guides/pourquoi-impossible-enregistrer-tiktok",
+        "es": "https://vidfetch.app/es/guias/por-que-no-puedo-descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/guias/nao-consigo-baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/panduan/kenapa-video-tiktok-tidak-bisa-disimpan",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-laesst-sich-nicht-speichern",
+        "it": "https://vidfetch.app/it/guide/perche-non-riesco-salvare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/limadha-la-yumkin-hifz-video-tiktok",
+        "x-default": "https://vidfetch.app/blog/why-cant-i-save-tiktok"
+      }
+    },
+    "/fr/telecharger-video-tiktok": {
+      "canonical": "https://vidfetch.app/fr/telecharger-video-tiktok",
+      "hreflang": {
+        "en": "https://vidfetch.app/tiktok-video-downloader",
+        "fr": "https://vidfetch.app/fr/telecharger-video-tiktok",
+        "es": "https://vidfetch.app/es/descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/download-video-tiktok",
+        "de": "https://vidfetch.app/de/tiktok-video-herunterladen",
+        "it": "https://vidfetch.app/it/scaricare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/tahmil-video-tiktok",
+        "x-default": "https://vidfetch.app/tiktok-video-downloader"
+      }
+    },
+    "/fr/tiktok-en-mp3": {
+      "canonical": "https://vidfetch.app/fr/tiktok-en-mp3",
+      "hreflang": {
+        "en": "https://vidfetch.app/tiktok-to-mp3",
+        "fr": "https://vidfetch.app/fr/tiktok-en-mp3",
+        "es": "https://vidfetch.app/es/tiktok-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/tiktok-para-mp3",
+        "id": "https://vidfetch.app/id/tiktok-ke-mp3",
+        "de": "https://vidfetch.app/de/tiktok-zu-mp3",
+        "it": "https://vidfetch.app/it/tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/tiktok-mp3",
+        "x-default": "https://vidfetch.app/tiktok-to-mp3"
+      }
+    },
+    "/es/convertir-video-a-mp3": {
+      "canonical": "https://vidfetch.app/es/convertir-video-a-mp3",
+      "hreflang": {
+        "en": "https://vidfetch.app/video-to-mp3",
+        "fr": "https://vidfetch.app/fr/convertir-video-en-mp3",
+        "es": "https://vidfetch.app/es/convertir-video-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/converter-video-para-mp3",
+        "id": "https://vidfetch.app/id/konversi-video-ke-mp3",
+        "de": "https://vidfetch.app/de/video-in-mp3-umwandeln",
+        "it": "https://vidfetch.app/it/convertire-video-in-mp3",
+        "ar": "https://vidfetch.app/ar/tahwil-video-ila-mp3",
+        "x-default": "https://vidfetch.app/video-to-mp3"
+      }
+    },
+    "/es/comprimir-video": {
+      "canonical": "https://vidfetch.app/es/comprimir-video",
+      "hreflang": {
+        "en": "https://vidfetch.app/compress-video",
+        "fr": "https://vidfetch.app/fr/compresser-video",
+        "es": "https://vidfetch.app/es/comprimir-video",
+        "pt-BR": "https://vidfetch.app/pt/comprimir-video",
+        "id": "https://vidfetch.app/id/kompres-video",
+        "de": "https://vidfetch.app/de/video-komprimieren",
+        "it": "https://vidfetch.app/it/comprimere-video",
+        "ar": "https://vidfetch.app/ar/daght-video",
+        "x-default": "https://vidfetch.app/compress-video"
+      }
+    },
+    "/es/cortar-video": {
+      "canonical": "https://vidfetch.app/es/cortar-video",
+      "hreflang": {
+        "en": "https://vidfetch.app/trim-video",
+        "fr": "https://vidfetch.app/fr/couper-video",
+        "es": "https://vidfetch.app/es/cortar-video",
+        "pt-BR": "https://vidfetch.app/pt/cortar-video",
+        "id": "https://vidfetch.app/id/potong-video",
+        "de": "https://vidfetch.app/de/video-schneiden",
+        "it": "https://vidfetch.app/it/tagliare-video",
+        "ar": "https://vidfetch.app/ar/qass-video",
+        "x-default": "https://vidfetch.app/trim-video"
+      }
+    },
+    "/es/video-a-gif": {
+      "canonical": "https://vidfetch.app/es/video-a-gif",
+      "hreflang": {
+        "en": "https://vidfetch.app/video-to-gif",
+        "fr": "https://vidfetch.app/fr/video-en-gif",
+        "es": "https://vidfetch.app/es/video-a-gif",
+        "pt-BR": "https://vidfetch.app/pt/video-para-gif",
+        "id": "https://vidfetch.app/id/video-ke-gif",
+        "de": "https://vidfetch.app/de/video-in-gif",
+        "it": "https://vidfetch.app/it/video-in-gif",
+        "ar": "https://vidfetch.app/ar/video-ila-gif",
+        "x-default": "https://vidfetch.app/video-to-gif"
+      }
+    },
+    "/es": {
+      "canonical": "https://vidfetch.app/es",
+      "hreflang": {
+        "en": "https://vidfetch.app/",
+        "fr": "https://vidfetch.app/fr",
+        "es": "https://vidfetch.app/es",
+        "pt-BR": "https://vidfetch.app/pt",
+        "id": "https://vidfetch.app/id",
+        "de": "https://vidfetch.app/de",
+        "it": "https://vidfetch.app/it",
+        "ar": "https://vidfetch.app/ar",
+        "x-default": "https://vidfetch.app/"
+      }
+    },
+    "/es/guias": {
+      "canonical": "https://vidfetch.app/es/guias",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog",
+        "fr": "https://vidfetch.app/fr/guides",
+        "es": "https://vidfetch.app/es/guias",
+        "pt-BR": "https://vidfetch.app/pt/guias",
+        "id": "https://vidfetch.app/id/panduan",
+        "de": "https://vidfetch.app/de/ratgeber",
+        "it": "https://vidfetch.app/it/guide",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9",
+        "x-default": "https://vidfetch.app/blog"
+      }
+    },
+    "/es/aviso-legal": {
+      "canonical": "https://vidfetch.app/es/aviso-legal",
+      "hreflang": {
+        "en": "https://vidfetch.app/legal",
+        "fr": "https://vidfetch.app/fr/mentions-legales",
+        "es": "https://vidfetch.app/es/aviso-legal",
+        "pt-BR": "https://vidfetch.app/pt/termos-e-privacidade",
+        "id": "https://vidfetch.app/id/ketentuan-dan-privasi",
+        "de": "https://vidfetch.app/de/rechtliches",
+        "it": "https://vidfetch.app/it/note-legali",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%B4%D8%B1%D9%88%D8%B7-%D9%88%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/legal"
+      }
+    },
+    "/es/guias/guardar-videos-tiktok-en-galeria": {
+      "canonical": "https://vidfetch.app/es/guias/guardar-videos-tiktok-en-galeria",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/save-tiktok-phone-gallery",
+        "fr": "https://vidfetch.app/fr/guides/enregistrer-tiktok-galerie-iphone-android",
+        "es": "https://vidfetch.app/es/guias/guardar-videos-tiktok-en-galeria",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-video-tiktok-na-galeria",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-video-tiktok-ke-galeri",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-in-galerie-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-video-tiktok-in-galleria",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-video-tiktok-fi-almaarad",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-phone-gallery"
+      }
+    },
+    "/es/guias/guardar-audio-tiktok-en-mp3": {
+      "canonical": "https://vidfetch.app/es/guias/guardar-audio-tiktok-en-mp3",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/save-tiktok-sound-mp3",
+        "fr": "https://vidfetch.app/fr/guides/recuperer-son-tiktok-mp3",
+        "es": "https://vidfetch.app/es/guias/guardar-audio-tiktok-en-mp3",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-audio-tiktok-em-mp3",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-suara-tiktok-jadi-mp3",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-ton-als-mp3-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-audio-tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-sawt-tiktok-mp3",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-sound-mp3"
+      }
+    },
+    "/es/guias/por-que-no-puedo-descargar-video-tiktok": {
+      "canonical": "https://vidfetch.app/es/guias/por-que-no-puedo-descargar-video-tiktok",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/why-cant-i-save-tiktok",
+        "fr": "https://vidfetch.app/fr/guides/pourquoi-impossible-enregistrer-tiktok",
+        "es": "https://vidfetch.app/es/guias/por-que-no-puedo-descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/guias/nao-consigo-baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/panduan/kenapa-video-tiktok-tidak-bisa-disimpan",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-laesst-sich-nicht-speichern",
+        "it": "https://vidfetch.app/it/guide/perche-non-riesco-salvare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/limadha-la-yumkin-hifz-video-tiktok",
+        "x-default": "https://vidfetch.app/blog/why-cant-i-save-tiktok"
+      }
+    },
+    "/es/descargar-video-tiktok": {
+      "canonical": "https://vidfetch.app/es/descargar-video-tiktok",
+      "hreflang": {
+        "en": "https://vidfetch.app/tiktok-video-downloader",
+        "fr": "https://vidfetch.app/fr/telecharger-video-tiktok",
+        "es": "https://vidfetch.app/es/descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/download-video-tiktok",
+        "de": "https://vidfetch.app/de/tiktok-video-herunterladen",
+        "it": "https://vidfetch.app/it/scaricare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/tahmil-video-tiktok",
+        "x-default": "https://vidfetch.app/tiktok-video-downloader"
+      }
+    },
+    "/es/tiktok-a-mp3": {
+      "canonical": "https://vidfetch.app/es/tiktok-a-mp3",
+      "hreflang": {
+        "en": "https://vidfetch.app/tiktok-to-mp3",
+        "fr": "https://vidfetch.app/fr/tiktok-en-mp3",
+        "es": "https://vidfetch.app/es/tiktok-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/tiktok-para-mp3",
+        "id": "https://vidfetch.app/id/tiktok-ke-mp3",
+        "de": "https://vidfetch.app/de/tiktok-zu-mp3",
+        "it": "https://vidfetch.app/it/tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/tiktok-mp3",
+        "x-default": "https://vidfetch.app/tiktok-to-mp3"
+      }
+    },
+    "/pt/converter-video-para-mp3": {
+      "canonical": "https://vidfetch.app/pt/converter-video-para-mp3",
+      "hreflang": {
+        "en": "https://vidfetch.app/video-to-mp3",
+        "fr": "https://vidfetch.app/fr/convertir-video-en-mp3",
+        "es": "https://vidfetch.app/es/convertir-video-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/converter-video-para-mp3",
+        "id": "https://vidfetch.app/id/konversi-video-ke-mp3",
+        "de": "https://vidfetch.app/de/video-in-mp3-umwandeln",
+        "it": "https://vidfetch.app/it/convertire-video-in-mp3",
+        "ar": "https://vidfetch.app/ar/tahwil-video-ila-mp3",
+        "x-default": "https://vidfetch.app/video-to-mp3"
+      }
+    },
+    "/pt/comprimir-video": {
+      "canonical": "https://vidfetch.app/pt/comprimir-video",
+      "hreflang": {
+        "en": "https://vidfetch.app/compress-video",
+        "fr": "https://vidfetch.app/fr/compresser-video",
+        "es": "https://vidfetch.app/es/comprimir-video",
+        "pt-BR": "https://vidfetch.app/pt/comprimir-video",
+        "id": "https://vidfetch.app/id/kompres-video",
+        "de": "https://vidfetch.app/de/video-komprimieren",
+        "it": "https://vidfetch.app/it/comprimere-video",
+        "ar": "https://vidfetch.app/ar/daght-video",
+        "x-default": "https://vidfetch.app/compress-video"
+      }
+    },
+    "/pt/cortar-video": {
+      "canonical": "https://vidfetch.app/pt/cortar-video",
+      "hreflang": {
+        "en": "https://vidfetch.app/trim-video",
+        "fr": "https://vidfetch.app/fr/couper-video",
+        "es": "https://vidfetch.app/es/cortar-video",
+        "pt-BR": "https://vidfetch.app/pt/cortar-video",
+        "id": "https://vidfetch.app/id/potong-video",
+        "de": "https://vidfetch.app/de/video-schneiden",
+        "it": "https://vidfetch.app/it/tagliare-video",
+        "ar": "https://vidfetch.app/ar/qass-video",
+        "x-default": "https://vidfetch.app/trim-video"
+      }
+    },
+    "/pt/video-para-gif": {
+      "canonical": "https://vidfetch.app/pt/video-para-gif",
+      "hreflang": {
+        "en": "https://vidfetch.app/video-to-gif",
+        "fr": "https://vidfetch.app/fr/video-en-gif",
+        "es": "https://vidfetch.app/es/video-a-gif",
+        "pt-BR": "https://vidfetch.app/pt/video-para-gif",
+        "id": "https://vidfetch.app/id/video-ke-gif",
+        "de": "https://vidfetch.app/de/video-in-gif",
+        "it": "https://vidfetch.app/it/video-in-gif",
+        "ar": "https://vidfetch.app/ar/video-ila-gif",
+        "x-default": "https://vidfetch.app/video-to-gif"
+      }
+    },
+    "/pt": {
+      "canonical": "https://vidfetch.app/pt",
+      "hreflang": {
+        "en": "https://vidfetch.app/",
+        "fr": "https://vidfetch.app/fr",
+        "es": "https://vidfetch.app/es",
+        "pt-BR": "https://vidfetch.app/pt",
+        "id": "https://vidfetch.app/id",
+        "de": "https://vidfetch.app/de",
+        "it": "https://vidfetch.app/it",
+        "ar": "https://vidfetch.app/ar",
+        "x-default": "https://vidfetch.app/"
+      }
+    },
+    "/pt/guias": {
+      "canonical": "https://vidfetch.app/pt/guias",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog",
+        "fr": "https://vidfetch.app/fr/guides",
+        "es": "https://vidfetch.app/es/guias",
+        "pt-BR": "https://vidfetch.app/pt/guias",
+        "id": "https://vidfetch.app/id/panduan",
+        "de": "https://vidfetch.app/de/ratgeber",
+        "it": "https://vidfetch.app/it/guide",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9",
+        "x-default": "https://vidfetch.app/blog"
+      }
+    },
+    "/pt/termos-e-privacidade": {
+      "canonical": "https://vidfetch.app/pt/termos-e-privacidade",
+      "hreflang": {
+        "en": "https://vidfetch.app/legal",
+        "fr": "https://vidfetch.app/fr/mentions-legales",
+        "es": "https://vidfetch.app/es/aviso-legal",
+        "pt-BR": "https://vidfetch.app/pt/termos-e-privacidade",
+        "id": "https://vidfetch.app/id/ketentuan-dan-privasi",
+        "de": "https://vidfetch.app/de/rechtliches",
+        "it": "https://vidfetch.app/it/note-legali",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%B4%D8%B1%D9%88%D8%B7-%D9%88%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/legal"
+      }
+    },
+    "/pt/guias/salvar-video-tiktok-na-galeria": {
+      "canonical": "https://vidfetch.app/pt/guias/salvar-video-tiktok-na-galeria",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/save-tiktok-phone-gallery",
+        "fr": "https://vidfetch.app/fr/guides/enregistrer-tiktok-galerie-iphone-android",
+        "es": "https://vidfetch.app/es/guias/guardar-videos-tiktok-en-galeria",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-video-tiktok-na-galeria",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-video-tiktok-ke-galeri",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-in-galerie-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-video-tiktok-in-galleria",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-video-tiktok-fi-almaarad",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-phone-gallery"
+      }
+    },
+    "/pt/guias/salvar-audio-tiktok-em-mp3": {
+      "canonical": "https://vidfetch.app/pt/guias/salvar-audio-tiktok-em-mp3",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/save-tiktok-sound-mp3",
+        "fr": "https://vidfetch.app/fr/guides/recuperer-son-tiktok-mp3",
+        "es": "https://vidfetch.app/es/guias/guardar-audio-tiktok-en-mp3",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-audio-tiktok-em-mp3",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-suara-tiktok-jadi-mp3",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-ton-als-mp3-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-audio-tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-sawt-tiktok-mp3",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-sound-mp3"
+      }
+    },
+    "/pt/guias/nao-consigo-baixar-video-tiktok": {
+      "canonical": "https://vidfetch.app/pt/guias/nao-consigo-baixar-video-tiktok",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/why-cant-i-save-tiktok",
+        "fr": "https://vidfetch.app/fr/guides/pourquoi-impossible-enregistrer-tiktok",
+        "es": "https://vidfetch.app/es/guias/por-que-no-puedo-descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/guias/nao-consigo-baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/panduan/kenapa-video-tiktok-tidak-bisa-disimpan",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-laesst-sich-nicht-speichern",
+        "it": "https://vidfetch.app/it/guide/perche-non-riesco-salvare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/limadha-la-yumkin-hifz-video-tiktok",
+        "x-default": "https://vidfetch.app/blog/why-cant-i-save-tiktok"
+      }
+    },
+    "/pt/baixar-video-tiktok": {
+      "canonical": "https://vidfetch.app/pt/baixar-video-tiktok",
+      "hreflang": {
+        "en": "https://vidfetch.app/tiktok-video-downloader",
+        "fr": "https://vidfetch.app/fr/telecharger-video-tiktok",
+        "es": "https://vidfetch.app/es/descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/download-video-tiktok",
+        "de": "https://vidfetch.app/de/tiktok-video-herunterladen",
+        "it": "https://vidfetch.app/it/scaricare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/tahmil-video-tiktok",
+        "x-default": "https://vidfetch.app/tiktok-video-downloader"
+      }
+    },
+    "/pt/tiktok-para-mp3": {
+      "canonical": "https://vidfetch.app/pt/tiktok-para-mp3",
+      "hreflang": {
+        "en": "https://vidfetch.app/tiktok-to-mp3",
+        "fr": "https://vidfetch.app/fr/tiktok-en-mp3",
+        "es": "https://vidfetch.app/es/tiktok-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/tiktok-para-mp3",
+        "id": "https://vidfetch.app/id/tiktok-ke-mp3",
+        "de": "https://vidfetch.app/de/tiktok-zu-mp3",
+        "it": "https://vidfetch.app/it/tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/tiktok-mp3",
+        "x-default": "https://vidfetch.app/tiktok-to-mp3"
+      }
+    },
+    "/id/konversi-video-ke-mp3": {
+      "canonical": "https://vidfetch.app/id/konversi-video-ke-mp3",
+      "hreflang": {
+        "en": "https://vidfetch.app/video-to-mp3",
+        "fr": "https://vidfetch.app/fr/convertir-video-en-mp3",
+        "es": "https://vidfetch.app/es/convertir-video-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/converter-video-para-mp3",
+        "id": "https://vidfetch.app/id/konversi-video-ke-mp3",
+        "de": "https://vidfetch.app/de/video-in-mp3-umwandeln",
+        "it": "https://vidfetch.app/it/convertire-video-in-mp3",
+        "ar": "https://vidfetch.app/ar/tahwil-video-ila-mp3",
+        "x-default": "https://vidfetch.app/video-to-mp3"
+      }
+    },
+    "/id/kompres-video": {
+      "canonical": "https://vidfetch.app/id/kompres-video",
+      "hreflang": {
+        "en": "https://vidfetch.app/compress-video",
+        "fr": "https://vidfetch.app/fr/compresser-video",
+        "es": "https://vidfetch.app/es/comprimir-video",
+        "pt-BR": "https://vidfetch.app/pt/comprimir-video",
+        "id": "https://vidfetch.app/id/kompres-video",
+        "de": "https://vidfetch.app/de/video-komprimieren",
+        "it": "https://vidfetch.app/it/comprimere-video",
+        "ar": "https://vidfetch.app/ar/daght-video",
+        "x-default": "https://vidfetch.app/compress-video"
+      }
+    },
+    "/id/potong-video": {
+      "canonical": "https://vidfetch.app/id/potong-video",
+      "hreflang": {
+        "en": "https://vidfetch.app/trim-video",
+        "fr": "https://vidfetch.app/fr/couper-video",
+        "es": "https://vidfetch.app/es/cortar-video",
+        "pt-BR": "https://vidfetch.app/pt/cortar-video",
+        "id": "https://vidfetch.app/id/potong-video",
+        "de": "https://vidfetch.app/de/video-schneiden",
+        "it": "https://vidfetch.app/it/tagliare-video",
+        "ar": "https://vidfetch.app/ar/qass-video",
+        "x-default": "https://vidfetch.app/trim-video"
+      }
+    },
+    "/id/video-ke-gif": {
+      "canonical": "https://vidfetch.app/id/video-ke-gif",
+      "hreflang": {
+        "en": "https://vidfetch.app/video-to-gif",
+        "fr": "https://vidfetch.app/fr/video-en-gif",
+        "es": "https://vidfetch.app/es/video-a-gif",
+        "pt-BR": "https://vidfetch.app/pt/video-para-gif",
+        "id": "https://vidfetch.app/id/video-ke-gif",
+        "de": "https://vidfetch.app/de/video-in-gif",
+        "it": "https://vidfetch.app/it/video-in-gif",
+        "ar": "https://vidfetch.app/ar/video-ila-gif",
+        "x-default": "https://vidfetch.app/video-to-gif"
+      }
+    },
+    "/id": {
+      "canonical": "https://vidfetch.app/id",
+      "hreflang": {
+        "en": "https://vidfetch.app/",
+        "fr": "https://vidfetch.app/fr",
+        "es": "https://vidfetch.app/es",
+        "pt-BR": "https://vidfetch.app/pt",
+        "id": "https://vidfetch.app/id",
+        "de": "https://vidfetch.app/de",
+        "it": "https://vidfetch.app/it",
+        "ar": "https://vidfetch.app/ar",
+        "x-default": "https://vidfetch.app/"
+      }
+    },
+    "/id/panduan": {
+      "canonical": "https://vidfetch.app/id/panduan",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog",
+        "fr": "https://vidfetch.app/fr/guides",
+        "es": "https://vidfetch.app/es/guias",
+        "pt-BR": "https://vidfetch.app/pt/guias",
+        "id": "https://vidfetch.app/id/panduan",
+        "de": "https://vidfetch.app/de/ratgeber",
+        "it": "https://vidfetch.app/it/guide",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9",
+        "x-default": "https://vidfetch.app/blog"
+      }
+    },
+    "/id/ketentuan-dan-privasi": {
+      "canonical": "https://vidfetch.app/id/ketentuan-dan-privasi",
+      "hreflang": {
+        "en": "https://vidfetch.app/legal",
+        "fr": "https://vidfetch.app/fr/mentions-legales",
+        "es": "https://vidfetch.app/es/aviso-legal",
+        "pt-BR": "https://vidfetch.app/pt/termos-e-privacidade",
+        "id": "https://vidfetch.app/id/ketentuan-dan-privasi",
+        "de": "https://vidfetch.app/de/rechtliches",
+        "it": "https://vidfetch.app/it/note-legali",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%B4%D8%B1%D9%88%D8%B7-%D9%88%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/legal"
+      }
+    },
+    "/id/panduan/menyimpan-video-tiktok-ke-galeri": {
+      "canonical": "https://vidfetch.app/id/panduan/menyimpan-video-tiktok-ke-galeri",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/save-tiktok-phone-gallery",
+        "fr": "https://vidfetch.app/fr/guides/enregistrer-tiktok-galerie-iphone-android",
+        "es": "https://vidfetch.app/es/guias/guardar-videos-tiktok-en-galeria",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-video-tiktok-na-galeria",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-video-tiktok-ke-galeri",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-in-galerie-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-video-tiktok-in-galleria",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-video-tiktok-fi-almaarad",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-phone-gallery"
+      }
+    },
+    "/id/panduan/menyimpan-suara-tiktok-jadi-mp3": {
+      "canonical": "https://vidfetch.app/id/panduan/menyimpan-suara-tiktok-jadi-mp3",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/save-tiktok-sound-mp3",
+        "fr": "https://vidfetch.app/fr/guides/recuperer-son-tiktok-mp3",
+        "es": "https://vidfetch.app/es/guias/guardar-audio-tiktok-en-mp3",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-audio-tiktok-em-mp3",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-suara-tiktok-jadi-mp3",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-ton-als-mp3-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-audio-tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-sawt-tiktok-mp3",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-sound-mp3"
+      }
+    },
+    "/id/panduan/kenapa-video-tiktok-tidak-bisa-disimpan": {
+      "canonical": "https://vidfetch.app/id/panduan/kenapa-video-tiktok-tidak-bisa-disimpan",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/why-cant-i-save-tiktok",
+        "fr": "https://vidfetch.app/fr/guides/pourquoi-impossible-enregistrer-tiktok",
+        "es": "https://vidfetch.app/es/guias/por-que-no-puedo-descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/guias/nao-consigo-baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/panduan/kenapa-video-tiktok-tidak-bisa-disimpan",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-laesst-sich-nicht-speichern",
+        "it": "https://vidfetch.app/it/guide/perche-non-riesco-salvare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/limadha-la-yumkin-hifz-video-tiktok",
+        "x-default": "https://vidfetch.app/blog/why-cant-i-save-tiktok"
+      }
+    },
+    "/id/download-video-tiktok": {
+      "canonical": "https://vidfetch.app/id/download-video-tiktok",
+      "hreflang": {
+        "en": "https://vidfetch.app/tiktok-video-downloader",
+        "fr": "https://vidfetch.app/fr/telecharger-video-tiktok",
+        "es": "https://vidfetch.app/es/descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/download-video-tiktok",
+        "de": "https://vidfetch.app/de/tiktok-video-herunterladen",
+        "it": "https://vidfetch.app/it/scaricare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/tahmil-video-tiktok",
+        "x-default": "https://vidfetch.app/tiktok-video-downloader"
+      }
+    },
+    "/id/tiktok-ke-mp3": {
+      "canonical": "https://vidfetch.app/id/tiktok-ke-mp3",
+      "hreflang": {
+        "en": "https://vidfetch.app/tiktok-to-mp3",
+        "fr": "https://vidfetch.app/fr/tiktok-en-mp3",
+        "es": "https://vidfetch.app/es/tiktok-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/tiktok-para-mp3",
+        "id": "https://vidfetch.app/id/tiktok-ke-mp3",
+        "de": "https://vidfetch.app/de/tiktok-zu-mp3",
+        "it": "https://vidfetch.app/it/tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/tiktok-mp3",
+        "x-default": "https://vidfetch.app/tiktok-to-mp3"
+      }
+    },
+    "/de/video-in-mp3-umwandeln": {
+      "canonical": "https://vidfetch.app/de/video-in-mp3-umwandeln",
+      "hreflang": {
+        "en": "https://vidfetch.app/video-to-mp3",
+        "fr": "https://vidfetch.app/fr/convertir-video-en-mp3",
+        "es": "https://vidfetch.app/es/convertir-video-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/converter-video-para-mp3",
+        "id": "https://vidfetch.app/id/konversi-video-ke-mp3",
+        "de": "https://vidfetch.app/de/video-in-mp3-umwandeln",
+        "it": "https://vidfetch.app/it/convertire-video-in-mp3",
+        "ar": "https://vidfetch.app/ar/tahwil-video-ila-mp3",
+        "x-default": "https://vidfetch.app/video-to-mp3"
+      }
+    },
+    "/de/video-komprimieren": {
+      "canonical": "https://vidfetch.app/de/video-komprimieren",
+      "hreflang": {
+        "en": "https://vidfetch.app/compress-video",
+        "fr": "https://vidfetch.app/fr/compresser-video",
+        "es": "https://vidfetch.app/es/comprimir-video",
+        "pt-BR": "https://vidfetch.app/pt/comprimir-video",
+        "id": "https://vidfetch.app/id/kompres-video",
+        "de": "https://vidfetch.app/de/video-komprimieren",
+        "it": "https://vidfetch.app/it/comprimere-video",
+        "ar": "https://vidfetch.app/ar/daght-video",
+        "x-default": "https://vidfetch.app/compress-video"
+      }
+    },
+    "/de/video-schneiden": {
+      "canonical": "https://vidfetch.app/de/video-schneiden",
+      "hreflang": {
+        "en": "https://vidfetch.app/trim-video",
+        "fr": "https://vidfetch.app/fr/couper-video",
+        "es": "https://vidfetch.app/es/cortar-video",
+        "pt-BR": "https://vidfetch.app/pt/cortar-video",
+        "id": "https://vidfetch.app/id/potong-video",
+        "de": "https://vidfetch.app/de/video-schneiden",
+        "it": "https://vidfetch.app/it/tagliare-video",
+        "ar": "https://vidfetch.app/ar/qass-video",
+        "x-default": "https://vidfetch.app/trim-video"
+      }
+    },
+    "/de/video-in-gif": {
+      "canonical": "https://vidfetch.app/de/video-in-gif",
+      "hreflang": {
+        "en": "https://vidfetch.app/video-to-gif",
+        "fr": "https://vidfetch.app/fr/video-en-gif",
+        "es": "https://vidfetch.app/es/video-a-gif",
+        "pt-BR": "https://vidfetch.app/pt/video-para-gif",
+        "id": "https://vidfetch.app/id/video-ke-gif",
+        "de": "https://vidfetch.app/de/video-in-gif",
+        "it": "https://vidfetch.app/it/video-in-gif",
+        "ar": "https://vidfetch.app/ar/video-ila-gif",
+        "x-default": "https://vidfetch.app/video-to-gif"
+      }
+    },
+    "/de": {
+      "canonical": "https://vidfetch.app/de",
+      "hreflang": {
+        "en": "https://vidfetch.app/",
+        "fr": "https://vidfetch.app/fr",
+        "es": "https://vidfetch.app/es",
+        "pt-BR": "https://vidfetch.app/pt",
+        "id": "https://vidfetch.app/id",
+        "de": "https://vidfetch.app/de",
+        "it": "https://vidfetch.app/it",
+        "ar": "https://vidfetch.app/ar",
+        "x-default": "https://vidfetch.app/"
+      }
+    },
+    "/de/ratgeber": {
+      "canonical": "https://vidfetch.app/de/ratgeber",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog",
+        "fr": "https://vidfetch.app/fr/guides",
+        "es": "https://vidfetch.app/es/guias",
+        "pt-BR": "https://vidfetch.app/pt/guias",
+        "id": "https://vidfetch.app/id/panduan",
+        "de": "https://vidfetch.app/de/ratgeber",
+        "it": "https://vidfetch.app/it/guide",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9",
+        "x-default": "https://vidfetch.app/blog"
+      }
+    },
+    "/de/rechtliches": {
+      "canonical": "https://vidfetch.app/de/rechtliches",
+      "hreflang": {
+        "en": "https://vidfetch.app/legal",
+        "fr": "https://vidfetch.app/fr/mentions-legales",
+        "es": "https://vidfetch.app/es/aviso-legal",
+        "pt-BR": "https://vidfetch.app/pt/termos-e-privacidade",
+        "id": "https://vidfetch.app/id/ketentuan-dan-privasi",
+        "de": "https://vidfetch.app/de/rechtliches",
+        "it": "https://vidfetch.app/it/note-legali",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%B4%D8%B1%D9%88%D8%B7-%D9%88%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/legal"
+      }
+    },
+    "/de/ratgeber/tiktok-video-in-galerie-speichern": {
+      "canonical": "https://vidfetch.app/de/ratgeber/tiktok-video-in-galerie-speichern",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/save-tiktok-phone-gallery",
+        "fr": "https://vidfetch.app/fr/guides/enregistrer-tiktok-galerie-iphone-android",
+        "es": "https://vidfetch.app/es/guias/guardar-videos-tiktok-en-galeria",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-video-tiktok-na-galeria",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-video-tiktok-ke-galeri",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-in-galerie-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-video-tiktok-in-galleria",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-video-tiktok-fi-almaarad",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-phone-gallery"
+      }
+    },
+    "/de/ratgeber/tiktok-ton-als-mp3-speichern": {
+      "canonical": "https://vidfetch.app/de/ratgeber/tiktok-ton-als-mp3-speichern",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/save-tiktok-sound-mp3",
+        "fr": "https://vidfetch.app/fr/guides/recuperer-son-tiktok-mp3",
+        "es": "https://vidfetch.app/es/guias/guardar-audio-tiktok-en-mp3",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-audio-tiktok-em-mp3",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-suara-tiktok-jadi-mp3",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-ton-als-mp3-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-audio-tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-sawt-tiktok-mp3",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-sound-mp3"
+      }
+    },
+    "/de/ratgeber/tiktok-video-laesst-sich-nicht-speichern": {
+      "canonical": "https://vidfetch.app/de/ratgeber/tiktok-video-laesst-sich-nicht-speichern",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/why-cant-i-save-tiktok",
+        "fr": "https://vidfetch.app/fr/guides/pourquoi-impossible-enregistrer-tiktok",
+        "es": "https://vidfetch.app/es/guias/por-que-no-puedo-descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/guias/nao-consigo-baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/panduan/kenapa-video-tiktok-tidak-bisa-disimpan",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-laesst-sich-nicht-speichern",
+        "it": "https://vidfetch.app/it/guide/perche-non-riesco-salvare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/limadha-la-yumkin-hifz-video-tiktok",
+        "x-default": "https://vidfetch.app/blog/why-cant-i-save-tiktok"
+      }
+    },
+    "/de/tiktok-video-herunterladen": {
+      "canonical": "https://vidfetch.app/de/tiktok-video-herunterladen",
+      "hreflang": {
+        "en": "https://vidfetch.app/tiktok-video-downloader",
+        "fr": "https://vidfetch.app/fr/telecharger-video-tiktok",
+        "es": "https://vidfetch.app/es/descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/download-video-tiktok",
+        "de": "https://vidfetch.app/de/tiktok-video-herunterladen",
+        "it": "https://vidfetch.app/it/scaricare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/tahmil-video-tiktok",
+        "x-default": "https://vidfetch.app/tiktok-video-downloader"
+      }
+    },
+    "/de/tiktok-zu-mp3": {
+      "canonical": "https://vidfetch.app/de/tiktok-zu-mp3",
+      "hreflang": {
+        "en": "https://vidfetch.app/tiktok-to-mp3",
+        "fr": "https://vidfetch.app/fr/tiktok-en-mp3",
+        "es": "https://vidfetch.app/es/tiktok-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/tiktok-para-mp3",
+        "id": "https://vidfetch.app/id/tiktok-ke-mp3",
+        "de": "https://vidfetch.app/de/tiktok-zu-mp3",
+        "it": "https://vidfetch.app/it/tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/tiktok-mp3",
+        "x-default": "https://vidfetch.app/tiktok-to-mp3"
+      }
+    },
+    "/it/convertire-video-in-mp3": {
+      "canonical": "https://vidfetch.app/it/convertire-video-in-mp3",
+      "hreflang": {
+        "en": "https://vidfetch.app/video-to-mp3",
+        "fr": "https://vidfetch.app/fr/convertir-video-en-mp3",
+        "es": "https://vidfetch.app/es/convertir-video-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/converter-video-para-mp3",
+        "id": "https://vidfetch.app/id/konversi-video-ke-mp3",
+        "de": "https://vidfetch.app/de/video-in-mp3-umwandeln",
+        "it": "https://vidfetch.app/it/convertire-video-in-mp3",
+        "ar": "https://vidfetch.app/ar/tahwil-video-ila-mp3",
+        "x-default": "https://vidfetch.app/video-to-mp3"
+      }
+    },
+    "/it/comprimere-video": {
+      "canonical": "https://vidfetch.app/it/comprimere-video",
+      "hreflang": {
+        "en": "https://vidfetch.app/compress-video",
+        "fr": "https://vidfetch.app/fr/compresser-video",
+        "es": "https://vidfetch.app/es/comprimir-video",
+        "pt-BR": "https://vidfetch.app/pt/comprimir-video",
+        "id": "https://vidfetch.app/id/kompres-video",
+        "de": "https://vidfetch.app/de/video-komprimieren",
+        "it": "https://vidfetch.app/it/comprimere-video",
+        "ar": "https://vidfetch.app/ar/daght-video",
+        "x-default": "https://vidfetch.app/compress-video"
+      }
+    },
+    "/it/tagliare-video": {
+      "canonical": "https://vidfetch.app/it/tagliare-video",
+      "hreflang": {
+        "en": "https://vidfetch.app/trim-video",
+        "fr": "https://vidfetch.app/fr/couper-video",
+        "es": "https://vidfetch.app/es/cortar-video",
+        "pt-BR": "https://vidfetch.app/pt/cortar-video",
+        "id": "https://vidfetch.app/id/potong-video",
+        "de": "https://vidfetch.app/de/video-schneiden",
+        "it": "https://vidfetch.app/it/tagliare-video",
+        "ar": "https://vidfetch.app/ar/qass-video",
+        "x-default": "https://vidfetch.app/trim-video"
+      }
+    },
+    "/it/video-in-gif": {
+      "canonical": "https://vidfetch.app/it/video-in-gif",
+      "hreflang": {
+        "en": "https://vidfetch.app/video-to-gif",
+        "fr": "https://vidfetch.app/fr/video-en-gif",
+        "es": "https://vidfetch.app/es/video-a-gif",
+        "pt-BR": "https://vidfetch.app/pt/video-para-gif",
+        "id": "https://vidfetch.app/id/video-ke-gif",
+        "de": "https://vidfetch.app/de/video-in-gif",
+        "it": "https://vidfetch.app/it/video-in-gif",
+        "ar": "https://vidfetch.app/ar/video-ila-gif",
+        "x-default": "https://vidfetch.app/video-to-gif"
+      }
+    },
+    "/it": {
+      "canonical": "https://vidfetch.app/it",
+      "hreflang": {
+        "en": "https://vidfetch.app/",
+        "fr": "https://vidfetch.app/fr",
+        "es": "https://vidfetch.app/es",
+        "pt-BR": "https://vidfetch.app/pt",
+        "id": "https://vidfetch.app/id",
+        "de": "https://vidfetch.app/de",
+        "it": "https://vidfetch.app/it",
+        "ar": "https://vidfetch.app/ar",
+        "x-default": "https://vidfetch.app/"
+      }
+    },
+    "/it/guide": {
+      "canonical": "https://vidfetch.app/it/guide",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog",
+        "fr": "https://vidfetch.app/fr/guides",
+        "es": "https://vidfetch.app/es/guias",
+        "pt-BR": "https://vidfetch.app/pt/guias",
+        "id": "https://vidfetch.app/id/panduan",
+        "de": "https://vidfetch.app/de/ratgeber",
+        "it": "https://vidfetch.app/it/guide",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9",
+        "x-default": "https://vidfetch.app/blog"
+      }
+    },
+    "/it/note-legali": {
+      "canonical": "https://vidfetch.app/it/note-legali",
+      "hreflang": {
+        "en": "https://vidfetch.app/legal",
+        "fr": "https://vidfetch.app/fr/mentions-legales",
+        "es": "https://vidfetch.app/es/aviso-legal",
+        "pt-BR": "https://vidfetch.app/pt/termos-e-privacidade",
+        "id": "https://vidfetch.app/id/ketentuan-dan-privasi",
+        "de": "https://vidfetch.app/de/rechtliches",
+        "it": "https://vidfetch.app/it/note-legali",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%B4%D8%B1%D9%88%D8%B7-%D9%88%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/legal"
+      }
+    },
+    "/it/guide/salvare-video-tiktok-in-galleria": {
+      "canonical": "https://vidfetch.app/it/guide/salvare-video-tiktok-in-galleria",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/save-tiktok-phone-gallery",
+        "fr": "https://vidfetch.app/fr/guides/enregistrer-tiktok-galerie-iphone-android",
+        "es": "https://vidfetch.app/es/guias/guardar-videos-tiktok-en-galeria",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-video-tiktok-na-galeria",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-video-tiktok-ke-galeri",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-in-galerie-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-video-tiktok-in-galleria",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-video-tiktok-fi-almaarad",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-phone-gallery"
+      }
+    },
+    "/it/guide/salvare-audio-tiktok-in-mp3": {
+      "canonical": "https://vidfetch.app/it/guide/salvare-audio-tiktok-in-mp3",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/save-tiktok-sound-mp3",
+        "fr": "https://vidfetch.app/fr/guides/recuperer-son-tiktok-mp3",
+        "es": "https://vidfetch.app/es/guias/guardar-audio-tiktok-en-mp3",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-audio-tiktok-em-mp3",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-suara-tiktok-jadi-mp3",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-ton-als-mp3-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-audio-tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-sawt-tiktok-mp3",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-sound-mp3"
+      }
+    },
+    "/it/guide/perche-non-riesco-salvare-video-tiktok": {
+      "canonical": "https://vidfetch.app/it/guide/perche-non-riesco-salvare-video-tiktok",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/why-cant-i-save-tiktok",
+        "fr": "https://vidfetch.app/fr/guides/pourquoi-impossible-enregistrer-tiktok",
+        "es": "https://vidfetch.app/es/guias/por-que-no-puedo-descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/guias/nao-consigo-baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/panduan/kenapa-video-tiktok-tidak-bisa-disimpan",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-laesst-sich-nicht-speichern",
+        "it": "https://vidfetch.app/it/guide/perche-non-riesco-salvare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/limadha-la-yumkin-hifz-video-tiktok",
+        "x-default": "https://vidfetch.app/blog/why-cant-i-save-tiktok"
+      }
+    },
+    "/it/scaricare-video-tiktok": {
+      "canonical": "https://vidfetch.app/it/scaricare-video-tiktok",
+      "hreflang": {
+        "en": "https://vidfetch.app/tiktok-video-downloader",
+        "fr": "https://vidfetch.app/fr/telecharger-video-tiktok",
+        "es": "https://vidfetch.app/es/descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/download-video-tiktok",
+        "de": "https://vidfetch.app/de/tiktok-video-herunterladen",
+        "it": "https://vidfetch.app/it/scaricare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/tahmil-video-tiktok",
+        "x-default": "https://vidfetch.app/tiktok-video-downloader"
+      }
+    },
+    "/it/tiktok-in-mp3": {
+      "canonical": "https://vidfetch.app/it/tiktok-in-mp3",
+      "hreflang": {
+        "en": "https://vidfetch.app/tiktok-to-mp3",
+        "fr": "https://vidfetch.app/fr/tiktok-en-mp3",
+        "es": "https://vidfetch.app/es/tiktok-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/tiktok-para-mp3",
+        "id": "https://vidfetch.app/id/tiktok-ke-mp3",
+        "de": "https://vidfetch.app/de/tiktok-zu-mp3",
+        "it": "https://vidfetch.app/it/tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/tiktok-mp3",
+        "x-default": "https://vidfetch.app/tiktok-to-mp3"
+      }
+    },
+    "/ar/tahwil-video-ila-mp3": {
+      "canonical": "https://vidfetch.app/ar/tahwil-video-ila-mp3",
+      "hreflang": {
+        "en": "https://vidfetch.app/video-to-mp3",
+        "fr": "https://vidfetch.app/fr/convertir-video-en-mp3",
+        "es": "https://vidfetch.app/es/convertir-video-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/converter-video-para-mp3",
+        "id": "https://vidfetch.app/id/konversi-video-ke-mp3",
+        "de": "https://vidfetch.app/de/video-in-mp3-umwandeln",
+        "it": "https://vidfetch.app/it/convertire-video-in-mp3",
+        "ar": "https://vidfetch.app/ar/tahwil-video-ila-mp3",
+        "x-default": "https://vidfetch.app/video-to-mp3"
+      }
+    },
+    "/ar/daght-video": {
+      "canonical": "https://vidfetch.app/ar/daght-video",
+      "hreflang": {
+        "en": "https://vidfetch.app/compress-video",
+        "fr": "https://vidfetch.app/fr/compresser-video",
+        "es": "https://vidfetch.app/es/comprimir-video",
+        "pt-BR": "https://vidfetch.app/pt/comprimir-video",
+        "id": "https://vidfetch.app/id/kompres-video",
+        "de": "https://vidfetch.app/de/video-komprimieren",
+        "it": "https://vidfetch.app/it/comprimere-video",
+        "ar": "https://vidfetch.app/ar/daght-video",
+        "x-default": "https://vidfetch.app/compress-video"
+      }
+    },
+    "/ar/qass-video": {
+      "canonical": "https://vidfetch.app/ar/qass-video",
+      "hreflang": {
+        "en": "https://vidfetch.app/trim-video",
+        "fr": "https://vidfetch.app/fr/couper-video",
+        "es": "https://vidfetch.app/es/cortar-video",
+        "pt-BR": "https://vidfetch.app/pt/cortar-video",
+        "id": "https://vidfetch.app/id/potong-video",
+        "de": "https://vidfetch.app/de/video-schneiden",
+        "it": "https://vidfetch.app/it/tagliare-video",
+        "ar": "https://vidfetch.app/ar/qass-video",
+        "x-default": "https://vidfetch.app/trim-video"
+      }
+    },
+    "/ar/video-ila-gif": {
+      "canonical": "https://vidfetch.app/ar/video-ila-gif",
+      "hreflang": {
+        "en": "https://vidfetch.app/video-to-gif",
+        "fr": "https://vidfetch.app/fr/video-en-gif",
+        "es": "https://vidfetch.app/es/video-a-gif",
+        "pt-BR": "https://vidfetch.app/pt/video-para-gif",
+        "id": "https://vidfetch.app/id/video-ke-gif",
+        "de": "https://vidfetch.app/de/video-in-gif",
+        "it": "https://vidfetch.app/it/video-in-gif",
+        "ar": "https://vidfetch.app/ar/video-ila-gif",
+        "x-default": "https://vidfetch.app/video-to-gif"
+      }
+    },
+    "/ar": {
+      "canonical": "https://vidfetch.app/ar",
+      "hreflang": {
+        "en": "https://vidfetch.app/",
+        "fr": "https://vidfetch.app/fr",
+        "es": "https://vidfetch.app/es",
+        "pt-BR": "https://vidfetch.app/pt",
+        "id": "https://vidfetch.app/id",
+        "de": "https://vidfetch.app/de",
+        "it": "https://vidfetch.app/it",
+        "ar": "https://vidfetch.app/ar",
+        "x-default": "https://vidfetch.app/"
+      }
+    },
+    "/ar/أدلة": {
+      "canonical": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog",
+        "fr": "https://vidfetch.app/fr/guides",
+        "es": "https://vidfetch.app/es/guias",
+        "pt-BR": "https://vidfetch.app/pt/guias",
+        "id": "https://vidfetch.app/id/panduan",
+        "de": "https://vidfetch.app/de/ratgeber",
+        "it": "https://vidfetch.app/it/guide",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9",
+        "x-default": "https://vidfetch.app/blog"
+      }
+    },
+    "/ar/الشروط-والخصوصية": {
+      "canonical": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%B4%D8%B1%D9%88%D8%B7-%D9%88%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9",
+      "hreflang": {
+        "en": "https://vidfetch.app/legal",
+        "fr": "https://vidfetch.app/fr/mentions-legales",
+        "es": "https://vidfetch.app/es/aviso-legal",
+        "pt-BR": "https://vidfetch.app/pt/termos-e-privacidade",
+        "id": "https://vidfetch.app/id/ketentuan-dan-privasi",
+        "de": "https://vidfetch.app/de/rechtliches",
+        "it": "https://vidfetch.app/it/note-legali",
+        "ar": "https://vidfetch.app/ar/%D8%A7%D9%84%D8%B4%D8%B1%D9%88%D8%B7-%D9%88%D8%A7%D9%84%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9",
+        "x-default": "https://vidfetch.app/legal"
+      }
+    },
+    "/ar/أدلة/hifz-video-tiktok-fi-almaarad": {
+      "canonical": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-video-tiktok-fi-almaarad",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/save-tiktok-phone-gallery",
+        "fr": "https://vidfetch.app/fr/guides/enregistrer-tiktok-galerie-iphone-android",
+        "es": "https://vidfetch.app/es/guias/guardar-videos-tiktok-en-galeria",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-video-tiktok-na-galeria",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-video-tiktok-ke-galeri",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-in-galerie-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-video-tiktok-in-galleria",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-video-tiktok-fi-almaarad",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-phone-gallery"
+      }
+    },
+    "/ar/أدلة/hifz-sawt-tiktok-mp3": {
+      "canonical": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-sawt-tiktok-mp3",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/save-tiktok-sound-mp3",
+        "fr": "https://vidfetch.app/fr/guides/recuperer-son-tiktok-mp3",
+        "es": "https://vidfetch.app/es/guias/guardar-audio-tiktok-en-mp3",
+        "pt-BR": "https://vidfetch.app/pt/guias/salvar-audio-tiktok-em-mp3",
+        "id": "https://vidfetch.app/id/panduan/menyimpan-suara-tiktok-jadi-mp3",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-ton-als-mp3-speichern",
+        "it": "https://vidfetch.app/it/guide/salvare-audio-tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/hifz-sawt-tiktok-mp3",
+        "x-default": "https://vidfetch.app/blog/save-tiktok-sound-mp3"
+      }
+    },
+    "/ar/أدلة/limadha-la-yumkin-hifz-video-tiktok": {
+      "canonical": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/limadha-la-yumkin-hifz-video-tiktok",
+      "hreflang": {
+        "en": "https://vidfetch.app/blog/why-cant-i-save-tiktok",
+        "fr": "https://vidfetch.app/fr/guides/pourquoi-impossible-enregistrer-tiktok",
+        "es": "https://vidfetch.app/es/guias/por-que-no-puedo-descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/guias/nao-consigo-baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/panduan/kenapa-video-tiktok-tidak-bisa-disimpan",
+        "de": "https://vidfetch.app/de/ratgeber/tiktok-video-laesst-sich-nicht-speichern",
+        "it": "https://vidfetch.app/it/guide/perche-non-riesco-salvare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/%D8%A3%D8%AF%D9%84%D8%A9/limadha-la-yumkin-hifz-video-tiktok",
+        "x-default": "https://vidfetch.app/blog/why-cant-i-save-tiktok"
+      }
+    },
+    "/ar/tahmil-video-tiktok": {
+      "canonical": "https://vidfetch.app/ar/tahmil-video-tiktok",
+      "hreflang": {
+        "en": "https://vidfetch.app/tiktok-video-downloader",
+        "fr": "https://vidfetch.app/fr/telecharger-video-tiktok",
+        "es": "https://vidfetch.app/es/descargar-video-tiktok",
+        "pt-BR": "https://vidfetch.app/pt/baixar-video-tiktok",
+        "id": "https://vidfetch.app/id/download-video-tiktok",
+        "de": "https://vidfetch.app/de/tiktok-video-herunterladen",
+        "it": "https://vidfetch.app/it/scaricare-video-tiktok",
+        "ar": "https://vidfetch.app/ar/tahmil-video-tiktok",
+        "x-default": "https://vidfetch.app/tiktok-video-downloader"
+      }
+    },
+    "/ar/tiktok-mp3": {
+      "canonical": "https://vidfetch.app/ar/tiktok-mp3",
+      "hreflang": {
+        "en": "https://vidfetch.app/tiktok-to-mp3",
+        "fr": "https://vidfetch.app/fr/tiktok-en-mp3",
+        "es": "https://vidfetch.app/es/tiktok-a-mp3",
+        "pt-BR": "https://vidfetch.app/pt/tiktok-para-mp3",
+        "id": "https://vidfetch.app/id/tiktok-ke-mp3",
+        "de": "https://vidfetch.app/de/tiktok-zu-mp3",
+        "it": "https://vidfetch.app/it/tiktok-in-mp3",
+        "ar": "https://vidfetch.app/ar/tiktok-mp3",
+        "x-default": "https://vidfetch.app/tiktok-to-mp3"
+      }
+    }
+  },
+  "guides": [
+    {
+      "locale": "en",
+      "id": "720p-1080p-4k",
+      "path": "/blog/720p-1080p-4k",
+      "published": "2026-10-29",
+      "bodySha256": "9d31965db696579a93cdc3ae610bf89ebe466ad72264bdeb761afdecc94cf5a7",
+      "metadata": {
+        "title": "720p, 1080p and 4K: what video resolution means",
+        "description": "Understand pixel dimensions, UHD versus cinema 4K, and why a higher resolution does not always make a downloaded video look better.",
+        "category": "Video quality",
+        "created": "2026-10-12",
+        "updated": "2026-10-29",
+        "published": "2026-10-29",
+        "status": "ready",
+        "related": [
+          "bitrate-vs-resolution",
+          "reduce-video-size",
+          "video-format-smartphone"
+        ],
+        "sources": [
+          {
+            "title": "YouTube Help: recommended upload encoding settings",
+            "url": "https://support.google.com/youtube/answer/1722171"
+          },
+          {
+            "title": "ITU: UHD television parameters, BT.2020",
+            "url": "https://www.itu.int/rec/R-REC-BT.2020"
+          }
+        ]
+      }
+    },
+    {
+      "locale": "en",
+      "id": "backup-your-videos",
+      "path": "/blog/backup-your-videos",
+      "published": "2026-10-29",
+      "bodySha256": "eeaa156218e90692cd5ef5da3042187785f42b7ecb328c5c8b4d0a4b91bceb7b",
+      "metadata": {
+        "title": "How to back up your own videos and verify the copies",
+        "description": "Keep original recordings, organize independent copies and test restoration so a backup means more than a folder you have never checked.",
+        "category": "Personal archives",
+        "created": "2026-10-12",
+        "updated": "2026-10-29",
+        "published": "2026-10-29",
+        "status": "ready",
+        "related": [
+          "mp4-vs-webm",
+          "reduce-video-size",
+          "video-to-audio"
+        ],
+        "sources": [
+          {
+            "title": "Library of Congress: personal digital archiving",
+            "url": "https://www.digitalpreservation.gov/personalarchiving/"
+          },
+          {
+            "title": "GNU Coreutils: checksum utilities",
+            "url": "https://www.gnu.org/software/coreutils/manual/html_node/cksum-common-options.html"
+          }
+        ],
+        "seoTitle": "Back up your videos and verify the copies"
+      }
+    },
+    {
+      "locale": "en",
+      "id": "bitrate-vs-resolution",
+      "path": "/blog/bitrate-vs-resolution",
+      "published": "2026-10-29",
+      "bodySha256": "f4906bd34cbb2478a943ff7a3989c3c8fbc6581aec9325a27a3b64d21e9dcff5",
+      "metadata": {
+        "title": "Bitrate vs resolution: what controls video quality and size?",
+        "description": "Understand how pixels, data rate, duration and codecs work together, with a simple size calculation and examples for choosing a video.",
+        "category": "Video quality",
+        "created": "2026-10-12",
+        "updated": "2026-10-29",
+        "published": "2026-10-29",
+        "status": "ready",
+        "related": [
+          "720p-1080p-4k",
+          "reduce-video-size",
+          "mp3-vs-m4a"
+        ],
+        "sources": [
+          {
+            "title": "YouTube Help: bitrate and upload recommendations",
+            "url": "https://support.google.com/youtube/answer/1722171"
+          },
+          {
+            "title": "FFmpeg: bitrate options",
+            "url": "https://www.ffmpeg.org/ffmpeg.html"
+          }
+        ],
+        "seoTitle": "Bitrate vs resolution: video quality and size"
+      }
+    },
+    {
+      "locale": "en",
+      "id": "h264-h265-av1",
+      "path": "/blog/h264-h265-av1",
+      "published": "2026-10-29",
+      "bodySha256": "a61ded0b5cfe063b1a3cdd8a46847ec1a26cc0be625c14b35cf7c49336808886",
+      "metadata": {
+        "title": "H.264, H.265 and AV1: understanding video codecs",
+        "description": "Compare the roles of H.264, H.265 and AV1, with clear guidance on compatibility, encoding effort and keeping original recordings.",
+        "category": "Video codecs",
+        "created": "2026-10-12",
+        "updated": "2026-10-29",
+        "published": "2026-10-29",
+        "status": "ready",
+        "related": [
+          "mp4-vs-webm",
+          "video-format-smartphone",
+          "reduce-video-size"
+        ],
+        "sources": [
+          {
+            "title": "MDN: video codec guide",
+            "url": "https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Formats/Video_codecs"
+          },
+          {
+            "title": "Alliance for Open Media: AV1 specification",
+            "url": "https://aomedia.org/specifications/av1/"
+          },
+          {
+            "title": "ITU: H.265 recommendation",
+            "url": "https://www.itu.int/rec/T-REC-H.265"
+          }
+        ]
+      }
+    },
+    {
+      "locale": "en",
+      "id": "mp3-vs-m4a",
+      "path": "/blog/mp3-vs-m4a",
+      "published": "2026-10-29",
+      "bodySha256": "f025b11c35a95867d7016d89b3b61e59af99c75dcc309845925192870056b058",
+      "metadata": {
+        "title": "MP3 vs M4A: choosing an audio format",
+        "description": "Learn what MP3 and M4A actually contain, when conversion makes sense, and how to balance playback compatibility with audio size.",
+        "category": "Audio formats",
+        "created": "2026-10-12",
+        "updated": "2026-10-29",
+        "published": "2026-10-29",
+        "status": "ready",
+        "related": [
+          "video-to-audio",
+          "bitrate-vs-resolution",
+          "backup-your-videos"
+        ],
+        "sources": [
+          {
+            "title": "MDN: audio codecs",
+            "url": "https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Formats/Audio_codecs"
+          },
+          {
+            "title": "Apple: ALAC reference implementation",
+            "url": "https://github.com/macosforge/alac"
+          }
+        ]
+      }
+    },
+    {
+      "locale": "en",
+      "id": "mp4-vs-webm",
+      "path": "/blog/mp4-vs-webm",
+      "published": "2026-10-29",
+      "bodySha256": "dcc784ad61b3b018d19f23a998202d1b4ac2f0a670b2d711dde20557d639a092",
+      "metadata": {
+        "title": "MP4 vs WebM: which video format should you choose?",
+        "description": "Compare MP4 and WebM containers, playback compatibility and file size, with practical advice for keeping or sharing your own videos.",
+        "category": "Video formats",
+        "created": "2026-10-12",
+        "updated": "2026-10-29",
+        "published": "2026-10-29",
+        "status": "ready",
+        "related": [
+          "h264-h265-av1",
+          "video-format-smartphone",
+          "bitrate-vs-resolution"
+        ],
+        "sources": [
+          {
+            "title": "MDN: media containers",
+            "url": "https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Formats/Containers"
+          },
+          {
+            "title": "WebM container guidelines",
+            "url": "https://www.webmproject.org/docs/container/"
+          }
+        ],
+        "seoTitle": "MP4 vs WebM: choosing a video format"
+      }
+    },
+    {
+      "locale": "en",
+      "id": "reduce-video-size",
+      "path": "/blog/reduce-video-size",
+      "published": "2026-10-29",
+      "bodySha256": "dba01726de86733b72c99239c660ee5205fead72fe2ff3d33c30f6ff0d3b45e9",
+      "metadata": {
+        "title": "How to reduce video size without unnecessary quality loss",
+        "description": "Make smaller copies of your own videos by choosing sensible resolution, bitrate and encoder settings, then checking the result before replacing anything.",
+        "category": "Video quality",
+        "created": "2026-10-12",
+        "updated": "2026-10-29",
+        "published": "2026-10-29",
+        "status": "ready",
+        "related": [
+          "bitrate-vs-resolution",
+          "720p-1080p-4k",
+          "backup-your-videos"
+        ],
+        "sources": [
+          {
+            "title": "FFmpeg: encoding and stream selection",
+            "url": "https://www.ffmpeg.org/ffmpeg.html"
+          },
+          {
+            "title": "FFmpeg: video filters",
+            "url": "https://www.ffmpeg.org/ffmpeg-filters.html"
+          }
+        ],
+        "seoTitle": "Reduce video size without needless quality loss"
+      }
+    },
+    {
+      "locale": "en",
+      "id": "save-tiktok-phone-gallery",
+      "path": "/blog/save-tiktok-phone-gallery",
+      "published": "2026-10-29",
+      "bodySha256": "ced925123c9476e217d46314d73133965bb84ccbe8b022a0acd8bc7d4e7a4bd1",
+      "metadata": {
+        "title": "How to save TikTok videos to your phone gallery",
+        "description": "Find a completed TikTok MP4 on iPhone or Android and add a compatible video to your gallery. Check Downloads before requesting another copy.",
+        "category": "TikTok",
+        "created": "2026-10-29",
+        "updated": "2026-10-29",
+        "published": "2026-10-29",
+        "status": "ready",
+        "related": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-sound-mp3",
+          "video-download-fails"
+        ],
+        "sources": [
+          {
+            "title": "TikTok: Download content",
+            "url": "https://support.tiktok.com/en/using-tiktok/exploring-videos/video-downloads"
+          },
+          {
+            "title": "Apple: Where to find downloads",
+            "url": "https://support.apple.com/en-ie/102440"
+          },
+          {
+            "title": "Android: Find files",
+            "url": "https://support.google.com/android/answer/9110661"
+          }
+        ]
+      }
+    },
+    {
+      "locale": "en",
+      "id": "save-tiktok-sound-mp3",
+      "path": "/blog/save-tiktok-sound-mp3",
+      "published": "2026-10-29",
+      "bodySha256": "e201ccd38de9db48f607e7fe68ea048e4d256b1d8aedc1a69f34991ea5061096",
+      "metadata": {
+        "title": "How to save a TikTok sound as an MP3",
+        "description": "Save the soundtrack of an authorised public TikTok video as MP3. Understand audio quality, find the file and keep the original permissions.",
+        "category": "TikTok",
+        "created": "2026-10-29",
+        "updated": "2026-10-29",
+        "published": "2026-10-29",
+        "status": "ready",
+        "related": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-phone-gallery",
+          "video-download-fails"
+        ],
+        "sources": [
+          {
+            "title": "TikTok: Download content",
+            "url": "https://support.tiktok.com/en/using-tiktok/exploring-videos/video-downloads"
+          },
+          {
+            "title": "Apple: Where to find downloads",
+            "url": "https://support.apple.com/en-ie/102440"
+          },
+          {
+            "title": "Android: Find files",
+            "url": "https://support.google.com/android/answer/9110661"
+          }
+        ]
+      }
+    },
+    {
+      "locale": "en",
+      "id": "video-download-fails",
+      "path": "/blog/video-download-fails",
+      "published": "2026-10-29",
+      "bodySha256": "06a8912cb5d2ab396082b86362d7df856e32b170afde8313e6e4662338400c42",
+      "metadata": {
+        "title": "Why video downloads fail: a practical checklist",
+        "description": "Distinguish a restricted source, a busy service, an expired download link and a broken connection, then retry without bypassing platform protections.",
+        "category": "Troubleshooting",
+        "created": "2026-10-12",
+        "updated": "2026-10-29",
+        "published": "2026-10-29",
+        "status": "ready",
+        "related": [
+          "video-to-audio",
+          "video-format-smartphone",
+          "backup-your-videos"
+        ],
+        "sources": [
+          {
+            "title": "yt-dlp: supported sites and limitations",
+            "url": "https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md"
+          },
+          {
+            "title": "yt-dlp: project documentation",
+            "url": "https://github.com/yt-dlp/yt-dlp#readme"
+          }
+        ]
+      }
+    },
+    {
+      "locale": "en",
+      "id": "video-format-smartphone",
+      "path": "/blog/video-format-smartphone",
+      "published": "2026-10-29",
+      "bodySha256": "86cafb861e20c2547aaccbc2ef47ac4f1d4d6f6c7d510492f18f9360c3b799c6",
+      "metadata": {
+        "title": "Choosing a video format for your smartphone",
+        "description": "Pick a playable video for a phone by checking container, codecs, resolution and available storage instead of relying on a filename alone.",
+        "category": "Playback",
+        "created": "2026-10-12",
+        "updated": "2026-10-29",
+        "published": "2026-10-29",
+        "status": "ready",
+        "related": [
+          "mp4-vs-webm",
+          "h264-h265-av1",
+          "720p-1080p-4k"
+        ],
+        "sources": [
+          {
+            "title": "Android: supported media formats",
+            "url": "https://developer.android.com/media/platform/supported-formats"
+          },
+          {
+            "title": "Apple AVFoundation: audiovisual media",
+            "url": "https://developer.apple.com/av-foundation/"
+          }
+        ]
+      }
+    },
+    {
+      "locale": "en",
+      "id": "video-to-audio",
+      "path": "/blog/video-to-audio",
+      "published": "2026-10-29",
+      "bodySha256": "3b71df668d8d476a1de663b87f59552d6e69c8f343affc02a11abbef74828445",
+      "metadata": {
+        "title": "How to convert a video into an audio file",
+        "description": "Extract an existing soundtrack or make an MP3 copy of a video you are allowed to use, while preserving the original and checking audio quality.",
+        "category": "Audio conversion",
+        "created": "2026-10-12",
+        "updated": "2026-10-29",
+        "published": "2026-10-29",
+        "status": "ready",
+        "related": [
+          "mp3-vs-m4a",
+          "backup-your-videos",
+          "video-download-fails"
+        ],
+        "sources": [
+          {
+            "title": "FFmpeg: streamcopy and transcoding",
+            "url": "https://www.ffmpeg.org/ffmpeg.html"
+          },
+          {
+            "title": "FFmpeg: libmp3lame options",
+            "url": "https://www.ffmpeg.org/ffmpeg-codecs.html#libmp3lame"
+          }
+        ]
+      }
+    },
+    {
+      "locale": "en",
+      "id": "why-cant-i-save-tiktok",
+      "path": "/blog/why-cant-i-save-tiktok",
+      "published": "2026-10-29",
+      "bodySha256": "7ec46eabb9ec38a0de443b0d11b57d94e7ba34d182f4e62c1beef48ef1bba24a",
+      "metadata": {
+        "title": "Why can’t I save a TikTok video?",
+        "description": "Can’t save a TikTok video? Check creator permissions, private posts, expired links, quotas and completed files before retrying a download.",
+        "category": "TikTok",
+        "created": "2026-10-29",
+        "updated": "2026-10-29",
+        "published": "2026-10-29",
+        "status": "ready",
+        "related": [
+          "save-tiktok-sound-mp3",
+          "save-tiktok-phone-gallery",
+          "video-download-fails"
+        ],
+        "sources": [
+          {
+            "title": "TikTok: Download content",
+            "url": "https://support.tiktok.com/en/using-tiktok/exploring-videos/video-downloads"
+          },
+          {
+            "title": "Apple: Where to find downloads",
+            "url": "https://support.apple.com/en-ie/102440"
+          },
+          {
+            "title": "Android: Find files",
+            "url": "https://support.google.com/android/answer/9110661"
+          }
+        ]
+      }
+    },
+    {
+      "locale": "fr",
+      "id": "save-tiktok-phone-gallery",
+      "path": "/fr/guides/enregistrer-tiktok-galerie-iphone-android",
+      "published": "2026-10-29",
+      "bodySha256": "ea18320636b93bdeb5258ca9dac7ed2bbfcc01c9485642d4d139e541eea7c81e",
+      "metadata": {
+        "title": "Enregistrer un TikTok dans la galerie du téléphone",
+        "description": "Retrouvez un MP4 TikTok dans Fichiers ou Téléchargements, puis ajoutez une vidéo compatible à la galerie de votre iPhone ou Android.",
+        "category": "TikTok",
+        "created": "2026-10-29",
+        "updated": "2026-10-29",
+        "published": "2026-10-29",
+        "status": "ready",
+        "related": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-sound-mp3",
+          "video-download-fails"
+        ],
+        "sources": [
+          {
+            "title": "TikTok: Download content",
+            "url": "https://support.tiktok.com/en/using-tiktok/exploring-videos/video-downloads"
+          },
+          {
+            "title": "Apple: Where to find downloads",
+            "url": "https://support.apple.com/en-ie/102440"
+          },
+          {
+            "title": "Android: Find files",
+            "url": "https://support.google.com/android/answer/9110661"
+          }
+        ],
+        "publicationRequested": true,
+        "sourceBodySha256": "ced925123c9476e217d46314d73133965bb84ccbe8b022a0acd8bc7d4e7a4bd1",
+        "seoTitle": "Enregistrer un TikTok dans la galerie du mobile"
+      }
+    },
+    {
+      "locale": "fr",
+      "id": "save-tiktok-sound-mp3",
+      "path": "/fr/guides/recuperer-son-tiktok-mp3",
+      "published": "2026-10-29",
+      "bodySha256": "9b6f82eaf5ecc28faf0cab325752fc3fa2ed844d861f34932e2e16a78937b1df",
+      "metadata": {
+        "title": "Comment récupérer le son d’un TikTok en MP3",
+        "description": "Récupérez le son d’un TikTok public autorisé en MP3 : lien, conversion, qualité audio et emplacement du fichier sur votre téléphone.",
+        "category": "TikTok",
+        "created": "2026-10-29",
+        "updated": "2026-10-29",
+        "published": "2026-10-29",
+        "status": "ready",
+        "related": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-phone-gallery",
+          "video-download-fails"
+        ],
+        "sources": [
+          {
+            "title": "TikTok: Download content",
+            "url": "https://support.tiktok.com/en/using-tiktok/exploring-videos/video-downloads"
+          },
+          {
+            "title": "Apple: Where to find downloads",
+            "url": "https://support.apple.com/en-ie/102440"
+          },
+          {
+            "title": "Android: Find files",
+            "url": "https://support.google.com/android/answer/9110661"
+          }
+        ],
+        "publicationRequested": true,
+        "sourceBodySha256": "e201ccd38de9db48f607e7fe68ea048e4d256b1d8aedc1a69f34991ea5061096"
+      }
+    },
+    {
+      "locale": "fr",
+      "id": "why-cant-i-save-tiktok",
+      "path": "/fr/guides/pourquoi-impossible-enregistrer-tiktok",
+      "published": "2026-10-29",
+      "bodySha256": "f9d900e1ae9dfbd2351dfcbd3f81b5e3f62c5a87d5244b8877e15bb3c1fa2997",
+      "metadata": {
+        "title": "Pourquoi je ne peux pas enregistrer un TikTok ?",
+        "description": "Impossible d’enregistrer un TikTok ? Vérifiez les droits, le lien, le type de publication et le fichier téléchargé avant de recommencer.",
+        "category": "TikTok",
+        "created": "2026-10-29",
+        "updated": "2026-10-29",
+        "published": "2026-10-29",
+        "status": "ready",
+        "related": [
+          "save-tiktok-sound-mp3",
+          "save-tiktok-phone-gallery",
+          "video-download-fails"
+        ],
+        "sources": [
+          {
+            "title": "TikTok: Download content",
+            "url": "https://support.tiktok.com/en/using-tiktok/exploring-videos/video-downloads"
+          },
+          {
+            "title": "Apple: Where to find downloads",
+            "url": "https://support.apple.com/en-ie/102440"
+          },
+          {
+            "title": "Android: Find files",
+            "url": "https://support.google.com/android/answer/9110661"
+          }
+        ],
+        "publicationRequested": true,
+        "sourceBodySha256": "7ec46eabb9ec38a0de443b0d11b57d94e7ba34d182f4e62c1beef48ef1bba24a"
+      }
+    },
+    {
+      "locale": "es",
+      "id": "save-tiktok-phone-gallery",
+      "path": "/es/guias/guardar-videos-tiktok-en-galeria",
+      "published": "2026-11-07",
+      "bodySha256": "eecaec74ee0d488dfd8b07803672910033eb62c3d14cdf63bbe4e3052bafd1da",
+      "metadata": {
+        "title": "Cómo guardar videos de TikTok en la galería del celular",
+        "description": "Encuentra un MP4 de TikTok descargado en iPhone o Android, comprueba que está completo e impórtalo a la galería cuando el formato sea compatible.",
+        "category": "TikTok",
+        "created": "2026-11-06",
+        "updated": "2026-11-07",
+        "published": "2026-11-07",
+        "status": "ready",
+        "related": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-sound-mp3"
+        ],
+        "sources": [
+          {
+            "title": "TikTok: Download content",
+            "url": "https://support.tiktok.com/en/using-tiktok/exploring-videos/video-downloads"
+          },
+          {
+            "title": "Apple: Where to find downloads",
+            "url": "https://support.apple.com/en-ie/102440"
+          },
+          {
+            "title": "Android: Find files",
+            "url": "https://support.google.com/android/answer/9110661"
+          }
+        ],
+        "seoTitle": "Guardar videos de TikTok en la galería",
+        "publicationRequested": true,
+        "sourceSha256": "da33d1a5c8c8cceecb804d088a5dee00b5891c02efcca610dda44af31a6cf53f",
+        "sourceBodySha256": "ced925123c9476e217d46314d73133965bb84ccbe8b022a0acd8bc7d4e7a4bd1"
+      }
+    },
+    {
+      "locale": "es",
+      "id": "save-tiktok-sound-mp3",
+      "path": "/es/guias/guardar-audio-tiktok-en-mp3",
+      "published": "2026-11-07",
+      "bodySha256": "1b649c77ece6780df3a970ecfe30fe819f7b10ede04869a83b08df0dc68e6fec",
+      "metadata": {
+        "title": "Cómo guardar el audio de un TikTok en MP3",
+        "description": "Guarda el sonido de un video público de TikTok como MP3. Elige el enlace correcto, entiende la calidad y localiza el archivo en tu celular.",
+        "category": "TikTok",
+        "created": "2026-11-06",
+        "updated": "2026-11-07",
+        "published": "2026-11-07",
+        "status": "ready",
+        "related": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-phone-gallery"
+        ],
+        "sources": [
+          {
+            "title": "TikTok: Download content",
+            "url": "https://support.tiktok.com/en/using-tiktok/exploring-videos/video-downloads"
+          },
+          {
+            "title": "Apple: Where to find downloads",
+            "url": "https://support.apple.com/en-ie/102440"
+          },
+          {
+            "title": "Android: Find files",
+            "url": "https://support.google.com/android/answer/9110661"
+          }
+        ],
+        "seoTitle": "Cómo guardar audio de TikTok en MP3",
+        "publicationRequested": true,
+        "sourceSha256": "12dd1d3fdd314dd6065c2196b0f7ef5eed26899cbec0607acd8ace4c64edf055",
+        "sourceBodySha256": "e201ccd38de9db48f607e7fe68ea048e4d256b1d8aedc1a69f34991ea5061096"
+      }
+    },
+    {
+      "locale": "es",
+      "id": "why-cant-i-save-tiktok",
+      "path": "/es/guias/por-que-no-puedo-descargar-video-tiktok",
+      "published": "2026-11-07",
+      "bodySha256": "aa1ca8684de84ba9ab6c5d2397b6cf7bd588e446550ab1d15aaf6a303af2c38a",
+      "metadata": {
+        "title": "Por qué no puedes descargar un video de TikTok",
+        "description": "Revisa permisos, enlaces, límites y descargas incompletas de TikTok. Distingue un fallo real de un MP4 que todavía no aparece en tu galería.",
+        "category": "TikTok",
+        "created": "2026-11-06",
+        "updated": "2026-11-07",
+        "published": "2026-11-07",
+        "status": "ready",
+        "related": [
+          "save-tiktok-sound-mp3",
+          "save-tiktok-phone-gallery"
+        ],
+        "sources": [
+          {
+            "title": "TikTok: Download content",
+            "url": "https://support.tiktok.com/en/using-tiktok/exploring-videos/video-downloads"
+          },
+          {
+            "title": "Apple: Where to find downloads",
+            "url": "https://support.apple.com/en-ie/102440"
+          },
+          {
+            "title": "Android: Find files",
+            "url": "https://support.google.com/android/answer/9110661"
+          }
+        ],
+        "seoTitle": "Por qué no puedo descargar un video de TikTok",
+        "publicationRequested": true,
+        "sourceSha256": "1e10f3f13108ac81ec8e7c884b3384eefe6c7f3f76cf19f8a978205e99d70818",
+        "sourceBodySha256": "7ec46eabb9ec38a0de443b0d11b57d94e7ba34d182f4e62c1beef48ef1bba24a"
+      }
+    },
+    {
+      "locale": "pt-BR",
+      "id": "save-tiktok-phone-gallery",
+      "path": "/pt/guias/salvar-video-tiktok-na-galeria",
+      "published": "2026-11-07",
+      "bodySha256": "e95eac5e8e87de14824f0f66c8f72cca38634864d53e26aaed57ef83809c26ec",
+      "metadata": {
+        "title": "Como salvar vídeos do TikTok na galeria do celular",
+        "description": "O TikTok baixado não aparece na galeria? Localize o MP4 em Arquivos ou Downloads, teste a reprodução e importe quando o aparelho permitir.",
+        "category": "TikTok",
+        "created": "2026-11-06",
+        "updated": "2026-11-07",
+        "published": "2026-11-07",
+        "status": "ready",
+        "related": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-sound-mp3"
+        ],
+        "sources": [
+          {
+            "title": "TikTok: Download content",
+            "url": "https://support.tiktok.com/en/using-tiktok/exploring-videos/video-downloads"
+          },
+          {
+            "title": "Apple: Where to find downloads",
+            "url": "https://support.apple.com/en-ie/102440"
+          },
+          {
+            "title": "Android: Find files",
+            "url": "https://support.google.com/android/answer/9110661"
+          }
+        ],
+        "seoTitle": "Como salvar TikTok na galeria do celular",
+        "publicationRequested": true,
+        "sourceSha256": "da33d1a5c8c8cceecb804d088a5dee00b5891c02efcca610dda44af31a6cf53f",
+        "sourceBodySha256": "ced925123c9476e217d46314d73133965bb84ccbe8b022a0acd8bc7d4e7a4bd1"
+      }
+    },
+    {
+      "locale": "pt-BR",
+      "id": "save-tiktok-sound-mp3",
+      "path": "/pt/guias/salvar-audio-tiktok-em-mp3",
+      "published": "2026-11-07",
+      "bodySha256": "4623abdf98a1d4b91fbbcff4970035da9d26183ae281f4e1d918edbbf99319a2",
+      "metadata": {
+        "title": "Como salvar o áudio de um TikTok em MP3",
+        "description": "Aprenda a salvar a faixa de um vídeo público do TikTok em MP3, conferir a qualidade e encontrar o arquivo no iPhone ou Android.",
+        "category": "TikTok",
+        "created": "2026-11-06",
+        "updated": "2026-11-07",
+        "published": "2026-11-07",
+        "status": "ready",
+        "related": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-phone-gallery"
+        ],
+        "sources": [
+          {
+            "title": "TikTok: Download content",
+            "url": "https://support.tiktok.com/en/using-tiktok/exploring-videos/video-downloads"
+          },
+          {
+            "title": "Apple: Where to find downloads",
+            "url": "https://support.apple.com/en-ie/102440"
+          },
+          {
+            "title": "Android: Find files",
+            "url": "https://support.google.com/android/answer/9110661"
+          }
+        ],
+        "seoTitle": "Como salvar áudio do TikTok em MP3",
+        "publicationRequested": true,
+        "sourceSha256": "12dd1d3fdd314dd6065c2196b0f7ef5eed26899cbec0607acd8ace4c64edf055",
+        "sourceBodySha256": "e201ccd38de9db48f607e7fe68ea048e4d256b1d8aedc1a69f34991ea5061096"
+      }
+    },
+    {
+      "locale": "pt-BR",
+      "id": "why-cant-i-save-tiktok",
+      "path": "/pt/guias/nao-consigo-baixar-video-tiktok",
+      "published": "2026-11-07",
+      "bodySha256": "ed03b84bd7a0fda40c69c480b42f7e3a5fafaff7ad72d74e293c5ec4c9140da0",
+      "metadata": {
+        "title": "Não consigo baixar um vídeo do TikTok: o que fazer?",
+        "description": "Veja se a falha ao salvar um TikTok está na permissão, no link, nos limites do serviço ou no arquivo que ainda não apareceu na galeria.",
+        "category": "TikTok",
+        "created": "2026-11-06",
+        "updated": "2026-11-07",
+        "published": "2026-11-07",
+        "status": "ready",
+        "related": [
+          "save-tiktok-sound-mp3",
+          "save-tiktok-phone-gallery"
+        ],
+        "sources": [
+          {
+            "title": "TikTok: Download content",
+            "url": "https://support.tiktok.com/en/using-tiktok/exploring-videos/video-downloads"
+          },
+          {
+            "title": "Apple: Where to find downloads",
+            "url": "https://support.apple.com/en-ie/102440"
+          },
+          {
+            "title": "Android: Find files",
+            "url": "https://support.google.com/android/answer/9110661"
+          }
+        ],
+        "seoTitle": "Não consigo baixar vídeo do TikTok",
+        "publicationRequested": true,
+        "sourceSha256": "1e10f3f13108ac81ec8e7c884b3384eefe6c7f3f76cf19f8a978205e99d70818",
+        "sourceBodySha256": "7ec46eabb9ec38a0de443b0d11b57d94e7ba34d182f4e62c1beef48ef1bba24a"
+      }
+    },
+    {
+      "locale": "id",
+      "id": "save-tiktok-phone-gallery",
+      "path": "/id/panduan/menyimpan-video-tiktok-ke-galeri",
+      "published": "2026-11-07",
+      "bodySha256": "fd3406e79369fc3949ac38b01127c8937afca2af57bd8b2f07f0077993302899",
+      "metadata": {
+        "title": "Cara menyimpan video TikTok ke galeri ponsel",
+        "description": "MP4 TikTok sudah terunduh tetapi belum terlihat di galeri? Temukan file di iPhone atau Android, periksa pemutaran, lalu impor jika didukung.",
+        "category": "TikTok",
+        "created": "2026-11-06",
+        "updated": "2026-11-07",
+        "published": "2026-11-07",
+        "status": "ready",
+        "related": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-sound-mp3"
+        ],
+        "sources": [
+          {
+            "title": "TikTok: Download content",
+            "url": "https://support.tiktok.com/en/using-tiktok/exploring-videos/video-downloads"
+          },
+          {
+            "title": "Apple: Where to find downloads",
+            "url": "https://support.apple.com/en-ie/102440"
+          },
+          {
+            "title": "Android: Find files",
+            "url": "https://support.google.com/android/answer/9110661"
+          }
+        ],
+        "seoTitle": "Cara menyimpan video TikTok ke galeri",
+        "publicationRequested": true,
+        "sourceSha256": "da33d1a5c8c8cceecb804d088a5dee00b5891c02efcca610dda44af31a6cf53f",
+        "sourceBodySha256": "ced925123c9476e217d46314d73133965bb84ccbe8b022a0acd8bc7d4e7a4bd1"
+      }
+    },
+    {
+      "locale": "id",
+      "id": "save-tiktok-sound-mp3",
+      "path": "/id/panduan/menyimpan-suara-tiktok-jadi-mp3",
+      "published": "2026-11-07",
+      "bodySha256": "018c8866f94bf31e6be4d59be55fba6f601d0de006e57aa716a417eb43a9749e",
+      "metadata": {
+        "title": "Cara menyimpan suara video TikTok sebagai MP3",
+        "description": "Simpan audio video TikTok publik sebagai MP3: pilih tautan yang tepat, pahami kualitas suara, lalu temukan file di iPhone atau Android.",
+        "category": "TikTok",
+        "created": "2026-11-06",
+        "updated": "2026-11-07",
+        "published": "2026-11-07",
+        "status": "ready",
+        "related": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-phone-gallery"
+        ],
+        "sources": [
+          {
+            "title": "TikTok: Download content",
+            "url": "https://support.tiktok.com/en/using-tiktok/exploring-videos/video-downloads"
+          },
+          {
+            "title": "Apple: Where to find downloads",
+            "url": "https://support.apple.com/en-ie/102440"
+          },
+          {
+            "title": "Android: Find files",
+            "url": "https://support.google.com/android/answer/9110661"
+          }
+        ],
+        "seoTitle": "Cara menyimpan suara TikTok sebagai MP3",
+        "publicationRequested": true,
+        "sourceSha256": "12dd1d3fdd314dd6065c2196b0f7ef5eed26899cbec0607acd8ace4c64edf055",
+        "sourceBodySha256": "e201ccd38de9db48f607e7fe68ea048e4d256b1d8aedc1a69f34991ea5061096"
+      }
+    },
+    {
+      "locale": "id",
+      "id": "why-cant-i-save-tiktok",
+      "path": "/id/panduan/kenapa-video-tiktok-tidak-bisa-disimpan",
+      "published": "2026-11-07",
+      "bodySha256": "3036456bb376e1e02f0eba90a57f179537d46f009b7c2a1be58fa1af27873864",
+      "metadata": {
+        "title": "Video TikTok tidak bisa disimpan? Ini yang perlu dicek",
+        "description": "Cari penyebab video TikTok gagal disimpan: izin kreator, tautan, batas layanan, unduhan terputus, atau file yang belum muncul di galeri.",
+        "category": "TikTok",
+        "created": "2026-11-06",
+        "updated": "2026-11-07",
+        "published": "2026-11-07",
+        "status": "ready",
+        "related": [
+          "save-tiktok-sound-mp3",
+          "save-tiktok-phone-gallery"
+        ],
+        "sources": [
+          {
+            "title": "TikTok: Download content",
+            "url": "https://support.tiktok.com/en/using-tiktok/exploring-videos/video-downloads"
+          },
+          {
+            "title": "Apple: Where to find downloads",
+            "url": "https://support.apple.com/en-ie/102440"
+          },
+          {
+            "title": "Android: Find files",
+            "url": "https://support.google.com/android/answer/9110661"
+          }
+        ],
+        "seoTitle": "Video TikTok tidak bisa disimpan?",
+        "publicationRequested": true,
+        "sourceSha256": "1e10f3f13108ac81ec8e7c884b3384eefe6c7f3f76cf19f8a978205e99d70818",
+        "sourceBodySha256": "7ec46eabb9ec38a0de443b0d11b57d94e7ba34d182f4e62c1beef48ef1bba24a"
+      }
+    },
+    {
+      "locale": "de",
+      "id": "save-tiktok-phone-gallery",
+      "path": "/de/ratgeber/tiktok-video-in-galerie-speichern",
+      "published": "2026-11-07",
+      "bodySha256": "fcfad1e91437e1c63e679b12abf8dbb4ea7e76bd1505b91d185021c1804efc7b",
+      "metadata": {
+        "title": "TikTok-Videos in der Handygalerie speichern",
+        "description": "Finde heruntergeladene TikTok-MP4-Dateien auf iPhone und Android. Prüfe die Wiedergabe und importiere sie in eine kompatible Galerie.",
+        "category": "TikTok",
+        "created": "2026-11-06",
+        "updated": "2026-11-07",
+        "published": "2026-11-07",
+        "status": "ready",
+        "related": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-sound-mp3"
+        ],
+        "sources": [
+          {
+            "title": "TikTok: Download content",
+            "url": "https://support.tiktok.com/en/using-tiktok/exploring-videos/video-downloads"
+          },
+          {
+            "title": "Apple: Where to find downloads",
+            "url": "https://support.apple.com/en-ie/102440"
+          },
+          {
+            "title": "Android: Find files",
+            "url": "https://support.google.com/android/answer/9110661"
+          }
+        ],
+        "seoTitle": "TikTok-Videos in der Galerie speichern",
+        "publicationRequested": true,
+        "sourceSha256": "da33d1a5c8c8cceecb804d088a5dee00b5891c02efcca610dda44af31a6cf53f",
+        "sourceBodySha256": "ced925123c9476e217d46314d73133965bb84ccbe8b022a0acd8bc7d4e7a4bd1"
+      }
+    },
+    {
+      "locale": "de",
+      "id": "save-tiktok-sound-mp3",
+      "path": "/de/ratgeber/tiktok-ton-als-mp3-speichern",
+      "published": "2026-11-07",
+      "bodySha256": "ef34a0b23e2d833c359596d46a641b1bc29dc986ccdbed1b4394a83c1dca41fa",
+      "metadata": {
+        "title": "TikTok-Ton als MP3 speichern: Schritt für Schritt",
+        "description": "Speichere die Tonspur eines erlaubten öffentlichen TikTok-Videos als MP3. Prüfe Audioqualität, Dauer und Speicherort auf deinem Handy.",
+        "category": "TikTok",
+        "created": "2026-11-06",
+        "updated": "2026-11-07",
+        "published": "2026-11-07",
+        "status": "ready",
+        "related": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-phone-gallery"
+        ],
+        "sources": [
+          {
+            "title": "TikTok: Download content",
+            "url": "https://support.tiktok.com/en/using-tiktok/exploring-videos/video-downloads"
+          },
+          {
+            "title": "Apple: Where to find downloads",
+            "url": "https://support.apple.com/en-ie/102440"
+          },
+          {
+            "title": "Android: Find files",
+            "url": "https://support.google.com/android/answer/9110661"
+          }
+        ],
+        "seoTitle": "TikTok-Ton als MP3 speichern",
+        "publicationRequested": true,
+        "sourceSha256": "12dd1d3fdd314dd6065c2196b0f7ef5eed26899cbec0607acd8ace4c64edf055",
+        "sourceBodySha256": "e201ccd38de9db48f607e7fe68ea048e4d256b1d8aedc1a69f34991ea5061096"
+      }
+    },
+    {
+      "locale": "de",
+      "id": "why-cant-i-save-tiktok",
+      "path": "/de/ratgeber/tiktok-video-laesst-sich-nicht-speichern",
+      "published": "2026-11-07",
+      "bodySha256": "ebd74f760370cc9abedcece944c99f6847859116c0148d6b6eab5061f89c0ad1",
+      "metadata": {
+        "title": "TikTok-Video lässt sich nicht speichern: Was tun?",
+        "description": "Prüfe Freigaben, Links, Dienstlimits und unvollständige Downloads. So erkennst du, ob das TikTok-Video fehlt oder nur nicht in der Galerie auftaucht.",
+        "category": "TikTok",
+        "created": "2026-11-06",
+        "updated": "2026-11-07",
+        "published": "2026-11-07",
+        "status": "ready",
+        "related": [
+          "save-tiktok-sound-mp3",
+          "save-tiktok-phone-gallery"
+        ],
+        "sources": [
+          {
+            "title": "TikTok: Download content",
+            "url": "https://support.tiktok.com/en/using-tiktok/exploring-videos/video-downloads"
+          },
+          {
+            "title": "Apple: Where to find downloads",
+            "url": "https://support.apple.com/en-ie/102440"
+          },
+          {
+            "title": "Android: Find files",
+            "url": "https://support.google.com/android/answer/9110661"
+          }
+        ],
+        "seoTitle": "TikTok-Video lässt sich nicht speichern",
+        "publicationRequested": true,
+        "sourceSha256": "1e10f3f13108ac81ec8e7c884b3384eefe6c7f3f76cf19f8a978205e99d70818",
+        "sourceBodySha256": "7ec46eabb9ec38a0de443b0d11b57d94e7ba34d182f4e62c1beef48ef1bba24a"
+      }
+    },
+    {
+      "locale": "it",
+      "id": "save-tiktok-phone-gallery",
+      "path": "/it/guide/salvare-video-tiktok-in-galleria",
+      "published": "2026-11-07",
+      "bodySha256": "5875dc2a3668b5126ef2406c36505a189b779d37c412ddc80cbcfb9b6344d1bd",
+      "metadata": {
+        "title": "Come salvare video TikTok nella galleria del telefono",
+        "description": "Trova l’MP4 TikTok scaricato su iPhone o Android, verifica che sia completo e importalo nella galleria quando il formato è compatibile.",
+        "category": "TikTok",
+        "created": "2026-11-06",
+        "updated": "2026-11-07",
+        "published": "2026-11-07",
+        "status": "ready",
+        "related": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-sound-mp3"
+        ],
+        "sources": [
+          {
+            "title": "TikTok: Download content",
+            "url": "https://support.tiktok.com/en/using-tiktok/exploring-videos/video-downloads"
+          },
+          {
+            "title": "Apple: Where to find downloads",
+            "url": "https://support.apple.com/en-ie/102440"
+          },
+          {
+            "title": "Android: Find files",
+            "url": "https://support.google.com/android/answer/9110661"
+          }
+        ],
+        "seoTitle": "Salvare video TikTok nella galleria",
+        "publicationRequested": true,
+        "sourceSha256": "da33d1a5c8c8cceecb804d088a5dee00b5891c02efcca610dda44af31a6cf53f",
+        "sourceBodySha256": "ced925123c9476e217d46314d73133965bb84ccbe8b022a0acd8bc7d4e7a4bd1"
+      }
+    },
+    {
+      "locale": "it",
+      "id": "save-tiktok-sound-mp3",
+      "path": "/it/guide/salvare-audio-tiktok-in-mp3",
+      "published": "2026-11-07",
+      "bodySha256": "abac0760e63ef1349c84fa3accd51a88ee3a97745af27708d87bcfee9e26f3ee",
+      "metadata": {
+        "title": "Come salvare l’audio di TikTok in MP3",
+        "description": "Salva la traccia di un video TikTok pubblico in MP3. Scegli il link corretto, verifica qualità e durata e trova il file sul telefono.",
+        "category": "TikTok",
+        "created": "2026-11-06",
+        "updated": "2026-11-07",
+        "published": "2026-11-07",
+        "status": "ready",
+        "related": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-phone-gallery"
+        ],
+        "sources": [
+          {
+            "title": "TikTok: Download content",
+            "url": "https://support.tiktok.com/en/using-tiktok/exploring-videos/video-downloads"
+          },
+          {
+            "title": "Apple: Where to find downloads",
+            "url": "https://support.apple.com/en-ie/102440"
+          },
+          {
+            "title": "Android: Find files",
+            "url": "https://support.google.com/android/answer/9110661"
+          }
+        ],
+        "seoTitle": "Come salvare audio TikTok in MP3",
+        "publicationRequested": true,
+        "sourceSha256": "12dd1d3fdd314dd6065c2196b0f7ef5eed26899cbec0607acd8ace4c64edf055",
+        "sourceBodySha256": "e201ccd38de9db48f607e7fe68ea048e4d256b1d8aedc1a69f34991ea5061096"
+      }
+    },
+    {
+      "locale": "it",
+      "id": "why-cant-i-save-tiktok",
+      "path": "/it/guide/perche-non-riesco-salvare-video-tiktok",
+      "published": "2026-11-07",
+      "bodySha256": "ea7f59aed1682d96a7438e2f2c560e08d055633f55248f6deadf7a37fc88c48c",
+      "metadata": {
+        "title": "Perché non riesco a salvare un video di TikTok?",
+        "description": "Controlla permessi, link, limiti e download interrotti. Scopri se il video TikTok non si scarica oppure è già sul telefono ma fuori dalla galleria.",
+        "category": "TikTok",
+        "created": "2026-11-06",
+        "updated": "2026-11-07",
+        "published": "2026-11-07",
+        "status": "ready",
+        "related": [
+          "save-tiktok-sound-mp3",
+          "save-tiktok-phone-gallery"
+        ],
+        "sources": [
+          {
+            "title": "TikTok: Download content",
+            "url": "https://support.tiktok.com/en/using-tiktok/exploring-videos/video-downloads"
+          },
+          {
+            "title": "Apple: Where to find downloads",
+            "url": "https://support.apple.com/en-ie/102440"
+          },
+          {
+            "title": "Android: Find files",
+            "url": "https://support.google.com/android/answer/9110661"
+          }
+        ],
+        "seoTitle": "Non riesco a salvare un video di TikTok",
+        "publicationRequested": true,
+        "sourceSha256": "1e10f3f13108ac81ec8e7c884b3384eefe6c7f3f76cf19f8a978205e99d70818",
+        "sourceBodySha256": "7ec46eabb9ec38a0de443b0d11b57d94e7ba34d182f4e62c1beef48ef1bba24a"
+      }
+    },
+    {
+      "locale": "ar",
+      "id": "save-tiktok-phone-gallery",
+      "path": "/ar/أدلة/hifz-video-tiktok-fi-almaarad",
+      "published": "2026-11-07",
+      "bodySha256": "d82f4e9299e7c17a07ec62ab01747d47f3f978d477ee83a9a297fd068364c34b",
+      "metadata": {
+        "title": "كيف تحفظ فيديو تيك توك في معرض الهاتف؟",
+        "description": "اعثر على MP4 تيك توك الذي نزلته في iPhone أو Android، وتحقق من اكتماله ثم أضفه إلى الصور أو المعرض عندما يدعم الجهاز صيغته.",
+        "category": "TikTok",
+        "created": "2026-11-06",
+        "updated": "2026-11-07",
+        "published": "2026-11-07",
+        "status": "ready",
+        "related": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-sound-mp3"
+        ],
+        "sources": [
+          {
+            "title": "TikTok: Download content",
+            "url": "https://support.tiktok.com/en/using-tiktok/exploring-videos/video-downloads"
+          },
+          {
+            "title": "Apple: Where to find downloads",
+            "url": "https://support.apple.com/en-ie/102440"
+          },
+          {
+            "title": "Android: Find files",
+            "url": "https://support.google.com/android/answer/9110661"
+          }
+        ],
+        "seoTitle": "حفظ فيديو تيك توك في معرض الهاتف",
+        "publicationRequested": true,
+        "sourceSha256": "da33d1a5c8c8cceecb804d088a5dee00b5891c02efcca610dda44af31a6cf53f",
+        "sourceBodySha256": "ced925123c9476e217d46314d73133965bb84ccbe8b022a0acd8bc7d4e7a4bd1"
+      }
+    },
+    {
+      "locale": "ar",
+      "id": "save-tiktok-sound-mp3",
+      "path": "/ar/أدلة/hifz-sawt-tiktok-mp3",
+      "published": "2026-11-07",
+      "bodySha256": "07dae3d92ee8d4d6e9f9f2c203a648734560fffafcb156ade46c9d85f151996f",
+      "metadata": {
+        "title": "كيف تحفظ صوت فيديو تيك توك بصيغة MP3؟",
+        "description": "احفظ المسار الصوتي لفيديو تيك توك عام ومسموح بصيغة MP3، وافهم الجودة وحدود التحويل ثم اعثر على الملف في هاتفك.",
+        "category": "TikTok",
+        "created": "2026-11-06",
+        "updated": "2026-11-07",
+        "published": "2026-11-07",
+        "status": "ready",
+        "related": [
+          "why-cant-i-save-tiktok",
+          "save-tiktok-phone-gallery"
+        ],
+        "sources": [
+          {
+            "title": "TikTok: Download content",
+            "url": "https://support.tiktok.com/en/using-tiktok/exploring-videos/video-downloads"
+          },
+          {
+            "title": "Apple: Where to find downloads",
+            "url": "https://support.apple.com/en-ie/102440"
+          },
+          {
+            "title": "Android: Find files",
+            "url": "https://support.google.com/android/answer/9110661"
+          }
+        ],
+        "seoTitle": "حفظ صوت فيديو تيك توك بصيغة MP3",
+        "publicationRequested": true,
+        "sourceSha256": "12dd1d3fdd314dd6065c2196b0f7ef5eed26899cbec0607acd8ace4c64edf055",
+        "sourceBodySha256": "e201ccd38de9db48f607e7fe68ea048e4d256b1d8aedc1a69f34991ea5061096"
+      }
+    },
+    {
+      "locale": "ar",
+      "id": "why-cant-i-save-tiktok",
+      "path": "/ar/أدلة/limadha-la-yumkin-hifz-video-tiktok",
+      "published": "2026-11-07",
+      "bodySha256": "96443a7b6edeac1b8bc2585b7741a538b9b87ae1cc0ed80334d211d8fb210d43",
+      "metadata": {
+        "title": "لماذا لا أستطيع حفظ فيديو من تيك توك؟",
+        "description": "تحقق من إذن صاحب الفيديو والرابط وحدود الخدمة واكتمال التنزيل، واعرف هل الملف مفقود فعلاً أم لم يظهر في معرض الهاتف بعد.",
+        "category": "TikTok",
+        "created": "2026-11-06",
+        "updated": "2026-11-07",
+        "published": "2026-11-07",
+        "status": "ready",
+        "related": [
+          "save-tiktok-sound-mp3",
+          "save-tiktok-phone-gallery"
+        ],
+        "sources": [
+          {
+            "title": "TikTok: Download content",
+            "url": "https://support.tiktok.com/en/using-tiktok/exploring-videos/video-downloads"
+          },
+          {
+            "title": "Apple: Where to find downloads",
+            "url": "https://support.apple.com/en-ie/102440"
+          },
+          {
+            "title": "Android: Find files",
+            "url": "https://support.google.com/android/answer/9110661"
+          }
+        ],
+        "seoTitle": "لماذا لا أستطيع حفظ فيديو تيك توك؟",
+        "publicationRequested": true,
+        "sourceSha256": "1e10f3f13108ac81ec8e7c884b3384eefe6c7f3f76cf19f8a978205e99d70818",
+        "sourceBodySha256": "7ec46eabb9ec38a0de443b0d11b57d94e7ba34d182f4e62c1beef48ef1bba24a"
+      }
+    }
+  ]
+}

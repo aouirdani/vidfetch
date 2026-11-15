@@ -33,7 +33,9 @@
       "url": "https://developer.apple.com/av-foundation/"
     }
   ],
-  "sourceBodySha256": "86cafb861e20c2547aaccbc2ef47ac4f1d4d6f6c7d510492f18f9360c3b799c6"
+  "sourceBodySha256": "86cafb861e20c2547aaccbc2ef47ac4f1d4d6f6c7d510492f18f9360c3b799c6",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Untuk menonton di ponsel, pilih kombinasi yang diterima perangkat dan aplikasinya. MP4 dengan H.264 umum serta AAC sering praktis. Profil codec, resolusi, dan versi sistem tetap penting. Uji satu berkas sebelum mengunduh banyak video berukuran besar.

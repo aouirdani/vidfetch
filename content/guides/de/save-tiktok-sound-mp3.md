@@ -29,7 +29,10 @@
   "seoTitle": "TikTok-Ton als MP3 speichern",
   "publicationRequested": true,
   "sourceSha256": "12dd1d3fdd314dd6065c2196b0f7ef5eed26899cbec0607acd8ace4c64edf055",
-  "sourceBodySha256": "e201ccd38de9db48f607e7fe68ea048e4d256b1d8aedc1a69f34991ea5061096"
+  "sourceBodySha256": "e201ccd38de9db48f607e7fe68ea048e4d256b1d8aedc1a69f34991ea5061096",
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "legacyPublished": true
 }
 ---
 

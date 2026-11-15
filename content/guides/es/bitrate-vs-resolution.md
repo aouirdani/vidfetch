@@ -33,7 +33,9 @@
       "url": "https://www.ffmpeg.org/ffmpeg.html"
     }
   ],
-  "sourceBodySha256": "f4906bd34cbb2478a943ff7a3989c3c8fbc6581aec9325a27a3b64d21e9dcff5"
+  "sourceBodySha256": "f4906bd34cbb2478a943ff7a3989c3c8fbc6581aec9325a27a3b64d21e9dcff5",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 La resolución describe los píxeles de cada imagen. El bitrate indica datos por segundo. No son intercambiables: una resolución alta con pocos datos puede verse peor que otra menor bien codificada. La duración completa es necesaria para estimar cuánto ocupará el archivo.

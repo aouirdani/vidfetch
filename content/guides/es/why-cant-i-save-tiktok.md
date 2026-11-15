@@ -29,7 +29,10 @@
   "seoTitle": "Por qué no puedo descargar un video de TikTok",
   "publicationRequested": true,
   "sourceSha256": "1e10f3f13108ac81ec8e7c884b3384eefe6c7f3f76cf19f8a978205e99d70818",
-  "sourceBodySha256": "7ec46eabb9ec38a0de443b0d11b57d94e7ba34d182f4e62c1beef48ef1bba24a"
+  "sourceBodySha256": "7ec46eabb9ec38a0de443b0d11b57d94e7ba34d182f4e62c1beef48ef1bba24a",
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "legacyPublished": true
 }
 ---
 

@@ -33,7 +33,9 @@
       "url": "https://www.gnu.org/software/coreutils/manual/html_node/cksum-common-options.html"
     }
   ],
-  "sourceBodySha256": "eeaa156218e90692cd5ef5da3042187785f42b7ecb328c5c8b4d0a4b91bceb7b"
+  "sourceBodySha256": "eeaa156218e90692cd5ef5da3042187785f42b7ecb328c5c8b4d0a4b91bceb7b",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Cadangan yang berguna mempertahankan berkas asli dan memberi salinan ketika penyimpanan utama gagal. Mulailah dengan video sendiri atau materi yang boleh Anda simpan. Buat salinan independen dan uji pemulihan serta pemutarannya. Folder tersinkron saja tidak membuktikan bahwa arsip dapat dipulihkan.

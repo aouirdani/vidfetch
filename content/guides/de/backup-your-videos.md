@@ -33,7 +33,9 @@
       "url": "https://www.gnu.org/software/coreutils/manual/html_node/cksum-common-options.html"
     }
   ],
-  "sourceBodySha256": "eeaa156218e90692cd5ef5da3042187785f42b7ecb328c5c8b4d0a4b91bceb7b"
+  "sourceBodySha256": "eeaa156218e90692cd5ef5da3042187785f42b7ecb328c5c8b4d0a4b91bceb7b",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Eine brauchbare Videosicherung erhält Originaldateien und liefert eine funktionierende Kopie, wenn der Hauptspeicher ausfällt. Beginne mit eigenen oder erlaubten Inhalten. Halte unabhängige Kopien vor und teste Wiederherstellung und Wiedergabe. Ein synchronisierter Ordner allein beweist kein wiederherstellbares Archiv.

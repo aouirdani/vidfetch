@@ -33,7 +33,9 @@
       "url": "https://www.ffmpeg.org/ffmpeg-codecs.html#libmp3lame"
     }
   ],
-  "sourceBodySha256": "3b71df668d8d476a1de663b87f59552d6e69c8f343affc02a11abbef74828445"
+  "sourceBodySha256": "3b71df668d8d476a1de663b87f59552d6e69c8f343affc02a11abbef74828445",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Une vidéo peut contenir une piste audio séparée. La transformer en fichier audio signifie soit copier cette piste dans un conteneur compatible, soit l’encoder dans un autre format. Une copie peut préserver les données encodées ; une conversion améliore parfois la compatibilité, jamais la qualité initiale. Utilisez uniquement un contenu qui vous appartient ou dont l’usage est autorisé.

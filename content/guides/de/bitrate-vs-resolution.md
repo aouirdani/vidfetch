@@ -33,7 +33,9 @@
       "url": "https://www.ffmpeg.org/ffmpeg.html"
     }
   ],
-  "sourceBodySha256": "f4906bd34cbb2478a943ff7a3989c3c8fbc6581aec9325a27a3b64d21e9dcff5"
+  "sourceBodySha256": "f4906bd34cbb2478a943ff7a3989c3c8fbc6581aec9325a27a3b64d21e9dcff5",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Auflösung beschreibt Pixel pro Bild. Bitrate beschreibt Daten pro Sekunde. Beide wirken auf ein Video, sind aber nicht austauschbar. Ein hochauflösendes Bild mit zu wenig Daten kann schlechter aussehen als eine kleinere, gut codierte Fassung. Zur Größenberechnung gehört außerdem die Dauer.

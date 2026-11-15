@@ -33,7 +33,9 @@
       "url": "https://github.com/yt-dlp/yt-dlp#readme"
     }
   ],
-  "sourceBodySha256": "06a8912cb5d2ab396082b86362d7df856e32b170afde8313e6e4662338400c42"
+  "sourceBodySha256": "06a8912cb5d2ab396082b86362d7df856e32b170afde8313e6e4662338400c42",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Um download pode falhar por causa da plataforma, do serviço de preparação ou da sua conexão. Verifique primeiro se a mídia existe e se você tem autorização para salvá-la. Uma página visível no navegador não garante acesso anônimo a partir de um servidor.

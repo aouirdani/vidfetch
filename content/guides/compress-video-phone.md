@@ -53,7 +53,9 @@
     "market": "us",
     "language": "en"
   },
-  "wordCount": 913
+  "wordCount": 913,
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 To compress a video on a phone, make a smaller delivery copy by lowering its data budget and, when useful, its pixel dimensions. VidFetch can perform that conversion locally in a compatible mobile browser without uploading the recording. Choose the result for its destination, and retain the camera original.

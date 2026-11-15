@@ -33,7 +33,9 @@
       "url": "https://www.ffmpeg.org/ffmpeg-codecs.html#libmp3lame"
     }
   ],
-  "sourceBodySha256": "3b71df668d8d476a1de663b87f59552d6e69c8f343affc02a11abbef74828445"
+  "sourceBodySha256": "3b71df668d8d476a1de663b87f59552d6e69c8f343affc02a11abbef74828445",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Ein Video kann eine separate Tonspur enthalten. Für eine Audiodatei kopierst du diese in einen passenden Container oder codierst sie etwa als MP3 neu. Kopieren kann die codierten Daten erhalten; Konvertieren verbessert unter Umständen Kompatibilität, nicht den ursprünglichen Klang. Verwende nur eigenes oder erlaubtes Material.

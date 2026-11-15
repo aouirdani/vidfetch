@@ -48,7 +48,9 @@
     "market": "us",
     "language": "en"
   },
-  "wordCount": 882
+  "wordCount": 882,
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 To make a GIF from a video, choose a short local clip, select its start and end, set a modest width and frame rate, then export and inspect the animation. VidFetch performs this in your browser without sending the selected video for conversion. The GIF contains no audio, and a long, high-resolution scene can produce a surprisingly large file.

@@ -33,7 +33,9 @@
       "url": "https://github.com/yt-dlp/yt-dlp#readme"
     }
   ],
-  "sourceBodySha256": "06a8912cb5d2ab396082b86362d7df856e32b170afde8313e6e4662338400c42"
+  "sourceBodySha256": "06a8912cb5d2ab396082b86362d7df856e32b170afde8313e6e4662338400c42",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Un téléchargement peut échouer à cause de la plateforme, de la préparation ou de votre connexion. Commencez par vérifier que la vidéo existe encore et que sa sauvegarde est autorisée. Une page lisible dans votre navigateur ne garantit pas un accès anonyme depuis un serveur.

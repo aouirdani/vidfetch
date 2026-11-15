@@ -33,7 +33,9 @@
       "url": "https://www.gnu.org/software/coreutils/manual/html_node/cksum-common-options.html"
     }
   ],
-  "sourceBodySha256": "eeaa156218e90692cd5ef5da3042187785f42b7ecb328c5c8b4d0a4b91bceb7b"
+  "sourceBodySha256": "eeaa156218e90692cd5ef5da3042187785f42b7ecb328c5c8b4d0a4b91bceb7b",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 يحافظ النسخ الاحتياطي المفيد على ملفاتك الأصلية ويتيح نسخة تعمل عندما يتعطل التخزين الرئيسي. ابدأ بمحتواك أو بما يُسمح لك بالاحتفاظ به. أنشئ نسخًا مستقلة واختبر استعادتها وتشغيلها. وجود مجلد متزامن وحده لا يثبت أن الأرشيف قابل للاستعادة عند الحاجة.

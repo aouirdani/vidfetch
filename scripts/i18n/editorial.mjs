@@ -20,7 +20,7 @@ export async function save(record) {
   await writeFile(temp, '---\n' + JSON.stringify(record.meta, null, 2) + '\n---\n' + record.body, { flag: 'wx' });
   await rename(temp, record.path);
 }
-export function assertReviewed(meta, locale) {
-  if (meta.status !== 'ready') throw Error('Guide is not approved');
-  if (locale !== 'en' && (meta.review?.linguistic !== 'approved' || meta.review?.technical !== 'approved' || !meta.review?.reviewer?.trim() || !/^\d{4}-\d{2}-\d{2}$/.test(meta.review?.reviewedAt ?? '') || meta.review.reviewedAt > today())) throw Error('Explicit human review is required');
+export function assertReviewed(meta) {
+  const validDate = value => typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value) && Number.isFinite(Date.parse(value)) && new Date(value).toISOString().slice(0,10) === value && value <= today();
+  if (meta.reviewedBy !== 'Aymane Ouirdani' || !validDate(meta.reviewedAt)) throw Error('Explicit dated review by Aymane Ouirdani is required');
 }

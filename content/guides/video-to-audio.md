@@ -21,7 +21,10 @@
       "title": "FFmpeg: libmp3lame options",
       "url": "https://www.ffmpeg.org/ffmpeg-codecs.html#libmp3lame"
     }
-  ]
+  ],
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "legacyPublished": true
 }
 ---
 A video can contain a separate audio track. Turning it into an audio file means either copying that track into a suitable container or encoding it into another format, such as MP3. Copying can preserve the encoded audio exactly; transcoding can improve compatibility but does not improve the original sound. Start with a video you own or have permission to use.

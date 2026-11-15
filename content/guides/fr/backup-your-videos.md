@@ -33,7 +33,9 @@
       "url": "https://www.gnu.org/software/coreutils/manual/html_node/cksum-common-options.html"
     }
   ],
-  "sourceBodySha256": "eeaa156218e90692cd5ef5da3042187785f42b7ecb328c5c8b4d0a4b91bceb7b"
+  "sourceBodySha256": "eeaa156218e90692cd5ef5da3042187785f42b7ecb328c5c8b4d0a4b91bceb7b",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Une sauvegarde utile conserve les originaux et permet de les récupérer si le stockage principal tombe en panne. Commencez avec vos vidéos ou des contenus que vous êtes autorisé à conserver. Faites plusieurs copies indépendantes et testez leur restauration. Un dossier synchronisé ne prouve pas, à lui seul, qu’une archive est récupérable.

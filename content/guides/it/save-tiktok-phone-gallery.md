@@ -29,7 +29,10 @@
   "seoTitle": "Salvare video TikTok nella galleria",
   "publicationRequested": true,
   "sourceSha256": "da33d1a5c8c8cceecb804d088a5dee00b5891c02efcca610dda44af31a6cf53f",
-  "sourceBodySha256": "ced925123c9476e217d46314d73133965bb84ccbe8b022a0acd8bc7d4e7a4bd1"
+  "sourceBodySha256": "ced925123c9476e217d46314d73133965bb84ccbe8b022a0acd8bc7d4e7a4bd1",
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "legacyPublished": true
 }
 ---
 

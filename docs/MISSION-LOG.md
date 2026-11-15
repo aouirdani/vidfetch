@@ -226,9 +226,42 @@ OpenSEO dry-run et crawl gratuit,0USD chacun : audit ec3b93eb-b0a1-41fd-a7a8-c1c
 Fusion interdite tant que l’éditeur n’a pas confirmé réception des tests contact@,legal@,privacy@,abuse@. Pas de reviewedBy/reviewedAt renseignés, pas de déclaration de relecture humaine. CI complète, revue critique finale et vérification post-déploiement à consigner.
 
 
+## 14 novembre 2026 — Branche technique de relecture (sans publication)
+
+119guides : reviewedBy/reviewedAt null, aucune relecture attestée. Gate strict published+nom exact+vraie date ; prêt/ancienne approbation/publicationRequested ne suffisent plus.34anciennes pages et8index fermés ;112URL locales contrôlées. Dates de première publication historiques conservées même lors d’une relecture ultérieure ; dateModified doit couvrir la relecture réelle.
+
+Prévisualisation privée 127.0.0.1:4184, boucle locale uniquement, noindex/nofollow/no-store,144fiches.29textes du plan rédigés ;G27 fiche non aboutie (source TikTok actuelle non lisible, aucun test de compte attesté). Anciens essais repris avec leur date et leur portée, pas revendiqués comme relecture humaine. Dossier et inventaire complets dans docs/seo.15EN déjà main ;14EN+10FR seulement dans une bibliothèque depuis la branche locale d6b6812, à reprendre en lots≤5.
+
+Build/SEO112URL/i18n réussis ; tests ciblés82réussis ; suite complète en cours. Aucun changement des fichiers moteur/passerelle/dictionnaires/AdSense/Caddy/ENGINE_FILES.0USD supplémentaire, aucune soumission Google. Fusion des pages de confiance attend encore les4boîtes e-mail ; cette branche ne certifie aucun guide relu.
+
+
+Revue critique technique avant ouverture de la branche : aucun ancien flag ne contourne la garde ; dates calendaires et provenance contrôlées ; première date de publication historique préservée ; sources et liens effectifs recontrôlés pour chaque futur guide. seo-check impose2–4liens contextuels, signature Person/À propos et les deux destinations espagnoles. Les prévisualisations échappent le HTML via le même GuideBody, n’écoutent que127.0.0.1 et ne donnent aucune approbation.205tests locaux finaux réussis sous Node22. Les données de relecture du test sont uniquement des fixtures en mémoire/temporaire, jamais les119fichiers sources.
+
+PR#43 : captures mobiles48pages+8mentions et menus réussis ;24mesures Lighthouse CI : Performance médiane97–99, A11y/BP/SEO100,CLS0 ; dernière suite de déploiement encore en cours au moment de cette note. Les captures sont locales, pas une vérification de production. Résultats CI complets et archive à ajouter avant fusion.
+
+
+## 14 novembre — CI des pages de confiance verte, archive contrôlée
+
+PR#43 ae78e46 : run43579679947 entièrement vert, y compris la suite de déploiement.24mesures Lighthouse : médianes97–99, A11y/BP/SEO100,CLS0.48pages+8mentions mobiles et menus validés. Archive2ea0c28c9094b25dd57f7258f7889c11c10d13d1 SHA256 c462185e8f7f6f739ea87ec1e914be2f53bba550edd2fd670f2ef6aabf6b77b7 ; hashes moteur et passerelle inchangés et ENGINE_FILES intact. Aucun blocage technique relevé pour43 ; confirmation des4boîtes e-mail toujours manquante. Aucune fusion ni activation.
+
+PR#44 technique en brouillon :205tests locaux,112URL SEO, i18n et build verts ; CI indépendante encore en cours.144prévisualisations mobiles privées vérifiées (200/H1/images/largeur).G27 a été rédigé depuis le rendu public officiel TikTok (redirection www.tiktok.com/support/faq_detail?id=7543597460594285112&category=web_account), lu le14novembre. Aucun export de compte réel testé ; cette limite est explicite dans le brouillon et le dossier.30textes de travail, toujours0relecture attestée et0nouveau guide publié.
+
+Les24warnings OpenSEO sont le même lien officiel TikTok signalé DNS dans24guides ; pas une preuve de24liens distincts définitivement cassés. Lecture gratuite des problèmes,0USD ; total de reprise0USD. Aucun envoi à Google.
+
+
 ## Correction demandée avant fusion — 14 novembre 2026
 
 PR #43 : À propos et politique éditoriale datent désormais la règle des nouveaux guides au 14 novembre 2026 et indiquent la relecture progressive des guides antérieurs, dans les huit langues. Le texte ne certifie aucune relecture historique. La PR #44 doit préserver les 34 guides et l’intégralité des 106 URL de production. Aucun e-mail confirmé, aucune fusion ou publication effectuée. Nouvelle CI sur ce commit requise ; les preuves ae78e46 restent historiques.
+
+
+## Correction de conservation des guides — avant fusion
+
+Les 34 guides publics de la release eef2a30 sont explicitement legacyPublished avec leurs vraies dates, jamais dépubliés par la garde de relecture. Registre fermé : aucun nouveau guide/série adsense ne peut s’y ajouter par un simple flag. 106 URL figées dans tests/fixtures/public-indexing-expected.json ; 34 corps/métadonnées/dates/canonical/hreflang comparés à la production. seo-check bloquant : 154 URL, dont les 106 existantes, 200 index,follow et canonical/hreflang identiques. Les huit index de guides demeurent publics.
+
+Signature héritée : aide IA seulement, dans les huit langues, sans auteur Person ni date de relecture ; JSON-LD Organization. Après une relecture explicite, signature complète et Person, avec première date de publication conservée (y compris dans la commande manuelle). Aucun reviewedBy/reviewedAt rempli. Les essais de transition sont des fixtures en mémoire uniquement.
+
+Build, lint/typecheck, 211 tests Node22, seo-check154/106 et i18n huit langues réussis localement. Les résultats précédents sur112URL correspondent à une approche abandonnée et non déployée. Nouvelle CI sur ce correctif requise. #43 : texte daté des nouveaux guides dans huit langues, commit afe2a51, CI43584206008 verte. Aucun e-mail confirmé, aucune fusion de PR, aucun déploiement, aucune dépense OpenSEO supplémentaire et aucun envoi à Google.
+
 
 ## 2026-11-14 — Correctif du menu avant #44
 
@@ -236,3 +269,13 @@ PR #43 : À propos et politique éditoriale datent désormais la règle des nouv
 - Panneau mobile fixed/inset-x-3, hauteur disponible dvh sous l’en-tête mesuré, défilement vertical interne, liens sans troncature, section de confiance distincte dans huit langues ; focus visible et Échap. Menu Outils ordinateur aligné au début logique. Débordement du seul visuel décoratif contenu à 320 px.
 - Test Playwright bloquant : 16 cas mobiles, 8 menus ordinateur, 216 clics réels ; focus/Échap, rectangles des libellés, largeur du document vérifiés. Avant/après EN et AR à 390 px : docs/seo/evidence/2026-11-14-mobile-menu/. Lint, typage, build OVH, 205 tests et seo-check 154 URL passent localement. CI/Lighthouse et contrôle public à suivre.
 - Revue critique : contenu et liens restent SSR dans des disclosures natifs ; le contrôleur ajoute uniquement la position mesurée et la fermeture clavier. Aucun retrait de contenu pour les scores. Pas de modification des contenus, URL, ads.txt, meta AdSense, chargeur différé, moteurs ou dictionnaires partagés. Vérifier les deux SHA-256 de l’artefact CI avant fusion. Aucun OpenSEO payant, aucune soumission Google.
+
+
+## 2026-11-15 — #45 déployée, contrôle public réussi, #44 synchronisée sans fusion
+
+- #45 fusionnée en4b2bee42a5b999a3eb2ace2b54fcfa492de5dd62 ; CI PR43644888787 et main43647657452 complètes vertes. Main activé le14/11 à22:50UTC, validé/activated/protectedServicesUnchanged=true, zéro retour arrière ; santé publique confirme la release et les téléchargements disponibles. Archives PR SHA25658d8cc17887c5ee5bf925d917b84ab3b497b7e00bacb10324197f2d0b4ddc0db et main e65459a7effe3d0e11e1e1adcee01a7085a04baa4eb86825267622c7784e9e16. Bundles OVH fa0d3d4e… et gateway0fa14045… identiques chacun à la production avant fusion ; ENGINE_FILES conservé.
+- Contrôle public15/11 : 154URL, dont106historiques et48pages de confiance, toutes200 index/follow ; canonical/hreflang/sitemap,34corps de guides et métadonnées, footer, mentions légales et contacts vérifiés ; ads.txt/meta AdSense inchangés, licences200/noindex limitées aux fichiers prévus. Menu :16cas mobiles+8menus1280px,216clics, focus/Échap, textes complets et largeur document passent. À390px EN/AR :12–378. Captures production et mesures conservées dans docs/seo/evidence/2026-11-14-mobile-menu/production/.
+- Lighthouse PR et main :24mesures chacune, A11y/BP/SEO100 partout,CLS0 ; Performance/LCP/TBT warn. Revue critique : correction du menu et seul visuel décoratif contenu, aucune modification des contenus/URL/protections.
+- Après ce succès seulement : intégration de main dans #44 ; trois conflits documentaires réunis, aucun conflit de code. 119sources de guides inchangées depuis b86cfea,34marqueurs historiques,0champ reviewedBy/reviewedAt rempli. Nouveau test navigation hérité. Le push de cette synchronisation déclenche une CI complète visible sur #44 ; PR toujours brouillon et non fusionnée. Aucun nouveau guide publié, aucun OpenSEO supplémentaire (0USD), aucune soumission Google.
+
+Validation locale de la synchronisation : lint/typecheck, build OVH, huit tests ciblés de conservation/signature et seo-check154URL (106figées en200 index/follow, canonical/hreflang conservés) réussis. Les119paires de champs sont explicitement null ; aucun fichier guide, whitelist historique ou fixture figée ne diffère de b86cfea.

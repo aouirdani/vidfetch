@@ -33,7 +33,9 @@
       "url": "https://www.ffmpeg.org/ffmpeg-codecs.html#libmp3lame"
     }
   ],
-  "sourceBodySha256": "3b71df668d8d476a1de663b87f59552d6e69c8f343affc02a11abbef74828445"
+  "sourceBodySha256": "3b71df668d8d476a1de663b87f59552d6e69c8f343affc02a11abbef74828445",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 Video dapat mempunyai trek audio tersendiri. Membuat berkas audio berarti menyalin trek itu ke kontainer yang cocok atau mengodekannya ke format lain, misalnya MP3. Penyalinan dapat menjaga data tepat; konversi membantu kompatibilitas, bukan meningkatkan suara asli. Gunakan hanya konten milik Anda atau dengan izin.

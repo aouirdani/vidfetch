@@ -33,7 +33,9 @@
       "url": "https://www.webmproject.org/docs/container/"
     }
   ],
-  "sourceBodySha256": "dcc784ad61b3b018d19f23a998202d1b4ac2f0a670b2d711dde20557d639a092"
+  "sourceBodySha256": "dcc784ad61b3b018d19f23a998202d1b4ac2f0a670b2d711dde20557d639a092",
+  "reviewedBy": null,
+  "reviewedAt": null
 }
 ---
 MP4 costuma ser um ponto de partida prático para compartilhar vídeos entre dispositivos. WebM pode atender a projetos na web quando os navegadores de destino aceitam seu conteúdo. Nenhuma extensão garante qualidade ou reprodução. Confira o codec de vídeo, o de áudio e o aplicativo que abrirá o arquivo.
