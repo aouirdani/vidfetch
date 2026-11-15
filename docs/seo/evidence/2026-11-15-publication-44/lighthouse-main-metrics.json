@@ -1,0 +1,114 @@
+[
+  {
+    "path": "/",
+    "runs": 3,
+    "scores": {
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100,
+      "performance": 96.0
+    },
+    "LCP_ms_median": 2276.9921,
+    "TBT_ms_median": 150.5019749999999,
+    "CLS_median": 0,
+    "performance_lcp_tbt_level": "warn"
+  },
+  {
+    "path": "/about",
+    "runs": 3,
+    "scores": {
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100,
+      "performance": 98.0
+    },
+    "LCP_ms_median": 2055.1528,
+    "TBT_ms_median": 131.80265000000009,
+    "CLS_median": 0,
+    "performance_lcp_tbt_level": "warn"
+  },
+  {
+    "path": "/ar",
+    "runs": 3,
+    "scores": {
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100,
+      "performance": 95.0
+    },
+    "LCP_ms_median": 2274.7681,
+    "TBT_ms_median": 219.00000000000023,
+    "CLS_median": 0,
+    "performance_lcp_tbt_level": "warn"
+  },
+  {
+    "path": "/blog/why-cant-i-save-tiktok",
+    "runs": 3,
+    "scores": {
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100,
+      "performance": 98.0
+    },
+    "LCP_ms_median": 2209.8905,
+    "TBT_ms_median": 120,
+    "CLS_median": 0,
+    "performance_lcp_tbt_level": "warn"
+  },
+  {
+    "path": "/fr",
+    "runs": 3,
+    "scores": {
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100,
+      "performance": 95.0
+    },
+    "LCP_ms_median": 2286.692,
+    "TBT_ms_median": 204,
+    "CLS_median": 0,
+    "performance_lcp_tbt_level": "warn"
+  },
+  {
+    "path": "/fr/contact",
+    "runs": 3,
+    "scores": {
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100,
+      "performance": 97.0
+    },
+    "LCP_ms_median": 2111.1602,
+    "TBT_ms_median": 178.532375,
+    "CLS_median": 0,
+    "performance_lcp_tbt_level": "warn"
+  },
+  {
+    "path": "/id/download-video-tiktok",
+    "runs": 3,
+    "scores": {
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100,
+      "performance": 95.0
+    },
+    "LCP_ms_median": 2304.7362,
+    "TBT_ms_median": 203,
+    "CLS_median": 0,
+    "performance_lcp_tbt_level": "warn"
+  },
+  {
+    "path": "/video-to-mp3",
+    "runs": 3,
+    "scores": {
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100,
+      "performance": 95.0
+    },
+    "LCP_ms_median": 2275.9422,
+    "TBT_ms_median": 213,
+    "CLS_median": 0,
+    "performance_lcp_tbt_level": "warn"
+  }
+]

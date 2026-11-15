@@ -1,3 +1,18 @@
+## 15 novembre 2026 — #44 fusionnée, déployée et vérifiée
+
+La PR [#44](https://github.com/aouirdani/vidfetch/pull/44) est fusionnée en `c6deea404de094048c8b081d9c7709ac01636dc3`, après [CI complète verte](https://github.com/aouirdani/vidfetch/actions/runs/43701929457), revue critique sans écart et comparaison des deux SHA-256 protégés. La [CI et l’activation de main](https://github.com/aouirdani/vidfetch/actions/runs/43729761854) ont réussi. Frontend et téléchargements disponibles ; services protégés inchangés et zéro retour arrière. Contrôle public terminé le15/11 à16:52:54UTC.
+
+- **154 URL vérifiées** : toutes 200 index/follow ; canonical, hreflang réciproques et sitemap corrects. Les106 URL historiques et48 pages de confiance sont toutes conservées, sans URL ajoutée.
+- **34 guides historiques** : corps, titres/descriptions, URL, canonical/hreflang, dates de publication et de modification inchangés. Signature IA seule localisée, sans nom/date de relecture ; author Organization dans tous les BlogPosting. Aucun nouveau guide publié ;110 routes non publiées testées restent 404. Les119 sources conservent reviewedBy/reviewedAt à `null` ; aucun guide ni case de relecture approuvé par l’agent. Le verrou est désormais actif pour toute nouvelle publication.
+- **AdSense et moteurs** : ads.txt identique octet par octet, balises google-adsense-account inchangées sur154pages, chargement différé toujours `false`. OVH fa0d3d4e… et gateway 0fa14045… correspondent chacun à leur référence de production ; ENGINE_FILES conservé. Archive déployée SHA-256 ba5b5cce354bece2b110f2d659d1cd57532fc0789d827388159f53a330ec633d.
+- **CI et mobile** : tests, SEO, i18n, contrôles de release/Caddy, navigation et conversions réussis.24 mesures Lighthouse par CI : A11y/BP/SEO 100 partout,CLS 0 ; Performance/LCP/TBT restentwarn.82 vues mobiles et16 menus publics supplémentaires passent. Les signatures sont servies en HTML, sans changement d’hydratation.
+
+[Preuves et captures de la publication](evidence/2026-11-15-publication-44/README.md), [bilan machine](evidence/2026-11-15-publication-44/summary.json). Aucun écart n’a été rencontré pendant le contrôle public. Aucun appel OpenSEO supplémentaire (0 USD), aucune soumission Google. La file manuelle existante reste limitée à dix URL par jour ; les nouveaux guides attendent une relecture humaine explicitement nommée et datée, puis des lots de cinq maximum.
+
+Les48 pages de confiance, six dans chacune des huit langues, restent publiées ; leurs URL par langue sont conservées dans le tableau suivant. Les paragraphes antérieurs décrivant #44 en brouillon ou non fusionnée sont remplacés par cet état. Ce bilan est enregistré dans une branche documentaire distincte pour conserver la release testée.
+
+---
+
 ## 15 novembre 2026 — menu corrigé en production ; #44 synchronisée et non fusionnée
 
 La PR [#45](https://github.com/aouirdani/vidfetch/pull/45), créée séparément depuis main, a été fusionnée en `4b2bee42a5b999a3eb2ace2b54fcfa492de5dd62`. La [CI de la PR](https://github.com/aouirdani/vidfetch/actions/runs/43644888787) et la [CI/activation de main](https://github.com/aouirdani/vidfetch/actions/runs/43647657452) sont entièrement vertes. Activation le 14 novembre à 22:50 UTC ; vérifications publiques achevées le 15 novembre. Endpoint public : frontend prêt, téléchargements disponibles, même release. Zéro retour arrière et services protégés inchangés.
