@@ -54,6 +54,16 @@ jobs:
           npm run smoke:browser
       - name: Required mobile and desktop navigation (LTR, RTL, keyboard and every link)
         run: npm run test:navigation
+      - name: Required hero geometry, keyboard, validation and eight-language overflow checks
+        run: npm run test:home
+      - name: Preserve home screenshots and geometry
+        if: always()
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        with:
+          name: home-${{ github.sha }}
+          path: build/home-evidence/
+          if-no-files-found: ignore
+          retention-days: 30
       - name: Preserve navigation geometry and mobile screenshots
         if: always()
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
@@ -98,12 +108,16 @@ jobs:
         env:
           VIDFETCH_RELEASE: ${{ github.sha }}
         run: node scripts/ui-v2/report-budgets.mjs .lighthouseci-pr "build/releases/${VIDFETCH_RELEASE}/app/.next/server/app"
+      - name: Compare mobile LCP with the last main CI for publishing review
+        run: node scripts/ui/compare-lighthouse.mjs .lighthouseci-pr
       - name: Preserve Lighthouse reports and warnings
         if: always()
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
           name: lighthouse-${{ github.sha }}
-          path: .lighthouseci-pr/*.report.json
+          path: |
+            .lighthouseci-pr/*.report.json
+            .lighthouseci-pr/lcp-comparison.json
           if-no-files-found: ignore
           retention-days: 7
           include-hidden-files: true

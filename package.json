@@ -11,10 +11,12 @@
     "test:backend": "node backend/tests/run.mjs",
     "test:vercel": "node scripts/test-vercel.mjs",
     "smoke:browser": "node scripts/smoke-browser.mjs",
+    "test:home": "node scripts/ui/test-home.mjs",
+    "test:preservation": "node scripts/ui/check-preservation.mjs",
     "test:navigation": "node scripts/test-header-navigation.mjs",
     "test:i18n": "node scripts/i18n/verify-site.mjs",
     "check:release": "node scripts/check-release.mjs",
-    "seo-check": "node scripts/seo-check",
+    "seo-check": "node scripts/seo-check && node scripts/ui/check-preservation.mjs",
     "test:local-tools": "node scripts/local-tools/test.mjs && node scripts/local-tools/test-opfs.mjs"
   },
   "dependencies": {

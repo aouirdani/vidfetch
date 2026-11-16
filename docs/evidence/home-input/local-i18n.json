@@ -1,0 +1,20 @@
+{
+  "port": 60190,
+  "serverPages": 154,
+  "locales": [
+    "en",
+    "fr",
+    "es",
+    "pt-BR",
+    "id",
+    "de",
+    "it",
+    "ar"
+  ],
+  "checks": [
+    "SSR content, reciprocal hreflang, eight language selectors and localized 404",
+    "Local TikTok tool links in each language; no unverified platform routes",
+    "16 localized tool transfers and quota errors, eight home transfers, RTL, YouTube validation without requests and unchanged API boundaries"
+  ],
+  "publicNetworkUsed": false
+}

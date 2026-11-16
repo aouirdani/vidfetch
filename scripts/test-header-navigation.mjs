@@ -40,6 +40,7 @@ async function inBounds(page, panel, mobile) {
   assert.ok(dimensions.left >= 0 && dimensions.right <= dimensions.width, JSON.stringify(dimensions));
   assert.ok(dimensions.scrollWidth <= dimensions.width, `${page.url()}: no document horizontal scroll ${JSON.stringify(dimensions)}`);
   assert.ok(dimensions.panelScrollWidth <= dimensions.panelClientWidth, 'no panel horizontal scroll');
+  if (!mobile) assert.equal(await panel.locator('[data-header-legal-section] a').count(), 2, 'both trust links remain in Tools');
   if (mobile) {
     assert.equal(dimensions.position, 'fixed');
     assert.ok(dimensions.top >= dimensions.headerBottom && dimensions.top <= dimensions.headerBottom + 8, 'panel immediately below header');
@@ -139,7 +140,7 @@ try {
   }
   await page.setViewportSize({ width: 1280, height: 900 });
   for (const path of paths) {
-    for (const selector of ['[data-header-tools-panel]', '[data-header-legal-panel]']) await testDisclosure(page, path, selector, false);
+    await testDisclosure(page, path, '[data-header-tools-panel]', false);
   }
   await page.setViewportSize({ width: 390, height: 844 });
   for (const [locale, path] of [['en', '/'], ['ar', '/ar']]) {
@@ -154,7 +155,7 @@ try {
     results.push({ locale, viewport: page.viewportSize(), dimensions, screenshot: `after-${locale}-390.webp`, trustScreenshot: `after-${locale}-390-trust.webp` });
   }
   success = true;
-  console.log(`HEADER NAVIGATION PASS: ${widths.length * paths.length} mobile cases, ${paths.length * 2} desktop menus; every link clicked, focus/Escape and viewport bounds verified.`);
+  console.log(`HEADER NAVIGATION PASS: ${widths.length * paths.length} mobile cases, ${paths.length} desktop Tools menus (including Legal links); every link clicked, focus/Escape and viewport bounds verified.`);
 } finally {
   await writeFile(resolve(evidence, 'navigation.json'), JSON.stringify({ capturedAt: new Date().toISOString(), release: process.env.GITHUB_SHA ?? null, base, success, results }, null, 2) + '\n');
   await browser?.close();

@@ -1,0 +1,758 @@
+{
+  "success": true,
+  "base": "http://127.0.0.1:60196",
+  "current": "/ar 390x844",
+  "testedAt": "2026-11-16T20:20:12.335Z",
+  "results": [
+    {
+      "path": "/",
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "control": {
+        "x": 240,
+        "y": 382.734375,
+        "width": 800,
+        "height": 84
+      },
+      "input": {
+        "x": 292,
+        "y": 394.734375,
+        "width": 482.71875,
+        "height": 60
+      },
+      "primary": {
+        "x": 890.796875,
+        "y": 394.734375,
+        "width": 137.203125,
+        "height": 60
+      },
+      "h1Lines": 2,
+      "placeholderContrast": 7.831103234885362,
+      "statusHeight": 60,
+      "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
+      "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
+    },
+    {
+      "path": "/fr",
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "control": {
+        "x": 240,
+        "y": 382.734375,
+        "width": 800,
+        "height": 84
+      },
+      "input": {
+        "x": 292,
+        "y": 394.734375,
+        "width": 466.734375,
+        "height": 60
+      },
+      "primary": {
+        "x": 877.015625,
+        "y": 394.734375,
+        "width": 150.984375,
+        "height": 60
+      },
+      "h1Lines": 2,
+      "placeholderContrast": 7.831103234885362,
+      "statusHeight": 60,
+      "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
+      "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
+    },
+    {
+      "path": "/ar",
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "control": {
+        "x": 240,
+        "y": 355.1875,
+        "width": 800,
+        "height": 84
+      },
+      "input": {
+        "x": 496.03125,
+        "y": 367.1875,
+        "width": 531.96875,
+        "height": 60
+      },
+      "primary": {
+        "x": 252,
+        "y": 367.1875,
+        "width": 98.046875,
+        "height": 60
+      },
+      "h1Lines": 2,
+      "placeholderContrast": 7.831103234885362,
+      "statusHeight": 60,
+      "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
+      "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
+    },
+    {
+      "path": "/de",
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "control": {
+        "x": 240,
+        "y": 355.1875,
+        "width": 800,
+        "height": 84
+      },
+      "input": {
+        "x": 292,
+        "y": 367.1875,
+        "width": 427.234375,
+        "height": 60
+      },
+      "primary": {
+        "x": 858.5,
+        "y": 367.1875,
+        "width": 169.5,
+        "height": 60
+      },
+      "h1Lines": 2,
+      "placeholderContrast": 7.831103234885362,
+      "statusHeight": 60,
+      "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
+      "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
+    },
+    {
+      "path": "/fr/telecharger-video-tiktok",
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "control": {
+        "x": 240,
+        "y": 359.421875,
+        "width": 800,
+        "height": 84
+      },
+      "input": {
+        "x": 292,
+        "y": 371.421875,
+        "width": 466.734375,
+        "height": 60
+      },
+      "primary": {
+        "x": 877.015625,
+        "y": 371.421875,
+        "width": 150.984375,
+        "height": 60
+      },
+      "h1Lines": 1,
+      "placeholderContrast": 7.831103234885362,
+      "statusHeight": 60,
+      "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
+      "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
+    },
+    {
+      "path": "/",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "control": {
+        "x": 283,
+        "y": 382.734375,
+        "width": 800,
+        "height": 84
+      },
+      "input": {
+        "x": 335,
+        "y": 394.734375,
+        "width": 482.71875,
+        "height": 60
+      },
+      "primary": {
+        "x": 933.796875,
+        "y": 394.734375,
+        "width": 137.203125,
+        "height": 60
+      },
+      "h1Lines": 2,
+      "placeholderContrast": 7.831103234885362,
+      "statusHeight": 60,
+      "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
+      "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
+    },
+    {
+      "path": "/fr",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "control": {
+        "x": 283,
+        "y": 382.734375,
+        "width": 800,
+        "height": 84
+      },
+      "input": {
+        "x": 335,
+        "y": 394.734375,
+        "width": 466.734375,
+        "height": 60
+      },
+      "primary": {
+        "x": 920.015625,
+        "y": 394.734375,
+        "width": 150.984375,
+        "height": 60
+      },
+      "h1Lines": 2,
+      "placeholderContrast": 7.831103234885362,
+      "statusHeight": 60,
+      "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
+      "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
+    },
+    {
+      "path": "/ar",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "control": {
+        "x": 283,
+        "y": 355.1875,
+        "width": 800,
+        "height": 84
+      },
+      "input": {
+        "x": 539.03125,
+        "y": 367.1875,
+        "width": 531.96875,
+        "height": 60
+      },
+      "primary": {
+        "x": 295,
+        "y": 367.1875,
+        "width": 98.046875,
+        "height": 60
+      },
+      "h1Lines": 2,
+      "placeholderContrast": 7.831103234885362,
+      "statusHeight": 60,
+      "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
+      "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
+    },
+    {
+      "path": "/de",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "control": {
+        "x": 283,
+        "y": 355.1875,
+        "width": 800,
+        "height": 84
+      },
+      "input": {
+        "x": 335,
+        "y": 367.1875,
+        "width": 427.234375,
+        "height": 60
+      },
+      "primary": {
+        "x": 901.5,
+        "y": 367.1875,
+        "width": 169.5,
+        "height": 60
+      },
+      "h1Lines": 2,
+      "placeholderContrast": 7.831103234885362,
+      "statusHeight": 60,
+      "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
+      "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
+    },
+    {
+      "path": "/fr/telecharger-video-tiktok",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "control": {
+        "x": 283,
+        "y": 359.421875,
+        "width": 800,
+        "height": 84
+      },
+      "input": {
+        "x": 335,
+        "y": 371.421875,
+        "width": 466.734375,
+        "height": 60
+      },
+      "primary": {
+        "x": 920.015625,
+        "y": 371.421875,
+        "width": 150.984375,
+        "height": 60
+      },
+      "h1Lines": 1,
+      "placeholderContrast": 7.831103234885362,
+      "statusHeight": 60,
+      "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
+      "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
+    },
+    {
+      "path": "/",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "control": {
+        "x": 320,
+        "y": 382.734375,
+        "width": 800,
+        "height": 84
+      },
+      "input": {
+        "x": 372,
+        "y": 394.734375,
+        "width": 482.71875,
+        "height": 60
+      },
+      "primary": {
+        "x": 970.796875,
+        "y": 394.734375,
+        "width": 137.203125,
+        "height": 60
+      },
+      "h1Lines": 2,
+      "placeholderContrast": 7.831103234885362,
+      "statusHeight": 60,
+      "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
+      "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
+    },
+    {
+      "path": "/fr",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "control": {
+        "x": 320,
+        "y": 382.734375,
+        "width": 800,
+        "height": 84
+      },
+      "input": {
+        "x": 372,
+        "y": 394.734375,
+        "width": 466.734375,
+        "height": 60
+      },
+      "primary": {
+        "x": 957.015625,
+        "y": 394.734375,
+        "width": 150.984375,
+        "height": 60
+      },
+      "h1Lines": 2,
+      "placeholderContrast": 7.831103234885362,
+      "statusHeight": 60,
+      "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
+      "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
+    },
+    {
+      "path": "/ar",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "control": {
+        "x": 320,
+        "y": 355.1875,
+        "width": 800,
+        "height": 84
+      },
+      "input": {
+        "x": 576.03125,
+        "y": 367.1875,
+        "width": 531.96875,
+        "height": 60
+      },
+      "primary": {
+        "x": 332,
+        "y": 367.1875,
+        "width": 98.046875,
+        "height": 60
+      },
+      "h1Lines": 2,
+      "placeholderContrast": 7.831103234885362,
+      "statusHeight": 60,
+      "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
+      "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
+    },
+    {
+      "path": "/de",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "control": {
+        "x": 320,
+        "y": 355.1875,
+        "width": 800,
+        "height": 84
+      },
+      "input": {
+        "x": 372,
+        "y": 367.1875,
+        "width": 427.234375,
+        "height": 60
+      },
+      "primary": {
+        "x": 938.5,
+        "y": 367.1875,
+        "width": 169.5,
+        "height": 60
+      },
+      "h1Lines": 2,
+      "placeholderContrast": 7.831103234885362,
+      "statusHeight": 60,
+      "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
+      "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
+    },
+    {
+      "path": "/fr/telecharger-video-tiktok",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "control": {
+        "x": 320,
+        "y": 359.421875,
+        "width": 800,
+        "height": 84
+      },
+      "input": {
+        "x": 372,
+        "y": 371.421875,
+        "width": 466.734375,
+        "height": 60
+      },
+      "primary": {
+        "x": 957.015625,
+        "y": 371.421875,
+        "width": 150.984375,
+        "height": 60
+      },
+      "h1Lines": 1,
+      "placeholderContrast": 7.831103234885362,
+      "statusHeight": 60,
+      "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
+      "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
+    },
+    {
+      "path": "/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "control": {
+        "x": 16,
+        "y": 359.015625,
+        "width": 358,
+        "height": 148
+      },
+      "input": {
+        "x": 66,
+        "y": 369.015625,
+        "width": 227.921875,
+        "height": 60
+      },
+      "primary": {
+        "x": 26,
+        "y": 437.015625,
+        "width": 338,
+        "height": 60
+      },
+      "h1Lines": 3,
+      "placeholderContrast": 7.831103234885362,
+      "statusHeight": 96,
+      "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
+      "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
+    },
+    {
+      "path": "/fr",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "control": {
+        "x": 16,
+        "y": 384.203125,
+        "width": 358,
+        "height": 148
+      },
+      "input": {
+        "x": 66,
+        "y": 394.203125,
+        "width": 225.71875,
+        "height": 60
+      },
+      "primary": {
+        "x": 26,
+        "y": 462.203125,
+        "width": 338,
+        "height": 60
+      },
+      "h1Lines": 3,
+      "placeholderContrast": 7.831103234885362,
+      "statusHeight": 96,
+      "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
+      "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
+    },
+    {
+      "path": "/ar",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "control": {
+        "x": 16,
+        "y": 308.640625,
+        "width": 358,
+        "height": 148
+      },
+      "input": {
+        "x": 125.984375,
+        "y": 318.640625,
+        "width": 238.015625,
+        "height": 60
+      },
+      "primary": {
+        "x": 26,
+        "y": 386.640625,
+        "width": 338,
+        "height": 60
+      },
+      "h1Lines": 3,
+      "placeholderContrast": 7.831103234885362,
+      "statusHeight": 96,
+      "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
+      "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
+    },
+    {
+      "path": "/de",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "control": {
+        "x": 16,
+        "y": 293.40625,
+        "width": 358,
+        "height": 148
+      },
+      "input": {
+        "x": 66,
+        "y": 303.40625,
+        "width": 204.734375,
+        "height": 60
+      },
+      "primary": {
+        "x": 26,
+        "y": 371.40625,
+        "width": 338,
+        "height": 60
+      },
+      "h1Lines": 2,
+      "placeholderContrast": 7.831103234885362,
+      "statusHeight": 96,
+      "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
+      "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
+    },
+    {
+      "path": "/fr/telecharger-video-tiktok",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "control": {
+        "x": 16,
+        "y": 434.15625,
+        "width": 358,
+        "height": 148
+      },
+      "input": {
+        "x": 66,
+        "y": 444.15625,
+        "width": 225.71875,
+        "height": 60
+      },
+      "primary": {
+        "x": 26,
+        "y": 512.15625,
+        "width": 338,
+        "height": 60
+      },
+      "h1Lines": 2,
+      "placeholderContrast": 7.831103234885362,
+      "statusHeight": 96,
+      "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
+      "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
+    },
+    {
+      "path": "/",
+      "viewport": {
+        "width": 360,
+        "height": 740
+      },
+      "control": {
+        "x": 16,
+        "y": 410.875,
+        "width": 328,
+        "height": 148
+      },
+      "input": {
+        "x": 66,
+        "y": 420.875,
+        "width": 197.921875,
+        "height": 60
+      },
+      "primary": {
+        "x": 26,
+        "y": 488.875,
+        "width": 308,
+        "height": 60
+      },
+      "h1Lines": 3,
+      "placeholderContrast": 7.831103234885362,
+      "statusHeight": 96,
+      "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
+      "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
+    },
+    {
+      "path": "/fr",
+      "viewport": {
+        "width": 360,
+        "height": 740
+      },
+      "control": {
+        "x": 16,
+        "y": 436.0625,
+        "width": 328,
+        "height": 148
+      },
+      "input": {
+        "x": 66,
+        "y": 446.0625,
+        "width": 195.71875,
+        "height": 60
+      },
+      "primary": {
+        "x": 26,
+        "y": 514.0625,
+        "width": 308,
+        "height": 60
+      },
+      "h1Lines": 3,
+      "placeholderContrast": 7.831103234885362,
+      "statusHeight": 96,
+      "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
+      "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
+    },
+    {
+      "path": "/ar",
+      "viewport": {
+        "width": 360,
+        "height": 740
+      },
+      "control": {
+        "x": 16,
+        "y": 299.3125,
+        "width": 328,
+        "height": 148
+      },
+      "input": {
+        "x": 125.984375,
+        "y": 309.3125,
+        "width": 208.015625,
+        "height": 60
+      },
+      "primary": {
+        "x": 26,
+        "y": 377.3125,
+        "width": 308,
+        "height": 60
+      },
+      "h1Lines": 3,
+      "placeholderContrast": 7.831103234885362,
+      "statusHeight": 96,
+      "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
+      "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
+    },
+    {
+      "path": "/de",
+      "viewport": {
+        "width": 360,
+        "height": 740
+      },
+      "control": {
+        "x": 16,
+        "y": 348.375,
+        "width": 328,
+        "height": 148
+      },
+      "input": {
+        "x": 66,
+        "y": 358.375,
+        "width": 174.734375,
+        "height": 60
+      },
+      "primary": {
+        "x": 26,
+        "y": 426.375,
+        "width": 308,
+        "height": 60
+      },
+      "h1Lines": 2,
+      "placeholderContrast": 7.831103234885362,
+      "statusHeight": 96,
+      "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
+      "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
+    },
+    {
+      "path": "/fr/telecharger-video-tiktok",
+      "viewport": {
+        "width": 360,
+        "height": 740
+      },
+      "control": {
+        "x": 16,
+        "y": 463.9375,
+        "width": 328,
+        "height": 148
+      },
+      "input": {
+        "x": 66,
+        "y": 473.9375,
+        "width": 195.71875,
+        "height": 60
+      },
+      "primary": {
+        "x": 26,
+        "y": 541.9375,
+        "width": 308,
+        "height": 60
+      },
+      "h1Lines": 2,
+      "placeholderContrast": 7.831103234885362,
+      "statusHeight": 96,
+      "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
+      "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
+    }
+  ]
+}
