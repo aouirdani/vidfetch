@@ -33,6 +33,8 @@ class Page(HTMLParser):
         self.capture = None
         self.parts = []
         self.json_script = False
+        self.script = False
+        self.script_parts = []
         self.article = {}
         self.ad_scripts = 0
         self.in_byline = False
@@ -61,7 +63,8 @@ class Page(HTMLParser):
                 path = urlsplit(href(urljoin(self.url, a['href']))).path
                 self.data['links'][path] = self.data['links'].get(path, 0) + 1
         if tag == 'script':
-            self.ad_scripts += int('pagead2.googlesyndication.com/pagead/js/adsbygoogle.js' in a.get('src', ''))
+            self.script, self.script_parts = True, []
+            self.ad_scripts += int(bool(re.search(r'googlesyndication\.com|doubleclick\.net|googleadservices\.com', a.get('src', ''), re.I)))
             if a.get('type') == 'application/ld+json':
                 self.json_script, self.parts = True, []
         if tag == 'article':
@@ -70,6 +73,9 @@ class Page(HTMLParser):
             self.article['has-time'] = True
 
     def handle_endtag(self, tag):
+        if tag == 'script' and self.script:
+            self.ad_scripts += int(bool(re.search(r'adsbygoogle|google_ad_client|googlesyndication\.com|googleadservices\.com', ''.join(self.script_parts), re.I)))
+            self.script, self.script_parts = False, []
         if tag == 'p':
             self.in_byline = False
         if tag == self.capture:
@@ -80,6 +86,8 @@ class Page(HTMLParser):
             self.json_script, self.parts = False, []
 
     def handle_data(self, value):
+        if self.script:
+            self.script_parts.append(value)
         if self.capture or self.json_script:
             self.parts.append(value)
 
@@ -89,10 +97,16 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
         return None
 
 
-def get(base, path):
+def get(base, path, expected=200):
     request = urllib.request.Request(base + path, headers={'User-Agent': 'VidFetch-release-check/1.0'})
-    with urllib.request.build_opener(NoRedirect).open(request, timeout=20) as response:
-        assert response.status == 200, (path, response.status)
+    try:
+        response = urllib.request.build_opener(NoRedirect).open(request, timeout=20)
+    except urllib.error.HTTPError as error:
+        if error.code != expected:
+            raise
+        response = error
+    with response:
+        assert response.status == expected, (path, response.status)
         body = response.read(2 * 1024 * 1024 + 1)
         assert len(body) <= 2 * 1024 * 1024, (path, 'response too large')
         return response.headers, body
@@ -146,6 +160,24 @@ def page(base, path, xml_alternates):
     return path, data
 
 
+def check_adsense_scope(pages):
+    frozen = json.loads(Path('tests/fixtures/adsense-production-20261117.json').read_text())
+    present = {p for p, data in pages.items() if data['adsense']}
+    absent = set(pages) - present
+    assert len(frozen['present']) == 114 and len(frozen['absent']) == 40
+    assert present == set(frozen['present']), ('AdSense URL set changed', sorted(present ^ set(frozen['present'])))
+    assert absent == set(frozen['absent']), ('AdSense exclusion set changed', sorted(absent ^ set(frozen['absent'])))
+    assert set(SAMPLE[:8]).issubset(present), 'all eight homes must keep the AdSense meta'
+    return {'present': sorted(present), 'absent': sorted(absent)}
+
+
+def check_not_found(base):
+    _, body = get(base, '/release-check-missing-35e7a', expected=404)
+    parser = Page()
+    parser.feed(body.decode('utf-8'))
+    assert not parser.data['adsense'] and not parser.ad_scripts, '404 gained AdSense'
+
+
 def run(base, previous=None, subset=False, expected_release=None):
     assert base == ORIGIN or urlsplit(base).hostname in ['127.0.0.1', 'localhost'], 'unsupported origin'
     starting_release = json.loads(get(base, '/api/health')[1]).get('release')
@@ -156,10 +188,16 @@ def run(base, previous=None, subset=False, expected_release=None):
         assert set(previous['pages']).issubset(paths), 'production sitemap URL disappeared'
         if subset:
             assert set(previous['pages']) == set(paths), 'deployed sitemap differs from checked archive'
-    selected = SAMPLE if subset else paths
-    assert set(selected).issubset(paths), 'required smoke route missing'
+    # Even the quick post-deploy check reads all pages: gains on excluded tools
+    # must trigger the same automatic rollback as losses on eligible pages.
+    selected = paths
+    assert set(SAMPLE).issubset(paths), 'required smoke route missing'
     with ThreadPoolExecutor(max_workers=6) as pool:
         pages = dict(pool.map(lambda path: page(base, path, alternates[path]), selected))
+    adsense_scope = check_adsense_scope(pages)
+    if previous:
+        assert adsense_scope == check_adsense_scope(previous['pages']), 'production AdSense scope changed'
+    check_not_found(base)
     if previous:
         for path, data in pages.items():
             old = previous['pages'].get(path)
@@ -184,7 +222,7 @@ def run(base, previous=None, subset=False, expected_release=None):
     assert release == starting_release, 'release changed during snapshot/check'
     if expected_release:
         assert release == expected_release, ('wrong deployed release', release, expected_release)
-    return {'assets': raw_assets, 'pages': pages, 'release': release}
+    return {'assets': raw_assets, 'pages': pages, 'release': release, 'adsenseScope': adsense_scope}
 
 
 def main():

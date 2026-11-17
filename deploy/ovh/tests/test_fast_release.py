@@ -69,6 +69,29 @@ class PublicContract(unittest.TestCase):
         with self.assertRaises(AssertionError):
             self.check(html)
 
+    def test_adsense_meta_gain_or_loss_blocks_even_if_counts_are_swapped(self):
+        frozen = json.loads((ROOT / 'tests/fixtures/adsense-production-20261117.json').read_text())
+        pages = {p: {'adsense': ['ca-pub-7903460199253248']} for p in frozen['present']}
+        pages.update({p: {'adsense': []} for p in frozen['absent']})
+        contract.check_adsense_scope(pages)
+        eligible, excluded = frozen['present'][0], frozen['absent'][0]
+        pages[eligible]['adsense'] = []
+        with self.assertRaises(AssertionError):
+            contract.check_adsense_scope(pages)
+        pages[excluded]['adsense'] = ['ca-pub-7903460199253248']
+        with self.assertRaises(AssertionError):
+            contract.check_adsense_scope(pages)
+
+    def test_adsense_scripts_and_meta_on_404_block(self):
+        for script in [b'<script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>', b'<script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>']:
+            with self.assertRaises(AssertionError):
+                self.check(self.html() + script)
+        with patch.object(contract, 'get', return_value=({}, self.html())), self.assertRaises(AssertionError):
+            contract.check_not_found('http://127.0.0.1:1234')
+        with patch.object(contract, 'get', return_value=({}, b'<h1>Not found</h1>')) as request:
+            contract.check_not_found('http://127.0.0.1:1234')
+            request.assert_called_once_with('http://127.0.0.1:1234', '/release-check-missing-35e7a', expected=404)
+
     def test_public_failure_workflow_uses_guarded_rollback_and_no_browser(self):
         workflow = (ROOT / '.github/workflows/deploy.yml').read_text()
         self.assertIn("steps.public.outcome == 'failure'", workflow)

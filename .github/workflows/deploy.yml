@@ -49,7 +49,7 @@ jobs:
           DEPLOY_KNOWN_HOSTS: ${{ secrets.OVH_DEPLOY_KNOWN_HOSTS }}
           DEPLOY_ARCHIVE: build/release-${{ github.sha }}.tgz
         run: sh scripts/ovh/deploy.sh
-      - name: Public production check (11 routes and robots/sitemap/ads.txt)
+      - name: Public production check (154 routes, exact 114/40 AdSense scope and 404)
         id: public
         run: python3 scripts/release/public_contract.py --snapshot build/preflight/checked-release.json --subset --release "$GITHUB_SHA"
       - name: Automatically restore predecessor if the public check fails
