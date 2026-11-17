@@ -6,6 +6,8 @@ Le push main lance uniquement **Production directe** : cache npm/Next, un build 
 
 Pendant l’examen AdSense, la liste figée `tests/fixtures/adsense-production-20261117.json` conserve exactement114 URL avec la balise (dont les huit accueils) et40 sans balise (32 outils locaux et huit pages légales). Tout gain ou retrait échoue, y compris au contrôle public après activation. La404 reste sans balise et aucun script publicitaire n’est autorisé ; ads.txt reste identique octet pour octet. L’instantané SEO frais ne peut pas réapprouver une modification de ce périmètre.
 
+L’audit attend une santé prête sur la release attendue, puis contrôle12 URL en parallèle (réglable de8 à16), avec30s par requête et une limite globale ferme de120s. Il ne répète pas les pages en échec. Les erreurs nomment l’URL et la phase ; les durées de réponse, médiane, p95 et maximum sont journalisées, sans URL média ni secret. `--timings build/audit-http.json` conserve les mesures de chaque requête. Tous les critères de contenu, d’indexation et AdSense restent identiques.
+
 Sur le serveur, une commande administrateur restaure la version précédente et valide sa santé et son origine HTTPS :
 
 ```sh

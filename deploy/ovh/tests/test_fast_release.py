@@ -2,6 +2,8 @@ import hashlib
 import importlib.util
 import json
 from pathlib import Path
+import subprocess
+import sys
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -100,6 +102,29 @@ class PublicContract(unittest.TestCase):
         for slow in ['chromium', 'lighthouse', 'ffmpeg', 'run-load', 'test:i18n']:
             self.assertNotIn(slow, workflow.lower())
         self.assertNotIn('playwright', (ROOT / 'scripts/release/seo-check.mjs').read_text())
+
+    def test_network_timeout_names_the_url_and_phase(self):
+        opener = unittest.mock.Mock()
+        opener.open.side_effect = TimeoutError('read timed out')
+        with patch.object(contract.urllib.request, 'build_opener', return_value=opener):
+            with self.assertRaisesRegex(RuntimeError, '/fr: connection/headers failed'):
+                contract.get('https://vidfetch.app', '/fr')
+        self.assertEqual(contract.TIMINGS[-1]['path'], '/fr')
+        self.assertEqual(contract.TIMINGS[-1]['error'], 'read timed out')
+
+    def test_health_waits_for_ready_and_the_expected_release(self):
+        states = [{'ok': True, 'frontend': {'ready': False}, 'release': 'old'},
+                  {'ok': True, 'frontend': {'ready': True}, 'release': 'expected'}]
+        with patch.object(contract, 'get', side_effect=[({}, json.dumps(s).encode()) for s in states]) as request, patch.object(contract.time, 'sleep'):
+            release, _ = contract.wait_ready('https://vidfetch.app', 'expected')
+        self.assertEqual(release, 'expected')
+        self.assertEqual(request.call_count, 2)
+
+    def test_global_deadline_terminates_even_with_an_unfinished_request(self):
+        code = "import runpy,time; h=runpy.run_path('scripts/release/public_contract.py'); h['start_deadline'](.1); time.sleep(5)"
+        result = subprocess.run([sys.executable, '-c', code], cwd=ROOT, capture_output=True, text=True, timeout=2)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn('global deadline 0.1s exceeded', result.stderr)
 
 
 class Rollback(unittest.TestCase):
