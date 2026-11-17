@@ -249,7 +249,7 @@ describe("site-wide claims", () => {
     const submit = form.slice(form.indexOf("const submit = useCallback"), form.indexOf("useEffect(() => {\n    if (authorized && pending.current)"));
     const early = submit.indexOf('if (check.platform === "youtube")');
     assert.ok(early > 0 && early < submit.indexOf("if (!authorized)") && early < submit.indexOf("postJson"), "YouTube returns before verification and requests");
-    assert.match(form, /canSubmit = detection\.ok && !youtube && !loading/);
+    assert.match(form, /type="submit"[^>]*disabled=\{loading\}/);
     assert.match(form, /verificationNeeded && !youtube && <DownloadAccess/);
   });
 

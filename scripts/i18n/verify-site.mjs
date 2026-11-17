@@ -53,8 +53,8 @@ try {
   writeFileSync(helperModule, helperBundle.outputFiles[0].text, { flag: 'wx' });
   const { downloadHelper } = await import(pathToFileURL(helperModule).href);
   const noticeModule = resolve(`../notice-fixture-${process.pid}.mjs`);
-  writeFileSync(noticeModule, (await build({ entryPoints: ['src/lib/youtube-notice.ts'], bundle: true, platform: 'node', format: 'esm', write: false })).outputFiles[0].text, { flag: 'wx' });
-  const { YOUTUBE_NOTICE: youtubeNotice } = await import(pathToFileURL(noticeModule).href);
+  writeFileSync(noticeModule, (await build({ entryPoints: ['src/lib/form-copy.ts'], bundle: true, platform: 'node', format: 'esm', write: false })).outputFiles[0].text, { flag: 'wx' });
+  const { FORM_COPY: formCopy } = await import(pathToFileURL(noticeModule).href);
   const homeModule = resolve(`../home-copy-fixture-${process.pid}.mjs`);
   writeFileSync(homeModule, (await build({ entryPoints: ['src/lib/home-copy.ts'], bundle: true, platform: 'node', format: 'esm', write: false })).outputFiles[0].text, { flag: 'wx' });
   const { homeCopy } = await import(pathToFileURL(homeModule).href);
@@ -161,7 +161,7 @@ try {
     await context.route('**/api/download-access', route => route.fulfill({ json: { available: false } }));
     await page.goto(base + path); await page.getByRole('textbox', { name: d.videoLink }).fill('https://www.tiktok.com/@pokemonlife22/video/7059698374567611694');
     assert.equal(await page.getByRole('textbox', { name: d.videoLink }).getAttribute('dir'), 'ltr');
-    await page.getByRole('button', { name: d.extract, exact: true }).click();
+    await page.getByRole('button', { name: d.download, exact: true }).click();
     await page.getByRole('status').filter({ hasText: d.backendUnavailable }).waitFor();
     await context.unroute('**/api/download-access');
     assert.deepEqual(errors, [], locale);
@@ -185,12 +185,12 @@ try {
     if (['en','fr','ar','id'].includes(locale)) {
       const queueRoute = route => route.fulfill({ status: 202, json: { ok: true, queued: true, queueToken: 'Q'.repeat(43), status: 'waiting', position: 2, estimatedWaitMs: 30000, expiresAt: Date.now() + 120000, retryAfterMs: 5000 } });
       await page.route('**/api/fetch-info', queueRoute);
-      await page.goto(base + path); await page.getByRole('textbox', { name: d.videoLink }).fill('https://www.tiktok.com/@pokemonlife22/video/7059698374567611694'); await page.getByRole('button', { name: d.extract, exact: true }).click();
+      await page.goto(base + path); await page.getByRole('textbox', { name: d.videoLink }).fill('https://www.tiktok.com/@pokemonlife22/video/7059698374567611694'); await page.getByRole('button', { name: d.download, exact: true }).click();
       await page.getByRole('status').filter({ hasText: d.waiting.split('{position}')[0] }).waitFor();
       await page.screenshot({ path: `docs/ux/after/queue-${locale}-mobile.png` });
       await page.unroute('**/api/fetch-info', queueRoute);
     }
-    await page.goto(base + path); await page.getByRole('textbox', { name: d.videoLink }).fill('https://www.tiktok.com/@pokemonlife22/video/7059698374567611694'); await page.getByRole('button', { name: d.extract, exact: true }).click();
+    await page.goto(base + path); await page.getByRole('textbox', { name: d.videoLink }).fill('https://www.tiktok.com/@pokemonlife22/video/7059698374567611694'); await page.getByRole('button', { name: d.download, exact: true }).click();
     await page.getByRole('tab', { name: new RegExp(d.video) }).waitFor();
     assert.equal(await page.evaluate(() => window.__fixtureLanguage), locale === 'pt-BR' ? 'pt-br' : locale);
     const radios = page.getByRole('radiogroup').getByRole('radio'); await radios.first().focus(); await page.keyboard.press(locale === 'ar' ? 'ArrowLeft' : 'ArrowRight'); await radios.nth(1).getAttribute('aria-checked').then(value => assert.equal(value, 'true'));
@@ -205,8 +205,8 @@ try {
     await page.goto(base + path); await page.waitForLoadState('networkidle');
     const sent = []; page.on('request', request => { if (new URL(request.url()).pathname.startsWith('/api/') || /challenges\.cloudflare\.com/.test(request.url())) sent.push(request.url()); });
     await page.getByRole('textbox', { name: d.videoLink }).fill('https://youtu.be/aqz-KE-bpKQ');
-    await page.getByRole('status').filter({ hasText: youtubeNotice[locale].title }).waitFor();
-    assert.equal(await page.getByRole('button', { name: d.extract, exact: true }).isDisabled(), true, locale);
+    await page.getByRole('status').filter({ hasText: formCopy[locale].supportedHint }).waitFor();
+    assert.equal(await page.getByRole('button', { name: d.download, exact: true }).isDisabled(), false, locale);
     await page.keyboard.press('Enter'); await page.waitForTimeout(300);
     assert.deepEqual(sent, [], `${locale}: a YouTube link sends nothing`);
     assert.equal(await page.getByRole('button', { name: 'YouTube', exact: true }).count(), 0, `${locale}: no YouTube example`);
@@ -242,7 +242,7 @@ try {
       return route.fulfill({ json: { ok: true, status: 'completed', bytes: attachment.length, error: null } });
     });
     await page.goto(base + encodeURI(path));
-    await page.getByRole('textbox', { name: d.videoLink }).fill('https://www.tiktok.com/@pokemonlife22/video/7059698374567611694'); await page.getByRole('button', { name: d.extract, exact: true }).click();
+    await page.getByRole('textbox', { name: d.videoLink }).fill('https://www.tiktok.com/@pokemonlife22/video/7059698374567611694'); await page.getByRole('button', { name: d.download, exact: true }).click();
     await page.getByRole('tab', { name: new RegExp(d.video) }).waitFor(); await page.getByRole('tab', { name: new RegExp(d.audio) }).waitFor();
     if (['en','fr','ar','id'].includes(locale) && kind === 'video') await page.screenshot({ path: `docs/ux/after/formats-${locale}-mobile.png` });
     if (kind === 'audio') await page.getByRole('tab', { name: new RegExp(d.audio) }).click();
@@ -255,8 +255,8 @@ try {
     await context.route('**/api/fetch-info',route => route.fulfill({status:429,json:{ok:false,code:'QUOTA_EXCEEDED'}}));
     await page.goto(base + encodeURI(path));
     await page.getByRole('textbox',{name:d.videoLink}).fill('https://www.tiktok.com/@pokemonlife22/video/7059698374567611694');
-    await page.getByRole('button',{name:d.extract,exact:true}).click();
-    await page.getByRole('alert').filter({hasText:d.rateLimited}).waitFor();
+    await page.getByRole('button',{name:d.download,exact:true}).click();
+    await page.locator('#url-help[data-state=error]').filter({hasText:d.rateLimited}).waitFor();
     if (['en','fr','ar','id'].includes(locale) && kind === 'video') await page.screenshot({ path: `docs/ux/after/quota-${locale}-mobile.png` });
     await context.close();
   }
@@ -269,7 +269,7 @@ try {
   for (const gated of ['/es/descargar-video-instagram', '/fr/telecharger-reels-instagram', '/fr/telecharger-video-x', '/tiktok-mp3', ...removedPages]) assert.equal((await fetch(base + encodeURI(gated))).status, 404, gated);
   const favicon = await fetch(base + '/favicon.ico'); assert.equal(favicon.status, 200); assert.deepEqual([...new Uint8Array(await favicon.arrayBuffer()).subarray(0, 4)], [0, 0, 1, 0]);
   const robots = await (await fetch(base + '/robots.txt')).text(); assert.match(robots, /Disallow: \/api\//);
-  evidence.checks.push('SSR content, reciprocal hreflang, eight language selectors and localized 404', 'Local TikTok tool links in each language; no unverified platform routes', `${toolCases.length} localized tool transfers and quota errors, eight home transfers, RTL, disabled YouTube input and unchanged API boundaries`);
+  evidence.checks.push('SSR content, reciprocal hreflang, eight language selectors and localized 404', 'Local TikTok tool links in each language; no unverified platform routes', `${toolCases.length} localized tool transfers and quota errors, eight home transfers, RTL, YouTube validation without requests and unchanged API boundaries`);
   writeFileSync('../http-browser-verification.json', JSON.stringify(evidence, null, 2));
   console.log(JSON.stringify(evidence, null, 2));
 } finally {
