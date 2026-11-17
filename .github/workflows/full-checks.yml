@@ -1,0 +1,145 @@
+name: Contrôles complets
+on:
+  workflow_dispatch:
+  schedule:
+    # Paris 03:00 = UTC 01:00 in summer, 02:00 in winter. The gate handles DST.
+    - cron: '0 1 * * *'
+    - cron: '0 2 * * *'
+permissions:
+  contents: read
+concurrency:
+  group: vidfetch-full-checks
+  cancel-in-progress: false
+jobs:
+  clock:
+    runs-on: ubuntu-24.04
+    outputs:
+      run: ${{ steps.paris.outputs.run }}
+    steps:
+      - id: paris
+        env:
+          EVENT: ${{ github.event_name }}
+          CRON: ${{ github.event.schedule }}
+        run: |
+          python3 - <<'PY'
+          from datetime import datetime, timezone
+          from zoneinfo import ZoneInfo
+          import os
+          paris = ZoneInfo('Europe/Paris')
+          today = datetime.now(paris).date()
+          hour = datetime(today.year, today.month, today.day, 3, tzinfo=paris).astimezone(timezone.utc).hour
+          enabled = os.environ['EVENT'] != 'schedule' or os.environ['CRON'] == f'0 {hour} * * *'
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              output.write('run=' + str(enabled).lower() + '\n')
+          PY
+  unit:
+    needs: clock
+    if: needs.clock.outputs.run == 'true'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with: {persist-credentials: false}
+      - uses: ./.github/actions/checks-setup
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run check:release
+      - run: python3 -m unittest discover -s deploy/ovh/tests -v
+  backend:
+    needs: clock
+    if: needs.clock.outputs.run == 'true'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with: {persist-credentials: false}
+      - uses: ./.github/actions/checks-setup
+        with: {media: 'true'}
+      - run: npm run test:backend
+  gateway:
+    needs: clock
+    if: needs.clock.outputs.run == 'true'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with: {persist-credentials: false}
+      - uses: ./.github/actions/checks-setup
+      - run: node backend/gateway/run-tests.mjs
+  load:
+    needs: clock
+    if: needs.clock.outputs.run == 'true'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with: {persist-credentials: false}
+      - uses: ./.github/actions/checks-setup
+      - run: node backend/gateway/run-load.mjs
+  navigation-i18n:
+    needs: clock
+    if: needs.clock.outputs.run == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with: {persist-credentials: false}
+      - uses: ./.github/actions/checks-setup
+        with: {browser: 'true', media: 'true'}
+      - run: npm run build
+      - run: npm run test:vercel -- --browser
+      - run: npm run smoke:browser
+      - run: npm run test:navigation
+      - run: if [ -f scripts/ui/test-home.mjs ]; then npm run test:home; fi
+      - run: npm run build
+        env: {VIDFETCH_TARGET: ovh}
+      - run: npm run test:i18n
+  lighthouse-seo:
+    needs: clock
+    if: needs.clock.outputs.run == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      VIDFETCH_RELEASE: ${{ github.sha }}
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with: {persist-credentials: false}
+      - uses: ./.github/actions/checks-setup
+        with: {browser: 'true'}
+      - run: node scripts/ovh/build-release.mjs
+      - run: npm run seo-check:full
+      - name: Actual Caddy public indexing
+        env:
+          VIDFETCH_REQUIRE_INDEXING_TEST: '1'
+          VIDFETCH_INDEXING_APP: build/releases/${{ github.sha }}/app
+        run: python3 -m unittest discover -s deploy/ovh/tests -p test_public_indexing.py -v
+      - name: Lighthouse (A11y/BP/SEO 100 and CLS <=0.02; Performance warn)
+        run: |
+          export CHROME_PATH="$(node -e 'process.stdout.write(require("playwright").chromium.executablePath())')"
+          LHCI_OUTPUT_DIR=.lighthouseci-pr VIDFETCH_LHCI_SERVER="build/releases/${VIDFETCH_RELEASE}/app/server.js" npx --yes @lhci/cli@0.15.1 autorun --config=.lighthouserc.cjs
+      - if: always()
+        run: node scripts/ui-v2/report-budgets.mjs .lighthouseci-pr "build/releases/${VIDFETCH_RELEASE}/app/.next/server/app"
+  local-tools:
+    needs: clock
+    if: needs.clock.outputs.run == 'true'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with: {persist-credentials: false}
+      - uses: ./.github/actions/checks-setup
+        with: {browser: 'true'}
+      - run: node scripts/local-tools/build.mjs
+      - run: npm run test:local-tools
+  report:
+    needs: [clock, unit, backend, gateway, load, navigation-i18n, lighthouse-seo, local-tools]
+    if: always() && needs.clock.outputs.run == 'true'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with: {persist-credentials: false}
+      - name: Maintain one failure issue, close it when all checks recover
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CHECK_RESULTS: ${{ toJSON(needs) }}
+        run: node scripts/release/report-full-checks.mjs

@@ -15,6 +15,12 @@ with (store / 'lock').open('a') as lock:
     fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
     pending = store / 'pending.json'
     record = pending if pending.exists() else store / 'previous.json'
+    if not pending.exists():
+        # rollback() takes the same lock itself, and retains the current release
+        # as predecessor so a second administrator command can restore it.
+        fcntl.flock(lock, fcntl.LOCK_UN)
+        helper['rollback']()
+        sys.exit(0)
     helper['trusted'](record)
     data = json.loads(record.read_text())
     target = Path(data['previous'] if pending.exists() else data['path']).resolve(strict=True)

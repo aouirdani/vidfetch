@@ -1,182 +1,70 @@
-name: Validate and deploy VidFetch
+name: Production directe
 on:
-  pull_request:
-    branches: [main]
   push:
     branches: [main]
-  workflow_dispatch:
-    inputs:
-      operation:
-        description: 'validate = CI only; verify = transfer without activation; deploy = gated frontend activation'
-        type: choice
-        options: [validate, verify, deploy]
-        default: validate
-      artifact_run_id:
-        description: 'Required for verify/deploy: successful run for this exact main commit (deploy requires a successful transfer)'
-        type: string
-        default: ''
 permissions:
   contents: read
 concurrency:
-  group: vidfetch-ovh-frontend-${{ github.event_name == 'pull_request' && github.event.pull_request.number || 'main' }}
+  group: vidfetch-production
   cancel-in-progress: false
 jobs:
-  build:
-    # Build once. Manual verify/deploy reuse the exact archive, never a rebuild.
-    if: github.event_name == 'push' || github.event_name == 'pull_request' || inputs.operation == 'validate'
+  production:
+    if: github.repository == 'aouirdani/vidfetch' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
-    timeout-minutes: 40
-    outputs:
-      archive_sha256: ${{ steps.archive.outputs.sha256 }}
+    environment: Production
+    timeout-minutes: 12
+    env:
+      VIDFETCH_RELEASE: ${{ github.sha }}
+      VIDFETCH_RELEASE_DIR: build/releases/${{ github.sha }}
+      NEXT_TELEMETRY_DISABLED: '1'
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           persist-credentials: false
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
-          # The runner action uses Node 24; the deployed OVH runtime remains Node 22.
           node-version: 22.23.3
           cache: npm
+      - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: .next/cache
+          key: next-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
+          restore-keys: next-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-
       - run: npm ci --ignore-scripts
-      - run: npm run lint
-      - run: npm run typecheck
-      - run: npm test
-      - run: npm run test:backend
-      - run: node backend/gateway/run-tests.mjs
-      - run: node backend/gateway/run-load.mjs
-      - run: npm run check:release
-      - name: Install Chromium for browser smoke checks
-        run: npx playwright install --with-deps chromium
-      - name: Verify the engine-free frontend build and browser smoke paths
+      - name: Fresh public SEO and AdSense reference
+        run: python3 scripts/release/public_contract.py --output build/preflight/production.json
+      - name: Build the immutable Linux production archive once
         run: |
-          npm run build
-          npm run test:vercel -- --browser
-          npm run smoke:browser
-      - name: Required mobile and desktop navigation (LTR, RTL, keyboard and every link)
-        run: npm run test:navigation
-      - name: Preserve navigation geometry and mobile screenshots
-        if: always()
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
-        with:
-          name: navigation-${{ github.sha }}
-          path: build/navigation-evidence/
-          if-no-files-found: ignore
-          retention-days: 7
-      - name: Linux standalone frontend and checked engines (no production secrets)
-        id: archive
-        env:
-          VIDFETCH_RELEASE: ${{ github.sha }}
-        run: |
-          mkdir -p build/releases
           node scripts/ovh/build-release.mjs
-          tar -czf release-${{ github.sha }}.tgz -C build/releases/${{ github.sha }} .
-          echo "sha256=$(sha256sum release-${{ github.sha }}.tgz | cut -d ' ' -f1)" >> "$GITHUB_OUTPUT"
-      - name: Public indexing through real Caddy and the actual release artifact
-        env:
-          VIDFETCH_REQUIRE_INDEXING_TEST: '1'
-          VIDFETCH_INDEXING_APP: build/releases/${{ github.sha }}/app
-        run: python3 -m unittest discover -s deploy/ovh/tests -p test_public_indexing.py -v
-      - name: SEO invariants for every sitemap URL
+          tar -czf build/release-${GITHUB_SHA}.tgz -C "${VIDFETCH_RELEASE_DIR}" .
+      - run: npm run check:release
+      - name: SEO, human review and protected engines on the actual archive
         run: npm run seo-check
-      - name: Install FFmpeg for generated browser test media
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y ffmpeg
-      - name: Server HTML, eight languages, RTL and unchanged API paths
-        run: npm run test:i18n
-      - name: Lighthouse mobile audit (A11y/BP/SEO 100, CLS <=0.02 required; Performance/LCP/TBT warn)
-        env:
-          VIDFETCH_RELEASE: ${{ github.sha }}
-        run: |
-          CHROME_PATH="$(node -e 'process.stdout.write(require("playwright").chromium.executablePath())')"
-          export CHROME_PATH
-          LHCI_OUTPUT_DIR=.lighthouseci-pr \
-          VIDFETCH_LHCI_SERVER="build/releases/${VIDFETCH_RELEASE}/app/server.js" \
-          npx --yes @lhci/cli@0.15.1 autorun --config=.lighthouserc.cjs
-      - name: Report performance budgets as warnings only
-        if: always()
-        env:
-          VIDFETCH_RELEASE: ${{ github.sha }}
-        run: node scripts/ui-v2/report-budgets.mjs .lighthouseci-pr "build/releases/${VIDFETCH_RELEASE}/app/.next/server/app"
-      - name: Preserve Lighthouse reports and warnings
-        if: always()
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
-        with:
-          name: lighthouse-${{ github.sha }}
-          path: .lighthouseci-pr/*.report.json
-          if-no-files-found: ignore
-          retention-days: 7
-          include-hidden-files: true
-      - name: Local conversion fixtures and privacy checks
-        run: npm run test:local-tools
-      # Keep this required suite after the performance gate for faster failure feedback.
-      - run: python3 -m unittest discover -s deploy/ovh/tests -v
-      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
-        with:
-          name: release-${{ github.sha }}
-          path: release-${{ github.sha }}.tgz
-          retention-days: 30
-          if-no-files-found: error
-  deploy:
-    needs: build
-    # No PR event, fork or arbitrary ref can reach deployment credentials.
-    # A manual verify transfers and validates without switching any service.
-    if: >-
-      always() && !cancelled() &&
-      github.ref == 'refs/heads/main' && github.repository == 'aouirdani/vidfetch' &&
-      ((github.event_name == 'push' && needs.build.result == 'success') ||
-       (github.event_name == 'workflow_dispatch' && needs.build.result == 'skipped')) &&
-      ((github.event_name == 'workflow_dispatch' && inputs.operation == 'verify') ||
-       (vars.VIDFETCH_DEPLOY_ENABLED == 'true' &&
-        (github.event_name == 'push' || inputs.operation == 'deploy')))
-    environment: Production
-    permissions:
-      contents: read
-      actions: read
-    runs-on: ubuntu-24.04
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
-        with:
-          persist-credentials: false
-      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
-        if: github.event_name == 'push'
-        with:
-          name: release-${{ github.sha }}
-      - name: Check archive from this build
-        if: github.event_name == 'push'
-        env:
-          EXPECTED_SHA256: ${{ needs.build.outputs.archive_sha256 }}
-        run: |
-          test "${#EXPECTED_SHA256}" -eq 64
-          printf '%s  release-%s.tgz\n' "$EXPECTED_SHA256" "$GITHUB_SHA" | sha256sum --check --strict
-      - name: Reuse the exact successful main artifact
-        if: github.event_name == 'workflow_dispatch'
-        env:
-          GH_TOKEN: ${{ github.token }}
-          ARTIFACT_RUN_ID: ${{ inputs.artifact_run_id }}
-          RELEASE_OPERATION: ${{ inputs.operation }}
-        run: python3 scripts/ovh/reuse-release.py
-      - name: Bounded transfer, protected frontend health checks and rollback
+      - name: Activate with existing health checks and automatic rollback
+        id: activate
         env:
           DEPLOY_HOST: 15.235.127.165
           DEPLOY_USER: vidfetch-deploy
           DEPLOY_SSH_KEY: ${{ secrets.OVH_DEPLOY_SSH_KEY }}
           DEPLOY_KNOWN_HOSTS: ${{ secrets.OVH_DEPLOY_KNOWN_HOSTS }}
-          DEPLOY_OPERATION: ${{ github.event_name == 'workflow_dispatch' && inputs.operation == 'verify' && 'verify' || 'receive' }}
+          DEPLOY_ARCHIVE: build/release-${{ github.sha }}.tgz
         run: sh scripts/ovh/deploy.sh
-      # Only a successful transfer can publish this exact archive for a later deploy.
-      - name: Retain verified archive without rebuilding or repacking
-        if: github.event_name == 'workflow_dispatch'
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
-        with:
-          name: release-${{ github.sha }}
-          path: release-${{ github.sha }}.tgz
-          retention-days: 30
-          if-no-files-found: error
-      - name: Deployment outcome
+      - name: Public production check (11 routes and robots/sitemap/ads.txt)
+        id: public
+        run: python3 scripts/release/public_contract.py --snapshot build/preflight/checked-release.json --subset --release "$GITHUB_SHA"
+      - name: Automatically restore predecessor if the public check fails
+        if: failure() && steps.activate.outcome == 'success' && steps.public.outcome == 'failure'
+        env:
+          DEPLOY_HOST: 15.235.127.165
+          DEPLOY_USER: vidfetch-deploy
+          DEPLOY_SSH_KEY: ${{ secrets.OVH_DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.OVH_DEPLOY_KNOWN_HOSTS }}
+          DEPLOY_OPERATION: rollback
+        run: |
+          sh scripts/ovh/deploy.sh
+          python3 scripts/release/public_contract.py --snapshot build/preflight/production.json --subset --release-from-snapshot
+      - name: Deployment result
         if: always()
         env:
-          JOB_STATUS: ${{ job.status }}
-        run: |
-          printf '### OVH protected frontend\nResult: %s\nRelease: %s\nBackend and gateway activation: disabled\n' "$JOB_STATUS" "$GITHUB_SHA" >> "$GITHUB_STEP_SUMMARY"
+          RESULT: ${{ job.status }}
+        run: printf 'Commit %s — %s\n' "$GITHUB_SHA" "$RESULT" >> "$GITHUB_STEP_SUMMARY"

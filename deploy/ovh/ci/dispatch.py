@@ -22,6 +22,9 @@ def main():
     command = os.environ.get('SSH_ORIGINAL_COMMAND', '')
     if command == 'status':
         return helper('status')
+    recovery = re.fullmatch(r'rollback ([a-f0-9]{40})', command)
+    if recovery:
+        return helper('rollback', recovery[1])
     match = re.fullmatch(r'(verify|receive) ([a-f0-9]{40}) ([a-f0-9]{64})', command)
     if not match:
         sys.exit('Only status or a bounded release transfer is permitted')

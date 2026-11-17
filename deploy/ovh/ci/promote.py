@@ -255,6 +255,39 @@ def switch(target, expected, do_restart=restart, check=wait_health, postcheck=or
     return previous
 
 
+def rollback(expected=None):
+    """Restore the retained predecessor; stale CI jobs cannot undo a newer release."""
+    with (STORE / 'lock').open('a') as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        if (STORE / 'pending.json').exists():
+            raise ValueError('Unfinished transaction; administrator recovery required')
+        current = (BASE / 'current').resolve(strict=True)
+        if expected is not None and release_id(current) != expected:
+            raise ValueError('Rollback refused: the current release is newer or different')
+        marker = STORE / 'previous.json'
+        trusted(marker)
+        target = Path(json.loads(marker.read_text())['path']).resolve(strict=True)
+        if target == current or target.parent not in [STORE / 'releases', Path('/opt/vidfetch-web/releases')]:
+            raise ValueError('Unexpected rollback target')
+        trusted(target / 'manifest.json')
+        old = json.loads((target / 'manifest.json').read_text())
+        now = json.loads((current / 'manifest.json').read_text())
+        for file in ENGINE_FILES:
+            if old['files'].get(file) != now['files'].get(file) or core['digest'](target / file) != now['files'].get(file):
+                raise ValueError('Rollback engine/gateway mismatch')
+        guards()
+        before = protected_pids()
+        def postcheck():
+            origin_health()
+            guards()
+            if protected_pids() != before:
+                raise ValueError('Protected service changed during rollback')
+        switch(target, release_id(target), postcheck=postcheck)
+        print(json.dumps({'operation': 'rollback', 'release': release_id(target),
+                          'previousRelease': release_id(current), 'validated': True,
+                          'protectedServicesUnchanged': True}))
+
+
 def verify(sha, checksum):
     if shutil.disk_usage(STORE).free < 3 * 1024**3:
         raise ValueError('Less than 3 GiB free; releases preserved')
@@ -306,6 +339,9 @@ def main():
         if not gate_open():
             raise ValueError('Frontend deployment gate is closed')
         guards()
+        return
+    if len(args) == 2 and args[0] == 'rollback' and re.fullmatch('[a-f0-9]{40}', args[1]):
+        rollback(args[1])
         return
     if len(args) != 3 or args[0] not in ['verify', 'deploy'] or not re.fullmatch('[a-f0-9]{40}', args[1]) or not re.fullmatch('[a-f0-9]{64}', args[2]):
         raise ValueError('Invalid operation or release identifiers')
