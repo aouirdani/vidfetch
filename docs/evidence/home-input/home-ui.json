@@ -1,8 +1,8 @@
 {
   "success": true,
-  "base": "http://127.0.0.1:60196",
+  "base": "http://127.0.0.1:49714",
   "current": "/ar 390x844",
-  "testedAt": "2026-11-16T20:20:12.335Z",
+  "testedAt": "2026-11-17T09:08:08.909Z",
   "results": [
     {
       "path": "/",
@@ -29,7 +29,7 @@
         "height": 60
       },
       "h1Lines": 2,
-      "placeholderContrast": 7.831103234885362,
+      "placeholderContrast": 7.831103234885366,
       "statusHeight": 60,
       "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
       "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
@@ -59,7 +59,7 @@
         "height": 60
       },
       "h1Lines": 2,
-      "placeholderContrast": 7.831103234885362,
+      "placeholderContrast": 7.831103234885366,
       "statusHeight": 60,
       "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
       "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
@@ -89,7 +89,7 @@
         "height": 60
       },
       "h1Lines": 2,
-      "placeholderContrast": 7.831103234885362,
+      "placeholderContrast": 7.831103234885366,
       "statusHeight": 60,
       "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
       "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
@@ -119,7 +119,7 @@
         "height": 60
       },
       "h1Lines": 2,
-      "placeholderContrast": 7.831103234885362,
+      "placeholderContrast": 7.831103234885366,
       "statusHeight": 60,
       "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
       "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
@@ -149,7 +149,7 @@
         "height": 60
       },
       "h1Lines": 1,
-      "placeholderContrast": 7.831103234885362,
+      "placeholderContrast": 7.831103234885366,
       "statusHeight": 60,
       "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
       "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
@@ -179,7 +179,7 @@
         "height": 60
       },
       "h1Lines": 2,
-      "placeholderContrast": 7.831103234885362,
+      "placeholderContrast": 7.831103234885366,
       "statusHeight": 60,
       "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
       "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
@@ -209,7 +209,7 @@
         "height": 60
       },
       "h1Lines": 2,
-      "placeholderContrast": 7.831103234885362,
+      "placeholderContrast": 7.831103234885366,
       "statusHeight": 60,
       "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
       "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
@@ -239,7 +239,7 @@
         "height": 60
       },
       "h1Lines": 2,
-      "placeholderContrast": 7.831103234885362,
+      "placeholderContrast": 7.831103234885366,
       "statusHeight": 60,
       "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
       "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
@@ -269,7 +269,7 @@
         "height": 60
       },
       "h1Lines": 2,
-      "placeholderContrast": 7.831103234885362,
+      "placeholderContrast": 7.831103234885366,
       "statusHeight": 60,
       "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
       "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
@@ -299,7 +299,7 @@
         "height": 60
       },
       "h1Lines": 1,
-      "placeholderContrast": 7.831103234885362,
+      "placeholderContrast": 7.831103234885366,
       "statusHeight": 60,
       "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
       "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
@@ -329,7 +329,7 @@
         "height": 60
       },
       "h1Lines": 2,
-      "placeholderContrast": 7.831103234885362,
+      "placeholderContrast": 7.831103234885366,
       "statusHeight": 60,
       "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
       "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
@@ -359,7 +359,7 @@
         "height": 60
       },
       "h1Lines": 2,
-      "placeholderContrast": 7.831103234885362,
+      "placeholderContrast": 7.831103234885366,
       "statusHeight": 60,
       "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
       "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
@@ -389,7 +389,7 @@
         "height": 60
       },
       "h1Lines": 2,
-      "placeholderContrast": 7.831103234885362,
+      "placeholderContrast": 7.831103234885366,
       "statusHeight": 60,
       "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
       "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
@@ -419,7 +419,7 @@
         "height": 60
       },
       "h1Lines": 2,
-      "placeholderContrast": 7.831103234885362,
+      "placeholderContrast": 7.831103234885366,
       "statusHeight": 60,
       "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
       "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
@@ -449,7 +449,7 @@
         "height": 60
       },
       "h1Lines": 1,
-      "placeholderContrast": 7.831103234885362,
+      "placeholderContrast": 7.831103234885366,
       "statusHeight": 60,
       "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
       "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
@@ -479,7 +479,7 @@
         "height": 60
       },
       "h1Lines": 3,
-      "placeholderContrast": 7.831103234885362,
+      "placeholderContrast": 7.831103234885366,
       "statusHeight": 96,
       "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
       "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
@@ -509,7 +509,7 @@
         "height": 60
       },
       "h1Lines": 3,
-      "placeholderContrast": 7.831103234885362,
+      "placeholderContrast": 7.831103234885366,
       "statusHeight": 96,
       "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
       "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
@@ -539,7 +539,7 @@
         "height": 60
       },
       "h1Lines": 3,
-      "placeholderContrast": 7.831103234885362,
+      "placeholderContrast": 7.831103234885366,
       "statusHeight": 96,
       "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
       "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
@@ -569,7 +569,7 @@
         "height": 60
       },
       "h1Lines": 2,
-      "placeholderContrast": 7.831103234885362,
+      "placeholderContrast": 7.831103234885366,
       "statusHeight": 96,
       "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
       "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
@@ -599,7 +599,7 @@
         "height": 60
       },
       "h1Lines": 2,
-      "placeholderContrast": 7.831103234885362,
+      "placeholderContrast": 7.831103234885366,
       "statusHeight": 96,
       "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
       "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
@@ -629,7 +629,7 @@
         "height": 60
       },
       "h1Lines": 3,
-      "placeholderContrast": 7.831103234885362,
+      "placeholderContrast": 7.831103234885366,
       "statusHeight": 96,
       "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
       "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
@@ -659,7 +659,7 @@
         "height": 60
       },
       "h1Lines": 3,
-      "placeholderContrast": 7.831103234885362,
+      "placeholderContrast": 7.831103234885366,
       "statusHeight": 96,
       "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
       "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
@@ -689,7 +689,7 @@
         "height": 60
       },
       "h1Lines": 3,
-      "placeholderContrast": 7.831103234885362,
+      "placeholderContrast": 7.831103234885366,
       "statusHeight": 96,
       "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
       "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
@@ -719,7 +719,7 @@
         "height": 60
       },
       "h1Lines": 2,
-      "placeholderContrast": 7.831103234885362,
+      "placeholderContrast": 7.831103234885366,
       "statusHeight": 96,
       "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
       "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
@@ -749,7 +749,7 @@
         "height": 60
       },
       "h1Lines": 2,
-      "placeholderContrast": 7.831103234885362,
+      "placeholderContrast": 7.831103234885366,
       "statusHeight": 96,
       "keyboard": "Tab input/Paste/Download; Enter submits; focus visible",
       "validations": "empty/invalid/YouTube/recognized; fixed message height; no API request"
