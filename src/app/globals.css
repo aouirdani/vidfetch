@@ -433,3 +433,31 @@ summary { color: #10163a; }
 footer nav a, footer nav summary { display: inline-flex; min-block-size: 2.75rem; min-inline-size: 2.75rem; align-items: center; }
 
 @media (min-width: 1024px) { .header-tools summary, .site-header [data-language-selector] summary { white-space: nowrap; } }
+
+/* Night is limited to the downloader band and its header. Content stays light. */
+body[data-hero-theme="night"] .site-header { background: #10163a; border-color: rgb(255 255 255 / 18%); }
+body[data-hero-theme="night"] .site-header :is(a, summary, h2, .brand-wordmark) { color: #fff; }
+body[data-hero-theme="night"] .site-header :is(.text-slate-400, .text-xs) { color: #c9d1f2; }
+body[data-hero-theme="night"] .site-header .brand-mark { color: #fff; background: #2f5bff; }
+body[data-hero-theme="night"] .site-header [data-language-selector] > summary { border-color: rgb(255 255 255 / 45%); color: #fff; }
+body[data-hero-theme="night"] .site-header :is(.header-tools-panel, .mobile-navigation-panel, [data-language-selector] nav) { background: #10163a; color: #fff; border-color: rgb(255 255 255 / 45%); }
+body[data-hero-theme="night"] .site-header :is(a:hover, summary:hover) { background-color: rgb(255 255 255 / 12%); }
+body[data-hero-theme="night"] .site-header :is(a, summary):focus-visible { outline: 3px solid #ffc233; outline-offset: 3px; }
+body[data-hero-theme="night"] .home-hero { max-width: none; background: #10163a; }
+body[data-hero-theme="night"] .home-hero > .hero-copy { max-width: 70rem; margin-inline: auto; }
+body[data-hero-theme="night"] :is(.home-hero, .platform-night-band) .hero-title { color: #fff; }
+body[data-hero-theme="night"] :is(.home-hero, .platform-night-band) .hero-title > span { color: #ffc233; }
+body[data-hero-theme="night"] :is(.home-hero, .platform-night-band) :is(.hero-description, .fetch-help, .fetch-permission, .fetch-recovery) { color: #c9d1f2; }
+body[data-hero-theme="night"] .fetch-help:is([data-state="error"], [data-state="invalid"]) { color: #ffc233; }
+.fetch-help-icon { display: inline-block; width: 1rem; height: 1rem; margin-inline-end: .375rem; vertical-align: -.15em; }
+body[data-hero-theme="night"] .fetch-shell { border-width: 2.5px; border-color: #10163a; background: #fff; }
+body[data-hero-theme="night"] .fetch-shell:focus-within { border-color: #10163a; box-shadow: 0 0 0 6px rgb(255 194 51 / 55%); }
+body[data-hero-theme="night"] .fetch-submit > svg { color: #ffc233; }
+body[data-hero-theme="night"] .fetch-submit:focus-visible { outline: 3px solid #ffc233; outline-offset: -5px; }
+body[data-hero-theme="night"] .fetch-trust li { background: #fff; color: #10163a; border-color: #fff; }
+body[data-hero-theme="night"] .platform-page { padding-block-start: 0; }
+.platform-night-band { background: #10163a; padding-block-start: 1.5rem; }
+.platform-night-band .platform-hero-grid { margin-block: 0; padding-block-end: 2rem; }
+.platform-hero-inner > nav { margin-block-end: 1.25rem; color: #c9d1f2; }
+.platform-hero-inner > nav a { color: #c9d1f2; }
+.platform-hero-inner > nav a:focus-visible { outline: 3px solid #ffc233; outline-offset: 3px; }

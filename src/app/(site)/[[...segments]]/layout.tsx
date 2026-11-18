@@ -22,12 +22,13 @@ export const viewport: Viewport = { themeColor: "#eef1f8", width: "device-width"
 export default async function SiteLayout({ children, params }: { children: React.ReactNode; params: Promise<{ segments?: string[] }> }) {
   const segments = (await params).segments ?? [], locale = localeForSegments(segments), d = dictionary(locale);
   const page = resolvePage(segments), identity = page?.identity ?? { kind: "home" as const };
+  const nightHero = page?.identity.kind === "home" || page?.identity.kind === "platform";
   return <html lang={locale} dir={LANGUAGES[locale].dir}><head>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdGraph(localizedIdentity(locale)) }} />
     {locale !== "ar" && <link rel="preload" href="/fonts/bricolage-grotesque-latin-800.woff2" as="font" type="font/woff2" crossOrigin="anonymous" media="(min-width: 768px)" />}
     {showsAds(page) && <meta name="google-adsense-account" content={ADSENSE_CLIENT} />}
     {showsAds(page) && ADSENSE_DEFERRED_LOADING_ENABLED && <script dangerouslySetInnerHTML={{ __html: ADSENSE_DEFERRED_LOADER }} />}
-  </head><body className="min-h-dvh bg-ink-950 font-sans text-slate-100 antialiased">
+  </head><body data-hero-theme={nightHero ? "night" : undefined} className="min-h-dvh bg-ink-950 font-sans text-slate-100 antialiased">
     <ConsentManager />
       <a href="#main" className="skip-link sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-[100] focus:rounded-xl focus:px-4 focus:py-2 focus:text-sm">{d.skip}</a>
       <div className="pointer-events-none fixed inset-0 -z-10 aurora" aria-hidden /><div className="pointer-events-none fixed inset-0 -z-10 grid-lines" aria-hidden />

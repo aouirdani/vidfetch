@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Check, ClipboardPaste, Download, Link2, LoaderCircle } from "lucide-react";
+import { Check, CircleAlert, ClipboardPaste, Download, Link2, LoaderCircle } from "lucide-react";
 import { VideoCardSkeleton } from "./VideoCardSkeleton";
 import { downloadsUnavailable, postJson, secureGateway, type FetchInfoResponse, type FetchInfoSuccess } from "@/lib/api";
 import { useI18n } from "@/i18n/context";
@@ -165,6 +165,7 @@ export function FetchForm({ formCopy, inputCopy, permission }: { compact?: boole
           </div>
         </div>
         <div id="url-help" className="fetch-help" role="status" aria-live="polite" aria-atomic="true" data-state={messageState}>
+          {(messageState === "error" || messageState === "invalid") && <CircleAlert className="fetch-help-icon" aria-hidden="true" />}
           {message ?? <>{inputCopy.idle}{" "}{TIKTOK_LINK_SHAPES.slice(0, 2).map((shape, i) => <span key={shape}>{i > 0 && ", "}<bdi dir="ltr">{shape}</bdi></span>)}</>}
         </div>
         <ul className="fetch-trust">{inputCopy.trust.map(text => <li key={text}><Check aria-hidden="true" />{text}</li>)}</ul>

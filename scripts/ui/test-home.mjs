@@ -48,6 +48,15 @@ await withSite(async ({ browser, base }) => {
       assert.equal(await primary.isEnabled(), true, 'empty field can submit');
       const colors = await page.locator('.fetch-shell').evaluate(e => ({ background: getComputedStyle(e).backgroundColor, placeholder: getComputedStyle(e.querySelector('input'), '::placeholder').color, button: getComputedStyle(e.querySelector('.fetch-submit')).backgroundColor, buttonText: getComputedStyle(e.querySelector('.fetch-submit')).color }));
       assert.equal(colors.button, 'rgb(47, 91, 255)'); assert.ok(contrast(colors.placeholder, colors.background) >= 4.5); assert.ok(contrast(colors.buttonText, colors.button) >= 4.5);
+      const night = 'rgb(16, 22, 58)';
+      const band = page.locator(path.includes('telecharger-video') ? '.platform-night-band' : '.home-hero');
+      assert.equal(await band.evaluate(e => getComputedStyle(e).backgroundColor), night);
+      const bandBox = await band.boundingBox();
+      assert.ok(bandBox.x === 0 && bandBox.width === viewport.width, current + ': full width Night band');
+      assert.equal(await page.locator('.site-header').evaluate(e => getComputedStyle(e).backgroundColor), night);
+      assert.equal(await page.locator('body').evaluate(e => getComputedStyle(e).backgroundColor), 'rgb(238, 241, 248)', 'rest of page stays light');
+      for (const label of ['.hero-description', '#url-help', '.fetch-permission']) assert.ok(contrast(await page.locator(label).evaluate(e => getComputedStyle(e).color), night) >= 4.5, current + ': Night text contrast ' + label);
+      assert.equal(await primary.locator('svg').evaluate(e => getComputedStyle(e).color), 'rgb(255, 194, 51)');
       assert.equal(await page.evaluate(() => document.scrollingElement.scrollWidth <= innerWidth && scrollY === 0), true, current + ': no horizontal scroll');
       const lines = await page.locator('h1').evaluate(e => {
         const walker = document.createTreeWalker(e, NodeFilter.SHOW_TEXT), tops = [];
@@ -55,7 +64,7 @@ await withSite(async ({ browser, base }) => {
         return new Set(tops).size;
       });
       if (!path.includes('telecharger-video')) assert.ok(viewport.width >= 1024 ? lines === 2 : lines <= 3, current + ': H1 line count ' + lines);
-      if (!path.includes('telecharger-video')) assert.equal(await page.locator('h1 > span').evaluate(e => getComputedStyle(e).color), 'rgb(47, 91, 255)');
+      if (!path.includes('telecharger-video')) assert.equal(await page.locator('h1 > span').evaluate(e => getComputedStyle(e).color), 'rgb(255, 194, 51)');
       if (viewport.width >= 1024) assert.ok((await page.locator('.header-inner').boundingBox()).height <= 80, current + ': one-line desktop header');
       // Reach the field through the actual Tab order, then Paste and Download.
       await page.locator('body').click({ position: { x: 2, y: 2 } });
@@ -68,6 +77,8 @@ await withSite(async ({ browser, base }) => {
       const reserved = await help.boundingBox();
       await page.keyboard.press('Enter');
       await page.waitForFunction(() => document.activeElement?.id === 'vidfetch-url' && document.querySelector('#url-help').dataset.state === 'error');
+      assert.equal(await help.locator('.fetch-help-icon').count(), 1, 'error has an icon');
+      assert.equal(await help.evaluate(e => getComputedStyle(e).color), 'rgb(255, 194, 51)');
       assert.ok((await help.innerText()).trim()); assert.equal((await help.boundingBox()).height, reserved.height);
       await input.fill('not a video link'); await primary.click(); assert.match(await help.innerText(), /TikTok/); assert.match(await help.innerText(), /YouTube/);
       assert.equal((await help.boundingBox()).height, reserved.height);
@@ -103,6 +114,9 @@ await withSite(async ({ browser, base }) => {
     const noMotion = await reduced.newPage(); await noMotion.goto(base + '/fr', { waitUntil: 'load' });
     assert.equal(await noMotion.locator('.fetch-surface').evaluate(e => e.getAnimations().length), 0, 'reduced motion disables the single field lift');
     await reduced.close();
+    await page.goto(base + '/about', { waitUntil: 'load' });
+    assert.equal(await page.locator('body').getAttribute('data-hero-theme'), null);
+    assert.equal(await page.locator('.site-header').evaluate(e => getComputedStyle(e).backgroundColor), 'rgb(238, 241, 248)', 'other pages keep the light header');
     success = true;
     console.log('HOME UI PASS: 25 above-fold cases; 56 overflow/header cases in 8 languages; dimensions, contrast, keyboard, paste, validation and reduced motion.');
   } catch (error) {
