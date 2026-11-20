@@ -43,20 +43,21 @@ function origin() { return runtimeOrigin || API_ORIGIN || (typeof window !== "un
 function secureClient() {
   if (!secureGateway) return null;
   client ??= new SecureDownloadClient(origin());
-  client.useTransferOrigin(preferredTransferMode() === "direct" ? window.location.origin : undefined);
   return client;
 }
 export async function authorizeDownloads(challenge: string) { await secureClient()?.authorize(challenge); window.dispatchEvent(new Event("vidfetch-access-ready")); }
 export const warmDownloadAccess = async () => { await secureClient()?.grant(); };
-export function openSecureTransfer(locale: Locale = "en") {
-  const active = secureClient();
-  if (!active) return undefined;
-  if (preferredTransferMode() === "direct") return {
-    isOpen: () => true,
-    close: () => {},
-    start: async (ticket: string, filename: string) => active.startTransfer(ticket, filename),
+/** Preparation, waiting, cancellation and polling share this immutable route. */
+export function beginDownloadTransfer(locale: Locale = "en") {
+  const active = secureClient(), mode = active ? preferredTransferMode() : "popup";
+  const scoped = active?.bindTransfer(mode === "direct" ? window.location.origin : undefined);
+  const transport = scoped?.request ?? ((path: string, init?: RequestInit) => fetch(apiUrl(path), init));
+  return {
+    mode,
+    open: () => scoped?.open(locale),
+    fetch: transport,
+    postJson: <T>(path: string, body: unknown, signal?: AbortSignal, onQueue?: (notice: QueueNotice) => void) => postJsonWith<T>(transport, path, body, signal, onQueue),
   };
-  return active.openTransfer(locale);
 }
 
 /** Resolves an API path against the configured backend. Absolute URLs pass through. */
@@ -72,17 +73,19 @@ export function apiUrl(path: string): string {
 }
 
 export function apiFetch(path: string, init: RequestInit = {}): Promise<Response> {
-  const active = secureClient();
-  if (active) { const url = new URL(apiUrl(path)); return active.request(url.pathname + url.search, init); }
-  return fetch(apiUrl(path), init);
+  return beginDownloadTransfer().fetch(path, init);
 }
 
-export async function postJson<T>(path: string, body: unknown, signal?: AbortSignal,onQueue?:(notice:QueueNotice)=>void): Promise<T> {
-  const response = await apiFetch(path, {
+export function postJson<T>(path: string, body: unknown, signal?: AbortSignal, onQueue?: (notice: QueueNotice) => void): Promise<T> {
+  return beginDownloadTransfer().postJson<T>(path, body, signal, onQueue);
+}
+
+async function postJsonWith<T>(transport: (path: string, init?: RequestInit) => Promise<Response>, path: string, body: unknown, signal?: AbortSignal, onQueue?: (notice: QueueNotice) => void): Promise<T> {
+  const response = await transport(path, {
     method: "POST", headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body), cache: "no-store", signal,
   });
-  const payload = await resolveQueued<T>(response,apiFetch,signal,onQueue) as T | null;
+  const payload = await resolveQueued<T>(response, transport, signal, onQueue) as T | null;
   if (payload === null) throw new Error(`The server returned an unreadable response (${response.status}). Please try again.`);
   return payload;
 }

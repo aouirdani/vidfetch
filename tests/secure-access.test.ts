@@ -109,3 +109,19 @@ test("same-origin requests sign their real relay path and include only same-orig
   for(const path of ["https://evil.example/api/download","/api/download/../health","/api/download#fragment","/api/transfer/download","//evil.example/api/download"])
     await assert.rejects(()=>client.request(path));
 });
+
+test("bound requests keep preparation, status, queue inspection, claim and cancellation on one origin",async()=>{
+  const key=randomBytes(32),seen:string[]=[];
+  const issuer=createAccessIssuer({key,siteOrigin:site,gatewayOrigin:origin,verifyChallenge:async()=>true});
+  const client=new SecureDownloadClient(origin,(async(_input,init)=>issuer(new Request(site,{...init,headers:{Origin:site}})))as typeof fetch,(async(input,init)=>{const u=new URL(String(input));seen.push(u.origin+u.pathname);return Response.json({ok:true});})as typeof fetch);
+  await client.authorize("fixture");
+  for(const direct of [true,false]){
+    const context=client.bindTransfer(direct?site:undefined),expected=direct?site+"/api/transfer/":origin+"/api/";
+    await context.request("/api/download",{method:"POST",body:"{}"});
+    await client.bindTransfer(direct?undefined:site).request("/api/health");
+    for(const [path,payload] of [["/api/download?status=ticket",undefined],["/api/queue?job=job",undefined],["/api/queue",{claim:"job"}],["/api/queue",{cancel:"job"}]] as const){
+      await context.request(path,payload?{method:"POST",body:JSON.stringify(payload)}:{});
+      assert(seen.at(-1)!.startsWith(expected));
+    }
+  }
+});

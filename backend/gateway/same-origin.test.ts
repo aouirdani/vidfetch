@@ -92,3 +92,37 @@ test("same-origin transfer: scoped cookie, signed preparation, ownership, IP, si
     await gateway.shutdown(); backend.closeAllConnections(); await new Promise<void>(r => backend.close(() => r()));
   }
 });
+
+for (const mode of ["direct", "popup"] as const) test(`${mode}: preparation and status keep their origin while another mode is selected`, async () => {
+  const key=randomBytes(32),site="https://vidfetch.app",origin="https://dl.vidfetch.app";
+  const folder=await mkdtemp(resolve("backend/artifacts/bound-transfer-"));
+  const backend=createServer((req,res)=>{
+    res.setHeader("Content-Type","application/json");
+    if(req.method==="POST"){req.resume();req.on("end",()=>{res.writeHead(201);res.end(JSON.stringify({ok:true,token:"12345678-1234-1234-1234-123456789abc",filename:"fixture.mp4"}));});}
+    else res.end('{"ok":true,"status":"ready","bytes":0,"error":null}');
+  });
+  backend.listen(0,"127.0.0.1");await once(backend,"listening");const ba=backend.address();assert(ba&&typeof ba!=="string");
+  const app=createGateway({origin,sites:[site],key,backend:`http://127.0.0.1:${ba.port}`,ledger:new GatewayLedger(resolve(folder,"quota.sqlite")),requireIsolation:false});
+  app.server.listen(0,"127.0.0.1");await once(app.server,"listening");const ga=app.server.address();assert(ga&&typeof ga!=="string");
+  const seen:string[]=[];
+  const transport=(async(input,init={})=>new Promise<Response>((done,reject)=>{
+    const url=new URL(String(input));seen.push(url.origin+url.pathname);
+    const req=request(`http://127.0.0.1:${ga.port}${url.pathname+url.search}`,{method:init.method??"GET",headers:{Host:url.host,"X-Forwarded-Proto":"https","X-Forwarded-For":"203.0.113.41",Origin:site,"Sec-Fetch-Site":"same-origin",...Object.fromEntries(new Headers(init.headers))}},res=>{
+      const chunks:Buffer[]=[];res.on("data",chunk=>chunks.push(chunk));res.on("end",()=>done(new Response(Buffer.concat(chunks),{status:res.statusCode})));
+    });req.on("error",reject);req.end(typeof init.body==="string"?init.body:undefined);
+  }))as typeof fetch;
+  const issuer=createAccessIssuer({key,siteOrigin:site,gatewayOrigin:origin,verifyChallenge:async token=>token==="original-fixture"});
+  const client=new SecureDownloadClient(origin,(async(_input,init)=>issuer(new Request(site,{...init,headers:{Origin:site}})))as typeof fetch,transport);
+  try{
+    await client.authorize("original-fixture");
+    const context=client.bindTransfer(mode==="direct"?site:undefined);
+    const prepared=await context.request("/api/download",{method:"POST",body:JSON.stringify({url:"https://www.tiktok.com/@example/video/1234567890123456789",format_id:"18",type:"video"})});
+    assert.equal(prepared.status,201);const ready=await prepared.json();
+    // A later preference/new operation must not mutate the active context.
+    const other=client.bindTransfer(mode==="direct"?undefined:site);
+    const wrong=await other.request(`/api/download?status=${ready.token}`);assert.equal(wrong.status,404);assert.equal((await wrong.json()).code,"EXPIRED");
+    const status=await context.request(`/api/download?status=${ready.token}`);assert.equal(status.status,200);assert.equal((await status.json()).status,"ready");
+    const expected=(mode==="direct"?site+"/api/transfer/download":origin+"/api/download");
+    assert.equal(seen[0],expected);assert.equal(seen.at(-1),expected);
+  }finally{await app.shutdown();backend.closeAllConnections();await new Promise<void>(r=>backend.close(()=>r()));}
+});

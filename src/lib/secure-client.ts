@@ -42,24 +42,37 @@ export class SecureDownloadClient {
     }
     return this.access!.grant;
   }
-  useTransferOrigin(origin?: string) {
-    if (origin && origin !== window.location.origin) throw new Error("Invalid transfer origin.");
-    this.transferOrigin = origin;
+  /** Each operation snapshots its origin, including while a grant renews. */
+  bindTransfer(transferOrigin?: string) {
+    return {
+      request: (path: string, init: RequestInit = {}) => this.requestAt(path, init, transferOrigin),
+      open: (locale: Locale = "en") => transferOrigin ? {
+        isOpen: () => true,
+        close: () => {},
+        start: async (ticket: string, filename: string) => this.startTransferAt(ticket, filename, transferOrigin),
+      } : this.openTransfer(locale),
+    };
   }
-  async request(path: string, init: RequestInit = {}): Promise<Response> {
+  request(path: string, init: RequestInit = {}): Promise<Response> {
+    return this.requestAt(path, init, this.transferOrigin);
+  }
+  private async requestAt(path: string, init: RequestInit, transferOrigin?: string): Promise<Response> {
     if (!/^\/api\/(?:health|fetch-info|download|queue)(?:\?|$)/.test(path) || path.includes("#") || path.includes("\\") || path.startsWith("//")) throw new Error("Invalid download API path.");
-    const actualPath = this.transferOrigin ? path.replace("/api/", "/api/transfer/") : path;
+    const actualPath = transferOrigin ? path.replace("/api/", "/api/transfer/") : path;
     const grant = await this.grant(), method = init.method ?? "GET", body = typeof init.body === "string" ? init.body : "";
     const headers = new Headers(init.headers); headers.set("Authorization", `Bearer ${grant}`); headers.set("X-VidFetch-Proof", await this.proof(method, actualPath, body, grant));
-    try { return await this.transport(`${this.transferOrigin ?? this.origin}${actualPath}`, { ...init, headers, credentials: this.transferOrigin ? "same-origin" : "omit", cache: "no-store", redirect: "error" }); }
+    try { return await this.transport(`${transferOrigin ?? this.origin}${actualPath}`, { ...init, headers, credentials: transferOrigin ? "same-origin" : "omit", cache: "no-store", redirect: "error" }); }
     catch { throw new DownloadClientError("BACKEND_UNAVAILABLE", "The secure download service could not be reached. Please try again later."); }
   }
   /** Native attachment in the current tab; the cookie is set by preparation.
    * No blob, iframe, popup, transferable proof, or JavaScript-readable cookie. */
   startTransfer(ticket: string, filename: string) {
-    if (!this.transferOrigin || this.transferOrigin !== window.location.origin || !/^[A-Za-z0-9_-]{43}$/.test(ticket)) throw new Error("Invalid transfer destination.");
+    this.startTransferAt(ticket, filename, this.transferOrigin);
+  }
+  private startTransferAt(ticket: string, filename: string, transferOrigin?: string) {
+    if (!transferOrigin || transferOrigin !== window.location.origin || !/^[A-Za-z0-9_-]{43}$/.test(ticket)) throw new Error("Invalid transfer destination.");
     const anchor = document.createElement("a");
-    anchor.href = `${this.transferOrigin}/api/transfer/download?ticket=${encodeURIComponent(ticket)}`;
+    anchor.href = `${transferOrigin}/api/transfer/download?ticket=${encodeURIComponent(ticket)}`;
     anchor.download = filename;
     anchor.referrerPolicy = "no-referrer";
     document.body.appendChild(anchor);

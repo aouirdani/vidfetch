@@ -6,7 +6,7 @@ import { clsx } from "clsx";
 import { PlatformIcon } from "./PlatformIcon";
 import { PLATFORM_META } from "@/lib/platforms";
 import { formatBytes, prettyCodec, type MediaFormat, type MediaInfo } from "@/lib/media";
-import { apiFetch, apiUrl, secureGateway, openSecureTransfer, warmDownloadAccess, postJson, type DownloadResponse, type DownloadStatusResponse, type EngineStatus } from "@/lib/api";
+import { apiUrl, secureGateway, beginDownloadTransfer, warmDownloadAccess, type DownloadResponse, type DownloadStatusResponse, type EngineStatus } from "@/lib/api";
 
 import { DownloadClientError } from "@/lib/secure-client";
 import { useI18n } from "@/i18n/context";
@@ -69,7 +69,7 @@ function FormatRow({ format, active, hasSeparateAudio, onSelect, onKeyDown, inne
 export function VideoCard({ info, engine, onReset }: Props) {
   const { locale, messages: d } = useI18n();
   const transfer = transferCopy[locale];
-  const direct = secureGateway && preferredTransferMode() === "direct";
+  const [direct, setDirect] = useState(secureGateway && preferredTransferMode() === "direct");
   const initialTab = info.videoFormats.length ? "video" : "audio";
   const [tab, setTab] = useState<"video" | "audio">(initialTab);
   const [selected, setSelected] = useState<string | null>((initialTab === "video" ? info.videoFormats : info.audioFormats)[0]?.id ?? null);
@@ -127,10 +127,12 @@ export function VideoCard({ info, engine, onReset }: Props) {
     if (timerRef.current) clearTimeout(timerRef.current);
     const controller = new AbortController();
     requestRef.current = controller;
-    let channel: ReturnType<typeof openSecureTransfer>;
+    let channel: ReturnType<ReturnType<typeof beginDownloadTransfer>["open"]>;
     try {
-      channel = openSecureTransfer(locale);
-      const ready = await postJson<DownloadResponse>("/api/download", { url: info.url, format_id: activeFormat.id, type: activeFormat.kind }, controller.signal,notice=>{
+      const transferContext = beginDownloadTransfer(locale);
+      setDirect(transferContext.mode === "direct");
+      channel = transferContext.open();
+      const ready = await transferContext.postJson<DownloadResponse>("/api/download", { url: info.url, format_id: activeFormat.id, type: activeFormat.kind }, controller.signal,notice=>{
         if (channel && !channel.isOpen()) { controller.abort(); return; }
         if(mounted.current)setNotice({tone:"info",text:interpolate(d.waiting, { position: notice.position, seconds: Math.ceil(notice.estimatedWaitMs/1000) }) + " " + d.keepOpen});
       });
@@ -152,7 +154,7 @@ export function VideoCard({ info, engine, onReset }: Props) {
       const poll = async () => {
         if (!mounted.current) return;
         try {
-          const response = await apiFetch(`/api/download?status=${encodeURIComponent(ready.token)}`, { cache: "no-store", signal: controller.signal });
+          const response = await transferContext.fetch(`/api/download?status=${encodeURIComponent(ready.token)}`, { cache: "no-store", signal: controller.signal });
           const status = await response.json() as DownloadStatusResponse;
           if (!mounted.current) return;
           if (!status.ok) throw new DownloadClientError(status.code, errorMessage(status.code, d, locale));
