@@ -8,7 +8,7 @@ import ffmpegStatic from "ffmpeg-static";
 import { detectPlatform, platformName, type Platform } from "./platforms";
 import { startEngineProcess } from "./engine-process";
 
-export type EngineErrorCode = "INVALID_URL" | "UNSUPPORTED_PLATFORM" | "UNAVAILABLE" | "PRIVATE" | "AUTH_REQUIRED" | "RATE_LIMITED" | "UPSTREAM_BLOCKED" | "TIMEOUT" | "ENGINE_MISSING" | "ENGINE_ERROR" | "BUSY" | "NO_VIDEO" | "EXPIRED";
+export type EngineErrorCode = "INVALID_URL" | "UNSUPPORTED_PLATFORM" | "UNAVAILABLE" | "PRIVATE" | "AUTH_REQUIRED" | "RATE_LIMITED" | "UPSTREAM_BLOCKED" | "POST_ACCESS_RESTRICTED" | "TIMEOUT" | "ENGINE_MISSING" | "ENGINE_ERROR" | "BUSY" | "NO_VIDEO" | "EXPIRED";
 export class EngineError extends Error {
   constructor(readonly code: EngineErrorCode, message: string, readonly status: number, readonly detail?: string) {
     super(message);
@@ -198,6 +198,12 @@ export function classifyEngineFailure(code: number | null, stderr: string, platf
   const source = platform ? platformName(platform) : "The source platform";
   const lower = stderr.toLowerCase();
   const detail = `exit=${code ?? "unknown"} ${stderr.slice(-1200)}`;
+  // yt-dlp reports this restriction for one TikTok post even when other public
+  // posts work from the same server. Do not label it as a deleted/private video
+  // or a general outage, and never suggest bypassing the source restriction.
+  if (platform === "tiktok" && /your ip address is blocked from accessing this post/.test(lower)) {
+    return new EngineError("POST_ACCESS_RESTRICTED", "TikTok restricts access to this video from the download server. This video cannot be downloaded here.", 403, detail);
+  }
   if (/private (video|account)|only available.*follow|friends.only/.test(lower)) {
     return new EngineError("PRIVATE", "This video is private. VidFetch cannot access content you do not have permission to download.", 404, detail);
   }

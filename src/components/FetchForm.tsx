@@ -36,7 +36,7 @@ function sharedLink(): string | null {
 }
 
 export function FetchForm({ formCopy, inputCopy, permission }: { compact?: boolean; platform?: Platform; formCopy: FormCopy; inputCopy: InputCopy; permission: string }) {
-  const { messages: d } = useI18n();
+  const { locale, messages: d } = useI18n();
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<FetchInfoSuccess | null>(null);
@@ -90,11 +90,11 @@ export function FetchForm({ formCopy, inputCopy, permission }: { compact?: boole
           const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
           resultsRef.current?.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "nearest" });
         });
-      } else setError(errorMessage(payload.code, d));
+      } else setError(errorMessage(payload.code, d, locale));
     } catch {
       if (!controller.signal.aborted) setError(d.networkError);
     } finally { if (!controller.signal.aborted) {setLoading(false);setWaiting(null);} }
-  }, [value, authorized, d, formCopy, inputCopy]);
+  }, [value, authorized, d, formCopy, inputCopy, locale]);
 
   useEffect(() => {
     if (authorized && pending.current) {

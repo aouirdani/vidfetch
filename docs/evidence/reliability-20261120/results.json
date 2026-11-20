@@ -1,0 +1,265 @@
+{
+  "scope": "Metadata extraction only with the production yt-dlp 2026.08.19 binary and flags on OVH, same UID/nft/hardening; not browser or full file-download verification. stdout retains technical fields only; no creator profile, captions, cookies, raw IP or signed media URLs.",
+  "recentSuccesses": 10,
+  "recentTrials": 10,
+  "legacyFailures": 1,
+  "seconds": 69.766,
+  "protectedServicesUnchanged": true,
+  "trialDetails": [
+    {
+      "event": "trial",
+      "trial": 0,
+      "url": "https://www.tiktok.com/@leenabhushan/video/6748451240264420610",
+      "utc": "2026-11-20T13:50:39.429266+00:00",
+      "ytDlp": {
+        "exitCode": 1,
+        "seconds": 3.949,
+        "stderr": "ERROR: [TikTok] 6748451240264420610: Your IP address is blocked from accessing this post",
+        "stdoutBytes": 0,
+        "diagnosticLimitReached": false,
+        "profile": "same worker UID, nft, NoNewPrivileges, zero capabilities, copied service hardening; production services unchanged"
+      }
+    },
+    {
+      "event": "trial",
+      "trial": 1,
+      "url": "https://www.tiktok.com/@jamesbond007/video/7708784270688537878",
+      "utc": "2026-11-20T13:50:46.378459+00:00",
+      "ytDlp": {
+        "exitCode": 0,
+        "seconds": 3.713,
+        "stderr": "",
+        "stdoutBytes": 20157,
+        "diagnosticLimitReached": false,
+        "profile": "same worker UID, nft, NoNewPrivileges, zero capabilities, copied service hardening; production services unchanged",
+        "summary": {
+          "id": "7708784270688537878",
+          "duration": 25,
+          "formats": 10,
+          "extractor": "TikTok",
+          "uploadDate": "20261116",
+          "availability": null,
+          "hasVideo": true
+        },
+        "stdoutSanitized": "{\"id\": \"7708784270688537878\", \"duration\": 25, \"formats\": 10, \"extractor\": \"TikTok\", \"uploadDate\": \"20261116\", \"availability\": null, \"hasVideo\": true}"
+      }
+    },
+    {
+      "event": "trial",
+      "trial": 2,
+      "url": "https://www.tiktok.com/@rottentomatoes/video/7708786275897150751",
+      "utc": "2026-11-20T13:50:53.092066+00:00",
+      "ytDlp": {
+        "exitCode": 0,
+        "seconds": 3.291,
+        "stderr": "",
+        "stdoutBytes": 20667,
+        "diagnosticLimitReached": false,
+        "profile": "same worker UID, nft, NoNewPrivileges, zero capabilities, copied service hardening; production services unchanged",
+        "summary": {
+          "id": "7708786275897150751",
+          "duration": 25,
+          "formats": 10,
+          "extractor": "TikTok",
+          "uploadDate": "20261116",
+          "availability": null,
+          "hasVideo": true
+        },
+        "stdoutSanitized": "{\"id\": \"7708786275897150751\", \"duration\": 25, \"formats\": 10, \"extractor\": \"TikTok\", \"uploadDate\": \"20261116\", \"availability\": null, \"hasVideo\": true}"
+      }
+    },
+    {
+      "event": "trial",
+      "trial": 3,
+      "url": "https://www.tiktok.com/@bpdedits/video/7708804412000455969",
+      "utc": "2026-11-20T13:50:59.384243+00:00",
+      "ytDlp": {
+        "exitCode": 0,
+        "seconds": 3.279,
+        "stderr": "",
+        "stdoutBytes": 23752,
+        "diagnosticLimitReached": false,
+        "profile": "same worker UID, nft, NoNewPrivileges, zero capabilities, copied service hardening; production services unchanged",
+        "summary": {
+          "id": "7708804412000455969",
+          "duration": 20,
+          "formats": 12,
+          "extractor": "TikTok",
+          "uploadDate": "20261116",
+          "availability": null,
+          "hasVideo": true
+        },
+        "stdoutSanitized": "{\"id\": \"7708804412000455969\", \"duration\": 20, \"formats\": 12, \"extractor\": \"TikTok\", \"uploadDate\": \"20261116\", \"availability\": null, \"hasVideo\": true}"
+      }
+    },
+    {
+      "event": "trial",
+      "trial": 4,
+      "url": "https://www.tiktok.com/@bbcnews/video/7708972229400300822",
+      "utc": "2026-11-20T13:51:05.664690+00:00",
+      "ytDlp": {
+        "exitCode": 0,
+        "seconds": 2.61,
+        "stderr": "",
+        "stdoutBytes": 20455,
+        "diagnosticLimitReached": false,
+        "profile": "same worker UID, nft, NoNewPrivileges, zero capabilities, copied service hardening; production services unchanged",
+        "summary": {
+          "id": "7708972229400300822",
+          "duration": 47,
+          "formats": 10,
+          "extractor": "TikTok",
+          "uploadDate": "20261117",
+          "availability": null,
+          "hasVideo": true
+        },
+        "stdoutSanitized": "{\"id\": \"7708972229400300822\", \"duration\": 47, \"formats\": 10, \"extractor\": \"TikTok\", \"uploadDate\": \"20261117\", \"availability\": null, \"hasVideo\": true}"
+      }
+    },
+    {
+      "event": "trial",
+      "trial": 5,
+      "url": "https://www.tiktok.com/@nasa/video/7705574810113314061",
+      "utc": "2026-11-20T13:51:11.275071+00:00",
+      "ytDlp": {
+        "exitCode": 0,
+        "seconds": 3.554,
+        "stderr": "",
+        "stdoutBytes": 17607,
+        "diagnosticLimitReached": false,
+        "profile": "same worker UID, nft, NoNewPrivileges, zero capabilities, copied service hardening; production services unchanged",
+        "summary": {
+          "id": "7705574810113314061",
+          "duration": 94,
+          "formats": 8,
+          "extractor": "TikTok",
+          "uploadDate": "20261107",
+          "availability": null,
+          "hasVideo": true
+        },
+        "stdoutSanitized": "{\"id\": \"7705574810113314061\", \"duration\": 94, \"formats\": 8, \"extractor\": \"TikTok\", \"uploadDate\": \"20261107\", \"availability\": null, \"hasVideo\": true}"
+      }
+    },
+    {
+      "event": "trial",
+      "trial": 6,
+      "url": "https://www.tiktok.com/@nasa/video/7702504724049743117",
+      "utc": "2026-11-20T13:51:17.830551+00:00",
+      "ytDlp": {
+        "exitCode": 0,
+        "seconds": 3.308,
+        "stderr": "",
+        "stdoutBytes": 17415,
+        "diagnosticLimitReached": false,
+        "profile": "same worker UID, nft, NoNewPrivileges, zero capabilities, copied service hardening; production services unchanged",
+        "summary": {
+          "id": "7702504724049743117",
+          "duration": 108,
+          "formats": 8,
+          "extractor": "TikTok",
+          "uploadDate": "20261030",
+          "availability": null,
+          "hasVideo": true
+        },
+        "stdoutSanitized": "{\"id\": \"7702504724049743117\", \"duration\": 108, \"formats\": 8, \"extractor\": \"TikTok\", \"uploadDate\": \"20261030\", \"availability\": null, \"hasVideo\": true}"
+      }
+    },
+    {
+      "event": "trial",
+      "trial": 7,
+      "url": "https://www.tiktok.com/@tiktok/video/7702947070604332319",
+      "utc": "2026-11-20T13:51:24.139918+00:00",
+      "ytDlp": {
+        "exitCode": 0,
+        "seconds": 3.301,
+        "stderr": "",
+        "stdoutBytes": 20505,
+        "diagnosticLimitReached": false,
+        "profile": "same worker UID, nft, NoNewPrivileges, zero capabilities, copied service hardening; production services unchanged",
+        "summary": {
+          "id": "7702947070604332319",
+          "duration": 43,
+          "formats": 10,
+          "extractor": "TikTok",
+          "uploadDate": "20261031",
+          "availability": null,
+          "hasVideo": true
+        },
+        "stdoutSanitized": "{\"id\": \"7702947070604332319\", \"duration\": 43, \"formats\": 10, \"extractor\": \"TikTok\", \"uploadDate\": \"20261031\", \"availability\": null, \"hasVideo\": true}"
+      }
+    },
+    {
+      "event": "trial",
+      "trial": 8,
+      "url": "https://www.tiktok.com/@tiktok/video/7700680369246358815",
+      "utc": "2026-11-20T13:51:30.442927+00:00",
+      "ytDlp": {
+        "exitCode": 0,
+        "seconds": 3.148,
+        "stderr": "",
+        "stdoutBytes": 20568,
+        "diagnosticLimitReached": false,
+        "profile": "same worker UID, nft, NoNewPrivileges, zero capabilities, copied service hardening; production services unchanged",
+        "summary": {
+          "id": "7700680369246358815",
+          "duration": 74,
+          "formats": 10,
+          "extractor": "TikTok",
+          "uploadDate": "20261025",
+          "availability": null,
+          "hasVideo": true
+        },
+        "stdoutSanitized": "{\"id\": \"7700680369246358815\", \"duration\": 74, \"formats\": 10, \"extractor\": \"TikTok\", \"uploadDate\": \"20261025\", \"availability\": null, \"hasVideo\": true}"
+      }
+    },
+    {
+      "event": "trial",
+      "trial": 9,
+      "url": "https://www.tiktok.com/@nasa/video/7700397098994273549",
+      "utc": "2026-11-20T13:51:36.592063+00:00",
+      "ytDlp": {
+        "exitCode": 0,
+        "seconds": 3.154,
+        "stderr": "",
+        "stdoutBytes": 20449,
+        "diagnosticLimitReached": false,
+        "profile": "same worker UID, nft, NoNewPrivileges, zero capabilities, copied service hardening; production services unchanged",
+        "summary": {
+          "id": "7700397098994273549",
+          "duration": 16,
+          "formats": 10,
+          "extractor": "TikTok",
+          "uploadDate": "20261025",
+          "availability": null,
+          "hasVideo": true
+        },
+        "stdoutSanitized": "{\"id\": \"7700397098994273549\", \"duration\": 16, \"formats\": 10, \"extractor\": \"TikTok\", \"uploadDate\": \"20261025\", \"availability\": null, \"hasVideo\": true}"
+      }
+    },
+    {
+      "event": "trial",
+      "trial": 10,
+      "url": "https://www.tiktok.com/@nasa/video/7695090484124929293",
+      "utc": "2026-11-20T13:51:42.746875+00:00",
+      "ytDlp": {
+        "exitCode": 0,
+        "seconds": 3.388,
+        "stderr": "",
+        "stdoutBytes": 22608,
+        "diagnosticLimitReached": false,
+        "profile": "same worker UID, nft, NoNewPrivileges, zero capabilities, copied service hardening; production services unchanged",
+        "summary": {
+          "id": "7695090484124929293",
+          "duration": 122,
+          "formats": 10,
+          "extractor": "TikTok",
+          "uploadDate": "20261010",
+          "availability": null,
+          "hasVideo": true
+        },
+        "stdoutSanitized": "{\"id\": \"7695090484124929293\", \"duration\": 122, \"formats\": 10, \"extractor\": \"TikTok\", \"uploadDate\": \"20261010\", \"availability\": null, \"hasVideo\": true}"
+      }
+    }
+  ],
+  "diagnosis": "Only legacy post fails. yt-dlp explicitly reports an IP access restriction for this post. Ten recent videos succeed from the same OVH source, so no global IP block, rate limit or timeout was observed in this sample. Existing classifier did not recognize this exact message and returned ENGINE_ERROR/502. Deletion/private status is not established by this message."
+}

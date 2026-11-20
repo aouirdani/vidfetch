@@ -9,8 +9,10 @@ import { execFileSync } from 'node:child_process';
 // signed same-origin preparation and scoped cookie in the gateway. Both binaries
 // must be installed manually (with rollback) before this frontend can be promoted.
 // Keep this exact guard: every later engine change needs a new explicit review.
+// Worker reference also includes the diagnosed TikTok post-specific access code;
+// the evidence is retained in docs/evidence/reliability-20261120/results.json.
 export const ENGINE_FILES = {
-  'backend/vidfetch-ovh.cjs': '455ae98301732e3ff6fb4fe54e37faa587c3d26151edf3d042dc7057fffd2c09',
+  'backend/vidfetch-ovh.cjs': '893fb0f2d8673e030666af9d779d6f05de9da4fe01921180ab13afd0adf36370',
   'backend/vidfetch-gateway.cjs': '5115c01a359dfe88a560a6a54f7f4e8ee7e94dbeccaac8b3a095c5443a8cdf58',
 };
 export async function checkEngines(archive) {

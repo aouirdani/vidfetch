@@ -130,7 +130,7 @@ export function VideoCard({ info, engine, onReset }: Props) {
         if(mounted.current)setNotice({tone:"info",text:interpolate(d.waiting, { position: notice.position, seconds: Math.ceil(notice.estimatedWaitMs/1000) }) + " " + d.keepOpen});
       });
       if (!mounted.current) return;
-      if (!ready.ok) throw new Error(errorMessage(ready.code, d));
+      if (!ready.ok) throw new DownloadClientError(ready.code, errorMessage(ready.code, d, locale));
       if (!startSecureTransfer(ready.token, ready.filename)) {
         const anchor = document.createElement("a");
         // The backend returns a relative ticket URL; resolve it against the API origin.
@@ -149,7 +149,7 @@ export function VideoCard({ info, engine, onReset }: Props) {
           const response = await apiFetch(`/api/download?status=${encodeURIComponent(ready.token)}`, { cache: "no-store", signal: controller.signal });
           const status = await response.json() as DownloadStatusResponse;
           if (!mounted.current) return;
-          if (!status.ok) throw new Error(errorMessage(status.code, d));
+          if (!status.ok) throw new DownloadClientError(status.code, errorMessage(status.code, d, locale));
           setBytes(status.bytes);
           if (status.status === "completed") {
             setStage("idle");
@@ -179,7 +179,7 @@ export function VideoCard({ info, engine, onReset }: Props) {
       if (!mounted.current) return;
       setStage("idle");
       if(controller.signal.aborted){setNotice({tone:"info",text:d.waitingCancelled});return;}
-      setNotice({ tone: "error", text: error instanceof DownloadClientError ? errorMessage(error.code, d) : error instanceof Error && Object.values(d).includes(error.message) ? error.message : d.operationFailed });
+      setNotice({ tone: "error", text: error instanceof DownloadClientError ? errorMessage(error.code, d, locale) : error instanceof Error && Object.values(d).includes(error.message) ? error.message : d.operationFailed });
     }
   }
 
@@ -191,7 +191,7 @@ export function VideoCard({ info, engine, onReset }: Props) {
           if (document?.contentType === "application/json") {
             const response = JSON.parse(document.body.textContent ?? "{}") as { error?: string; code?: string };
             if (response.error) {
-              setNotice({ tone: "error", text: errorMessage(response.code, d) });
+              setNotice({ tone: "error", text: errorMessage(response.code, d, locale) });
               setStage("idle");
               if (timerRef.current) clearTimeout(timerRef.current);
             }

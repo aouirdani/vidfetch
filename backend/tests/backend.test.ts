@@ -7,7 +7,7 @@ import { mkdtemp, readFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { setTimeout as delay } from "node:timers/promises";
 import { createBackend } from "../server";
-import { EngineError, isEngineError, dumpJson } from "../../src/lib/engine";
+import { EngineError, isEngineError, dumpJson, classifyEngineFailure } from "../../src/lib/engine";
 import { isPublicAddress, assertPublicUrl } from "../network";
 import { detectPlatform } from "../../src/lib/platforms";
 
@@ -105,6 +105,16 @@ test("HTTP preserves decorated engine failures and missing-engine health", async
   const b = await setup({ engine: { engineStatus: () => ({ ytDlp: null, ffmpeg: false }) } });
   try { const response = await fetch(b.base + "/api/health"); assert.equal(response.status, 503); assert.equal((await response.json()).ok, false); }
   finally { await b.shutdown(); }
+});
+test("TikTok post-specific IP restriction returns its precise code without exposing stderr", async () => {
+  const stderr = "ERROR: [TikTok] 6748451240264420610: Your IP address is blocked from accessing this post";
+  const b = await setup({ engine: { dumpJson: async () => { throw classifyEngineFailure(1, stderr, "tiktok"); } } });
+  try {
+    const response = await b.post("/api/fetch-info", { url: "https://www.tiktok.com/@leenabhushan/video/6748451240264420610" });
+    assert.equal(response.status, 403);
+    const payload = await response.json(); assert.equal(payload.code, "POST_ACCESS_RESTRICTED"); assert.equal(payload.ok, false);
+    assert.match(payload.error, /TikTok restricts access/); assert(!JSON.stringify(payload).includes("6748451240264420610")); assert(!("detail" in payload));
+  } finally { await b.shutdown(); }
 });
 test("stream integrity, bytes, completed, single-use without status corruption", async () => {
   const b = await setup();
