@@ -6,13 +6,14 @@ import { clsx } from "clsx";
 import { PlatformIcon } from "./PlatformIcon";
 import { PLATFORM_META } from "@/lib/platforms";
 import { formatBytes, prettyCodec, type MediaFormat, type MediaInfo } from "@/lib/media";
-import { apiFetch, apiUrl, secureGateway, startSecureTransfer, warmDownloadAccess, postJson, type DownloadResponse, type DownloadStatusResponse, type EngineStatus } from "@/lib/api";
+import { apiFetch, apiUrl, secureGateway, openSecureTransfer, warmDownloadAccess, postJson, type DownloadResponse, type DownloadStatusResponse, type EngineStatus } from "@/lib/api";
 
 import { DownloadClientError } from "@/lib/secure-client";
 import { useI18n } from "@/i18n/context";
 import { interpolate, LANGUAGES } from "@/i18n/config";
 import { errorMessage } from "@/i18n/errors";
 import type { ClientMessages as Messages } from "@/i18n/client-messages";
+import { preferredTransferMode } from "@/lib/transfer-mode";
 import { transferCopy } from "@/i18n/transfer-copy";
 import { localizedFormatLabel } from "@/i18n/formats";
 
@@ -68,6 +69,7 @@ function FormatRow({ format, active, hasSeparateAudio, onSelect, onKeyDown, inne
 export function VideoCard({ info, engine, onReset }: Props) {
   const { locale, messages: d } = useI18n();
   const transfer = transferCopy[locale];
+  const direct = secureGateway && preferredTransferMode() === "direct";
   const initialTab = info.videoFormats.length ? "video" : "audio";
   const [tab, setTab] = useState<"video" | "audio">(initialTab);
   const [selected, setSelected] = useState<string | null>((initialTab === "video" ? info.videoFormats : info.audioFormats)[0]?.id ?? null);
@@ -125,13 +127,17 @@ export function VideoCard({ info, engine, onReset }: Props) {
     if (timerRef.current) clearTimeout(timerRef.current);
     const controller = new AbortController();
     requestRef.current = controller;
+    let channel: ReturnType<typeof openSecureTransfer>;
     try {
+      channel = openSecureTransfer(locale);
       const ready = await postJson<DownloadResponse>("/api/download", { url: info.url, format_id: activeFormat.id, type: activeFormat.kind }, controller.signal,notice=>{
+        if (channel && !channel.isOpen()) { controller.abort(); return; }
         if(mounted.current)setNotice({tone:"info",text:interpolate(d.waiting, { position: notice.position, seconds: Math.ceil(notice.estimatedWaitMs/1000) }) + " " + d.keepOpen});
       });
-      if (!mounted.current) return;
+      if (!mounted.current) { channel?.close(); return; }
       if (!ready.ok) throw new DownloadClientError(ready.code, errorMessage(ready.code, d, locale));
-      if (!startSecureTransfer(ready.token, ready.filename)) {
+      if (channel) await channel.start(ready.token, ready.filename);
+      else {
         const anchor = document.createElement("a");
         // The backend returns a relative ticket URL; resolve it against the API origin.
         anchor.href = apiUrl(ready.downloadUrl);
@@ -141,7 +147,7 @@ export function VideoCard({ info, engine, onReset }: Props) {
       }
       if (!mounted.current) return;
       setStage("streaming");
-      setNotice({ tone: "info", text: transfer.started + " " + transfer.help });
+      setNotice({ tone: "info", text: direct ? transfer.started + " " + transfer.help : d.keepOpen });
       let retries = 0;
       const poll = async () => {
         if (!mounted.current) return;
@@ -176,6 +182,7 @@ export function VideoCard({ info, engine, onReset }: Props) {
       };
       void poll();
     } catch (error) {
+      channel?.close();
       if (!mounted.current) return;
       setStage("idle");
       if(controller.signal.aborted){setNotice({tone:"info",text:d.waitingCancelled});return;}
@@ -281,7 +288,7 @@ export function VideoCard({ info, engine, onReset }: Props) {
             {stage === "streaming" && (
               <div className="rounded-xl border border-cyan-400/25 bg-cyan-500/[0.08] px-3.5 py-3">
                 <div className="flex items-center justify-between text-xs font-medium text-cyan-100">
-                  <span>{transfer.started}</span>
+                  <span>{direct ? transfer.started : d.downloading}</span>
                   <span className="tabular-nums" dir="ltr">{formatBytes(bytes) ?? d.starting}</span>
                 </div>
                 <div className="mt-2 h-1 overflow-hidden rounded-full bg-white/10" role="progressbar" aria-label={d.progress} aria-valuetext={formatBytes(bytes) ?? d.starting}>
@@ -305,10 +312,10 @@ export function VideoCard({ info, engine, onReset }: Props) {
             <button type="button" onClick={() => void launchDownload()} disabled={busy || !activeFormat}
               className="group inline-flex min-h-[52px] w-full items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-r from-cyan-400 via-cyan-400 to-sky-400 px-6 text-sm font-semibold text-ink-950 shadow-[0_18px_45px_-20px_rgba(139,92,246,1)] transition hover:brightness-110 active:scale-[0.99] disabled:cursor-wait disabled:opacity-70">
               {busy ? <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden /> : <Download className="h-4 w-4 transition-transform group-hover:translate-y-0.5" aria-hidden />}
-              {stage === "preparing" ? d.preparing : stage === "streaming" ? transfer.started : <>{d.download}{activeFormat && <> <bdi dir="ltr">{formatLabel(activeFormat, d)}</bdi></>}</>}
+              {stage === "preparing" ? d.preparing : stage === "streaming" ? (direct ? transfer.started : d.downloading) : <>{d.download}{activeFormat && <> <bdi dir="ltr">{formatLabel(activeFormat, d)}</bdi></>}</>}
             </button>
             <p className="text-center text-[11px] text-slate-400">
-              {transfer.help} {d.transferFooter}
+              {direct && <>{transfer.help} </>}{d.transferFooter}
             </p>
           </div>
         </div>

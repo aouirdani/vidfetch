@@ -11,3 +11,14 @@ export const restrictedPostMessage = {
   it: "Questo video non può essere scaricato dal nostro server: TikTok ne limita l’accesso.",
   ar: "لا يمكن تنزيل هذا الفيديو عبر خادمنا لأن TikTok يقيّد الوصول إليه.",
 } satisfies Record<Locale, string>;
+
+export const popupBlockedMessage = {
+  en: "Allow the download window in your browser, then try again.",
+  fr: "Autorisez la fenêtre de téléchargement dans votre navigateur, puis réessayez.",
+  es: "Permite la ventana de descarga en el navegador y vuelve a intentarlo.",
+  "pt-BR": "Permita a janela de download no navegador e tente novamente.",
+  id: "Izinkan jendela unduhan di peramban, lalu coba lagi.",
+  de: "Erlaube das Downloadfenster im Browser und versuche es erneut.",
+  it: "Consenti la finestra di download nel browser, poi riprova.",
+  ar: "اسمح بفتح نافذة التنزيل في المتصفح ثم حاول مجددًا.",
+} satisfies Record<Locale, string>;

@@ -1,3 +1,5 @@
+import type { Locale } from "../i18n/config";
+import { preferredTransferMode } from "./transfer-mode";
 import { SecureDownloadClient } from "./secure-client";
 import { publicGatewayOrigin } from "./gateway-origin";
 import { resolveQueued,type QueueNotice } from "./queue-client";
@@ -38,14 +40,23 @@ export function configureDownloadOrigin(value: string) {
   if (next !== runtimeOrigin) { runtimeOrigin = next; client = null; }
 }
 function origin() { return runtimeOrigin || API_ORIGIN || (typeof window !== "undefined" ? window.location.origin : "https://vidfetch.app"); }
-function secureClient() { return secureGateway ? (client ??= new SecureDownloadClient(origin(), undefined, undefined, window.location.origin)) : null; }
+function secureClient() {
+  if (!secureGateway) return null;
+  client ??= new SecureDownloadClient(origin());
+  client.useTransferOrigin(preferredTransferMode() === "direct" ? window.location.origin : undefined);
+  return client;
+}
 export async function authorizeDownloads(challenge: string) { await secureClient()?.authorize(challenge); window.dispatchEvent(new Event("vidfetch-access-ready")); }
 export const warmDownloadAccess = async () => { await secureClient()?.grant(); };
-export function startSecureTransfer(ticket: string, filename: string) {
+export function openSecureTransfer(locale: Locale = "en") {
   const active = secureClient();
-  if (!active) return false;
-  active.startTransfer(ticket, filename);
-  return true;
+  if (!active) return undefined;
+  if (preferredTransferMode() === "direct") return {
+    isOpen: () => true,
+    close: () => {},
+    start: async (ticket: string, filename: string) => active.startTransfer(ticket, filename),
+  };
+  return active.openTransfer(locale);
 }
 
 /** Resolves an API path against the configured backend. Absolute URLs pass through. */

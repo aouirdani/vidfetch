@@ -1,3 +1,4 @@
+import type { Locale } from "../i18n/config";
 import type { BrowserKey, RequestProof } from "./access-types";
 
 const encoder = new TextEncoder();
@@ -41,6 +42,10 @@ export class SecureDownloadClient {
     }
     return this.access!.grant;
   }
+  useTransferOrigin(origin?: string) {
+    if (origin && origin !== window.location.origin) throw new Error("Invalid transfer origin.");
+    this.transferOrigin = origin;
+  }
   async request(path: string, init: RequestInit = {}): Promise<Response> {
     if (!/^\/api\/(?:health|fetch-info|download|queue)(?:\?|$)/.test(path) || path.includes("#") || path.includes("\\") || path.startsWith("//")) throw new Error("Invalid download API path.");
     const actualPath = this.transferOrigin ? path.replace("/api/", "/api/transfer/") : path;
@@ -60,5 +65,37 @@ export class SecureDownloadClient {
     document.body.appendChild(anchor);
     anchor.click();
     anchor.remove();
+  }
+  /** Called synchronously on a user gesture, before awaiting preparation. */
+  openTransfer(locale: Locale = "en") {
+    const popup = window.open(`${this.origin}/download-helper?lang=${encodeURIComponent(locale)}`, "_blank");
+    if (!popup) throw new DownloadClientError("POPUP_BLOCKED", "Allow the download window in your browser and try again.");
+    let dispose = () => {};
+    const ready = new Promise<void>((resolve, reject) => {
+      const timer = window.setTimeout(() => { dispose(); reject(new Error("The download window could not connect.")); }, 15000);
+      const listener = (event: MessageEvent) => { if (event.source === popup && event.origin === this.origin && event.data?.type === "vidfetch-helper-ready") { dispose(); resolve(); } };
+      dispose = () => { window.clearTimeout(timer); window.removeEventListener("message", listener); };
+      window.addEventListener("message", listener);
+    });
+    // Prevent a blocked preparation from leaving an unhandled ready rejection.
+    void ready.catch(() => {});
+    return {
+      isOpen:()=>!popup.closed,
+      close: () => { dispose(); popup.close(); },
+      start: async (ticket: string) => {
+        await ready;
+        const grant = await this.grant(), body = JSON.stringify({ ticket }), proof = await this.proof("POST", "/auth/transfer", body, grant);
+        return new Promise<void>((resolve, reject) => {
+          const timer = window.setTimeout(() => { cleanup(); reject(new Error("The download window did not confirm authorization.")); }, 15000);
+          const listener = (event: MessageEvent) => {
+            if (event.source !== popup || event.origin !== this.origin) return;
+            if (event.data?.type === "vidfetch-started") { cleanup(); resolve(); }
+            if (event.data?.type === "vidfetch-error") { cleanup(); reject(new Error("Download authorization failed. Please try again.")); }
+          };
+          const cleanup = () => { clearTimeout(timer); window.removeEventListener("message", listener); };
+          window.addEventListener("message", listener); popup.postMessage({ type: "vidfetch-transfer", ticket, grant, proof }, this.origin);
+        });
+      },
+    };
   }
 }

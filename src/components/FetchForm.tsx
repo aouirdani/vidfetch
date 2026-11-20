@@ -7,6 +7,7 @@ import { VideoCardSkeleton } from "./VideoCardSkeleton";
 import { downloadsUnavailable, postJson, secureGateway, type FetchInfoResponse, type FetchInfoSuccess } from "@/lib/api";
 import { useI18n } from "@/i18n/context";
 import { interpolate } from "@/i18n/config";
+import { applyTransferPreference } from "@/lib/transfer-mode";
 import { errorMessage } from "@/i18n/errors";
 import { DownloadAccess } from "./DownloadAccess";
 import { detectPlatform, type Platform } from "@/lib/platforms";
@@ -58,6 +59,8 @@ export function FetchForm({ formCopy, inputCopy, permission }: { compact?: boole
   const messageState = error ? "error" : waiting ? "waiting" : !value.trim() ? "idle" : detection.ok && detection.platform === "tiktok" ? "recognized" : "invalid";
 
   useEffect(() => () => requestRef.current?.abort(), []);
+  useEffect(() => { applyTransferPreference(); }, []);
+
   useEffect(() => {
     const expired = () => { setAuthorized(false); setVerificationNeeded(true); };
     window.addEventListener("vidfetch-access-required", expired);

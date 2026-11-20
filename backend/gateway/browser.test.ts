@@ -15,7 +15,7 @@ import { createAccessIssuer } from "../../src/server/download-access";
 import { tlsFixture } from "./tests.test";
 import { nativeFirefox } from "./native-firefox-test";
 
-test("native same-tab MP4 and MP3 attachment, scoped cookie, exact bytes and status", { timeout:120000 }, async()=>{
+for (const mode of ["popup","direct"] as const) test(`native ${mode} MP4 and MP3 attachment, scoped cookie, exact bytes and status`, { timeout:120000 }, async()=>{
   const tls=await tlsFixture(),key=randomBytes(32);
   const video=resolve(tls.directory,"original.mp4"), audio=resolve(tls.directory,"original.mp3");
   const ffmpeg=process.env.FFMPEG_PATH??"ffmpeg";
@@ -53,9 +53,9 @@ test("native same-tab MP4 and MP3 attachment, scoped cookie, exact bytes and sta
       })().catch(()=>res.destroy());});return;
     }
     res.setHeader("Content-Type","text/html");res.end(`<!doctype html><button id="authorize">Authorize</button><select id="type"><option value="video">MP4</option><option value="audio">MP3</option></select><button id="download" disabled>Download</button><p id="state"></p><script src="/client.js"></script><script>
-    const client=new VidFetch.SecureDownloadClient(${JSON.stringify(origin)},undefined,undefined,${JSON.stringify(site)});const state=document.querySelector('#state');
+    const client=new VidFetch.SecureDownloadClient(${JSON.stringify(origin)},undefined,undefined,${mode==="direct"?JSON.stringify(site):"undefined"});const state=document.querySelector('#state');
     document.querySelector('#authorize').onclick=()=>client.authorize('original-fixture').then(()=>{state.textContent='authorized';document.querySelector('#download').disabled=false}).catch(e=>state.textContent=e.message);
-    document.querySelector('#download').onclick=()=>{state.textContent='preparing';(async()=>{const type=document.querySelector('#type').value;const reply=await client.request('/api/download',{method:'POST',body:JSON.stringify({url:'https://www.tiktok.com/@example/video/1234567890123456789',format_id:type==='audio'?'mp3':'18',type}),headers:{'Content-Type':'application/json'}});if(!reply.ok)throw Error('prepare '+reply.status);const ready=await reply.json();client.startTransfer(ready.token,ready.filename);state.textContent='transferring';for(let i=0;i<30;i++){const status=await(await client.request('/api/download?status='+ready.token)).json();if(status.status==='completed'){state.textContent='completed';break}await new Promise(r=>setTimeout(r,100))}})().catch(e=>{state.textContent=e.message})};
+    document.querySelector('#download').onclick=()=>{const channel=${mode==='popup'?"client.openTransfer()":"null"};state.textContent='preparing';(async()=>{const type=document.querySelector('#type').value;const reply=await client.request('/api/download',{method:'POST',body:JSON.stringify({url:'https://www.tiktok.com/@example/video/1234567890123456789',format_id:type==='audio'?'mp3':'18',type}),headers:{'Content-Type':'application/json'}});if(!reply.ok)throw Error('prepare '+reply.status);const ready=await reply.json();if(channel)await channel.start(ready.token);else client.startTransfer(ready.token,ready.filename);state.textContent='transferring';for(let i=0;i<30;i++){const status=await(await client.request('/api/download?status='+ready.token)).json();if(status.status==='completed'){state.textContent='completed';break}await new Promise(r=>setTimeout(r,100))}})().catch(e=>{state.textContent=e.message})};
     </script>`);
   });
   const pin=createHash("sha256").update(new X509Certificate(tls.cert).publicKey.export({type:"spki",format:"der"})).digest("base64");
@@ -73,9 +73,9 @@ test("native same-tab MP4 and MP3 attachment, scoped cookie, exact bytes and sta
     const adb=process.env.ADB??"/Users/aymaneouirdani/Library/Android/sdk/platform-tools/adb";
     assert.equal(spawnSync(adb,["-s",device.serial(),"reverse",`tcp:${wa.port}`,`tcp:${wa.port}`]).status,0);
     const launchTimeout=setTimeout(()=>void device?.close(),30000);
-    try { context=await device.launchBrowser({acceptDownloads:true,args:[`--ignore-certificate-errors-spki-list=${pin}`,"--host-resolver-rules=MAP app.frontend.test 127.0.0.1","--no-proxy-server"]}); } finally {clearTimeout(launchTimeout);}
+    try { context=await device.launchBrowser({acceptDownloads:true,args:[`--ignore-certificate-errors-spki-list=${pin}`,"--host-resolver-rules=MAP app.frontend.test 127.0.0.1,MAP download.backend.test 127.0.0.1","--no-proxy-server"]}); } finally {clearTimeout(launchTimeout);}
   }else{
-    browser=name==="firefox"?await firefox.launch({headless:true}):await chromium.launch({headless:true,...(process.platform==="darwin"?{channel:"chrome"}:{}),args:[`--ignore-certificate-errors-spki-list=${pin}`,"--host-resolver-rules=MAP app.frontend.test 127.0.0.1","--no-proxy-server"]});
+    browser=name==="firefox"?await firefox.launch({headless:true}):await chromium.launch({headless:true,...(process.platform==="darwin"?{channel:"chrome"}:{}),args:[`--ignore-certificate-errors-spki-list=${pin}`,"--host-resolver-rules=MAP app.frontend.test 127.0.0.1,MAP download.backend.test 127.0.0.1","--no-proxy-server"]});
     context=await browser.newContext({acceptDownloads:true,...(name==="firefox"?{ignoreHTTPSErrors:true}: {})});
   }
     const page=await context.newPage();const errors:string[]=[];page.on("pageerror",e=>errors.push(e.message));
@@ -85,19 +85,23 @@ test("native same-tab MP4 and MP3 attachment, scoped cookie, exact bytes and sta
     const results=[];
     for(const type of ["video","audio"] as const){
       await page.locator("#type").selectOption(type);
-      const started=performance.now(),downloadPromise=page.waitForEvent("download",{timeout:20000});await page.locator("#download").click();
+      const started=performance.now();
+      let popup:import("playwright").Page|undefined;
+      const downloadPromise=mode==="direct"?page.waitForEvent("download",{timeout:20000}):page.waitForEvent("popup").then(p=>{popup=p;return p.waitForEvent("download",{timeout:20000});});
+      await page.locator("#download").click();
       const download=await downloadPromise,shownMs=performance.now()-started;
       const ext=type==="video"?"mp4":"mp3",file=resolve(tls.directory,`${name}-native.${ext}`);
       await download.saveAs(file);assert.deepEqual(await readFile(file),files[type]);
       await page.waitForFunction(()=>document.querySelector("#state")?.textContent==="completed");
-      assert.equal(page.url(),site+"/");assert.equal(popups,0);assert.equal(context.pages().length,1);
-      assert.equal(new URL(download.url()).origin,site);assert(!download.url().includes("internal"));
+      assert.equal(page.url(),site+"/");assert.equal(context.pages().length,mode==="direct"?1:2);if(mode==="direct")assert.equal(popups,0);
+      assert.equal(new URL(download.url()).origin,mode==="direct"?site:origin);assert(!download.url().includes("internal"));
       assert.equal(await page.evaluate(()=>document.cookie),"");
-      results.push({type,bytes:files[type].length,shownMs,nativeAttachment:true,noPopup:true,status:"completed"});
+      results.push({type,bytes:files[type].length,shownMs,nativeAttachment:true,noPopup:mode==="direct",status:"completed"});
+      await popup?.close();
     }
     assert.deepEqual(errors,[]);
     const cookies=await context.cookies(site);assert(cookies.some(c=>c.name==="__Host-vidfetch-access"&&c.httpOnly&&c.secure&&c.sameSite==="Strict"));
-    await writeFile(resolve(tls.directory,`${name}-results.json`),JSON.stringify({browser:name,results,publicInternet:false,challenge:"test fixture only"})+"\n",{flag:"wx"});
-    console.log(`PASS ${name}: same-tab native MP4 + MP3, exact bytes, hidden cookies, completed status`,JSON.stringify(results));
+    await writeFile(resolve(tls.directory,`${name}-${mode}-results.json`),JSON.stringify({browser:name,mode,results,publicInternet:false,challenge:"test fixture only"})+"\n",{flag:"wx"});
+    console.log(`PASS ${name}: ${mode} native MP4 + MP3, exact bytes, hidden cookies, completed status`,JSON.stringify(results));
   }finally{await context?.close();await browser?.close();await device?.close();await gateway.shutdown();for(const s of [edge,web,backend]){s.closeAllConnections();await new Promise<void>(r=>s.close(()=>r()));}}
 });
