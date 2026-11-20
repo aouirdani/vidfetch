@@ -10,12 +10,14 @@ import { LOCALES, type Locale } from "../../src/i18n/config";
 import { downloadHelper } from "./helper";
 import { WaitingQueue,type QueueOptions } from "./queue";
 
-type Job = { inner: string; owner: string; ip: string; transferOrigin: string; cookiePath: string; expires: number; retained: number; used: boolean; delivered: boolean; cookie?: string; timer?: NodeJS.Timeout; totalTimer?: NodeJS.Timeout; bytes: number; terminal?: "aborted" | "failed" | "expired"; settle: (bytes: number) => void; controller: AbortController; deadline: number };
+export type TransferTiming = { event: "vidfetch_transfer_timing"; mode: "direct" | "popup"; type: "MP4" | "MP3" | "other"; prepare_to_ticket_ms: number; ticket_to_first_byte_ms: number | null; prepare_to_first_byte_ms: number | null; outcome: string };
+type Job = { receivedAt: number; ticketAt: number; mode: "direct" | "popup"; mediaType: TransferTiming["type"]; timingLogged?: boolean; inner: string; owner: string; ip: string; transferOrigin: string; cookiePath: string; expires: number; retained: number; used: boolean; delivered: boolean; cookie?: string; timer?: NodeJS.Timeout; totalTimer?: NodeJS.Timeout; bytes: number; terminal?: "aborted" | "failed" | "expired"; settle: (bytes: number) => void; controller: AbortController; deadline: number };
 export function createGateway(options: {
   origin: string; sites: string[]; key: Buffer; backend: string; ledger: GatewayLedger;
   requireIsolation?: boolean; ticketMs?: number; retentionMs?: number; operationMs?: number; maxBytes?: number;
   backendSocket?: string; proxy?: "reverse-proxy" | "funnel"; queue?: QueueOptions; bytesPerSecond?: number;
   admitWork?:()=>Promise<void>;
+  onTransferTiming?:(entry:TransferTiming)=>void;
   isDraining?:()=>boolean;
   backendTicketMs?:number; isolationProfile?: "vidfetch-netns-v1" | "vidfetch-uid-nft-v1";
 }) {
@@ -42,7 +44,18 @@ export function createGateway(options: {
     const cookie = randomBytes(32).toString("base64url"); job.cookie = alias(cookie);
     res.setHeader("Set-Cookie", `__Secure-vidfetch-transfer=${cookie}; Path=${job.cookiePath}; Max-Age=${Math.max(1, Math.floor((job.expires - Date.now()) / 1000))}; Secure; HttpOnly; SameSite=Strict`);
   };
-  const release = (job: Job) => { clearTimeout(job.timer); clearTimeout(job.totalTimer); job.settle(job.bytes); active = false;activeOwner=undefined;activeIp=undefined; };
+  const timing = (job: Job, outcome: string) => {
+    if (job.timingLogged) return;
+    job.timingLogged = true;
+    const now = performance.now(), ms = (value: number) => Number(Math.max(0, value).toFixed(1));
+    const entry: TransferTiming = { event: "vidfetch_transfer_timing", mode: job.mode, type: job.mediaType,
+      prepare_to_ticket_ms: ms(job.ticketAt-job.receivedAt),
+      ticket_to_first_byte_ms: outcome === "first_byte" ? ms(now-job.ticketAt) : null,
+      prepare_to_first_byte_ms: outcome === "first_byte" ? ms(now-job.receivedAt) : null, outcome };
+    // Fixed technical fields only: no owner, IP, ticket, filename or media URL.
+    if (options.onTransferTiming) options.onTransferTiming(entry); else console.log(JSON.stringify(entry));
+  };
+  const release = (job: Job) => { timing(job, job.terminal ?? "stopped_before_start"); clearTimeout(job.timer); clearTimeout(job.totalTimer); job.settle(job.bytes); active = false;activeOwner=undefined;activeIp=undefined; };
   const prune = () => {
     const now = Date.now();
     for (const [token, job] of jobs) if (now >= job.retained) { clearTimeout(job.timer); jobs.delete(token); }
@@ -82,6 +95,7 @@ export function createGateway(options: {
   }
   async function handle(req: IncomingMessage, res: ServerResponse) {
     res.on("error", () => {});
+    let receivedAt = performance.now();
     let controller: AbortController | undefined;
     let hold = false, published = false;
     let quota: ((bytes: number) => void) | undefined;
@@ -172,7 +186,7 @@ export function createGateway(options: {
           if (current.bytes + chunk.length > maxBytes) { sourceFailed=true;return callback(new AccessError("TOO_LARGE", 413)); }
           current.bytes += chunk.length;
           const wait = Math.max(0, nextOutput - Date.now()); nextOutput = Math.max(nextOutput, Date.now()) + chunk.length / bytesPerSecond * 1000;
-          timer = setTimeout(() => { timer = undefined; callback(null, chunk); }, wait);
+          timer = setTimeout(() => { timer = undefined; timing(current, "first_byte"); callback(null, chunk); }, wait);
         }, destroy(error, callback) { clearTimeout(timer); callback(error); } });
         try { await pipeline(response, throttle, res, { signal: controller.signal }); current.delivered = true; }
         catch { current.terminal = !sourceFailed && res.destroyed && !res.writableFinished ? "aborted" : "failed"; controller.abort(); }
@@ -191,7 +205,7 @@ export function createGateway(options: {
         if(method==="GET"){json(res,200,queue.inspect(token,claims.sub,ip,active,Date.now(),requestOrigin));return;}
         if(typeof payload.cancel==="string"){queue.cancel(token,claims.sub,ip,Date.now(),requestOrigin);json(res,200,{ok:true,cancelled:true});return;}
         const entry=queue.claim(token,claims.sub,ip,active,Date.now(),requestOrigin);
-        path=entry.path;body=entry.body;payload=JSON.parse(body.toString("utf8"));claimed=true;
+        receivedAt=entry.receivedAt??receivedAt;path=entry.path;body=entry.body;payload=JSON.parse(body.toString("utf8"));claimed=true;
       }
       if (path === "/auth/transfer") {
         const outer = typeof payload.ticket === "string" ? payload.ticket : ""; job = jobs.get(outer);
@@ -231,7 +245,7 @@ export function createGateway(options: {
       if(queue&&!claimed){
         if(activeOwner===claims.sub||activeIp===ip)throw new AccessError("QUEUE_DUPLICATE",429);
         if([...jobs.values()].some(job=>job.owner===claims.sub&&!job.delivered&&!job.terminal))throw new AccessError("QUEUE_DUPLICATE",429);
-        if(active||queue.size()){json(res,202,queue.enqueue({owner:claims.sub,ip,scope:requestOrigin,path:path as "/api/download"|"/api/fetch-info",body},active));return;}
+        if(active||queue.size()){json(res,202,queue.enqueue({owner:claims.sub,ip,scope:requestOrigin,receivedAt,path:path as "/api/download"|"/api/fetch-info",body},active));return;}
       }
       if(active)throw new AccessError("BUSY",429);
       active = true;activeOwner=claims.sub;activeIp=ip; hold = true;
@@ -247,7 +261,7 @@ export function createGateway(options: {
       if (path === "/api/download" && reply.status === 201 && reply.data.ok === true) {
         if (typeof reply.data.token !== "string" || !/^[a-f0-9-]{36}$/.test(reply.data.token)) throw new AccessError("UPSTREAM_INVALID", 502);
         const token = randomBytes(32).toString("base64url");
-        const current: Job = { inner: reply.data.token, owner: claims.sub, ip, transferOrigin: requestOrigin, cookiePath: sameOriginTransfer ? "/api/transfer/download" : "/api/download", expires: Date.now() + ticketMs, retained: Date.now() + retentionMs, used: false, delivered: false, bytes: 0, settle: quota!, controller, deadline: operationStarted + (options.operationMs ?? 600000) };
+        const current: Job = { receivedAt, ticketAt: performance.now(), mode: sameOriginTransfer ? "direct" : "popup", mediaType: String(reply.data.filename??"").toLowerCase().endsWith(".mp3") ? "MP3" : String(reply.data.filename??"").toLowerCase().endsWith(".mp4") ? "MP4" : "other", inner: reply.data.token, owner: claims.sub, ip, transferOrigin: requestOrigin, cookiePath: sameOriginTransfer ? "/api/transfer/download" : "/api/download", expires: Date.now() + ticketMs, retained: Date.now() + retentionMs, used: false, delivered: false, bytes: 0, settle: quota!, controller, deadline: operationStarted + (options.operationMs ?? 600000) };
         current.timer = setTimeout(() => {
           current.terminal = "expired";
           // The source ticket lives 60s; an outer 55s expiry must not offer the

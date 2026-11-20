@@ -20,7 +20,7 @@ Objectif : moins d’une minute. La version quittée devient la précédente : r
 
 Installation initiale de l’extension de retour arrière : les trois fichiers `deploy/ovh/ci/{promote,dispatch,rollback}.py` doivent être installés par l’administrateur, propriétaires root et mode 0755, sous `/usr/local/libexec/vidfetch-ci/`, après sauvegarde des fichiers existants. Le compte CI conserve son unique helper sudo et son SSH forcé ; aucun accès shell supplémentaire. Ne jamais pousser la migration de workflow avant cette installation et les tests des protections.
 
-## Transfert dans le même onglet — préparation, pas encore activée
+## Transfert dans le même onglet — déploiement à deux modes
 
 Le nouveau frontend signe les chemins réels `/api/transfer/{fetch-info,download,queue,health}`. Caddy les relaie sans réécriture à la passerelle sur `127.0.0.1:8789`, avec le Host du site, HTTPS et l’IP réelle validée par les règles Cloudflare existantes. Ne pas recopier un X-Forwarded-For fourni par le visiteur. Ne pas mettre de cache, compression ni tampon de fichier sur ce relais : la réponse de taille inconnue transmet les morceaux avec contre-pression et conserve l’annulation sur déconnexion.
 
@@ -37,3 +37,22 @@ Ordre impératif de la bascule administrateur, après réussite des essais natif
 5. Après validation réelle des cinq navigateurs et du retour arrière combiné, retirer l’exposition de l’ancien helper/auth/transfert dl dans une étape séparée. Tant que ces validations manquent, ne pas retirer le chemin de production existant. Retirer ensuite l’autorisation de transition quand aucune release précédente ne dépend de l’ancienne paire.
 
 Pour le serveur maison : reconstruire et installer **les deux** bundles de cette version, conserver les mêmes protections et le stockage persistant des quotas/preuves ; configurer les origines autorisées et le relais Caddy `/api/transfer/*` depuis l’origine exacte du site, y compris le vrai client IP. Ne pas envoyer ces chemins à Next, ne pas réécrire le chemin avant vérification de preuve, ne pas partager les cookies entre sous-domaines. Refaire les tests négatifs, les tests MP4/MP3 sur Chrome/Firefox/Safari macOS/Chrome Android/Safari iOS, l’audit public et l’aller-retour de rollback avant ouverture. L’ancienne procédure de déploiement frontend demeure inchangée pour les mises à jour ultérieures qui ne touchent plus les moteurs.
+
+Le mode normal conserve la fenêtre auxiliaire. Une visite de `https://vidfetch.app/?transfer=direct` active le transfert direct pour ce navigateur pendant sept jours (cookie de préférence non sensible) ; `?transfer=popup` le désactive. Chaque opération conserve son origine pour la file, l’annulation et le suivi, même si la préférence change. Aucun cookie de préférence n’autorise un transfert.
+
+Le contrôle administrateur de cette migration est installé sous `/usr/local/libexec/vidfetch-transfer-control.py` avec ses sauvegardes root sous `/var/backups/vidfetch-transfer-*` et son checkpoint root `/etc/vidfetch/transfer-deployment.json`. Les deux commandes suivantes restaurent l’ensemble moteurs/passerelle/Caddy/frontend avec les gardes correspondants, puis vérifient santé et origine :
+
+```sh
+sudo /usr/local/libexec/vidfetch-transfer-control.py previous
+sudo /usr/local/libexec/vidfetch-transfer-control.py current
+```
+
+Après livraison du frontend, `sudo /usr/local/libexec/vidfetch-transfer-control.py record-current` enregistre la release courante comme cible du retour. Les secrets, quotas, règles nft, UID et anciens bundles sont conservés ; aucun jeton Turnstile de test n’est admis en production. Les téléchargements réels sont validés par l’éditeur.
+
+Pour afficher les 20 derniers transferts (ou tickets expirés avant démarrage) :
+
+```sh
+sudo journalctl -u vidfetch-gateway.service -o cat --no-pager | grep '"event":"vidfetch_transfer_timing"' | tail -n 20
+```
+
+Une ligne ne contient que mode, type réel MP4/MP3 (`other` pour un autre format), durées monotones en millisecondes et issue. `prepare_to_ticket_ms` inclut l’attente éventuelle de file ; `ticket_to_first_byte_ms` inclut l’attente du client/helper ; `prepare_to_first_byte_ms` couvre l’ensemble. Le premier octet est le premier morceau transmis au flux HTTP de la passerelle, pas une mesure de réception dans le navigateur. Pour un ticket jamais démarré les deux mesures de premier octet sont nulles. Aucun identifiant, IP, URL média, nom de fichier, cookie ou propriétaire n’est journalisé.

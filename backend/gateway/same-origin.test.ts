@@ -6,7 +6,7 @@ import { randomBytes } from "node:crypto";
 import { mkdtemp } from "node:fs/promises";
 import { resolve } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
-import { createGateway } from "./server";
+import { type TransferTiming, createGateway } from "./server";
 import { GatewayLedger } from "./ledger";
 import { SecureDownloadClient } from "../../src/lib/secure-client";
 import { createAccessIssuer } from "../../src/server/download-access";
@@ -16,6 +16,7 @@ test("same-origin transfer: scoped cookie, signed preparation, ownership, IP, si
   const key = randomBytes(32), site = "https://vidfetch.app", origin = "https://dl.vidfetch.app";
   const folder = await mkdtemp(resolve("backend/artifacts/same-origin-"));
   let upstreamOwner: unknown, prepares = 0;
+  const timings: TransferTiming[] = [];
   const bytes = Buffer.alloc(65536, 31);
   const backend = createServer((req, res) => {
     res.setHeader("Content-Type", "application/json");
@@ -29,7 +30,7 @@ test("same-origin transfer: scoped cookie, signed preparation, ownership, IP, si
   });
   backend.listen(0, "127.0.0.1"); await once(backend, "listening");
   const ba = backend.address(); assert(ba && typeof ba !== "string");
-  const gateway = createGateway({ origin, sites: [site, "https://other.example.net"], key, backend: `http://127.0.0.1:${ba.port}`, ledger: new GatewayLedger(resolve(folder, "quota.sqlite")), requireIsolation: false });
+  const gateway = createGateway({ origin, sites: [site, "https://other.example.net"], key, backend: `http://127.0.0.1:${ba.port}`, ledger: new GatewayLedger(resolve(folder, "quota.sqlite")), requireIsolation: false, onTransferTiming: entry => timings.push(entry) });
   gateway.server.listen(0, "127.0.0.1"); await once(gateway.server, "listening");
   const ga = gateway.server.address(); assert(ga && typeof ga !== "string");
   const send = (path: string, init: RequestInit = {}, extra: Record<string, string> = {}) => new Promise<Response>((done, reject) => {
@@ -88,6 +89,13 @@ test("same-origin transfer: scoped cookie, signed preparation, ownership, IP, si
     }
     const limited = await a.request("/api/download", { method: "POST", body }); assert.equal(limited.status, 429);
     assert.equal((await limited.json()).code, "QUOTA_EXCEEDED"); assert.equal(prepares, 8);
+    assert.equal(timings.length, 8);
+    for (const entry of timings) {
+      assert.deepEqual(Object.keys(entry).sort(), ["event","mode","type","prepare_to_ticket_ms","ticket_to_first_byte_ms","prepare_to_first_byte_ms","outcome"].sort());
+      assert.equal(entry.mode,"direct");assert.equal(entry.type,"MP4");assert.equal(entry.outcome,"first_byte");
+      assert(entry.prepare_to_ticket_ms>=0 && entry.ticket_to_first_byte_ms!>=0 && entry.prepare_to_first_byte_ms!>=entry.prepare_to_ticket_ms);
+      assert(!JSON.stringify(entry).includes("203.0.113"));assert(!JSON.stringify(entry).includes("fixture.mp4"));assert(!JSON.stringify(entry).includes("http"));
+    }
   } finally {
     await gateway.shutdown(); backend.closeAllConnections(); await new Promise<void>(r => backend.close(() => r()));
   }

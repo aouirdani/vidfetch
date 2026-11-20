@@ -4,7 +4,7 @@ import { AccessError } from "../../src/server/access-crypto";
 type Entry = {
   token: string; owner: string; ip: string; path: "/api/fetch-info" | "/api/download";
   body: Buffer; created: number; expires: number; seen: number; offered?: number;
-  scope?: string;
+  scope?: string; receivedAt?: number;
 };
 export type QueueOptions = { maxWaiting?: number; waitMs?: number; heartbeatMs?: number; claimMs?: number; estimateMs?: number };
 /** Waiting contains metadata only. A worker/ticket is created only by a claim. */
@@ -35,7 +35,7 @@ export class WaitingQueue {
     if(!entry)throw new AccessError("QUEUE_EXPIRED",404);
     return entry;
   }
-  enqueue(input: Pick<Entry,"owner"|"ip"|"path"|"body"|"scope">, busy: boolean,now = Date.now()) {
+  enqueue(input: Pick<Entry,"owner"|"ip"|"path"|"body"|"scope"|"receivedAt">, busy: boolean,now = Date.now()) {
     this.sweep(now);
     if(!this.accepting)throw new AccessError("BACKEND_UNAVAILABLE",503);
     if(this.entries.some(e=>e.owner===input.owner||e.ip===input.ip))throw new AccessError("QUEUE_DUPLICATE",429);
@@ -60,7 +60,7 @@ export class WaitingQueue {
     if(busy||entry!==this.entries[0])throw new AccessError("QUEUE_WAIT",409);
     // No asynchronous boundary between this deletion and gateway acquisition.
     this.entries.shift();
-    return {path:entry.path,body:entry.body};
+    return {path:entry.path,body:entry.body,receivedAt:entry.receivedAt};
   }
   cancel(token: string,owner: string,ip: string,now = Date.now(),scope?: string) {
     const entry=this.owned(token,owner,ip,now,scope);

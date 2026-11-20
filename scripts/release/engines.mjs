@@ -9,11 +9,12 @@ import { execFileSync } from 'node:child_process';
 // signed same-origin preparation and scoped cookie in the gateway. Both binaries
 // must be installed manually (with rollback) before this frontend can be promoted.
 // Keep this exact guard: every later engine change needs a new explicit review.
+// Gateway reference includes bounded, non-identifying transfer timing logs.
 // Worker reference also includes the diagnosed TikTok post-specific access code;
 // the evidence is retained in docs/evidence/reliability-20261120/results.json.
 export const ENGINE_FILES = {
   'backend/vidfetch-ovh.cjs': '893fb0f2d8673e030666af9d779d6f05de9da4fe01921180ab13afd0adf36370',
-  'backend/vidfetch-gateway.cjs': '5115c01a359dfe88a560a6a54f7f4e8ee7e94dbeccaac8b3a095c5443a8cdf58',
+  'backend/vidfetch-gateway.cjs': 'edb6f066a5ac0c233b9c3af57726beb810033c9f8ad608613d87b47862c67bba',
 };
 export async function checkEngines(archive) {
   const root = archive ?? await mkdtemp(join(tmpdir(), 'vidfetch-engine-check-'));
