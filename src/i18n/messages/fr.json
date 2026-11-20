@@ -156,6 +156,5 @@
   "formatFound": "Recherche des formats vidéo et audio disponibles…",
   "helperWaiting": "En attente de l’autorisation de téléchargement…",
   "helperSaving": "Enregistrement du fichier. Vous pouvez revenir à VidFetch.",
-  "operationFailed": "L’opération n’a pas pu aboutir. Réessayez plus tard.",
-  "popupBlocked": "Autorisez la fenêtre de téléchargement dans votre navigateur, puis réessayez."
+  "operationFailed": "L’opération n’a pas pu aboutir. Réessayez plus tard."
 }

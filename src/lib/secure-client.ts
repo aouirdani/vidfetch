@@ -1,4 +1,3 @@
-import type { Locale } from "../i18n/config";
 import type { BrowserKey, RequestProof } from "./access-types";
 
 const encoder = new TextEncoder();
@@ -11,7 +10,7 @@ export class SecureDownloadClient {
   private pair?: Promise<CryptoKeyPair>;
   private access?: { grant: string; expiresAt: number };
   private renewing?: Promise<void>;
-  constructor(readonly origin: string, private issuer: typeof fetch = (input,init)=>fetch(input,init), private transport: typeof fetch = (input,init)=>fetch(input,init)) {}
+  constructor(readonly origin: string, private issuer: typeof fetch = (input,init)=>fetch(input,init), private transport: typeof fetch = (input,init)=>fetch(input,init), private transferOrigin?: string) {}
   private keys() { return this.pair ??= crypto.subtle.generateKey({ name: "ECDSA", namedCurve: "P-256" }, false, ["sign", "verify"]); }
   async publicKey(): Promise<BrowserKey> {
     const key = await crypto.subtle.exportKey("jwk", (await this.keys()).publicKey);
@@ -44,41 +43,22 @@ export class SecureDownloadClient {
   }
   async request(path: string, init: RequestInit = {}): Promise<Response> {
     if (!/^\/api\/(?:health|fetch-info|download|queue)(?:\?|$)/.test(path) || path.includes("#") || path.includes("\\") || path.startsWith("//")) throw new Error("Invalid download API path.");
+    const actualPath = this.transferOrigin ? path.replace("/api/", "/api/transfer/") : path;
     const grant = await this.grant(), method = init.method ?? "GET", body = typeof init.body === "string" ? init.body : "";
-    const headers = new Headers(init.headers); headers.set("Authorization", `Bearer ${grant}`); headers.set("X-VidFetch-Proof", await this.proof(method, path, body, grant));
-    try { return await this.transport(`${this.origin}${path}`, { ...init, headers, credentials: "omit", cache: "no-store", redirect: "error" }); }
+    const headers = new Headers(init.headers); headers.set("Authorization", `Bearer ${grant}`); headers.set("X-VidFetch-Proof", await this.proof(method, actualPath, body, grant));
+    try { return await this.transport(`${this.transferOrigin ?? this.origin}${actualPath}`, { ...init, headers, credentials: this.transferOrigin ? "same-origin" : "omit", cache: "no-store", redirect: "error" }); }
     catch { throw new DownloadClientError("BACKEND_UNAVAILABLE", "The secure download service could not be reached. Please try again later."); }
   }
-  /** Called synchronously on a user gesture, before awaiting preparation. */
-  openTransfer(locale: Locale = "en") {
-    const popup = window.open(`${this.origin}/download-helper?lang=${encodeURIComponent(locale)}`, "_blank");
-    if (!popup) throw new DownloadClientError("POPUP_BLOCKED", "Allow the download window in your browser and try again.");
-    let dispose = () => {};
-    const ready = new Promise<void>((resolve, reject) => {
-      const timer = window.setTimeout(() => { dispose(); reject(new Error("The download window could not connect.")); }, 15000);
-      const listener = (event: MessageEvent) => { if (event.source === popup && event.origin === this.origin && event.data?.type === "vidfetch-helper-ready") { dispose(); resolve(); } };
-      dispose = () => { window.clearTimeout(timer); window.removeEventListener("message", listener); };
-      window.addEventListener("message", listener);
-    });
-    // Prevent a blocked preparation from leaving an unhandled ready rejection.
-    void ready.catch(() => {});
-    return {
-      isOpen:()=>!popup.closed,
-      close: () => { dispose(); popup.close(); },
-      start: async (ticket: string) => {
-        await ready;
-        const grant = await this.grant(), body = JSON.stringify({ ticket }), proof = await this.proof("POST", "/auth/transfer", body, grant);
-        return new Promise<void>((resolve, reject) => {
-          const timer = window.setTimeout(() => { cleanup(); reject(new Error("The download window did not confirm authorization.")); }, 15000);
-          const listener = (event: MessageEvent) => {
-            if (event.source !== popup || event.origin !== this.origin) return;
-            if (event.data?.type === "vidfetch-started") { cleanup(); resolve(); }
-            if (event.data?.type === "vidfetch-error") { cleanup(); reject(new Error("Download authorization failed. Please try again.")); }
-          };
-          const cleanup = () => { clearTimeout(timer); window.removeEventListener("message", listener); };
-          window.addEventListener("message", listener); popup.postMessage({ type: "vidfetch-transfer", ticket, grant, proof }, this.origin);
-        });
-      },
-    };
+  /** Native attachment in the current tab; the cookie is set by preparation.
+   * No blob, iframe, popup, transferable proof, or JavaScript-readable cookie. */
+  startTransfer(ticket: string, filename: string) {
+    if (!this.transferOrigin || this.transferOrigin !== window.location.origin || !/^[A-Za-z0-9_-]{43}$/.test(ticket)) throw new Error("Invalid transfer destination.");
+    const anchor = document.createElement("a");
+    anchor.href = `${this.transferOrigin}/api/transfer/download?ticket=${encodeURIComponent(ticket)}`;
+    anchor.download = filename;
+    anchor.referrerPolicy = "no-referrer";
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
   }
 }

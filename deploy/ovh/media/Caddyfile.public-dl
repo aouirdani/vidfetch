@@ -92,6 +92,26 @@ vidfetch.app {
     handle @private {
         respond 404
     }
+    # Same-origin native attachments. The gateway still checks the exact Host,
+    # Origin, sec-fetch-site, signed proof, owner, real client IP and quotas.
+    @transfer path /api/transfer/health /api/transfer/fetch-info /api/transfer/download /api/transfer/queue
+    handle @transfer {
+        request_body {
+            max_size 8KB
+        }
+        reverse_proxy 127.0.0.1:8789 {
+            header_up Host vidfetch.app
+            header_up X-Forwarded-Proto https
+            header_up X-Forwarded-For {client_ip}
+            header_up -Proxy-Authorization
+            header_up -CF-Connecting-IP
+            header_up -X-Real-IP
+            transport http {
+                dial_timeout 3s
+                response_header_timeout 240s
+            }
+        }
+    }
     @media path /api/fetch-info /api/download /api/queue /auth/transfer /download-helper
     handle @media {
         header Content-Type application/json

@@ -5,10 +5,13 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { execFileSync } from 'node:child_process';
 
-// Same immutable references as the currently running production engines.
+// Approved same-origin transfer upgrade: owner-bound metadata reuse in the worker,
+// signed same-origin preparation and scoped cookie in the gateway. Both binaries
+// must be installed manually (with rollback) before this frontend can be promoted.
+// Keep this exact guard: every later engine change needs a new explicit review.
 export const ENGINE_FILES = {
-  'backend/vidfetch-ovh.cjs': 'fa0d3d4e15a5a45ca0deb2b35e7ba03adc95c31b87500378068121f291c42287',
-  'backend/vidfetch-gateway.cjs': '0fa1404530c272b76aaec9aee18125660e8561c744e4ccc1fbb9c7dbee9850e5',
+  'backend/vidfetch-ovh.cjs': '455ae98301732e3ff6fb4fe54e37faa587c3d26151edf3d042dc7057fffd2c09',
+  'backend/vidfetch-gateway.cjs': '5115c01a359dfe88a560a6a54f7f4e8ee7e94dbeccaac8b3a095c5443a8cdf58',
 };
 export async function checkEngines(archive) {
   const root = archive ?? await mkdtemp(join(tmpdir(), 'vidfetch-engine-check-'));

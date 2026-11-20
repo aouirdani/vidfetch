@@ -18,6 +18,7 @@ const defaults = {
   ticketMs: 60000, statusMs: 30 * 60 * 1000, firstMs: 90000, metadataMs: 75000,
   operationMs: 10 * 60 * 1000, idleMs: 30000, bodyMs: 10000,
   maxBytes: 256 * 1024 * 1024, maxDuration: 30 * 60, maxMetadataBytes: 2 * 1024 * 1024,
+  metadataCacheMs: 5 * 60 * 1000,
 };
 const engineDefaults = { engineStatus, ytDlpBinary, ffmpegBinary, engineContext, dumpJson, assertPublicUrl, validateMediaDestinations };
 type State = "ready" | "streaming" | "completed" | "failed" | "aborted" | "expired";
@@ -99,12 +100,17 @@ export function createBackend(options: {
   const active = new Set<Work>();
   const tickets = new Map<string, Ticket>();
   const statuses = new Map<string, TransferStatus>();
+  // Only the trusted, isolated gateway supplies owner. Never use the global
+  // extractor cache: metadata (including signed media URLs) belongs to one owner.
+  const metadata = new Map<string, { raw: Record<string, unknown>; expires: number }>();
+  const cacheKey = (owner: unknown, url: string) => typeof owner === "string" && /^[a-f0-9-]{36}$/.test(owner) ? `${owner}:${url}` : undefined;
   const setStatus = (token: string, status: State, bytes = 0, error: string | null = null) => {
     prune();
     statuses.set(token, { status, bytes, error, updated: Date.now() });
   };
   const prune = () => {
     for (const [token, status] of statuses) if (Date.now() - status.updated >= limits.statusMs) statuses.delete(token);
+    for (const [key, entry] of metadata) if (Date.now() >= entry.expires) metadata.delete(key);
   };
   const acquire = (needsStatus = false): Work => {
     prune();
@@ -134,13 +140,22 @@ export function createBackend(options: {
     res.once("close", abort);
     return () => res.removeListener("close", abort);
   };
-  const mediaInfo = async (url: string, work: Work) => {
+  const mediaInfo = async (url: string, work: Work, owner?: unknown) => {
     const detected = validateUrl(url);
+    // Revalidate DNS on every operation, including cache hits. Selected media
+    // destinations are also revalidated below immediately before spawning.
     await engine.assertPublicUrl(detected.url, work.controller.signal);
-    const dump = await engine.dumpJson(detected.url, limits.metadataMs, {
+    prune();
+    const key = cacheKey(owner, detected.url), cached = key ? metadata.get(key) : undefined;
+    const dump = cached ?? await engine.dumpJson(detected.url, limits.metadataMs, {
       signal: work.controller.signal, cache: false, maxMetadataBytes: limits.maxMetadataBytes,
     });
     work.controller.signal.throwIfAborted();
+    if (key && !cached) {
+      // At most 12 x maxMetadataBytes; no disk, cookies or engine contexts retained.
+      if (metadata.size >= 12) metadata.delete(metadata.keys().next().value!);
+      metadata.set(key, { raw: structuredClone(dump.raw), expires: Date.now() + limits.metadataCacheMs });
+    }
     const health = engine.engineStatus();
     return { info: toMediaInfo({ raw: dump.raw, platform: detected.platform!, url: detected.url, ffmpeg: health.ffmpeg }),
       health, platform: detected.platform!, raw: dump.raw };
@@ -163,7 +178,7 @@ export function createBackend(options: {
     const detach = onDisconnect(res, work);
     let published = false;
     try {
-      const { info, health, platform, raw } = await mediaInfo(url, work);
+      const { info, health, platform, raw } = await mediaInfo(url, work, body.owner);
       if (raw.is_live === true || raw.live_status === "is_live" || raw.live_status === "is_upcoming") throw new EngineError("UNAVAILABLE", "Live streams are not supported.", 400);
       if (info.duration !== null && info.duration > limits.maxDuration) throw new EngineError("ENGINE_ERROR", "Video duration exceeds the server limit.", 413);
       const choices = type === "audio" ? info.audioFormats : info.formats.filter((format) => format.kind === "video");
@@ -309,7 +324,7 @@ export function createBackend(options: {
         const body = await readJson(req, limits.bodyMs);
         const url = validateUrl(body.url).url;
         const work = acquire(), detach = onDisconnect(res, work);
-        try { const result = await mediaInfo(url, work); json(res, 200, { ok: true, info: result.info, engine: result.health }); }
+        try { const result = await mediaInfo(url, work, body.owner); json(res, 200, { ok: true, info: result.info, engine: result.health }); }
         finally { detach(); await work.dispose(); }
       } else if (path === "/api/download" && req.method === "POST") {
         await prepare(await readJson(req, limits.bodyMs), res);
@@ -347,6 +362,7 @@ export function createBackend(options: {
     clearInterval(sweeper);
     for (const ticket of tickets.values()) clearTimeout(ticket.timer);
     tickets.clear();
+    metadata.clear();
     for (const work of active) work.controller.abort(new EngineError("TIMEOUT", "Backend stopped.", 504));
     server.closeAllConnections();
     await Promise.all([...handlers]);

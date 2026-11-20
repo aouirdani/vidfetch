@@ -35,12 +35,54 @@ PORT = 3001
 PROTECTED = ['ssh.service', 'vidfetch.service', 'vidfetch-gateway.service',
              'vidfetch-web-candidate.service', 'vidfetch-caddy.service']
 ENGINE_FILES = ['backend/vidfetch-ovh.cjs', 'backend/vidfetch-gateway.cjs']
+# Optional, administrator-installed authorization for one exact compatible engine
+# transition. Repository pushes cannot create this root-owned file.
+ENGINE_TRANSITION = Path('/etc/vidfetch/ci-engine-transition.json')
 
 
 def trusted(path):
     info = path.lstat()
     if not stat.S_ISREG(info.st_mode) or info.st_uid != 0 or info.st_mode & 0o022:
         raise ValueError('Unsafe root configuration')
+
+
+def engine_pair(manifest):
+    return {name: manifest['files'].get(name) for name in ENGINE_FILES}
+
+
+def engines_compatible(candidate, current):
+    before, after = engine_pair(current), engine_pair(candidate)
+    if before == after:
+        return True
+    if not ENGINE_TRANSITION.exists():
+        return False
+    trusted(ENGINE_TRANSITION)
+    transition = json.loads(ENGINE_TRANSITION.read_text())
+    if set(transition) != {'previous', 'current', 'live'}:
+        raise ValueError('Invalid engine transition')
+    for name in ['previous', 'current']:
+        pair = transition[name]
+        if set(pair) != set(ENGINE_FILES) or any(not isinstance(h, str) or not re.fullmatch(r'[a-f0-9]{64}', h) for h in pair.values()):
+            raise ValueError('Invalid engine transition fingerprints')
+    if not ((before == transition['previous'] and after == transition['current']) or
+            (after == transition['previous'] and before == transition['current'])):
+        return False
+    if set(transition['live']) != set(ENGINE_FILES):
+        raise ValueError('Invalid live engine references')
+    # The explicitly approved new binaries must really be the ones executing.
+    # The old engine pair is only compatible during the documented dual-route
+    # cutover; all protected configuration and PID guards remain in force.
+    for name, unit in zip(ENGINE_FILES, ['vidfetch.service', 'vidfetch-gateway.service']):
+        path = Path(transition['live'][name])
+        if path.name != Path(name).name or path.parent.parent != Path('/opt/vidfetch/releases'):
+            raise ValueError('Unexpected live engine path')
+        trusted(path)
+        if core['digest'](path) != transition['current'][name]:
+            raise ValueError('Live engine fingerprint changed')
+        pid = command(['/usr/bin/systemctl', 'show', unit, '-pMainPID', '--value'])
+        if not pid.isdecimal() or int(pid) < 1 or str(path).encode() not in (Path('/proc') / pid / 'cmdline').read_bytes().split(b'\0'):
+            raise ValueError('Approved engine is not running')
+    return True
 
 
 def profile():
@@ -272,9 +314,8 @@ def rollback(expected=None):
         trusted(target / 'manifest.json')
         old = json.loads((target / 'manifest.json').read_text())
         now = json.loads((current / 'manifest.json').read_text())
-        for file in ENGINE_FILES:
-            if old['files'].get(file) != now['files'].get(file) or core['digest'](target / file) != now['files'].get(file):
-                raise ValueError('Rollback engine/gateway mismatch')
+        if not engines_compatible(old, now) or any(core['digest'](target / file) != old['files'].get(file) for file in ENGINE_FILES):
+            raise ValueError('Rollback engine/gateway mismatch')
         guards()
         before = protected_pids()
         def postcheck():
@@ -306,7 +347,7 @@ def verify(sha, checksum):
     app.mkdir()
     manifest = core['extract_checked'](stage / 'archive.tgz', app, sha)
     current = json.loads(((BASE / 'current').resolve(strict=True) / 'manifest.json').read_text())
-    if any(manifest['files'].get(name) != current['files'].get(name) for name in ENGINE_FILES):
+    if not engines_compatible(manifest, current):
         raise ValueError('Engine/gateway artifact changed; separate administrator review required')
     target = STORE / 'releases' / sha
     if target.exists():

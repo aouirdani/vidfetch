@@ -134,6 +134,43 @@ test("reservation prevents simultaneous preparation and metadata operations", as
     assert.equal((await first).status, 201); assert.equal(calls, 1);
   } finally { await b.shutdown(); }
 });
+test("analysis cache is owner-bound, expires without sliding, and rechecks DNS and media", async () => {
+  let extracts = 0, dnsChecks = 0, mediaChecks = 0, denyDns = false, denyMedia = false;
+  const owner = "11111111-1111-4111-8111-111111111111", other = "22222222-2222-4222-8222-222222222222";
+  const b = await setup({ limits: { metadataCacheMs: 2000 }, engine: {
+    dumpJson: async () => { extracts++; return { raw: raw({ test_size: 16384 }), ytDlpVersion: "test" }; },
+    assertPublicUrl: async () => { dnsChecks++; if (denyDns) throw new EngineError("INVALID_URL", "Private address", 400); },
+    validateMediaDestinations: async () => { mediaChecks++; if (denyMedia) throw new EngineError("INVALID_URL", "Private media address", 400); },
+  } });
+  const info = (owner?: string) => b.post("/api/fetch-info", { url: URL, owner });
+  const download = (owner: string) => b.post("/api/download", { url: URL, owner, format_id: "18", type: "video" });
+  try {
+    assert.equal((await info(owner)).status, 200); assert.equal(extracts, 1);
+    const ready = await download(owner); assert.equal(ready.status, 201); assert.equal(extracts, 1);
+    await (await fetch(b.base + (await ready.json()).downloadUrl)).arrayBuffer();
+    await eventually(async () => (await info(owner)).status === 200);
+    assert.equal(extracts, 1); assert(dnsChecks >= 3); assert.equal(mediaChecks, 1);
+    denyDns = true; assert.equal((await info(owner)).status, 400); assert.equal(extracts, 1); denyDns = false;
+    denyMedia = true; assert.equal((await download(owner)).status, 400); assert.equal(extracts, 1); denyMedia = false;
+    assert.equal((await info(other)).status, 200); assert.equal(extracts, 2);
+    for (let i = 0; i < 2; i++) assert.equal((await info()).status, 200);
+    assert.equal(extracts, 4, "legacy requests without an authenticated owner never share metadata");
+    await delay(2100); assert.equal((await info(owner)).status, 200); assert.equal(extracts, 5);
+  } finally { await b.shutdown(); }
+});
+
+test("preparation returns before a slow source finishes and serves its first bytes immediately", async () => {
+  const b = await setup({ engine: { dumpJson: async () => ({ raw: raw({ test_mode: "slow", test_size: 2 * 1024 * 1024 }), ytDlpVersion: "test" }) } });
+  try {
+    const ready = await b.prepare(); assert.equal((await b.status(ready.token)).status, "ready");
+    const response = await fetch(b.base + ready.downloadUrl), reader = response.body!.getReader();
+    const first = await reader.read(); assert(first.value!.length > 0);
+    assert.equal((await b.status(ready.token)).status, "streaming");
+    let bytes = first.value!.length; while (true) { const next = await reader.read(); if (next.done) break; bytes += next.value.length; }
+    assert.equal(bytes, 2 * 1024 * 1024);
+    await eventually(async () => (await b.status(ready.token)).status === "completed");
+  } finally { await b.shutdown(); }
+});
 test("ticket expiration releases resources; statuses expire; unknown tokens cannot replace them", async () => {
   const b = await setup({ limits: { ticketMs: 100, statusMs: 300 } });
   try {

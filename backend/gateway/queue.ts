@@ -4,6 +4,7 @@ import { AccessError } from "../../src/server/access-crypto";
 type Entry = {
   token: string; owner: string; ip: string; path: "/api/fetch-info" | "/api/download";
   body: Buffer; created: number; expires: number; seen: number; offered?: number;
+  scope?: string;
 };
 export type QueueOptions = { maxWaiting?: number; waitMs?: number; heartbeatMs?: number; claimMs?: number; estimateMs?: number };
 /** Waiting contains metadata only. A worker/ticket is created only by a claim. */
@@ -28,13 +29,13 @@ export class WaitingQueue {
     this.entries = this.entries.filter(e=>now<e.expires && now-e.seen<this.heartbeatMs && (e.offered===undefined || now<e.offered+this.claimMs));
   }
   size(now = Date.now()) { this.sweep(now); return this.entries.length; }
-  private owned(token: string,owner: string,ip: string,now: number) {
+  private owned(token: string,owner: string,ip: string,now: number,scope?: string) {
     this.sweep(now);
-    const entry=this.entries.find(e=>e.token===token&&e.owner===owner&&e.ip===ip);
+    const entry=this.entries.find(e=>e.token===token&&e.owner===owner&&e.ip===ip&&e.scope===scope);
     if(!entry)throw new AccessError("QUEUE_EXPIRED",404);
     return entry;
   }
-  enqueue(input: Pick<Entry,"owner"|"ip"|"path"|"body">, busy: boolean,now = Date.now()) {
+  enqueue(input: Pick<Entry,"owner"|"ip"|"path"|"body"|"scope">, busy: boolean,now = Date.now()) {
     this.sweep(now);
     if(!this.accepting)throw new AccessError("BACKEND_UNAVAILABLE",503);
     if(this.entries.some(e=>e.owner===input.owner||e.ip===input.ip))throw new AccessError("QUEUE_DUPLICATE",429);
@@ -43,10 +44,10 @@ export class WaitingQueue {
     if(input.body.length>8192||!["/api/download","/api/fetch-info"].includes(input.path))throw new AccessError("INVALID_QUEUE_REQUEST",400);
     const entry:Entry={...input,body:Buffer.from(input.body),token:randomBytes(32).toString("base64url"),created:now,expires:now+this.waitMs,seen:now};
     this.entries.push(entry);
-    return this.inspect(entry.token,entry.owner,entry.ip,busy,now);
+    return this.inspect(entry.token,entry.owner,entry.ip,busy,now,entry.scope);
   }
-  inspect(token: string,owner: string,ip: string,busy: boolean,now = Date.now()) {
-    const entry=this.owned(token,owner,ip,now);
+  inspect(token: string,owner: string,ip: string,busy: boolean,now = Date.now(),scope?: string) {
+    const entry=this.owned(token,owner,ip,now,scope);
     entry.seen=now;
     const index=this.entries.indexOf(entry),available=index===0&&!busy;
     if(available&&entry.offered===undefined)entry.offered=now;
@@ -54,15 +55,15 @@ export class WaitingQueue {
       expiresAt:entry.expires,claimBefore:entry.offered===undefined?null:Math.min(entry.expires,entry.offered+this.claimMs),
       estimatedWaitMs:(index+(busy?1:0))*this.estimateMs,retryAfterMs:3000};
   }
-  claim(token: string,owner: string,ip: string,busy: boolean,now = Date.now()) {
-    const entry=this.owned(token,owner,ip,now);
+  claim(token: string,owner: string,ip: string,busy: boolean,now = Date.now(),scope?: string) {
+    const entry=this.owned(token,owner,ip,now,scope);
     if(busy||entry!==this.entries[0])throw new AccessError("QUEUE_WAIT",409);
     // No asynchronous boundary between this deletion and gateway acquisition.
     this.entries.shift();
     return {path:entry.path,body:entry.body};
   }
-  cancel(token: string,owner: string,ip: string,now = Date.now()) {
-    const entry=this.owned(token,owner,ip,now);
+  cancel(token: string,owner: string,ip: string,now = Date.now(),scope?: string) {
+    const entry=this.owned(token,owner,ip,now,scope);
     this.entries=this.entries.filter(e=>e!==entry);
   }
   close() { this.accepting=false;this.entries=[]; }

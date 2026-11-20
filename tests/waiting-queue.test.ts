@@ -37,6 +37,16 @@ describe("bounded waiting before engine startup",()=>{
     const abandoned=queue.enqueue(input("b"),true,12000);
     assert.throws(()=>queue.inspect(abandoned.queueToken,"b","b",false,16000),AccessError);
   });
+  it("cannot inspect, cancel or claim a queued request through another transfer origin",()=>{
+    const queue=new WaitingQueue(),scope="https://vidfetch.app";
+    const row=queue.enqueue({...input("owner"),scope},false,1000);
+    for(const wrong of [undefined,"https://dl.vidfetch.app","https://other.example.net"]){
+      assert.throws(()=>queue.inspect(row.queueToken,"owner","owner",false,1000,wrong),AccessError);
+      assert.throws(()=>queue.cancel(row.queueToken,"owner","owner",1000,wrong),AccessError);
+      assert.throws(()=>queue.claim(row.queueToken,"owner","owner",false,1000,wrong),AccessError);
+    }
+    assert.equal(queue.claim(row.queueToken,"owner","owner",false,1000,scope).path,"/api/download");
+  });
   it("expires a missed claim and frees capacity; cancel and shutdown do not run work",()=>{
     const queue=new WaitingQueue({claimMs:1000});const a=queue.enqueue(input("a"),false,1000);
     assert.throws(()=>queue.inspect(a.queueToken,"a","a",false,2000),AccessError);

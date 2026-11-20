@@ -127,6 +127,37 @@ class PublicContract(unittest.TestCase):
         self.assertIn('global deadline 0.1s exceeded', result.stderr)
 
 
+class EngineTransition(unittest.TestCase):
+    def test_engine_change_needs_root_authorization_exact_pair_and_live_binaries(self):
+        old = {name: 'a' * 64 for name in promote.ENGINE_FILES}
+        new = {name: 'b' * 64 for name in promote.ENGINE_FILES}
+        paths = {name: '/opt/vidfetch/releases/transfer-approved/' + Path(name).name for name in promote.ENGINE_FILES}
+        with tempfile.TemporaryDirectory() as folder:
+            transition = Path(folder) / 'transition.json'
+            with patch.object(promote, 'ENGINE_TRANSITION', transition):
+                self.assertTrue(promote.engines_compatible({'files': old}, {'files': old}))
+                self.assertFalse(promote.engines_compatible({'files': new}, {'files': old}))
+                transition.write_text(json.dumps({'previous': old, 'current': new, 'live': paths}))
+                with self.assertRaisesRegex(ValueError, 'Unsafe root configuration'):
+                    promote.engines_compatible({'files': new}, {'files': old})
+                # Explicitly model root ownership and the running process; never
+                # accept a repository-only declaration or a dormant binary.
+                def proc(path):
+                    return (str(paths[promote.ENGINE_FILES[0]]) + '\0' + str(paths[promote.ENGINE_FILES[1]]) + '\0').encode()
+                with patch.object(promote, 'trusted', lambda _: None), patch.object(promote, 'command', return_value='123'), patch.object(Path, 'read_bytes', proc), patch.dict(promote.core, {'digest': lambda _: 'b' * 64}):
+                    self.assertTrue(promote.engines_compatible({'files': new}, {'files': old}))
+                    self.assertTrue(promote.engines_compatible({'files': old}, {'files': new}))
+                    unknown = {**new, promote.ENGINE_FILES[0]: 'c' * 64}
+                    self.assertFalse(promote.engines_compatible({'files': unknown}, {'files': old}))
+                    with patch.dict(promote.core, {'digest': lambda _: 'c' * 64}), self.assertRaisesRegex(ValueError, 'fingerprint changed'):
+                        promote.engines_compatible({'files': new}, {'files': old})
+                    with patch.object(Path, 'read_bytes', return_value=b'/unexpected.cjs\0'), self.assertRaisesRegex(ValueError, 'not running'):
+                        promote.engines_compatible({'files': new}, {'files': old})
+                transition.write_text(json.dumps({'previous': old, 'current': new, 'live': {**paths, promote.ENGINE_FILES[0]: '/tmp/vidfetch-ovh.cjs'}}))
+                with patch.object(promote, 'trusted', lambda _: None), self.assertRaisesRegex(ValueError, 'Unexpected live engine path'):
+                    promote.engines_compatible({'files': new}, {'files': old})
+
+
 class Rollback(unittest.TestCase):
     def setUp(self):
         temporary = tempfile.TemporaryDirectory()

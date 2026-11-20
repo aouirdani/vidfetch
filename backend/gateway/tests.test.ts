@@ -14,6 +14,7 @@ import { GatewayLedger } from "./ledger";
 import { createAccessIssuer } from "../../src/server/download-access";
 import { SecureDownloadClient } from "../../src/lib/secure-client";
 import { serviceMac } from "../../src/server/access-crypto";
+import "./same-origin.test";
 
 export function trustedFetch(ca: Buffer): typeof fetch {
   return (async(input,init={})=>new Promise<Response>((resolve,reject)=>{

@@ -1,4 +1,3 @@
-import type { Locale } from "../i18n/config";
 import { SecureDownloadClient } from "./secure-client";
 import { publicGatewayOrigin } from "./gateway-origin";
 import { resolveQueued,type QueueNotice } from "./queue-client";
@@ -39,9 +38,15 @@ export function configureDownloadOrigin(value: string) {
   if (next !== runtimeOrigin) { runtimeOrigin = next; client = null; }
 }
 function origin() { return runtimeOrigin || API_ORIGIN || (typeof window !== "undefined" ? window.location.origin : "https://vidfetch.app"); }
-function secureClient() { return secureGateway ? (client ??= new SecureDownloadClient(origin())) : null; }
+function secureClient() { return secureGateway ? (client ??= new SecureDownloadClient(origin(), undefined, undefined, window.location.origin)) : null; }
 export async function authorizeDownloads(challenge: string) { await secureClient()?.authorize(challenge); window.dispatchEvent(new Event("vidfetch-access-ready")); }
-export const openSecureTransfer = (locale: Locale = "en") => secureClient()?.openTransfer(locale);
+export const warmDownloadAccess = async () => { await secureClient()?.grant(); };
+export function startSecureTransfer(ticket: string, filename: string) {
+  const active = secureClient();
+  if (!active) return false;
+  active.startTransfer(ticket, filename);
+  return true;
+}
 
 /** Resolves an API path against the configured backend. Absolute URLs pass through. */
 export function apiUrl(path: string): string {

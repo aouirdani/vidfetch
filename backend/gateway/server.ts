@@ -10,7 +10,7 @@ import { LOCALES, type Locale } from "../../src/i18n/config";
 import { downloadHelper } from "./helper";
 import { WaitingQueue,type QueueOptions } from "./queue";
 
-type Job = { inner: string; owner: string; ip: string; expires: number; retained: number; used: boolean; delivered: boolean; cookie?: string; timer?: NodeJS.Timeout; totalTimer?: NodeJS.Timeout; bytes: number; terminal?: "aborted" | "failed" | "expired"; settle: (bytes: number) => void; controller: AbortController; deadline: number };
+type Job = { inner: string; owner: string; ip: string; transferOrigin: string; cookiePath: string; expires: number; retained: number; used: boolean; delivered: boolean; cookie?: string; timer?: NodeJS.Timeout; totalTimer?: NodeJS.Timeout; bytes: number; terminal?: "aborted" | "failed" | "expired"; settle: (bytes: number) => void; controller: AbortController; deadline: number };
 export function createGateway(options: {
   origin: string; sites: string[]; key: Buffer; backend: string; ledger: GatewayLedger;
   requireIsolation?: boolean; ticketMs?: number; retentionMs?: number; operationMs?: number; maxBytes?: number;
@@ -37,6 +37,11 @@ export function createGateway(options: {
     res.end(JSON.stringify(value));
   }
   const alias = (value: string) => createHmac("sha256", options.key).update(value).digest("base64url");
+  const issueCookie = (res: ServerResponse, job: Job) => {
+    if (job.cookie) throw new AccessError("EXPIRED", 404);
+    const cookie = randomBytes(32).toString("base64url"); job.cookie = alias(cookie);
+    res.setHeader("Set-Cookie", `__Secure-vidfetch-transfer=${cookie}; Path=${job.cookiePath}; Max-Age=${Math.max(1, Math.floor((job.expires - Date.now()) / 1000))}; Secure; HttpOnly; SameSite=Strict`);
+  };
   const release = (job: Job) => { clearTimeout(job.timer); clearTimeout(job.totalTimer); job.settle(job.bytes); active = false;activeOwner=undefined;activeIp=undefined; };
   const prune = () => {
     const now = Date.now();
@@ -86,7 +91,10 @@ export function createGateway(options: {
     res.once("close", onClose);
     try {
       prune();
-      if (req.headers.host !== new URL(options.origin).host) throw new AccessError("FORBIDDEN_HOST", 403);
+      const transferOrigin = options.sites.find(site => new URL(site).host === req.headers.host);
+      const sameOriginTransfer = Boolean(transferOrigin && (req.url ?? "").startsWith("/api/transfer/"));
+      const requestOrigin = sameOriginTransfer ? transferOrigin! : options.origin;
+      if (req.headers.host !== new URL(requestOrigin).host) throw new AccessError("FORBIDDEN_HOST", 403);
       const peer = req.socket.remoteAddress;
       if (!["127.0.0.1", "::1", "::ffff:127.0.0.1"].includes(peer ?? "")) throw new AccessError("FORBIDDEN_PROXY", 403);
       if (req.headers["x-forwarded-proto"] !== "https") throw new AccessError("HTTPS_REQUIRED", 403);
@@ -95,10 +103,16 @@ export function createGateway(options: {
       if (typeof rawIp !== "string" || !isIP(rawIp)) throw new AccessError("FORBIDDEN_PROXY", 403);
       const ip = alias(isIP(rawIp) === 6 ? new URL(`http://[${rawIp}]`).hostname : rawIp);
       options.ledger.rate(ip, "request", 120, 60000);
-      const url = new URL(req.url ?? "/", options.origin);
-      if (url.origin !== options.origin) throw new AccessError("FORBIDDEN_HOST", 403);
+      const url = new URL(req.url ?? "/", requestOrigin);
+      if (url.origin !== requestOrigin) throw new AccessError("FORBIDDEN_HOST", 403);
       let path = url.pathname;
       const origin = req.headers.origin;
+      if (sameOriginTransfer) {
+        // A request from another same-site subdomain is not same-origin.
+        if (req.headers["sec-fetch-site"] !== "same-origin" || (origin && origin !== requestOrigin) || (req.method === "POST" && origin !== requestOrigin)) throw new AccessError("FORBIDDEN_ORIGIN", 403);
+        if (!/^\/api\/transfer\/(health|fetch-info|download|queue)$/.test(path)) throw new AccessError("NOT_FOUND", 404);
+        path = path.replace("/api/transfer/", "/api/");
+      }
       if (origin && !options.sites.includes(origin) && origin !== options.origin) throw new AccessError("FORBIDDEN_ORIGIN", 403);
       if (origin && options.sites.includes(origin)) {
         res.setHeader("Access-Control-Allow-Origin", origin); res.setHeader("Vary", "Origin");
@@ -138,7 +152,7 @@ export function createGateway(options: {
       if (path === "/api/download" && method === "GET" && ticket) {
         job = jobs.get(ticket);
         const cookie = req.headers.cookie?.split(";").map(x => x.trim()).find(x => x.startsWith("__Secure-vidfetch-transfer="))?.slice("__Secure-vidfetch-transfer=".length);
-        if (!job || !cookie || alias(cookie) !== job.cookie || job.ip !== ip || job.used || Date.now() >= job.expires || req.headers["sec-fetch-site"] !== "same-origin") throw new AccessError("EXPIRED", 404);
+        if (!job || !cookie || alias(cookie) !== job.cookie || job.ip !== ip || job.transferOrigin !== requestOrigin || job.cookiePath !== url.pathname || job.used || Date.now() >= job.expires || req.headers["sec-fetch-site"] !== "same-origin") throw new AccessError("EXPIRED", 404);
         // Single-use authorization is consumed atomically before any upstream work.
         job.used = true; job.cookie = undefined; clearTimeout(job.timer);
         transferJob = job;
@@ -147,8 +161,8 @@ export function createGateway(options: {
         try { response = await upstream(`/api/download?ticket=${encodeURIComponent(job.inner)}`, "GET", undefined, controller.signal); }
         catch { job.terminal = "failed"; controller.abort(); release(job); throw new AccessError("BACKEND_UNAVAILABLE", 503); }
         if (response.statusCode !== 200) { response.destroy(); job.terminal = "failed"; controller.abort(); release(job); throw new AccessError("BACKEND_UNAVAILABLE", 503); }
-        res.setHeader("Set-Cookie", "__Secure-vidfetch-transfer=; Path=/api/download; Max-Age=0; Secure; HttpOnly; SameSite=Strict");
-        res.writeHead(200, { "Content-Type": response.headers["content-type"] ?? "application/octet-stream", "Content-Disposition": response.headers["content-disposition"] ?? 'attachment; filename="VidFetch_download"', "Cache-Control": "no-store", "Referrer-Policy": "no-referrer", "X-Content-Type-Options": "nosniff" });
+        res.setHeader("Set-Cookie", `__Secure-vidfetch-transfer=; Path=${job.cookiePath}; Max-Age=0; Secure; HttpOnly; SameSite=Strict`);
+        res.writeHead(200, { "Content-Type": response.headers["content-type"] ?? "application/octet-stream", "Content-Disposition": response.headers["content-disposition"] ?? 'attachment; filename="VidFetch_download"', "Cache-Control": "no-store, no-transform", "X-Accel-Buffering": "no", "Referrer-Policy": "no-referrer", "X-Content-Type-Options": "nosniff" });
         const current = job;
         let sourceFailed=false;
         response.once("aborted",()=>{if(!current.controller.signal.aborted)sourceFailed=true;});
@@ -174,17 +188,15 @@ export function createGateway(options: {
         if(!queue)throw new AccessError("NOT_FOUND",404);
         const token=method==="GET"?url.searchParams.get("job"):(payload.claim??payload.cancel);
         if(typeof token!=="string"||!/^[A-Za-z0-9_-]{43}$/.test(token))throw new AccessError("INVALID_QUEUE_REQUEST",400);
-        if(method==="GET"){json(res,200,queue.inspect(token,claims.sub,ip,active));return;}
-        if(typeof payload.cancel==="string"){queue.cancel(token,claims.sub,ip);json(res,200,{ok:true,cancelled:true});return;}
-        const entry=queue.claim(token,claims.sub,ip,active);
+        if(method==="GET"){json(res,200,queue.inspect(token,claims.sub,ip,active,Date.now(),requestOrigin));return;}
+        if(typeof payload.cancel==="string"){queue.cancel(token,claims.sub,ip,Date.now(),requestOrigin);json(res,200,{ok:true,cancelled:true});return;}
+        const entry=queue.claim(token,claims.sub,ip,active,Date.now(),requestOrigin);
         path=entry.path;body=entry.body;payload=JSON.parse(body.toString("utf8"));claimed=true;
       }
       if (path === "/auth/transfer") {
         const outer = typeof payload.ticket === "string" ? payload.ticket : ""; job = jobs.get(outer);
-        if (!job || job.owner !== claims.sub || job.ip !== ip || job.used || Date.now() >= job.expires) throw new AccessError("EXPIRED", 404);
-        if (job.cookie) throw new AccessError("EXPIRED", 404);
-        const cookie = randomBytes(32).toString("base64url"); job.cookie = alias(cookie);
-        res.setHeader("Set-Cookie", `__Secure-vidfetch-transfer=${cookie}; Path=/api/download; Max-Age=${Math.max(1, Math.floor((job.expires - Date.now()) / 1000))}; Secure; HttpOnly; SameSite=Strict`);
+        if (!job || job.owner !== claims.sub || job.ip !== ip || job.transferOrigin !== requestOrigin || job.used || Date.now() >= job.expires) throw new AccessError("EXPIRED", 404);
+        issueCookie(res, job);
         json(res, 200, { ok: true }); return;
       }
       controller = new AbortController(); pending.add(controller);
@@ -193,7 +205,7 @@ export function createGateway(options: {
       operationTimer = setTimeout(() => controller?.abort(), path === "/api/download" && method === "POST" ? (options.operationMs ?? 600000) : 180000);
       if (path === "/api/download" && method === "GET") {
         const status = url.searchParams.get("status"); job = status ? jobs.get(status) : undefined;
-        if (!job || job.owner !== claims.sub) throw new AccessError("EXPIRED", 404);
+        if (!job || job.owner !== claims.sub || job.ip !== ip || job.transferOrigin !== requestOrigin) throw new AccessError("EXPIRED", 404);
         const reply = await upstreamJson(`/api/download?status=${encodeURIComponent(job.inner)}`, "GET", undefined, controller.signal);
         if (reply.status === 200) {
           const state = reply.data.status;
@@ -219,7 +231,7 @@ export function createGateway(options: {
       if(queue&&!claimed){
         if(activeOwner===claims.sub||activeIp===ip)throw new AccessError("QUEUE_DUPLICATE",429);
         if([...jobs.values()].some(job=>job.owner===claims.sub&&!job.delivered&&!job.terminal))throw new AccessError("QUEUE_DUPLICATE",429);
-        if(active||queue.size()){json(res,202,queue.enqueue({owner:claims.sub,ip,path:path as "/api/download"|"/api/fetch-info",body},active));return;}
+        if(active||queue.size()){json(res,202,queue.enqueue({owner:claims.sub,ip,scope:requestOrigin,path:path as "/api/download"|"/api/fetch-info",body},active));return;}
       }
       if(active)throw new AccessError("BUSY",429);
       active = true;activeOwner=claims.sub;activeIp=ip; hold = true;
@@ -229,11 +241,13 @@ export function createGateway(options: {
         if (health.status !== 200 || (health.data.engine as { isolationProfile?: string } | undefined)?.isolationProfile !== (options.isolationProfile ?? "vidfetch-netns-v1")) throw new AccessError("SECURITY_NOT_READY", 503);
       }
       if (path === "/api/download") quota = options.ledger.reserve(ip, claims.sub, maxBytes);
+      // Never trust an owner supplied in the browser body (or a queued body).
+      body = Buffer.from(JSON.stringify({ ...payload, owner: claims.sub }));
       const reply = await upstreamJson(path, method, body, controller.signal);
       if (path === "/api/download" && reply.status === 201 && reply.data.ok === true) {
         if (typeof reply.data.token !== "string" || !/^[a-f0-9-]{36}$/.test(reply.data.token)) throw new AccessError("UPSTREAM_INVALID", 502);
         const token = randomBytes(32).toString("base64url");
-        const current: Job = { inner: reply.data.token, owner: claims.sub, ip, expires: Date.now() + ticketMs, retained: Date.now() + retentionMs, used: false, delivered: false, bytes: 0, settle: quota!, controller, deadline: operationStarted + (options.operationMs ?? 600000) };
+        const current: Job = { inner: reply.data.token, owner: claims.sub, ip, transferOrigin: requestOrigin, cookiePath: sameOriginTransfer ? "/api/transfer/download" : "/api/download", expires: Date.now() + ticketMs, retained: Date.now() + retentionMs, used: false, delivered: false, bytes: 0, settle: quota!, controller, deadline: operationStarted + (options.operationMs ?? 600000) };
         current.timer = setTimeout(() => {
           current.terminal = "expired";
           // The source ticket lives 60s; an outer 55s expiry must not offer the
@@ -243,7 +257,10 @@ export function createGateway(options: {
           else release(current);
         }, ticketMs);
         current.timer.unref();
-        jobs.set(token, current); reply.data.token = token; reply.data.downloadUrl = `/api/download?ticket=${token}`;
+        jobs.set(token, current); reply.data.token = token; reply.data.downloadUrl = `${current.cookiePath}?ticket=${token}`;
+        // The signed preparation already authenticated the owner. Set the narrow
+        // HttpOnly cookie here, avoiding a second authorization round trip.
+        if (sameOriginTransfer) issueCookie(res, current);
         published = true; pending.delete(controller);
         // Keep the complete-operation timer owned by the job after this response.
         current.totalTimer = operationTimer; operationTimer = undefined;

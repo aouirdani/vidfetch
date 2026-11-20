@@ -90,3 +90,22 @@ test("expired browser authorization requests a new visible verification", async 
     assert.equal(prompts, 1);
   } finally { if (old) Object.defineProperty(globalThis, "window", old); else Reflect.deleteProperty(globalThis, "window"); }
 });
+
+test("same-origin requests sign their real relay path and include only same-origin credentials", async () => {
+  const key=randomBytes(32),seen:string[]=[];
+  const issuer=createAccessIssuer({key,siteOrigin:site,gatewayOrigin:origin,verifyChallenge:async t=>t==="original-fixture"});
+  const client=new SecureDownloadClient(origin,(async(_input,init)=>issuer(new Request(site,{...init,headers:{Origin:site}})))as typeof fetch,(async(input,init)=>{
+    const url=new URL(String(input)),headers=new Headers(init?.headers),grant=headers.get("Authorization")!.slice(7);
+    const claims=verifyAccess(grant,key,origin,"api");
+    verifyProof(headers.get("X-VidFetch-Proof")!,claims.key,{method:init?.method??"GET",path:url.pathname+url.search,body:String(init?.body??""),token:grant});
+    assert.equal(url.origin,site);assert.equal(init?.credentials,"same-origin");assert.equal(init?.cache,"no-store");assert.equal(init?.redirect,"error");
+    seen.push(url.pathname+url.search);return Response.json({ok:true});
+  })as typeof fetch,site);
+  await client.authorize("original-fixture");
+  await client.request("/api/fetch-info",{method:"POST",body:'{"url":"fixture"}'});
+  await client.request("/api/download?status=abc");
+  await client.request("/api/queue",{method:"POST",body:'{"claim":"fixture"}'});
+  assert.deepEqual(seen,["/api/transfer/fetch-info","/api/transfer/download?status=abc","/api/transfer/queue"]);
+  for(const path of ["https://evil.example/api/download","/api/download/../health","/api/download#fragment","/api/transfer/download","//evil.example/api/download"])
+    await assert.rejects(()=>client.request(path));
+});

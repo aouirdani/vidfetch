@@ -156,6 +156,5 @@
   "formatFound": "Finding available video and audio formats…",
   "helperWaiting": "Waiting for download authorization…",
   "helperSaving": "Saving your file. You can return to VidFetch.",
-  "operationFailed": "The operation could not be completed. Please try again later.",
-  "popupBlocked": "Allow the download window in your browser, then try again."
+  "operationFailed": "The operation could not be completed. Please try again later."
 }
